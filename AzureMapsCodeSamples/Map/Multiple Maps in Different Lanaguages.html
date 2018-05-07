@@ -29,12 +29,18 @@
             });
         }
 
-        function setMapLanguage(lang){
+        function setMapLanguage(lang) {
             map2.setStyle({
                 language: lang
             });
         }
     </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:400px;height:400px;float:left;"></div>

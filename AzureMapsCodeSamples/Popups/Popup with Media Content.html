@@ -30,10 +30,10 @@
                 pixelOffset: [0, 0]
             });
             videoPopup.open(map);
-            
+
             //An animated GIF image in an popup.
             var imageContent = document.createElement('div');
-            imageContent.innerHTML = '<img src='../Common/images/loadingIcon.gif'/>';
+            imageContent.innerHTML = '<img src='../ Common / images / loadingIcon.gif'/>';
 
             var imagePopup = new atlas.Popup({
                 content: videoContent,
@@ -43,6 +43,13 @@
             imagePopup.open(map);
         }
     </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

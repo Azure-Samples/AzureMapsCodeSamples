@@ -64,7 +64,7 @@
         <iframe id="displayWindow" src="Welcome.html" allowfullscreen></iframe>
 
         <div id="sourceCodeLinkPanel" style="display:none;">
-            <a id="newWindowLink" class="blueAnchorButton" href="javascript:void(0);">Open in New Window</a>
+            <a id="newWindowLink" class="blueAnchorButton" href="javascript:void(0);" style="display:none">Open in New Window</a>
             <a id="sourceCodeLink" class="blueAnchorButton" href="http://bing.com" target="_blank">Source code</a>
         </div>
     </div>

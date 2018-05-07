@@ -27,7 +27,7 @@
                 title: 'Times Square'
             });
 
-            //Add the pin to the map and set some pin layer options that apply to all pins in the layer. 
+            //Add the pin to the map and set some pin layer options that apply to all pins in the layer.
             map.addPins([pin], {
                 name: 'default-pin-layer',
                 fontColor: '#000',
@@ -37,6 +37,13 @@
             });
         }
     </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

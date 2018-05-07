@@ -24,7 +24,7 @@
         function GetMap() {
             map = new atlas.Map('myMap', {
                 'subscription-key': subscriptionKey,
-                center: [0,0],
+                center: [0, 0],
                 zoom: 1
             });
 
@@ -87,12 +87,16 @@
             };
         }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
-
     <style>
-        #queryTbx {
-            width: 25em;
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
         }
+
+    #queryTbx {
+    width: 25em;
+    }
     </style>
 </head>
 <body>

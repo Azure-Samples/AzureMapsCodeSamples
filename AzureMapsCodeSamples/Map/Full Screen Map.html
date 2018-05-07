@@ -93,22 +93,28 @@
         }
     </script>
     <style>
-        .standardMap {
-            position: relative;
-            width: 800px;
-            height: 600px;
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none;
         }
+    
+    .standardMap {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    }
 
-        .fullScreenMap {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
+    .fullScreenMap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    }
 
-        #myMap {
-            width: 100%;
-            height: 100%;
-        }
+    #myMap {
+    width: 100%;
+    height: 100%;
+    }
     </style>
 </head>
 <body onload="GetMap()">

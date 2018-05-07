@@ -27,7 +27,7 @@
 
             setTimeout(function () {
                 loadGeoJsonFile(geoJsonData[idx].name, geoJsonData[idx].url);
-            }, 3000);            
+            }, 3000);
         }
 
         function loadGeoJsonFile(layerName, url) {
@@ -39,7 +39,7 @@
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     var features = xhr.response.features;
-                    
+
                     if (features.length > 0) {
 
                         switch (features[0].geometry.type) {
@@ -112,13 +112,19 @@
         }
     </script>
     <style>
-        table {
-            border-collapse: collapse;
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none;
         }
 
-        table, th, td {
-            border: 1px solid black;
-        }
+    table {
+    border-collapse: collapse;
+    }
+
+    table, th, td {
+    border: 1px solid black;
+    }
     </style>
 </head>
 <body onload="GetMap()">

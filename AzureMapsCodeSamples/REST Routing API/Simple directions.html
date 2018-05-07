@@ -26,7 +26,7 @@
                 name: routeLinesLayerName,
                 color: '#2272B9',
                 width: 5,
-                cap: 'round',  
+                cap: 'round',
                 join: 'round',       //Smooth the joints in the line.
                 before: 'labels'     //Have the line render underneath the map labels.
             });
@@ -89,7 +89,7 @@
                             return [point.longitude, point.latitude];
                         });
 
-                        //Combine the route point data for each route leg together to form a single path. 
+                        //Combine the route point data for each route leg together to form a single path.
                         routeCoordinates = routeCoordinates.concat(legCoordinates);
                     }
 
@@ -103,6 +103,13 @@
             xhttp.send();
         }
     </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

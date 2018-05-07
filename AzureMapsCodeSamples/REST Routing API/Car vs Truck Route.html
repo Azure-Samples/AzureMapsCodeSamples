@@ -53,7 +53,7 @@
             geocodeQuery(from, function (fromCoord) {
                 var to = document.getElementById('toTbx').value;
 
-                geocodeQuery(to, function (toCoord) {                    
+                geocodeQuery(to, function (toCoord) {
 
                     //Create pins for the start and end of the route.
                     var startPoint = new atlas.data.Point(fromCoord);
@@ -98,7 +98,7 @@
 
                     callRestService(truckRequestUrl, function (r) {
                         addRouteToMap(r.routes[0], truckRouteLayerName);
-                        document.getElementById('output').innerHTML += 'Truck Distance: ' + Math.round(r.routes[0].summary.lengthInMeters/10)/100 + ' km<br/>';
+                        document.getElementById('output').innerHTML += 'Truck Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
                     });
                 });
             });
@@ -178,7 +178,7 @@
             });
 
             //Fit the map window to the bounding box defined by the route points.
-            routePoints = routePoints.concat(routeCoordinates);            
+            routePoints = routePoints.concat(routeCoordinates);
             map.setCameraBounds({
                 bounds: atlas.data.BoundingBox.fromData(routePoints),
                 padding: 50
@@ -245,7 +245,7 @@
                 } else {
                     vehicleLoadTypeSelect.options[i].selected = null;
                 }
-            }   
+            }
 
             calculateDirections();
 
@@ -253,6 +253,12 @@
         }
     </script>
     <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+
         .sidePanel {
             width: 350px;
             float: left;

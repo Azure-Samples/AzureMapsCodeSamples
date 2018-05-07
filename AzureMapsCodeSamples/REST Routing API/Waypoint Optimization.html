@@ -33,7 +33,7 @@
                 zoom: 9
             });
 
-            //Add waypoints to the map and build the waypoint query string. 
+            //Add waypoints to the map and build the waypoint query string.
             var pins = [];
             var query = [];
 
@@ -148,6 +148,13 @@
             }
         }
     </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

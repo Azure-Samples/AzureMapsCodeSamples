@@ -22,7 +22,7 @@
             map.addEventListener('mouseenter', highlight);
             map.addEventListener('mouseleave', highlight);
             map.addEventListener('mousedown', highlight);
-            map.addEventListener('mouseup', highlight);            
+            map.addEventListener('mouseup', highlight);
             map.addEventListener('mouseover', highlight);
             map.addEventListener('mouseout', highlight);
             map.addEventListener('mousemove', highlight);
@@ -36,6 +36,13 @@
             setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
         }
     </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none;
+        }
+    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
