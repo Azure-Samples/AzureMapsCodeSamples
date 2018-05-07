@@ -1,4 +1,4 @@
-var githubProjectUrl = 'https://github.com/Microsoft/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/';
+var githubProjectUrl = 'https://github.com/Azure-Samples/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/';
 var currentSampleElm;
 
 function loadSample(name, path, sourcePath) {
