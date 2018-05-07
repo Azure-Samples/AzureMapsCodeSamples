@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                language: 'en-US',
+                center: [20, 50],
+                zoom: 4
+            });
+        }
+
+        function updateLanguage() {
+            var langOptions = document.getElementById('langOptions');
+            var lang = langOptions.options[langOptions.selectedIndex].value;
+
+            map.setStyle({
+                language: lang
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
+
+    <div style="clear:both;padding-top:10px;">
+        Language:
+        <select id="langOptions" onchange="updateLanguage()">
+            <option value="NGT">Neutral Ground Truth (custom)</option>
+            <option value="NGT-Latn">Neutral Ground Truth - Latin exonyms (custom)</option>
+            <option value="ar">Arabic (ar)</option>
+            <option value="bg">Bulgarian (bg)</option>
+            <option value="bg-BG">Bulgarian (Bulgaria) (bg-BG)</option>
+            <option value="ca-ES">Catalan (Spain) (ca-ES)</option>
+            <option value="cs">Czech (cs)</option>
+            <option value="cs-CZ">Czech (Czech Republic) (cs-CZ)</option>
+            <option value="da">Danish (da)</option>
+            <option value="da-DK">Danish (Denmark) (da-DK)</option>
+            <option value="nl">Dutch (Netherlands) (nl)</option>
+            <option value="nl-NL">Dutch (Netherlands) (nl-NL)</option>
+            <option value="en">English (en)</option>
+            <option value="en-AU">English (Australia) (en-AU)</option>
+            <option value="en-CA">English (Canada) (en-CA)</option>
+            <option value="en-GB">English (United Kingdom) (en-GB)</option>
+            <option value="en-NZ">English (New Zealand) (en-NZ)</option>
+            <option value="en-US" selected="selected">English (United States) (en-US)</option>
+            <option value="fi">Finnish (fi)</option>
+            <option value="fi-FI">Finnish (Finland) (fi-FI)</option>
+            <option value="fr">French (fr)</option>
+            <option value="fr-FR">French (France) (fr-FR)</option>
+            <option value="de">German (de)</option>
+            <option value="de-DE">German (Germany) (de-DE)</option>
+            <option value="el">Greek (el)</option>
+            <option value="el-GR">Greek (el-GR)</option>
+            <option value="hu">Hungarian (hu)</option>
+            <option value="hu-HU">Hungarian (hu-HU)</option>
+            <option value="id">Indonesian (id)</option>
+            <option value="id-ID">Indonesian (id-ID)</option>
+            <option value="it">Italian (it)</option>
+            <option value="it-IT">Italian (it-IT)</option>
+            <option value="lt">Lithuanian (lt)</option>
+            <option value="lt-LT">Lithuanian (lt-LT)</option>
+            <option value="ms-MY">Malay (ms-MY)</option>
+            <option value="nb-NO">Norwegian, Bokmal (Norway) (nb-NO)</option>
+            <option value="pl">Polish (pl)</option>
+            <option value="pl-PL">Polish (Poland) (pl-PL)</option>
+            <option value="pt">Portuguese (Brazil) (pt)</option>
+            <option value="pt-BR">Portuguese (Brazil) (pt-BR)</option>
+            <option value="pt-PT">Portuguese (Portugal) (pt-PT)</option>
+            <option value="ru">Russian (ru)</option>
+            <option value="ru-RU">Russian (Russia) (ru-RU)</option>
+            <option value="sk">Slovak (sk)</option>
+            <option value="sk-SK">Slovak (Slovakia) (sk-SK)</option>
+            <option value="sl">Slovenian (sl)</option>
+            <option value="sl-SI">Slovenian (sl-SI)</option>
+            <option value="es">Spanish (es)</option>
+            <option value="es-ES">Spanish (Spain) (es-ES)</option>
+            <option value="es-MX">Spanish (Mexico) (es-MX)</option>
+            <option value="sv">Swedish (sv)</option>
+            <option value="sv-SE">Swedish (sv-SE)</option>
+            <option value="th">Thai (th)</option>
+            <option value="th-TH">Thai - Thailand  (th-TH)</option>
+            <option value="tr">Turkish (tr)</option>
+            <option value="tr-TR">Turkish (tr-TR)</option>
+        </select>
+    </div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Map Localization Sample</legend>
+        This sample lets you switch the map between all its supported languages.
+    </fieldset>
+</body>
+</html>

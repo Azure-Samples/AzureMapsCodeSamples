@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            //TODO: Fix
+
+            //A embedded video in a popup.
+            var videoContent = document.createElement('div');
+            videoContent.innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/tfZXLSnf9RI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+
+            var videoPopup = new atlas.Popup({
+                content: videoContent,
+                position: [-122.335, 47.645],
+                pixelOffset: [0, 0]
+            });
+            videoPopup.open(map);
+            
+            //An animated GIF image in an popup.
+            var imageContent = document.createElement('div');
+            imageContent.innerHTML = '<img src='../Common/images/loadingIcon.gif'/>';
+
+            var imagePopup = new atlas.Popup({
+                content: videoContent,
+                position: [-122.325, 47.635],
+                pixelOffset: [0, 0]
+            });
+            imagePopup.open(map);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>[Title] Sample</legend>
+        This sample shows how to [Description]
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map, map2;
+
+        function GetMap() {
+            var zoom = 3, center = [20, 50];
+
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                language: 'en-US',
+                center: center,
+                zoom: zoom
+            });
+
+            map2 = new atlas.Map('myMap2', {
+                'subscription-key': '<subscriptionKey>',
+                language: 'fr-FR',
+                center: center,
+                zoom: zoom
+            });
+        }
+
+        function setMapLanguage(lang){
+            map2.setStyle({
+                language: lang
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:400px;height:400px;float:left;"></div>
+
+    <div id="myMap2" style="position:relative;width:400px;height:400px;float:left;margin-left:10px;"></div>
+
+    <div style="clear:both;padding-top:10px;">
+        Second Map language:
+        <input type="button" value="French" onclick="setMapLanguage('fr-FR')" />
+        <input type="button" value="German" onclick="setMapLanguage('de-DE')" />
+        <input type="button" value="Spanish" onclick="setMapLanguage('es-ES')" />
+        <input type="button" value="Italian" onclick="setMapLanguage('it-IT')" />
+        <input type="button" value="Russian" onclick="setMapLanguage('ru-RU')" />
+    </div>    
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Multiple Maps in Different Languages Sample</legend>
+        This sample shows two maps rendered on the same page, displaying maps in different languages. Press one of the buttons to change the language of the second map instantly.
+    </fieldset>
+</body>
+</html>

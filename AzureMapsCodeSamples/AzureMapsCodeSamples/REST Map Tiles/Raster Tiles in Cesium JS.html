@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the CesiumJS Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="http://cesiumjs.org/releases/1.18/Build/Cesium/Widgets/widgets.css" type="text/css" />
+    <script src="http://cesiumjs.org/releases/1.44/Build/Cesium/Cesium.js"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            map = new Cesium.Viewer('myMap', {
+                imageryProvider: new Cesium.UrlTemplateImageryProvider({
+                    url: new Cesium.Resource({
+                        url: 'https://atlas.microsoft.com/map/tile/png?zoom={z}&x={x}&y={y}',
+                        queryParameters: {
+                            'api-version': '1.0',
+                            tileSize: 512,  //can be 256 or 512.
+                            layer: 'basic', //Can be 'basic', 'hybrid' or 'labels'.
+                            style: 'main',
+                            language: 'en-US',     
+                            'subscription-key': '<subscriptionKey>'    //Your Azure Maps subscription key.
+                        }
+                    }),
+                    credit: new Cesium.Credit('<img src="/Common/images/MicrosoftLogo.png" title="Microsoft Logo"><br/>© ' + new Date().getFullYear() + ' Microsoft, © 1992 - ' + new Date().getFullYear() + ' TomTom', true),
+                    maximumLevel: 20,
+                    tileWidth: 512,
+                    tileHeight: 512,
+                    enablePickFeatures: false
+                }),
+                baseLayerPicker: false
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Raster Tiles in Cesium JS Sample</legend>
+        This sample shows how to render Azure Maps Raster Tiles in the <a href="https://cesiumjs.org/">Cesium JS map control</a>.
+    </fieldset>
+</body>
+</html>

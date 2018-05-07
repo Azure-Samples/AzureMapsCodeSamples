@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            UpdateTrafficOverlay();
+        }
+
+        function UpdateTrafficOverlay() {
+            var incidentOption = document.getElementById('incidentOption').checked;
+
+            var elm = document.getElementById('flowOptions');
+            var selectedFlowOption = elm.options[elm.selectedIndex].value;
+
+            map.setTraffic({
+                incidents: incidentOption,
+                flow: selectedFlowOption
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div style="background-color:white;padding:10px;position:absolute;top:0;left:0;">
+        Incidents: <input id="incidentOption" type="checkbox" checked="checked" onclick="UpdateTrafficOverlay()" />
+
+        Flow:
+        <select id="flowOptions" onchange="UpdateTrafficOverlay()">
+            <option value="none">none</option>
+            <option value="relative" selected="selected">relative</option>
+            <option value="absolute">absolute</option>
+            <option value="relative-delay">relative-delay</option>
+        </select>
+    </div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Traffic Overlay Sample</legend>
+        This sample shows how the different
+        <a href="https://docs.microsoft.com/en-us/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>
+        change how the traffic overlay is rendered on the map.
+        <br /><br />
+        Flow:
+        <ul>
+            <li>"none" - is to display no traffic flow data.</li>
+            <li>"relative" - is the speed of the road relative to free-flow.</li>
+            <li>"absolute" - is the absolute speed of the road.</li>
+            <li>"relative-delay" - displays relative speed only where they differ from free-flow; false to stop displaying the traffic flow.</li>
+        </ul>
+    </fieldset>
+
+
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Traffic Overlay Sample</legend>
+        This sample shows how to simply overlay traffic data on the map using the maps setTraffic method and
+        <a href="https://docs.microsoft.com/en-us/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>.
+    </fieldset>
+</body>
+</html>

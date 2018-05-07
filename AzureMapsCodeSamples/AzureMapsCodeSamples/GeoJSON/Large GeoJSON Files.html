@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Atlas Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map, infopane, idx = 0, featureCnt = 0, totalFileSize = 0;
+        var geoJsonData = [
+            { name: 'Parcel Boundaries', url: '/Common/data/geojson/parcels.json' },
+            { name: 'Streets', url: '/Common/data/geojson/streets.json' },
+            { name: 'Addresses', url: '/Common/data/geojson/address.json' }
+        ];
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                center: [-105.076, 40.55],
+                zoom: 11
+            });
+
+            infopane = document.getElementById('infopane');
+
+            setTimeout(function () {
+                loadGeoJsonFile(geoJsonData[idx].name, geoJsonData[idx].url);
+            }, 3000);            
+        }
+
+        function loadGeoJsonFile(layerName, url) {
+            infopane.innerHTML += 'Downloading ' + layerName + '...</br/>';
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var features = xhr.response.features;
+                    
+                    if (features.length > 0) {
+
+                        switch (features[0].geometry.type) {
+                            case 'Point':
+                            case 'MultiPoint':
+                                map.addPins(features, {
+                                    icon: 'pin-round-darkblue',
+                                    cluster: false,
+                                    name: layerName
+                                });
+                                break;
+                            case 'LineString':
+                            case 'MultiLineString':
+
+                                map.addLinestrings(features, {
+                                    color: 'purple',
+                                    width: 4,
+                                    name: layerName
+                                });
+                                break;
+                            case 'Polygon':
+                            case 'MultiPolygon':
+                                map.addPolygons(features, {
+                                    color: 'transparent',
+                                    outlineColor: '#000',
+                                    name: layerName
+                                });
+                                break;
+                        }
+
+                        var fileSizeMb = Math.round(xhr.getResponseHeader('Content-Length') / 1000000);
+
+                        infopane.innerHTML += 'Retrieved ' + features.length.toLocaleString() + ' ' + features[0].geometry.type + 's (' + fileSizeMb + 'MB)<br/>';
+
+                        featureCnt += features.length;
+                        totalFileSize += fileSizeMb;
+
+                        map.addEventListener('click', layerName, featureClicked);
+
+                        idx++;
+
+                        if (idx < geoJsonData.length) {
+                            loadGeoJsonFile(geoJsonData[idx].name, geoJsonData[idx].url);
+                        } else {
+                            infopane.innerHTML += 'Rendering ' + featureCnt.toLocaleString() + ' features (' + totalFileSize + 'MB)...';
+                        }
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function featureClicked(e) {
+            //Make sure the event occured on a feature.
+            if (e.features && e.features.length > 0) {
+                var feature = e.features[0];
+
+                //Create a table from the properties in the feature.
+                var html = ['<table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
+
+                Object.keys(feature.properties).forEach(function (key, index) {
+                    html.push('<tr><td>', key, '</td><td>', feature.properties[key], '</td><tr>');
+                });
+
+                html.push('</table>');
+
+                //Show the data in the infopane
+                infopane.innerHTML = html.join('');
+            }
+        }
+    </script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
+
+    <div id="infopane" style="margin-left:10px;height:600px;overflow-y:auto;float:left;"></div>
+    
+    <div style="clear:both;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Large GeoJSON Files Sample</legend>
+        This sample loads three large GeoJSON files which contain address (point), parcel boundary (polygon), and street (lines) data for all of Fort Collins, CO. 
+    </fieldset>
+</body>
+</html>

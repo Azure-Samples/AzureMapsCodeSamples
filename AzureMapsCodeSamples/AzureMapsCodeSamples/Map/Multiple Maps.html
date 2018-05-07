@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map, map2;
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>'
+            });
+
+            map2 = new atlas.Map('myMap2', {
+                'subscription-key': '<subscriptionKey>',
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:400px;height:600px;float:left;"></div>
+
+    <div id="myMap2" style="position:relative;width:400px;height:600px;float:left;margin-left:10px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Multiple Maps Sample</legend>
+        This sample shows two maps rendered on the same page.
+    </fieldset>
+</body>
+</html>

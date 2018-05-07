@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>'
+            });
+
+            //Add mouse events to the map.
+            map.addEventListener('click', highlight);
+            map.addEventListener('dblclick', highlight);
+            map.addEventListener('mouseenter', highlight);
+            map.addEventListener('mouseleave', highlight);
+            map.addEventListener('mousedown', highlight);
+            map.addEventListener('mouseup', highlight);            
+            map.addEventListener('mouseover', highlight);
+            map.addEventListener('mouseout', highlight);
+            map.addEventListener('mousemove', highlight);
+        }
+
+        function highlight(e) {
+            //Highlight the div to indicate that the event has fired.
+            document.getElementById(e.type).style.background = 'LightGreen';
+
+            //Remove the highlighting after a second.
+            setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
+
+    <div style="position:absolute;top:0;left:0;background-color:white;padding:10px;float:left;">
+        <div id="click">click</div>
+        <div id="dblclick">dblclick</div>
+        <div id="mouseenter">mouseenter</div>
+        <div id="mouseleave">mouseleave</div>
+        <div id="mousedown">mousedown</div>
+        <div id="mouseup">mouseup</div>
+        <div id="mouseover">mouseover</div>
+        <div id="mouseout">mouseout</div>
+        <div id="mousemove">mousemove</div>
+    </div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Map Event Sample</legend>
+        This sample will highlight the name of the events that are firing as you interact with the map.
+    </fieldset>
+</body>
+</html>

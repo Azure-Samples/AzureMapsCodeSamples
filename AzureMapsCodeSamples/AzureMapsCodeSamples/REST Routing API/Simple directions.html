@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map;
+        var subscriptionKey = '<subscriptionKey>';
+        var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1.0&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car';
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': subscriptionKey,
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            /* Initialize the linestring layer for routes on the map */
+            var routeLinesLayerName = 'routes';
+            map.addLinestrings([], {
+                name: routeLinesLayerName,
+                color: '#2272B9',
+                width: 5,
+                cap: 'round',  
+                join: 'round',       //Smooth the joints in the line.
+                before: 'labels'     //Have the line render underneath the map labels.
+            });
+
+            /* Create the GeoJSON objects which represent the start and end point of the route */
+            var startPoint = new atlas.data.Point([-122.335167, 47.608013]);
+            var startPin = new atlas.data.Feature(startPoint, {
+                title: 'Seattle',
+                icon: 'pin-round-blue'
+            });
+
+            var endPoint = new atlas.data.Point([-122.121513, 47.673988]);
+            var endPin = new atlas.data.Feature(endPoint, {
+                title: 'Redmond',
+                icon: 'pin-blue'
+            });
+
+            //Fit the map window to the bounding box defined by the start and end points.
+            var swLon = Math.min(startPoint.coordinates[0], endPoint.coordinates[0]);
+            var swLat = Math.min(startPoint.coordinates[1], endPoint.coordinates[1]);
+            var neLon = Math.max(startPoint.coordinates[0], endPoint.coordinates[0]);
+            var neLat = Math.max(startPoint.coordinates[1], endPoint.coordinates[1]);
+
+            map.setCameraBounds({
+                bounds: [swLon, swLat, neLon, neLat],
+                padding: 50
+            });
+
+            /* Add pins to the map for the start and end point of the route */
+            map.addPins([startPin, endPin], {
+                name: 'route-pins',
+                textFont: 'SegoeUi-Regular',
+                textOffset: [0, -20],
+                cluster: false //Disable pushpin clustering as we want the waypoint icons to stay fixed to their location.
+            });
+
+            //Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
+            var requestUrl = restRoutingRequestUrl.replace('{subscription-key}', subscriptionKey).replace('{query}', startPoint.coordinates[1] +
+                ',' +
+                startPoint.coordinates[0] +
+                ':' +
+                endPoint.coordinates[1] +
+                ',' +
+                endPoint.coordinates[0]);
+
+            //Process the request and render the route result on the map.
+            var xhttp = new XMLHttpRequest();
+            xhttp.open('GET', requestUrl, true);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(xhttp.responseText);
+
+                    var route = response.routes[0];
+                    var routeCoordinates = [];
+                    for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
+                        var leg = route.legs[legIndex];
+
+                        //Convert the route point data into a format that the map control understands.
+                        var legCoordinates = leg.points.map(function (point) {
+                            return [point.longitude, point.latitude];
+                        });
+
+                        //Combine the route point data for each route leg together to form a single path. 
+                        routeCoordinates = routeCoordinates.concat(legCoordinates);
+                    }
+
+                    //Create a LineString from the route path points and add it to the route line layer.
+                    var routeLinestring = new atlas.data.LineString(routeCoordinates);
+                    map.addLinestrings([new atlas.data.Feature(routeLinestring)], {
+                        name: routeLinesLayerName
+                    });
+                }
+            };
+            xhttp.send();
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Simple Directions Sample</legend>
+        This sample shows how to calculate simple directions between two points using the Azure Maps REST Directions API and render it on a map. 
+    </fieldset>
+</body>
+</html>

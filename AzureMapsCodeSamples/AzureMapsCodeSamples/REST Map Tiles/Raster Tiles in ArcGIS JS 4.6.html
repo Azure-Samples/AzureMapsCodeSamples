@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+
+	<link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css" type="text/css" />
+	<script src="https://js.arcgis.com/4.6/"></script>
+
+    <script type='text/javascript'>
+    //Your Azure Maps subscription key.
+	var subscriptionKey = '<subscriptionKey>';
+
+	require(["esri/config", "esri/layers/WebTileLayer", "esri/Map", "esri/views/MapView", "dojo/dom", "dojo/domReady!"],
+        function(esriConfig, WebTileLayer, Map, MapView, dom) {
+
+		//Add the "atlas.microsoft.com" domain to the cors enabled servers list.
+		esriConfig.request.corsEnabledServers.push("atlas.microsoft.com");
+
+		var map = new Map();
+
+		var view = new MapView({
+			container: "myMap",
+			map: map
+		});
+
+		//Create a tile layer that points to the Azure Maps tiles.
+		//https://docs.microsoft.com/en-us/rest/api/location-based-services/render/getmaptile
+		var tiledLayer = new WebTileLayer({
+			urlTemplate: "https://atlas.microsoft.com/map/tile/png?api-version=1.0&layer=basic&style=main&zoom={z}&x={x}&y={y}&subscription-key=" + subscriptionKey,
+            copyright: '<img src="/Common/images/MicrosoftLogo.png" title="Microsoft Logo"> © ' + new Date().getFullYear() + ' Microsoft, © 1992 - ' + new Date().getFullYear() + ' TomTom'
+		});
+
+		map.add(tiledLayer);
+	});
+    </script>
+</head>
+<body>
+	<div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+	<fieldset style="width:800px;margin-top:10px;">
+		<legend>Azure Maps Raster Tiles in ArcGIS JS 4.6 Sample</legend>
+		This sample shows how to render Azure Maps Raster Tiles in the ArcGIS version 4.6 JavaScript map control. 
+	</fieldset>
+</body>
+</html>

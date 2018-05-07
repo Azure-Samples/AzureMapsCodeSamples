@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                center: [-99.47, 40.75],
+                zoom: 4
+            });
+
+            //Weather radar tiles from Iowa Environmental Mesonet of Iowa State University.
+            map.addRaster(['https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png'], {
+                name: 'weather-radar',
+                opacity: 0.8
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Tile Layer using X, Y, Zoom Sample</legend>
+        This sample shows how to create a simple tile layer which points to a set of tiles which use the x, y, zoom tiling system.
+        The source of this tile layer is a weather radar overlay from the <a href="http://mesonet.agron.iastate.edu/ogc/">Iowa Environmental Mesonet of Iowa State University</a>.
+    </fieldset>
+</body>
+</html>
