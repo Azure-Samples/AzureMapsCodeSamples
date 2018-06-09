@@ -31,17 +31,31 @@
             //Create a jQuery autocomplete UI widget.
             $("#queryTbx").autocomplete({
                 minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
-                source: function (request, response) {
-                    var center = map.getCamera().center;
+                source: function (request, response) {                    
 
                     //Get suggestions from the AutosuggestManager.
                     var requestUrl = geocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
                         .replace('{searchType}', document.querySelector('input[name="searchTypeGroup"]:checked').value)
                         .replace('{subscription-key}', subscriptionKey)
-                        .replace('{language}', 'en-US')
-                        .replace('{lon}', center[0])    //Use a lat and lon value of the center the map to bais the results to the current map view.
-                        .replace('{lat}', center[1])
-                        .replace('{countrySet}', 'US'); //A comma seperated string of country codes to limit the suggestions to.
+                        .replace('{language}', 'en-US');               
+                    
+                    if (document.getElementById('UseMapCenter').checked) {
+                        //Use a lat and lon value of the center the map to bais the results to the current map view.
+                        var center = map.getCamera().center;
+                        requestUrl = requestUrl.replace('{lon}', center[0]).replace('{lat}', center[1]);
+                    } else {
+                        requestUrl = requestUrl.replace('{lon}', '').replace('{lat}', '');
+                    }
+
+                    var countryCodes = document.getElementById('CountryCodes');
+                    var countryCode = countryCodes.options[countryCodes.selectedIndex].value;
+
+                    if (countryCode != '') {
+                        //A comma seperated string of country codes to limit the suggestions to.
+                        requestUrl = requestUrl.replace('{countrySet}', countryCode);
+                    } else {
+                        requestUrl = requestUrl.replace('{countrySet}', '');
+                    }
 
                     $.ajax({
                         url: requestUrl,
@@ -99,12 +113,22 @@
     }
     </style>
 </head>
-<body>
+<body onload="GetMap()">
     Search Type:
     <input type="radio" value="address" name="searchTypeGroup" checked="checked" /> Address
     <input type="radio" value="fuzzy" name="searchTypeGroup" /> Fuzzy
     <input type="radio" value="poi" name="searchTypeGroup" /> POI
     <input type="radio" value="poi/category" name="searchTypeGroup" /> POI Category
+    Country Filter:
+    <select id="CountryCodes">
+        <option value="" selected="selected"></option>
+        <option value="CA">CA</option>
+        <option value="DE">DE</option>
+        <option value="US">US</option>
+        <option value="UK">UK</option>
+    </select>
+    <br />
+    Weight result towards map Center: <input id="UseMapCenter" type="checkbox" checked="checked" />
     <br /><br />
 
     <div class="ui-widget">
@@ -116,7 +140,7 @@
 
     <fieldset style="width:800px;margin-top:10px;">
         <legend>Search Autosuggest and JQuery UI Sample</legend>
-        This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. 
+        This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services.
         Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode.
         The UI is managed using <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a>.
     </fieldset>

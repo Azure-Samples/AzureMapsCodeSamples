@@ -37,11 +37,11 @@
         <span class="subTitle">Azure Maps Code Samples</span>
 
         <span class="pageLinks">
-           <%-- <iframe src="https://ghbtns.com/github-btn.html?user=Microsoft&repo=BingMapsV8CodeSamples&type=star&count=true" frameborder="0" scrolling="0" style="width:100px;height:20px"></iframe>--%>
+            <iframe src="https://ghbtns.com/github-btn.html?user=Azure-Samples&repo=AzureMapsCodeSamples&type=star&count=true" frameborder="0" scrolling="0" style="width:100px;height:20px"></iframe>
 
-            <%--<a href="https://social.msdn.microsoft.com/Forums/en-US/home?category=bingmaps" target="_blank">Forums</a>--%>
+            <a href="https://stackoverflow.com/questions/tagged/azure-maps" target="_blank">Forums</a>
             <a href="https://docs.microsoft.com/en-us/azure/location-based-services/" target="_blank">Documentation</a>
-            <%--<a href="https://github.com/Microsoft/BingMapsV8CodeSamples" target="_blank">GitHub Project</a>--%>
+            <a href="https://github.com/Azure-Samples/AzureMapsCodeSamples" target="_blank">GitHub Project</a>
         </span>
     </div>
 

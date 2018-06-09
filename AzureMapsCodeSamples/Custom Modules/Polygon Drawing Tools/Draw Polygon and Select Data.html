@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script src="/Experimental/Drawing Tools/PolygonDrawingTool.js"></script>
+
+    <!-- Load turf.js a spatial math library. http://turfjs.org/ -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script type='text/javascript'>
+        var map, drawingTools, mockDataSize = 5000, pins, pinLayerName = 'pinLayer';
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>'
+            });
+
+            //Generate some mock data.
+            generateMockData();
+
+            //Load the drawing tools.
+            drawingTools = new PolygonDrawingTool(map, pinLayerName, function (polygon) {
+
+                var selectedPins = [];
+
+                //Search for all points that intersect the polygon.
+                for (var i = 0; i < pins.length; i++) {
+                    var intersection = turf.intersect(polygon, pins[i]);
+
+                    if (intersection) {
+                        selectedPins.push(pins[i]);
+                    }
+                }
+
+                //Do something with the selected pins. 
+                //For demo purposes, we will simply output the name of each pin.
+                var html = [selectedPins.length, ' Pins Selected:<br/><br/>'];
+                for (var i = 0; i < selectedPins.length; i++) {
+                    html.push(selectedPins[i].properties.name, '<br/>');
+                }
+
+                document.getElementById('output').innerHTML = html.join('');
+            });
+        }
+
+        function generateMockData() {
+            //This generates a bunch of random pins.
+            pins = [];
+
+            for (var i = 0; i < mockDataSize; i++) {
+                var coord = [
+                    Math.random() * 360 - 180, //Random longitude value.
+                    Math.random() * 170 - 85 //Random latitude value.
+                ];
+
+                pins.push(new atlas.data.Feature(new atlas.data.Point(coord), {
+                    name: 'Pin_' + i
+                }));
+            }
+
+            map.addPins(pins, {
+                name: pinLayerName,
+                cluster : true  //Enable pin clustering.
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:590px;height:600px;float:left;"></div>
+
+    <div id="output" style="float:left;width:200px;height:600px;margin-left:10px;overflow-y:auto;"></div>
+
+    <div style="position:absolute;top:20px;left:20px;">
+        <input type="button" value="Draw Polygon" onclick="drawingTools.startDrawing();" />
+        <input type="button" value="Clear Drawing Layer" onclick="drawingTools.clear();" />
+    </div>
+
+    <div style="clear:both"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Draw Polygon and Select Data Sample</legend>
+        This sample shows how to draw a polygon on the map using the Polygon Drawing tools and then
+        use the generated polygon to calculate all pins on the map that intersect with that polygon.
+        <a href="http://turfjs.org/">Turf.js</a> is used to provide the spatial intersection calculation.
+        Press the "Draw Polygon" then start selecting points on the map.
+        When you are done, either click on the first point of the polygon or press ESC.
+    </fieldset>
+</body>
+</html>

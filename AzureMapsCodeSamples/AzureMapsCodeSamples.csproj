@@ -59,6 +59,8 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Animations\Animate a Line.html" />
+    <Content Include="Animations\Animate a Pin.html" />
     <Content Include="Common\data\geojson\NetherlandsCensusData.json" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
@@ -67,6 +69,10 @@
     <Content Include="Common\data\geojson\address.json" />
     <Content Include="Common\data\geojson\streets.json" />
     <None Include="packages.config" />
+    <Content Include="Common\scripts\atlasMapControlExtensions.js" />
+    <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon and Select Data.html" />
+    <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon.html" />
+    <Content Include="Custom Modules\Polygon Drawing Tools\PolygonDrawingTool.js" />
     <Content Include="REST Map Tiles\Raster Tiles in ArcGIS JS 4.6.html" />
     <Content Include="REST Map Tiles\Raster Tiles in Cesium JS.html" />
     <Content Include="REST Map Tiles\Raster Tiles in Leaflet JS.html" />
