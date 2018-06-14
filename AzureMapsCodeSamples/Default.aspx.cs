@@ -15,87 +15,95 @@ namespace AzureMapsCodeSamples
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (!Request.IsLocal && !Request.IsSecureConnection)
             {
-                AzureMapsSubscriptionKey = WebConfigurationManager.AppSettings["AzureMapsSubscriptionKey"];
-
-                NumberOfSamples = 0;
-                PageNames = new List<string>();
-                DuplicatePageNames = new List<string>();
-
-                var sampleList = new StringBuilder("[");
-
-                var welcomeNode = new TreeNode("Welcome")
+                string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
+                Response.Redirect(redirectUrl, false);
+            }
+            else
+            {
+                if (!IsPostBack)
                 {
-                    SelectAction = TreeNodeSelectAction.Select
-                };
+                    AzureMapsSubscriptionKey = WebConfigurationManager.AppSettings["AzureMapsSubscriptionKey"];
 
-                welcomeNode.NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", welcomeNode.Text, "welcome.html", null);
+                    NumberOfSamples = 0;
+                    PageNames = new List<string>();
+                    DuplicatePageNames = new List<string>();
 
-                sampleList.AppendFormat("{{label:'{0}',category:'',action:function(){{{1}}}}},", welcomeNode.Text, welcomeNode.NavigateUrl.Replace("javascript:", ""));
+                    var sampleList = new StringBuilder("[");
 
-                SampleTreeView.Nodes.Add(welcomeNode);
-
-                PageNames.Add(welcomeNode.Text);
-
-                DirectoryInfo directory = null;
-                directory = new DirectoryInfo(Server.MapPath("~"));
-
-                foreach (var dir in directory.GetDirectories())
-                {
-                    //Only add folders that don't have "- Private" in the name.
-                    if (!dir.Name.Contains("- Private"))
+                    var welcomeNode = new TreeNode("Welcome")
                     {
-                        var categoryNode = new TreeNode(dir.Name)
-                        {
-                            SelectAction = TreeNodeSelectAction.Expand
-                        };
+                        SelectAction = TreeNodeSelectAction.Select
+                    };
 
-                        var dirs = dir.GetDirectories();
+                    welcomeNode.NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", welcomeNode.Text, "welcome.html", null);
 
-                        if (dirs.Length > 0)
+                    sampleList.AppendFormat("{{label:'{0}',category:'',action:function(){{{1}}}}},", welcomeNode.Text, welcomeNode.NavigateUrl.Replace("javascript:", ""));
+
+                    SampleTreeView.Nodes.Add(welcomeNode);
+
+                    PageNames.Add(welcomeNode.Text);
+
+                    DirectoryInfo directory = null;
+                    directory = new DirectoryInfo(Server.MapPath("~"));
+
+                    foreach (var dir in directory.GetDirectories())
+                    {
+                        //Only add folders that don't have "- Private" in the name.
+                        if (!dir.Name.Contains("- Private"))
                         {
-                            foreach (var d in dirs)
+                            var categoryNode = new TreeNode(dir.Name)
                             {
-                                AddSampleNodes(dir, d, categoryNode, sampleList);
+                                SelectAction = TreeNodeSelectAction.Expand
+                            };
+
+                            var dirs = dir.GetDirectories();
+
+                            if (dirs.Length > 0)
+                            {
+                                foreach (var d in dirs)
+                                {
+                                    AddSampleNodes(dir, d, categoryNode, sampleList);
+                                }
+                            }
+
+                            AddSampleNodes(dir, null, categoryNode, sampleList);
+
+                            if (categoryNode.ChildNodes != null && categoryNode.ChildNodes.Count > 0)
+                            {
+                                SampleTreeView.Nodes.Add(categoryNode);
+                                SortTreeNodes(categoryNode.ChildNodes);
                             }
                         }
-
-                        AddSampleNodes(dir, null, categoryNode, sampleList);
-
-                        if (categoryNode.ChildNodes != null && categoryNode.ChildNodes.Count > 0)
-                        {
-                            SampleTreeView.Nodes.Add(categoryNode);
-                            SortTreeNodes(categoryNode.ChildNodes);
-                        }
                     }
-                }
 
-                var externalNode = new TreeNode("External Samples")
-                {
-                    SelectAction = TreeNodeSelectAction.Select
-                };
-
-                externalNode.NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", externalNode.Text, "ExternalSamples.html", null);
-
-                SampleTreeView.Nodes.Add(externalNode);
-
-                PageNames.Add(externalNode.Text);
-                
-                if (DuplicatePageNames.Count > 0)
-                {
-                    var sb = new StringBuilder("Warning: Duplicate sample names found:");
-
-                    foreach(var dn in DuplicatePageNames)
+                    var externalNode = new TreeNode("External Samples")
                     {
-                        sb.AppendFormat("\\r\\n{0}", dn);
+                        SelectAction = TreeNodeSelectAction.Select
+                    };
+
+                    externalNode.NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", externalNode.Text, "ExternalSamples.html", null);
+
+                    SampleTreeView.Nodes.Add(externalNode);
+
+                    PageNames.Add(externalNode.Text);
+
+                    if (DuplicatePageNames.Count > 0)
+                    {
+                        var sb = new StringBuilder("Warning: Duplicate sample names found:");
+
+                        foreach (var dn in DuplicatePageNames)
+                        {
+                            sb.AppendFormat("\\r\\n{0}", dn);
+                        }
+
+                        WarningMessage += sb.ToString();
                     }
 
-                    WarningMessage += sb.ToString();
+                    sampleList.Append("]");
+                    SampleList = sampleList.ToString();
                 }
-
-                sampleList.Append("]");
-                SampleList = sampleList.ToString();
             }
         }
 

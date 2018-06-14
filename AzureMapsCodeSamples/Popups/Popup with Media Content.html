@@ -14,30 +14,29 @@
         function GetMap() {
             map = new atlas.Map('myMap', {
                 'subscription-key': '<subscriptionKey>',
-                center: [-122.33, 47.64],
+                center: [-122.33, 47.65],
                 zoom: 12
             });
-
-            //TODO: Fix
-
+            
             //A embedded video in a popup.
             var videoContent = document.createElement('div');
+            videoContent.style.padding = '10px';
             videoContent.innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/tfZXLSnf9RI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 
             var videoPopup = new atlas.Popup({
                 content: videoContent,
-                position: [-122.335, 47.645],
+                position: [-122.335, 47.62],
                 pixelOffset: [0, 0]
             });
             videoPopup.open(map);
 
             //An animated GIF image in an popup.
             var imageContent = document.createElement('div');
-            imageContent.innerHTML = '<img src='../ Common / images / loadingIcon.gif'/>';
+            imageContent.innerHTML = '<img src="/Common/images/loadingIcon.gif"/>';
 
             var imagePopup = new atlas.Popup({
-                content: videoContent,
-                position: [-122.325, 47.635],
+                content: imageContent,
+                position: [-122.325, 47.68],
                 pixelOffset: [0, 0]
             });
             imagePopup.open(map);
@@ -55,8 +54,8 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:800px;margin-top:10px;">
-        <legend>[Title] Sample</legend>
-        This sample shows how to [Description]
+        <legend>Popup with Media Content Sample</legend>
+        This sample shows popups that contain media content.
     </fieldset>
 </body>
 </html>

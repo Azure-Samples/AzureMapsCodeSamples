@@ -73,6 +73,7 @@
     <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon and Select Data.html" />
     <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Polygon Drawing Tools\PolygonDrawingTool.js" />
+    <Content Include="Pins\Pin Layer Options.html" />
     <Content Include="REST Map Tiles\Raster Tiles in ArcGIS JS 4.6.html" />
     <Content Include="REST Map Tiles\Raster Tiles in Cesium JS.html" />
     <Content Include="REST Map Tiles\Raster Tiles in Leaflet JS.html" />

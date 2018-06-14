@@ -97,12 +97,12 @@ window.onload = function () {
     if (WarningMessage) {
         alert(WarningMessage);
     }
+
     var hash = window.location.hash;
     if (hash) {
         hash = hash.replace('#', '');
         loadSampleByHash(hash);
     }
-
     return false;
 };
 
