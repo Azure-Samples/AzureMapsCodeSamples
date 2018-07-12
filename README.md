@@ -4,7 +4,7 @@ A collection of code samples for the [Azure Maps](http://aka.ms/AzureMaps) web m
 
 [Try it now](https://azuremapscodesamples.azurewebsites.net/)
 
-![screenshot](images/screenshot.png)
+[![screenshot](Images/screenshot.png)](https://azuremapscodesamples.azurewebsites.net/)
 
 ## Related Projects ##
 
