@@ -65,13 +65,13 @@
 
         <div id="sourceCodeLinkPanel" style="display:none;">
             <a id="newWindowLink" class="blueAnchorButton" href="javascript:void(0);" style="display:none">Open in New Window</a>
-            <a id="sourceCodeLink" class="blueAnchorButton" href="http://bing.com" target="_blank">Source code</a>
+            <a id="sourceCodeLink" class="blueAnchorButton" href="https://bing.com" target="_blank">Source code</a>
         </div>
     </div>
 
     <div class="footer">
-        <span><a href="http://go.microsoft.com/fwlink/?LinkId=521839&CLCID=0409">Privacy</a></span>
-        <span><a href="http://go.microsoft.com/fwlink/?LinkID=246338&CLCID=0409">Legal</a></span>
+        <span><a href="https://go.microsoft.com/fwlink/?LinkId=521839&CLCID=0409">Privacy</a></span>
+        <span><a href="https://go.microsoft.com/fwlink/?LinkID=246338&CLCID=0409">Legal</a></span>
         <span class="copyrights">&copy; Microsoft <%= DateTime.Now.Year.ToString() %></span>
     </div>
 
