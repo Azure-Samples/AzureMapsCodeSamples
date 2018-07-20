@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            var mapCenterPosition = [-73.985708, 40.75773];
+
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                center: mapCenterPosition,
+                zoom: 12
+            });
+
+            //Create a div element for the HTML Marker.
+            var msStorePin = document.createElement('div');
+
+            //Customize it as you see fit. In this case we are going to use a CSS class to style it.
+            msStorePin.classList.add("ms-pin");
+
+            //Add the custom html to the map.
+            map.addHtml(msStorePin, mapCenterPosition);
+        }
+    </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+
+        .ms-pin {
+            width: 100px;
+            height: 100px;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            background-size: 100px 100px;
+            background-image: url('data:image/png;base64,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')
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>HTML Marker Sample</legend>
+        This sample shows how to create an HTML based marker (pin). 
+        HTML based markers are often easier to customize within web apps, but generate a lot of DOM elements which will limit performance. 
+        For large data sets, consider using a pin layer instead as those are rendered using WebGL on a canvas which is much faster.
+    </fieldset>
+</body>
+</html>

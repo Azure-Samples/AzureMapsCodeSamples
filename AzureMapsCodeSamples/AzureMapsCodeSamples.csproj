@@ -69,11 +69,14 @@
     <Content Include="Common\data\geojson\address.json" />
     <Content Include="Common\data\geojson\streets.json" />
     <None Include="packages.config" />
+    <Content Include="Common\images\pins\showers.png" />
     <Content Include="Common\scripts\atlasMapControlExtensions.js" />
     <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon and Select Data.html" />
     <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Polygon Drawing Tools\PolygonDrawingTool.js" />
-    <Content Include="Pins\Pin Layer Options.html" />
+    <Content Include="Pins and Markers\Custom Pin Image Icon.html" />
+    <Content Include="Pins and Markers\HTML Marker.html" />
+    <Content Include="Pins and Markers\Pin Layer Options.html" />
     <Content Include="REST Map Tiles\Raster Tiles in ArcGIS JS 4.6.html" />
     <Content Include="REST Map Tiles\Raster Tiles in Cesium JS.html" />
     <Content Include="REST Map Tiles\Raster Tiles in Leaflet JS.html" />
@@ -102,7 +105,7 @@
     <Content Include="ExternalSamples.js" />
     <Content Include="Map\Load Map with Options.html" />
     <Content Include="Map\Multiple Maps.html" />
-    <Content Include="Pins\Customized Pin.html" />
+    <Content Include="Pins and Markers\Customized Pin.html" />
     <Content Include="REST Routing API\Waypoint Optimization.html" />
     <Content Include="REST Map Tiles\Raster Tiles in Open Layers.html" />
     <Content Include="REST Search API\Basic Geocoding Request.html" />
