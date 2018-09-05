@@ -74,6 +74,7 @@
     <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon and Select Data.html" />
     <Content Include="Custom Modules\Polygon Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Polygon Drawing Tools\PolygonDrawingTool.js" />
+    <Content Include="Pins and Markers\Create Pins from Custom JSON.html" />
     <Content Include="Pins and Markers\Custom Pin Image Icon.html" />
     <Content Include="Pins and Markers\HTML Marker.html" />
     <Content Include="Pins and Markers\Pin Layer Options.html" />

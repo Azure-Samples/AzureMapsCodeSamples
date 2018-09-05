@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+
+    <script type='text/javascript'>
+        var map, popup;
+
+        //Define an HTML template for a custom popup content laypout.
+        var popupTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
+
+        var pinLayerName = 'my-pin-layer';
+
+        var myCustomJson = {
+            results: [
+                {
+                    title: 'Pin 1',
+                    desc: 'I am pin 1',
+                    lat: 45.0001,
+                    lon: -110.0001
+                },
+                {
+                    title: 'Pin 2',
+                    desc: 'I am pin 2',
+                    lat: 43.0832,
+                    lon: -100.0832
+                }
+            ]
+        };
+
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                'subscription-key': '<subscriptionKey>',
+                center: [-105, 44],
+                zoom: 5
+            });
+
+            //Loop through all results in the custom JSON object can create Point features from them.
+            var pins = [];
+
+            if (myCustomJson && myCustomJson.results && myCustomJson.results.length > 0) {
+
+                for (var i = 0; i < myCustomJson.results.length; i++) {
+
+                    //Create a position object from the lon and lat values. 
+                    var position = atlas.data.Position(myCustomJson.results[i].lon, myCustomJson.results[i].lat);
+
+                    //Create a Point feature and pass in the result object as the properties so that we can access them later if needed.
+                    var pin = new atlas.data.Feature(new atlas.data.Point(position), myCustomJson.results[i]);
+
+                    pins.push(pin);
+                }
+            }
+
+            //Add the Point features to the map as pins.
+            map.addPins(pins, {
+                name: pinLayerName,
+                fontColor: '#000',
+                fontSize: 14,
+                textOffset: [0, 20],
+                textFont: 'SegoeUi-Bold'
+            });
+
+            //Create a popup but leave it closed so we can update it and display it later.
+            popup = new atlas.Popup({
+                position: [0, 0],
+                pixelOffset: [0, 0]
+            });
+
+            //Add a click event to the pin layer.
+            map.addEventListener('click', pinLayerName, pinClicked);
+        }
+
+        function pinClicked(e) {
+            //Make sure the event occured on a pin.
+            if (e.features && e.features.length > 0 && e.features[0].geometry.type === 'Point') {
+                var pin = e.features[0];
+
+                //Create a div element and fill it with the popupTemplate populated with data from the clicked pin.
+                var popupContentElement = document.createElement('div');
+                popupContentElement.innerHTML = popupTemplate.replace('{title}', pin.properties.title).replace('{description}', pin.properties.desc);
+
+                popup.setPopupOptions({
+                    //Update the content of the popup.
+                    content: popupContentElement,
+
+                    //Update the position of the popup with the pins coordinate.
+                    position: pin.geometry.coordinates
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+    </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+
+        /* CSS styles used by custom popup template */
+        .customInfobox {
+            max-width: 200px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+            .customInfobox .title {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Create Pins from Custom JSON Sample</legend>
+        It is fairly common to access JSON data in your application which contains locaiton data but is not in GeoJSON format. 
+        This sample shows how to use this JSON data to create clickable pins on a map, that when clicked, display a popup with 
+        the title and description values of the pin that was clicked.
+    </fieldset>
+</body>
+</html>

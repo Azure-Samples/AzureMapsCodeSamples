@@ -21,5 +21,8 @@ var externalSamples = {
     //],
     //'Desktop': [
     //    { title: 'Using the Bing Maps V8 Web control in a WinForm application', href: 'https://code.msdn.microsoft.com/Using-the-Bing-Maps-V8-Web-07e21f3a' }
-    //]
+    //],
+    'Xamarin': [
+        { title: 'Using Azure Maps with a Xamarin Forms app', href:'http://patrickgoode.com/using-azure-maps-with-a-xamarin-forms-app/'}
+    ]
 };
