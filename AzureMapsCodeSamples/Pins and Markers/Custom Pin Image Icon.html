@@ -20,23 +20,26 @@
                 zoom: 12
             });
 
-            //Pre-load the custom pin image.
-            var pinImg = new Image();
-            pinImg.onload = function () {
-                //Add the pin image to the map resources. Give it a unique id.
-                map.addIcon('my-custom-icon', pinImg);
+            //Wait until the map resources have fully loaded.
+            map.addEventListener("load", function (e) {
+                //Pre-load the custom pin image.
+                var pinImg = new Image();
+                pinImg.onload = function () {
+                    //Add the pin image to the map resources. Give it a unique id.
+                    map.addIcon('my-custom-icon', pinImg);
 
-                //Add a pin to the map and use the custom pin image.
-                var pin = new atlas.data.Feature(new atlas.data.Point(mapCenterPosition));
+                    //Add a pin to the map and use the custom pin image.
+                    var pin = new atlas.data.Feature(new atlas.data.Point(mapCenterPosition));
 
-                //Add the pin to the map.
-                map.addPins([pin], {
-                    name: 'default-pin-layer',
-                    icon: 'my-custom-icon',
-                    iconSize: 0.5
-                });
-            };
-            pinImg.src = './Common/images/pins/showers.png';
+                    //Add the pin to the map.
+                    map.addPins([pin], {
+                        name: 'default-pin-layer',
+                        icon: 'my-custom-icon',
+                        iconSize: 0.5
+                    });
+                };
+                pinImg.src = './Common/images/pins/showers.png';
+            });
         }
     </script>
     <style>
