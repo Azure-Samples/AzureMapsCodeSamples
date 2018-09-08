@@ -151,3 +151,4 @@ var PolygonDrawingTool = function (map, beforeLayer, drawingEndedCallback) {
         }
     };
 };
+

@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <!-- Load extensions as they have some useful functions in them. -->
     <script src="/Common/scripts/atlasMapControlExtensions.js"></script>
@@ -15,9 +15,9 @@
         var map;
         var subscriptionKey = '<subscriptionKey>';
         var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
-        var geocodeRequestUrl = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1.0&query={query}';
-        var carRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1.0&query={query}&routeRepresentation=polyline&travelMode=car';
-        var truckRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1.0&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&vehicleLoadType={vehicleLoadType}';
+        var geocodeRequestUrl = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1&query={query}';
+        var carRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1&query={query}&routeRepresentation=polyline&travelMode=car';
+        var truckRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&vehicleLoadType={vehicleLoadType}';
         var routePinLayerName = 'route-pins';
         var carRouteLayerName = 'car-route';
         var truckRouteLayerName = 'truck-route';

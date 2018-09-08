@@ -5,15 +5,15 @@
     <meta charset="utf-8" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
         var map;
         var subscriptionKey = '<subscriptionKey>';
         var routeLayerName = 'routes';
         var pinLayerName = 'pins';
-        var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1.0&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car';
+        var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car';
         var waypoints = [
             [-122.336502, 47.606544],
             [-122.204821, 47.759892],

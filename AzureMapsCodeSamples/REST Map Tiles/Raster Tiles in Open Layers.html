@@ -22,7 +22,7 @@
                 layers: [
                     new ol.layer.Tile({
                         source: new ol.source.XYZ({
-                            url: 'https://atlas.microsoft.com/map/tile/png?api-version=1.0&layer=basic&style=main&tileSize=512&zoom={z}&x={x}&y={y}' +
+                            url: 'https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=512&zoom={z}&x={x}&y={y}' +
                                 '&subscription-key=' + subscriptionKey,
                             attributions: '<img src="/Common/images/MicrosoftLogo.png" title="Microsoft Logo"><br/>© ' + new Date().getFullYear() + ' Microsoft, © 1992 - ' + new Date().getFullYear() + ' TomTom',
                             tileSize: 512
@@ -42,7 +42,7 @@
 
     <fieldset style="width:800px;margin-top:10px;">
         <legend>Raster Tile in Open Layers Sample</legend>
-        This sample shows how to render Azure Maps Raster Tiles in the <a href="https://openlayers.org/">Open Layers map control</a>.
+        This sample shows how to render Azure Maps Raster Tiles in the <a href="https://openlayers.org/" target="_blank">Open Layers map control</a>.
     </fieldset>
 </body>
 </html>

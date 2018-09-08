@@ -11,15 +11,15 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
         var map;
         var subscriptionKey = '<subscriptionKey>';
 
         //Note that the typeahead parameter is set to true.
-        var geocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/{searchType}/json?typeahead=true&subscription-key={subscription-key}&api-version=1.0&query={query}&language={language}&lon={lon}&lat={lat}&countrySet={countrySet}';
+        var geocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/{searchType}/json?typeahead=true&subscription-key={subscription-key}&api-version=1&query={query}&language={language}&lon={lon}&lat={lat}&countrySet={countrySet}';
 
         function GetMap() {
             map = new atlas.Map('myMap', {
@@ -142,7 +142,7 @@
         <legend>Search Autosuggest and JQuery UI Sample</legend>
         This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services.
         Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode.
-        The UI is managed using <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a>.
+        The UI is managed using <a href="https://jqueryui.com/autocomplete/" target="_blank">JQuery UI's autocomplete widget</a>.
     </fieldset>
 </body>
 </html>

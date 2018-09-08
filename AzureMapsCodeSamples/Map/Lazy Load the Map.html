@@ -43,13 +43,13 @@
                     var styles = document.createElement('link');
                     styles.setAttribute('type', 'text/css');
                     styles.setAttribute('rel', 'stylesheet');
-                    styles.setAttribute('href', 'https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1.0');
+                    styles.setAttribute('href', 'https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1');
                     document.body.appendChild(styles);
 
                     //Load the Atlas JavaScript SDK.
                     var script = document.createElement('script');
                     script.setAttribute('type', 'text/javascript');
-                    script.setAttribute('src', 'https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.0');
+                    script.setAttribute('src', 'https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1');
                     document.body.appendChild(script);
 
                     setTimeout('LazyMapLoader.__LoadCallback();', 100);

@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, controls = [];
+
+        function GetMap() {
+            map = new atlas.Map("myMap", {
+                'subscription-key': '<subscriptionKey>',
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            addControls();
+        }
+
+        function addControls() {
+            //Remove all controls on the map.
+            removeControls();
+
+            //Get input options.
+            var positionOption = getSelectValue('controlPosition');
+            var controlStyle = getSelectValue('controlStyle');
+
+            //Create a zoom control.
+            controls.push(new atlas.control.ZoomControl({
+                zoomDelta: parseFloat(getSelectValue('zoomControlDelta')),
+                style: controlStyle
+            }));
+
+            //Create a pitch control and add it to the map.
+            controls.push(new atlas.control.PitchControl({
+                pitchDegreesDelta: parseFloat(getSelectValue('pitchControlDelta')),
+                style: controlStyle
+            }));
+
+            //Create a compass control and add it to the map.
+            controls.push(new atlas.control.CompassControl({
+                rotationDegreesDelta: parseFloat(getSelectValue('compassControlRotationDelta')),
+                style: controlStyle
+            }));
+
+            //Create a style control and add it to the map.
+            controls.push(new atlas.control.StyleControl({
+                style: controlStyle
+            }));
+
+            //Add controls to the map.
+            for (var i = 0; i < controls.length; i++) {
+                map.addControl(controls[i], {
+                    position: positionOption
+                });
+            }
+        }
+
+        function removeControls() {
+            for (var i = 0; i < controls.length; i++) {
+                map.removeControl(controls[i]);
+            }
+
+            controls = [];
+        }
+        
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+    </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none
+        }
+
+        .sidePanel {
+            width: 350px;
+            float: left;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+
+    <div class="sidePanel">
+        <fieldset style="width:300px;margin-bottom:10px;">
+            <legend>Map Navigation Control Options Sample</legend>
+            This sample shows all the map controls on the map and how they react with different option settings. <br /><br />
+            To test the zoom delta, simply press the zoom button to see how the map zoom per click changes, moving several levels at a time when the delta is greater than one. <br /><br />
+            To test the pitch and compass rotation deltas, hover over the appropriate control and use the addition buttons that appear to see how the new delta has changed the behaviour of the button. <br/><br/>
+            See the <a href="https://docs.microsoft.com/en-us/azure/azure-maps/map-add-controls" target="_blank">Add map controls</a> and <a href="https://docs.microsoft.com/en-us/azure/azure-maps/choose-map-style" target="_blank">Choose map style</a> documentation for more examples using the map navigation controls.
+        </fieldset>
+
+        <h3>Control Options</h3>
+
+        <table>
+            <tr title="The position the control will be placed on the map. If not specified, the control will be located at the default position it defines.">
+                <td>Control Position:</td>
+                <td>
+                    <select id="controlPosition" onchange="addControls()">
+                        <option>bottom-left</option>
+                        <option>bottom-right</option>
+                        <option>non-fixed</option>
+                        <option>top-left</option>
+                        <option selected="selected">top-right</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The style of the control.">
+                <td>Control Style:</td>
+                <td>
+                    <select id="controlStyle" onchange="addControls()">
+                        <option>dark</option>
+                        <option selected="selected">light</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The extent to which the map will zoom with each click of the control.">
+                <td>Zoom Delta:</td>
+                <td>
+                    <select id="zoomControlDelta" onchange="addControls()">
+                        <option selected="selected">1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The angle that the map will tilt with each click of the control.">
+                <td>Pitch Delta:</td>
+                <td>
+                    <select id="pitchControlDelta" onchange="addControls()">
+                        <option>5</option>
+                        <option selected="selected">10</option>
+                        <option>15</option>
+                        <option>20</option>
+                        <option>25</option>
+                        <option>30</option>
+                        <option>35</option>
+                        <option>40</option>
+                        <option>45</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The angle that the map will rotate with each click of the control.">
+                <td>Compass Rotation Delta:</td>
+                <td>
+                    <select id="compassControlRotationDelta" onchange="addControls()">
+                        <option>5</option>
+                        <option>10</option>
+                        <option selected="selected">15</option>
+                        <option>20</option>
+                        <option>25</option>
+                        <option>30</option>
+                        <option>35</option>
+                        <option>40</option>
+                        <option>45</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="myMap" style="position:relative;width:600px;height:600px;"></div>
+</body>
+</html>
