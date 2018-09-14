@@ -12,50 +12,33 @@
 
             var geocodeRequest = geocodeUrlTemplate.replace('{query}', encodeURIComponent(query)).replace('{subscription-key}', subscriptionKey);
 
-            callRestService(geocodeRequest, GeocodeCallback);
-        }
+            //Proces the request.
+            fetch(geocodeRequest)
+                .then(function (response) {
+                    return response.json();
+                }).then(function (response) {
 
-        function GeocodeCallback(response) {
-            var output = document.getElementById('output');
+                    var output = document.getElementById('output');
 
-            if (response &&
-                response.results &&
-                response.results.length > 0) {
+                    if (response &&
+                        response.results &&
+                        response.results.length > 0) {
 
-                var results = response.results;
+                        var results = response.results;
 
-                var html = ['<table ><tr><td>Address</td><td>Latitude</td><td>Longitude</td></tr>'];
+                        var html = ['<table ><tr><td>Address</td><td>Latitude</td><td>Longitude</td></tr>'];
 
-                for (var i = 0; i < results.length; i++) {
-                    html.push('<tr><td>', results[i].address.freeformAddress, '</td><td>', results[i].position.lat, '</td><td>', results[i].position.lon, '</td></tr>');
-                }
-
-                html.push('</table>');
-
-                output.innerHTML = html.join('');
-            } else {
-                output.innerHTML = "No results found.";
-            }
-        }
-
-        function callRestService(requestUrl, callback, errorCallback) {
-            if (callback) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open('GET', requestUrl, true);
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {
-                            var response = JSON.parse(xhttp.responseText);
-                            callback(response);
-                        } else if (errorCallback) {
-                            if (errorCallback) {
-                                errorCallback(JSON.parse(xhttp.responseText));
-                            }
+                        for (var i = 0; i < results.length; i++) {
+                            html.push('<tr><td>', results[i].address.freeformAddress, '</td><td>', results[i].position.lat, '</td><td>', results[i].position.lon, '</td></tr>');
                         }
+
+                        html.push('</table>');
+
+                        output.innerHTML = html.join('');
+                    } else {
+                        output.innerHTML = "No results found.";
                     }
-                };
-                xhttp.send();
-            }
+                });
         }
     </script>
     <style>
@@ -65,7 +48,7 @@
 
         table, th, td {
             border: 1px solid black;
-        } 
+        }
     </style>
 </head>
 <body>
@@ -73,9 +56,9 @@
     <input type="button" onClick="geocode()" value="Search" /><br /><br />
     <div id="output"></div>
 
-    <fieldset style="width:800px;margin-top:10px;">
-        <legend>Geocoding Service Sample</legend>
-        
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Geocoding Service sample</legend>
+        This sample shows how to use the REST search API directly for geocoding locations.
     </fieldset>
 </body>
 </html>

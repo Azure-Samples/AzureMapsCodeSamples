@@ -138,6 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\scripts\cesium\" />
+    <Folder Include="Spatial Math with Turfjs\" />
+    <Folder Include="Spatial Math\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Common\types\atlas.d.ts" />
