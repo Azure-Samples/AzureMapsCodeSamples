@@ -1,8 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Azure Maps Web Control Samples - Reusing Popup with Multiple Pins</title>
+
     <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows popups that contain media content." />
+    <meta name="keywords" content="map, gis, API, SDK, pins, symbols, pushpins, markers, infobox, infowindow, optimization" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -15,60 +22,68 @@
         var popupTemplate = '<div class="customInfobox"><div class="name">{name}</div>{description}</div>';
 
         function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                'subscription-key': '<subscriptionKey>',
                 center: [-122.33, 47.64],
                 zoom: 14
             });
 
-            var pinLayerName = 'default-pin-laye';
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
 
-            //Create three pins on the map and add some metadata in the properties which we will want to display in a popup.
-            var pin1 = new atlas.data.Feature(new atlas.data.Point([-122.33, 47.64]), {
-                name: 'Pin 1 Title',
-                description: 'This is the description.'
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create three point features on the map and add some metadata in the properties which we will want to display in a popup.
+                var point1 = new atlas.data.Feature(new atlas.data.Point([-122.33, 47.64]), {
+                    name: 'Point 1 Title',
+                    description: 'This is the description 1.'
+                });
+
+                var point2 = new atlas.data.Feature(new atlas.data.Point([-122.335, 47.645]), {
+                    name: 'Point 2 Title',
+                    description: 'This is the description 2.'
+                });
+
+                var point3 = new atlas.data.Feature(new atlas.data.Point([-122.325, 47.635]), {
+                    name: 'Point 3 Title',
+                    description: 'This is the description 3.'
+                });
+
+                //Add the symbol to the data source.
+                datasource.add([point1, point2, point3]);
+
+                //Add a layer for rendering point data as symbols.
+                var symbolLayer = new atlas.layer.SymbolLayer(datasource);
+                map.layers.add(symbolLayer);
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0],
+                    pixelOffset: [0, -18]
+                });
+
+                //Add a click event to the symbol layer.
+                map.events.add('click', symbolLayer, symbolClicked);
             });
-
-            var pin2 = new atlas.data.Feature(new atlas.data.Point([-122.335, 47.645]), {
-                name: 'Pin 2 Title',
-                description: 'This is the description.'
-            });
-
-            var pin3 = new atlas.data.Feature(new atlas.data.Point([-122.325, 47.635]), {
-                name: 'Pin 3 Title',
-                description: 'This is the description.'
-            });
-
-            //Add the pins to the map and set the name of the layer.
-            map.addPins([pin1, pin2, pin3], {
-                name: pinLayerName
-            });
-
-            //Create a popup but leave it closed so we can update it and display it later.
-            popup = new atlas.Popup({
-                position: [0, 0],
-                pixelOffset: [0, 0]
-            });
-
-            //Add a click event to the pin layer.
-            map.addEventListener('click', pinLayerName, pinClicked);
         }
 
-        function pinClicked(e) {
-            //Make sure the event occured on a pin.
-            if (e.features && e.features.length > 0 && e.features[0].geometry.type === 'Point') {
-                var pin = e.features[0];
+        function symbolClicked(e) {
+            //Make sure the event occured on a point feature.
+            if (e.shapes && e.shapes.length > 0 && e.shapes[0].getType() === 'Point') {
+                var properties = e.shapes[0].getProperties();
 
-                //Create a div element and fill it with the popupTemplate populated with data from the clicked pin.
-                var popupContentElement = document.createElement('div');
-                popupContentElement.innerHTML = popupTemplate.replace('{name}', pin.properties.name).replace('{description}', pin.properties.description);
-
+                //Populate the the popupTemplate with data from the clicked point feature.
                 popup.setPopupOptions({
                     //Update the content of the popup.
-                    content: popupContentElement,
+                    content: popupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description),
 
                     //Update the position of the popup with the pins coordinate.
-                    position: pin.geometry.coordinates
+                    position: e.shapes[0].getCoordinates()
                 });
 
                 //Open the popup.
@@ -77,12 +92,6 @@
         }
     </script>
     <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none
-        }
-   
         /* CSS styles used by custom popup template */
         .customInfobox {
             max-width: 200px;
@@ -101,11 +110,11 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Reusing Popup with Multiple Pins Sample</legend>
-        When you have a lot of pins and only want to show one popup at a time, the best approach is to create one popup and reuse 
-        it rather than creating a popup for each pin. By doing this the number of DOM elements created by the application is greatly 
-        reduced which can provide better performance. This sample creates 3 pins at random locations on the map. If you click on any 
-        of them, a popup will be displayed with the content for that pin. 
+        <legend>Reusing Popup with Multiple Points sample</legend>
+        When you have a lot of points and only want to show one popup at a time, the best approach is to create one popup and reuse
+        it rather than creating a popup for each point feature. By doing this the number of DOM elements created by the application is greatly
+        reduced which can provide better performance. This sample creates 3 point features. If you click on any
+        of them, a popup will be displayed with the content for that point feature.
     </fieldset>
 </body>
 </html>

@@ -1,8 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Azure Maps Web Control Samples - Map Localization</title>
+
     <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample lets you switch the map between all its supported languages." />
+    <meta name="keywords" content="map, gis, API, SDK, language, culture, localization, user region" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -12,9 +19,14 @@
         var map;
 
         function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Set the default language used by the map SDK.
+            atlas.setLanguage('en-US');
+
+            //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                'subscription-key': '<subscriptionKey>',
-                language: 'en-US',
                 center: [20, 50],
                 zoom: 4
             });
@@ -24,18 +36,12 @@
             var langOptions = document.getElementById('langOptions');
             var lang = langOptions.options[langOptions.selectedIndex].value;
 
+            //Update the language of the individual map instance.
             map.setStyle({
                 language: lang
             });
         }
     </script>
-    <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none;
-        }
-    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
@@ -103,7 +109,7 @@
     </div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Map Localization Sample</legend>
+        <legend>Map Localization sample</legend>
         This sample lets you switch the map between all its supported languages.
     </fieldset>
 </body>

@@ -1,8 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Azure Maps Web Control Samples - Traffic Overlay</title>
+
     <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to show the traffic overlay over top of the map." />
+    <meta name="keywords" content="map, gis, API, SDK, traffic, layer, flow, incidents" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -12,28 +19,33 @@
         var map;
 
         function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                'subscription-key': '<subscriptionKey>',
                 center: [-122.33, 47.64],
                 zoom: 12
             });
 
-            //Show traffic on the map using the traffic options
-            map.setTraffic({
-                incidents: true,
-                flow: 'absolute'
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Show traffic on the map using the traffic options
+                map.setTraffic({
+                    incidents: true,
+                    flow: 'absolute'
+                });
             });
         }
     </script>
-    <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none
-        }
-    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Traffic Overlay sample</legend>
+        This sample shows how to show the traffic overlay over top of the map. 
+    </fieldset>
 </body>
 </html>

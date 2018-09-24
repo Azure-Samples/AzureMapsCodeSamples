@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Draggable HTML Marker</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate a pin on the map by adding and removing the layer while updating the coordinates." />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, drag, draggable, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a HTML marker and add it to the map.
+                map.markers.add(new atlas.HtmlMarker({
+                    draggable: true,
+                    htmlContent: '<image src="../Common/images/pushpins/ylw-pushpin.png"/>',
+                    position: [0, 0],
+                    pixelOffset: [6, -15]
+                }));
+            });
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id='myMap' style='position:relative;width:800px;height:600px;'></div>
+
+    <fieldset style='width:700px;margin-top:10px;'>
+        <legend>Simple Animation sample</legend>
+        This sample shows how to animate a pin on the map by adding and removing the layer while updating the coordinates.
+    </fieldset>
+</body>
+</html>

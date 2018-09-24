@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Tile Layer Options</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the tile layer affect rendering." />
+    <meta name="keywords" content="map, gis, API, SDK, tiles, layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script src="../Common/scripts/clipboard.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, tileLayer, defaultOptions, removeDefaults;
+        //TODO: Add options for tile source and test min/maxSourceZoom
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-90, 25],
+                zoom: 4
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Create a tile layer and add it to the map.
+                tileLayer = new atlas.layer.TileLayer({
+                    tileUrl: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
+                    bounds: [-101.065, 14.01, -80.538, 35.176],
+                    minSourceZoom: 1,
+                    maxSourceZoom: 10,
+                    tileSize: 256
+                });
+                map.layers.add(tileLayer, 'labels');
+
+                defaultOptions = tileLayer.getOptions();
+
+                //Update the tile layer with the options in the input fields.
+                updateTileLayer();
+            });
+
+            new ClipboardJS('.copyBtn');
+        }
+
+        function updateTileLayer() {
+            var options = getInputOptions();
+
+            //Update all the options in the tile layer.
+            tileLayer.setOptions(options);
+
+            document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t');
+        }
+
+        function getInputOptions() {
+            removeDefaults = document.getElementById('RemoveDefaults').checked;
+
+            return {
+                contrast: getPropertyValue('contrast', parseFloat(document.getElementById('Contrast').value)),
+                fadeDuration: getPropertyValue('fadeDuration', parseFloat(document.getElementById('FadeDuration').value)),
+                hueRotation: getPropertyValue('hueRotation', parseFloat(document.getElementById('HueRotation').value)),
+                maxBrightness: getPropertyValue('maxBrightness', parseFloat(document.getElementById('MaxBrightness').value)),
+                minBrightness: getPropertyValue('minBrightness', parseFloat(document.getElementById('MinBrightness').value)),
+                opacity: getPropertyValue('opacity', parseFloat(document.getElementById('Opacity').value)),
+                saturation: getPropertyValue('saturation', parseFloat(document.getElementById('Saturation').value)),
+                minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
+                maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
+                visible: getPropertyValue('visible', document.getElementById('Visible').checked)
+            };
+        }
+
+        function getPropertyValue(propertyName, value) {
+            if (removeDefaults && defaultOptions[propertyName] === value) {
+                return undefined;
+            }
+
+            return value;
+        }
+
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
+        }
+    </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        #myMap {
+            position: relative;
+            width: 455px;
+            height: 600px;
+        }
+
+        .sidePanel {
+            width: 335px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #CodeOutput {
+            width: 300px;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .copyBtn {
+            float: right;
+        }
+
+        table td:nth-of-type(1) {
+            width: 120px;
+        }
+
+        table td:nth-of-type(2) {
+            width: 200px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend>Tile Layer Options Sample</legend>
+        This sample shows how the different options of the tile layer affect rendering.
+        <br /><br />
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Base Options</button>
+            <button class="tablinks" onclick="openTab(this, 'MediaOptions')">Media Options</button>
+            <button class="tablinks" onclick="openTab(this, 'TileService')">Tile Service</button>            
+            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+        </div>
+
+        <div id="StyleOptions" class="tabcontent" style="display:block;">
+            <table>
+                <tr title="An integer specifying the minimum zoom level to render the layer at.">
+                    <td>Min Zoom:</td>
+                    <td>
+                        <form oninput="minz.value=MinZoom.value">
+                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="minz" for="MinZoom">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="An integer specifying the maximum zoom level to render the layer at.">
+                    <td>Min Zoom:</td>
+                    <td>
+                        <form oninput="maxz.value=MaxZoom.value">
+                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="maxz" for="MaxZoom">24</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Specifies if the layer is visible or not.">
+                    <td>Visible:</td>
+                    <td><input id="Visible" type="checkbox" onclick="updateTileLayer()" checked="checked" /></td>
+                </tr>
+            </table>
+
+            <p>
+                In addition to the options in this tool, the LineLayer also has options for;
+                bounds, isTMS, subdomains, tileSize as these are specific to the tile service URL format.
+            </p>
+        </div>
+
+        <div id="MediaOptions" class="tabcontent">
+            <table>
+                <tr title="The duration in milliseconds of a fade transition when a new tile is added. ">
+                    <td>Fade Duration</td>
+                    <td>
+                        <form oninput="fadeDuration.value=FadeDuration.value">
+                            <input type="range" id="FadeDuration" value="300" min="0" max="1000" step="100" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="fadeDuration" for="FadeDuration">300</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="A number between 0 and 1 that indicates the opacity at which the overlay will be drawn.">
+                    <td>Opacity</td>
+                    <td>
+                        <form oninput="opacity.value=Opacity.value">
+                            <input type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="opacity" for="Opacity">1</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="A number between -1 and 1 that increases or decreases the contrast of the overlay.">
+                    <td>Contrast</td>
+                    <td>
+                        <form oninput="contrast.value=Contrast.value">
+                            <input type="range" id="Contrast" value="0" min="-1" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="contrast" for="Contrast">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Rotates hues around the color wheel. A number in degrees.">
+                    <td>Hue Rotation</td>
+                    <td>
+                        <form oninput="hueRotation.value=HueRotation.value">
+                            <input type="range" id="HueRotation" value="0" min="0" max="360" step="1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="hueRotation" for="HueRotation">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="A number between 0 and 1 that increases or decreases the maximum brightness of the overlay.">
+                    <td>Max Brightness</td>
+                    <td>
+                        <form oninput="maxBrightness.value=MaxBrightness.value">
+                            <input type="range" id="MaxBrightness" value="1" min="0" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="maxBrightness" for="MaxBrightness">1</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="A number between 0 and 1 that increases or decreases the minimum brightness of the overlay.">
+                    <td>Min Brightness</td>
+                    <td>
+                        <form oninput="minBrightness.value=MinBrightness.value">
+                            <input type="range" id="MinBrightness" value="0" min="0" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="minBrightness" for="MinBrightness">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="A number between -1 and 1 that increases or decreases the saturation of the overlay.">
+                    <td>Saturation</td>
+                    <td>
+                        <form oninput="saturation.value=Saturation.value">
+                            <input type="range" id="Saturation" value="0" min="-1" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <output name="saturation" for="Saturation">0</output>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="TileService" class="tabcontent">
+            <table>
+
+            </table>
+        </div>
+
+
+        <div id="Code" class="tabcontent">
+            <textarea id="CodeOutput"></textarea><br /><br />
+            <input id="RemoveDefaults" type="checkbox" onclick="updateTileLayer()" checked="checked" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+</body>
+</html>

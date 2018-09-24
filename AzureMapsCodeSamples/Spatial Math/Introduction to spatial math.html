@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Introduction to Spatial Math</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use many of the built in spatial math functions in the Azure Maps web control." />
+    <meta name="keywords" content="map, gis, API, SDK, gepspatial, math, haversine, heading, bearing" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-100, 40],
+                zoom: 3
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create two test points.
+                var startPosition = [-122.33, 47.64];
+                var endPosition = [-80.225, 25.9];
+
+                var startPoint = new atlas.data.Feature(new atlas.data.Point(startPosition), {
+                    title: 'Start'
+                });
+
+                var endPoint = new atlas.data.Feature(new atlas.data.Point(endPosition), {
+                    title: 'end'
+                });
+
+                //Calculate a geodesic path between the two points (line that follows curvature of the earth).
+                var path = atlas.math.getGeodesicPath([startPosition, endPosition]);
+                var poly = new atlas.data.LineString(path);
+
+                //Calculate the midpoint of the line.
+                var midPoint = atlas.math.interpolate(startPosition, endPosition);
+                var pin = new atlas.data.Feature(new atlas.data.Point(midPoint), {
+                    title: 'Midpoint'
+                });
+
+                //Calculate a location that is along the path 300 miles from the north west coordinate.
+                var point300MilesFromNW = atlas.math.getPositionAlongPath(poly, 300, 'miles');
+                var pin2 = new atlas.data.Feature(new atlas.data.Point(point300MilesFromNW), {
+                    title: '300 miles from NW'
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add the data to the data source.
+                datasource.add([poly, startPoint, endPoint, pin, pin2]);
+
+                map.layers.add([
+                    //Add a layer for rendering line data.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'purple',
+                        strokeWidth: 4,
+                        filter: ["==", "$type", "LineString"]
+                    }),
+
+                    //Add a layer for rendering point data.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            allowOverlap: true,
+                            ignorePlacement: true
+                        },
+                        textOptions: {
+                            textField: ['get', 'title'],
+                            offset: [0, 1]
+                        },
+                        filter: ['==', '$type', 'Point']
+                    })
+                ]);
+
+                //Calculate the distance from the northWest coordinate to the southEast coordinate.
+                var distance = atlas.math.getDistanceTo(startPosition, endPosition, 'miles');
+
+                //Calculate the heading from the northWest coordinate to the southEast coordinate.
+                var heading = atlas.math.getHeading(startPosition, endPosition);
+
+                document.getElementById('outputPanel').innerHTML = 'Distance: ' + distance + ' miles<br/>Heading: ' + heading + ' degrees';
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br />
+    <div id="outputPanel"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Introduction to Spatial Math sample</legend>
+        This sample shows how to use many of the built in spatial math functions in the Azure Maps web control. 
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Get Users Timezone with Prompt</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to determine a users timezone by passing the users location into the Azure Maps REST Timezone service. The users location is retrived using the HTML5 geolocation API which displays a prompt to the user to share their location." />
+    <meta name="keywords" content="map, gis, API, SDK, REST, service, timezone, user, location, geolocation" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+
+    <script type='text/javascript'>
+        //Get your Azure Maps key at https://azure.com/maps
+        var subscriptionKey = '<Your Azure Maps Key>';
+
+        var timezoneRequestUrl = 'https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&subscription-key={subscription-key}&options=all&query={latitude},{longitude}';
+
+        function getTimezone() {
+            var output = document.getElementById('output');
+
+            output.innerHTML = '<img src="../Common/images/loadingIcon.gif" title="Loading"/>';
+
+            //Check to see if the users browser has access to the HTML5 geolocation API.
+            if (navigator.geolocation) {
+
+                //Request the users location from the browser, this will display a prompt to the user to share their location.
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    //Create a URL request to the Azure Maps Timezone service.
+                    //Coordinates only need 5 decimal places to represent a high accuracy location.
+                    var requestUrl = timezoneRequestUrl
+                        .replace('{subscription-key}', subscriptionKey)
+                        .replace('{latitude}', position.coords.latitude) 
+                        .replace('{longitude}', position.coords.longitude); 
+
+                    //Process the request.
+                    fetch(requestUrl)
+                        .then(function (response) {
+                            return response.json();
+                        }).then(function (response) {
+
+                            if (response.TimeZones && response.TimeZones.length > 0) {
+                                var timeZoneInfo = response.TimeZones[0];
+
+                                var html = [];
+
+                                html.push('IANA Id: ', timeZoneInfo.Id, '<br/>');
+
+                                if (response.Names) {
+                                    html.push('ISO6391 Language Code: ', timeZoneInfo.Names.ISO6391LanguageCode, '<br/>');
+                                    html.push('Generic Standard: ', timeZoneInfo.Names.Id, '<br/>');
+                                    html.push('Standard Name: ', timeZoneInfo.Names.Id, '<br/>');
+                                    html.push('Daylight Savings Name: ', timeZoneInfo.Names.Id, '<br/>');
+                                }
+
+                                if (response.ReferenceTime) {
+                                    html.push('<br/>');
+                                    html.push('Tag: ', timeZoneInfo.ReferenceTime.Tag, '<br/>');
+                                    html.push('Standard Offset: ', timeZoneInfo.ReferenceTime.StandardOffset, '<br/>');
+                                    html.push('Daylight Savings Offset: ', timeZoneInfo.ReferenceTime.DaylightSavings, '<br/>');
+                                    html.push('Wall Time: ', timeZoneInfo.ReferenceTime.WallTime, '<br/>');
+                                }
+                                
+                                if (timeZoneInfo.Countries && timeZoneInfo.Countries.length > 0) {
+                                    html.push('<br/>Countries: <br/>');
+                                    for (var i = 0; i < timeZoneInfo.Countries.length; i++) {
+                                        html.push('&nbsp;&nbsp;&nbsp;&nbsp;', timeZoneInfo.Countries[i].Name, ' (', timeZoneInfo.Countries[i].Code, ')<br/>');
+                                    }
+                                }
+
+                                html.push('<br/>');
+
+                                if (timeZoneInfo.TimeTransitions && timeZoneInfo.TimeTransitions.length > 0) {
+                                    html.push('Time Transitions: <br/>');
+                                    for (var i = 0; i < timeZoneInfo.TimeTransitions.length; i++) {
+                                        html.push('<br/>&nbsp;&nbsp;&nbsp;&nbsp;Tag: ', timeZoneInfo.TimeTransitions[i].Tag, '<br/>');
+                                        html.push('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utc Start Date: ', timeZoneInfo.TimeTransitions[i].UtcStart, '<br/>');
+                                        html.push('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utc End Date: ', timeZoneInfo.TimeTransitions[i].UtcEnd, '<br/>');
+                                        html.push('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Standard Offset: ', timeZoneInfo.TimeTransitions[i].StandardOffset, '<br/>');
+                                        html.push('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Daylight Savings Offset: ', timeZoneInfo.TimeTransitions[i].DaylightSavings, '<br/>');
+                                    }
+                                }
+
+                                output.innerHTML = html.join('');
+                            } else {
+                                output.innerHTML = "No timezone information found."
+                            }
+                        });
+                }, function (error) {
+                    //If an error occurs when trying to access the users location information, display an error message.
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            output.innerHTML = "User denied the request for Geolocation."
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            output.innerHTML = "Location information is unavailable."
+                            break;
+                        case error.TIMEOUT:
+                            output.innerHTML = "The request to get user location timed out."
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            output.innerHTML = "An unknown error occurred."
+                            break;
+                    }
+                });
+            } else {
+                output.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        //Rounds a number to the specied number of decimal places.
+        function roundNumber(val, numberOfDecimals) {
+            return Math.round(val * Math.pow(10, numberOfDecimals)) / Math.pow(10, numberOfDecimals);
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="Get your timezone" onclick="getTimezone()"/>
+    <div id="output" style="margin:20px 0;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Get Users Timezone with Prompt sample</legend>
+        This sample shows how to determine a users timezone by passing the users location into the Azure Maps REST Timezone service. 
+        The users location is retrived using the <a href="https://www.w3schools.com/html/html5_geolocation.asp">HTML5 geolocation API</a> which displays a prompt to the user to share their location. 
+    </fieldset>
+</body>
+</html>

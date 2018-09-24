@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Generate Random Polygons within Bounds</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to generate random polygon features within a bounding box using the open source Turf.js library." />
+    <meta name="keywords" content="map, gis, API, SDK, Turf.js, geospatial, math, polygons, bounds, random" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Load turf.js a spatial math library. http://turfjs.org/ -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Generate 50 random polygons within the bounds of the map view using the Turf.js library
+                var polygons = turf.randomPolygon(50, {
+                    bbox: map.getCamera().bounds
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add the random polygon data to the data source.
+                datasource.add(polygons);
+
+
+                map.layers.add([
+                    //Create a layer that defines how to render the polygons.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        fillColor: 'rgba(0, 200, 200, 0.5)'
+                    }),
+
+                    //Create a layer to outline the polygons.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'black',
+                        strokeWidth: 2
+                    }),
+                ]);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Generate Random Polygons within Bounds sample</legend>
+        This sample shows how to generate random polygon features within a bounding box using the open source <a href="http://turfjs.org/" target="_blank">Turf.js</a> library.
+    </fieldset>
+</body>
+</html>

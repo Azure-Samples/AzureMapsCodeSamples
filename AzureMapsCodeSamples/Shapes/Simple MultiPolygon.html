@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Simple MultiPolygon</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to render a MultiPolygon on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, polyon, multipolygon" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.125, 47.6295],
+                zoom: 16,
+                style: 'satellite'
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                ///Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add polygon to data source.
+                datasource.add(new atlas.data.MultiPolygon([
+                    [[[-122.126, 47.63096], [-122.12602, 47.62997], [-122.12537, 47.62994], [-122.12534, 47.63094], [-122.12600, 47.63096]]],
+                    [[[-122.12497, 47.63098], [-122.12497, 47.63065], [-122.12450, 47.63044], [-122.12415, 47.63037], [-122.12418, 47.63098], [-122.12497, 47.63098]]],
+                    [[[-122.12636, 47.62813], [-122.12527, 47.62859], [-122.12562, 47.62906], [-122.12596, 47.62919], [-122.12619, 47.62919], [-122.12690, 47.62899], [-122.12636, 47.62813]]],
+                    [[[-122.12494, 47.62825], [-122.12494, 47.62792], [-122.12354, 47.62788], [-122.12351, 47.62823], [-122.12494, 47.62825]]]
+                ]));
+
+                //Create a layer to render the polygon data.
+                polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(0, 200, 200, 0.5)'
+                });
+                map.layers.add(polygonLayer);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Simple MultiPolygon sample</legend>
+        This sample shows how to render a MultiPolygon on the map. In this case the MultiPolygon represents a collection of playing fields at a school.
+    </fieldset>
+</body>
+</html>

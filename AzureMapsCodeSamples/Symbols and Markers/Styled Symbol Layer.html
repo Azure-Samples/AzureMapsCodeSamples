@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Styled Symbol Layer</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a symbol layer and apply styles to it to customize how it renders each symbol." />
+    <meta name="keywords" content="map, gis, API, SDK, symbols, markers, pins, pushpins, styling, style, layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-73.985708, 40.75773],
+                zoom: 12
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a pin at the center of the map and pass in some properties that are unique to the pin.
+                var pin = new atlas.data.Feature(new atlas.data.Point([-73.985708, 40.75773]), {
+                    title: 'Times Square'
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add the data to the data source.
+                datasource.add(pin);
+
+                //Add a layer for rendering point data as symbols.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: 'pin-red'
+                    },
+                    textOptions: {
+                        textField: ['get', 'title'],    //Use the title property to populate the text for the symbols.
+                        size: 14,
+                        font: ['SegoeUi-Bold'],
+                        color: 'orange',
+                        offset: [0, 1.2]
+                    }
+                }));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Styled Symbol Layer sample</legend>
+        This sample shows how to create a symbol layer and apply styles to it to customize how it renders each symbol.
+    </fieldset>
+</body>
+</html>

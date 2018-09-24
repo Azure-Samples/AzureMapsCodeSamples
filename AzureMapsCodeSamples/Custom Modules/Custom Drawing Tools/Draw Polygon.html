@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Draw Polygon</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to draw a polygon on the map using the Polygon Drawing tools." />
+    <meta name="keywords" content="map, gis, API, SDK, polygon, drawing, draw" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script src="PolygonDrawingTool.js"></script>
+
+    <script type='text/javascript'>
+        var map, drawingTools;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-100, 35],
+                zoom: 3
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Load the drawing tools.
+                drawingTools = new PolygonDrawingTool(map, function (polygon) {
+                    //Do something with the polygon.
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;">
+        <input type="button" value="Draw Polygon" onclick="drawingTools.startDrawing();" />
+        <input type="button" value="Clear Drawing Layer" onclick="drawingTools.clear();" />
+    </div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Draw Polygon sample</legend>
+        This sample shows how to draw a polygon on the map using the Polygon Drawing tools.
+        Press the "Draw Polygon" then start selecting points on the map.
+        When you are done, either click on the first point of the polygon or press ESC.
+    </fieldset>
+</body>
+</html>

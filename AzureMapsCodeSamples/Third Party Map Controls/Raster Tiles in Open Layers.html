@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Raster Tiles in Open Layers</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to render Azure Maps Raster Tiles in the Open Layers map control." />
+    <meta name="keywords" content="map, gis, API, SDK, raster, tiles, Open Layers, OpenLayers" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css" />
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+
+    <script type='text/javascript'>
+        //Your Azure Maps subscription key.
+        var subscriptionKey = '<Your Azure Maps Key>';
+
+        var map;
+
+        function GetMap() {
+            map = new ol.Map({
+                target: 'myMap',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.XYZ({
+                            url: 'https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=512&zoom={z}&x={x}&y={y}' +
+                                '&subscription-key=' + subscriptionKey,
+                            attributions: '<img src="../Common/images/MicrosoftLogo.png" title="Microsoft Logo"><br/>© ' + new Date().getFullYear() + ' Microsoft, © 1992 - ' + new Date().getFullYear() + ' TomTom',
+                            tileSize: 512
+                        })
+                    })
+                ],
+                view: new ol.View({
+                    center: [0, 0],
+                    zoom: 2
+                })
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Raster Tiles in Open Layers sample</legend>
+        This sample shows how to render Azure Maps Raster Tiles in the <a href="https://openlayers.org/">Open Layers map control</a>.
+    </fieldset>
+</body>
+</html>

@@ -1,8 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Azure Maps Web Control Samples - Traffic Overlay Options</title>
+
     <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to simply overlay traffic data on the map using the maps setTraffic method and TrafficOptions." />
+    <meta name="keywords" content="map, gis, API, SDK, traffic, layer, flow, incidents" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -12,34 +19,33 @@
         var map;
 
         function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                'subscription-key': '<subscriptionKey>',
                 center: [-122.33, 47.64],
                 zoom: 12
             });
 
-            UpdateTrafficOverlay();
+            //Wait until the map resources have fully loaded, then load the traffic overlay.
+            map.events.add('load', UpdateTrafficOverlay);
         }
 
         function UpdateTrafficOverlay() {
+            //Retrieve the options from the input fields.
             var incidentOption = document.getElementById('incidentOption').checked;
 
             var elm = document.getElementById('flowOptions');
             var selectedFlowOption = elm.options[elm.selectedIndex].value;
 
+            //Set the trafficv overlay options.
             map.setTraffic({
                 incidents: incidentOption,
                 flow: selectedFlowOption
             });
         }
     </script>
-    <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none
-        }
-    </style>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
@@ -57,9 +63,9 @@
     </div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Traffic Overlay Sample</legend>
+        <legend>Traffic Overlay sample</legend>
         This sample shows how the different
-        <a href="https://docs.microsoft.com/en-us/javascript/api/location-based-services-javascript/trafficoptions" target="_blank">TrafficOptions</a>
+        <a href="https://docs.microsoft.com/en-us/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>
         change how the traffic overlay is rendered on the map.
         <br /><br />
         Flow:
@@ -71,12 +77,10 @@
         </ul>
     </fieldset>
 
-
-
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Traffic Overlay Sample</legend>
+        <legend>Traffic Overlay Options sample</legend>
         This sample shows how to simply overlay traffic data on the map using the maps setTraffic method and
-        <a href="https://docs.microsoft.com/en-us/javascript/api/location-based-services-javascript/trafficoptions" target="_blank">TrafficOptions</a>.
+        <a href="https://docs.microsoft.com/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>.
     </fieldset>
 </body>
 </html>

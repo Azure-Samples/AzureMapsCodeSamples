@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Simple REST Directions</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate simple directions between two points using the Azure Maps REST Route API and render it on a map." />
+    <meta name="keywords" content="map, gis, API, SDK, REST, service, directions, route, routing" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        //Get your Azure Maps key at https://azure.com/maps
+        var subscriptionKey = '<Your Azure Maps Key>';
+
+        var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car';
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey(subscriptionKey);
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource(null, { cluster: false });
+                map.sources.add(datasource);
+
+                //Add a layer for rendering the route line and have it render under the map labels.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: '#2272B9',
+                    strokeWidth: 5,
+                    lineJoin: 'round',
+                    lineCap: 'round',
+                    filter: ["==", "$type", "LineString"]
+                }), 'labels');
+
+                //Add a layer for rendering point data.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: ['get', 'iconImage'],
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    },
+                    textOptions: {
+                        textField: ['get', 'title'],
+                        offset: [0, 1]
+                    },
+                    filter: ['==', '$type', 'Point']
+                }));
+
+                /* Create the GeoJSON objects which represent the start and end point of the route */
+                var startPosition = [-122.335167, 47.608013];
+                var startPoint = new atlas.data.Feature(new atlas.data.Point(startPosition), {
+                    title: 'Seattle',
+                    iconImage: 'pin-blue'
+                });
+
+                var endPosition = [-122.121513, 47.673988];
+                var endPoint = new atlas.data.Feature(new atlas.data.Point(endPosition), {
+                    title: 'Redmond',
+                    iconImage: 'pin-red'
+                });
+
+                //Add the data to the data source.
+                datasource.add([startPoint, endPoint]);
+
+                //Fit the map window to the bounding box defined by the start and end positions.
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromPositions([startPosition, endPosition]),
+                    padding: 50
+                });
+
+                //Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
+                var requestUrl = restRoutingRequestUrl.replace('{subscription-key}', subscriptionKey).replace('{query}', startPosition[1] +
+                    ',' +
+                    startPosition[0] +
+                    ':' +
+                    endPosition[1] +
+                    ',' +
+                    endPosition[0]);
+
+                //Process the request and render the route result on the map.
+                fetch(requestUrl)
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (response) {
+
+                        var route = response.routes[0];
+                        var routeCoordinates = [];
+                        for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
+                            var leg = route.legs[legIndex];
+
+                            //Convert the route point data into a format that the map control understands.
+                            var legCoordinates = leg.points.map(function (point) {
+                                return [point.longitude, point.latitude];
+                            });
+
+                            //Combine the route point data for each route leg together to form a single path.
+                            routeCoordinates = routeCoordinates.concat(legCoordinates);
+                        }
+
+                        //Create a line from the route path points and add it to the data source.
+                        var routeLine = new atlas.data.LineString(routeCoordinates);
+                        datasource.add(routeLine);
+                    });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Simple REST Directions sample</legend>
+        This sample shows how to calculate simple directions between two points using the Azure Maps REST Route API and render it on a map. 
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Polygon Layer Options</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the polygon layer affect rendering." />
+    <meta name="keywords" content="map, gis, API, SDK, polygon, layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script src="../Common/scripts/clipboard.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, polygonLayer, defaultOptions, removeDefaults;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [12, 39],
+                zoom: 2
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark'
+                }), {
+                        position: 'top-right'
+                    });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add polygon to data source.
+                datasource.add(new atlas.data.Polygon([[[-15.82031, 2.46018], [14.0625, 30.14512], [40.78125, 2.81137], [12.30468, 65.21989], [-15.82031, 2.46018]]]));
+
+                //Create a layer to render the polygon data.
+                polygonLayer = new atlas.layer.PolygonLayer(datasource);
+                map.layers.add(polygonLayer);
+
+                defaultOptions = polygonLayer.getOptions();
+
+                //Update the polygon layer with the options in the input fields.
+                updatePolygonLayer();
+            });
+
+            new ClipboardJS('.copyBtn');
+        }
+
+        function updatePolygonLayer() {
+            var options = getInputOptions();
+
+            //Update all the options in the polygon layer.
+            polygonLayer.setOptions(options);
+
+            document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t');
+        }
+
+        function getInputOptions() {
+            removeDefaults = document.getElementById('RemoveDefaults').checked;
+
+            return {
+                fillColor: getPropertyValue('fillColor', document.getElementById('FillColorTransparent').checked ? 'transparent' : document.getElementById('FillColor').value),
+                fillOpacity: getPropertyValue('fillOpacity', parseFloat(document.getElementById('FillOpacity').value)),
+                minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
+                maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
+                visible: getPropertyValue('visible', document.getElementById('Visible').checked)
+            };
+        }
+
+        function getPropertyValue(propertyName, value) {
+            if (removeDefaults && defaultOptions[propertyName] === value) {
+                return undefined;
+            }
+
+            return value;
+        }
+
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
+        }
+    </script>
+    <style>
+        body {
+            -ms-content-zooming: none;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        #myMap {
+            position: relative;
+            width: 455px;
+            height: 600px;
+        }
+
+        .sidePanel {
+            width: 335px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #CodeOutput {
+            width: 300px;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .copyBtn {
+            float: right;
+        }
+
+        table td:nth-of-type(1) {
+            width: 120px;
+        }
+
+        table td:nth-of-type(2) {
+            width: 200px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend>Polygon Layer Options Sample</legend>
+        This sample shows how the different options of the polygon layer affect rendering.
+        <br /><br />
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Layer Options</button>
+            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+        </div>
+
+        <div id="StyleOptions" class="tabcontent" style="display:block;">
+            <table>
+                <tr title="The color to fill the polygons with.">
+                    <td>Fill Color:</td>
+                    <td>
+                        <input type="color" id="FillColor" onchange="updatePolygonLayer()" />
+                        <input type="checkbox" id="FillColorTransparent" onclick="updatePolygonLayer()"/>Transparent
+                    </td>
+                </tr>
+                <tr title="A number between 0 and 1 that indicates the opacity at which the fill will be drawn.">
+                    <td>Fill Opacity:</td>
+                    <td>
+                        <form oninput="o.value=FillOpacity.value">
+                            <input type="range" id="FillOpacity" value="1" min="0" max="1" step="0.1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
+                            <output name="o" for="FillOpacity">1</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="An integer specifying the minimum zoom level to render the layer at.">
+                    <td>Min Zoom:</td>
+                    <td>
+                        <form oninput="minz.value=MinZoom.value">
+                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
+                            <output name="minz" for="MinZoom">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="An integer specifying the maximum zoom level to render the layer at.">
+                    <td>Min Zoom:</td>
+                    <td>
+                        <form oninput="maxz.value=MaxZoom.value">
+                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
+                            <output name="maxz" for="MaxZoom">24</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Specifies if the layer is visible or not.">
+                    <td>Visible:</td>
+                    <td><input id="Visible" type="checkbox" onclick="updatePolygonLayer()" checked="checked" /></td>
+                </tr>
+            </table>
+
+            <p>
+                In addition to the options in this tool, the PolygonLayer also has options for;
+                <ul>
+                    <li>sourceLayer - used with VectorTileSource.</li>
+                    <li>filter - used to filter data in layer.</li>
+                </ul>
+                Many options in this layer also support StyleFunctions and Expressions which are not demonstrated in this sample.
+            </p>
+        </div>
+        <div id="Code" class="tabcontent">
+            <textarea id="CodeOutput"></textarea><br /><br />
+            <input id="RemoveDefaults" type="checkbox" onclick="updatePolygonLayer()" checked="checked" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+</body>
+</html>

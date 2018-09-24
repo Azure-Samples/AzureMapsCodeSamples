@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Search Autosuggest and JQuery UI</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode. The UI is managed using JQuery UIs autocomplete widget." />
+    <meta name="keywords" content="map, gis, API, SDK, REST, search, geocoding, geocode, fuzzy, POI, points of interest, category, autosuggest, autocomplete, jquery" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Load JQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        //Get your Azure Maps key at https://azure.com/maps
+        var subscriptionKey = '<Your Azure Maps Key>';
+
+        //Note that the typeahead parameter is set to true.
+        var geocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/{searchType}/json?typeahead=true&subscription-key={subscription-key}&api-version=1&query={query}&language={language}&lon={lon}&lat={lat}&countrySet={countrySet}';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                'subscription-key': subscriptionKey,
+                center: [0, 0],
+                zoom: 1
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a data source to store the data in.
+                datasource = new atlas.source.DataSource(null, {
+                    cluster: false
+                });
+                map.sources.add(datasource);
+
+                //Add a layer for rendering point data.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource));
+
+                //Create a jQuery autocomplete UI widget.
+                $("#queryTbx").autocomplete({
+                    minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
+                    source: function (request, response) {
+                        var center = map.getCamera().center;
+
+                        //Get suggestions from the AutosuggestManager.
+                        var requestUrl = geocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
+                            .replace('{searchType}', document.querySelector('input[name="searchTypeGroup"]:checked').value)
+                            .replace('{subscription-key}', subscriptionKey)
+                            .replace('{language}', 'en-US')
+                            .replace('{lon}', center[0])    //Use a lat and lon value of the center the map to bais the results to the current map view.
+                            .replace('{lat}', center[1])
+                            .replace('{countrySet}', 'US'); //A comma seperated string of country codes to limit the suggestions to.
+
+                        $.ajax({
+                            url: requestUrl,
+                            success: function (data) {
+                                response(data.results);
+                            }
+                        });
+                    },
+                    select: function (event, ui) {
+                        //Remove any previous pins added to the map.
+                        datasource.clear();
+
+                        //When a suggestion has been selected.
+                        var selection = ui.item;
+
+                        //Create a pin to mark the selected location.
+                        datasource.add(new atlas.data.Feature(new atlas.data.Point([ui.item.position.lon, ui.item.position.lat]), selection));
+
+                        //Zoom the map into the selected location.
+                        map.setCamera({
+                            bounds: [
+                                ui.item.viewport.topLeftPoint.lon, ui.item.viewport.btmRightPoint.lat,
+                                ui.item.viewport.btmRightPoint.lon, ui.item.viewport.topLeftPoint.lat
+                            ],
+                            padding: 30
+                        });
+                    }
+                }).autocomplete("instance")._renderItem = function (ul, item) {
+                    //Format the displayed suggestion to show the formatted suggestion string.
+                    var suggestionLabel = item.address.freeformAddress;
+
+                    if (item.poi && item.poi.name) {
+                        suggestionLabel = item.poi.name + ' (' + suggestionLabel + ')';
+                    }
+
+                    return $("<li>")
+                        .append("<a>" + suggestionLabel + "</a>")
+                        .appendTo(ul);
+                };
+            });
+        }
+    </script>
+    <style>
+        #queryTbx {
+            width: 25em;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    Search Type:
+    <input type="radio" value="address" name="searchTypeGroup" checked="checked" /> Address
+    <input type="radio" value="fuzzy" name="searchTypeGroup" /> Fuzzy
+    <input type="radio" value="poi" name="searchTypeGroup" /> POI
+    <input type="radio" value="poi/category" name="searchTypeGroup" /> POI Category
+    <br /><br />
+
+    <div class="ui-widget">
+        <label for="queryTbx">Your query: </label>
+        <input id="queryTbx">
+    </div><br />
+
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Search Autosuggest and JQuery UI sample</legend>
+        This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. 
+        Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode.
+        The UI is managed using <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a>.
+    </fieldset>
+</body>
+</html>

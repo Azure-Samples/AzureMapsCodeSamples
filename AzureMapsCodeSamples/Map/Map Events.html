@@ -1,31 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Azure Maps Web Control Samples - Map Events</title>
+
     <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample will highlight the name of the events that are firing as you interact with the map." />
+    <meta name="keywords" content="map, gis, API, SDK, events, click, mouse, touch, context menu, wheel" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map;
+        var map, mapEvents = ['click', 'contextmenu ', 'dblclick', 'error', 'load', 'mousedown', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'move', 'moveend', 'movestart', 'resize', 'touchcancel', 'touchend', 'touchmove', 'touchstart', 'wheel'];
 
         function GetMap() {
-            map = new atlas.Map('myMap', {
-                'subscription-key': '<subscriptionKey>'
-            });
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
 
             //Add mouse events to the map.
-            map.addEventListener('click', highlight);
-            map.addEventListener('dblclick', highlight);
-            map.addEventListener('mouseenter', highlight);
-            map.addEventListener('mouseleave', highlight);
-            map.addEventListener('mousedown', highlight);
-            map.addEventListener('mouseup', highlight);
-            map.addEventListener('mouseover', highlight);
-            map.addEventListener('mouseout', highlight);
-            map.addEventListener('mousemove', highlight);
+            for (var i = 0; i < mapEvents.length; i++) {
+                map.events.add(mapEvents[i], highlight);
+
+                //Add a div to highlight the event.
+                document.getElementById('eventPanel').innerHTML += '<div id="' + mapEvents[i] + '">' + mapEvents[i] + '</div>'
+            }
         }
 
         function highlight(e) {
@@ -35,32 +41,33 @@
             //Remove the highlighting after a second.
             setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
         }
-    </script>
-    <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none;
+
+        function toggleMapSize() {
+            var mapElm = document.getElementById('myMap');
+            var w = mapElm.style.width;
+
+            if (w == '600px') {
+                mapElm.style.width = '800px';
+            } else {
+                mapElm.style.width = '600px';
+            }
+
+            //Tell the map that we manually resized it.
+            map.resize();
         }
-    </style>
+    </script>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
 
-    <div style="position:absolute;top:0;left:0;background-color:white;padding:10px;float:left;">
-        <div id="click">click</div>
-        <div id="dblclick">dblclick</div>
-        <div id="mouseenter">mouseenter</div>
-        <div id="mouseleave">mouseleave</div>
-        <div id="mousedown">mousedown</div>
-        <div id="mouseup">mouseup</div>
-        <div id="mouseover">mouseover</div>
-        <div id="mouseout">mouseout</div>
-        <div id="mousemove">mousemove</div>
-    </div>
+    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;float:left;"></div>
+
+    <input type="button" value="Toggle Map Size" onclick="toggleMapSize()" />
+
+    <div style="clear:both;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Map Event Sample</legend>
+        <legend>Map Event sample</legend>
         This sample will highlight the name of the events that are firing as you interact with the map.
     </fieldset>
 </body>

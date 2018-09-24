@@ -1,57 +1,75 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-    <meta charset='utf-8' />
+    <title>Azure Maps Web Control Samples - Animate a Line</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate the position of a line on the map by updating its coordinates and layer." />
+    <meta name="keywords" content="map, gis, API, SDK, animate, animation, line, linestring, polyline" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel='stylesheet' href='https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1' type='text/css' />
-    <script src='https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1'></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
         var map;
-        var layerOptions = {
-            name: 'animationLayer',
-            color: 'red',
-            width: 5,
-            overwrite: true //Set overwrite to true so that the new layer isn't created.
-        };
-        var line = new atlas.data.Feature(new atlas.data.LineString([[0, 0], [0, 0]]));
+        var line;
 
         var speedFactor = 30; //The number of frames per longitude degree.
-        var animation; 
+        var animation;
         var startTime = 0;
         var progress = 0; //Progress = timestamp - startTime
         var resetTime = false; //Indicates if the animation time needs to be reset.
         var pauseButton = document.getElementById('pause');
-        
+
         function GetMap() {
-            map = new atlas.Map('myMap', {
-                'subscription-key': '<subscriptionKey>'
-            });
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
-            //Add a line to the map.
-            map.addLinestrings([line], layerOptions);
-            
-            startTime = performance.now();
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
 
-            //Start the animation.
-            animateLine();
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
 
-            var pauseButton = document.getElementById('pause');
-            pauseButton.addEventListener('click', function () {
-                pauseButton.classList.toggle('pause');
-                if (pauseButton.classList.contains('pause')) {
-                    cancelAnimationFrame(animation);
-                } else {
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer that defines how to render the line on the map.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'red',
+                    strokeWidth: 5
+                }));
+
+                //Create a line object and wrap it with the Shape class for easier updating.
+                line = new atlas.Shape(new atlas.data.Feature(new atlas.data.LineString([[0, 0], [0, 0]])));
+                datasource.add(line);
+
+                startTime = performance.now();
+
+                //Start the animation.
+                animateLine();
+
+                var pauseButton = document.getElementById('pause');
+                pauseButton.addEventListener('click', function () {
+                    pauseButton.classList.toggle('pause');
+                    if (pauseButton.classList.contains('pause')) {
+                        cancelAnimationFrame(animation);
+                    } else {
+                        resetTime = true;
+                        animateLine();
+                    }
+                });
+
+                //If the browser tab gains/losses focus, reset startTime and progress, and pause requestAnimationFrame.
+                document.addEventListener('visibilitychange', function () {
                     resetTime = true;
-                    animateLine();
-                }
-            });
-
-            //If the browser tab gains/losses focus, reset startTime and progress, and pause requestAnimationFrame.
-            document.addEventListener('visibilitychange', function () {
-                resetTime = true;
+                });
             });
         }
 
@@ -60,25 +78,28 @@
                 //Resume previous progress.
                 startTime = performance.now() - progress;
                 resetTime = false;
-            } else {
+            } else if (timestamp) {
                 progress = timestamp - startTime;
+            } else {
+                progress = 0;
             }
 
             //Restart if it finishes a loop.
             if (progress > speedFactor * 360) {
                 startTime = timestamp;
-                line.geometry.coordinates = [];
+                line.setCoordinates([[0, 0], [0, 0]]);
             } else {
                 var x = progress / speedFactor;
 
                 //Draw a sine wave with some math.
                 var y = Math.sin(x * Math.PI / 90) * 40;
 
-                //Append new coordinates to the lineString.
-                line.geometry.coordinates.push([x, y]);
+                //Append new coordinates to the line.
+                var coords = line.getCoordinates();
+                coords.push([x, y]);
 
                 //Update the line on the map.
-                map.addLinestrings([line], layerOptions);
+                line.setCoordinates(coords);
             }
             // Request the next frame of the animation.
             animation = requestAnimationFrame(animateLine);
@@ -109,11 +130,11 @@
 <body onload='GetMap()'>
     <div id='myMap'></div>
 
-    <button id ="pause"></button>
+    <button id="pause"></button>
 
     <fieldset style='width:800px;margin-top:10px;'>
-        <legend>Pin Animation Sample</legend>
-        This sample shows how to animate a pin on the map by updating its coordinates and layer.
+        <legend>Animate a Line Sample</legend>
+        This sample shows how to animate the position of a line on the map by appending coordinates to it over time.
     </fieldset>
 </body>
 </html>

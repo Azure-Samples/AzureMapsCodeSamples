@@ -16,6 +16,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
  - [Issues and Bugs](#issue)
  - [Feature Requests](#feature)
  - [Submission Guidelines](#submit)
+ - [Requirements for adding a Sample](#sampleRequirements)
 
 ## <a name="coc"></a> Code of Conduct
 Help us keep this project open and inclusive. Please read and follow our [Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
@@ -72,5 +73,17 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git rebase master -i
     git push -f
     ```
+
+### <a name="sampleRequirements"></a> Requirements for adding a Sample
+
+* Fill the \<title\> tag of the sample with a discription title in the format "Azure Maps Web Control Samples - [Your title]".
+* A a short discription to the description meta tag. This is used to populate the description on the card and also a SEO optimization.
+* Add related keywords to the keyword meta tag. This is used for search and also a SEO optimization.
+* Create a screenshot of your sample that is 350px width and 225px tall and save it in the SiteResources/screenshots folder with the name of your sample but with spaces replaced with dashes. Alternatively run the SampleInfoBuilder app and it will attempt to capture a screenshot automatically. If your sample doesn't have a UI or not much of one, go into the SampleInfoBuilder/SampleListHelper.cs file and add the name of the sample to the ScreenshotsToIgnore list.
+* If you add a new category folder for samples, add it to CategoryFolders list with a short discription (will be dispayed on index.html) in the SampleInfoBuilder/SampleListHelper.cs file.
+* Ensure that all local URLs are relative (../) and not based off the root (/). This will ensure that the resource will be accessible if the sample file is openned in a browser directly without being hosted on localhost.
+* When you are done adding your sample, run the SampleInfoBuilder to update the sampleList.js file used by index.html.
+* If you simple want to add a link to the external samples list, add it to the SiteResources/ExternalSamples.js file.
+* Be sure to remove your Azure Maps key before checking in.
 
 That's it! Thank you for your contribution!

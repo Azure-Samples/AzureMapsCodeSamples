@@ -286,14 +286,3 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-
-#Ignore Web.Config as it has credentials in it.
-Web.config
-*.config
-*.config
-*.config
-AzureMapsCodeSamples/Web.config
-*.config
-AzureMapsCodeSamples/Web.config
-*.config
-AzureMapsCodeSamples/Web.config

@@ -1,8 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Azure Maps Web Control Samples - Multiple Maps</title>
+
     <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to render multiple maps on the same page." />
+    <meta name="keywords" content="map, gis, API, SDK, multiple" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -12,33 +19,31 @@
         var map, map2;
 
         function GetMap() {
-            map = new atlas.Map('myMap', {
-                'subscription-key': '<subscriptionKey>'
-            });
+            //Add your Azure Maps subscription key to the map SDK.
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Initialize asecond map instance.
             map2 = new atlas.Map('myMap2', {
-                'subscription-key': '<subscriptionKey>',
                 center: [-122.33, 47.64],
-                zoom: 12
+                zoom: 12,
+                style: 'satellite_road_labels'
             });
         }
     </script>
-    <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none
-        }
-    </style>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:400px;height:600px;float:left;"></div>
+    <div id="myMap" style="position:relative;width:395px;height:600px;float:left;"></div>
 
-    <div id="myMap2" style="position:relative;width:400px;height:600px;float:left;margin-left:10px;"></div>
+    <div id="myMap2" style="position:relative;width:395px;height:600px;float:left;margin-left:10px;"></div>
+    
+    <div style="clear:both;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Multiple Maps Sample</legend>
-        This sample shows two maps rendered on the same page.
+        <legend>Multiple Maps sample</legend>
+        This sample shows how to render multiple maps on the same page.
     </fieldset>
 </body>
 </html>
