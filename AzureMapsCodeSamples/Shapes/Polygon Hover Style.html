@@ -21,7 +21,7 @@
         var stateBoundaries = '../Common/data/geojson/US_States_500k.json';
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
@@ -87,7 +87,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Polygon Hover Style sample</legend>
+        <legend>Polygon Hover Style</legend>
         This sample shows how to create a hover effect on a polygon layer. 
         The basic principal is to have two layers, one for rendering all data, and a seconed layer that only renders 
         the shape being hovered. A filter is used on the hover layer based on a unqiue property on each shape, 

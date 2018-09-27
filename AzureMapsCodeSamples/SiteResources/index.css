@@ -2,6 +2,11 @@
     --jumbotron-padding-y: 3rem;
 }
 
+.jumbotron{
+    margin-top:80px;
+    margin-bottom: 0px;
+}
+
 @media screen and (min-width: 768px) {
     .modal-dialog {
         max-width: 700px; 

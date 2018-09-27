@@ -38,7 +38,7 @@ namespace SampleInfoBuilder
             { "Shapes", "Gain insights into working with various shapes such as geospatially accurate circles, polygons, linestrings, and multi-geometries." },
             { "Popups", "See how to display information in a popup on the map." },
             { "REST Services", "Learn how to directly access the Azure Maps REST services from JavaScript." },
-            { "Services Modules", "Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control." },
+            { "Services Module", "Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control." },
             { "Spatial Math", "Learn how to use the spatial math library that is built into the Azure Maps Web Control." },
             { "Spatial Math with Turf.js", "Perform advanced spatial math operations using the open source <a href=\"http://turfjs.org/\" target=\"_blank\">Turf.js</a> library." },
             { "Symbols and Markers", "Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling." },

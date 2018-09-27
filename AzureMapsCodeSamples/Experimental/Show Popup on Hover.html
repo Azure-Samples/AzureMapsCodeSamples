@@ -16,7 +16,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, popup;
+        var map, popup, symbolLayer;
 
         //Define an HTML template for a custom popup content laypout.
         var popupTemplate = '<div class="customInfobox"><div class="name">{name}</div>{description}</div>';
@@ -58,7 +58,7 @@
                 datasource.add([point1, point2, point3]);
 
                 //Add a layer for rendering point data as symbols.
-                var symbolLayer = new atlas.layer.SymbolLayer(datasource);
+                symbolLayer = new atlas.layer.SymbolLayer(datasource);
                 map.layers.add(symbolLayer);
 
                 //Create a popup but leave it closed so we can update it and display it later.
@@ -67,23 +67,52 @@
                     pixelOffset: [0, -18]
                 });
 
-                //Add a click event to the symbol layer.
-                map.events.add('click', symbolLayer, symbolClicked);
+                //Open the popup on mouseover or touchstart on the symbol layer.
+                map.events.add('mouseover', symbolLayer, symbolHovered);
+                map.events.add('touchstart', symbolLayer, symbolHovered);
+
+                //Close the popup on mouseout or touchend.
+                map.events.add('mouseout', symbolLayer, closePopup);
+                map.events.add('touchend', symbolLayer, closePopup);
             });
         }
 
-        function symbolClicked(e) {
-            //Make sure the event occured on a point feature.
-            if (e.shapes && e.shapes.length > 0 && e.shapes[0].getType() === 'Point') {
-                var properties = e.shapes[0].getProperties();
+        function closePopup() {
+            popup.close();
+        }
+        //TODO: Wait until touch events returns an array of shapes before moving this out of Experimental folder.
+        function symbolHovered(e) {
+            var shape;
 
-                //Populate the popupTemplate with data from the clicked point feature.
+            if (e.shapes && e.shapes.length > 0 && e.shapes[0].getType() === 'Point') {
+                shape = e.shapes[0];
+            }
+
+            //Check to see if there are any shapes in the event. If not, then the user may have used touch.
+            if (!e.shapes) {
+                //Using the position of the event, query the layer manager for rendered shapes.
+                var shapes = map.layers.getRenderedShapes(new atlas.data.Point(e.position), symbolLayer);
+
+                if (shapes && shapes.length > 0) {
+                    if (shapes[0] instanceof atlas.Shape && shapes[0].getType() === 'Point') {
+                        shape = shapes[0];
+                    } else if (shapes[0].data) {
+                        shape = new atlas.Shape(shapes[0].data);
+                    }
+                }
+            }
+
+            //Make sure the event occured on a point feature.
+            if (shape) {
+                var properties = shape.getProperties();
+
+                //Set the popup options.
                 popup.setPopupOptions({
                     //Update the content of the popup.
                     content: popupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description),
 
                     //Update the position of the popup with the pins coordinate.
-                    position: e.shapes[0].getCoordinates()
+                    position: shape.getCoordinates()
                 });
 
                 //Open the popup.

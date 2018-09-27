@@ -24,13 +24,12 @@
         //Find more earthquake data feeds here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-180, 0],
-                zoom: 1
+                center: [-180, 0]
             });
 
             //Wait until the map resources have fully loaded.
@@ -101,7 +100,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Data-Driven Bubble Layer Styling sample</legend>
+        <legend>Data-Driven Bubble Layer Styling</legend>
         This sample shows how to use data-driven styles on a BubbleLayer to define the radius and color of each circle based on the magnitude of each data point. 
         The data in this sample consists of point based data that represents significant earthquakes that have occured in the last 30 days. 
         This data is sourced from the <a href="https://earthquake.usgs.gov/" target="_blank">USGS Earthquake Hazards Program</a>.

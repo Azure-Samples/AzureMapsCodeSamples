@@ -23,20 +23,15 @@
 
     <script type='text/javascript'>
         var map;
-
-        //Get your Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
-
         //Note that the typeahead parameter is set to true.
         var geocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/{searchType}/json?typeahead=true&subscription-key={subscription-key}&api-version=1&query={query}&language={language}&lon={lon}&lat={lat}&countrySet={countrySet}';
 
         function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
             //Initialize a map instance.
-            map = new atlas.Map('myMap', {
-                'subscription-key': subscriptionKey,
-                center: [0, 0],
-                zoom: 1
-            });
+            map = new atlas.Map('myMap');
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
@@ -58,7 +53,7 @@
                         //Get suggestions from the AutosuggestManager.
                         var requestUrl = geocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
                             .replace('{searchType}', document.querySelector('input[name="searchTypeGroup"]:checked').value)
-                            .replace('{subscription-key}', subscriptionKey)
+                            .replace('{subscription-key}', atlas.getSubscriptionKey())
                             .replace('{language}', 'en-US')
                             .replace('{lon}', center[0])    //Use a lat and lon value of the center the map to bais the results to the current map view.
                             .replace('{lat}', center[1])
@@ -127,7 +122,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Search Autosuggest and JQuery UI sample</legend>
+        <legend>Search Autosuggest and JQuery UI</legend>
         This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. 
         Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode.
         The UI is managed using <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a>.

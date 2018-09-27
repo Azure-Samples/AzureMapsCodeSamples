@@ -18,14 +18,11 @@
     <script type='text/javascript'>
         var map, datasource;
 
-        //Get your Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
-
         var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car';
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
-            atlas.setSubscriptionKey(subscriptionKey);
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -85,7 +82,7 @@
                 });
 
                 //Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
-                var requestUrl = restRoutingRequestUrl.replace('{subscription-key}', subscriptionKey).replace('{query}', startPosition[1] +
+                var requestUrl = restRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', startPosition[1] +
                     ',' +
                     startPosition[0] +
                     ':' +
@@ -125,7 +122,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Simple REST Directions sample</legend>
+        <legend>Simple REST Directions</legend>
         This sample shows how to calculate simple directions between two points using the Azure Maps REST Route API and render it on a map. 
     </fieldset>
 </body>

@@ -19,19 +19,22 @@
         var map, mapEvents = ['click', 'contextmenu ', 'dblclick', 'error', 'load', 'mousedown', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'move', 'moveend', 'movestart', 'resize', 'touchcancel', 'touchend', 'touchmove', 'touchstart', 'wheel'];
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap');
 
-            //Add mouse events to the map.
-            for (var i = 0; i < mapEvents.length; i++) {
-                map.events.add(mapEvents[i], highlight);
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Add the events to the map.
+                for (var i = 0; i < mapEvents.length; i++) {
+                    map.events.add(mapEvents[i], highlight);
 
-                //Add a div to highlight the event.
-                document.getElementById('eventPanel').innerHTML += '<div id="' + mapEvents[i] + '">' + mapEvents[i] + '</div>'
-            }
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + mapEvents[i] + '">' + mapEvents[i] + '</div>'
+                }
+            });
         }
 
         function highlight(e) {
@@ -67,7 +70,7 @@
     <div style="clear:both;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Map Event sample</legend>
+        <legend>Map Event</legend>
         This sample will highlight the name of the events that are firing as you interact with the map.
     </fieldset>
 </body>

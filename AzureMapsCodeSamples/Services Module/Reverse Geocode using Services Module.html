@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Reverse Geocode with Services Module</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinte." />
+    <meta name="keywords" content="map, gis, API, SDK, search, reverse, geocode, geocoding, address, addresses" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, client, popup;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.335, 47.608],
+                zoom: 15
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Update the style of mouse cursor to a crosshair.
+                map.getCanvasContainer().style.cursor = 'crosshair';
+
+                //Create an instance of the services client.
+                client = new atlas.service.Client(atlas.getSubscriptionKey());
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0]
+                });
+
+                //Add a click event to the map.
+                map.events.add('click', mapClicked);
+            });
+        }
+
+        function mapClicked(e) {
+            //Construct the reverse address search query string.
+            var revSearchQuery = e.position[1] + "," + e.position[0];
+
+            //Execute the reverse address search query and open a popup once a response is received.
+            client.search.getSearchAddressReverse(revSearchQuery).then(response => {
+                //Parse the response into GeoJSON.
+                var geojsonResponse = new atlas.service.geojson.GeoJsonSearchReverseResponse(response);
+
+                //Get the addresses.
+                var addresses = geojsonResponse.getGeoJsonAddresses().features;
+
+                var content = '<div style="padding:10px">';
+
+                if (addresses.length > 0 && addresses[0].properties && addresses[0].properties.address && addresses[0].properties.address.freeformAddress) {
+                    content += addresses[0].properties.address.freeformAddress;
+                } else {
+                    content += 'No address for that location!';
+                }
+
+                content += '</div>';
+
+                //Set the popup options.
+                popup.setPopupOptions({
+                    position: e.position,
+                    content: content
+                });
+
+                //Open the popup.
+                popup.open(map);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Reverse Geocode with Services Module</legend>
+        This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinte.
+        Click on any location on the map and a coordinate of where you clicked will be used to perform a reverse geocode.
+    </fieldset>
+</body>
+</html>

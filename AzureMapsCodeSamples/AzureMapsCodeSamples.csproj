@@ -77,12 +77,19 @@
     <Content Include="Demos\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Layers\Bubble Layer Options.html" />
+    <Content Include="Layers\Change Mouse Cursor when Hovering Layer.html" />
     <Content Include="Layers\Line Layer Options.html" />
     <Content Include="Layers\Polygon Layer Options.html" />
+    <Content Include="Layers\Layer Events.html" />
     <Content Include="Layers\Symbol Layer Options.html" />
     <Content Include="Layers\Tile Layer Options.html" />
     <Content Include="Layers\Tile Layer using X, Y and Z.html" />
-    <Content Include="REST Services\Get Users Timezone with Prompt.html" />
+    <Content Include="Experimental\Show Popup on Hover.html" />
+    <Content Include="REST Services\Get Users Timezone.html" />
+    <Content Include="Services Module\Fuzzy Search using Services Module.html" />
+    <Content Include="Experimental\Calculate Route with Services Module.html" />
+    <Content Include="Services Module\Reverse Geocode using Services Module.html" />
+    <Content Include="Experimental\Route Waypoint Optimization with Services Module.html" />
     <Content Include="Shapes\Geospatially Accurate Circle.html" />
     <Content Include="Shapes\Mercator Projection and Geospatial Circles.html" />
     <Content Include="Shapes\Polygon Hover Style.html" />
@@ -109,20 +116,19 @@
     <Content Include="Map\Multiple Maps in Different Lanaguages.html" />
     <Content Include="Popups\Popup with Media Content.html" />
     <Content Include="Popups\Reusing Popup with Multiple Pins.html" />
-    <Content Include="Experimental\Simple directions.html" />
     <Content Include="SiteResources\ExternalSamples.js" />
     <Content Include="Map\Load Map with Options.html" />
     <Content Include="Map\Multiple Maps.html" />
     <Content Include="Experimental\Waypoint Optimization.html" />
-    <Content Include="REST Services\Basic Geocoding Request.html" />
+    <Content Include="REST Services\Simple REST Geocoding Request.html" />
     <Content Include="SiteResources\azure-maps-logo-13.png" />
     <Content Include="SiteResources\index.css" />
     <Content Include="SiteResources\index.js" />
     <Content Include="SiteResources\screenshots\Animate-a-Line.gif" />
     <Content Include="SiteResources\screenshots\Animate-a-Pin.png" />
-    <Content Include="SiteResources\screenshots\Basic-Geocoding-Request.png" />
     <Content Include="SiteResources\screenshots\Bubble-Layer-Options.png" />
     <Content Include="SiteResources\screenshots\Car-vs-Truck-Route.png" />
+    <Content Include="SiteResources\screenshots\Change-Mouse-Cursor-when-Hovering-Layer.gif" />
     <Content Include="SiteResources\screenshots\Create-Symbols-from-Custom-JSON.png" />
     <Content Include="SiteResources\screenshots\CSS-Styled-HTML-Marker.gif" />
     <Content Include="SiteResources\screenshots\Custom-Symbol-Image-Icon.png" />
@@ -131,11 +137,13 @@
     <Content Include="SiteResources\screenshots\Draw-Polygon-and-Select-Data.png" />
     <Content Include="SiteResources\screenshots\Draw-Polygon.png" />
     <Content Include="SiteResources\screenshots\Full-Screen-Map.png" />
+    <Content Include="SiteResources\screenshots\Fuzzy-Search-using-Services-Module.png" />
     <Content Include="SiteResources\screenshots\Generate-Random-Points-within-Bounds-%28Turf.js%29.png" />
     <Content Include="SiteResources\screenshots\Generate-Random-Polygons-within-Bounds-%28Turf.js%29.png" />
     <Content Include="SiteResources\screenshots\Geospatially-Accurate-Circle.png" />
     <Content Include="SiteResources\screenshots\Introduction-to-spatial-math.png" />
     <Content Include="SiteResources\screenshots\Large-GeoJSON-Files.png" />
+    <Content Include="SiteResources\screenshots\Layer-Events.gif" />
     <Content Include="SiteResources\screenshots\Line-Layer-Options.png" />
     <Content Include="SiteResources\screenshots\Load-Map-with-Options.png" />
     <Content Include="SiteResources\screenshots\Map-Events.gif" />
@@ -155,10 +163,12 @@
     <Content Include="SiteResources\screenshots\Raster-Tiles-in-Leaflet-JS.png" />
     <Content Include="SiteResources\screenshots\Raster-Tiles-in-Open-Layers.png" />
     <Content Include="SiteResources\screenshots\Reusing-Popup-with-Multiple-Pins.png" />
+    <Content Include="SiteResources\screenshots\Reverse-Geocode-using-Services-Module.png" />
     <Content Include="SiteResources\screenshots\Search-Autosuggest-and-JQuery-UI.gif" />
     <Content Include="SiteResources\screenshots\Simple-HTML-Marker-Animation.gif" />
     <Content Include="SiteResources\screenshots\Simple-MultiPolygon.png" />
     <Content Include="SiteResources\screenshots\Simple-REST-Directions.png" />
+    <Content Include="SiteResources\screenshots\Simple-REST-Geocoding-Request.png" />
     <Content Include="SiteResources\screenshots\Simple-Symbol-Animation.gif" />
     <Content Include="SiteResources\screenshots\Styled-Symbol-Layer.png" />
     <Content Include="SiteResources\screenshots\Symbol-Layer-Options.png" />
@@ -201,7 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\scripts\cesium\" />
-    <Folder Include="Services Module\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Common\types\atlas.d.ts" />

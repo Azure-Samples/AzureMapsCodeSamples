@@ -108,6 +108,22 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer'
 		},
 		{
+			title:'Change Mouse Cursor when Hovering Layer',
+			desc:'This sample shows how to change the mouse cursor when hovering over shapes in a layer. This will work with the bubble, line, polygon and symbol layer.',
+			path:'Layers/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
+			sourcePath:'Layers/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
+			screenshoot:'Change-Mouse-Cursor-when-Hovering-Layer.gif',
+			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor'
+		},
+		{
+			title:'Layer Events',
+			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
+			path:'Layers/Layer%20Events.html',
+			sourcePath:'Layers/Layer%20Events.html',
+			screenshoot:'Layer-Events.gif',
+			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel'
+		},
+		{
 			title:'Line Layer Options',
 			desc:'This sample shows how the different options of the line layer affect rendering.',
 			path:'Layers/Line%20Layer%20Options.html',
@@ -238,18 +254,10 @@ var sampleList = [
 	desc:'Learn how to directly access the Azure Maps REST services from JavaScript.',
 	samples: [
 		{
-			title:'Basic Geocoding Request',
-			desc:'This sample shows how to use the REST search API directly for geocoding locations.',
-			path:'REST%20Services/Basic%20Geocoding%20Request.html',
-			sourcePath:'REST%20Services/Basic%20Geocoding%20Request.html',
-			screenshoot:'Basic-Geocoding-Request.png',
-			keywords:'map, gis, api, sdk, rest, service, search, geocoding, geocode'
-		},
-		{
 			title:'Get Users Timezone with Prompt',
 			desc:'This sample shows how to determine a users timezone by passing the users location into the Azure Maps REST Timezone service. The users location is retrived using the HTML5 geolocation API which displays a prompt to the user to share their location.',
-			path:'REST%20Services/Get%20Users%20Timezone%20with%20Prompt.html',
-			sourcePath:'REST%20Services/Get%20Users%20Timezone%20with%20Prompt.html',
+			path:'REST%20Services/Get%20Users%20Timezone.html',
+			sourcePath:'REST%20Services/Get%20Users%20Timezone.html',
 			screenshoot:'',
 			keywords:'map, gis, api, sdk, rest, service, timezone, user, location, geolocation'
 		},
@@ -268,13 +276,37 @@ var sampleList = [
 			sourcePath:'REST%20Services/Simple%20REST%20Directions.html',
 			screenshoot:'Simple-REST-Directions.png',
 			keywords:'map, gis, api, sdk, rest, service, directions, route, routing'
+		},
+		{
+			title:'Simple REST Geocoding Request',
+			desc:'This sample shows how to use the REST search API directly for geocoding locations.',
+			path:'REST%20Services/Simple%20REST%20Geocoding%20Request.html',
+			sourcePath:'REST%20Services/Simple%20REST%20Geocoding%20Request.html',
+			screenshoot:'Simple-REST-Geocoding-Request.png',
+			keywords:'map, gis, api, sdk, rest, service, search, geocoding, geocode'
 		}
 	]
 },
 {
 	category:'Services Module',
-	desc:'',
+	desc:'Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control.',
 	samples: [
+		{
+			title:'Fuzzy Search with Services Module',
+			desc:'This sample shows how to use the Services module for Azure Maps to perform a fuzzy search for points of interests, address, and places. Providing user location information allows the search service choose results that are more local to the user.',
+			path:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
+			sourcePath:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
+			screenshoot:'Fuzzy-Search-using-Services-Module.png',
+			keywords:'map, gis, api, sdk, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places'
+		},
+		{
+			title:'Reverse Geocode with Services Module',
+			desc:'This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinte.',
+			path:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
+			sourcePath:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
+			screenshoot:'Reverse-Geocode-using-Services-Module.png',
+			keywords:'map, gis, api, sdk, search, reverse, geocode, geocoding, address, addresses'
+		}
 	]
 },
 {
@@ -464,4 +496,4 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents'
 		}
 	]
-}];var numberOfSamples = 47;
+}];var numberOfSamples = 51;

@@ -21,7 +21,7 @@
         var map, tileLayer, defaultOptions, removeDefaults;
         //TODO: Add options for tile source and test min/maxSourceZoom
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
@@ -185,14 +185,14 @@
 </head>
 <body onload="GetMap()">
     <fieldset class="sidePanel">
-        <legend>Tile Layer Options Sample</legend>
+        <legend>Tile Layer Options</legend>
         This sample shows how the different options of the tile layer affect rendering.
         <br /><br />
 
         <div class="tab">
             <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Base Options</button>
             <button class="tablinks" onclick="openTab(this, 'MediaOptions')">Media Options</button>
-            <button class="tablinks" onclick="openTab(this, 'TileService')">Tile Service</button>            
+            <!--<button class="tablinks" onclick="openTab(this, 'TileService')">Tile Service</button>-->            
             <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
         </div>
 
@@ -296,11 +296,11 @@
             </table>
         </div>
 
-        <div id="TileService" class="tabcontent">
+        <!--<div id="TileService" class="tabcontent">
             <table>
 
             </table>
-        </div>
+        </div>-->
 
 
         <div id="Code" class="tabcontent">

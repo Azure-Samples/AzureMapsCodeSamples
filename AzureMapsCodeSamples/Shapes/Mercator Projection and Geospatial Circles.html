@@ -19,13 +19,12 @@
         var map;
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-45, 70],
-                zoom: 1
+                center: [-45, 70]
             });
 
             //Wait until the map resources have fully loaded.
@@ -62,7 +61,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Mercator Projection and Geospatial Circles sample</legend>
+        <legend>Mercator Projection and Geospatial Circles</legend>
         This sample shows how the Mercator projection of the map affects the scale of geospatially accurate objects on the map. 
         In this sample both circles have a radius of 750KM (750,000 meters). However, the closer the circle is to the North or South pole, the larger and more elliptical it appears.
     </fieldset>

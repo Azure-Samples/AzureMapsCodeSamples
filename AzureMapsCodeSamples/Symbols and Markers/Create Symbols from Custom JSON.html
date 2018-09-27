@@ -39,7 +39,7 @@
         };
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
@@ -139,7 +139,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Create Symbols from Custom JSON Sample</legend>
+        <legend>Create Symbols from Custom JSON</legend>
         It is fairly common to access JSON data in your application which contains location data but is not in GeoJSON format.
         This sample shows how to use this JSON data to create clickable symbols on a map, that when clicked, display a popup with
         the title and description values of the symbol that was clicked.

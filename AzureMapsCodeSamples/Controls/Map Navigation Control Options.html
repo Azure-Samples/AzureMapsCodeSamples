@@ -19,7 +19,7 @@
         var map, controls = [];
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK.
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
@@ -101,7 +101,7 @@
 
     <div class="sidePanel">
         <fieldset style="width:300px;margin-bottom:10px;">
-            <legend>Map Navigation Control Options Sample</legend>
+            <legend>Map Navigation Control Options</legend>
             This sample shows all the map navigaiton controls on the map and how they react with different option settings. <br /><br />
             To test the zoom delta, simply press the zoom button to see how the map zoom per click changes, moving several levels at a time when the delta is greater than one. <br /><br />
             To test the pitch and compass rotation deltas, hover over the appropriate control and use the addition buttons that appear to see how the new delta has changed the behaviour of the button. <br /><br />
