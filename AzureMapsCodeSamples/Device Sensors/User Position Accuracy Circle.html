@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - User Location Accuracy Circle</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content=" This sample shows how to display the users position on the map with an accuracy circle." />
+    <meta name="keywords" content="map, gis, API, SDK, accuracy, circle, geolocation, user, location, position" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Request the user's location
+                navigator.geolocation.getCurrentPosition(function (position) {
+
+                    //Create a data source and add it to the map.
+                    var datasource = new atlas.source.DataSource();
+                    map.sources.add(datasource);
+
+                    //Create a circle from a Point feature by providing it a subType property set to "Circle" and radius property.
+                    var userPosition = [position.coords.longitude, position.coords.latitude];
+                    var userPoint =new atlas.data.Point(userPosition)
+
+                    //Add a point feature with Circle properties to the data source for the users position. This will be rendered as a polygon.
+                    datasource.add(new atlas.data.Feature(userPoint, {
+                        subType: "Circle",
+                        radius: position.coords.accuracy
+                    }));
+
+                    //Add the users position point.
+                    datasource.add(userPoint);
+                    
+                    map.layers.add([
+                        //Create a polygon layer to render the filled in area of the accuracy circle for the users position.
+                        new atlas.layer.PolygonLayer(datasource, null, {
+                            fillColor: 'rgba(0, 153, 255, 0.5)'
+                        }),
+
+                        //Create a symbol layer to render the users position on the map.
+                        new atlas.layer.SymbolLayer(datasource, null, {
+                            filter: ['==', '$type', 'Point']
+                        })
+                    ]);
+
+                    //Center the map on the users position.
+                    map.setCamera({
+                        center: userPosition,
+                        zoom: 15
+                    });
+                }, function (error) {
+                    //If an error occurs when trying to access the users position information, display an error message.
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            alert('User denied the request for Geolocation.');
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            alert('Position information is unavailable.');
+                            break;
+                        case error.TIMEOUT:
+                            alert('The request to get user position timed out.');
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            alert('An unknown error occurred.');
+                            break;
+                    }
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>User Location Accuracy Circle</legend>
+        This sample shows how to display the users position on the map with an accuracy circle. 
+    </fieldset>
+</body>
+</html>

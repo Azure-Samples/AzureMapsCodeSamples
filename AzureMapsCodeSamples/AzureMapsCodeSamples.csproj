@@ -70,12 +70,24 @@
     <Content Include="Common\data\geojson\streets.json" />
     <Content Include="Common\images\pushpins\ssMap.png" />
     <Content Include="Common\images\pushpins\ylw-pushpin.png" />
+    <Content Include="Common\scripts\clipboard.min.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon and Select Data.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\PolygonDrawingTool.js" />
     <Content Include="Demos\Car vs Truck Route.html" />
     <Content Include="Demos\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Large GeoJSON Files.html" />
+    <Content Include="Experimental\Add a Context Menu to the Map.html" />
+    <Content Include="Experimental\Adding Mouse Events to HTML Markers.html" />
+    <Content Include="Experimental\Create a Choropleth.html" />
+    <Content Include="Experimental\Popup Expanding Tooltip.html" />
+    <Content Include="Experimental\Popup with Interactive Content.html" />
+    <Content Include="Experimental\test\Drag and Drop GeoJSON File onto Map.html" />
+    <Content Include="Experimental\Popups on Shapes.html" />
+    <Content Include="Device Sensors\Show a Users Position.html" />
+    <Content Include="Device Sensors\Continuous User Position Tracking.html" />
+    <Content Include="Experimental\Fill Address Form with Autosuggest.html" />
+    <Content Include="Device Sensors\User Position Accuracy Circle.html" />
     <Content Include="Layers\Bubble Layer Options.html" />
     <Content Include="Layers\Change Mouse Cursor when Hovering Layer.html" />
     <Content Include="Layers\Line Layer Options.html" />
@@ -99,13 +111,12 @@
     <Content Include="Common\data\geojson\US_States_500k.json" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
-    <Content Include="Common\scripts\atlasMapControlExtensions.js" />
     <Content Include="Controls\Map Navigation Control Options.html" />
     <Content Include="index.html" />
     <None Include="Properties\PublishProfiles\AzureMapsCodeSamples - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\data\geojson\US_County_Boundaries.js" />
+    <None Include="Common\data\geojson\US_County_Boundaries.json" />
     <Content Include="Common\images\loadingIcon.gif" />
     <Content Include="Common\images\us_counties.png" />
     <Content Include="Default.aspx" />
@@ -133,7 +144,8 @@
     <Content Include="SiteResources\screenshots\CSS-Styled-HTML-Marker.gif" />
     <Content Include="SiteResources\screenshots\Custom-Symbol-Image-Icon.png" />
     <Content Include="SiteResources\screenshots\Data-Driven-Bubble-Layer-Styling.png" />
-    <Content Include="SiteResources\screenshots\Draggable-HTML-Marker.png" />
+    <Content Include="SiteResources\screenshots\Draggable-HTML-Marker.gif" />
+    <Content Include="SiteResources\screenshots\Draggable-Symbols.gif" />
     <Content Include="SiteResources\screenshots\Draw-Polygon-and-Select-Data.png" />
     <Content Include="SiteResources\screenshots\Draw-Polygon.png" />
     <Content Include="SiteResources\screenshots\Full-Screen-Map.png" />
@@ -148,7 +160,7 @@
     <Content Include="SiteResources\screenshots\Load-Map-with-Options.png" />
     <Content Include="SiteResources\screenshots\Map-Events.gif" />
     <Content Include="SiteResources\screenshots\Map-Localization.png" />
-    <Content Include="SiteResources\screenshots\Map-Navigation-Control-Options.png" />
+    <Content Include="SiteResources\screenshots\Map-Navigation-Control-Options.gif" />
     <Content Include="SiteResources\screenshots\MapsSampleIcon.png" />
     <Content Include="SiteResources\SampleList.js" />
     <Content Include="SiteResources\screenshots\Mercator-Projection-and-Geospatial-Circles.png" />
@@ -176,6 +188,7 @@
     <Content Include="SiteResources\screenshots\Tile-Layer-using-X,-Y-and-Z.png" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay-Options.png" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay.png" />
+    <Content Include="SiteResources\screenshots\User-Position-Accuracy-Circle.png" />
     <Content Include="Spatial Math with Turf.js\Generate Random Points within Bounds %28Turf.js%29.html" />
     <Content Include="Spatial Math with Turf.js\Generate Random Polygons within Bounds %28Turf.js%29.html" />
     <Content Include="Spatial Math with Turf.js\Merge Two Polygons Together %28Turf.js%29.html" />
@@ -184,6 +197,7 @@
     <Content Include="Symbols and Markers\CSS Styled HTML Marker.html" />
     <Content Include="Symbols and Markers\Custom Symbol Image Icon.html" />
     <Content Include="Symbols and Markers\Draggable HTML Marker.html" />
+    <Content Include="Symbols and Markers\Draggable Symbols.html" />
     <Content Include="Symbols and Markers\Styled Symbol Layer.html" />
     <Content Include="template.html" />
     <Content Include="Third Party Map Controls\Raster Tiles in ArcGIS JS 4.6.html" />
@@ -211,6 +225,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\scripts\cesium\" />
+    <Folder Include="Experimental\Map Image Generator\" />
+    <Folder Include="Experimental\Simple Store Locator\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Common\types\atlas.d.ts" />

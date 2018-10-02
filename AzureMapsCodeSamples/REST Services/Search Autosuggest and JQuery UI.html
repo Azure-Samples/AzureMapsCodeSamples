@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode. The UI is managed using JQuery UIs autocomplete widget." />
-    <meta name="keywords" content="map, gis, API, SDK, REST, search, geocoding, geocode, fuzzy, POI, points of interest, category, autosuggest, autocomplete, jquery" />
+    <meta name="keywords" content="map, gis, API, SDK, REST, search, geocoding, geocode, fuzzy, address, place, POI, points of interest, category, autosuggest, autocomplete, jquery" />
     <meta name="author" content="Microsoft Azure Maps" />
     <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
@@ -50,7 +50,7 @@
                     source: function (request, response) {
                         var center = map.getCamera().center;
 
-                        //Get suggestions from the AutosuggestManager.
+                        //Create a URL to the Azure Maps search service to perform the search.
                         var requestUrl = geocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
                             .replace('{searchType}', document.querySelector('input[name="searchTypeGroup"]:checked').value)
                             .replace('{subscription-key}', atlas.getSubscriptionKey())
@@ -67,14 +67,11 @@
                         });
                     },
                     select: function (event, ui) {
-                        //Remove any previous pins added to the map.
+                        //Remove any previous added data from the map.
                         datasource.clear();
 
-                        //When a suggestion has been selected.
-                        var selection = ui.item;
-
-                        //Create a pin to mark the selected location.
-                        datasource.add(new atlas.data.Feature(new atlas.data.Point([ui.item.position.lon, ui.item.position.lat]), selection));
+                        //Create a point feature to mark the selected location.
+                        datasource.add(new atlas.data.Feature(new atlas.data.Point([ui.item.position.lon, ui.item.position.lat]), ui.item));
 
                         //Zoom the map into the selected location.
                         map.setCamera({

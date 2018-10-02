@@ -38,7 +38,7 @@ var sampleList = [
 			desc:'This sample shows all the map navigaiton controls on the map and how they react with different option settings.',
 			path:'Controls/Map%20Navigation%20Control%20Options.html',
 			sourcePath:'Controls/Map%20Navigation%20Control%20Options.html',
-			screenshoot:'Map-Navigation-Control-Options.png',
+			screenshoot:'Map-Navigation-Control-Options.gif',
 			keywords:'maps, map, api, sdk, gis, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery'
 		}
 	]
@@ -92,6 +92,36 @@ var sampleList = [
 			sourcePath:'Demos/Large%20GeoJSON%20Files.html',
 			screenshoot:'Large-GeoJSON-Files.png',
 			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin'
+		}
+	]
+},
+{
+	category:'Device Sensors',
+	desc:'See how to access sensors from a devices browser and use them with Azure Maps.',
+	samples: [
+		{
+			title:'Continuous User Position Tracking',
+			desc:'This sample shows how to continuously get the users position information from the browser by using the HTML5 geolocation API and update it on a map.',
+			path:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
+			sourcePath:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
+			screenshoot:'',
+			keywords:'map, gis, api, sdk, geolocation, user, location, position, tracking'
+		},
+		{
+			title:'Show a Users Position',
+			desc:'This sample shows how to get the users position information from the browser by using the HTML5 geolocation API and show it on a map.',
+			path:'Device%20Sensors/Show%20a%20Users%20Position.html',
+			sourcePath:'Device%20Sensors/Show%20a%20Users%20Position.html',
+			screenshoot:'',
+			keywords:'map, gis, api, sdk, geolocation, user, location, position'
+		},
+		{
+			title:'User Location Accuracy Circle',
+			desc:'This sample shows how to display the users position on the map with an accuracy circle.',
+			path:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
+			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
+			screenshoot:'User-Position-Accuracy-Circle.png',
+			keywords:'map, gis, api, sdk, accuracy, circle, geolocation, user, location, position'
 		}
 	]
 },
@@ -267,7 +297,7 @@ var sampleList = [
 			path:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			sourcePath:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			screenshoot:'Search-Autosuggest-and-JQuery-UI.gif',
-			keywords:'map, gis, api, sdk, rest, search, geocoding, geocode, fuzzy, poi, points of interest, category, autosuggest, autocomplete, jquery'
+			keywords:'map, gis, api, sdk, rest, search, geocoding, geocode, fuzzy, address, place, poi, points of interest, category, autosuggest, autocomplete, jquery'
 		},
 		{
 			title:'Simple REST Directions',
@@ -297,7 +327,7 @@ var sampleList = [
 			path:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			screenshoot:'Fuzzy-Search-using-Services-Module.png',
-			keywords:'map, gis, api, sdk, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places'
+			keywords:'map, gis, api, sdk, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places'
 		},
 		{
 			title:'Reverse Geocode with Services Module',
@@ -424,8 +454,16 @@ var sampleList = [
 			desc:'This sample shows how to animate a pin on the map by adding and removing the layer while updating the coordinates.',
 			path:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
 			sourcePath:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
-			screenshoot:'Draggable-HTML-Marker.png',
+			screenshoot:'Draggable-HTML-Marker.gif',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse'
+		},
+		{
+			title:'Draggable Symbols',
+			desc:'This sample shows how to create a symbol layer that lets you drag the symbols using the mouse.',
+			path:'Symbols%20and%20Markers/Draggable%20Symbols.html',
+			sourcePath:'Symbols%20and%20Markers/Draggable%20Symbols.html',
+			screenshoot:'Draggable-Symbols.gif',
+			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse'
 		},
 		{
 			title:'Styled Symbol Layer',
@@ -496,4 +534,4 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents'
 		}
 	]
-}];var numberOfSamples = 51;
+}];var numberOfSamples = 55;

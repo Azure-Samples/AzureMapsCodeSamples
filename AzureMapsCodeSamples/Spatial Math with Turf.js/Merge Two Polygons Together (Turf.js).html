@@ -72,20 +72,20 @@
                     //Add a polygon layer to render the two input polygons.
                     new atlas.layer.PolygonLayer(datasource, null, {
                         fillColor: 'rgba(0,155, 255,0.2)',
-                        filter: ["==", "isUnion", false]
+                        filter: ['==', 'isUnion', false]
                     }),
 
                     //Add a LineLayer to outline the two polygons in black.
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'black',
-                        filter: ["==", "isUnion", false]
+                        filter: ['==', 'isUnion', false]
                     }),
 
                     //Add a LineLayer to outline the union of the two polygons in red.
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'red',
                         strokeWidth: 2,
-                        filter: ["==", "isUnion", true]
+                        filter: ['==', 'isUnion', true]
                     }),
                 ]);
             });

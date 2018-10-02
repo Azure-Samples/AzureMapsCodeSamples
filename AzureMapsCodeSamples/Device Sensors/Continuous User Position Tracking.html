@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Continuous User Position Tracking</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to continuously get the users position information from the browser by using the HTML5 geolocation API and update it on a map." />
+    <meta name="keywords" content="map, gis, API, SDK, geolocation, user, location, position, tracking" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        //TODO: add heading and speed info, if available. 
+
+        var map, watchId, datasource, userShape;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering the users location as a symbol.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource));
+            });
+        }
+
+        function startTracking() {
+            if (!watchId) {
+                //Watch the users position.
+                watchId = navigator.geolocation.watchPosition(function (position) {
+                    var userPosition = [position.coords.longitude, position.coords.latitude];
+
+                    if (!userShape) {
+                        //Create a shape to show the users position and add it to the data source.
+                        userShape = new atlas.Shape(new atlas.data.Point(userPosition));
+                        datasource.add(userShape);
+                    } else {
+                        userShape.setCoordinates(userPosition);
+                    }
+
+                    //Center the map on the users position.
+                    map.setCamera({
+                        center: userPosition,
+                        zoom: 15
+                    });
+                }, function (error) {
+                    //If an error occurs when trying to access the users position information, display an error message.
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            alert('User denied the request for Geolocation.');
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            alert('Position information is unavailable.');
+                            break;
+                        case error.TIMEOUT:
+                            alert('The request to get user position timed out.');
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            alert('An unknown error occurred.');
+                            break;
+                    }
+                });
+            }
+        }
+
+        function stopTracking() {
+            //Cancel the geolocation updates.
+            navigator.geolocation.clearWatch(watchId);
+
+            //Clear all data from the map.
+            datasource.clear();
+            userShape = null;
+            watchId = null;
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
+        <input type="button" value="Start Continuous Tracking" onclick="startTracking()" />
+        <input type="button" value="Stop Continuous Tracking" onclick="stopTracking()" />
+    </div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Continuous User Position Tracking</legend>
+        This sample shows how to continuously get the users position information from the browser by using the HTML5 geolocation API and update it on a map.
+    </fieldset>
+</body>
+</html>

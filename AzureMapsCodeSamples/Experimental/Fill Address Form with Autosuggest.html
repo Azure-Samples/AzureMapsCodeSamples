@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Fill Address Form with Autosuggest</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Azure Maps Search service with JQuery UI's autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion." />
+    <meta name="keywords" content="map, gis, API, SDK, search, geocoding, geocode, autosuggest, autocomplete, jquery" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Load JQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        //Get your Azure Maps key at https://azure.com/maps
+        var subscriptionKey = '<Your Azure Maps Key>';
+
+        var addresssGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/address/json?typeahead=true&subscription-key={subscription-key}&api-version=1&query={query}&language={language}&countrySet={countrySet}';
+
+        function PageLoaded() {
+            //Create a jQuery autocomplete UI widget.
+            $("#queryTbx").autocomplete({
+                minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
+                source: function (request, response) {
+
+                    //Create a URL to the Azure Maps search service to perform the address search.
+                    var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
+                        .replace('{subscription-key}', subscriptionKey)
+                        .replace('{language}', 'en-US')
+                        .replace('{countrySet}', 'US'); //A comma seperated string of country codes to limit the suggestions to.
+
+                    $.ajax({
+                        url: requestUrl,
+                        success: function (data) {
+                            response(data.results);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    //When a suggestion has been selected.
+                    var selection = ui.item;
+
+                    //TODO
+                    //Populate the address textbox values.
+                    document.getElementById('addressLineTbx').value = result.address.addressLine || '';
+                    document.getElementById('cityTbx').value = result.address.locality || '';
+                    document.getElementById('countyTbx').value = result.address.district || '';
+                    document.getElementById('stateTbx').value = result.address.adminDistrict || '';
+                    document.getElementById('postalCodeTbx').value = result.address.postalCode || '';
+                    document.getElementById('countryTbx').value = result.address.countryRegion || '';
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                //Format the displayed suggestion to show the formatted suggestion string.
+                var suggestionLabel = item.address.freeformAddress;
+
+                if (item.poi && item.poi.name) {
+                    suggestionLabel = item.poi.name + ' (' + suggestionLabel + ')';
+                }
+
+                return $("<li>")
+                    .append("<a>" + suggestionLabel + "</a>")
+                    .appendTo(ul);
+            };
+        }
+    </script>
+    <style>
+        #searchBox {
+            width: 400px;
+        }
+
+        .addressForm {
+            margin-top: 10px;
+            background-color: #008272;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+            .addressForm input {
+                width: 265px;
+            }
+    </style>
+</head>
+<body onload="PageLoaded()">
+    <input type='text' id='searchBox' />
+
+    <table class="addressForm">
+        <tr><td>Street Address:</td><td><input type="text" id="addressLineTbx" /></td></tr>
+        <tr><td>City:</td><td><input type="text" id="cityTbx" /></td></tr>
+        <tr><td>County:</td><td><input type="text" id="countyTbx" /></td></tr>
+        <tr><td>State:</td><td><input type="text" id="stateTbx" /></td></tr>
+        <tr><td>Zip Code:</td><td><input type="text" id="postalCodeTbx" /></td></tr>
+        <tr><td>Country:</td><td><input type="text" id="countryTbx" /></td></tr>
+    </table>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Fill Address Form with Autosuggest</legend>
+        This sample shows how to use the Azure Maps Search service with <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a> which provides address suggestions as the user types and which populates a form with the selected suggestion.
+    </fieldset>
+</body>
+</html>

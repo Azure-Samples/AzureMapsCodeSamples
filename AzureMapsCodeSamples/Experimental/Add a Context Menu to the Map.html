@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, contextMenu;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Use an Infobox with custom HTML to create a context menu UI.
+        contextMenu = new Microsoft.Maps.Infobox(map.getCenter(), {
+            htmlContent: '<div style="background-color:gray;border:1px solid black;padding:10px;"><input type="button" value="zoom in" onclick="map.setView({zoom: map.getZoom() + 1});closeContextMenu();"/></div>',
+            visible: false
+        });
+        contextMenu.setMap(map);
+
+        //Add a right click event to the map
+        Microsoft.Maps.Events.addHandler(map, 'rightclick', function(e){
+            //Open context menu.
+            contextMenu.setOptions({
+                location: e.location,
+                visible: true
+            });
+        });
+
+        //Close the context menu if the user presses the mouse down anywhere else on the screen.
+        document.body.onmousedown = function () {
+            closeContextMenu();
+        };
+    }
+
+    function closeContextMenu() {
+        contextMenu.setOptions({ visible: false });
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Context Menu Sample</legend>
+        This sample shows how to display a context menu when the user right clicks the map. In this case an infobox is used as a context menu container.
+    </fieldset>
+</body>
+</html>

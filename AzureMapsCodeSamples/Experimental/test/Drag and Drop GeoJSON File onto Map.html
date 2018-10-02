@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Drag and Drop GeoJSON File onto Map</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render." />
+    <meta name="keywords" content="map, gis, API, SDK, GeoJSON, drag, drop, dropover" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, popup;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Setup the drag & drop listeners on the map.
+                var dropZone = document.getElementById('myMap');
+                dropZone.addEventListener('dragover', handleDragOver, false);
+                dropZone.addEventListener('drop', handleFileSelect, false);
+
+                //Create a data source to store the data in.
+                datasource = new atlas.source.DataSource(null, {
+                    cluster: false
+                });
+                map.sources.add(datasource);
+
+                //Add a layer for rendering the polygons.
+                var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    filter: ['==', '$type', 'Polygon']
+                });
+
+                //Add a click event to the layer.
+                map.events.add('click', polygonLayer, featureClicked);
+
+                //Add a layer for rendering line data.
+                var lineLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeWidth: 4,
+                    filter: ['==', '$type', 'LineString']
+                });
+
+                //Add a click event to the layer.
+                map.events.add('click', lineLayer, featureClicked);
+
+                //Add a layer for rendering point data.
+                var pointLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    },
+                    filter: ['==', '$type', 'Point']
+                });
+
+                //Add a click event to the layer.
+                map.events.add('click', pointLayer, featureClicked);
+
+                //Add polygon and line layers to the map, below the labels..
+                map.layers.add([
+                    polygonLayer,
+
+                    //Add a layer for rendering the outline of polygons.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'black',
+                        filter: ['==', '$type', 'Polygon']
+                    }),
+
+                    lineLayer, pointLayer
+                ], 'labels');
+
+
+                //Add the point layer above the labels. 
+                map.layers.add(pointLayer);
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0]
+                });
+            });
+        }
+
+        function handleDragOver(evt) {
+            //Stop the browser from performing its default behavior when a file is dragged and dropped.
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            evt.dataTransfer.dropEffect = 'copy';
+        }
+
+        function handleFileSelect(evt) {
+            //Stop the browser from performing its default behavior when a file is dragged and dropped.
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            //Remove any existing data from the map.
+            datasource.clear();
+
+            //The list of files that have been dragged and dropped onto the map.
+            var files = evt.dataTransfer.files;
+
+            //Keep track of the bounding box of all the data from all files dropped into the map.
+            var dataBounds = null;
+
+            //Loop through and attempt to read each file. 
+            for (var i = 0; i < files.length; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    try {
+                        var geojsonData = JSON.parse(e.target.result);
+
+                        //Add the GeoJSON data to the data source.
+                        datasource.add(geojsonData);
+                        
+                        //Calculate the bounding box of the GeoJSON data.
+                        var bounds = atlas.data.BoundingBox.fromData(geojsonData);
+
+                        //If data is already loaded from another GeoJSON file, merge the bounding boxes together.
+                        if (dataBounds) {
+                            dataBounds = atlas.data.BoundingBox.merge(dataBounds, bounds);
+                        } else {
+                            dataBounds = bounds;
+                        }
+
+                        //Update the map view to show the data.
+                        map.setCamera({
+                            bounds: dataBounds,
+                            padding: 50
+                        });
+                    } catch (e) {
+                        alert('Unable to read file as GeoJSON.');
+                    }
+                };
+
+                //Read the file as text.
+                reader.readAsText(files[i]);
+            }
+        }
+
+        function featureClicked(e) {
+            //Make sure the event occured on a shape feature.
+            if (e.shapes && e.shapes.length > 0) {
+                var properties = e.shapes[0].getProperties();
+
+                //Create a table from the properties in the feature.
+                var html = ['<div style="padding:10px;"><table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
+
+                Object.keys(properties).forEach(function (key, index) {
+                    if (key.indexOf('_') !== 0) {
+                        html.push('<tr><td>', key, '</td><td>', properties[key], '</td><tr>');
+                    }
+                });
+
+                html.push('</table></div>');
+
+                //By default, show the popup where the mouse event occured.
+                var pos = e.position;
+
+                //If the shape is a point feature, show the popup at the points coordinate.
+                if (e.shapes[0].getType() === 'Point') {
+                    pos = e.shapes[0].getCoordinate();
+                }
+
+                //Update the content and position of the popup.
+                popup.setOptions({
+                    content: html.join(''),
+                    position: pos
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Drag and Drop GeoJSON File onto Map</legend>
+        This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render.
+    </fieldset>
+</body>
+</html>

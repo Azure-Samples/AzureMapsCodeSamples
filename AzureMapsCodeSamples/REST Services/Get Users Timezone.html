@@ -89,16 +89,16 @@
                 //If an error occurs when trying to access the users location information, display an error message.
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        output.innerHTML = "User denied the request for Geolocation."
+                        output.innerHTML = 'User denied the request for Geolocation.';
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        output.innerHTML = "Location information is unavailable."
+                        output.innerHTML = 'Location information is unavailable.';
                         break;
                     case error.TIMEOUT:
-                        output.innerHTML = "The request to get user location timed out."
+                        output.innerHTML = 'The request to get user location timed out.';
                         break;
                     case error.UNKNOWN_ERROR:
-                        output.innerHTML = "An unknown error occurred."
+                        output.innerHTML = 'An unknown error occurred.';
                         break;
                 }
             });
