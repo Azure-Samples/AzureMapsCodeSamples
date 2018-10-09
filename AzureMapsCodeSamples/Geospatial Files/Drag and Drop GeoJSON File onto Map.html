@@ -155,34 +155,49 @@
             if (e.shapes && e.shapes.length > 0) {
                 var properties = e.shapes[0].getProperties();
 
-                //Create a table from the properties in the feature.
-                var html = ['<div style="padding:10px;"><table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
-
-                Object.keys(properties).forEach(function (key, index) {
-                    if (key.indexOf('_') !== 0) {
-                        html.push('<tr><td>', key, '</td><td>', properties[key], '</td><tr>');
-                    }
-                });
-
-                html.push('</table></div>');
-
                 //By default, show the popup where the mouse event occured.
                 var pos = e.position;
 
                 //If the shape is a point feature, show the popup at the points coordinate.
                 if (e.shapes[0].getType() === 'Point') {
-                    pos = e.shapes[0].getCoordinate();
+                    pos = e.shapes[0].getCoordinates();
                 }
 
                 //Update the content and position of the popup.
                 popup.setOptions({
-                    content: html.join(''),
+                    //Create a table from the properties in the feature.
+                    content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + object2Table(properties) + '</div>',
                     position: pos
                 });
 
                 //Open the popup.
                 popup.open(map);
             }
+        }
+
+        function object2Table(obj) {
+            //Create a HTML table from an objects property names and values.
+            var html = ['<table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
+
+            Object.keys(obj).forEach(function (key, index) {
+                //Ignore private properties which are commonly denoted using an underscore.
+                if (key.indexOf('_') !== 0) {
+                    html.push('<tr><td>', key, '</td><td>');
+
+                    if (typeof obj[key] === 'object') {
+                        //If the value of the property is an object, create a sub-table recursively.
+                        html.push(object2Table(obj[key]));
+                    } else {
+                        html.push(obj[key]);
+                    }
+
+                    html.push('</td><tr>');
+                }
+            });
+
+            html.push('</table>');
+
+            return html.join('');
         }
     </script>
 </head>
@@ -191,7 +206,13 @@
 
     <fieldset style="width:770px;margin-top:10px;">
         <legend>Drag and Drop GeoJSON File onto Map</legend>
-        This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render.
+        This sample shows how load add support for dragging and droping GeoJSON files from your local computer file system on to the map and having them render. <br/>
+                                                                                                                                                                 <ul>
+                                                                                                                                                                     <li><a href="https://catalog.data.gov/dataset?q=geojson" target="_blank">Data.gov</a></li>
+                                                                                                                                                                     <li><a href="http://boundaries.latimes.com/sets/" target="_blank">Mapping L.A. Boundaries API</a></li>
+                                                                                                                                                                     <li><a href="https://github.com/search?q=geojson" target="_blank">GitHub</a></li>
+                                                                                                                                                                 </ul>        
+        <br/>Here are some great places to find GeoJSON files to try out. You can also create your own GeoJSON files by drawing on a map <a href="http://geojson.io" target="_blank">here</a>.
     </fieldset>
 </body>
 </html>

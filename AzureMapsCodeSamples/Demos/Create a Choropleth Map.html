@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Create a Choropleth Map</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sameples shows hwo to create a choropleth map. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to the measurement of the statistical variable being displayed on the map, in this case the population density of each state." />
+    <meta name="keywords" content="map, gis, API, SDK, thematic, choropleth, heatmap, heat map" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, popup, maxValue = 500;
+
+        var defaultColor = '#FFEDA0';
+        var colorScale = [
+            10, '#FED976',
+            20, '#FEB24C',
+            50, '#FD8D3C',
+            100, '#FC4E2A',
+            200, '#E31A1C',
+            500, '#BD0026',
+            1000, '#800026'
+        ];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-110, 50],
+                zoom: 2
+            });
+
+            //Create a legend.
+            createLegend();
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0]
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a stepped expression based on the color scale. 
+                var steppedExp = [
+                    'step',
+                    ['get', 'density'],
+                    defaultColor
+                ];
+
+                steppedExp = steppedExp.concat(colorScale);
+                
+                //Create a layer to render the polygon data.
+                var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: steppedExp
+                });
+                map.layers.add(polygonLayer, 'labels');
+
+                //Add a mouse move event to the polygon layer to show a popup with information.
+                map.events.add('mousemove', polygonLayer, function (e) {
+                    if (e.shapes && e.shapes.length > 0) {
+                        var properties = e.shapes[0].getProperties();
+
+                        //Update the content of the popup.
+                        popup.setPopupOptions({
+                            content: '<div style="padding:10px"><b>' + properties.name + '</b><br/>Population Density: ' + properties.density + ' people/mi<sup>2</sup></div>',
+                            position: e.position
+                        });
+
+                        //Open the popup.
+                        popup.open(map);
+                    }
+                });
+
+                //Add a mouse leave event to the polygon layer to hide the popup.
+                map.events.add('mouseleave', polygonLayer, function (e) {
+                    popup.close();
+                });
+
+                //Download a GeoJSON feed and add the data to the data source.
+                fetch('/Common/data/geojson/US_States_Population_Density.json')
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (response) {
+                        //Add the feature data to the data source.
+                        datasource.add(response.features);
+                    });
+            });
+        }
+
+        function createLegend() {
+            var html = [];
+
+            for (var i = 0; i < colorScale.length; i += 2) {
+                html.push(
+                    '<i style="background:', (colorScale[i + 1]), '"></i> ',
+                    colorScale[i], (colorScale[i + 2] ? '&ndash;' + colorScale[i + 2] + '<br/>' : '+')
+                );
+            }
+
+            document.getElementById('legend').innerHTML += html.join('');
+        }
+    </script>
+    <style>
+        #legend {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-family: Arial;
+            font-size: 12px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 5px;
+            line-height:18px;
+        }
+
+        #legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div id="legend">Popuplation Density<br/>(people/mi<sup>2</sup>)<br/></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Create a Choropleth Map</legend>
+        This sameples shows hwo to create a choropleth map. A choropleth map is a thematic map in which areas are shaded or patterned in 
+        proportion to the measurement of the statistical variable being displayed on the map, in this case the population density of each state.
+    </fieldset>
+</body>
+</html>

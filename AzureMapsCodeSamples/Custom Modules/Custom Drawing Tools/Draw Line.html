@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Web Control Samples - Draw Polygon</title>
+    <title>Azure Maps Web Control Samples - Draw Line</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to draw a polygon on the map using the Polygon Drawing tools." />
-    <meta name="keywords" content="map, gis, API, SDK, polygon, drawing, draw" />
+    <meta name="description" content="This sample shows how to draw a line on the map using the Line Drawing tools." />
+    <meta name="keywords" content="map, gis, API, SDK, line, linestring, polyline, drawing, draw" />
     <meta name="author" content="Microsoft Azure Maps" />
     <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
-    <script src="PolygonDrawingTool.js"></script>
+    <script src="LineDrawingTool.js"></script>
 
     <script type='text/javascript'>
         var map, drawingTools;
@@ -33,8 +33,8 @@
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
                 //Load the drawing tools.
-                drawingTools = new PolygonDrawingTool(map, null, function (polygon) {
-                    //Do something with the polygon.
+                drawingTools = new LineDrawingTool(map, null, true, function (line) {
+                    //Do something with the line.
                 });
             });
         }
@@ -44,15 +44,15 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;">
-        <input type="button" value="Draw Polygon" onclick="drawingTools.startDrawing();" />
+        <input type="button" value="Draw Line" onclick="drawingTools.startDrawing();" />
         <input type="button" value="Clear Drawing Layer" onclick="drawingTools.clear();" />
     </div>
 
     <fieldset style="width:770px;margin-top:10px;">
-        <legend>Draw Polygon</legend>
-        This sample shows how to draw a polygon on the map using the Polygon Drawing tools.
-        Press the "Draw Polygon" then start selecting points on the map.
-        When you are done, either click on the first point of the polygon or press ESC.
+        <legend>Draw Line</legend>
+        This sample shows how to draw a line on the map using the Line Drawing tools.
+        Press the "Draw Line" then start selecting points on the map.
+        When you are done, either click on the first point of the line, double click or press ESC.
     </fieldset>
 </body>
 </html>

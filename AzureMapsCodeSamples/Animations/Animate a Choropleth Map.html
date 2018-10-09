@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Animate a Choropleth Map</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sameples shows hwo to create a choropleth map and animate it over time." />
+    <meta name="keywords" content="map, gis, API, SDK, thematic, choropleth, heatmap, heat map, animation, animate, county, population" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, popup, maxPopulation = 0.3, colorExpressions = [], timer, isPaused = true;
+        
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-110, 50],
+                zoom: 2
+            });
+
+            //Create a legend scale bar.
+           createLegendScaleBar(maxPopulation);
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0]
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create an array of expressions to define the fill color based on 
+                for (var i = 0; i <= 10; i++) {
+                    colorExpressions.push([
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'PopChange' + i],
+                        -maxPopulation, 'rgb(255,0,255)',       // Magenta
+                        -maxPopulation / 2, 'rgb(0,0,255)',     // Blue
+                        0, 'rgb(0,255,0)',                      // Green
+                        maxPopulation / 2, 'rgb(255,255,0)',    // Yellow
+                        maxPopulation, 'rgb(255,0,0)'           // Red
+                    ]);
+                }
+
+                //Create a layer to render the polygon data.
+                var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: colorExpressions[0]
+                });
+                map.layers.add(polygonLayer, 'labels');
+
+                //Add a mouse move event to the polygon layer to show a popup with information.
+                map.events.add('mousemove', polygonLayer, function (e) {
+                    if (e.shapes && e.shapes.length > 0) {
+                        var properties = e.shapes[0].getProperties();
+
+                        var html = ['<div style="padding:10px"><b>', properties.CountyName, '</b><br />', properties.StateName, '<br />% Pop Change:<br/><table><tr><td>Year</td><td>% Change</td></tr>'];
+
+                        for (var i = 0; i <= 10; i++) {
+                            var year = 2000 + i;
+                            html.push('<tr><td>', year, '</td><td>', properties['PopChange' + i], '%</td></tr>');
+                        }
+
+                        html.push('</table></div>');
+
+                        //Update the content of the popup.
+                        popup.setPopupOptions({
+                            content: html.join(''),
+                            position: e.position
+                        });
+
+                        //Open the popup.
+                        popup.open(map);
+                    }
+                });
+
+                //Add a mouse leave event to the polygon layer to hide the popup.
+                map.events.add('mouseleave', polygonLayer, function (e) {
+                    popup.close();
+                });
+
+                //Download population estimates for US counties.
+                fetch('/Common/data/US_County_2010_Population.csv')
+                    .then(response => response.text())
+                    .then(function (text) {
+                        //Parse the CSV file data into a JSON object.
+                        //For faster cross referencing, create an object that indexes the state and county ids.
+                        var populationInfo = [];
+
+                        //Split the lines of the file.
+                        var lines = text.split('\n');
+
+                        //Skip the header row and then parse each row into an object.
+                        for (var i = 1; i < lines.length; i++) {
+                            var row = lines[i].split(',');
+
+                            var stateId = row[0];
+                            var countyId = row[1];
+
+                            if (!populationInfo[stateId]) {
+                                populationInfo[stateId] = {};
+                            }
+
+                            //Get the 2000 population value.
+                            var censusPop = parseFloat(row[4]);
+
+                            //Create an object to parse the CSV row into.
+                            var obj = {
+                                CountyName: row[3],
+                                StateName: row[2],
+                                CensusPop2000: censusPop
+                            };
+
+                            //Calculate the population % difference from 2000 census, and round to 3 decimal places.
+                            for (var j = 5; j < row.length; j++) {
+                                obj['PopChange' + (j - 5)] = Math.round((parseFloat(row[j]) / censusPop - 1) * 1000) / 1000;
+                            }
+
+                            populationInfo[stateId][countyId] = obj;
+                        }
+
+                        //Download the country boundary GeoJSON data.
+                        fetch('/Common/data/geojson/US_County_Boundaries.json')
+                            .then(function (response) {
+                                return response.json();
+                            }).then(function (response) {
+                                var features = response.features;
+
+                                //Loop through each feature and cross reference the population data information.
+                                for (var i = 0; i < features.length; i++) {
+                                    var prop = features[i].properties;
+
+                                    if (populationInfo[prop['STATE']] && populationInfo[prop['STATE']][prop['COUNTY']]) {
+                                        features[i].properties = Object.assign(prop, populationInfo[prop['STATE']][prop['COUNTY']]);
+                                    }
+                                }
+
+                                //Add the feature data to the data source.
+                                datasource.add(features);
+
+                                //Create an animation loop. 
+                                timer = new FrameAnimationTimer(function (progress, frameIdx) {
+                                    //Update the fill color expression for the current frame.
+                                    polygonLayer.setOptions({ fillColor: colorExpressions[frameIdx] });
+
+                                    //Update the year in the legend.
+                                    document.getElementsByClassName('legend-label')[0].innerText = (2000 + frameIdx) + '';
+                                }, colorExpressions.length, 10000, true);
+
+                                document.getElementById('playPauseBtn').disabled = '';
+                            });
+                    });
+
+            });
+        }
+
+        function createLegendScaleBar() {
+            var canvas = document.getElementById('legendCanvas');
+            var ctx = canvas.getContext('2d');
+
+            //Create a linear gradient for the legend.
+            var grd = ctx.createLinearGradient(0, 0, 256, 0);
+            grd.addColorStop(0, 'rgb(255,0,255)');      // Magenta
+            grd.addColorStop(0.25, 'rgb(0,0,255)');     // Blue
+            grd.addColorStop(0.5, 'rgb(0,255,0)');      // Green
+            grd.addColorStop(0.75, 'rgb(255,255,0)');   // Yellow
+            grd.addColorStop(1, 'rgb(255,0,0)');        // Red
+
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function togglePlayPause() {
+            if (isPaused) {
+                timer.play();
+            } else {
+                timer.pause();
+            }
+
+            isPaused = !isPaused;
+        }
+
+        function FrameAnimationTimer(renderFrameCallback, numFrames, duration, loop) {
+            var _timerId,
+                frameIdx = 0,
+                _isPaused = false;
+
+            duration = (duration && duration > 0) ? duration : 1000;
+
+            delay = duration / (numFrames - 1);
+
+            this.play = function () {
+                if (renderFrameCallback) {
+                    if (_timerId) {
+                        _isPaused = false;
+                    } else {
+                        _timerId = setInterval(function () {
+                            if (!_isPaused) {
+                                var progress = (frameIdx * delay) / duration;
+
+                                renderFrameCallback(progress, frameIdx);
+
+                                if (progress >= 1) {
+                                    if (loop) {
+                                        frameIdx = 0;
+                                    } else {
+                                        reset();
+                                    }
+                                }
+
+                                frameIdx++;
+                            }
+                        }, delay);
+                    }
+                }
+            };
+
+            this.pause = function () {
+                _isPaused = true;
+            };
+
+            this.stop = function () {
+                reset();
+            };
+
+            function reset() {
+                if (_timerId != null) {
+                    clearInterval(_timerId);
+                }
+
+                frameIdx = 0;
+                _isPaused = false;
+            }
+        };
+    </script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+
+        #myMap {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+
+        .legend {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            width: 256px;
+            height: 80px;
+            font-family: Arial;
+            font-size: 12px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        #legendCanvas {
+            width: 256px;
+            height: 15px;
+            margin-top:5px;
+        }
+
+        .legend-mid {
+            margin: 0 0 0 85px;
+        }
+
+        .legend-max {
+            float: right;
+        }
+
+        .legend-label {
+            margin-left: 40px;
+        }
+
+        #playPauseBtn {
+            margin-top: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            padding: 1px 5px;
+        } 
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="mapContainer">
+        <div id="myMap"></div>
+
+        <div class="legend">
+            <center>Population Change Estimates 2000 - 2010</center>
+            <canvas id="legendCanvas"></canvas>
+            <span class="legend-min">-30%</span>
+            <span class="legend-mid">0%</span>
+            <span class="legend-max">30%</span>
+            <br />
+            <center><input id="playPauseBtn" type="button" value="Play/Pause" disabled="disabled" onclick="togglePlayPause()" /><span class="legend-label">2000</span></center>
+        </div>
+    </div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Animate a Choropleth Map</legend>
+        This sameples shows hwo to create a choropleth map and animate it over time. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to 
+        the measurement of the statistical variable being displayed on the map, in this case the estimated % population change between 2000 and 2010 of each US county relative 
+        to the 2000 census population data. This sample uses two data files; a GeoJSON file that contains the US county boundary data, and a CSV file that contains the population 
+        data. This sample cross references the population data and adds it as properties of the county boundary. A simple polygon layer is used to render the data and the animation 
+        is accoumplished by changing the fill color expression over time such that it will use a different years populaiton change value to choose a color.
+    </fieldset>
+</body>
+</html>

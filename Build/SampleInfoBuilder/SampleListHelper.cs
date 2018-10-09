@@ -22,7 +22,9 @@ namespace SampleInfoBuilder
         public static List<string> ScreenshotsToIgnore = new List<string>()
         {
             "Lazy Load the Map",
-            "Get Users Timezone with Prompt"
+            "Get Users Timezone with Prompt",
+            "Continuous User Position Tracking",
+            "Show a Users Position"
         };
 
         private static List<string> FoldersToIgnore = new List<string>() { "Experimental", "Common", "SiteResources", "bin", "obj", "Properties" };
@@ -33,7 +35,8 @@ namespace SampleInfoBuilder
             { "Controls", "Add UI controls to the map to create an enhanced user experience." },
             { "Custom Modules", "Use custom modules to extend the functionality of the Azure Maps Web Control." },
             { "Demos", "These samples demonstrate real-life scenarios or highlight key topics." },
-            {"Device Sensors", "See how to access sensors from a devices browser and use them with Azure Maps." },
+            { "Device Sensors", "See how to access sensors from a devices browser and use them with Azure Maps." },
+            { "Geospatial Files", "Examples of how to import and export common geospatial file formats with Azure Maps." },
             { "Layers", "Learn how to visualize data using the different types of rendering layers." },
             { "Map", "These samples show how to use the many different features of the map." },
             { "Shapes", "Gain insights into working with various shapes such as geospatially accurate circles, polygons, linestrings, and multi-geometries." },

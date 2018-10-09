@@ -73,7 +73,7 @@
 
                 //Close the popup on mouseout or touchend.
                 map.events.add('mouseout', symbolLayer, closePopup);
-                map.events.add('touchend', symbolLayer, closePopup);
+                map.events.add('touchend', closePopup);
             });
         }
 

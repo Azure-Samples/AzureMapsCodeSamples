@@ -29,7 +29,7 @@
 
         function PageLoaded() {
             //Create a jQuery autocomplete UI widget.
-            $("#queryTbx").autocomplete({
+            $("#searchBox").autocomplete({
                 minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
                 source: function (request, response) {
 
@@ -50,14 +50,13 @@
                     //When a suggestion has been selected.
                     var selection = ui.item;
 
-                    //TODO
                     //Populate the address textbox values.
-                    document.getElementById('addressLineTbx').value = result.address.addressLine || '';
-                    document.getElementById('cityTbx').value = result.address.locality || '';
-                    document.getElementById('countyTbx').value = result.address.district || '';
-                    document.getElementById('stateTbx').value = result.address.adminDistrict || '';
-                    document.getElementById('postalCodeTbx').value = result.address.postalCode || '';
-                    document.getElementById('countryTbx').value = result.address.countryRegion || '';
+                    document.getElementById('addressLineTbx').value = (selection.address.streetNumber || '') + (selection.address.streetName || '');
+                    document.getElementById('cityTbx').value = selection.address.municipality || '';
+                    document.getElementById('countyTbx').value = selection.address.countrySecondarySubdivision || '';
+                    document.getElementById('stateTbx').value = selection.address.countrySubdivision || '';
+                    document.getElementById('postalCodeTbx').value = selection.address.postalCode || '';
+                    document.getElementById('countryTbx').value = selection.address.countryCodeISO3 || '';
                 }
             }).autocomplete("instance")._renderItem = function (ul, item) {
                 //Format the displayed suggestion to show the formatted suggestion string.

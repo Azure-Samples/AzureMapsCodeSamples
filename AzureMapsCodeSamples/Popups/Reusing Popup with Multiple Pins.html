@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows popups that contain media content." />
-    <meta name="keywords" content="map, gis, API, SDK, pins, symbols, pushpins, markers, infobox, infowindow, optimization" />
+    <meta name="keywords" content="map, gis, API, SDK, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup" />
     <meta name="author" content="Microsoft Azure Maps" />
     <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
@@ -82,7 +82,7 @@
                     //Update the content of the popup.
                     content: popupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description),
 
-                    //Update the position of the popup with the pins coordinate.
+                    //Update the position of the popup with the symbols coordinate.
                     position: e.shapes[0].getCoordinates()
                 });
 

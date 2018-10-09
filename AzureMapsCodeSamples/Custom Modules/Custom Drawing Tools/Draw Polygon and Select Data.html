@@ -41,7 +41,7 @@
                 //Generate some mock data.
                 generateMockData();
 
-                //Load the drawing tools.
+                //Load the drawing tools and have it load below the pin layer.
                 drawingTools = new PolygonDrawingTool(map, pinLayer, function (polygonShape) {
 
                     var selectedPins = [];

@@ -4,6 +4,14 @@ var sampleList = [
 	desc:'Learn how to animate data on the map.',
 	samples: [
 		{
+			title:'Animate a Choropleth Map',
+			desc:'This sameples shows hwo to create a choropleth map and animate it over time.',
+			path:'Animations/Animate%20a%20Choropleth%20Map.html',
+			sourcePath:'Animations/Animate%20a%20Choropleth%20Map.html',
+			screenshoot:'Animate-a-Choropleth-Map.png',
+			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population'
+		},
+		{
 			title:'Animate a Line',
 			desc:'This sample shows how to animate the position of a line on the map by updating its coordinates and layer.',
 			path:'Animations/Animate%20a%20Line.html',
@@ -48,6 +56,14 @@ var sampleList = [
 	desc:'Use custom modules to extend the functionality of the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Draw Line',
+			desc:'This sample shows how to draw a line on the map using the Line Drawing tools.',
+			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html',
+			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
+			screenshoot:'Draw-Line.gif',
+			keywords:'map, gis, api, sdk, line, linestring, polyline, drawing, draw'
+		},
+		{
 			title:'Draw Polygon and Select Data',
 			desc:'This sample shows how to draw a polygon on the map using the Polygon Drawing tools and then use the generated polygon to calculate all pins on the map that intersect with that polygon.',
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon%20and%20Select%20Data.html',
@@ -60,7 +76,7 @@ var sampleList = [
 			desc:'This sample shows how to draw a polygon on the map using the Polygon Drawing tools.',
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
-			screenshoot:'Draw-Polygon.png',
+			screenshoot:'Draw-Polygon.gif',
 			keywords:'map, gis, api, sdk, polygon, drawing, draw'
 		}
 	]
@@ -76,6 +92,14 @@ var sampleList = [
 			sourcePath:'Demos/Car%20vs%20Truck%20Route.html',
 			screenshoot:'Car-vs-Truck-Route.png',
 			keywords:'map, gis, api, sdk, truck, car, routing, route, directions'
+		},
+		{
+			title:'Create a Choropleth Map',
+			desc:'This sameples shows hwo to create a choropleth map. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to the measurement of the statistical variable being displayed on the map, in this case the population density of each state.',
+			path:'Demos/Create%20a%20Choropleth%20Map.html',
+			sourcePath:'Demos/Create%20a%20Choropleth%20Map.html',
+			screenshoot:'Create-a-Choropleth-Map.png',
+			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map'
 		},
 		{
 			title:'Data-Driven Bubble Layer Styling',
@@ -122,6 +146,20 @@ var sampleList = [
 			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			screenshoot:'User-Position-Accuracy-Circle.png',
 			keywords:'map, gis, api, sdk, accuracy, circle, geolocation, user, location, position'
+		}
+	]
+},
+{
+	category:'Geospatial Files',
+	desc:'Examples of how to import and export common geospatial file formats with Azure Maps.',
+	samples: [
+		{
+			title:'Drag and Drop GeoJSON File onto Map',
+			desc:'This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render.',
+			path:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
+			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
+			screenshoot:'Drag-and-Drop-GeoJSON-File-onto-Map.gif',
+			keywords:'map, gis, api, sdk, geojson, drag, drop, dropover'
 		}
 	]
 },
@@ -200,6 +238,14 @@ var sampleList = [
 	desc:'These samples show how to use the many different features of the map.',
 	samples: [
 		{
+			title:'Add a Context Menu to the Map',
+			desc:'This sample shows how to display a context menu when the user right clicks the map.',
+			path:'Map/Add%20a%20Context%20Menu%20to%20the%20Map.html',
+			sourcePath:'Map/Add%20a%20Context%20Menu%20to%20the%20Map.html',
+			screenshoot:'Add-a-Context-Menu-to-the-Map.png',
+			keywords:'map, gis, api, sdk, context menu, popup, right click, mouse'
+		},
+		{
 			title:'Full Screen Map',
 			desc:'This sample shows how to toggle between displying the standard page layout, and a full screen map view.',
 			path:'Map/Full%20Screen%20Map.html',
@@ -270,12 +316,20 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, popup, infobox, infowindow, media'
 		},
 		{
+			title:'Popups on Shapes',
+			desc:'This sample shows how to display a popup when a user interacts with any shape on the map.',
+			path:'Popups/Popups%20on%20Shapes.html',
+			sourcePath:'Popups/Popups%20on%20Shapes.html',
+			screenshoot:'Popups-on-Shapes.png',
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline'
+		},
+		{
 			title:'Reusing Popup with Multiple Pins',
 			desc:'This sample shows popups that contain media content.',
 			path:'Popups/Reusing%20Popup%20with%20Multiple%20Pins.html',
 			sourcePath:'Popups/Reusing%20Popup%20with%20Multiple%20Pins.html',
 			screenshoot:'Reusing-Popup-with-Multiple-Pins.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization'
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup'
 		}
 	]
 },
@@ -283,6 +337,14 @@ var sampleList = [
 	category:'REST Services',
 	desc:'Learn how to directly access the Azure Maps REST services from JavaScript.',
 	samples: [
+		{
+			title:'Fill Address Form with Autosuggest',
+			desc:'This sample shows how to use the Azure Maps Search service with JQuery UI\'s autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion.',
+			path:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
+			sourcePath:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
+			screenshoot:'Fill-Address-Form-with-Autosuggest.PNG',
+			keywords:'map, gis, api, sdk, search, geocoding, geocode, autosuggest, autocomplete, jquery'
+		},
 		{
 			title:'Get Users Timezone with Prompt',
 			desc:'This sample shows how to determine a users timezone by passing the users location into the Azure Maps REST Timezone service. The users location is retrived using the HTML5 geolocation API which displays a prompt to the user to share their location.',
@@ -426,6 +488,14 @@ var sampleList = [
 	desc:'Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling.',
 	samples: [
 		{
+			title:'Adding Mouse Events to HTML Markers',
+			desc:'This sample shows how to add mouse events to an HTML marker by adding standard JavaScript events to the HTML content of the marker.',
+			path:'Symbols%20and%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
+			sourcePath:'Symbols%20and%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
+			screenshoot:'Adding-Mouse-Events-to-HTML-Markers.gif',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse'
+		},
+		{
 			title:'Create Symbols from Custom JSON',
 			desc:'It is fairly common to access JSON data in your application which contains location data but is not in GeoJSON format. This sample shows how to use this JSON data to create clickable symbols on a map, that when clicked, display a popup with the title and description values of the symbol that was clicked.',
 			path:'Symbols%20and%20Markers/Create%20Symbols%20from%20Custom%20JSON.html',
@@ -451,7 +521,7 @@ var sampleList = [
 		},
 		{
 			title:'Draggable HTML Marker',
-			desc:'This sample shows how to animate a pin on the map by adding and removing the layer while updating the coordinates.',
+			desc:'This sample shows how to make an HTML marker draggable.',
 			path:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
 			sourcePath:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
 			screenshoot:'Draggable-HTML-Marker.gif',
@@ -534,4 +604,4 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents'
 		}
 	]
-}];var numberOfSamples = 55;
+}];var numberOfSamples = 63;

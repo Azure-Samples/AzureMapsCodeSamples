@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Add a Context Menu to the Map</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to display a context menu when the user right clicks the map." />
+    <meta name="keywords" content="map, gis, API, SDK, context menu, popup, right click, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, contextMenu;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                var contextMenuHtml = [
+                    '<ul class="contextMenu">',
+                    '<li onclick="setStyle(event, \'road\');">Road</li>',
+                    '<li onclick="setStyle(event, \'satellite_road_labels\');">Satellite</li>',
+                    '<li onclick="changeZoom(event, 1);">Zoom In</li>',
+                    '<li onclick="changeZoom(event, -1);">Zoom Out</li>',
+                    '</ul>'
+                ];
+
+                //Create a context menu using a popup.
+                contextMenu = new atlas.Popup({
+                    position: [0, 0],
+
+                    //Set content of the popup with HTML for the context menu.
+                    content: contextMenuHtml.join('')
+                });
+
+                //Add a right click event to the map.
+                map.events.add('contextmenu', function (e) {
+                    //Update the position of the popup context menu with the mouse position.
+                    contextMenu.setPopupOptions({                        
+                        position: e.position
+                    });
+
+                    //Open the popup context menu.
+                    contextMenu.open(map);
+                });
+
+                //Close the context menu if the user presses the mouse up anywhere else on the screen.
+                document.body.onmouseup = function () {
+                    contextMenu.close();
+                };
+            });
+        }
+
+        function setStyle(event, style) {
+            //Prevent event from bubbling up.
+            event.preventDefault();
+
+            //Set the map style.
+            map.setStyle({
+                style: style
+            });
+        }
+
+        function changeZoom(event, zoomOffset) {
+            //Prevent event from bubbling up.
+            event.preventDefault();
+
+            //Get the current zoom level of the map and offset it accordingly. 
+            map.setCamera({ zoom: map.getCamera().zoom + zoomOffset });
+        }
+    </script>
+    <style>
+        .contextMenu {
+            border: 1px solid gray;
+            min-width: 125px;
+            list-style: none;
+            display: block;
+            list-style-position: outside;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .contextMenu li {
+                cursor: pointer;
+                display: block;
+                padding: 6px 12px;
+            }
+
+                .contextMenu li:focus, .contextMenu li:hover {
+                    background-color: rgba(0,0,0,.05);
+                }
+
+            .contextMenu a,
+            .contextMenu a:hover,
+            .contextMenu a:focus,
+            .contextMenu a:active {
+                text-decoration: none;
+                color: black;
+                font-size: 14px;
+            }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Add a Context Menu to the Map</legend>
+        This sample shows how to display a context menu when the user right clicks the map. In this case an popup is used as a context menu container.
+    </fieldset>
+</body>
+</html>
