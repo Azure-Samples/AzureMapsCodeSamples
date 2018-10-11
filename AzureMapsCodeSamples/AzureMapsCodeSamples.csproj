@@ -84,6 +84,7 @@
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Map\Add a Context Menu to the Map.html" />
+    <Content Include="Map\Overviewmap.html" />
     <Content Include="SiteResources\screenshots\Add-a-Context-Menu-to-the-Map.png" />
     <Content Include="SiteResources\screenshots\Adding-Mouse-Events-to-HTML-Markers.gif" />
     <Content Include="SiteResources\screenshots\Animate-a-Choropleth-Map.png" />
@@ -93,6 +94,7 @@
     <Content Include="SiteResources\screenshots\Draw-Line.gif" />
     <Content Include="SiteResources\screenshots\Draw-Polygon.gif" />
     <Content Include="SiteResources\screenshots\Fill-Address-Form-with-Autosuggest.PNG" />
+    <Content Include="SiteResources\screenshots\OverviewMap.png" />
     <Content Include="SiteResources\screenshots\Popups-on-Shapes.png" />
     <Content Include="Symbols and Markers\Adding Mouse Events to HTML Markers.html" />
     <Content Include="Demos\Create a Choropleth Map.html" />
