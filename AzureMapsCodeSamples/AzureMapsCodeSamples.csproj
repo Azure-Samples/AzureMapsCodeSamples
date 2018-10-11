@@ -61,6 +61,7 @@
   <ItemGroup>
     <Content Include="Animations\Animate a Line.html" />
     <Content Include="Animations\Animate a Symbol along a Path.html" />
+    <Content Include="Animations\Point animation.html" />
     <Content Include="Animations\Simple HTML Marker Animation.html" />
     <Content Include="Animations\Simple Symbol Animation.html" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
@@ -94,6 +95,7 @@
     <Content Include="SiteResources\screenshots\Draw-Polygon.gif" />
     <Content Include="SiteResources\screenshots\Fill-Address-Form-with-Autosuggest.PNG" />
     <Content Include="SiteResources\screenshots\Popups-on-Shapes.png" />
+    <Content Include="SiteResources\screenshots\pulseanimation.png" />
     <Content Include="Symbols and Markers\Adding Mouse Events to HTML Markers.html" />
     <Content Include="Demos\Create a Choropleth Map.html" />
     <Content Include="Experimental\Popup Expanding Tooltip.html" />

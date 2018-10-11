@@ -47,7 +47,16 @@ var sampleList = [
 			screenshoot:'Simple-Symbol-Animation.gif',
 			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
 			created:'9/23/2018'
-		}
+        },
+        {
+            title: 'Simple Pulse Animation',
+            desc: 'This sample shows how to pulse animate the position of a HTML marker on the map.',
+            path: 'Animations/Point%20animation.html',
+            sourcePath: 'Animations/Point%20animation.html',
+            screenshoot: 'pulseanimation.png',
+            keywords: 'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
+            created: '10/11/2018'
+        }
 	]
 },
 {
