@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Web Control Samples - HTML pulse animation</title>
+    <title>Azure Maps Web Control Samples - HTML Marker Pulse Animation</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -15,6 +15,29 @@
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
+    <script type='text/javascript'>
+        var map, marker;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a HTML marker and add it to the map.
+                marker = new atlas.HtmlMarker({
+                    htmlContent: '<div class="pulse"></div>',
+                    position: [0, 0]
+                });
+
+                map.markers.add(marker);
+            });
+        }
+
+    </script>
     <style type="text/css">
         .pulse {
             display: block;
@@ -45,38 +68,12 @@
             }
         }
     </style>
-    
-    <script type='text/javascript'>
-        var map, marker;
-
-        function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('fyPo4BWO5PvgFLPL6myK9wVWJrrxGcMjOi39FBGORh0');
-
-            //Initialize a map instance.
-            map = new atlas.Map('myMap');
-
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
-                //Create a HTML marker and add it to the map.
-                marker = new atlas.HtmlMarker({
-                    htmlContent: '<div class="pulse"></div>',
-                    position: [17.3069, 62.3908]
-                });
-
-                map.markers.add(marker);
-
-            });
-        }
-        
-    </script>
-    
 </head>
 <body onload='GetMap()'>
     <div id='myMap' style='position:relative;width:800px;height:600px;'></div>
 
     <fieldset style='width:700px;margin-top:10px;'>
-        <legend>Marker pulse animation</legend>
+        <legend>HTML Marker Pulse Animation</legend>
         This sample shows how to pulse animate the position of a HTML marker on the map.
     </fieldset>
 </body>

@@ -31,6 +31,15 @@ var sampleList = [
 			created:'10/10/2018'
 		},
 		{
+			title:'HTML Marker Pulse Animation',
+			desc:'This sample shows how to pulse animate the position of a HTML marker on the map.',
+			path:'Animations/HTML%20Marker%20Pulse%20Animation.html',
+			sourcePath:'Animations/HTML%20Marker%20Pulse%20Animation.html',
+			screenshoot:'HTML-Marker-Pulse-Animation.gif',
+			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
+			created:'10/11/2018'
+		},
+		{
 			title:'Simple HTML Marker Animation',
 			desc:'This sample shows how to animate the position of a HTML marker on the map by updating the coordinates.',
 			path:'Animations/Simple%20HTML%20Marker%20Animation.html',
@@ -47,16 +56,7 @@ var sampleList = [
 			screenshoot:'Simple-Symbol-Animation.gif',
 			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
 			created:'9/23/2018'
-        },
-        {
-            title: 'Simple Pulse Animation',
-            desc: 'This sample shows how to pulse animate the position of a HTML marker on the map.',
-            path: 'Animations/Point%20animation.html',
-            sourcePath: 'Animations/Point%20animation.html',
-            screenshoot: 'pulseanimation.png',
-            keywords: 'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
-            created: '10/11/2018'
-        }
+		}
 	]
 },
 {
@@ -332,6 +332,15 @@ var sampleList = [
 			screenshoot:'Map-Localization.png',
 			keywords:'map, gis, api, sdk, language, culture, localization, user region',
 			created:'5/4/2018'
+		},
+		{
+			title:'Mini Overview Map',
+			desc:'This sample shows how to create a second mini overview map which shows the main maps area of focus.',
+			path:'Map/Mini%20Overview%20Map.html',
+			sourcePath:'Map/Mini%20Overview%20Map.html',
+			screenshoot:'Mini-Overview-Map.png',
+			keywords:'map, gis, api, sdk, events, overview map, overview, mini map, minimap',
+			created:'10/11/2018'
 		},
 		{
 			title:'Multiple Maps in Different Languages',
@@ -685,4 +694,4 @@ var sampleList = [
 			created:'5/4/2018'
 		}
 	]
-}];var numberOfSamples = 64;
+}];var numberOfSamples = 66;

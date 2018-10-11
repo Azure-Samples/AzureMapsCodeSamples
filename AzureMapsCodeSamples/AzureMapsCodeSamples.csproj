@@ -61,7 +61,7 @@
   <ItemGroup>
     <Content Include="Animations\Animate a Line.html" />
     <Content Include="Animations\Animate a Symbol along a Path.html" />
-    <Content Include="Animations\Point animation.html" />
+    <Content Include="Animations\HTML Marker Pulse Animation.html" />
     <Content Include="Animations\Simple HTML Marker Animation.html" />
     <Content Include="Animations\Simple Symbol Animation.html" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
@@ -85,7 +85,7 @@
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Map\Add a Context Menu to the Map.html" />
-    <Content Include="Map\Overviewmap.html" />
+    <Content Include="Map\Mini Overview Map.html" />
     <Content Include="SiteResources\screenshots\Add-a-Context-Menu-to-the-Map.png" />
     <Content Include="SiteResources\screenshots\Adding-Mouse-Events-to-HTML-Markers.gif" />
     <Content Include="SiteResources\screenshots\Animate-a-Choropleth-Map.png" />
@@ -95,9 +95,9 @@
     <Content Include="SiteResources\screenshots\Draw-Line.gif" />
     <Content Include="SiteResources\screenshots\Draw-Polygon.gif" />
     <Content Include="SiteResources\screenshots\Fill-Address-Form-with-Autosuggest.PNG" />
-    <Content Include="SiteResources\screenshots\OverviewMap.png" />
+    <Content Include="SiteResources\screenshots\HTML-Marker-Pulse-Animation.gif" />
+    <Content Include="SiteResources\screenshots\Mini-Overview-Map.png" />
     <Content Include="SiteResources\screenshots\Popups-on-Shapes.png" />
-    <Content Include="SiteResources\screenshots\pulseanimation.png" />
     <Content Include="Symbols and Markers\Adding Mouse Events to HTML Markers.html" />
     <Content Include="Demos\Create a Choropleth Map.html" />
     <Content Include="Experimental\Popup Expanding Tooltip.html" />
