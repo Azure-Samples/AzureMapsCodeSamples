@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Overview Map</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to make an overview map." />
+    <meta name="keywords" content="map, gis, API, SDK, events" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="SiteResources/screenshots/MapsSampleIcon.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var overviewMap, map, mapEvents = ['move', 'moveend', 'resize', 'touchend', 'touchmove', 'touchstart', 'wheel'];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+            overviewMap = new atlas.Map(myoverviewmap);
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Add the events to the map.
+                for (var i = 0; i < mapEvents.length; i++) {
+                    map.events.add(mapEvents[i], mapChangedView);
+                }
+            });
+        }
+
+        var mapChangedView = function (evt) {
+            var camera = map.getCamera();
+            console.log(camera);
+            if (camera) {
+                camera.zoom = ((camera.zoom - 6) > 1) ? camera.zoom - 6 : 1;
+                delete camera.bounds;
+                overviewMap.setCamera(camera);
+            }
+        }
+
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myoverviewmap" style="box-shadow: 0 2px 4px rgba(0,0,0,.5); width: 200px; height: 200px; left: 1em; top: 1em; position: absolute; border: solid 1px darkgray;z-index: 1; background-color: azure;"></div>
+
+    <div style="clear:both;"></div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Overview map</legend>
+        This sample shows an overview map.
+    </fieldset>
+</body>
+</html>
