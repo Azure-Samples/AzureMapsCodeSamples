@@ -19,7 +19,7 @@
 
     <script type='text/javascript'>
         var map, lineLayer, defaultOptions, removeDefaults;
-
+        
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
@@ -72,6 +72,21 @@
         function getInputOptions() {
             removeDefaults = document.getElementById('RemoveDefaults').checked;
 
+            var sda = document.getElementById('StrokeDashArray').value;
+            var dashArray = undefined;
+
+            if (sda && sda != '') {
+                sda = sda.split(/[\s,]+/);
+                if (sda && sda.length > 1) {
+                    dashArray = [];
+                    for (var i = 0; i < sda.length; i++) {
+                        dashArray.push(parseInt(sda[i]));
+                    }
+                }
+            }            
+
+            //TODO: Add stroke gradient option
+
             return {
                 strokeColor: getPropertyValue('color', document.getElementById('StrokeColor').value),
                 strokeOpacity: getPropertyValue('strokeOpacity', parseFloat(document.getElementById('StrokeOpacity').value)),
@@ -82,7 +97,8 @@
                 offset: getPropertyValue('offset', parseFloat(document.getElementById('Offset').value)),
                 minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
                 maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
-                visible: getPropertyValue('visible', document.getElementById('Visible').checked)
+                visible: getPropertyValue('visible', document.getElementById('Visible').checked),
+                strokeDashArray: dashArray
             };
         }
 
@@ -124,6 +140,7 @@
             position: relative;
             width: 455px;
             height: 600px;
+            float: left;
         }
 
         .sidePanel {
@@ -238,7 +255,7 @@
             <table>
                 <tr title="The color used to outline the line.">
                     <td>Stroke Color:</td>
-                    <td><input type="color" id="StrokeColor" onchange="updateLineLayer()" /></td>
+                    <td><input type="color" id="StrokeColor" value="#000000" onchange="updateLineLayer()" /></td>
                 </tr>
                 <tr title="A number between 0 and 1 that indicates the opacity at which the stroke will be drawn.">
                     <td>Stroke Opacity:</td>
@@ -254,7 +271,7 @@
                     <td>
                         <form oninput="sw.value=StrokeWidth.value">
                             <input type="range" id="StrokeWidth" value="1" min="0" max="25" step="1" oninput="updateLineLayer()" onchange="updateLineLayer()" />
-                            <output name="sw" for="StrokeWidth">3</output>
+                            <output name="sw" for="StrokeWidth">1</output>
                         </form>
                     </td>
                 </tr>
@@ -282,7 +299,7 @@
                     <td>Blur:</td>
                     <td>
                         <form oninput="b.value=Blur.value">
-                            <input type="range" id="Blur" value="1" min="0" max="25" step="1" oninput="updateLineLayer()" onchange="updateLineLayer()" />
+                            <input type="range" id="Blur" value="0" min="0" max="25" step="1" oninput="updateLineLayer()" onchange="updateLineLayer()" />
                             <output name="b" for="Blur">0</output>
                         </form>
                     </td>
@@ -291,9 +308,15 @@
                     <td>Offset:</td>
                     <td>
                         <form oninput="o.value=Offset.value">
-                            <input type="range" id="Offset" value="1" min="-25" max="25" step="1" oninput="updateLineLayer()" onchange="updateLineLayer()" />
+                            <input type="range" id="Offset" value="0" min="-25" max="25" step="1" oninput="updateLineLayer()" onchange="updateLineLayer()" />
                             <output name="o" for="Offset">0</output>
                         </form>
+                    </td>
+                </tr>
+                <tr title="An integer value that specifies the width and height dimensions of the map tiles. For a seamless experience, the tile size must by a multiplier of 2. ">
+                    <td>Stroke Dash Array</td>
+                    <td>
+                        <input type="text" id="StrokeDashArray" onkeyup="updateLineLayer()"/>
                     </td>
                 </tr>
             </table>

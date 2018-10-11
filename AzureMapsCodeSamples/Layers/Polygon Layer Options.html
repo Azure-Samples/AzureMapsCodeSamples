@@ -72,6 +72,7 @@
         function getInputOptions() {
             removeDefaults = document.getElementById('RemoveDefaults').checked;
 
+            //TODO: Add fill pattern
             return {
                 fillColor: getPropertyValue('fillColor', document.getElementById('FillColorTransparent').checked ? 'transparent' : document.getElementById('FillColor').value),
                 fillOpacity: getPropertyValue('fillOpacity', parseFloat(document.getElementById('FillOpacity').value)),
@@ -119,6 +120,7 @@
             position: relative;
             width: 455px;
             height: 600px;
+            float: left;
         }
 
         .sidePanel {
@@ -195,7 +197,7 @@
                 <tr title="The color to fill the polygons with.">
                     <td>Fill Color:</td>
                     <td>
-                        <input type="color" id="FillColor" onchange="updatePolygonLayer()" />
+                        <input type="color" value="#1A73AA" id="FillColor" onchange="updatePolygonLayer()" />
                         <input type="checkbox" id="FillColorTransparent" onclick="updatePolygonLayer()"/>Transparent
                     </td>
                 </tr>
@@ -203,8 +205,8 @@
                     <td>Fill Opacity:</td>
                     <td>
                         <form oninput="o.value=FillOpacity.value">
-                            <input type="range" id="FillOpacity" value="1" min="0" max="1" step="0.1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
-                            <output name="o" for="FillOpacity">1</output>
+                            <input type="range" id="FillOpacity" value="0.5" min="0" max="1" step="0.1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
+                            <output name="o" for="FillOpacity">0.5</output>
                         </form>
                     </td>
                 </tr>

@@ -9,7 +9,8 @@ var sampleList = [
 			path:'Animations/Animate%20a%20Choropleth%20Map.html',
 			sourcePath:'Animations/Animate%20a%20Choropleth%20Map.html',
 			screenshoot:'Animate-a-Choropleth-Map.png',
-			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population'
+			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population',
+			created:'10/8/2018'
 		},
 		{
 			title:'Animate a Line',
@@ -17,7 +18,17 @@ var sampleList = [
 			path:'Animations/Animate%20a%20Line.html',
 			sourcePath:'Animations/Animate%20a%20Line.html',
 			screenshoot:'Animate-a-Line.gif',
-			keywords:'map, gis, api, sdk, animate, animation, line, linestring, polyline'
+			keywords:'map, gis, api, sdk, animate, animation, line, linestring, polyline',
+			created:'6/8/2018'
+		},
+		{
+			title:'Animate a Symbol along a Path',
+			desc:'This sample shows how to animate a symbol along a path on the map smoothly. ',
+			path:'Animations/Animate%20a%20Symbol%20along%20a%20Path.html',
+			sourcePath:'Animations/Animate%20a%20Symbol%20along%20a%20Path.html',
+			screenshoot:'Animate-a-Symbol-along-a-Path.gif',
+			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
+			created:'10/10/2018'
 		},
 		{
 			title:'Simple HTML Marker Animation',
@@ -25,7 +36,8 @@ var sampleList = [
 			path:'Animations/Simple%20HTML%20Marker%20Animation.html',
 			sourcePath:'Animations/Simple%20HTML%20Marker%20Animation.html',
 			screenshoot:'Simple-HTML-Marker-Animation.gif',
-			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin'
+			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
+			created:'9/23/2018'
 		},
 		{
 			title:'Simple Symbol Animation',
@@ -33,7 +45,8 @@ var sampleList = [
 			path:'Animations/Simple%20Symbol%20Animation.html',
 			sourcePath:'Animations/Simple%20Symbol%20Animation.html',
 			screenshoot:'Simple-Symbol-Animation.gif',
-			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins'
+			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -47,7 +60,8 @@ var sampleList = [
 			path:'Controls/Map%20Navigation%20Control%20Options.html',
 			sourcePath:'Controls/Map%20Navigation%20Control%20Options.html',
 			screenshoot:'Map-Navigation-Control-Options.gif',
-			keywords:'maps, map, api, sdk, gis, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery'
+			keywords:'maps, map, api, sdk, gis, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery',
+			created:'9/7/2018'
 		}
 	]
 },
@@ -61,7 +75,8 @@ var sampleList = [
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
 			screenshoot:'Draw-Line.gif',
-			keywords:'map, gis, api, sdk, line, linestring, polyline, drawing, draw'
+			keywords:'map, gis, api, sdk, line, linestring, polyline, drawing, draw',
+			created:'10/9/2018'
 		},
 		{
 			title:'Draw Polygon and Select Data',
@@ -69,7 +84,8 @@ var sampleList = [
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon%20and%20Select%20Data.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
 			screenshoot:'Draw-Polygon-and-Select-Data.png',
-			keywords:'map, gis, api, sdk, polygon, drawing, draw, symbols, pushpins, pins, markers'
+			keywords:'map, gis, api, sdk, polygon, drawing, draw, symbols, pushpins, pins, markers',
+			created:'9/23/2018'
 		},
 		{
 			title:'Draw Polygon',
@@ -77,7 +93,8 @@ var sampleList = [
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
 			screenshoot:'Draw-Polygon.gif',
-			keywords:'map, gis, api, sdk, polygon, drawing, draw'
+			keywords:'map, gis, api, sdk, polygon, drawing, draw',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -91,7 +108,8 @@ var sampleList = [
 			path:'Demos/Car%20vs%20Truck%20Route.html',
 			sourcePath:'Demos/Car%20vs%20Truck%20Route.html',
 			screenshoot:'Car-vs-Truck-Route.png',
-			keywords:'map, gis, api, sdk, truck, car, routing, route, directions'
+			keywords:'map, gis, api, sdk, truck, car, routing, route, directions',
+			created:'9/23/2018'
 		},
 		{
 			title:'Create a Choropleth Map',
@@ -99,7 +117,8 @@ var sampleList = [
 			path:'Demos/Create%20a%20Choropleth%20Map.html',
 			sourcePath:'Demos/Create%20a%20Choropleth%20Map.html',
 			screenshoot:'Create-a-Choropleth-Map.png',
-			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map'
+			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map',
+			created:'10/8/2018'
 		},
 		{
 			title:'Data-Driven Bubble Layer Styling',
@@ -107,7 +126,8 @@ var sampleList = [
 			path:'Demos/Data-Driven%20Bubble%20Layer%20Styling.html',
 			sourcePath:'Demos/Data-Driven%20Bubble%20Layer%20Styling.html',
 			screenshoot:'Data-Driven-Bubble-Layer-Styling.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven, weather, earthquakes, usgs'
+			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven, weather, earthquakes, usgs',
+			created:'9/23/2018'
 		},
 		{
 			title:'Large GeoJSON Files',
@@ -115,7 +135,8 @@ var sampleList = [
 			path:'Demos/Large%20GeoJSON%20Files.html',
 			sourcePath:'Demos/Large%20GeoJSON%20Files.html',
 			screenshoot:'Large-GeoJSON-Files.png',
-			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin'
+			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -129,7 +150,8 @@ var sampleList = [
 			path:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
 			sourcePath:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
 			screenshoot:'',
-			keywords:'map, gis, api, sdk, geolocation, user, location, position, tracking'
+			keywords:'map, gis, api, sdk, geolocation, user, location, position, tracking',
+			created:'9/30/2018'
 		},
 		{
 			title:'Show a Users Position',
@@ -137,7 +159,8 @@ var sampleList = [
 			path:'Device%20Sensors/Show%20a%20Users%20Position.html',
 			sourcePath:'Device%20Sensors/Show%20a%20Users%20Position.html',
 			screenshoot:'',
-			keywords:'map, gis, api, sdk, geolocation, user, location, position'
+			keywords:'map, gis, api, sdk, geolocation, user, location, position',
+			created:'9/30/2018'
 		},
 		{
 			title:'User Location Accuracy Circle',
@@ -145,7 +168,8 @@ var sampleList = [
 			path:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			screenshoot:'User-Position-Accuracy-Circle.png',
-			keywords:'map, gis, api, sdk, accuracy, circle, geolocation, user, location, position'
+			keywords:'map, gis, api, sdk, accuracy, circle, geolocation, user, location, position',
+			created:'9/30/2018'
 		}
 	]
 },
@@ -159,7 +183,8 @@ var sampleList = [
 			path:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			screenshoot:'Drag-and-Drop-GeoJSON-File-onto-Map.gif',
-			keywords:'map, gis, api, sdk, geojson, drag, drop, dropover'
+			keywords:'map, gis, api, sdk, geojson, drag, drop, dropover',
+			created:'10/7/2018'
 		}
 	]
 },
@@ -173,7 +198,8 @@ var sampleList = [
 			path:'Layers/Bubble%20Layer%20Options.html',
 			sourcePath:'Layers/Bubble%20Layer%20Options.html',
 			screenshoot:'Bubble-Layer-Options.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer'
+			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer',
+			created:'9/23/2018'
 		},
 		{
 			title:'Change Mouse Cursor when Hovering Layer',
@@ -181,7 +207,8 @@ var sampleList = [
 			path:'Layers/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
 			sourcePath:'Layers/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
 			screenshoot:'Change-Mouse-Cursor-when-Hovering-Layer.gif',
-			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor'
+			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor',
+			created:'9/26/2018'
 		},
 		{
 			title:'Layer Events',
@@ -189,7 +216,8 @@ var sampleList = [
 			path:'Layers/Layer%20Events.html',
 			sourcePath:'Layers/Layer%20Events.html',
 			screenshoot:'Layer-Events.gif',
-			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel'
+			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
+			created:'9/26/2018'
 		},
 		{
 			title:'Line Layer Options',
@@ -197,7 +225,8 @@ var sampleList = [
 			path:'Layers/Line%20Layer%20Options.html',
 			sourcePath:'Layers/Line%20Layer%20Options.html',
 			screenshoot:'Line-Layer-Options.png',
-			keywords:'map, gis, api, sdk, line, linestring, polyline, layer'
+			keywords:'map, gis, api, sdk, line, linestring, polyline, layer',
+			created:'9/23/2018'
 		},
 		{
 			title:'Polygon Layer Options',
@@ -205,7 +234,8 @@ var sampleList = [
 			path:'Layers/Polygon%20Layer%20Options.html',
 			sourcePath:'Layers/Polygon%20Layer%20Options.html',
 			screenshoot:'Polygon-Layer-Options.png',
-			keywords:'map, gis, api, sdk, polygon, layer'
+			keywords:'map, gis, api, sdk, polygon, layer',
+			created:'9/23/2018'
 		},
 		{
 			title:'Symbol Layer Options',
@@ -213,7 +243,8 @@ var sampleList = [
 			path:'Layers/Symbol%20Layer%20Options.html',
 			sourcePath:'Layers/Symbol%20Layer%20Options.html',
 			screenshoot:'Symbol-Layer-Options.png',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, layer'
+			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, layer',
+			created:'9/23/2018'
 		},
 		{
 			title:'Tile Layer Options',
@@ -221,7 +252,8 @@ var sampleList = [
 			path:'Layers/Tile%20Layer%20Options.html',
 			sourcePath:'Layers/Tile%20Layer%20Options.html',
 			screenshoot:'Tile-Layer-Options.png',
-			keywords:'map, gis, api, sdk, tiles, layer'
+			keywords:'map, gis, api, sdk, tiles, layer',
+			created:'9/23/2018'
 		},
 		{
 			title:'Tile Layer using X, Y, and Z',
@@ -229,7 +261,8 @@ var sampleList = [
 			path:'Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
 			sourcePath:'Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
 			screenshoot:'Tile-Layer-using-X,-Y-and-Z.png',
-			keywords:'map, gis, api, sdk, tiles, layer, weather'
+			keywords:'map, gis, api, sdk, tiles, layer, weather',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -243,7 +276,8 @@ var sampleList = [
 			path:'Map/Add%20a%20Context%20Menu%20to%20the%20Map.html',
 			sourcePath:'Map/Add%20a%20Context%20Menu%20to%20the%20Map.html',
 			screenshoot:'Add-a-Context-Menu-to-the-Map.png',
-			keywords:'map, gis, api, sdk, context menu, popup, right click, mouse'
+			keywords:'map, gis, api, sdk, context menu, popup, right click, mouse',
+			created:'10/8/2018'
 		},
 		{
 			title:'Full Screen Map',
@@ -251,7 +285,8 @@ var sampleList = [
 			path:'Map/Full%20Screen%20Map.html',
 			sourcePath:'Map/Full%20Screen%20Map.html',
 			screenshoot:'Full-Screen-Map.png',
-			keywords:'map, gis, api, sdk, full, screen'
+			keywords:'map, gis, api, sdk, full, screen',
+			created:'5/4/2018'
 		},
 		{
 			title:'Lazy Load the Map',
@@ -259,7 +294,8 @@ var sampleList = [
 			path:'Map/Lazy%20Load%20the%20Map.html',
 			sourcePath:'Map/Lazy%20Load%20the%20Map.html',
 			screenshoot:'',
-			keywords:'map, gis, api, sdk, lazy load, reduce cost, tabs'
+			keywords:'map, gis, api, sdk, lazy load, reduce cost, tabs',
+			created:'5/4/2018'
 		},
 		{
 			title:'Load Map with Options',
@@ -267,7 +303,8 @@ var sampleList = [
 			path:'Map/Load%20Map%20with%20Options.html',
 			sourcePath:'Map/Load%20Map%20with%20Options.html',
 			screenshoot:'Load-Map-with-Options.png',
-			keywords:'map, gis, api, sdk, multiple'
+			keywords:'map, gis, api, sdk, multiple',
+			created:'5/4/2018'
 		},
 		{
 			title:'Map Events',
@@ -275,7 +312,8 @@ var sampleList = [
 			path:'Map/Map%20Events.html',
 			sourcePath:'Map/Map%20Events.html',
 			screenshoot:'Map-Events.gif',
-			keywords:'map, gis, api, sdk, events, click, mouse, touch, context menu, wheel'
+			keywords:'map, gis, api, sdk, events, click, mouse, touch, context menu, wheel',
+			created:'5/4/2018'
 		},
 		{
 			title:'Map Localization',
@@ -283,7 +321,8 @@ var sampleList = [
 			path:'Map/Map%20Localization.html',
 			sourcePath:'Map/Map%20Localization.html',
 			screenshoot:'Map-Localization.png',
-			keywords:'map, gis, api, sdk, language, culture, localization, user region'
+			keywords:'map, gis, api, sdk, language, culture, localization, user region',
+			created:'5/4/2018'
 		},
 		{
 			title:'Multiple Maps in Different Languages',
@@ -291,7 +330,8 @@ var sampleList = [
 			path:'Map/Multiple%20Maps%20in%20Different%20Lanaguages.html',
 			sourcePath:'Map/Multiple%20Maps%20in%20Different%20Lanaguages.html',
 			screenshoot:'Multiple-Maps-in-Different-Lanaguages.png',
-			keywords:'map, gis, api, sdk, multiple, language, localization, culture'
+			keywords:'map, gis, api, sdk, multiple, language, localization, culture',
+			created:'5/4/2018'
 		},
 		{
 			title:'Multiple Maps',
@@ -299,7 +339,8 @@ var sampleList = [
 			path:'Map/Multiple%20Maps.html',
 			sourcePath:'Map/Multiple%20Maps.html',
 			screenshoot:'Multiple-Maps.png',
-			keywords:'map, gis, api, sdk, multiple'
+			keywords:'map, gis, api, sdk, multiple',
+			created:'5/4/2018'
 		}
 	]
 },
@@ -313,7 +354,8 @@ var sampleList = [
 			path:'Popups/Popup%20with%20Media%20Content.html',
 			sourcePath:'Popups/Popup%20with%20Media%20Content.html',
 			screenshoot:'Popup-with-Media-Content.png',
-			keywords:'map, gis, api, sdk, popup, infobox, infowindow, media'
+			keywords:'map, gis, api, sdk, popup, infobox, infowindow, media',
+			created:'5/4/2018'
 		},
 		{
 			title:'Popups on Shapes',
@@ -321,7 +363,8 @@ var sampleList = [
 			path:'Popups/Popups%20on%20Shapes.html',
 			sourcePath:'Popups/Popups%20on%20Shapes.html',
 			screenshoot:'Popups-on-Shapes.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline'
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline',
+			created:'10/8/2018'
 		},
 		{
 			title:'Reusing Popup with Multiple Pins',
@@ -329,7 +372,8 @@ var sampleList = [
 			path:'Popups/Reusing%20Popup%20with%20Multiple%20Pins.html',
 			sourcePath:'Popups/Reusing%20Popup%20with%20Multiple%20Pins.html',
 			screenshoot:'Reusing-Popup-with-Multiple-Pins.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup'
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup',
+			created:'5/4/2018'
 		}
 	]
 },
@@ -343,7 +387,8 @@ var sampleList = [
 			path:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
 			sourcePath:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
 			screenshoot:'Fill-Address-Form-with-Autosuggest.PNG',
-			keywords:'map, gis, api, sdk, search, geocoding, geocode, autosuggest, autocomplete, jquery'
+			keywords:'map, gis, api, sdk, search, geocoding, geocode, autosuggest, autocomplete, jquery',
+			created:'10/8/2018'
 		},
 		{
 			title:'Get Users Timezone with Prompt',
@@ -351,7 +396,8 @@ var sampleList = [
 			path:'REST%20Services/Get%20Users%20Timezone.html',
 			sourcePath:'REST%20Services/Get%20Users%20Timezone.html',
 			screenshoot:'',
-			keywords:'map, gis, api, sdk, rest, service, timezone, user, location, geolocation'
+			keywords:'map, gis, api, sdk, rest, service, timezone, user, location, geolocation',
+			created:'9/24/2018'
 		},
 		{
 			title:'Search Autosuggest and JQuery UI',
@@ -359,7 +405,8 @@ var sampleList = [
 			path:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			sourcePath:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			screenshoot:'Search-Autosuggest-and-JQuery-UI.gif',
-			keywords:'map, gis, api, sdk, rest, search, geocoding, geocode, fuzzy, address, place, poi, points of interest, category, autosuggest, autocomplete, jquery'
+			keywords:'map, gis, api, sdk, rest, search, geocoding, geocode, fuzzy, address, place, poi, points of interest, category, autosuggest, autocomplete, jquery',
+			created:'9/23/2018'
 		},
 		{
 			title:'Simple REST Directions',
@@ -367,7 +414,8 @@ var sampleList = [
 			path:'REST%20Services/Simple%20REST%20Directions.html',
 			sourcePath:'REST%20Services/Simple%20REST%20Directions.html',
 			screenshoot:'Simple-REST-Directions.png',
-			keywords:'map, gis, api, sdk, rest, service, directions, route, routing'
+			keywords:'map, gis, api, sdk, rest, service, directions, route, routing',
+			created:'9/23/2018'
 		},
 		{
 			title:'Simple REST Geocoding Request',
@@ -375,7 +423,8 @@ var sampleList = [
 			path:'REST%20Services/Simple%20REST%20Geocoding%20Request.html',
 			sourcePath:'REST%20Services/Simple%20REST%20Geocoding%20Request.html',
 			screenshoot:'Simple-REST-Geocoding-Request.png',
-			keywords:'map, gis, api, sdk, rest, service, search, geocoding, geocode'
+			keywords:'map, gis, api, sdk, rest, service, search, geocoding, geocode',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -389,7 +438,8 @@ var sampleList = [
 			path:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			screenshoot:'Fuzzy-Search-using-Services-Module.png',
-			keywords:'map, gis, api, sdk, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places'
+			keywords:'map, gis, api, sdk, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places',
+			created:'9/26/2018'
 		},
 		{
 			title:'Reverse Geocode with Services Module',
@@ -397,7 +447,8 @@ var sampleList = [
 			path:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			screenshoot:'Reverse-Geocode-using-Services-Module.png',
-			keywords:'map, gis, api, sdk, search, reverse, geocode, geocoding, address, addresses'
+			keywords:'map, gis, api, sdk, search, reverse, geocode, geocoding, address, addresses',
+			created:'9/26/2018'
 		}
 	]
 },
@@ -411,7 +462,8 @@ var sampleList = [
 			path:'Shapes/Geospatially%20Accurate%20Circle.html',
 			sourcePath:'Shapes/Geospatially%20Accurate%20Circle.html',
 			screenshoot:'Geospatially-Accurate-Circle.png',
-			keywords:'map, gis, api, sdk, circles, geospatial'
+			keywords:'map, gis, api, sdk, circles, geospatial',
+			created:'9/23/2018'
 		},
 		{
 			title:'Mercator Projection and Geospatial Circles',
@@ -419,7 +471,8 @@ var sampleList = [
 			path:'Shapes/Mercator%20Projection%20and%20Geospatial%20Circles.html',
 			sourcePath:'Shapes/Mercator%20Projection%20and%20Geospatial%20Circles.html',
 			screenshoot:'Mercator-Projection-and-Geospatial-Circles.png',
-			keywords:'map, gis, api, sdk, circle, geospatial, mercator, projection'
+			keywords:'map, gis, api, sdk, circle, geospatial, mercator, projection',
+			created:'9/23/2018'
 		},
 		{
 			title:'Polygon Hover Style',
@@ -427,7 +480,8 @@ var sampleList = [
 			path:'Shapes/Polygon%20Hover%20Style.html',
 			sourcePath:'Shapes/Polygon%20Hover%20Style.html',
 			screenshoot:'Polygon-Hover-Style.gif',
-			keywords:'map, gis, api, sdk, polygon, layer, hover, mouse'
+			keywords:'map, gis, api, sdk, polygon, layer, hover, mouse',
+			created:'9/23/2018'
 		},
 		{
 			title:'Simple MultiPolygon',
@@ -435,7 +489,8 @@ var sampleList = [
 			path:'Shapes/Simple%20MultiPolygon.html',
 			sourcePath:'Shapes/Simple%20MultiPolygon.html',
 			screenshoot:'Simple-MultiPolygon.png',
-			keywords:'map, gis, api, sdk, polyon, multipolygon'
+			keywords:'map, gis, api, sdk, polyon, multipolygon',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -449,7 +504,8 @@ var sampleList = [
 			path:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
 			sourcePath:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
 			screenshoot:'Introduction-to-spatial-math.png',
-			keywords:'map, gis, api, sdk, gepspatial, math, haversine, heading, bearing'
+			keywords:'map, gis, api, sdk, gepspatial, math, haversine, heading, bearing',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -463,7 +519,8 @@ var sampleList = [
 			path:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Points%20within%20Bounds%20(Turf.js).html',
 			sourcePath:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Points%20within%20Bounds%20(Turf.js).html',
 			screenshoot:'Generate-Random-Points-within-Bounds-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, points, symbols, markers, pins, pushpins, bounds, random'
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, points, symbols, markers, pins, pushpins, bounds, random',
+			created:'9/23/2018'
 		},
 		{
 			title:'Generate Random Polygons within Bounds',
@@ -471,7 +528,8 @@ var sampleList = [
 			path:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Polygons%20within%20Bounds%20(Turf.js).html',
 			sourcePath:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Polygons%20within%20Bounds%20(Turf.js).html',
 			screenshoot:'Generate-Random-Polygons-within-Bounds-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, bounds, random'
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, bounds, random',
+			created:'9/23/2018'
 		},
 		{
 			title:'Merge Two Polygons Together (Turf.js)',
@@ -479,7 +537,8 @@ var sampleList = [
 			path:'Spatial%20Math%20with%20Turf.js/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			sourcePath:'Spatial%20Math%20with%20Turf.js/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			screenshoot:'Merge-Two-Polygons-Together-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, merge, union'
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, merge, union',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -493,7 +552,8 @@ var sampleList = [
 			path:'Symbols%20and%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
 			sourcePath:'Symbols%20and%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
 			screenshoot:'Adding-Mouse-Events-to-HTML-Markers.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse'
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse',
+			created:'10/8/2018'
 		},
 		{
 			title:'Create Symbols from Custom JSON',
@@ -501,7 +561,8 @@ var sampleList = [
 			path:'Symbols%20and%20Markers/Create%20Symbols%20from%20Custom%20JSON.html',
 			sourcePath:'Symbols%20and%20Markers/Create%20Symbols%20from%20Custom%20JSON.html',
 			screenshoot:'Create-Symbols-from-Custom-JSON.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, json, layer'
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, json, layer',
+			created:'9/23/2018'
 		},
 		{
 			title:'CSS Styled HTML Marker',
@@ -509,7 +570,8 @@ var sampleList = [
 			path:'Symbols%20and%20Markers/CSS%20Styled%20HTML%20Marker.html',
 			sourcePath:'Symbols%20and%20Markers/CSS%20Styled%20HTML%20Marker.html',
 			screenshoot:'CSS-Styled-HTML-Marker.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation'
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation',
+			created:'9/23/2018'
 		},
 		{
 			title:'Custom Symbol Image Icon',
@@ -517,7 +579,8 @@ var sampleList = [
 			path:'Symbols%20and%20Markers/Custom%20Symbol%20Image%20Icon.html',
 			sourcePath:'Symbols%20and%20Markers/Custom%20Symbol%20Image%20Icon.html',
 			screenshoot:'Custom-Symbol-Image-Icon.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image'
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
+			created:'9/23/2018'
 		},
 		{
 			title:'Draggable HTML Marker',
@@ -525,7 +588,8 @@ var sampleList = [
 			path:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
 			sourcePath:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
 			screenshoot:'Draggable-HTML-Marker.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse'
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
+			created:'9/23/2018'
 		},
 		{
 			title:'Draggable Symbols',
@@ -533,7 +597,8 @@ var sampleList = [
 			path:'Symbols%20and%20Markers/Draggable%20Symbols.html',
 			sourcePath:'Symbols%20and%20Markers/Draggable%20Symbols.html',
 			screenshoot:'Draggable-Symbols.gif',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse'
+			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse',
+			created:'10/2/2018'
 		},
 		{
 			title:'Styled Symbol Layer',
@@ -541,7 +606,8 @@ var sampleList = [
 			path:'Symbols%20and%20Markers/Styled%20Symbol%20Layer.html',
 			sourcePath:'Symbols%20and%20Markers/Styled%20Symbol%20Layer.html',
 			screenshoot:'Styled-Symbol-Layer.png',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer'
+			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -555,7 +621,8 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS%204.6.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS%204.6.html',
 			screenshoot:'Raster-Tiles-in-ArcGIS-JS-4.6.png',
-			keywords:'map, gis, api, sdk, tiles, raster, arcgis, esri'
+			keywords:'map, gis, api, sdk, tiles, raster, arcgis, esri',
+			created:'9/23/2018'
 		},
 		{
 			title:'Raster Tiles in Cesium JS',
@@ -563,7 +630,8 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Cesium%20JS.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Cesium%20JS.html',
 			screenshoot:'Raster-Tiles-in-Cesium-JS.png',
-			keywords:'map, gis, api, sdk, tiles, raster, cesium, cesium.js'
+			keywords:'map, gis, api, sdk, tiles, raster, cesium, cesium.js',
+			created:'9/23/2018'
 		},
 		{
 			title:'Azure Maps Raster Tiles in Leaflet JS',
@@ -571,7 +639,8 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
 			screenshoot:'Raster-Tiles-in-Leaflet-JS.png',
-			keywords:'map, gis, api, sdk, tiles, raster, leaflet, leaflet.js'
+			keywords:'map, gis, api, sdk, tiles, raster, leaflet, leaflet.js',
+			created:'9/23/2018'
 		},
 		{
 			title:'Raster Tiles in Open Layers',
@@ -579,7 +648,8 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Open%20Layers.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Open%20Layers.html',
 			screenshoot:'Raster-Tiles-in-Open-Layers.png',
-			keywords:'map, gis, api, sdk, raster, tiles, open layers, openlayers'
+			keywords:'map, gis, api, sdk, raster, tiles, open layers, openlayers',
+			created:'9/23/2018'
 		}
 	]
 },
@@ -593,7 +663,8 @@ var sampleList = [
 			path:'Traffic/Traffic%20Overlay%20Options.html',
 			sourcePath:'Traffic/Traffic%20Overlay%20Options.html',
 			screenshoot:'Traffic-Overlay-Options.png',
-			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents'
+			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents',
+			created:'5/4/2018'
 		},
 		{
 			title:'Traffic Overlay',
@@ -601,7 +672,8 @@ var sampleList = [
 			path:'Traffic/Traffic%20Overlay.html',
 			sourcePath:'Traffic/Traffic%20Overlay.html',
 			screenshoot:'Traffic-Overlay.png',
-			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents'
+			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents',
+			created:'5/4/2018'
 		}
 	]
-}];var numberOfSamples = 63;
+}];var numberOfSamples = 64;

@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Animate a Symbol along a Path</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate a symbol along a path on the map smoothly. " />
+    <meta name="keywords" content="map, gis, API, SDK, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, pin;
+        var animationTime = 5000;
+        var animation;
+
+        //Create an array of points to define a path to animate along.
+        var path = [
+            [-122.34758, 47.62155],
+            [-122.34764, 47.61859],
+            [-122.33787, 47.61295],
+            [-122.34217, 47.60964]
+        ];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.345, 47.615],
+                zoom: 14
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Load a custom image icon into the map resources.
+                map.imageSprite.add('arrow-icon', '../Common/images/pushpins/gpsArrowIcon.png').then(function () {
+
+                    //Create a data source and add it to the map.
+                    var datasource = new atlas.source.DataSource();
+                    map.sources.add(datasource);
+
+                    //Create a layer to render the path.
+                    map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'DodgerBlue',
+                        strokeWidth: 3
+                    }));
+
+                    //Create a line for the path and add it to the data source.
+                    datasource.add(new atlas.data.LineString(path));
+
+                    //Create a layer to render a symbol which we will animate.
+                    map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            //Pass in the id of the custom icon that was loaded into the map resources.
+                            image: 'arrow-icon',
+
+                            //Anchor the icon to the center of the image.
+                            anchor: 'center',
+
+                            //Rotate the icon based on the rotation property on the point data.
+                            rotation: ['get', 'rotation'],
+
+                            //For smoother animation, ignore the placement of the icon. This skips the label collision calculations and allows the icon to overlap map labels. 
+                            ignorePlacement: true,
+
+                            //For smoother animation, allow symbol to overlap all other symbols on the map.
+                            allowOverlap: true    
+                        },
+
+                        //Only render the point data in the symbol layer.
+                        filter: ['==', '$type', 'Point']    
+                    }));
+
+                    //Create a pin and wrap with the shape class and add to data source.
+                    pin = new atlas.Shape(new atlas.data.Feature(new atlas.data.Point(path[0]), {
+                        rotation: 180
+                    }));
+                    datasource.add(pin);
+
+                    animation = new animations.PathAnimation(path, function (position, heading, progress) {
+                        //Update the rotation of the symbol. 
+                        pin.setProperties({
+                            rotation: heading
+                        });
+
+                        //Update the symbols coordinates.
+                        pin.setCoordinates(position);
+                    }, animationTime);
+                });
+            });
+        }
+
+        function play() {
+            if (animation) {
+                animation.play();
+            }
+        }
+
+        function pause() {
+            if (animation) {
+                animation.pause();
+            }
+        }
+
+        function stop() {
+            if (animation) {
+                animation.stop();
+            }
+        }
+
+        var animations = (function () {
+            var self = this;
+            var _delay = 30; //30 = 33.3 frames per second, 16 = 62.5 frames per second
+
+            this.PathAnimation = function (path, intervalCallback, duration) {
+                /// <summary>This class extends from the BaseAnimation class and cycles through a set of positions over a period of time, calculating mid-point positions along the way.</summary>
+                /// <param name="path" type="Position[]">An array of positions to cycle through.</param>
+                /// <param name="intervalCallback" type="Function">A function that is called when a frame is to be rendered. This callback function recieves three values; current position, heading, progress.</param>
+                /// <param name="duration" type="Number">Length of time in ms that the animation should run for. Default is 1000 ms.</param>
+
+                var _totalDistance = 0,
+                    _intervalLocs = [path[0]],
+                    _intervalHeadings = [],
+                    _intervalIdx = [0],
+                    _frameCount = Math.ceil(duration / _delay), idx;
+
+                var progress, dlat, dlon;
+
+                //Calcualte the total distance along the path in degrees.
+                for (var i = 0; i < path.length - 1; i++) {
+                    dlat = (path[i + 1][1] - path[i][1]);
+                    dlon = (path[i + 1][0] - path[i][0]);
+
+                    _totalDistance += Math.sqrt(dlat * dlat + dlon * dlon);
+                }
+
+                //Pre-calculate step points for smoother rendering.
+                for (var f = 0; f < _frameCount; f++) {
+                    progress = (f * _delay) / duration;
+
+                    var travel = progress * _totalDistance;
+                    var alpha;
+                    var dist = 0;
+                    var dx = travel;
+
+                    for (var i = 0; i < path.length - 1; i++) {
+                        dlat = (path[i + 1][1] - path[i][1]);
+                        dlon = (path[i + 1][0] - path[i][0]);
+                        alpha = Math.atan2(dlat * Math.PI / 180, dlon * Math.PI / 180);
+                        dist += Math.sqrt(dlat * dlat + dlon * dlon);
+
+                        if (dist >= travel) {
+                            idx = i;
+                            break;
+                        }
+
+                        dx = travel - dist;
+                    }
+
+                    if (dx != 0 && idx < path.length - 1) {
+                        dlat = dx * Math.sin(alpha);
+                        dlon = dx * Math.cos(alpha);
+
+                        var dest = [path[idx][0] + dlon, path[idx][1] + dlat];
+
+                        _intervalLocs.push(dest);
+                        _intervalHeadings.push(atlas.math.getHeading(path[idx], dest));
+                        _intervalIdx.push(idx);
+                    }
+                }
+
+                //Ensure the last location is the last position in the path.
+                _intervalHeadings.push(atlas.math.getHeading(_intervalLocs[_intervalLocs.length - 1], path[path.length - 1]));
+                _intervalLocs.push(path[path.length - 1]);
+                _intervalIdx.push(path.length - 1);
+
+                if (_intervalHeadings.length < _intervalLocs.length) {
+                    _intervalHeadings.push(_intervalHeadings[_intervalHeadings.length - 1]);
+                }
+
+                return new self.BaseAnimation(
+                    function (progress, frameIdx) {
+
+                        if (intervalCallback) {
+                            intervalCallback(_intervalLocs[frameIdx], _intervalHeadings[frameIdx], progress);
+                        }
+                    }, duration);
+            }
+
+            this.BaseAnimation = function (renderFrameCallback, duration) {
+                /// <summary>A base class that can be used to create animations that support play, pause and stop.</summary>
+                /// <param name="renderFrameCallback" type="Function">A function that is called when a frame is to be rendered. This function recieves two values; progress and frameIdx.</param>
+                /// <param name="duration" type="Number">Length of time in ms that the animation should run for. Default is 1000 ms.</param>
+
+                var _timerId,
+                    frameIdx = 0,
+                    _isPaused = true;
+
+                //Varify value
+                duration = (duration && duration > 0) ? duration : 1000;
+
+                this.play = function () {
+                    if (renderFrameCallback) {
+                        _isPaused = false;
+
+                        if (!_timerId) {
+                            _timerId = setInterval(function () {
+                                if (!_isPaused) {
+                                    var progress = (frameIdx * _delay) / duration;
+
+                                    renderFrameCallback(progress, frameIdx);
+
+                                    if (progress >= 1) {
+                                        reset();
+                                    }
+
+                                    frameIdx++;
+                                }
+                            }, _delay);
+                        }
+                    }
+                };
+
+                this.isPlaying = function () {
+                    return !_isPaused;
+                };
+
+                this.pause = function () {
+                    _isPaused = true;
+                };
+
+                this.stop = function () {
+                    reset();
+                };
+
+                function reset() {
+                    if (_timerId != null) {
+                        clearInterval(_timerId);
+                        _timerId = null;
+                    }
+
+                    frameIdx = 0;
+
+                    renderFrameCallback(0, frameIdx);
+                    _isPaused = true;
+                }
+            }
+
+            return self;
+        })();
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+
+        .controlPanel {
+            position:absolute;
+            top:15px;
+            left:15px;
+            border-radius:5px;
+            padding:5px;
+            background-color:white;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+
+    <div class="controlPanel">
+        <input type="button" value="Play" onclick="play()" />
+        <input type="button" value="Pause" onclick="pause()" />
+        <input type="button" value="Stop" onclick="stop()" />
+    </div>
+
+    <fieldset style="width:770px;margin-top:10px;">
+        <legend>Animate a Symbol along a Path</legend>
+        This sample shows how to animate a symbol along a path on the map smoothly. 
+    </fieldset>
+</body>
+</html>

@@ -60,15 +60,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Animations\Animate a Line.html" />
+    <Content Include="Animations\Animate a Symbol along a Path.html" />
     <Content Include="Animations\Simple HTML Marker Animation.html" />
     <Content Include="Animations\Simple Symbol Animation.html" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
-    <None Include="Common\data\geojson\US_States_Population_Density.json" />
+    <Content Include="Common\data\geojson\US_States_Population_Density.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
     <Content Include="Common\images\MicrosoftLogo.png" />
     <Content Include="Common\data\geojson\parcels.json" />
     <Content Include="Common\data\geojson\address.json" />
     <Content Include="Common\data\geojson\streets.json" />
+    <Content Include="Common\images\pushpins\gpsArrowIcon.png" />
     <Content Include="Common\images\pushpins\ssMap.png" />
     <Content Include="Common\images\pushpins\ylw-pushpin.png" />
     <Content Include="Common\scripts\clipboard.min.js" />
@@ -85,6 +87,7 @@
     <Content Include="SiteResources\screenshots\Add-a-Context-Menu-to-the-Map.png" />
     <Content Include="SiteResources\screenshots\Adding-Mouse-Events-to-HTML-Markers.gif" />
     <Content Include="SiteResources\screenshots\Animate-a-Choropleth-Map.png" />
+    <Content Include="SiteResources\screenshots\Animate-a-Symbol-along-a-Path.gif" />
     <Content Include="SiteResources\screenshots\Create-a-Choropleth-Map.png" />
     <Content Include="SiteResources\screenshots\Drag-and-Drop-GeoJSON-File-onto-Map.gif" />
     <Content Include="SiteResources\screenshots\Draw-Line.gif" />
@@ -130,7 +133,7 @@
     <None Include="Properties\PublishProfiles\AzureMapsCodeSamples - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Common\data\geojson\US_County_Boundaries.json" />
+    <Content Include="Common\data\geojson\US_County_Boundaries.json" />
     <Content Include="Common\images\loadingIcon.gif" />
     <Content Include="Common\images\us_counties.png" />
     <Content Include="Default.aspx" />

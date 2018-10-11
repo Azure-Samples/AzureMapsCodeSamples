@@ -71,36 +71,36 @@
 
             return {
                 iconOptions: {
-                    image: getPropertyValue('image', getSelectValue('Icon')),
-                    size: getPropertyValue('size', parseFloat(document.getElementById('IconSize').value)),
-                    anchor: getPropertyValue('anchor', getSelectValue('IconAnchor')),
-                    offset: getPropertyValue('offset', [
+                    image: getPropertyValue('iconOptions.image', getSelectValue('Icon')),
+                    size: getPropertyValue('iconOptions.size', parseFloat(document.getElementById('IconSize').value)),
+                    anchor: getPropertyValue('iconOptions.anchor', getSelectValue('IconAnchor')),
+                    offset: getPropertyValue('iconOptions.offset', [
                         parseFloat(document.getElementById('IconOffsetX').value),
                         parseFloat(document.getElementById('IconOffsetY').value)
                     ]),
-                    rotation: getPropertyValue('rotation', parseFloat(document.getElementById('IconRotation').value)),
-                    rotationAlignment: getPropertyValue('rotationAlignment', getSelectValue('IconRotationAlignment')),
-                    opacity: getPropertyValue('opacity', parseFloat(document.getElementById('IconOpacity').value)),
-                    allowOverlap: getPropertyValue('allowOverlap', document.getElementById('IconAllowOverlap').checked),
-                    ignorePlacement: getPropertyValue('ignorePlacement', document.getElementById('IgnoreIconPlacement').checked),
-                    optional: getPropertyValue('optional', document.getElementById('IconOptional').checked)
+                    rotation: getPropertyValue('iconOptions.rotation', parseFloat(document.getElementById('IconRotation').value)),
+                    rotationAlignment: getPropertyValue('iconOptions.rotationAlignment', getSelectValue('IconRotationAlignment')),
+                    opacity: getPropertyValue('iconOptions.opacity', parseFloat(document.getElementById('IconOpacity').value)),
+                    allowOverlap: getPropertyValue('iconOptions.allowOverlap', document.getElementById('IconAllowOverlap').checked),
+                    ignorePlacement: getPropertyValue('iconOptions.ignorePlacement', document.getElementById('IgnoreIconPlacement').checked),
+                    optional: getPropertyValue('iconOptions.optional', document.getElementById('IconOptional').checked)
                 },
                 textOptions: {
-                    allowOverlap: getPropertyValue('allowOverlap', document.getElementById('TextAllowOverlap').checked),
-                    anchor: getPropertyValue('anchor', getSelectValue('TextAnchor')),
-                    color: getPropertyValue('color', document.getElementById('FontColor').value),
-                    font: getPropertyValue('font', [getSelectValue('TextFont')]),
-                    ignorePlacement: getPropertyValue('ignorePlacement', document.getElementById('IgnoreTextPlacement').checked),
-                    haloBlur: getPropertyValue('haloBlur', parseFloat(document.getElementById('HaloBlur').value)),
-                    haloColor: getPropertyValue('haloColor', document.getElementById('HaloColor').value),
-                    haloWidth: getPropertyValue('haloWidth', parseFloat(document.getElementById('HaloWidth').value)),
-                    offset: getPropertyValue('offset', [
+                    allowOverlap: getPropertyValue('textOptions.allowOverlap', document.getElementById('TextAllowOverlap').checked),
+                    anchor: getPropertyValue('textOptions.anchor', getSelectValue('TextAnchor')),
+                    color: getPropertyValue('textOptions.color', document.getElementById('FontColor').value),
+                    font: getPropertyValue('textOptions.font', [getSelectValue('TextFont')]),
+                    ignorePlacement: getPropertyValue('textOptions.ignorePlacement', document.getElementById('IgnoreTextPlacement').checked),
+                    haloBlur: getPropertyValue('textOptions.haloBlur', parseFloat(document.getElementById('HaloBlur').value)),
+                    haloColor: getPropertyValue('textOptions.haloColor', document.getElementById('HaloColor').value),
+                    haloWidth: getPropertyValue('textOptions.haloWidth', parseFloat(document.getElementById('HaloWidth').value)),
+                    offset: getPropertyValue('textOptions.offset', [
                         parseFloat(document.getElementById('TextOffsetX').value),
                         parseFloat(document.getElementById('TextOffsetY').value)
                     ]),
-                    opacity: getPropertyValue('opacity', parseFloat(document.getElementById('TextOpacity').value)),
-                    optional: getPropertyValue('optional', document.getElementById('TextOptional').checked),
-                    size: getPropertyValue('size', parseFloat(document.getElementById('FontSize').value)),
+                    opacity: getPropertyValue('textOptions.opacity', parseFloat(document.getElementById('TextOpacity').value)),
+                    optional: getPropertyValue('textOptions.optional', document.getElementById('TextOptional').checked),
+                    size: getPropertyValue('textOptions.size', parseFloat(document.getElementById('FontSize').value)),
                     textField: ['get', 'title']
                 },
                 minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
@@ -110,10 +110,22 @@
         }
 
         function getPropertyValue(propertyName, value) {
-            if (removeDefaults && defaultOptions[propertyName] === value) {
-                return undefined;
-            }
 
+            if (removeDefaults) {
+                if (propertyName.indexOf('.') > -1) {
+                    var p = propertyName.split('.');
+                    var val = defaultOptions;
+                    for (var i = 0; i < p.length; i++) {
+                        val = val[p[i]];
+                    }
+
+                    if (val === value) {
+                        return undefined;
+                    }
+                } else if (defaultOptions[propertyName] === value) {
+                    return undefined;
+                }
+            }
             return value;
         }
 
@@ -159,6 +171,7 @@
             position: relative;
             width: 455px;
             height: 600px;
+            float: left;
         }
 
         .sidePanel {
@@ -424,8 +437,8 @@
                     <td>Size:</td>
                     <td>
                         <form oninput="b.value=FontSize.value">
-                            <input type="range" id="FontSize" value="14" min="8" max="25" step="1" oninput="updateSymbolLayer()" onchange="updateSymbolLayer()" />
-                            <output name="b" for="FontSize">14</output>
+                            <input type="range" id="FontSize" value="16" min="8" max="25" step="1" oninput="updateSymbolLayer()" onchange="updateSymbolLayer()" />
+                            <output name="b" for="FontSize">16</output>
                         </form>
                     </td>
                 </tr>
@@ -478,7 +491,7 @@
                 </tr>
                 <tr title="The color of the text's halo, which helps it stand out from backgrounds.">
                     <td>Halo Color:</td>
-                    <td><input type="color" id="HaloColor" value="#FFFFFF" onchange="updateSymbolLayer()" /></td>
+                    <td><input type="color" id="HaloColor" value="#000000" onchange="updateSymbolLayer()" /></td>
                 </tr>
                 <tr title="The distance of the halo to the font outline in pixels. The maximum text halo width is 1/4 of the font size.">
                     <td>Halo Width:</td>

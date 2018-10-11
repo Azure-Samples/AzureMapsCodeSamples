@@ -122,7 +122,7 @@ namespace SampleInfoBuilder
 
             if (files.Length > 0)
             {
-                string path, sourcePath, fileName, title, description, imageSrc, screenshotPath, keywords;
+                string path, sourcePath, fileName, title, description, imageSrc, screenshotPath, keywords, created;
 
                 foreach (var f in files)
                 {
@@ -147,6 +147,7 @@ namespace SampleInfoBuilder
                         description = string.Empty;
                         screenshotPath = string.Empty;
                         keywords = string.Empty;
+                        created = f.CreationTime.Date.ToShortDateString();
 
                         using (var reader = new StreamReader(f.OpenRead()))
                         {
@@ -272,13 +273,14 @@ namespace SampleInfoBuilder
                                 }
                             }
 
-                            sb.AppendFormat("\n\t\t{{\n\t\t\ttitle:'{0}',\n\t\t\tdesc:'{1}',\n\t\t\tpath:'{2}',\n\t\t\tsourcePath:'{3}',\n\t\t\tscreenshoot:'{4}',\n\t\t\tkeywords:'{5}'\n\t\t}},",
+                            sb.AppendFormat("\n\t\t{{\n\t\t\ttitle:'{0}',\n\t\t\tdesc:'{1}',\n\t\t\tpath:'{2}',\n\t\t\tsourcePath:'{3}',\n\t\t\tscreenshoot:'{4}',\n\t\t\tkeywords:'{5}',\n\t\t\tcreated:'{6}'\n\t\t}},",
                                 title.Replace("'", "\\'"),
                                 description.Replace("'","\\'"),
                                 path,
                                 sourcePath,
                                 imageSrc,
-                                keywords
+                                keywords,
+                                created
                             );
 
                             NumberOfSamples++;

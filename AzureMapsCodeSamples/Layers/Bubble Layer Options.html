@@ -133,6 +133,7 @@
             position: relative;
             width: 455px;
             height: 600px;
+            float:left;
         }
 
         .sidePanel {
@@ -245,7 +246,7 @@
             <table>
                 <tr title="The color to fill the circle symbol with.">
                     <td>Color:</td>
-                    <td><input type="color" id="Color" onchange="updateBubbleLayer()" /></td>
+                    <td><input type="color" id="Color" value="#1A73AA" onchange="updateBubbleLayer()" /></td>
                 </tr>
                 <tr title="A number between 0 and 1 that indicates the opacity at which the circles will be drawn.">
                     <td>Opacity</td>
@@ -258,7 +259,7 @@
                 </tr>
                 <tr title="The color of the circles' outlines.">
                     <td>Stroke Color:</td>
-                    <td><input type="color" id="StrokeColor" onchange="updateBubbleLayer()" /></td>
+                    <td><input type="color" id="StrokeColor" value="#FFFFFF" onchange="updateBubbleLayer()" /></td>
                 </tr>
                 <tr title="The radius of the circle in pixels.">
                     <td>Radius</td>
@@ -282,8 +283,8 @@
                     <td>Stroke Width</td>
                     <td>
                         <form oninput="strokeWidth.value=StrokeWidth.value">
-                            <input type="range" id="StrokeWidth" value="0" min="0" max="10" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
-                            <output name="strokeWidth" for="StrokeWidth">0</output>
+                            <input type="range" id="StrokeWidth" value="2" min="0" max="10" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <output name="strokeWidth" for="StrokeWidth">2</output>
                         </form>
                     </td>
                 </tr>

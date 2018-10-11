@@ -20,7 +20,7 @@
         <WindowsFormsHost Name="Host" Grid.RowSpan="2"/>
 
         <StackPanel Orientation="Horizontal" Grid.Column="1">
-            <CheckBox Name="CaptureImages" Content="Capture Images" IsChecked="True" Margin="10,0" VerticalAlignment="Center"/>
+            <CheckBox Name="CaptureImages" Content="Capture Images" Margin="10,0" VerticalAlignment="Center"/>
             <Button Content="Run" Name="RunBtn" Width="50" Height="25" VerticalAlignment="Center" Click="RunBtn_Click"/>
         </StackPanel>
         

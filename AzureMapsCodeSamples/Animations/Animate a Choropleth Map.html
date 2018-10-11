@@ -16,7 +16,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, popup, maxPopulation = 0.3, colorExpressions = [], timer, isPaused = true;
+        var map, popup, maxScale = 30, colorExpressions = [], timer, isPaused = true;
         
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -29,7 +29,7 @@
             });
 
             //Create a legend scale bar.
-           createLegendScaleBar(maxPopulation);
+            createLegendScaleBar();
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
@@ -48,11 +48,11 @@
                         'interpolate',
                         ['linear'],
                         ['get', 'PopChange' + i],
-                        -maxPopulation, 'rgb(255,0,255)',       // Magenta
-                        -maxPopulation / 2, 'rgb(0,0,255)',     // Blue
+                        -maxScale, 'rgb(255,0,255)',       // Magenta
+                        -maxScale / 2, 'rgb(0,0,255)',     // Blue
                         0, 'rgb(0,255,0)',                      // Green
-                        maxPopulation / 2, 'rgb(255,255,0)',    // Yellow
-                        maxPopulation, 'rgb(255,0,0)'           // Red
+                        maxScale / 2, 'rgb(255,255,0)',    // Yellow
+                        maxScale, 'rgb(255,0,0)'           // Red
                     ]);
                 }
 
@@ -124,9 +124,9 @@
                                 CensusPop2000: censusPop
                             };
 
-                            //Calculate the population % difference from 2000 census, and round to 3 decimal places.
+                            //Calculate the population % difference from 2000 census, and round to 1 decimal place.
                             for (var j = 5; j < row.length; j++) {
-                                obj['PopChange' + (j - 5)] = Math.round((parseFloat(row[j]) / censusPop - 1) * 1000) / 1000;
+                                obj['PopChange' + (j - 5)] = Math.round((parseFloat(row[j]) / censusPop - 1) * 100 * 10) / 10;
                             }
 
                             populationInfo[stateId][countyId] = obj;

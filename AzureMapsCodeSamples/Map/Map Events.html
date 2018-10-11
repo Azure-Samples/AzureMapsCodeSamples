@@ -38,11 +38,13 @@
         }
 
         function highlight(e) {
-            //Highlight the div to indicate that the event has fired.
-            document.getElementById(e.type).style.background = 'LightGreen';
+            if (e && e.type) {
+                //Highlight the div to indicate that the event has fired.
+                document.getElementById(e.type).style.background = 'LightGreen';
 
-            //Remove the highlighting after a second.
-            setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+                //Remove the highlighting after a second.
+                setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+            }
         }
 
         function toggleMapSize() {
@@ -50,20 +52,17 @@
             var w = mapElm.style.width;
 
             if (w == '600px') {
-                mapElm.style.width = '800px';
+                map.resize(600, 800);
             } else {
-                mapElm.style.width = '600px';
+                map.resize(600, 600);
             }
-
-            //Tell the map that we manually resized it.
-            map.resize();
         }
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
-    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;float:left;"></div>
+    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"></div>
 
     <input type="button" value="Toggle Map Size" onclick="toggleMapSize()" />
 

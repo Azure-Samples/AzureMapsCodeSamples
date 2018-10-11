@@ -141,6 +141,8 @@ window.onload = function () {
 };
 
 function search() {
+    var recentDayLimit = 30;
+
     var query = document.getElementById('searchTbx').value;
 
     if (query === '') {
@@ -157,13 +159,25 @@ function search() {
 
         var matchedSamples = [];
 
-        for (var i = 0, len = sampleList.length; i < len; i++) {
-            for (var j = 0, cnt = sampleList[i].samples.length; j < cnt; j++) {
-                //Check to see if query matches title, description or keywords.
-                if (sampleList[i].samples[j].title.replace(specialCharRx, '').toLowerCase().indexOf(query) >= 0 ||
-                    sampleList[i].samples[j].desc.replace(specialCharRx, '').toLowerCase().indexOf(query) >= 0 ||
-                    sampleList[i].samples[j].keywords.indexOf(query) >= 0) {
-                    matchedSamples.push(sampleList[i].samples[j].title);
+        if (query === 'new' || query === 'latest' || query === 'newest') {
+            var today = new Date()
+            
+            for (var i = 0, len = sampleList.length; i < len; i++) {
+                for (var j = 0, cnt = sampleList[i].samples.length; j < cnt; j++) {
+                    if (dateDiffInDays(new Date(Date.parse(sampleList[i].samples[j].created)), today) <= recentDayLimit) {
+                        matchedSamples.push(sampleList[i].samples[j].title);
+                    }
+                }
+            }
+        } else {
+            for (var i = 0, len = sampleList.length; i < len; i++) {
+                for (var j = 0, cnt = sampleList[i].samples.length; j < cnt; j++) {
+                    //Check to see if query matches title, description or keywords.
+                    if (sampleList[i].samples[j].title.replace(specialCharRx, '').toLowerCase().indexOf(query) >= 0 ||
+                        sampleList[i].samples[j].desc.replace(specialCharRx, '').toLowerCase().indexOf(query) >= 0 ||
+                        sampleList[i].samples[j].keywords.indexOf(query) >= 0) {
+                        matchedSamples.push(sampleList[i].samples[j].title);
+                    }
                 }
             }
         }
@@ -197,6 +211,13 @@ function search() {
             }
         });
     }
+}
+
+const _MS_PER_DAY = 1000 * 3600 * 24;
+
+function dateDiffInDays(date1, date2) {
+    var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    return Math.ceil(timeDiff / (_MS_PER_DAY)); 
 }
 
 function openSample(sampleName) {
