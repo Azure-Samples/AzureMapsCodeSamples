@@ -20,7 +20,7 @@
         
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -102,30 +102,31 @@
 
                         //Split the lines of the file.
                         var lines = text.split('\n');
+                        var row, stateId, countyId, censusPop, obj, j;
 
                         //Skip the header row and then parse each row into an object.
                         for (var i = 1; i < lines.length; i++) {
-                            var row = lines[i].split(',');
+                            row = lines[i].split(',');
 
-                            var stateId = row[0];
-                            var countyId = row[1];
+                            stateId = row[0];
+                            countyId = row[1];
 
                             if (!populationInfo[stateId]) {
                                 populationInfo[stateId] = {};
                             }
 
                             //Get the 2000 population value.
-                            var censusPop = parseFloat(row[4]);
+                            censusPop = parseFloat(row[4]);
 
                             //Create an object to parse the CSV row into.
-                            var obj = {
+                            obj = {
                                 CountyName: row[3],
                                 StateName: row[2],
                                 CensusPop2000: censusPop
                             };
 
                             //Calculate the population % difference from 2000 census, and round to 1 decimal place.
-                            for (var j = 5; j < row.length; j++) {
+                            for (j = 5; j < row.length; j++) {
                                 obj['PopChange' + (j - 5)] = Math.round((parseFloat(row[j]) / censusPop - 1) * 100 * 10) / 10;
                             }
 
@@ -247,15 +248,10 @@
         };
     </script>
     <style>
-        .mapContainer {
+        .mapContainer, #myMap {
             position: relative;
-            width: 800px;
-            height: 600px;
-        }
-
-        #myMap {
-            position: relative;
-            width: 800px;
+            width: 100%;
+            min-width:350px;
             height: 600px;
         }
 
@@ -319,7 +315,7 @@
         </div>
     </div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Animate a Choropleth Map</legend>
         This sameples shows hwo to create a choropleth map and animate it over time. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to 
         the measurement of the statistical variable being displayed on the map, in this case the estimated % population change between 2000 and 2010 of each US county relative 

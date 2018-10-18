@@ -23,7 +23,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -39,7 +39,7 @@
                 });
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource(null, { cluster: false });
+                var datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add the random point data to the data source.
@@ -57,9 +57,9 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Generate Random Points within Bounds</legend>
         This sample shows how to generate a 1,000 random point features within a bounding box using the open source <a href="http://turfjs.org/" target="_blank">Turf.js</a> library.
     </fieldset>

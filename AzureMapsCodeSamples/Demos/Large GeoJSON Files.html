@@ -25,7 +25,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -38,9 +38,7 @@
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
                 //Create a data source to store the data in.
-                datasource = new atlas.source.DataSource(null, {
-                    cluster: false
-                });
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add a layer for rendering the outline of polygons.
@@ -162,6 +160,22 @@
         }
     </script>
     <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 210px);
+            min-width: 350px;
+            height: 600px;
+            float: left;
+        }
+
+        #infopane {
+            margin-left: 10px;
+            width: 200px;
+            height: 600px;
+            overflow-y: auto;
+            float: left;
+        }
+
         table {
             border-collapse: collapse;
         }
@@ -172,13 +186,13 @@
     </style>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
+    <div id="myMap"></div>
 
-    <div id="infopane" style="margin-left:10px;height:600px;overflow-y:auto;float:left;"></div>
+    <div id="infopane"></div>
 
     <div style="clear:both;"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Large GeoJSON Files</legend>
         This sample loads three large GeoJSON files which contain address (point), parcel boundary (polygon), and street (lines) data for all of Fort Collins, CO.<br/><br/> 
         This sample loads a lot of data and will be slow to load.

@@ -20,17 +20,19 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
-            map = new atlas.Map('myMap');
+            map = new atlas.Map('myMap', {
+                center: [-110, 45]
+            });
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
                 //Create a HTML marker and add it to the map.
                 marker = new atlas.HtmlMarker({
-                    htmlContent: '<div class="pulse"></div>',
-                    position: [0, 0]
+                    htmlContent: '<div class="pulseIcon"></div>',
+                    position: [-110, 45]
                 });
 
                 map.markers.add(marker);
@@ -39,40 +41,41 @@
 
     </script>
     <style type="text/css">
-        .pulse {
+        .pulseIcon {
             display: block;
-            width: 5px;
-            height: 5px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: red;
+            background: orange;
+            border: 2px solid white;
             cursor: pointer;
-            box-shadow: 0 0 0 rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 0 rgba(0, 204, 255, 0.4);
             animation: pulse 3s infinite;
         }
 
-            .pulse:hover {
+            .pulseIcon:hover {
                 animation: none;
             }
 
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+                box-shadow: 0 0 0 0 rgba(0, 204, 255, 0.4);
             }
 
             70% {
-                box-shadow: 0 0 0 100px rgba(255, 0, 0, 0);
+                box-shadow: 0 0 0 50px rgba(0, 204, 255, 0);
             }
 
             100% {
-                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+                box-shadow: 0 0 0 0 rgba(0, 204, 255, 0);
             }
         }
     </style>
 </head>
 <body onload='GetMap()'>
-    <div id='myMap' style='position:relative;width:800px;height:600px;'></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
-    <fieldset style='width:700px;margin-top:10px;'>
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>HTML Marker Pulse Animation</legend>
         This sample shows how to pulse animate the position of a HTML marker on the map.
     </fieldset>

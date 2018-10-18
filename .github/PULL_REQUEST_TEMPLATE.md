@@ -23,16 +23,7 @@ What kind of change does this Pull Request introduce?
 ```
 
 ## How to Test
-*  Get the code
 
-```
-git clone [repo-address]
-cd [repo-name]
-git checkout [branch-name]
-npm install
-```
-
-* Test the code
 <!-- Add steps to run the tests suite and/or manually test -->
 ```
 ```

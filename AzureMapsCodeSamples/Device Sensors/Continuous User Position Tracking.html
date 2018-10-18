@@ -22,7 +22,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap');
@@ -89,14 +89,14 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
     <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
         <input type="button" value="Start Continuous Tracking" onclick="startTracking()" />
         <input type="button" value="Stop Continuous Tracking" onclick="stopTracking()" />
     </div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Continuous User Position Tracking</legend>
         This sample shows how to continuously get the users position information from the browser by using the HTML5 geolocation API and update it on a map.
     </fieldset>

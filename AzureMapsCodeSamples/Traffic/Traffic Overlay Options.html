@@ -20,7 +20,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -48,7 +48,7 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
     <div style="background-color:white;padding:10px;position:absolute;top:0;left:0;">
         Incidents: <input id="incidentOption" type="checkbox" checked="checked" onclick="UpdateTrafficOverlay()" />
@@ -62,7 +62,7 @@
         </select>
     </div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Traffic Overlay</legend>
         This sample shows how the different
         <a href="https://docs.microsoft.com/en-us/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>
@@ -77,7 +77,7 @@
         </ul>
     </fieldset>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Traffic Overlay Options</legend>
         This sample shows how to simply overlay traffic data on the map using the maps setTraffic method and
         <a href="https://docs.microsoft.com/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>.

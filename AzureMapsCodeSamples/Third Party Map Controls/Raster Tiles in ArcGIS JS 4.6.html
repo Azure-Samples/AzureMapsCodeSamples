@@ -16,7 +16,7 @@
 
     <script type='text/javascript'>
         //Your Azure Maps subscription key.
-        var subscriptionKey = '<Your Azure Maps Key>';
+        var subscriptionKey = 'r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM';
 
         require(["esri/config", "esri/layers/WebTileLayer", "esri/Map", "esri/views/MapView", "dojo/dom", "dojo/domReady!"],
             function (esriConfig, WebTileLayer, Map, MapView, dom) {
@@ -44,9 +44,9 @@
     </script>
 </head>
 <body>
-	<div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+	<div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
-	<fieldset style="width:770px;margin-top:10px;">
+	<fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Raster Tiles in ArcGIS JS 4.6</legend>
 		This sample shows how to render Azure Maps Raster Tiles in the ArcGIS version 4.6 JavaScript map control. 
 	</fieldset>

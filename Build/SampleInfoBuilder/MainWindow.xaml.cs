@@ -222,7 +222,7 @@ namespace SampleInfoBuilder
 
                         if (!sampleNameList.Contains(title))
                         {
-                            imageSrc = fileName.Replace(" ", "-");
+                            imageSrc = title.Replace(" ", "-");
 
                             if (CaptureImages.IsChecked == true && !existingImgNames.Contains(imageSrc) && SampleListHelper.ScreenshotsToIgnore.IndexOf(title) == -1)
                             {
@@ -264,6 +264,20 @@ namespace SampleInfoBuilder
                                     {
                                         imageSrc = ss.Name;
                                         break;
+                                    }
+                                }
+
+                                if (!imageSrc.Contains("."))
+                                {
+                                    imageSrc = fileName.Replace(" ", "-");
+
+                                    foreach (var ss in screenshots)
+                                    {
+                                        if (string.Compare(ss.Name.Replace(ss.Extension, ""), imageSrc) == 0)
+                                        {
+                                            imageSrc = ss.Name;
+                                            break;
+                                        }
                                     }
                                 }
 

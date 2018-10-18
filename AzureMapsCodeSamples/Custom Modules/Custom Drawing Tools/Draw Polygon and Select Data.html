@@ -25,7 +25,7 @@
 
         function GetMap() {
             map = new atlas.Map('myMap', {
-                'subscription-key': '<Your Azure Maps Key>'
+                'subscription-key': 'r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM'
             });
 
             //Wait until the map resources have fully loaded.
@@ -43,28 +43,29 @@
 
                 //Load the drawing tools and have it load below the pin layer.
                 drawingTools = new PolygonDrawingTool(map, pinLayer, function (polygonShape) {
+                    if (polygonShape) {
+                        var selectedPins = [];
 
-                    var selectedPins = [];
+                        //Search for all points that intersect the polygon.
+                        for (var i = 0; i < pins.length; i++) {
+                            var intersection = turf.intersect(polygonShape.toJson(), pins[i]);
 
-                    //Search for all points that intersect the polygon.
-                    for (var i = 0; i < pins.length; i++) {
-                        var intersection = turf.intersect(polygonShape.toJson(), pins[i]);
-
-                        if (intersection) {
-                            selectedPins.push(pins[i]);
+                            if (intersection) {
+                                selectedPins.push(pins[i]);
+                            }
                         }
+
+                        //Do something with the selected pins.
+                        //For demo purposes, we will simply output the name of each pin.
+                        var html = [selectedPins.length, ' Pins Selected:<br/><br/>'];
+                        for (var i = 0; i < selectedPins.length; i++) {
+                            html.push(selectedPins[i].properties.name, '<br/>');
+                        }
+
+                        //TODO: consider updating code to change icon of selected pins.
+
+                        document.getElementById('output').innerHTML = html.join('');
                     }
-
-                    //Do something with the selected pins.
-                    //For demo purposes, we will simply output the name of each pin.
-                    var html = [selectedPins.length, ' Pins Selected:<br/><br/>'];
-                    for (var i = 0; i < selectedPins.length; i++) {
-                        html.push(selectedPins[i].properties.name, '<br/>');
-                    }
-
-                    //TODO: consider updating code to change icon of selected pins.
-
-                    document.getElementById('output').innerHTML = html.join('');
                 });
             });
         }
@@ -87,20 +88,43 @@
             datasource.add(pins);
         }
     </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 210px);
+            min-width: 350px;
+            height: 600px;
+            float:left;
+        }
+
+        #output {
+            float: left;
+            width: 200px;
+            height: 600px;
+            margin-left: 10px;
+            overflow-y: auto;
+        }
+
+        .buttonPanel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:590px;height:600px;float:left;"></div>
+    <div id="myMap"></div>
 
-    <div id="output" style="float:left;width:200px;height:600px;margin-left:10px;overflow-y:auto;"></div>
+    <div id="output"></div>
 
-    <div style="position:absolute;top:10px;left:10px;">
+    <div class="buttonPanel">
         <input type="button" value="Draw Polygon" onclick="drawingTools.startDrawing();" />
         <input type="button" value="Clear Drawing Layer" onclick="drawingTools.clear();" />
     </div>
 
     <div style="clear:both"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Draw Polygon and Select Data</legend>
         This sample shows how to draw a polygon on the map using the Polygon Drawing tools and then
         use the generated polygon to calculate all pins on the map that intersect with that polygon.

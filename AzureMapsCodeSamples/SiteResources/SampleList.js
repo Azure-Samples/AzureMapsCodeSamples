@@ -400,6 +400,15 @@ var sampleList = [
 	desc:'Learn how to directly access the Azure Maps REST services from JavaScript.',
 	samples: [
 		{
+			title:'Calculate a Simple Isochrone',
+			desc:'This sample shows how to calculate an isochrone (drive time polygon) using the Azure Maps Route Reachable Range service and display it on the map. ',
+			path:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
+			sourcePath:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
+			screenshoot:'Calculate-a-Simple-Isochrone.png',
+			keywords:'map, gis, api, sdk, rest, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range',
+			created:'10/18/2018'
+		},
+		{
 			title:'Fill Address Form with Autosuggest',
 			desc:'This sample shows how to use the Azure Maps Search service with JQuery UI\'s autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion.',
 			path:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
@@ -418,6 +427,15 @@ var sampleList = [
 			created:'9/24/2018'
 		},
 		{
+			title:'Route Waypoint Optimization',
+			desc:'This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API.',
+			path:'REST%20Services/Route%20Waypoint%20Optimization.html',
+			sourcePath:'REST%20Services/Route%20Waypoint%20Optimization.html',
+			screenshoot:'Route-Waypoint-Optimization.png',
+			keywords:'map, gis, api, sdk, ',
+			created:'10/18/2018'
+		},
+		{
 			title:'Search Autosuggest and JQuery UI',
 			desc:'This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode. The UI is managed using JQuery UIs autocomplete widget.',
 			path:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
@@ -427,7 +445,7 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
-			title:'Simple REST Directions',
+			title:'Simple REST Directions (Route)',
 			desc:'This sample shows how to calculate simple directions between two points using the Azure Maps REST Route API and render it on a map.',
 			path:'REST%20Services/Simple%20REST%20Directions.html',
 			sourcePath:'REST%20Services/Simple%20REST%20Directions.html',
@@ -694,4 +712,19 @@ var sampleList = [
 			created:'5/4/2018'
 		}
 	]
-}];var numberOfSamples = 66;
+},
+{
+	category:'Tutorials',
+	desc:'',
+	samples: [
+		{
+			title:'Simple Store Locator',
+			desc:'',
+			path:'Tutorials/Simple%20Store%20Locator/index.html',
+			sourcePath:'Tutorials/Simple%20Store%20Locator',
+			screenshoot:'Simple-Store-Locator.png',
+			keywords:'map, gis, api, sdk, tutorials, ',
+			created:'10/15/2018'
+		}
+	]
+}];var numberOfSamples = 69;

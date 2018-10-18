@@ -24,7 +24,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -86,9 +86,9 @@
 <body>
     <input type="button" onclick="LoadMapControl()" value="Load Map" />
 
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Lazy Load the Map</legend>
         This sample shows how to delay the loading of the map SDK until it is needed. This is useful if your map is hiden and not displayed by default (i.e. hosted in a tab). 
         By waiting until the user actually needs the map before loading it, you can reduce the amount of resources the browser usesinitially and speed up your page loading 

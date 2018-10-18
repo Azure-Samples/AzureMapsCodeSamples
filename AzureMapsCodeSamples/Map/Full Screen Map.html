@@ -20,7 +20,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap');
@@ -126,7 +126,7 @@
         <input id="fullScreenToggle" type="button" value="Toggle Full Screen" onclick="toggleFullScreen()" style="position:absolute;top:10px;left:10px;" />
     </div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Full Screen Map</legend>
         This sample shows how to toggle between displying the standard page layout, and a full screen map view.
     </fieldset>

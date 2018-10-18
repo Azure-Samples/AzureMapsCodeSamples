@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Web Control Samples - Simple REST Directions</title>
+    <title>Azure Maps Web Control Samples - Simple REST Directions (Route)</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -22,7 +22,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -33,7 +33,7 @@
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
                 //Create a data source and add it to the map.
-                datasource = new atlas.source.DataSource(null, { cluster: false });
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add a layer for rendering the route line and have it render under the map labels.
@@ -119,10 +119,10 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
-        <legend>Simple REST Directions</legend>
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Simple REST Directions (Route)</legend>
         This sample shows how to calculate simple directions between two points using the Azure Maps REST Route API and render it on a map. 
     </fieldset>
 </body>

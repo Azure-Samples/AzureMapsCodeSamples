@@ -20,7 +20,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map("myMap", {
@@ -84,23 +84,26 @@
         }
     </script>
     <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none
-        }
-
         .sidePanel {
             width: 350px;
+            height: 580px;
             float: left;
-            padding: 10px;
+            margin-right: 10px;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 360px);
+            min-width: 350px;
+            height: 600px;
+            float: left;
         }
     </style>
 </head>
 <body onload="GetMap()">
 
     <div class="sidePanel">
-        <fieldset style="width:300px;margin-bottom:10px;">
+        <fieldset style="width:320px;margin-bottom:10px;">
             <legend>Map Navigation Control Options</legend>
             This sample shows all the map navigaiton controls on the map and how they react with different option settings. <br /><br />
             To test the zoom delta, simply press the zoom button to see how the map zoom per click changes, moving several levels at a time when the delta is greater than one. <br /><br />
@@ -179,6 +182,6 @@
         </table>
     </div>
 
-    <div id="myMap" style="position:relative;width:600px;height:600px;"></div>
+    <div id="myMap"></div>
 </body>
 </html>

@@ -28,7 +28,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap');
@@ -133,12 +133,12 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
     <div id="myOverviewMap" style="box-shadow: 0 2px 4px rgba(0,0,0,.5); width: 200px; height: 200px; left: 1em; top: 1em; position: absolute; border: solid 1px darkgray;z-index: 1; background-color: azure;"></div>
 
     <div style="clear:both;"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Mini Overview Map</legend>
         This sample shows how to create a second mini overview map which shows the main maps area of focus.
     </fieldset>

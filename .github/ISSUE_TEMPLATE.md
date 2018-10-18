@@ -21,11 +21,9 @@ IF SUFFICIENT INFORMATION IS NOT PROVIDED VIA THE FOLLOWING TEMPLATE THE ISSUE M
 ### Expected/desired behavior
 >
 
-### OS and Version?
-> Windows 7, 8 or 10. Linux (which distribution). macOS (Yosemite? El Capitan? Sierra?)
-
-### Versions
->
+### OS, Broswer and Version?
+> Windows 7, 8 or 10. Android, iOS.
+> Edge, Chrome, Firefox, Safari
 
 ### Mention any other details that might be useful
 

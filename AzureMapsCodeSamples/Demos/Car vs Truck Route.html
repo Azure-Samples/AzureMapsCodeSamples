@@ -16,9 +16,6 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        //Get your Azure Maps subscription key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
-
         var map, datasource, routePoints = [], currentScenario;
 
         var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
@@ -34,7 +31,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey(subscriptionKey);
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap');
@@ -42,9 +39,7 @@
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
                 //Create a data source to store the data in.
-                datasource = new atlas.source.DataSource(null, {
-                    cluster: false
-                });
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add a layer for rendering line data.
@@ -119,14 +114,14 @@
 
                     var query = fromCoord.join(',') + ':' + toCoord.join(',');
 
-                    var carRequestUrl = carRoutingRequestUrl.replace('{subscription-key}', subscriptionKey).replace('{query}', query);
+                    var carRequestUrl = carRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', query);
 
                     callRestService(carRequestUrl, function (r) {
                         addRouteToMap(r.routes[0], 'red');
                         document.getElementById('output').innerHTML += 'Car Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
                     });
 
-                    var truckRequestUrl = truckRoutingRequestUrl.replace('{subscription-key}', subscriptionKey).replace('{query}', query).replace('{vehicleLoadType}', getSelectValues('vehicleLoadType'));
+                    var truckRequestUrl = truckRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', query).replace('{vehicleLoadType}', getSelectValues('vehicleLoadType'));
 
                     truckRequestUrl = setValueOptions(truckRequestUrl, ['vehicleWeight', 'vehicleWidth', 'vehicleHeight', 'vehicleLength']);
 
@@ -147,7 +142,7 @@
 
                     callback([parseFloat(vals[1]), parseFloat(vals[0])]);
                 } else {
-                    var requestUrl = geocodeRequestUrl.replace('{subscription-key}', subscriptionKey).replace('{query}', encodeURIComponent(query));
+                    var requestUrl = geocodeRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', encodeURIComponent(query));
 
                     callRestService(requestUrl, function (r) {
                         if (r && r.results && r.results.length > 0) {
@@ -254,6 +249,14 @@
         }
     </script>
     <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 370px);
+            min-width:350px;
+            height: 600px;
+            float: left;
+        }
+
         .sidePanel {
             width: 350px;
             float: left;
@@ -336,6 +339,6 @@
         </table>
     </div>
 
-    <div id="myMap" style="position:relative;width:600px;height:600px;float: left;"></div>
+    <div id="myMap"></div>
 </body>
 </html>

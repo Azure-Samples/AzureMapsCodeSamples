@@ -84,6 +84,25 @@
     <Content Include="Demos\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
+    <Content Include="Experimental\Create a Custom Control\Create a Custom Control.html" />
+    <Content Include="REST Services\Calculate a Simple Isochrone.html" />
+    <Content Include="SiteResources\screenshots\Calculate-a-Simple-Isochrone.png" />
+    <Content Include="SiteResources\screenshots\Route-Waypoint-Optimization.png" />
+    <Content Include="SiteResources\screenshots\Simple-Store-Locator.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\CoffeeIcon.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\Logo.png" />
+    <Content Include="Tutorials\Simple Store Locator\data\ContosoCoffee.txt" />
+    <Content Include="Tutorials\Simple Store Locator\images\GpsIcon-hover.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\GpsIcon.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\PhoneIcon.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\SearchIcon-hover.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\SearchIcon.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\Wheelchair-small.png" />
+    <Content Include="Tutorials\Simple Store Locator\images\WiFiIcon.png" />
+    <Content Include="Tutorials\Simple Store Locator\index.css" />
+    <Content Include="Tutorials\Simple Store Locator\images\Wheelchair-small.jpg" />
+    <Content Include="Tutorials\Simple Store Locator\index.html" />
+    <Content Include="Tutorials\Simple Store Locator\index.js" />
     <Content Include="Map\Add a Context Menu to the Map.html" />
     <Content Include="Map\Mini Overview Map.html" />
     <Content Include="SiteResources\screenshots\Add-a-Context-Menu-to-the-Map.png" />
@@ -135,6 +154,7 @@
     <Content Include="Controls\Map Navigation Control Options.html" />
     <Content Include="index.html" />
     <None Include="Properties\PublishProfiles\AzureMapsCodeSamples - Web Deploy.pubxml" />
+    <Content Include="Tutorials\Simple Store Locator\data\ContosoCoffee.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\data\geojson\US_County_Boundaries.json" />
@@ -151,7 +171,7 @@
     <Content Include="SiteResources\ExternalSamples.js" />
     <Content Include="Map\Load Map with Options.html" />
     <Content Include="Map\Multiple Maps.html" />
-    <Content Include="Experimental\Waypoint Optimization.html" />
+    <Content Include="REST Services\Route Waypoint Optimization.html" />
     <Content Include="REST Services\Simple REST Geocoding Request.html" />
     <Content Include="SiteResources\azure-maps-logo-13.png" />
     <Content Include="SiteResources\index.css" />
@@ -246,10 +266,10 @@
   <ItemGroup>
     <Folder Include="Common\scripts\cesium\" />
     <Folder Include="Experimental\Map Image Generator\" />
-    <Folder Include="Experimental\Simple Store Locator\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Common\types\atlas.d.ts" />
+    <TypeScriptCompile Include="Common\types\azure-maps-control.d.ts" />
+    <TypeScriptCompile Include="Experimental\Create a Custom Control\FullScreenControl.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

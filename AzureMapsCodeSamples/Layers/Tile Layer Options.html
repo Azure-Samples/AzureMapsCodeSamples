@@ -22,7 +22,7 @@
       
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -70,7 +70,7 @@
             
             tileLayer.setOptions(options);            
 
-            document.getElementById('CodeOutput').value = JSON.stringify(source, null, '\t');
+            document.getElementById('CodeOutput').value = JSON.stringify(source, null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
         }
 
         function getSourceOptions() {
@@ -179,21 +179,16 @@
         }
     </script>
     <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none;
-        }
-
         #myMap {
             position: relative;
-            width: 455px;
+            width: calc(100% - 375px);
+            min-width: 350px;
             height: 600px;
             float: left;
         }
 
         .sidePanel {
-            width: 335px;
+            width: 325px;
             height: 580px;
             float: left;
             margin-right: 10px;
@@ -201,7 +196,7 @@
 
         #CodeOutput {
             width: 300px;
-            height: 420px;
+            height: 400px;
             overflow-y: auto;
         }
 
@@ -229,7 +224,7 @@
                 border: none;
                 outline: none;
                 cursor: pointer;
-                padding: 6px 6px;
+                padding: 6px 8px;
                 transition: 0.3s;
                 font-size: 14px;
             }

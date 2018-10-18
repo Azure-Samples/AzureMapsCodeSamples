@@ -13,7 +13,7 @@
 
     <script type='text/javascript'>
         //Get an Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
+        var subscriptionKey = 'r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM';
         var geocodeUrlTemplate = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1&query={query}';
 
         function geocode() {
@@ -65,7 +65,7 @@
     <input type="button" onClick="geocode()" value="Search" /><br /><br />
     <div id="output"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Simple REST Geocoding Request</legend>
         This sample shows how to use the REST search API directly for geocoding locations.
     </fieldset>

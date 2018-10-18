@@ -20,7 +20,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -44,19 +44,18 @@
                     [[[-122.12494, 47.62825], [-122.12494, 47.62792], [-122.12354, 47.62788], [-122.12351, 47.62823], [-122.12494, 47.62825]]]
                 ]));
 
-                //Create a layer to render the polygon data.
-                polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                //Create a layer to render the polygon data and add it to the map.
+                map.layers.add(new atlas.layer.PolygonLayer(datasource, null, {
                     fillColor: 'rgba(0, 200, 200, 0.5)'
-                });
-                map.layers.add(polygonLayer);
+                }));
             });
         }
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Simple MultiPolygon</legend>
         This sample shows how to render a MultiPolygon on the map. In this case the MultiPolygon represents a collection of playing fields at a school.
     </fieldset>

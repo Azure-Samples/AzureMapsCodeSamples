@@ -22,7 +22,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap');
@@ -38,7 +38,7 @@
                     });
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource(null, { cluster: false });
+                var datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add random point features to data source.
@@ -63,7 +63,7 @@
             //Update all the options in the bubble layer.
             bubbleLayer.setOptions(options);
 
-            document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t');
+            document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
         }
 
         function getInputOptions() {
@@ -123,21 +123,16 @@
         }
     </script>
     <style>
-        body {
-            -ms-content-zooming: none;
-            overflow: hidden;
-            touch-action: none;
-        }
-
         #myMap {
             position: relative;
-            width: 455px;
+            width: calc(100% - 375px);
+            min-width: 350px;
             height: 600px;
             float:left;
         }
 
         .sidePanel {
-            width: 335px;
+            width: 325px;
             height: 580px;
             float: left;
             margin-right: 10px;

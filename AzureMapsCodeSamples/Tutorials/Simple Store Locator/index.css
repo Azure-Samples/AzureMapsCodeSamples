@@ -1,0 +1,200 @@
+﻿html, body {
+    padding: 0;
+    margin: 0;
+    font-family: Gotham, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+header {
+    width: calc(100vw - 10px);
+    height: 30px;
+    padding: 15px 0 20px 20px;
+    font-size: 25px;
+    font-style: italic;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    line-height: 30px;
+    font-weight: bold;
+    color: white;
+    background-color: #007faa;
+}
+
+    header span {
+        vertical-align: middle;
+    }
+
+    header img {
+        height: 30px;
+        vertical-align: middle;
+    }
+
+.searchPanel {
+    position: relative;
+    width: 350px;
+}
+
+    .searchPanel div {
+        padding: 20px;
+    }
+
+    .searchPanel input {
+        width: calc(100% - 50px);
+        font-size: 16px;
+        border: 0;
+        border-bottom: 1px solid #ccc;
+    }
+
+#listPanel {
+    position: absolute;
+    top: 135px;
+    left: 0px;
+    width: 350px;
+    height: calc(100vh - 135px);
+    overflow-y: auto;
+}
+
+#myMap {
+    position: absolute;
+    top: 65px;
+    left: 350px;
+    width: calc(100vw - 350px);
+    height: calc(100vh - 65px);
+}
+
+.statusMessage {
+    margin: 10px;
+}
+
+#myLocationBtn, #searchBtn {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-collapse: collapse;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 32px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: center center;
+    z-index: 200;
+}
+
+#myLocationBtn {
+    position: absolute;
+    top: 150px;
+    right: 10px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.16);
+    background-color: white;
+    background-image: url("images/GpsIcon.png");
+}
+
+    #myLocationBtn:hover {
+        background-image: url("images/GpsIcon-hover.png");
+    }
+
+#searchBtn {
+    background-color: transparent;
+    background-image: url("images/SearchIcon.png");
+}
+
+    #searchBtn:hover {
+        background-image: url("images/SearchIcon-hover.png");
+    }
+
+.listItem {
+    height: 50px;
+    padding: 20px;
+    font-size: 14px;
+}
+
+    .listItem:hover {
+        cursor: pointer;
+        background-color: #f1f1f1;
+    }
+
+.listItem-title {
+    color: #007faa;
+    font-weight: bold;
+}
+
+.storePopup {
+    min-width: 150px;  
+}
+
+    .storePopup .popupTitle {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        padding: 8px;
+        height: 30px;
+        background-color: #007faa;
+        color: white;
+        font-weight: bold;
+    }
+
+    .storePopup .popupSubTitle {
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+    .storePopup .popupContent {
+        font-size: 11px;
+        line-height: 18px;
+        padding: 8px;
+    }
+
+    .storePopup img {
+        vertical-align:middle;
+        height: 12px;
+        margin-right: 5px;
+    }
+
+/* Adjust the layout of the page when the screen width is less than 800 pixels. */
+@media screen and (max-width: 700px) {
+    .searchPanel {
+        width: 100vw;
+    }
+
+    #listPanel {
+        top: 385px;
+        width: 100%;
+        height: calc(100vh - 385px);
+    }
+
+    #myMap {
+        width: 100vw;
+        height: 250px;
+        top: 135px;
+        left: 0px;
+    }
+
+    #myLocationBtn {
+        top: 220px;
+    }
+}
+
+.mapCenterIcon {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: orange;
+    border: 2px solid white;
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(0, 204, 255, 0.4);
+    animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 204, 255, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 50px rgba(0, 204, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 204, 255, 0);
+    }
+}

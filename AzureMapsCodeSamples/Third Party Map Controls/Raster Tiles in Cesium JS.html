@@ -29,7 +29,7 @@
                             layer: 'basic', //Can be 'basic', 'hybrid' or 'labels'.
                             style: 'main',
                             language: 'en-US',
-                            'subscription-key': '<Your Azure Maps Key>'    //Your Azure Maps subscription key.
+                            'subscription-key': 'r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM'    //Your Azure Maps subscription key.
                         }
                     }),
                     credit: new Cesium.Credit('<img src="../Common/images/MicrosoftLogo.png" title="Microsoft Logo"><br/>© ' + new Date().getFullYear() + ' Microsoft, © 1992 - ' + new Date().getFullYear() + ' TomTom', true),
@@ -44,9 +44,9 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Raster Tiles in Cesium JS</legend>
         This sample shows how to render Azure Maps Raster Tiles in the <a href="https://cesiumjs.org/">Cesium JS map control</a>.
     </fieldset>

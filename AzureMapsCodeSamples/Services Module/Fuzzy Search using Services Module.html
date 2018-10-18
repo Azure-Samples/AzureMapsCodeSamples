@@ -23,7 +23,7 @@
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+            atlas.setSubscriptionKey('r-w1FNUrXKQS5Lqkic0JnaR0OBj5NDNVfgJ3rta0mhM');
 
             //Initialize a map instance.
             map = new atlas.Map('myMap');
@@ -67,7 +67,7 @@
                 lon: userLongitude,
                 radius: 100000
             }).then(response => {
-                //Parse the response into GeoJSON that the map can understand.
+                //Parse the response into GeoJSON so that the map can understand.
                 var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
                 var geojsonResults = geojsonResponse.getGeoJsonResults();
 
@@ -159,7 +159,7 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
     <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
         <input type="text" id="input" value="New York" />
@@ -167,7 +167,7 @@
         <input type="button" onClick="searchWithUserLocation()" value="Search with User Location" />
     </div>
 
-    <fieldset style="width:770px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Fuzzy Search with Services Module</legend>
         This sample shows how to use the Services module for Azure Maps to perform a fuzzy search for points of interests, address, and places. 
         Providing user location information allows the search service choose results that are more local to the user. 
