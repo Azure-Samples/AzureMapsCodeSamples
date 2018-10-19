@@ -27,9 +27,11 @@
             map = L.map('myMap').setView([0, 0], 2);
 
             //Create a tile layer that points to the Azure Maps tiles.
-            L.tileLayer('https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&zoom={z}&x={x}&y={y}&subscription-key={subscriptionKey}', {
+            L.tileLayer('https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=512&zoom={z}&x={x}&y={y}&subscription-key={subscriptionKey}', {
                 attribution: '© ' + new Date().getFullYear() + ' Microsoft, © 1992 - ' + new Date().getFullYear() + ' TomTom',
                 maxZoom: 20,
+                tileSize: 512,
+                zoomOffset: -1,
                 id: 'azuremaps.road',
                 crossOrigin: true,
                 subscriptionKey: '<Your Azure Maps Key>'    //Your Azure Maps subscription key.
@@ -51,7 +53,8 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Raster Tiles in Leaflet JS</legend>
-        This sample shows how to render Azure Maps Raster Tiles in the <a href="http://leafletjs.com/">Leaflet JS map control</a>.
+        This sample shows how to render Azure Maps Raster Tiles in the <a href="http://leafletjs.com/">Leaflet JS map control</a>. <br/>
+        Tip: Use 512 tiles instead of 256 tiles as it generates 1/4th the tile requests.
     </fieldset>
 </body>
 </html>

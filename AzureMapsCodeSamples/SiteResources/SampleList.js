@@ -715,15 +715,15 @@ var sampleList = [
 },
 {
 	category:'Tutorials',
-	desc:'',
+	desc:'These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href="https://docs.microsoft.com/azure/azure-maps/" target="_blank">here</a>.',
 	samples: [
 		{
 			title:'Simple Store Locator',
-			desc:'',
+			desc:'This tutorial shows how to create a simple store locator.',
 			path:'Tutorials/Simple%20Store%20Locator/index.html',
 			sourcePath:'Tutorials/Simple%20Store%20Locator',
 			screenshoot:'Simple-Store-Locator.png',
-			keywords:'map, gis, api, sdk, tutorials, ',
+			keywords:'map, gis, api, sdk, tutorials, store locator, locator, coffee, contoso, clustering, ',
 			created:'10/15/2018'
 		}
 	]

@@ -24,6 +24,12 @@ function initialize() {
         zoom: 2
     });
 
+    //Create a popup but leave it closed so we can update it and display it later.
+    popup = new atlas.Popup();
+
+    //Create an instance of the services client.
+    serviceClient = new atlas.service.Client(atlas.getSubscriptionKey());
+
     //If the user presses the search button, geocode the value they passed in.
     document.getElementById('searchBtn').onclick = performSearch;
 
@@ -39,11 +45,20 @@ function initialize() {
 
     //Wait until the map resources have fully loaded.
     map.events.add('load', function () {
-        //Create an instance of the services client.
-        serviceClient = new atlas.service.Client(atlas.getSubscriptionKey());
+        //Add the zoom control to the map.
+        map.controls.add(new atlas.control.ZoomControl(), {
+            position: 'top-right'
+        });
+        
+        //Create a data source and add it to the map and enable clustering.
+        datasource = new atlas.source.DataSource(null, {
+            cluster: true,
+            clusterMaxZoom: maxClusterZoomLevel - 1
+        });
+        map.sources.add(datasource);
 
-        //Create a popup but leave it closed so we can update it and display it later.
-        popup = new atlas.Popup();
+        //Load all the store data now that the data source has been defined. 
+        loadStoreData();
 
         //Add an HTML marker to the map to indicate the center used for searching.
         centerMarker = new atlas.HtmlMarker({
@@ -51,43 +66,33 @@ function initialize() {
             position: map.getCamera().center
         });        
 
+        //Create a bubble layer for rendering clustered data points.
+        var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+            radius: 12,
+            color: '#007faa',
+            strokeColor: 'white',
+            strokeWidth: 2,
+            filter: ['has', 'point_count'] //Only render data points which have a point_count property, which clusters do.
+        });
+
+        //Create a symbol layer to render the count of locations in a cluster.
+        var clusterLabelLayer = new atlas.layer.SymbolLayer(datasource, null, {
+            iconOptions: {
+                image: 'none' //Hide the icon image.
+            },
+            textOptions: {
+                textField: '{point_count_abbreviated}',
+                size: 12,
+                font: ['StandardFont-Bold'],
+                offset: [0, 0.4],
+                color: 'white'
+            }
+        });
+
+        map.layers.add([clusterBubbleLayer, clusterLabelLayer]);
+
         //Load a custom image icon into the map resources.
-        map.imageSprite.add('myCustomIcon', iconImageUrl).then(function () {
-
-            //Add the zoom control to the map.
-            map.controls.add(new atlas.control.ZoomControl(), {
-                position: 'top-right'
-            });
-
-            //Create a data source and add it to the map and enable clustering.
-            datasource = new atlas.source.DataSource(null, {
-                cluster: true,
-                clusterMaxZoom: maxClusterZoomLevel - 1
-            });
-            map.sources.add(datasource);
-
-            //Create a bubble layer for rendering clustered data points.
-            var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
-                radius: 12,
-                color: '#007faa',
-                strokeColor: 'white',
-                strokeWidth: 2,
-                filter: ['has', 'point_count'] //Only render data points which have a point_count property, which clusters do.
-            });
-
-            //Create a symbol layer to render the count of locations in a cluster.
-            var clusterLabelLayer =  new atlas.layer.SymbolLayer(datasource, null, {
-                iconOptions: {
-                    image: 'none' //Hide the icon image.
-                },
-                textOptions: {
-                    textField: '{point_count_abbreviated}',
-                    size: 12,
-                    font: ['StandardFont-Bold'],
-                    offset: [0, 0.4],
-                    color: 'white'
-                }
-            });
+        map.imageSprite.add('myCustomIcon', iconImageUrl).then(function () {           
 
             //Create a layer to render a coffe cup symbol above each bubble for an individual location.
             iconLayer = new atlas.layer.SymbolLayer(datasource, null, {
@@ -107,8 +112,7 @@ function initialize() {
                 filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
             });
 
-            //Add the layers to the map.
-            map.layers.add([clusterBubbleLayer, clusterLabelLayer, iconLayer]);
+            map.layers.add(iconLayer);
 
             //When the mouse is over the cluster and icon layers, change the cursor to be a pointer.
             map.events.add('mouseover', [clusterBubbleLayer, iconLayer], function () {
@@ -135,9 +139,6 @@ function initialize() {
             
             //Add an event to monitor when the map has finished moving.
             map.events.add('moveend', updateListItems);
-
-            //Load all the store data now that the layers have been defined. 
-            loadStoreData();
         });
     });
 }
@@ -281,60 +282,64 @@ function updateListItems() {
         //Add the center marker to the map.
         map.markers.add(centerMarker);
 
-        //Get all the shapes that have been rendered in the bubble layer. 
-        var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
+        //TODO: hack, remove once we have the render event
+        setTimeout(function () {
 
-        data.forEach(function (shape) {
-            if (shape instanceof atlas.Shape) {
-                //Calculate the distance from the center of the map to each shape and store the data in a distance property. 
-                shape.distance = atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles');
-            }
-        });
+            //Get all the shapes that have been rendered in the bubble layer. 
+            var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
 
-        //Sort the data by distance.
-        data.sort(function (x, y) {
-            return x.distance - y.distance;
-        });
+            data.forEach(function (shape) {
+                if (shape instanceof atlas.Shape) {
+                    //Calculate the distance from the center of the map to each shape and store the data in a distance property. 
+                    shape.distance = atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles');
+                }
+            });
 
-        //List the ten closest locations in the side panel.
-        var html = [], properties;
+            //Sort the data by distance.
+            data.sort(function (x, y) {
+                return x.distance - y.distance;
+            });
 
-        /*
-            Generating HTML for each item that looks like this:
-         
-            <div class="listItem" onclick="itemSelected('id')">
-                <div class="listItem-title">1 Microsoft Way</div>
-                Redmond, WA 98052<br />
-                Open until 9:00 PM<br />
-                0.7 miles away
-            </div>
-         */
+            //List the ten closest locations in the side panel.
+            var html = [], properties;
 
-        data.forEach(function (shape) {
-            properties = shape.getProperties();
+            /*
+                Generating HTML for each item that looks like this:
+             
+                <div class="listItem" onclick="itemSelected('id')">
+                    <div class="listItem-title">1 Microsoft Way</div>
+                    Redmond, WA 98052<br />
+                    Open until 9:00 PM<br />
+                    0.7 miles away
+                </div>
+             */
 
-            html.push('<div class="listItem" onclick="itemSelected(\'', shape.getId(), '\')"><div class="listItem-title">',
-                properties['AddressLine'],
-                '</div>',
+            data.forEach(function (shape) {
+                properties = shape.getProperties();
 
-                //Get a formatted address line 2 value that consists of City, Municipality, AdminDivision, and PostCode.
-                getAddressLine2(properties),
-                '<br />',
+                html.push('<div class="listItem" onclick="itemSelected(\'', shape.getId(), '\')"><div class="listItem-title">',
+                    properties['AddressLine'],
+                    '</div>',
 
-                //Convert the closing time into a nicely formated time.
-                getOpenTillTime(properties),
-                '<br />',
+                    //Get a formatted address line 2 value that consists of City, Municipality, AdminDivision, and PostCode.
+                    getAddressLine2(properties),
+                    '<br />',
 
-                //Route the distance to 2 decimal places. 
-                (Math.round(shape.distance * 100) / 100),
-                ' miles away</div>');
-        });
+                    //Convert the closing time into a nicely formated time.
+                    getOpenTillTime(properties),
+                    '<br />',
 
-        
-        listPanel.innerHTML = html.join('');
+                    //Route the distance to 2 decimal places. 
+                    (Math.round(shape.distance * 100) / 100),
+                    ' miles away</div>');
+            });
 
-        //Scroll to the top of the list panel incase the user has scrolled down.
-        listPanel.scrollTop = 0;
+
+            listPanel.innerHTML = html.join('');
+
+            //Scroll to the top of the list panel incase the user has scrolled down.
+            listPanel.scrollTop = 0;
+        }, 1000);
     }
 }
 
@@ -380,8 +385,23 @@ function itemSelected(id) {
     showPopup(shape);
 
     //Center the map over the shape on the map.
+    var center = shape.getCoordinates();
+
+    //If the map is less than 700 pixels wide, then the layout is set for small screens.
+    if (map.getCanvas().width < 700) {
+        //When the map is small, offset the center of the map relative to the shape so that there is room for the popup to appear.
+        //Calculate the pixel coordinate of the shapes cooridnate.
+        var p = map.positionsToPixels([center]);
+
+        //Offset the y value.
+        p[0][1] -= 80;
+
+        //Calculate the coordinate on the map for the offset pixel value.
+        center = map.pixelsToPositions(p)[0];
+    } 
+
     map.setCamera({
-        center: shape.getCoordinates()
+        center: center
     });
 }
 
@@ -417,6 +437,10 @@ function showPopup(shape) {
 
         //Convert the closing time into a nicely formated time.
         getOpenTillTime(properties),
+
+        //Route the distance to 2 decimal places. 
+        '<br/>', (Math.round(shape.distance * 100) / 100),
+        ' miles away',
         '<br /><img src="images/PhoneIcon.png" title="Phone Icon"/><a href="tel:',
         properties['Phone'],
         '">', 
