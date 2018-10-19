@@ -86,9 +86,12 @@
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Experimental\Create a Custom Control\Create a Custom Control.html" />
     <Content Include="REST Services\Calculate a Simple Isochrone.html" />
+    <Content Include="Experimental\Search for Points of Interest Along a Route.html" />
     <Content Include="SiteResources\screenshots\Calculate-a-Simple-Isochrone.png" />
+    <Content Include="SiteResources\screenshots\Filter-Data-Along-Route.png" />
     <Content Include="SiteResources\screenshots\Route-Waypoint-Optimization.png" />
     <Content Include="SiteResources\screenshots\Simple-Store-Locator.png" />
+    <Content Include="Spatial Math with Turf.js\Filter Data Along Route.html" />
     <Content Include="Tutorials\Simple Store Locator\images\CoffeeIcon.png" />
     <Content Include="Tutorials\Simple Store Locator\images\Logo.png" />
     <Content Include="Tutorials\Simple Store Locator\data\ContosoCoffee.txt" />

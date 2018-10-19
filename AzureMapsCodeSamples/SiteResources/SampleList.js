@@ -550,6 +550,15 @@ var sampleList = [
 	desc:'Perform advanced spatial math operations using the open source <a href="http://turfjs.org/" target="_blank">Turf.js</a> library.',
 	samples: [
 		{
+			title:'Filter Data Along Route',
+			desc:'This sample shows how to take a route line, calculate a buffer around it and then filter a set of points to find those that are within the buffer. ',
+			path:'Spatial%20Math%20with%20Turf.js/Filter%20Data%20Along%20Route.html',
+			sourcePath:'Spatial%20Math%20with%20Turf.js/Filter%20Data%20Along%20Route.html',
+			screenshoot:'Filter-Data-Along-Route.png',
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, points, buffer, within, intersects, intersection',
+			created:'10/19/2018'
+		},
+		{
 			title:'Generate Random Points within Bounds',
 			desc:'This sample shows how to generate a 1,000 random point features within a bounding box using the open source Turf.js library.',
 			path:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Points%20within%20Bounds%20(Turf.js).html',
@@ -727,4 +736,4 @@ var sampleList = [
 			created:'10/15/2018'
 		}
 	]
-}];var numberOfSamples = 69;
+}];var numberOfSamples = 70;

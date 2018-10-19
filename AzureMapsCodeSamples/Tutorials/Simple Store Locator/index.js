@@ -1,5 +1,5 @@
 ﻿
-//The maximum zoom level to cluster data
+//The maximum zoom level to cluster data point data on the map.
 var maxClusterZoomLevel = 11;
 
 //The URL to the store location data.
@@ -49,34 +49,34 @@ function initialize() {
         map.controls.add(new atlas.control.ZoomControl(), {
             position: 'top-right'
         });
-        
-        //Create a data source and add it to the map and enable clustering.
-        datasource = new atlas.source.DataSource(null, {
-            cluster: true,
-            clusterMaxZoom: maxClusterZoomLevel - 1
-        });
-        map.sources.add(datasource);
-
-        //Load all the store data now that the data source has been defined. 
-        loadStoreData();
 
         //Add an HTML marker to the map to indicate the center used for searching.
         centerMarker = new atlas.HtmlMarker({
             htmlContent: '<div class="mapCenterIcon"></div>',
             position: map.getCamera().center
-        });        
+        });     
+        
+            //Create a data source and add it to the map and enable clustering.
+            datasource = new atlas.source.DataSource(null, {
+            cluster: true,
+            clusterMaxZoom: maxClusterZoomLevel - 1
+            });
+            map.sources.add(datasource);
 
-        //Create a bubble layer for rendering clustered data points.
-        var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+            //Load all the store data now that the data source has been defined. 
+            loadStoreData();
+
+            //Create a bubble layer for rendering clustered data points.
+            var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
             radius: 12,
             color: '#007faa',
             strokeColor: 'white',
             strokeWidth: 2,
             filter: ['has', 'point_count'] //Only render data points which have a point_count property, which clusters do.
-        });
+            });
 
-        //Create a symbol layer to render the count of locations in a cluster.
-        var clusterLabelLayer = new atlas.layer.SymbolLayer(datasource, null, {
+            //Create a symbol layer to render the count of locations in a cluster.
+            var clusterLabelLayer = new atlas.layer.SymbolLayer(datasource, null, {
             iconOptions: {
                 image: 'none' //Hide the icon image.
             },
@@ -87,12 +87,12 @@ function initialize() {
                 offset: [0, 0.4],
                 color: 'white'
             }
-        });
+            });
 
-        map.layers.add([clusterBubbleLayer, clusterLabelLayer]);
+            map.layers.add([clusterBubbleLayer, clusterLabelLayer]);
 
-        //Load a custom image icon into the map resources.
-        map.imageSprite.add('myCustomIcon', iconImageUrl).then(function () {           
+            //Load a custom image icon into the map resources.
+            map.imageSprite.add('myCustomIcon', iconImageUrl).then(function () {           
 
             //Create a layer to render a coffe cup symbol above each bubble for an individual location.
             iconLayer = new atlas.layer.SymbolLayer(datasource, null, {
@@ -138,7 +138,10 @@ function initialize() {
             });
             
             //Add an event to monitor when the map has finished moving.
-            map.events.add('moveend', updateListItems);
+            map.events.add('moveend', function () {
+                //Give the map a chance to move and render data before updating the list.
+                setTimeout(updateListItems, 1000);
+            });
         });
     });
 }
@@ -218,9 +221,6 @@ function performSearch() {
                 bounds: geojsonResults.features[0].bbox,
                 padding: 40
             });
-
-            //Give the map a chance to move and render data before updating the list.
-            setTimeout(updateListItems, 1000);
         } else {
             document.getElementById('listPanel').innerHTML = '<div class="statusMessage">Unable to find the location you searched for.</div>';
         } 
@@ -235,9 +235,6 @@ function setMapToUserLocation() {
             center: [position.coords.longitude, position.coords.latitude],
             zoom: maxClusterZoomLevel + 1
         });
-
-        //Give the map a chance to move and render data before updating the list.
-        setTimeout(updateListItems, 1000);
     }, function (error) {
         //If an error occurs when trying to access the users position information, display an error message.
         switch (error.code) {
@@ -282,64 +279,59 @@ function updateListItems() {
         //Add the center marker to the map.
         map.markers.add(centerMarker);
 
-        //TODO: hack, remove once we have the render event
-        setTimeout(function () {
+        //Get all the shapes that have been rendered in the bubble layer. 
+        var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
 
-            //Get all the shapes that have been rendered in the bubble layer. 
-            var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
+        data.forEach(function (shape) {
+            if (shape instanceof atlas.Shape) {
+                //Calculate the distance from the center of the map to each shape and store the data in a distance property. 
+                shape.distance = atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles');
+            }
+        });
 
-            data.forEach(function (shape) {
-                if (shape instanceof atlas.Shape) {
-                    //Calculate the distance from the center of the map to each shape and store the data in a distance property. 
-                    shape.distance = atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles');
-                }
-            });
+        //Sort the data by distance.
+        data.sort(function (x, y) {
+            return x.distance - y.distance;
+        });
 
-            //Sort the data by distance.
-            data.sort(function (x, y) {
-                return x.distance - y.distance;
-            });
+        //List the ten closest locations in the side panel.
+        var html = [], properties;
 
-            //List the ten closest locations in the side panel.
-            var html = [], properties;
+        /*
+            Generating HTML for each item that looks like this:
+         
+            <div class="listItem" onclick="itemSelected('id')">
+                <div class="listItem-title">1 Microsoft Way</div>
+                Redmond, WA 98052<br />
+                Open until 9:00 PM<br />
+                0.7 miles away
+            </div>
+         */
 
-            /*
-                Generating HTML for each item that looks like this:
-             
-                <div class="listItem" onclick="itemSelected('id')">
-                    <div class="listItem-title">1 Microsoft Way</div>
-                    Redmond, WA 98052<br />
-                    Open until 9:00 PM<br />
-                    0.7 miles away
-                </div>
-             */
+        data.forEach(function (shape) {
+            properties = shape.getProperties();
 
-            data.forEach(function (shape) {
-                properties = shape.getProperties();
+            html.push('<div class="listItem" onclick="itemSelected(\'', shape.getId(), '\')"><div class="listItem-title">',
+                properties['AddressLine'],
+                '</div>',
 
-                html.push('<div class="listItem" onclick="itemSelected(\'', shape.getId(), '\')"><div class="listItem-title">',
-                    properties['AddressLine'],
-                    '</div>',
+                //Get a formatted address line 2 value that consists of City, Municipality, AdminDivision, and PostCode.
+                getAddressLine2(properties),
+                '<br />',
 
-                    //Get a formatted address line 2 value that consists of City, Municipality, AdminDivision, and PostCode.
-                    getAddressLine2(properties),
-                    '<br />',
+                //Convert the closing time into a nicely formated time.
+                getOpenTillTime(properties),
+                '<br />',
 
-                    //Convert the closing time into a nicely formated time.
-                    getOpenTillTime(properties),
-                    '<br />',
+                //Route the distance to 2 decimal places. 
+                (Math.round(shape.distance * 100) / 100),
+                ' miles away</div>');
+        });
+        
+        listPanel.innerHTML = html.join('');
 
-                    //Route the distance to 2 decimal places. 
-                    (Math.round(shape.distance * 100) / 100),
-                    ' miles away</div>');
-            });
-
-
-            listPanel.innerHTML = html.join('');
-
-            //Scroll to the top of the list panel incase the user has scrolled down.
-            listPanel.scrollTop = 0;
-        }, 1000);
+        //Scroll to the top of the list panel incase the user has scrolled down.
+        listPanel.scrollTop = 0;
     }
 }
 
