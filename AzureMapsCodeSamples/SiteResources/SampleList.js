@@ -646,6 +646,15 @@ var sampleList = [
 			created:'10/2/2018'
 		},
 		{
+			title:'Filter Symbols by Property',
+			desc:'This sample shows how to filter symbols on the map by property by creating a layer fro each property value and then toggling the visibility of that layer accordingly. ',
+			path:'Symbols%20and%20Markers/Filter%20Symbols%20by%20Property.html',
+			sourcePath:'Symbols%20and%20Markers/Filter%20Symbols%20by%20Property.html',
+			screenshoot:'Filter-Symbols-by-Property.png',
+			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
+			created:'10/19/2018'
+		},
+		{
 			title:'Styled Symbol Layer',
 			desc:'This sample shows how to create a symbol layer and apply styles to it to customize how it renders each symbol.',
 			path:'Symbols%20and%20Markers/Styled%20Symbol%20Layer.html',
@@ -736,4 +745,4 @@ var sampleList = [
 			created:'10/15/2018'
 		}
 	]
-}];var numberOfSamples = 70;
+}];var numberOfSamples = 71;
