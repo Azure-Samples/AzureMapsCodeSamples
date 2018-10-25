@@ -79,11 +79,11 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 * Fill the \<title\> tag of the sample with a discription title in the format "Azure Maps Web Control Samples - [Your title]".
 * A a short discription to the description meta tag. This is used to populate the description on the card and also a SEO optimization.
 * Add related keywords to the keyword meta tag. This is used for search and also a SEO optimization.
-* Create a screenshot of your sample that is 350px width and 225px tall and save it in the SiteResources/screenshots folder with the name of your sample but with spaces replaced with dashes. Alternatively run the SampleInfoBuilder app and it will attempt to capture a screenshot automatically. If your sample doesn't have a UI or not much of one, go into the SampleInfoBuilder/SampleListHelper.cs file and add the name of the sample to the ScreenshotsToIgnore list.
-* If you add a new category folder for samples, add it to CategoryFolders list with a short discription (will be dispayed on index.html) in the SampleInfoBuilder/SampleListHelper.cs file.
+* Create a screenshot of your sample that is 350px width and 225px tall and save it in the SiteResources/screenshots folder with the name of your sample but with spaces replaced with dashes. Alternatively run the SampleListBuilder app and it will attempt to capture a screenshot automatically. If your sample doesn't have a UI or not much of one, go into the SampleListBuilder/SampleListHelper.cs file and add the name of the sample to the ScreenshotsToIgnore list.
+* If you add a new category folder for samples, add it to CategoryFolders list with a short discription (will be dispayed on index.html) in the SampleListBuilder/SampleListHelper.cs file.
 * Ensure that all local URLs are relative (../) and not based off the root (/). This will ensure that the resource will be accessible if the sample file is openned in a browser directly without being hosted on localhost.
-* When you are done adding your sample, run the SampleInfoBuilder to update the sampleList.js file used by index.html.
-* If you simple want to add a link to the external samples list, add it to the SiteResources/ExternalSamples.js file.
+* When you are done adding your sample, run the SampleListBuilder to update the index.html.
+* If you simple want to add a link to the external samples list, add it to the SampleListBuilder/SampleListHelper.cs file.
 * Be sure to remove your Azure Maps key before checking in.
 
 That's it! Thank you for your contribution!

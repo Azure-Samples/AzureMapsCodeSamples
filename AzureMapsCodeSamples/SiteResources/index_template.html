@@ -1,0 +1,131 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="A collection of code samples for the Azure Maps Web Control." />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet">
+    <link href="/SiteResources/index.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">Azure Maps Code Samples</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+                    <div id="categoryListDropdown" class="dropdown-menu" aria-labelledby="dropdown02">
+{categoryListDropdownItems}                    </div>
+                </li>
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Support</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" target="_blank" href="https://docs.microsoft.com/azure/location-based-services/">Documentation</a>
+                        <a class="dropdown-item" target="_blank" href="https://feedback.azure.com/forums/909172-azure-maps">Feedback</a>
+                        <a class="dropdown-item" target="_blank" href="https://stackoverflow.com/questions/tagged/azure-maps">Forums</a>
+                    </div>
+                </li>
+            </ul>
+            <iframe src="https://ghbtns.com/github-btn.html?user=Azure-Samples&repo=AzureMapsCodeSamples&type=star&count=true" frameborder="0" scrolling="0" style="width:100px;height:20px"></iframe>
+            <form class="form-inline my-2 my-lg-0">
+                <input id="searchTbx" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <a class="btn btn-outline-success my-2 my-sm-0" href="javascript:search();">Search</a>
+            </form>
+        </div>
+    </nav>
+    <main role="main">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-6">Azure Maps Web Control Samples</h1>
+                <p>
+                    Welcome to the Azure Maps Web Control Sample Gallery. This is a collection of {NumberOfSamples} code samples which have been made open source on Github.
+                </p>
+                <p><a class="btn btn-primary btn-lg" target="_blank" href="https://github.com/Azure-Samples/AzureMapsCodeSamples" role="button">Open GitHub Project</a></p>
+            </div>
+        </div>
+        <div class="album py-5 bg-light">
+            <div id="sampleListContainer" class="container">{sampleListPlaceholder}
+                <!--<div class="row">
+                    <div class="col-md-12">
+                        <a name="{categoryName}"></a>
+                        <h2>{category}</h2>
+                        <p>{desc}</p>
+                    </div>
+                    <div class="col-md-4" rel="{title}">
+                        <div class="card mb-4 shadow-sm">
+                            <img class="card-img-top" src="/SiteResources/screenshots/{screenshot}" alt="{title}">
+                            <div class="card-body">
+                                <h3>{title}</h3>
+                                <p class="card-text">{desc}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" onclick="openSample('{title}')" class="btn btn-sm btn-outline-secondary">Run Sample</button>
+                                        <a target="_blank" href="/{path}" class="btn btn-sm btn-outline-secondary">Open In New Tab</a>
+                                        <a target="_blank" href="https://github.com/Azure-Samples/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/{sourcePath}" class="btn btn-sm btn-outline-secondary">Source Code</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </main>
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+
+            <span><a href="https://go.microsoft.com/fwlink/?LinkId=521839&CLCID=0409" target="_blank">Privacy</a></span>
+            <span><a href="https://go.microsoft.com/fwlink/?LinkID=246338&CLCID=0409" target="_blank">Legal</a></span>
+            <span id="copyrights">&copy; Microsoft </span>
+        </div>
+    </footer>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <a target="_blank" id="modelSourceCode" href="azure.com" class="btn btn-primary btn-default">Source Code</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="SiteResources/SampleList.js"></script>
+    <script src="SiteResources/index.js"></script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

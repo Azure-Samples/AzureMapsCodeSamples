@@ -85,6 +85,7 @@
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Experimental\Create a Custom Control\Create a Custom Control.html" />
+    <Content Include="SiteResources\index_template.html" />
     <Content Include="REST Services\Calculate a Simple Isochrone.html" />
     <Content Include="Experimental\Search for Points of Interest Along a Route.html" />
     <Content Include="SiteResources\screenshots\Filter-Symbols-by-Property.png" />
@@ -173,7 +174,6 @@
     <Content Include="Map\Multiple Maps in Different Lanaguages.html" />
     <Content Include="Popups\Popup with Media Content.html" />
     <Content Include="Popups\Reusing Popup with Multiple Pins.html" />
-    <Content Include="SiteResources\ExternalSamples.js" />
     <Content Include="Map\Load Map with Options.html" />
     <Content Include="Map\Multiple Maps.html" />
     <Content Include="REST Services\Route Waypoint Optimization.html" />

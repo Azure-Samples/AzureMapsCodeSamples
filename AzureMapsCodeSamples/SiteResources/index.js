@@ -8,83 +8,6 @@ window.onload = function () {
 
     document.getElementById('copyrights').innerHTML += new Date().getFullYear();
 
-    var defaultSampleImage = 'MapsSampleIcon.png';
-
-    var categoryListItemTemplate = '<a class="dropdown-item" href="#{categoryName}">{category}</a>';
-    var categoryHeaderTemplate = '<div class="col-md-12"><a name="{categoryName}"></a><h2>{category}</h2><p>{desc}</p></div>';
-    var sampleCardTemplate = '<div class="col-md-4" rel="{title}"><div class="card mb-4 shadow-sm"><img class="card-img-top" src="SiteResources/screenshots/{screenshot}" alt="{title}"><div class="card-body"><h3>{title}</h3><p class="card-text">{desc}</p><div class="d-flex justify-content-between align-items-center"><div class="btn-group"><button type="button" onclick="openSample(\'{title}\')" class="btn btn-sm btn-outline-secondary">Run Sample</button><a target="_blank" href="/{path}" class="btn btn-sm btn-outline-secondary">Open In New Tab</a><a target="_blank" href="https://github.com/Azure-Samples/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/{sourcePath}" class="btn btn-sm btn-outline-secondary">Source Code</a></div></div></div></div></div>';    
-
-    var sampleHtml = [];
-    var categoryListHtml = [];
-    
-    for (var i = 0, len = sampleList.length; i < len; i++) {
-        if (sampleList[i].samples.length > 0) {
-            var categoryName = sampleList[i].category.replace(/\s/g, '-').toLocaleLowerCase();
-
-            categoryListHtml.push(
-                categoryListItemTemplate
-                    .replace('{categoryName}', categoryName)
-                    .replace('{category}', sampleList[i].category));
-
-            sampleHtml.push('<div class="row">');
-
-            sampleHtml.push(
-                categoryHeaderTemplate
-                    .replace('{categoryName}', categoryName)
-                    .replace('{category}', sampleList[i].category)
-                    .replace('{desc}', sampleList[i].desc || ''));
-
-            for (var j = 0, cnt = sampleList[i].samples.length; j < cnt; j++) {
-                sampleHtml.push(
-                    sampleCardTemplate
-                        .replace(/{title}/g, sampleList[i].samples[j].title)
-                        .replace('{desc}', sampleList[i].samples[j].desc || '')
-                        .replace('{screenshot}', (sampleList[i].samples[j].screenshoot && sampleList[i].samples[j].screenshoot !== '') ? sampleList[i].samples[j].screenshoot : defaultSampleImage)
-                        .replace(/{path}/g, sampleList[i].samples[j].path)
-                        .replace(/{sourcePath}/g, sampleList[i].samples[j].sourcePath));
-            }
-
-            sampleHtml.push('</div>');
-        }
-    }
-
-    //Add list of external samples
-    categoryListHtml.push(
-        categoryListItemTemplate
-            .replace('{categoryName}', 'ExternalSamples')
-            .replace('{category}', 'External Samples'));
-
-    sampleHtml.push('<div class="row"><div class="col-md-12"><a name="ExternalSamples"></a><h2>External Samples</h2><p>');
-
-    var keys = Object.keys(externalSamples).sort();
-
-    keys.forEach(function (key) {
-        var samples = externalSamples[key].sort(function(a, b) {
-            return a.name - b.name;
-        });
-
-        sampleHtml.push('<b>', key, '</b><ul>');
-
-        for (var i = 0; i < samples.length; i++) {
-            sampleHtml.push('<li><a href="', samples[i].href, '" target="_blank">', samples[i].title, '</a>');
-
-            if (samples[i].description && samples[i].description != '') {
-                sampleHtml.push(' - ', samples[i].description);
-            }
-
-            sampleHtml.push('</li>');
-        }
-
-        sampleHtml.push('</ul>');
-    });
-
-    sampleHtml.push('</p></div></div>');
-
-    document.getElementById('sampleListContainer').innerHTML = sampleHtml.join('');
-    document.getElementById('categoryListDropdown').innerHTML = categoryListHtml.join('');
-
-    document.getElementById('numberOfSamples').innerText = numberOfSamples;
-
     $('form').keydown(function (event) {
         if (event.keyCode == 13 ) {
             event.preventDefault();
@@ -161,10 +84,18 @@ function search() {
 
         if (query === 'new' || query === 'latest' || query === 'newest') {
             var today = new Date()
-            
+
             for (var i = 0, len = sampleList.length; i < len; i++) {
                 for (var j = 0, cnt = sampleList[i].samples.length; j < cnt; j++) {
                     if (dateDiffInDays(new Date(Date.parse(sampleList[i].samples[j].created)), today) <= recentDayLimit) {
+                        matchedSamples.push(sampleList[i].samples[j].title);
+                    }
+                }
+            }
+        } else if (query === 'no-image') {
+            for (var i = 0, len = sampleList.length; i < len; i++) {
+                for (var j = 0, cnt = sampleList[i].samples.length; j < cnt; j++) {
+                    if (sampleList[i].samples[j].screenshot == '') {
                         matchedSamples.push(sampleList[i].samples[j].title);
                     }
                 }

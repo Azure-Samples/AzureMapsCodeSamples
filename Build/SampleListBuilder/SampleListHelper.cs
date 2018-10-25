@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SampleInfoBuilder
+namespace SampleListBuilder
 {
     public static class SampleListHelper
     {
@@ -49,6 +49,46 @@ namespace SampleInfoBuilder
             { "Third Party Map Controls", "As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these." },
             { "Traffic", "Overlay real-time traffic data on the map." },
             { "Tutorials", "These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href=\"https://docs.microsoft.com/azure/azure-maps/\" target=\"_blank\">here</a>." }
+        };
+
+        public static List<ExternalSampleCategory> ExternalSamples = new List<ExternalSampleCategory>()
+        {
+            new ExternalSampleCategory()
+            {
+                Title = "Angular",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Angular Azure Maps",
+                        Href = "https://github.com/Acaisoft/angular-azure-maps"
+                    }
+                }
+            },
+            new ExternalSampleCategory()
+            {
+                Title = "Internet of Things (IoT)",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps .NET UWP IoT Remote Control",
+                        Href = "https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control"
+                    }
+                 }
+            },
+            new ExternalSampleCategory()
+            {
+                Title = "Xamarin",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Using Azure Maps with a Xamarin Forms app",
+                        Href = "http://patrickgoode.com/using-azure-maps-with-a-xamarin-forms-app",
+                    }
+                }
+            }            
         };
     }
 }
