@@ -30,7 +30,7 @@
         {
             return string.Format("\n\t\t{{\n\t\t\ttitle:'{0}',\n\t\t\tdesc:'{1}',\n\t\t\tpath:'{2}',\n\t\t\tsourcePath:'{3}',\n\t\t\tscreenshot:'{4}',\n\t\t\tkeywords:'{5}',\n\t\t\tcreated:'{6}'\n\t\t}},",
                 Title.Replace("'", "\\'"),
-                Description.Replace("'", "\\'"),
+                (Description != null) ? Description.Replace("'", "\\'"): "",
                 Path,
                 SourcePath,
                 Screenshot,

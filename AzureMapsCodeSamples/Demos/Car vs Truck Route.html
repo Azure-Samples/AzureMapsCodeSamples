@@ -9,7 +9,6 @@
     <meta name="description" content="This sample compares the route a truck has to take to the route a car can take." />
     <meta name="keywords" content="map, gis, API, SDK, truck, car, routing, route, directions" />
     <meta name="author" content="Microsoft Azure Maps" />
-    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -21,7 +20,7 @@
         var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
         var geocodeRequestUrl = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1&query={query}';
         var carRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1&query={query}&routeRepresentation=polyline&travelMode=car';
-        var truckRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&vehicleLoadType={vehicleLoadType}';
+        var truckRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck';
 
         var scenarios = [
             { from: '47.632241,-122.299189', to: '47.634676,-122.300302', height: '5', width: '3', length: '', weight: '', load: [], description: 'Low bridge', streetsideLink: 'https://binged.it/2oT6d4V' },
@@ -121,7 +120,12 @@
                         document.getElementById('output').innerHTML += 'Car Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
                     });
 
-                    var truckRequestUrl = truckRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', query).replace('{vehicleLoadType}', getSelectValues('vehicleLoadType'));
+                    var truckRequestUrl = truckRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', query);
+
+                    var loadType = getSelectValues('vehicleLoadType');
+                    if (loadType && loadType !== '') {
+                        truckRequestUrl += '&vehicleLoadType=' + loadType;
+                    }
 
                     truckRequestUrl = setValueOptions(truckRequestUrl, ['vehicleWeight', 'vehicleWidth', 'vehicleHeight', 'vehicleLength']);
 
@@ -274,7 +278,7 @@
     <div class="sidePanel">
         <fieldset style="width:300px;margin-bottom:10px;">
             <legend>Car vs Truck Route</legend>
-            This sample compares the route a truck has to take to the route a car can take.
+            This sample compares the route a truck has to take <span style="color:green">(green)</span> to the route a car can take <span style="color:red">(red)</span>.
         </fieldset>
 
         <table>

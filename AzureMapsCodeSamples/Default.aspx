@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="A collection of code samples for the Azure Maps Web Control." />
     <meta name="author" content="Microsoft Azure Maps" />
-    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 </head>
 <body>  
      Redirecting to index.html

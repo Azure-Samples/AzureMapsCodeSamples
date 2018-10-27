@@ -38,10 +38,11 @@ namespace SampleListBuilder
         {
             var sb = new StringBuilder();
 
-            sb.AppendFormat("\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-12\"><a name=\"{2}\"></a><h2>{0}</h2><p>{1}</p></div>\n",
+            sb.AppendFormat("\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-12\"><a name=\"{2}\"></a><h2>{0} <span class=\"sampleCount\">({3})</span></h2><p>{1}</p></div>\n",
                 Title,
                 SampleListHelper.GetDescription(Title),
-                Title.Replace(" ", "-"));
+                Title.Replace(" ", "-"),
+                Samples.Count);
 
             sb.Append(body);
 

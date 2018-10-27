@@ -9,7 +9,6 @@
     <meta name="description" content="This sample shows how to display a popup when a user interacts with any shape on the map." />
     <meta name="keywords" content="map, gis, API, SDK, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline" />
     <meta name="author" content="Microsoft Azure Maps" />
-    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -74,9 +73,7 @@
                 map.events.add('click', [polygonLayer, lineLayer, pointLayer], featureClicked);
 
                 //Create a popup but leave it closed so we can update it and display it later.
-                popup = new atlas.Popup({
-                    position: [0, 0]
-                });
+                popup = new atlas.Popup();
             });
         }
 

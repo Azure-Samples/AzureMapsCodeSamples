@@ -474,7 +474,7 @@ var sampleList = [
 			path:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			screenshot:'Fuzzy-Search-using-Services-Module.png',
-			keywords:'map, gis, api, sdk, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places',
+			keywords:'map, gis, api, sdk, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places',
 			created:'9/26/2018'
 		},
 		{
@@ -483,7 +483,7 @@ var sampleList = [
 			path:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			screenshot:'Reverse-Geocode-using-Services-Module.png',
-			keywords:'map, gis, api, sdk, search, reverse, geocode, geocoding, address, addresses',
+			keywords:'map, gis, api, sdk, services, module, search, reverse, geocode, geocoding, address, addresses',
 			created:'9/26/2018'
 		},
 	]
@@ -736,13 +736,49 @@ var sampleList = [
 	desc:'These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href="https://docs.microsoft.com/azure/azure-maps/" target="_blank">here</a>.',
 	samples: [
 		{
+			title:'Interactive Search Quickstart',
+			desc:'This tutorial shows how to create an interactive search experience.',
+			path:'Tutorials/interactiveSearch.html',
+			sourcePath:'Tutorials/interactiveSearch.html',
+			screenshot:'interactiveSearch.png',
+			keywords:'map, gis, api, sdk, services, module, tutorials, search, point of interest, poi',
+			created:'10/25/2018'
+		},
+		{
+			title:'Route to a destination',
+			desc:'This tutorial shows how to calculate a route and display it on the map.',
+			path:'Tutorials/route.html',
+			sourcePath:'Tutorials/route.html',
+			screenshot:'route.png',
+			keywords:'map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
+			created:'10/25/2018'
+		},
+		{
+			title:'Search for points of interest',
+			desc:'This tutorial shows how to search for points of interest and display them on the map.',
+			path:'Tutorials/search.html',
+			sourcePath:'Tutorials/search.html',
+			screenshot:'search.png',
+			keywords:'map, gis, api, sdk, services, module, tutorials, search',
+			created:'10/25/2018'
+		},
+		{
+			title:'Multiple routes by mode of travel',
+			desc:'This tutorial shows how to perform multiple routes for different modes of travel and display them on the map.',
+			path:'Tutorials/truckRoute.html',
+			sourcePath:'Tutorials/truckRoute.html',
+			screenshot:'truckRoute.png',
+			keywords:'map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
+			created:'10/25/2018'
+		},
+		{
 			title:'Simple Store Locator',
 			desc:'This tutorial shows how to create a simple store locator.',
 			path:'Tutorials/Simple%20Store%20Locator/index.html',
 			sourcePath:'Tutorials/Simple%20Store%20Locator',
 			screenshot:'Simple-Store-Locator.png',
-			keywords:'map, gis, api, sdk, tutorials, store locator, locator, coffee, contoso, clustering, ',
-			created:'10/15/2018'
+			keywords:'map, gis, api, sdk, tutorials, store locator, locator, coffee, contoso, clustering',
+			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 71;
+}];var numberOfSamples = 75;

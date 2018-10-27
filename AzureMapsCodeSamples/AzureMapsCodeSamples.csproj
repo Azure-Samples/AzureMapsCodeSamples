@@ -88,13 +88,21 @@
     <Content Include="SiteResources\index_template.html" />
     <Content Include="REST Services\Calculate a Simple Isochrone.html" />
     <Content Include="Experimental\Search for Points of Interest Along a Route.html" />
+    <Content Include="SiteResources\screenshots\Filter-Points-by-Property.png" />
     <Content Include="SiteResources\screenshots\Filter-Symbols-by-Property.png" />
+    <Content Include="SiteResources\screenshots\interactiveSearch.png" />
+    <Content Include="SiteResources\screenshots\route.png" />
+    <Content Include="SiteResources\screenshots\search.png" />
+    <Content Include="SiteResources\screenshots\truckRoute.png" />
     <Content Include="Symbols and Markers\Filter Symbols by Property.html" />
     <Content Include="SiteResources\screenshots\Calculate-a-Simple-Isochrone.png" />
     <Content Include="SiteResources\screenshots\Filter-Data-Along-Route.png" />
     <Content Include="SiteResources\screenshots\Route-Waypoint-Optimization.png" />
     <Content Include="SiteResources\screenshots\Simple-Store-Locator.png" />
     <Content Include="Spatial Math with Turf.js\Filter Data Along Route.html" />
+    <Content Include="Tutorials\interactiveSearch.html" />
+    <Content Include="Tutorials\route.html" />
+    <Content Include="Tutorials\search.html" />
     <Content Include="Tutorials\Simple Store Locator\images\CoffeeIcon.png" />
     <Content Include="Tutorials\Simple Store Locator\images\Logo.png" />
     <Content Include="Tutorials\Simple Store Locator\data\ContosoCoffee.txt" />
@@ -125,8 +133,6 @@
     <Content Include="SiteResources\screenshots\Popups-on-Shapes.png" />
     <Content Include="Symbols and Markers\Adding Mouse Events to HTML Markers.html" />
     <Content Include="Demos\Create a Choropleth Map.html" />
-    <Content Include="Experimental\Popup Expanding Tooltip.html" />
-    <Content Include="Experimental\Popup with Interactive Content.html" />
     <Content Include="Geospatial Files\Drag and Drop GeoJSON File onto Map.html" />
     <Content Include="Popups\Popups on Shapes.html" />
     <Content Include="Device Sensors\Show a Users Position.html" />
@@ -144,7 +150,6 @@
     <Content Include="Experimental\test\Show Popup on Hover.html" />
     <Content Include="REST Services\Get Users Timezone.html" />
     <Content Include="Services Module\Fuzzy Search using Services Module.html" />
-    <Content Include="Experimental\Calculate Route with Services Module.html" />
     <Content Include="Services Module\Reverse Geocode using Services Module.html" />
     <Content Include="Experimental\Route Waypoint Optimization with Services Module.html" />
     <Content Include="Shapes\Geospatially Accurate Circle.html" />
@@ -251,6 +256,7 @@
     <Content Include="Third Party Map Controls\Raster Tiles in Open Layers.html" />
     <Content Include="Traffic\Traffic Overlay Options.html" />
     <Content Include="Traffic\Traffic Overlay.html" />
+    <Content Include="Tutorials\truckRoute.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -274,7 +280,7 @@
     <Folder Include="Experimental\Map Image Generator\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Common\types\azure-maps-control.d.ts" />
+    <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Experimental\Create a Custom Control\FullScreenControl.ts" />
   </ItemGroup>
   <PropertyGroup>

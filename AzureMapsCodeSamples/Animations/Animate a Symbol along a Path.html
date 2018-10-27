@@ -9,7 +9,6 @@
     <meta name="description" content="This sample shows how to animate a symbol along a path on the map smoothly. " />
     <meta name="keywords" content="map, gis, API, SDK, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline" />
     <meta name="author" content="Microsoft Azure Maps" />
-    <link href="/SiteResources/azure-maps-logo-13.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
@@ -69,6 +68,9 @@
                             //Rotate the icon based on the rotation property on the point data.
                             rotation: ['get', 'rotation'],
 
+                            //Have the rotation align with the map.
+                            rotationAlignment: 'map',
+
                             //For smoother animation, ignore the placement of the icon. This skips the label collision calculations and allows the icon to overlap map labels. 
                             ignorePlacement: true,
 
@@ -94,6 +96,15 @@
 
                         //Update the symbols coordinates.
                         pin.setCoordinates(position);
+
+                        if (document.getElementById('followSymbol').checked) {
+                            map.setCamera({
+                                center: position,
+                                bearing: heading,
+                                pitch: 45,
+                                zoom: 15
+                            });
+                        }
                     }, animationTime);
                 });
             });
@@ -283,6 +294,8 @@
         <input type="button" value="Play" onclick="play()" />
         <input type="button" value="Pause" onclick="pause()" />
         <input type="button" value="Stop" onclick="stop()" />
+        <br/>
+        Follow: <input id="followSymbol" type="checkbox"/>
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">

@@ -54,29 +54,29 @@ function initialize() {
         centerMarker = new atlas.HtmlMarker({
             htmlContent: '<div class="mapCenterIcon"></div>',
             position: map.getCamera().center
-        });     
-        
-            //Create a data source and add it to the map and enable clustering.
-            datasource = new atlas.source.DataSource(null, {
+        });
+
+        //Create a data source and add it to the map and enable clustering.
+        datasource = new atlas.source.DataSource(null, {
             cluster: true,
             clusterMaxZoom: maxClusterZoomLevel - 1
-            });
-            map.sources.add(datasource);
+        });
+        map.sources.add(datasource);
 
-            //Load all the store data now that the data source has been defined. 
-            loadStoreData();
+        //Load all the store data now that the data source has been defined. 
+        loadStoreData();
 
-            //Create a bubble layer for rendering clustered data points.
-            var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+        //Create a bubble layer for rendering clustered data points.
+        var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
             radius: 12,
             color: '#007faa',
             strokeColor: 'white',
             strokeWidth: 2,
             filter: ['has', 'point_count'] //Only render data points which have a point_count property, which clusters do.
-            });
+        });
 
-            //Create a symbol layer to render the count of locations in a cluster.
-            var clusterLabelLayer = new atlas.layer.SymbolLayer(datasource, null, {
+        //Create a symbol layer to render the count of locations in a cluster.
+        var clusterLabelLayer = new atlas.layer.SymbolLayer(datasource, null, {
             iconOptions: {
                 image: 'none' //Hide the icon image.
             },
@@ -87,12 +87,12 @@ function initialize() {
                 offset: [0, 0.4],
                 color: 'white'
             }
-            });
+        });
 
-            map.layers.add([clusterBubbleLayer, clusterLabelLayer]);
+        map.layers.add([clusterBubbleLayer, clusterLabelLayer]);
 
-            //Load a custom image icon into the map resources.
-            map.imageSprite.add('myCustomIcon', iconImageUrl).then(function () {           
+        //Load a custom image icon into the map resources.
+        map.imageSprite.add('myCustomIcon', iconImageUrl).then(function () {
 
             //Create a layer to render a coffe cup symbol above each bubble for an individual location.
             iconLayer = new atlas.layer.SymbolLayer(datasource, null, {
@@ -136,7 +136,7 @@ function initialize() {
             map.events.add('click', iconLayer, function (e) {
                 showPopup(e.shapes[0]);
             });
-            
+
             //Add an event to monitor when the map has finished moving.
             map.events.add('moveend', function () {
                 //Give the map a chance to move and render data before updating the list.
@@ -193,7 +193,7 @@ function loadStoreData() {
             }
 
             //Add the features to the data source.
-            datasource.add(new atlas.data.FeatureCollection(features));
+            datasource.add(features);
 
             //Initially update the list items.
             updateListItems();

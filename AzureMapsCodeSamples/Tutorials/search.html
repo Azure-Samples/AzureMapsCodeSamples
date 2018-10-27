@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Search for points of interest</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This tutorial shows how to search for points of interest and display them on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, services, module, tutorials, search" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
+
+    <script>
+        var map, datasource, client, popup;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map("myMap", {
+                center: [-122.2337, 47.6292],
+                zoom: 12
+            });
+
+            //Create an instance of the services client.
+            client = new atlas.service.Client(atlas.getSubscriptionKey());
+
+            //Store a reference to the Search Info Panel.
+            resultsPanel = document.getElementById("results-panel");
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function () {
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering point data.
+                var resultLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        iconImage: 'pin-round-darkblue',
+                        anchor: 'center',
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    }
+                });
+                map.layers.add(resultLayer);
+
+                //Add a mouse over event to the result layer and display a popup when this event fires.
+                map.events.add("mouseover", resultLayer, showPopup);
+
+                //Execute a POI search query then add the results to the map.
+                client.search.getSearchPOI("gasoline station", {
+                    lat: 47.6292,
+                    lon: -122.2337,
+                    radius: 100000
+                }).then(response => {
+                    //Parse the response into GeoJSON so that the map can understand.
+                    var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
+                    var results = geojsonResponse.getGeoJsonResults();
+
+                    //Add the results to the data source so they can be rendered. 
+                    datasource.add(results);
+
+                    // Set the camera bounds
+                    map.setCamera({
+                        bounds: results.bbox,
+                        padding: 50
+                    });
+                });
+            });
+        }
+
+        function showPopup(e) {
+            var p = e.shapes[0].getProperties();
+            var position = e.shapes[0].getCoordinates();
+
+            var html = ['<div style="padding:5px"><div><b>', p.poi.name,
+                '</b></div><div>', p.address.freeformAddress,
+                '</div><div>', position[1], ', ', position[0], '</div></div>'];
+           
+            popup.setPopupOptions({
+                position:position,
+                content: html.join('')
+            });
+
+            popup.open(map);
+        }
+    </script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #myMap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+</body>
+</html>
