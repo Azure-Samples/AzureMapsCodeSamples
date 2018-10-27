@@ -25,16 +25,7 @@
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
-            map = new atlas.Map("myMap", {
-                center: [-118.2437, 34.0522],
-                zoom: 12
-            });
-
-            //Create an instance of the services client.
-            client = new atlas.service.Client(atlas.getSubscriptionKey());
-
-            //Store a reference to the Search Info Panel.
-            resultsPanel = document.getElementById("results-panel");
+            map = new atlas.Map('myMap');
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function () {
@@ -43,30 +34,24 @@
                     flow: 'relative'
                 });
 
-                //Add the zoom control to the map.
-                map.controls.add(new atlas.control.ZoomControl(), {
-                    position: 'top-right'
-                });
-
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add a layer for rendering the route lines and have it render under the map labels.
                 map.layers.add(new atlas.layer.LineLayer(datasource, null, {
-                        strokeColor: ['get', 'strokeColor'],
-                        strokeWidth: ['get', 'strokeWidth'],
-                        lineJoin: 'round',
-                        lineCap: 'round',
-                        filter: ['==', '$type', 'LineString']
-                    }), 'labels');
+                    strokeColor: ['get', 'strokeColor'],
+                    strokeWidth: ['get', 'strokeWidth'],
+                    lineJoin: 'round',
+                    lineCap: 'round',
+                    filter: ['==', '$type', 'LineString']
+                }), 'labels');
 
                 //Add a layer for rendering point data.
                 map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
                     iconOptions: {
                         image: ['get', 'icon'],
-                        allowOverlap: true,
-                        ignorePlacement: true
+                        allowOverlap: true
                     },
                     textOptions: {
                         textField: ['get', 'title'],
@@ -75,72 +60,73 @@
                     filter: ['==', '$type', 'Point']
                 }));
 
-                calculateRoute();
-            });
-        }
+                //Create the GeoJSON objects which represent the start and end point of the route.
+                var startPoint = new atlas.data.Feature(new atlas.data.Point([-122.356099, 47.580045]), {
+                    title: 'Fabrikam, Inc.',
+                    icon: 'pin-round-blue'
+                });
 
-        function calculateRoute() {
-            //Create the GeoJSON objects which represent the start and end point of the route.
-            var startPoint = new atlas.data.Feature(new atlas.data.Point([-122.356099, 47.580045]), {
-                title: 'Fabrikam, Inc.',
-                icon: 'pin-round-blue'
-            });
+                var endPoint = new atlas.data.Feature(new atlas.data.Point([-122.201164, 47.616940]), {
+                    title: 'Microsoft - Lincoln Square',
+                    icon: 'pin-blue'
+                });
 
-            var endPoint = new atlas.data.Feature(new atlas.data.Point([-122.201164, 47.616940]),{//[-122.130137, 47.644702]), {
-                title: 'Microsoft - Lincoln Square',
-                icon: 'pin-blue'
-            });
+                //Add the data to the data source.
+                datasource.add([startPoint, endPoint]);
 
-            //Add the data to the data source.
-            datasource.add([startPoint, endPoint]);
+                //Fit the map window to the bounding box defined by the start and end positions.
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromData([startPoint, endPoint]),
+                    padding: 100
+                });
 
-            //Fit the map window to the bounding box defined by the start and end positions.
-            map.setCamera({
-                bounds: atlas.data.BoundingBox.fromData([startPoint, endPoint]),
-                padding: 100
-            });
+                //If the service client hasn't been created, create an instance of it.
+                if (!client) {
+                    client = new atlas.service.Client(atlas.getSubscriptionKey());
+                }
 
-            //Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
-            var routeQuery = startPoint.geometry.coordinates[1] +
-                ',' +
-                startPoint.geometry.coordinates[0] +
-                ':' +
-                endPoint.geometry.coordinates[1] +
-                ',' +
-                endPoint.geometry.coordinates[0];
+                //Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
+                var routeQuery = startPoint.geometry.coordinates[1] +
+                    ',' +
+                    startPoint.geometry.coordinates[0] +
+                    ':' +
+                    endPoint.geometry.coordinates[1] +
+                    ',' +
+                    endPoint.geometry.coordinates[0];
 
-            //Execute the truck route query then add the route to the map.
-            client.route.getRouteDirections(routeQuery, {
-                travelMode: 'truck',
-                vehicleWidth: 2,
-                vehicleHeight: 2,
-                vehicleLength: 5,
-                vehicleLoadType: 'USHazmatClass2', traffic:true
-            }).then(function(response) {
-                // Parse the response into GeoJSON
-                var geoJsonResponse = new atlas.service.geojson.GeoJsonRouteDirectionsResponse(response);
+                //Execute the truck route query then add the route to the map.
+                client.route.getRouteDirections(routeQuery, {
+                    travelMode: 'truck',
+                    vehicleWidth: 2,
+                    vehicleHeight: 2,
+                    vehicleLength: 5,
+                    vehicleLoadType: 'USHazmatClass2', traffic: true
+                }).then(function (response) {
+                    // Parse the response into GeoJSON
+                    var geoJsonResponse = new atlas.service.geojson.GeoJsonRouteDirectionsResponse(response);
 
-                //Get the route line and add some style properties to it.
-                var routeLine = geoJsonResponse.getGeoJsonRoutes().features[0];
-                routeLine.properties.strokeColor = '#2272B9';
-                routeLine.properties.strokeWidth = 9;
+                    //Get the route line and add some style properties to it.
+                    var routeLine = geoJsonResponse.getGeoJsonRoutes().features[0];
+                    routeLine.properties.strokeColor = '#2272B9';
+                    routeLine.properties.strokeWidth = 9;
 
-                //Add the route line to the data source. We want this to render below the car route which will likely be added to the data source faster, so insert it at index 0.
-                datasource.add(routeLine, 0);
-            });
+                    //Add the route line to the data source. We want this to render below the car route which will likely be added to the data source faster, so insert it at index 0.
+                    datasource.add(routeLine, 0);
+                });
 
-            //Execute the car route query then add the route to the map.
-            client.route.getRouteDirections(routeQuery).then(function(response) {
-                // Parse the response into GeoJSON
-                var geoJsonResponse = new atlas.service.geojson.GeoJsonRouteDirectionsResponse(response);
+                //Execute the car route query then add the route to the map.
+                client.route.getRouteDirections(routeQuery).then(function (response) {
+                    // Parse the response into GeoJSON
+                    var geoJsonResponse = new atlas.service.geojson.GeoJsonRouteDirectionsResponse(response);
 
-                //Get the route line and add some style properties to it.
-                var routeLine = geoJsonResponse.getGeoJsonRoutes().features[0];
-                routeLine.properties.strokeColor = '#B76DAB';
-                routeLine.properties.strokeWidth = 5;
+                    //Get the route line and add some style properties to it.
+                    var routeLine = geoJsonResponse.getGeoJsonRoutes().features[0];
+                    routeLine.properties.strokeColor = '#B76DAB';
+                    routeLine.properties.strokeWidth = 5;
 
-                //Add the route line to the data source.
-                datasource.add(routeLine);
+                    //Add the route line to the data source.
+                    datasource.add(routeLine);
+                });
             });
         }
     </script>

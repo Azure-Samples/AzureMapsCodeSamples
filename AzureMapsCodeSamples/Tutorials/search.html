@@ -25,22 +25,11 @@
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
-            map = new atlas.Map("myMap", {
-                center: [-122.2337, 47.6292],
-                zoom: 12
-            });
-
-            //Create an instance of the services client.
-            client = new atlas.service.Client(atlas.getSubscriptionKey());
-
-            //Store a reference to the Search Info Panel.
-            resultsPanel = document.getElementById("results-panel");
-
+            map = new atlas.Map('myMap');
+            
             //Wait until the map resources have fully loaded.
             map.events.add('load', function () {
-                //Create a popup but leave it closed so we can update it and display it later.
-                popup = new atlas.Popup();
-
+                
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
@@ -50,17 +39,16 @@
                     iconOptions: {
                         iconImage: 'pin-round-darkblue',
                         anchor: 'center',
-                        allowOverlap: true,
-                        ignorePlacement: true
+                        allowOverlap: true
                     }
                 });
                 map.layers.add(resultLayer);
 
-                //Add a mouse over event to the result layer and display a popup when this event fires.
-                map.events.add("mouseover", resultLayer, showPopup);
+                //Create an instance of the services client.
+                client = new atlas.service.Client(atlas.getSubscriptionKey());
 
                 //Execute a POI search query then add the results to the map.
-                client.search.getSearchPOI("gasoline station", {
+                client.search.getSearchPOI('gasoline station', {
                     lat: 47.6292,
                     lon: -122.2337,
                     radius: 100000
@@ -79,21 +67,31 @@
                     });
                 });
             });
+
+            //Create a popup but leave it closed so we can update it and display it later.
+            popup = new atlas.Popup();
+
+            //Add a mouse over event to the result layer and display a popup when this event fires.
+            map.events.add('mouseover', resultLayer, showPopup);
         }
 
         function showPopup(e) {
+            //Get the properties and coordinates of the first shape that the event occured on.
             var p = e.shapes[0].getProperties();
             var position = e.shapes[0].getCoordinates();
 
+            //Create HTML from properties of the selected result.
             var html = ['<div style="padding:5px"><div><b>', p.poi.name,
                 '</b></div><div>', p.address.freeformAddress,
                 '</div><div>', position[1], ', ', position[0], '</div></div>'];
-           
+
+            //Update the content and position of the popup.
             popup.setPopupOptions({
-                position:position,
-                content: html.join('')
+                content: html.join(''),
+                position: position
             });
 
+            //Open the popup.
             popup.open(map);
         }
     </script>
