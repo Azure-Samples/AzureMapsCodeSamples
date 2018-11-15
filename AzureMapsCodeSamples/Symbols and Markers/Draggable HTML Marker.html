@@ -29,7 +29,10 @@
                 //Create a draggable HTML marker.
                 var marker = new atlas.HtmlMarker({
                     draggable: true,
-                    htmlContent: '<image src="../Common/images/pushpins/ylw-pushpin.png"/>',
+
+                    //Tip: add "pointer-events:none" as a style on the html content to disable the default drag behaviour in MS Edge which will display an unwanted icon.
+                    htmlContent: '<image src="../Common/images/pushpins/ylw-pushpin.png" style="pointer-events: none;" />',
+
                     position: [0, 0],
                     pixelOffset: [6, -15]
                 });
