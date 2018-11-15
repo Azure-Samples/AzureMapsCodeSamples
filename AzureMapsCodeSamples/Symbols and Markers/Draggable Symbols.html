@@ -45,6 +45,8 @@
                 //Add a layer for rendering point data as symbols.
                 var symbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
                     iconOptions: {
+                        ignorePlacement: true, //To skip label collision detection for better performance.
+
                         allowOverlap: true    //To ensure smooth rendering when dragging, allow symbol to overlap all other symbols on the map.
                     }
                 });

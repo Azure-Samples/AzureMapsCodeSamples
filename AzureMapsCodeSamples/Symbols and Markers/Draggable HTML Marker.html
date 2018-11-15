@@ -26,14 +26,26 @@
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
-
-                //Create a HTML marker and add it to the map.
-                map.markers.add(new atlas.HtmlMarker({
+                //Create a draggable HTML marker.
+                var marker = new atlas.HtmlMarker({
                     draggable: true,
                     htmlContent: '<image src="../Common/images/pushpins/ylw-pushpin.png"/>',
                     position: [0, 0],
                     pixelOffset: [6, -15]
-                }));
+                });
+
+                var output = document.getElementById('output');
+
+                //Add a drag event to get the position of the marker. Markers support drag, dragstart and dragend events.
+                map.events.add('drag', marker, function () {
+                    var pos = marker.getOptions().position;
+
+                    //Round longitude,latitude values to 5 decimal places.
+                    output.innerText = Math.round(pos[0] * 100000) / 100000 + ', ' + Math.round(pos[1] * 100000) / 100000;
+                });
+
+                //Create a HTML marker and add it to the map.
+                map.markers.add(marker);
             });
         }
     </script>
@@ -41,9 +53,11 @@
 <body onload='GetMap()'>
     <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
+    <div id="output" style="position:absolute;top:580px;left:calc(50% - 100px);height:20px;width:200px;background-color:white;text-align:center;"></div>
+
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Draggable HTML Marker</legend>
-        This sample shows how to make an HTML marker draggable.
+        This sample shows how to make an HTML marker draggable. HTML markers support drag, dragstart and dragend events.
     </fieldset>
 </body>
 </html>
