@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Web Control Samples - Tile Layer Options</title>
+    <title>Azure Maps Web Control Samples - Image Layer Options</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how the different options of the tile layer affect rendering." />
-    <meta name="keywords" content="map, gis, API, SDK, tiles, layer" />
+    <meta name="description" content="This sample shows how the different options of the image layer affect rendering." />
+    <meta name="keywords" content="map, gis, API, SDK, image, raster, layer, ground overlay, groundoverlay" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -17,17 +17,15 @@
     <script src="../Common/scripts/clipboard.min.js"></script>
 
     <script type='text/javascript'>
-        var map, tileLayer, defaultOptions, removeDefaults;
-      
+        var map, imageLayer, defaultOptions, removeDefaults;
+        var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
+
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
-            map = new atlas.Map('myMap', {
-                center: [-90, 25],
-                zoom: 4
-            });
+            map = new atlas.Map('myMap');
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
@@ -39,98 +37,68 @@
                     position: 'top-right'
                 });
 
-                //Create a tile layer and add it to the map.
-                tileLayer = new atlas.layer.TileLayer({
-                    tileUrl: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
-                    bounds: [-101.065, 14.01, -80.538, 35.176],
-                    minSourceZoom: 1,
-                    maxSourceZoom: 10,
-                    tileSize: 256
-                });
-                map.layers.add(tileLayer, 'labels');
+                //Create an image layer and add it to the map below the labels.
+                imageLayer = new atlas.layer.ImageLayer(getSourceOptions());
+                map.layers.add(imageLayer, 'labels');
 
-                defaultOptions = tileLayer.getOptions();
+                defaultOptions = imageLayer.getOptions();
 
-                //Update the tile layer with the options in the input fields.
-                updateTileLayer();
+                //Update the image layer with the options in the input fields.
+                updateImageLayer(true, true);
             });
 
             new ClipboardJS('.copyBtn');
         }
 
-        function updateTileLayer(updateSource) {
+        function updateImageLayer(updateSource, updateView) {
             var options = getInputOptions();
             var source = getSourceOptions();
 
-            //Update all the options in the tile layer.
-            //Update all the options in the tile layer.
+            //Update all the options in the image layer.
             if (updateSource) {
                 options = Object.assign(options, source);
-                tileLayer.setOptions(options);
+
+                map.layers.remove(imageLayer);
+                imageLayer = new atlas.layer.ImageLayer(options);
+                map.layers.add(imageLayer, 'labels');
+
+                if (updateView) {
+                    //Update the map view based on the bounds of the coordinates.
+                    map.setCamera({
+                        bounds: atlas.data.BoundingBox.fromPositions(source.coordinates)
+                    });
+                }
             } else {
-                tileLayer.setOptions(options);
-                options = Object.assign(options, source);
-            }        
+                imageLayer.setOptions(options);
+                options = Object.assign(options, source);                
+            }
 
             document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
         }
 
         function getSourceOptions() {
-            var sourceOptions = {};
+            var coords;
 
-            var tileUrl = document.getElementById('TileSourceUrl').value;
-            var subdomains = document.getElementById('Subdomains').value;
-            var minSourceZoom = parseFloat(document.getElementById('MinSourceZoom').value);
-            var maxSourceZoom = parseFloat(document.getElementById('MaxSourceZoom').value);
-            var north = parseFloat(document.getElementById('NorthBounds').value);
-            var south = parseFloat(document.getElementById('SouthBounds').value);
-            var east = parseFloat(document.getElementById('EastBounds').value);
-            var west = parseFloat(document.getElementById('WestBounds').value);
-            var tileSize = parseInt(document.getElementById('TileSize').value);
-            var isTMS = document.getElementById('IsTMS').checked;
+            if (document.getElementById('useBoundsRotation').checked) {
+                var north = parseFloat(document.getElementById('NorthBounds').value);
+                var south = parseFloat(document.getElementById('SouthBounds').value);
+                var east = parseFloat(document.getElementById('EastBounds').value);
+                var west = parseFloat(document.getElementById('WestBounds').value);
+                var rotation = parseFloat(document.getElementById('Rotation').value);
 
-            var bounds = [west, south, east, north];
-
-            if (subdomains == '' || subdomains == null) {
-                subdomains = undefined
-            }
-
-            var domains = undefined;
-
-            if (subdomains != undefined) {
-                domains = subdomains.split(',');
-            }
-            
-            if (removeDefaults) {
-                if (minSourceZoom == 0) {
-                    minSourceZoom = undefined;
-                }
-
-                if (maxSourceZoom == 22) {
-                    maxSourceZoom = undefined;
-                }
-
-                if (north == 85.0511 && south == -85.0511 && east == 180 && west == -180) {
-                    bounds = undefined;
-                }
-
-                if (tileSize == 512) {
-                    tileSize = undefined;
-                }
-
-                if (isTMS == false) {
-                    isTMS = undefined;
-                }
+                coords = atlas.layer.ImageLayer.getCoordinatesFromEdges(north, south, east, west, rotation);
+            } else {
+                coords = [
+                    parseCoordinate('TopLeft', 'top left'),
+                    parseCoordinate('TopRight', 'top right'),
+                    parseCoordinate('BottomRight', 'bottom right'),
+                    parseCoordinate('BottomLeft', 'bottom left')
+                ];
             }
 
             return {
-                minSourceZoom: minSourceZoom,
-                maxSourceZoom: maxSourceZoom,
-                bounds: bounds,
-                tileSize: tileSize,
-                tileUrl: tileUrl,
-                isTMS: isTMS,
-                subdomains: domains
+                url: document.getElementById('ImageUrl').value,
+                coordinates: coords
             };
         }
 
@@ -153,6 +121,19 @@
             return Object.assign(layerOptions, sourceOptions);
         }
 
+        function parseCoordinate(elmId, name) {
+            var query = document.getElementById(elmId).value;
+
+            if (coordinateRx.test(query)) {
+                var vals = query.split(',');
+
+                return [parseFloat(vals[0]), parseFloat(vals[1])];
+            }
+
+            alert('Invalid coordinate for ' + name + ' corner of image.');
+            return null;
+        }
+
         function getPropertyValue(propertyName, value) {
             if (removeDefaults && defaultOptions[propertyName] === value) {
                 return undefined;
@@ -164,6 +145,16 @@
         function getSelectValue(id) {
             var elm = document.getElementById(id);
             return elm.options[elm.selectedIndex].value;
+        }
+
+        function toggleCoordInput() {
+            if (document.getElementById('useBoundsRotation').checked) {
+                document.getElementById('boundsRotationOptions').style.display = '';
+                document.getElementById('coordinateOptions').style.display = 'none';
+            } else {
+                document.getElementById('coordinateOptions').style.display = '';
+                document.getElementById('boundsRotationOptions').style.display = 'none';
+            }
         }
 
         function openTab(elm, tabName) {
@@ -207,7 +198,7 @@
         }
 
         table td:nth-of-type(1) {
-            width: 120px;
+            width: 130px;
         }
 
         table td:nth-of-type(2) {
@@ -249,14 +240,14 @@
 </head>
 <body onload="GetMap()">
     <fieldset class="sidePanel">
-        <legend>Tile Layer Options</legend>
-        This sample shows how the different options of the tile layer affect rendering.
+        <legend>Image Layer Options</legend>
+        This sample shows how the different options of the image layer affect rendering.
         <br /><br />
 
         <div class="tab">
             <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Base Options</button>
             <button class="tablinks" onclick="openTab(this, 'MediaOptions')">Media Options</button>
-            <button class="tablinks" onclick="openTab(this, 'TileSource')">Tile Source</button>            
+            <button class="tablinks" onclick="openTab(this, 'ImageSource')">Image Source</button>
             <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
         </div>
 
@@ -266,7 +257,7 @@
                     <td>Min Zoom:</td>
                     <td>
                         <form oninput="minz.value=MinZoom.value">
-                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="minz" for="MinZoom">0</output>
                         </form>
                     </td>
@@ -275,25 +266,29 @@
                     <td>Max Zoom:</td>
                     <td>
                         <form oninput="maxz.value=MaxZoom.value">
-                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="maxz" for="MaxZoom">24</output>
                         </form>
                     </td>
                 </tr>
                 <tr title="Specifies if the layer is visible or not.">
                     <td>Visible:</td>
-                    <td><input id="Visible" type="checkbox" onclick="updateTileLayer()" checked="checked" /></td>
+                    <td><input id="Visible" type="checkbox" onclick="updateImageLayer()" checked="checked" /></td>
                 </tr>
             </table>
+
+            <p>
+                In addition to the options in this tool, the ImageLayer also has options for;
+            </p>
         </div>
 
         <div id="MediaOptions" class="tabcontent">
             <table>
-                <tr title="The duration in milliseconds of a fade transition when a new tile is added. ">
+                <tr title="The duration in milliseconds of a fade-in transition when changing visibility of the image layer. ">
                     <td>Fade Duration</td>
                     <td>
                         <form oninput="fadeDuration.value=FadeDuration.value">
-                            <input type="range" id="FadeDuration" value="300" min="0" max="1000" step="100" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="FadeDuration" value="300" min="0" max="1000" step="100" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="fadeDuration" for="FadeDuration">300</output>
                         </form>
                     </td>
@@ -302,7 +297,7 @@
                     <td>Opacity</td>
                     <td>
                         <form oninput="opacity.value=Opacity.value">
-                            <input type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="opacity" for="Opacity">1</output>
                         </form>
                     </td>
@@ -311,7 +306,7 @@
                     <td>Contrast</td>
                     <td>
                         <form oninput="contrast.value=Contrast.value">
-                            <input type="range" id="Contrast" value="0" min="-1" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="Contrast" value="0" min="-1" max="1" step="0.1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="contrast" for="Contrast">0</output>
                         </form>
                     </td>
@@ -320,7 +315,7 @@
                     <td>Hue Rotation</td>
                     <td>
                         <form oninput="hueRotation.value=HueRotation.value">
-                            <input type="range" id="HueRotation" value="0" min="0" max="360" step="1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="HueRotation" value="0" min="0" max="360" step="1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="hueRotation" for="HueRotation">0</output>
                         </form>
                     </td>
@@ -329,7 +324,7 @@
                     <td>Max Brightness</td>
                     <td>
                         <form oninput="maxBrightness.value=MaxBrightness.value">
-                            <input type="range" id="MaxBrightness" value="1" min="0" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="MaxBrightness" value="1" min="0" max="1" step="0.1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="maxBrightness" for="MaxBrightness">1</output>
                         </form>
                     </td>
@@ -338,7 +333,7 @@
                     <td>Min Brightness</td>
                     <td>
                         <form oninput="minBrightness.value=MinBrightness.value">
-                            <input type="range" id="MinBrightness" value="0" min="0" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="MinBrightness" value="0" min="0" max="1" step="0.1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="minBrightness" for="MinBrightness">0</output>
                         </form>
                     </td>
@@ -347,7 +342,7 @@
                     <td>Saturation</td>
                     <td>
                         <form oninput="saturation.value=Saturation.value">
-                            <input type="range" id="Saturation" value="0" min="-1" max="1" step="0.1" oninput="updateTileLayer()" onchange="updateTileLayer()" />
+                            <input type="range" id="Saturation" value="0" min="-1" max="1" step="0.1" oninput="updateImageLayer()" onchange="updateImageLayer()" />
                             <output name="saturation" for="Saturation">0</output>
                         </form>
                     </td>
@@ -355,86 +350,94 @@
             </table>
         </div>
 
-        <div id="TileSource" class="tabcontent">
+        <div id="ImageSource" class="tabcontent">
             <table>
-                <tr title="A URL to a TileJSON resource or a tile URL template that uses the following URL parameters: {x}, {y}, {z}, {quadkey}, {bbox-epsg-3857}, {subdomain}">
-                    <td>Tile Service Url</td>
+                <tr title="URL to an image to overlay. Images hosted on other domains must have CORs enabled.">
+                    <td>Image Url:</td>
                     <td>
-                        <input type="text" id="TileSourceUrl" value="https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png" />
+                        <input type="text" id="ImageUrl" value="../Common/images/Foto_a%C3%A9rea_de_Una%C3%AD_detalhando_o_c%C3%B3rrego_Canabrava_3.jpg" />
                     </td>
                 </tr>
-                <tr title="An array of subdomain values to apply to the tile URL.">
-                    <td>Subdomains</td>
-                    <td>
-                        <input type="text" id="Subdomains" />
+                <tr>
+                    <td colspan="2">
+                        <input id="useBoundsRotation" type="checkbox" onclick="toggleCoordInput()"/> Use bounds and rotation<br />
+
+                        <table id="boundsRotationOptions" style="display:none">
+                            <tr><td colspan="2"><b>Bounds:</b></td><td></td></tr>
+                            <tr title="The northern most coordinate of the bounds.">
+                                <td>&nbsp;&nbsp;&nbsp;North:</td>
+                                <td>
+                                    <input type="number" id="NorthBounds" min="-85.0511" max="85.0511" value="-16.365232" />
+                                </td>
+                            </tr>
+                            <tr title="The sothern most coordinate of the bounds.">
+                                <td>&nbsp;&nbsp;&nbsp;South:</td>
+                                <td>
+                                    <input type="number" id="SouthBounds" min="-85.0511" max="85.0511" value="-16.367425" />
+                                </td>
+                            </tr>
+                            <tr title="The eastern most coordinate of the bounds.">
+                                <td>&nbsp;&nbsp;&nbsp;East:</td>
+                                <td>
+                                    <input type="number" id="EastBounds" min="-180" max="180" value="-46.893370" />
+                                </td>
+                            </tr>
+                            <tr title="The western most coordinate of the bounds.">
+                                <td>&nbsp;&nbsp;&nbsp;West:</td>
+                                <td>
+                                    <input type="number" id="WestBounds" min="-180" max="180" value="-46.896867" />
+                                </td>
+                            </tr>
+                            <tr title="The rotation of the image.">
+                                <td><b>Rotation:</b></td>
+                                <td>
+                                    <form oninput="rotation.value=Rotation.value">
+                                        <input type="range" id="Rotation" value="298" min="0" max="360" step="1" /> <!--oninput="updateImageLayer(true)" onchange="updateImageLayer(true)" />-->
+                                        <output name="rotation" for="Rotation">298</output>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table id="coordinateOptions">
+                            <tr><td colspan="2"><b>Corner Position:</b></td><td></td></tr>
+                            <tr title="The coordinate of the top left corner of the image.">
+                                <td>&nbsp;&nbsp;&nbsp;Top Left:</td>
+                                <td>
+                                    <input type="text" id="TopLeft" value="-46.896948,-16.367295" />
+                                </td>
+                            </tr>
+                            <tr title="The coordinate of the top right corner of the image.">
+                                <td>&nbsp;&nbsp;&nbsp;Top Right:</td>
+                                <td>
+                                    <input type="text" id="TopRight" value="-46.895306,-16.364333" />
+                                </td>
+                            </tr>
+                            <tr title="The coordinate of the bottom right corner of the image.">
+                                <td>&nbsp;&nbsp;&nbsp;Bottom Right:</td>
+                                <td>
+                                    <input type="text" id="BottomRight" value="-46.893289,-16.365362" />
+                                </td>
+                            </tr>
+                            <tr title="The coordinate of the bottom left corner of the image.">
+                                <td>&nbsp;&nbsp;&nbsp;Bottom Left:</td>
+                                <td>
+                                    <input type="text" id="BottomLeft" value="-46.894930,-16.368324" />
+                                </td>
+                            </tr>
+                        </table>
                     </td>
-                </tr>                
-                <tr title="A bounding box that specifies where tiles are available. When specified, no tiles outside of the bounding box will be requested.">
-                    <td>Bounds</td>
-                    <td></td>
-                </tr>
-                <tr title="The northern most coordinate of the bounds.">
-                    <td>&nbsp;&nbsp;&nbsp;North</td>
-                    <td>
-                        <input type="number" id="NorthBounds" min="-85.0511" max="85.0511" value="35.176" />
-                    </td>
-                </tr>
-                <tr title="The sothern most coordinate of the bounds.">
-                    <td>&nbsp;&nbsp;&nbsp;South</td>
-                    <td>
-                        <input type="number" id="SouthBounds" min="-85.0511" max="85.0511" value="14.01" />
-                    </td>
-                </tr>
-                <tr title="The eastern most coordinate of the bounds.">
-                    <td>&nbsp;&nbsp;&nbsp;East</td>
-                    <td>
-                        <input type="number" id="EastBounds" min="-180" max="180" value="-80.538" />
-                    </td>
-                </tr>
-                <tr title="The western most coordinate of the bounds.">
-                    <td>&nbsp;&nbsp;&nbsp;West</td>
-                    <td>
-                        <input type="number" id="WestBounds" min="-180" max="180" value="-101.065" />
-                    </td>
-                </tr>
-                <tr title="An integer specifying the minimum zoom level in which tiles are available from the tile source.">
-                    <td>Min Source Zoom:</td>
-                    <td>
-                        <form oninput="minsz.value=MinSourceZoom.value">
-                            <input type="range" id="MinSourceZoom" value="1" min="0" max="22" step="1" />
-                            <output name="minsz" for="MinSourceZoom">1</output>
-                        </form>
-                    </td>
-                </tr>
-                <tr title="An integer specifying the maximum zoom level in which tiles are available from the tile source.">
-                    <td>Max Source Zoom:</td>
-                    <td>
-                        <form oninput="maxsz.value=MaxSourceZoom.value">
-                            <input type="range" id="MaxSourceZoom" value="10" min="0" max="22" step="1" />
-                            <output name="maxsz" for="MaxSourceZoom">10</output>
-                        </form>
-                    </td>
-                </tr>
-                <tr title="An integer value that specifies the width and height dimensions of the map tiles. For a seamless experience, the tile size must by a multiplier of 2. ">
-                    <td>Tile Size</td>
-                    <td>
-                        <input type="number" id="TileSize" value="256" min="0" />
-                    </td>
-                </tr>
-                <tr title="Specifies if the tile systems coordinates uses the Tile Map Services specification, which reverses the Y coordinate axis.">
-                    <td>IS TMS:</td>
-                    <td><input id="IsTMS" type="checkbox" /></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="button" value="Update Tile Source" onclick="updateTileLayer(true);" /></td>
+                    <td><input type="button" value="Update Image Source" onclick="updateImageLayer(true, true);" /></td>
                 </tr>
             </table>
         </div>
 
         <div id="Code" class="tabcontent">
             <textarea id="CodeOutput"></textarea><br /><br />
-            <input id="RemoveDefaults" type="checkbox" onclick="updateTileLayer()" checked="checked" /> Remove defaults
+            <input id="RemoveDefaults" type="checkbox" onclick="updateImageLayer()" checked="checked" /> Remove defaults
             <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
         </div>
     </fieldset>

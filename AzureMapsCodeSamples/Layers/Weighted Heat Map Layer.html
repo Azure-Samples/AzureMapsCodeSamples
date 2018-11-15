@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Weighted Heat Map Layer</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a heat map which defines the intensity of each data point based on a property." />
+    <meta name="keywords" content="map, gis, API, SDK, heatmap, heat map, density, layer, thermatic" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load a data set of points, in this case earthquake data from the USGS.
+                fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson')
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (response) {
+
+                        //Add the earthquake data to the data source.
+                        datasource.add(response.features);
+
+                        //Create a heatmap and add it to the map.
+                        map.layers.add(new atlas.layer.HeatMapLayer(datasource, null, {
+                            weight: [
+                                'interpolate',
+                                ['linear'],
+                                ['get', 'mag'],
+                                0, 0,
+                                6, 1
+                            ],
+                            radius: [
+                                'interpolate',
+                                ['linear'],
+                                ['zoom'],
+                                0, 2,
+                                22, 200
+                            ],
+                            color: [
+                                'interpolate',
+                                ['linear'],
+                                ['heatmap-density'],
+                                0, 'rgba(33,102,172,0)',
+                                0.2, 'rgb(103,169,207)',
+                                0.4, 'rgb(209,229,240)',
+                                0.6, 'rgb(253,219,199)',
+                                0.8, 'rgb(239,138,98)',
+                                1, 'rgb(178,24,43)'
+                            ]
+                        }), 'labels');
+                    });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Weighted Heat Map Layer</legend>
+        This sample shows how to create a heat map which defines the intensity of each data point based on a property.
+        In this case the "mag" property is used to specify the weight of each data point. 
+        Additionally ann expresison has been added to the radius property so that it changes based on the zoom level of the map.
+        <br /><br />
+        <b>Tip:</b> When working with larger data sets, enable clustering on the data data source and set the weight to ['get', 'point_count'] to get improved performance.
+    </fieldset>
+</body>
+</html>

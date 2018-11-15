@@ -64,6 +64,7 @@ namespace SampleListBuilder
             }
 
             var sampleHtml = new StringBuilder();
+            var externalSampleHtml = new StringBuilder();
             var sampleCatListHtml = new StringBuilder();
             var sampleJson = new StringBuilder();
             sampleJson.AppendLine("var sampleList = [");
@@ -92,15 +93,15 @@ namespace SampleListBuilder
 
             //Create External Samples List HTML
             sampleCatListHtml.AppendLine("<a class=\"dropdown-item\" href=\"#ExternalSamples\">External Samples</a>");
-            sampleHtml.AppendLine("\t\t\t\t<div class=\"row\"><div class=\"col-md-12\"><a name=\"ExternalSamples\"></a><h2>External Samples</h2><p>");
+            externalSampleHtml.AppendLine("\t\t\t\t<div class=\"row\"><div class=\"col-md-12\"><a name=\"ExternalSamples\"></a><h2>External Samples</h2><p>");
 
             foreach (var exc in SampleListHelper.ExternalSamples)
             {
-                sampleHtml.AppendFormat("\t\t\t\t\t<b>{0}</b><ul>\n", exc.Title);
+                externalSampleHtml.AppendFormat("\t\t\t\t\t<b>{0}</b><ul>\n", exc.Title);
 
                 foreach (var exs in exc.Samples)
                 {
-                    sampleHtml.AppendFormat("\t\t\t\t\t\t<li><a href=\"{0}\" target=\"_blank\">{1}</a>",
+                    externalSampleHtml.AppendFormat("\t\t\t\t\t\t<li><a href=\"{0}\" target=\"_blank\">{1}</a>",
                         exs.Href,
                         exs.Title);
 
@@ -110,20 +111,21 @@ namespace SampleListBuilder
                         sampleHtml.Append(exs.Description);
                     }
 
-                    sampleHtml.Append("</li>\n");
+                    externalSampleHtml.Append("</li>\n");
                 }
 
-                sampleHtml.Append("\t\t\t\t\t</ul>\n");
+                externalSampleHtml.Append("\t\t\t\t\t</ul>\n");
             }
 
-            sampleHtml.Append("\t\t\t\t</p></div></div>");
+            externalSampleHtml.Append("\t\t\t\t</p></div></div>");
 
             using (var reader = new StreamReader(new FileStream(dir + indexTemplatePath, FileMode.Open, FileAccess.Read)))
             {
                 var doc = reader.ReadToEnd();
                 doc = doc.Replace("{categoryListDropdownItems}", sampleCatListHtml.ToString())
                     .Replace("{sampleListPlaceholder}", sampleHtml.ToString())
-                    .Replace("{NumberOfSamples}", NumberOfSamples.ToString());
+                    .Replace("{NumberOfSamples}", NumberOfSamples.ToString())
+                    .Replace("{externalSamples}", externalSampleHtml.ToString());
 
                 using (var writer = new FileStream(dir + indexPath, FileMode.Create, FileAccess.Write))
                 {

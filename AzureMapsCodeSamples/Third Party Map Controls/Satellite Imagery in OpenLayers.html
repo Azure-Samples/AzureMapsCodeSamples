@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - Satellite Imagery in OpenLayers</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to render Azure Maps Satellite/Aerial imagery tiles in the OpenLayers map control." />
+    <meta name="keywords" content="map, gis, API, SDK, raster, imagery, satellite, aerial, tiles, Open Layers, OpenLayers" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css" />
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+
+    <script type='text/javascript'>
+        //Your Azure Maps subscription key.
+        var subscriptionKey = '<Your Azure Maps Key>';
+
+        var map;
+
+        function GetMap() {
+            map = new ol.Map({
+                target: 'myMap',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.XYZ({
+                            url: 'https://atlas.microsoft.com/map/imagery/png?api-version=1&style=satellite&tileSize=256&zoom={z}&x={x}&y={y}' +
+                                '&subscription-key=' + subscriptionKey,
+                            attributions: '<img src="../Common/images/MicrosoftLogo.png" title="Microsoft Logo"><br/>© ' + new Date().getFullYear() + ' Microsoft, © ' + new Date().getFullYear() + ' DigitalGlobe',
+                            tileSize: 256
+                        })
+                    })
+                ],
+                view: new ol.View({
+                    center: [0, 0],
+                    zoom: 2
+                })
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Satellite Imagery in OpenLayers</legend>
+        This sample shows how to render Azure Maps Satellite/Aerial imagery tiles in the <a href="https://openlayers.org/">OpenLayers map control</a>.
+    </fieldset>
+</body>
+</html>

@@ -220,6 +220,33 @@ var sampleList = [
 			created:'9/26/2018'
 		},
 		{
+			title:'Heat Map Layer Options',
+			desc:'This sample shows how the different options of the heat map affect rendering.',
+			path:'Layers/Heat%20Map%20Layer%20Options.html',
+			sourcePath:'Layers/Heat%20Map%20Layer%20Options.html',
+			screenshot:'Heat-Map-Layer-Options.png',
+			keywords:'map, gis, api, sdk, heatmap, heat map, density, thermatic, layer',
+			created:'11/14/2018'
+		},
+		{
+			title:'Image Layer Options',
+			desc:'This sample shows how the different options of the image layer affect rendering.',
+			path:'Layers/Image%20Layer%20Options.html',
+			sourcePath:'Layers/Image%20Layer%20Options.html',
+			screenshot:'Image-Layer-Options.png',
+			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			created:'11/14/2018'
+		},
+		{
+			title:'KML Ground Overlay as Image Layer',
+			desc:'This sample shows how to overlay KML Ground Overlay information as an image layer on the map.',
+			path:'Layers/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
+			sourcePath:'Layers/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
+			screenshot:'KML-Ground-Overlay-as-Image-Layer.png',
+			keywords:'map, gis, api, sdk, image, raster, kml, layer, ground overlay, groundoverlay',
+			created:'11/14/2018'
+		},
+		{
 			title:'Layer Events',
 			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
 			path:'Layers/Layer%20Events.html',
@@ -247,6 +274,24 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
+			title:'Simple Heat Map Layer',
+			desc:'This sample shows how to create a simple heat map from a data set of point features.',
+			path:'Layers/Simple%20Heat%20Map%20Layer.html',
+			sourcePath:'Layers/Simple%20Heat%20Map%20Layer.html',
+			screenshot:'Simple-Heat-Map-Layer.png',
+			keywords:'map, gis, api, sdk, heatmap, heat map, density, layer, thermatic',
+			created:'11/14/2018'
+		},
+		{
+			title:'Simple Image Layer',
+			desc:'This sample shows how to overlay an image on the map as an Image layer.',
+			path:'Layers/Simple%20Image%20Layer.html',
+			sourcePath:'Layers/Simple%20Image%20Layer.html',
+			screenshot:'Simple-Image-Layer.png',
+			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			created:'11/14/2018'
+		},
+		{
 			title:'Symbol Layer Options',
 			desc:'This sample shows how the different options of the symbol layer affect rendering.',
 			path:'Layers/Symbol%20Layer%20Options.html',
@@ -272,6 +317,15 @@ var sampleList = [
 			screenshot:'Tile-Layer-using-X,-Y-and-Z.png',
 			keywords:'map, gis, api, sdk, tiles, layer, weather',
 			created:'9/23/2018'
+		},
+		{
+			title:'Weighted Heat Map Layer',
+			desc:'This sample shows how to create a heat map which defines the intensity of each data point based on a property.',
+			path:'Layers/Weighted%20Heat%20Map%20Layer.html',
+			sourcePath:'Layers/Weighted%20Heat%20Map%20Layer.html',
+			screenshot:'Weighted-Heat-Map-Layer.png',
+			keywords:'map, gis, api, sdk, heatmap, heat map, density, layer, thermatic',
+			created:'11/14/2018'
 		},
 	]
 },
@@ -697,13 +751,22 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
-			title:'Raster Tiles in Open Layers',
-			desc:'This sample shows how to render Azure Maps Raster Tiles in the Open Layers map control.',
-			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Open%20Layers.html',
-			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Open%20Layers.html',
-			screenshot:'Raster-Tiles-in-Open-Layers.png',
+			title:'Raster Tiles in OpenLayers',
+			desc:'This sample shows how to render Azure Maps Raster Tiles in the OpenLayers map control.',
+			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
+			screenshot:'Raster-Tiles-in-OpenLayers.png',
 			keywords:'map, gis, api, sdk, raster, tiles, open layers, openlayers',
 			created:'9/23/2018'
+		},
+		{
+			title:'Satellite Imagery in OpenLayers',
+			desc:'This sample shows how to render Azure Maps Satellite/Aerial imagery tiles in the OpenLayers map control.',
+			path:'Third%20Party%20Map%20Controls/Satellite%20Imagery%20in%20OpenLayers.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Satellite%20Imagery%20in%20OpenLayers.html',
+			screenshot:'Satellite-Imagery-in-OpenLayers.png',
+			keywords:'map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
+			created:'11/14/2018'
 		},
 	]
 },
@@ -781,4 +844,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 75;
+}];var numberOfSamples = 82;

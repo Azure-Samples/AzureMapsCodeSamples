@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure Maps Web Control Samples - KML Ground Overlay as Image Layer</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to overlay KML Ground Overlay information as an image layer on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, image, raster, kml, layer, ground overlay, groundoverlay" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        //KML Ground Overlay information extracted from: https://commons.wikimedia.org/wiki/File:Chartres.svg/overlay.kml
+        var overlayInfo = {
+            url: '../Common/images/1600px-Chartres.svg.png',
+            north: 48.44820923628113,
+            south: 48.44737203258976,
+            east: 1.488833825534365,
+            west: 1.486788581643038,
+            kmlRotation: 46.44067597839695
+        };
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Calculate the corner coordinates of the ground overlay.
+                var coords = atlas.layer.ImageLayer.getCoordinatesFromEdges(
+                    overlayInfo.north, overlayInfo.south, overlayInfo.east, overlayInfo.west,
+
+                    //KML rotations are counter-clockwise, subtrack from 360 to make them clockwise.
+                    360 - overlayInfo.kmlRotation
+                );
+                
+                //Create an image layer from the ground overlay data and add it to the map.
+                map.layers.add(new atlas.layer.ImageLayer({
+                    url: overlayInfo.url,
+                    coordinates: coords
+                }));
+
+
+                //Optionally, calculate the bounds of the coordinates and use it set the map view.
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromPositions(coords)
+                });
+
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark'
+                }), {
+                    position: 'top-right'
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>KML Ground Overlay as Image Layer</legend>
+        This sample shows how to overlay KML Ground Overlay information as an image layer on the map.
+        KML ground overlays provide north, south, east, and west coordinates and a counter-clockwise rotation,
+        where as the image layer expects coordinates for each corner of the image. The KML ground overlay in this sample is of the Chartres cathedral and sourced from <a href="https://commons.wikimedia.org/wiki/File:Chartres.svg/overlay.kml">wikimedia</a>.
+    </fieldset>
+</body>
+</html>

@@ -30,13 +30,10 @@
             });
 
             map.events.add('load', function () {
-                map.controls.add(new atlas.control.ZoomControl(), {
-                    position: 'top-right'
-                });
-
+                //Add the custom control to the map.
                 map.controls.add(new FullscreenControl({
-                    style: 'light'
-                }), {
+                        style: 'light'
+                    }), {
                         position: 'top-right'
                     })
             });
