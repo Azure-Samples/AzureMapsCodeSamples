@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Mercator Projection and Geospatial Circles - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the Mercator projection of the map affects the scale of geospatially accurate objects on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, circle, geospatial, mercator, projection" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-45, 70]
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create circles and add to the data source.
+                datasource.add([
+                    //Create a circle that is 750KM in radius over Brazil.
+                    new atlas.data.Feature(new atlas.data.Point([-52, -10]), {
+                        subType: "Circle",
+                        radius: 750000
+                    }),
+
+                    //Create a second circle that is 750KM in radius, but over Greenland.
+                    new atlas.data.Feature(new atlas.data.Point([-41, 75]), {
+                        subType: "Circle",
+                        radius: 750000
+                    })
+                ]);
+
+                //Create a polygon layer to render the filled in area of the circle polygon, and add it to the map.
+                map.layers.add(new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(255, 140, 0, 0.5)'
+                }));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Mercator Projection and Geospatial Circles</legend>
+        This sample shows how the Mercator projection of the map affects the scale of geospatially accurate objects on the map. 
+        In this sample both circles have a radius of 750KM (750,000 meters). However, the closer the circle is to the North or South pole, the larger and more elliptical it appears.
+    </fieldset>
+</body>
+</html>

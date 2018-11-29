@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Web Control Samples - Reusing Popup with Multiple Pins</title>
+    <title>Reusing Popup with Multiple Pins - Azure Maps Web Control Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -83,7 +83,7 @@
                     var properties = e.shapes[0].getProperties();
                     content = popupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description);
                     coordinate = e.shapes[0].getCoordinates();
-                } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point' && e.shapes[0].properties.cluster) {
+                } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point') {
 
                     //Check to see if the feature is a cluster.
                     if (e.shapes[0].properties.cluster) {

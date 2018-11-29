@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Marker with Custom SVG Template - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a custom SVG template and use it with the HtmlMarker class. " />
+    <meta name="keywords" content="map, gis, API, SDK, html markers, markers, pins, pushpins, symbols, style, SVG, template, SVG template" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, marker;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                marker = new atlas.HtmlMarker({
+                    htmlContent: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="37" viewBox="0 0 30 37" xml:space="preserve"><rect x="0" y="0" rx="8" ry="8" width="30" height="30" fill="{color}"/><polygon fill="{color}" points="10,29 20,29 15,37 10,29"/><text x="15" y="20" style="font-size:16px;font-family:arial;fill:#ffffff;" text-anchor="middle">{text}</text></svg>',
+                    color: 'Purple',
+                    text: '2',
+                    position: [0, 0]
+                });
+
+                //Create a HTML marker and add it to the map.
+                map.markers.add(marker);
+            });
+        }
+
+        function UpdateMarkerOptions() {
+            //Update the marker options with a random color and text value.
+            marker.setOptions({
+                color: 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')',
+                text: Math.round(Math.random() * 100) + ''
+            });
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <input type="button" value="Update Marker Options" onclick="UpdateMarkerOptions()" style="position:absolute;top:10px;left:10px;"/>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>HTML Marker with Custom SVG Template</legend>
+        This sample shows how to create a custom SVG template and use it with the HtmlMarker class. 
+    </fieldset>
+</body>
+</html>

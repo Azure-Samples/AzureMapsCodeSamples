@@ -1,4 +1,26 @@
-/// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
+/*
+ * Copyright(c) 2018 Microsoft Corporation. All rights reserved.
+ *
+ * This code is licensed under the MIT License (MIT).
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+*/
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -7,6 +29,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
+/// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
 /**
  * A control that toggles the map from its defined size to a fullscreen size.
  */
@@ -56,9 +79,7 @@ var FullscreenControl = /** @class */ (function () {
             }
             else if (color === 'auto') {
                 //Color will change between light and dark depending on map style.
-                // this._map.events.add('moveend', () => { this._mapStyleChanged(); });
-                //TODO: Update to use new event handler. Also remove handler if control is removed.
-                this._map['map'].on('styledata', function () { _this._mapStyleChanged(); });
+                this._map.events.add('styledata', function () { _this._mapStyleChanged(); });
                 color = this._getColorFromMapStyle();
             }
             var mapContainer = this._map.getMapContainer();
@@ -121,8 +142,12 @@ var FullscreenControl = /** @class */ (function () {
      * Action to perform when control is removed from the map.
      */
     FullscreenControl.prototype.onRemove = function () {
+        var _this = this;
         if (this._container) {
             this._container.remove();
+        }
+        if (this._options.style === 'auto') {
+            this._map.events.remove('styledata', function () { _this._mapStyleChanged(); });
         }
     };
     /**

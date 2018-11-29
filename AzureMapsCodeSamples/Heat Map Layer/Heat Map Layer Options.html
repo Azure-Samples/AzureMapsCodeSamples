@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Heat Map Layer Options - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the heat map affect rendering." />
+    <meta name="keywords" content="map, gis, API, SDK, heatmap, heat map, heatmaps, heat maps, density, thermatic, layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script src="../Common/scripts/clipboard.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, heatMapLayer, defaultOptions, removeDefaults, selectedGradientIdx = 0;
+
+        var magWeight = [
+            'interpolate',
+            ['linear'],
+            ['get', 'mag'],
+            0, 0,
+            6, 1
+        ];
+
+        var heatGradients = [
+            //Default
+            [
+                "interpolate",
+                ["linear"],
+                ["heatmap-density"],
+                0, "rgba(0,0,255,0)",
+                0.1, "royalblue",
+                0.3, "cyan",
+                0.5, "lime",
+                0.7, "yellow",
+                1, "red"
+            ],
+
+            //Default with semi-transparent black mask
+            [
+                "interpolate",
+                ["linear"],
+                ["heatmap-density"],
+                0, "rgba(0,0,0,0.5)",
+                0.1, "royalblue",
+                0.3, "cyan",
+                0.5, "lime",
+                0.7, "yellow",
+                1, "red"
+            ],
+
+            //Color Spectur
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0,0,0,0)',
+                0.01, 'navy',
+                0.25, 'blue',
+                0.5, 'green',
+                0.75, 'yellow',
+                1, 'red'
+            ],
+
+            //Incandescent
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0,0,0,0)',
+                0.01, 'black',
+                0.33, 'darkred',
+                0.66, 'yellow',
+                1, 'white'
+            ],
+
+            //Heated Metal
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0,0,0,0)',
+                0.01, 'black',
+                0.25, 'purple',
+                0.5, 'red',
+                0.75, 'yellow',
+                1, 'white'
+            ],
+
+            //Sunrise
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0,0,0,0)',
+                0.01, 'red',
+                0.66, 'yellow',
+                1, 'white'
+            ],
+
+            //Stepped Colors
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0,0,0,0)',
+                0.01, 'navy',
+                0.25, 'navy',
+                0.26, 'green',
+                0.5, 'green',
+                0.51, 'yellow',
+                0.75, 'yellow',
+                0.76, 'red',
+                1, 'red'
+            ],
+
+            //Sunrise
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0,0,0,0)',
+                0.01, '#feb24c',
+                0.03, '#feb24c',
+                0.5, '#fd8d3c',
+                0.7, '#fc4e2a',
+                1, '#e31a1c'
+            ],
+
+            //Light blue to red
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(33,102,172,0)',
+                0.2, 'rgb(103,169,207)',
+                0.4, 'rgb(209,229,240)',
+                0.6, 'rgb(253,219,199)',
+                0.8, 'rgb(239,138,98)',
+                1, 'rgb(178,24,43)'
+            ],
+
+            //Gray to Aqua Green
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(236,222,239,0)',
+                0.2, 'rgb(208,209,230)',
+                0.4, 'rgb(166,189,219)',
+                0.6, 'rgb(103,169,207)',
+                0.8, 'rgb(28,144,153)'
+            ],
+
+            //Purple, pink, light blue
+            [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0,0,0,0)',
+                0.01, 'purple',
+                0.5, '#fb00fb',
+                1, '#00c3ff'
+            ]
+        ];
+
+        function GetMap() {
+            createGradientOptions();
+
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load a data set of points, in this case earthquake data from the USGS.
+                fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson')
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (response) {
+
+                        //Add the earthquake data to the data source.
+                        datasource.add(response.features);
+
+                        //Create a heat map layer and add it to the map.
+                        heatMapLayer = new atlas.layer.HeatMapLayer(datasource);
+                        map.layers.add(heatMapLayer, 'labels');
+
+                        defaultOptions = heatMapLayer.getOptions();
+
+                        //Update the heat map layer with the options in the input fields.
+                        gradientSelected(document.getElementById('gradientDropdown').childNodes[0], 0);
+                    });
+            });
+
+            new ClipboardJS('.copyBtn');
+        }
+
+        function updateHeatMapLayer() {
+            var options = getInputOptions();
+
+            heatMapLayer.setOptions(options);
+            
+            document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
+        }
+
+        function getInputOptions() {
+            removeDefaults = document.getElementById('RemoveDefaults').checked;
+            
+            return {
+                color: (removeDefaults && selectedGradientIdx == 0)? undefined: heatGradients[selectedGradientIdx],
+                radius: getPropertyValue('radius', parseFloat(document.getElementById('Radius').value)),
+                opacity: getPropertyValue('opacity', parseFloat(document.getElementById('Opacity').value)),
+                intensity: getPropertyValue('intensity', parseFloat(document.getElementById('Intensity').value)),
+                weight: document.getElementById('Weight').checked ? magWeight: 1,
+                minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
+                maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
+                visible: getPropertyValue('visible', document.getElementById('Visible').checked)
+            };
+        }
+
+        function getPropertyValue(propertyName, value) {
+            if (removeDefaults && defaultOptions[propertyName] === value) {
+                return undefined;
+            }
+
+            return value;
+        }
+
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
+        }
+
+        function createGradientOptions() {
+            var html = [];
+
+            for (var i = 0; i < heatGradients.length; i++) {
+                var canvas = document.createElement('canvas');
+                canvas.width = 150;
+                canvas.height = 15;
+
+                var ctx = canvas.getContext('2d');
+                var grd = ctx.createLinearGradient(0, 0, 150, 0);
+                for (var j = 3; j < heatGradients[i].length; j += 2) {
+                    grd.addColorStop(heatGradients[i][j], heatGradients[i][j + 1]);
+                }
+                ctx.fillStyle = grd;
+                ctx.fillRect(0, 0, 150, 15);
+
+                html.push('<a href="javascript:void(0)" onclick="gradientSelected(this, ', i, ');"><img src="', canvas.toDataURL(),'"/></a>');
+            }
+
+            document.getElementById('gradientDropdown').innerHTML = html.join('');
+        }
+
+        function gradientSelected(elm, idx) {
+            selectedGradientIdx = idx;
+            updateHeatMapLayer();
+            document.getElementById('gradientDropdownBtn').style.backgroundImage = 'url(' + elm.childNodes[0].src + ')';
+            toggleGradientDropdown();
+        }
+
+        function toggleGradientDropdown() {
+            document.getElementById("gradientDropdown").classList.toggle("show");
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width: 350px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #CodeOutput {
+            width: 300px;
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .copyBtn {
+            float: right;
+        }
+
+        table td:nth-of-type(1) {
+            width: 120px;
+        }
+
+        table td:nth-of-type(2) {
+            width: 200px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        /* Dropdown Button */
+        .dropbtn {
+            background-color: white;
+            color: white;
+            height: 20px;
+            width: 150px;
+            border: none;
+            cursor: pointer;
+        }
+
+            /* Dropdown button on hover & focus */
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: white;
+            }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            /* Links inside the dropdown */
+            .dropdown-content a {
+                color: black;
+                padding: 6px;
+                display: block;
+            }
+
+                /* Change color of dropdown links on hover */
+                .dropdown-content a:hover {
+                    background-color: #ddd
+                }
+
+        /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+        .show {
+            display: block;
+        } 
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend>Heat Map Layer Options</legend>
+        This sample shows how the different options of the heat map layer affect rendering.
+        <br /><br />
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Base Options</button>
+            <button class="tablinks" onclick="openTab(this, 'LayerOptions')">Layer Options</button>
+            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+        </div>
+
+        <div id="StyleOptions" class="tabcontent" style="display:block;">
+            <table>
+                <tr title="An integer specifying the minimum zoom level to render the layer at.">
+                    <td>Min Zoom:</td>
+                    <td>
+                        <form oninput="minz.value=MinZoom.value">
+                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <output name="minz" for="MinZoom">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="An integer specifying the maximum zoom level to render the layer at.">
+                    <td>Max Zoom:</td>
+                    <td>
+                        <form oninput="maxz.value=MaxZoom.value">
+                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <output name="maxz" for="MaxZoom">24</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Specifies if the layer is visible or not.">
+                    <td>Visible:</td>
+                    <td><input id="Visible" type="checkbox" onclick="updateHeatMapLayer()" checked="checked" /></td>
+                </tr>
+            </table>
+
+            <p>
+                In addition to the options in this tool, the HeatMapLayer also has options for;
+                <ul>
+                    <li>sourceLayer - used with VectorTileSource.</li>
+                </ul>
+                Many options in this layer also support StyleFunctions and Expressions which are not demonstrated in this sample.
+            </p>
+        </div>
+
+        <div id="LayerOptions" class="tabcontent">
+            <table>
+                <tr title="The color gradient expression to colorize the heat map.">
+                    <td>Heat Gradient:</td>
+                    <td>
+                        <div class="dropdown">
+                            <button id="gradientDropdownBtn" onclick="toggleGradientDropdown()" class="dropbtn"></button>
+                            <div id="gradientDropdown" class="dropdown-content">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr title="The radius in pixels used to render a data point on the heatmap. The radius must be a number greater or equal to 1.">
+                    <td>Radius</td>
+                    <td>
+                        <form oninput="radius.value=Radius.value">
+                            <input type="range" id="Radius" value="30" min="1" max="100" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <output name="radius" for="Radius">30</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="The opacity at which the heatmap layer will be rendered defined as a number between 0 and 1.">
+                    <td>Opacity</td>
+                    <td>
+                        <form oninput="opacity.value=Opacity.value">
+                            <input type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <output name="opacity" for="Opacity">1</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Similar to heatmap-weight but specifies the global heatmap intensity. The higher this value is, the more ‘weight’ each point will contribute to the appearance.">
+                    <td>Intensity</td>
+                    <td>
+                        <form oninput="intensity.value=Intensity.value">
+                            <input type="range" id="Intensity" value="1" min="1" max="100" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <output name="intensity" for="Intensity">1</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Specifies how much an individual data point contributes to the heatmap. Must be a number greater than 0. A value of 5 would be equivalent to having 5 points of weight 1 in the same spot. This is useful when clustering points to allow heatmap rendering or large datasets.">
+                    <td>Weight</td>
+                    <td>
+                        <input id="Weight" type="checkbox" onclick="updateHeatMapLayer()"/> base on "mag" property
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="Code" class="tabcontent">
+            <textarea id="CodeOutput"></textarea><br /><br />
+            <input id="RemoveDefaults" type="checkbox" onclick="updateHeatMapLayer()" checked="checked" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+</body>
+</html>

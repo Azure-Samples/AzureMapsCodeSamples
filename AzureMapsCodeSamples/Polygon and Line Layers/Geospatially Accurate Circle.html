@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Geospatially Accurate Cirle - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the extended GeoJSON schema defined by Azure Maps to create a geospatially accurate circle on the map with a filled area and a styled outline." />
+    <meta name="keywords" content="map, gis, API, SDK, circles, geospatial" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 13
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a circle from a Point feature by providing it a subType property set to "Circle" and radius property.
+                datasource.add(new atlas.data.Feature(new atlas.data.Point([-122.33, 47.6]), {
+                    subType: "Circle",
+                    radius: 1000
+                }));
+
+                //Create a polygon layer to render the filled in area of the circle polygon, and add it to the map.
+                map.layers.add(new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(0, 200, 200, 0.5)'
+                }));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Geospatially Accurate Circle</legend>
+        This sample shows how to use the extended GeoJSON schema defined by Azure Maps to create a geospatially accurate circle on the map with a filled area and a styled outline. 
+        As you zoom the map in and out you will notice that circles scales such that it covers the same geospatial area of the map.
+    </fieldset>
+</body>
+</html>

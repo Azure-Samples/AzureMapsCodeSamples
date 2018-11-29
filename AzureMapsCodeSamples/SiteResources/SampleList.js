@@ -60,6 +60,39 @@ var sampleList = [
 	]
 },
 {
+	category:'Bubble Layer',
+	desc:'These samples demonstrate different ways to implement the bubble layer to render point based data.',
+	samples: [
+		{
+			title:'Bubble Layer Options',
+			desc:'This sample shows how the different options of the bubble layer affect rendering.',
+			path:'Bubble%20Layer/Bubble%20Layer%20Options.html',
+			sourcePath:'Bubble%20Layer/Bubble%20Layer%20Options.html',
+			screenshot:'Bubble-Layer-Options.png',
+			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer',
+			created:'11/28/2018'
+		},
+		{
+			title:'Data-Driven Bubble Layer Styling',
+			desc:'This sample shows how to use data-driven styles on a BubbleLayer to define the radius and color of each circle based on the magnitude of each data point.',
+			path:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
+			sourcePath:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
+			screenshot:'Data-Driven-Bubble-Layer-Styling.png',
+			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven, weather, earthquakes, usgs',
+			created:'11/28/2018'
+		},
+		{
+			title:'Point Feature Clustering',
+			desc:'This sample shows how to enable point based clustering on a data source and render them differently from symbols.',
+			path:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
+			sourcePath:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
+			screenshot:'Point-Feature-Clustering.png',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer',
+			created:'11/28/2018'
+		},
+	]
+},
+{
 	category:'Controls',
 	desc:'Add UI controls to the map to create an enhanced user experience.',
 	samples: [
@@ -130,15 +163,6 @@ var sampleList = [
 			created:'10/8/2018'
 		},
 		{
-			title:'Data-Driven Bubble Layer Styling',
-			desc:'This sample shows how to use data-driven styles on a BubbleLayer to define the radius and color of each circle based on the magnitude of each data point.',
-			path:'Demos/Data-Driven%20Bubble%20Layer%20Styling.html',
-			sourcePath:'Demos/Data-Driven%20Bubble%20Layer%20Styling.html',
-			screenshot:'Data-Driven-Bubble-Layer-Styling.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven, weather, earthquakes, usgs',
-			created:'9/23/2018'
-		},
-		{
 			title:'Large GeoJSON Files',
 			desc:'This sample demonstrates loading large GeoJSON files into the Azure Maps web control.',
 			path:'Demos/Large%20GeoJSON%20Files.html',
@@ -198,134 +222,128 @@ var sampleList = [
 	]
 },
 {
-	category:'Layers',
-	desc:'Learn how to visualize data using the different types of rendering layers.',
+	category:'Heat Map Layer',
+	desc:'',
 	samples: [
-		{
-			title:'Bubble Layer Options',
-			desc:'This sample shows how the different options of the bubble layer affect rendering.',
-			path:'Layers/Bubble%20Layer%20Options.html',
-			sourcePath:'Layers/Bubble%20Layer%20Options.html',
-			screenshot:'Bubble-Layer-Options.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer',
-			created:'9/23/2018'
-		},
-		{
-			title:'Change Mouse Cursor when Hovering Layer',
-			desc:'This sample shows how to change the mouse cursor when hovering over shapes in a layer. This will work with the bubble, line, polygon and symbol layer.',
-			path:'Layers/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
-			sourcePath:'Layers/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
-			screenshot:'Change-Mouse-Cursor-when-Hovering-Layer.gif',
-			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor',
-			created:'9/26/2018'
-		},
 		{
 			title:'Heat Map Layer Options',
 			desc:'This sample shows how the different options of the heat map affect rendering.',
-			path:'Layers/Heat%20Map%20Layer%20Options.html',
-			sourcePath:'Layers/Heat%20Map%20Layer%20Options.html',
+			path:'Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html',
+			sourcePath:'Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html',
 			screenshot:'Heat-Map-Layer-Options.png',
-			keywords:'map, gis, api, sdk, heatmap, heat map, density, thermatic, layer',
-			created:'11/14/2018'
-		},
-		{
-			title:'Image Layer Options',
-			desc:'This sample shows how the different options of the image layer affect rendering.',
-			path:'Layers/Image%20Layer%20Options.html',
-			sourcePath:'Layers/Image%20Layer%20Options.html',
-			screenshot:'Image-Layer-Options.png',
-			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
-			created:'11/14/2018'
-		},
-		{
-			title:'KML Ground Overlay as Image Layer',
-			desc:'This sample shows how to overlay KML Ground Overlay information as an image layer on the map.',
-			path:'Layers/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
-			sourcePath:'Layers/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
-			screenshot:'KML-Ground-Overlay-as-Image-Layer.png',
-			keywords:'map, gis, api, sdk, image, raster, kml, layer, ground overlay, groundoverlay',
-			created:'11/14/2018'
-		},
-		{
-			title:'Layer Events',
-			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
-			path:'Layers/Layer%20Events.html',
-			sourcePath:'Layers/Layer%20Events.html',
-			screenshot:'Layer-Events.gif',
-			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
-			created:'9/26/2018'
-		},
-		{
-			title:'Line Layer Options',
-			desc:'This sample shows how the different options of the line layer affect rendering.',
-			path:'Layers/Line%20Layer%20Options.html',
-			sourcePath:'Layers/Line%20Layer%20Options.html',
-			screenshot:'Line-Layer-Options.png',
-			keywords:'map, gis, api, sdk, line, linestring, polyline, layer',
-			created:'9/23/2018'
-		},
-		{
-			title:'Polygon Layer Options',
-			desc:'This sample shows how the different options of the polygon layer affect rendering.',
-			path:'Layers/Polygon%20Layer%20Options.html',
-			sourcePath:'Layers/Polygon%20Layer%20Options.html',
-			screenshot:'Polygon-Layer-Options.png',
-			keywords:'map, gis, api, sdk, polygon, layer',
-			created:'9/23/2018'
+			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, thermatic, layer',
+			created:'11/28/2018'
 		},
 		{
 			title:'Simple Heat Map Layer',
 			desc:'This sample shows how to create a simple heat map from a data set of point features.',
-			path:'Layers/Simple%20Heat%20Map%20Layer.html',
-			sourcePath:'Layers/Simple%20Heat%20Map%20Layer.html',
+			path:'Heat%20Map%20Layer/Simple%20Heat%20Map%20Layer.html',
+			sourcePath:'Heat%20Map%20Layer/Simple%20Heat%20Map%20Layer.html',
 			screenshot:'Simple-Heat-Map-Layer.png',
-			keywords:'map, gis, api, sdk, heatmap, heat map, density, layer, thermatic',
-			created:'11/14/2018'
-		},
-		{
-			title:'Simple Image Layer',
-			desc:'This sample shows how to overlay an image on the map as an Image layer.',
-			path:'Layers/Simple%20Image%20Layer.html',
-			sourcePath:'Layers/Simple%20Image%20Layer.html',
-			screenshot:'Simple-Image-Layer.png',
-			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
-			created:'11/14/2018'
-		},
-		{
-			title:'Symbol Layer Options',
-			desc:'This sample shows how the different options of the symbol layer affect rendering.',
-			path:'Layers/Symbol%20Layer%20Options.html',
-			sourcePath:'Layers/Symbol%20Layer%20Options.html',
-			screenshot:'Symbol-Layer-Options.png',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, layer',
-			created:'9/23/2018'
-		},
-		{
-			title:'Tile Layer Options',
-			desc:'This sample shows how the different options of the tile layer affect rendering.',
-			path:'Layers/Tile%20Layer%20Options.html',
-			sourcePath:'Layers/Tile%20Layer%20Options.html',
-			screenshot:'Tile-Layer-Options.png',
-			keywords:'map, gis, api, sdk, tiles, layer',
-			created:'9/23/2018'
-		},
-		{
-			title:'Tile Layer using X, Y, and Z',
-			desc:'This sample shows how to create a simple tile layer which points to a set of tiles which use the x, y, zoom tiling system.',
-			path:'Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
-			sourcePath:'Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
-			screenshot:'Tile-Layer-using-X,-Y-and-Z.png',
-			keywords:'map, gis, api, sdk, tiles, layer, weather',
-			created:'9/23/2018'
+			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
+			created:'11/28/2018'
 		},
 		{
 			title:'Weighted Heat Map Layer',
 			desc:'This sample shows how to create a heat map which defines the intensity of each data point based on a property.',
-			path:'Layers/Weighted%20Heat%20Map%20Layer.html',
-			sourcePath:'Layers/Weighted%20Heat%20Map%20Layer.html',
+			path:'Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html',
+			sourcePath:'Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html',
 			screenshot:'Weighted-Heat-Map-Layer.png',
-			keywords:'map, gis, api, sdk, heatmap, heat map, density, layer, thermatic',
-			created:'11/14/2018'
+			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
+			created:'11/28/2018'
+		},
+	]
+},
+{
+	category:'HTML Markers',
+	desc:'Use traditional HTML and CSS to represent point based data on the map as markers.',
+	samples: [
+		{
+			title:'Adding Mouse Events to HTML Markers',
+			desc:'This sample shows how to add mouse events to an HTML marker by adding standard JavaScript events to the HTML content of the marker.',
+			path:'HTML%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
+			sourcePath:'HTML%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
+			screenshot:'Adding-Mouse-Events-to-HTML-Markers.gif',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse',
+			created:'11/28/2018'
+		},
+		{
+			title:'CSS Styled HTML Marker',
+			desc:'This sample shows how to use CSS and HTML to create a marker on the map.',
+			path:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
+			sourcePath:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
+			screenshot:'CSS-Styled-HTML-Marker.gif',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation',
+			created:'11/28/2018'
+		},
+		{
+			title:'Draggable HTML Marker',
+			desc:'This sample shows how to make an HTML marker draggable.',
+			path:'HTML%20Markers/Draggable%20HTML%20Marker.html',
+			sourcePath:'HTML%20Markers/Draggable%20HTML%20Marker.html',
+			screenshot:'Draggable-HTML-Marker.gif',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
+			created:'11/28/2018'
+		},
+		{
+			title:'HTML Marker with Custom SVG Template',
+			desc:'This sample shows how to create a custom SVG template and use it with the HtmlMarker class. ',
+			path:'HTML%20Markers/HTML%20Marker%20with%20Custom%20SVG%20Template.html',
+			sourcePath:'HTML%20Markers/HTML%20Marker%20with%20Custom%20SVG%20Template.html',
+			screenshot:'HTML-Marker-with-Custom-SVG-Template.gif',
+			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
+			created:'11/28/2018'
+		},
+		{
+			title:'Simple HTML Marker',
+			desc:'This sample shows how create a simple HtmlMarker and add it to the map.',
+			path:'HTML%20Markers/Simple%20HTML%20Marker.html',
+			sourcePath:'HTML%20Markers/Simple%20HTML%20Marker.html',
+			screenshot:'Simple-HTML-Marker.png',
+			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
+			created:'11/28/2018'
+		},
+		{
+			title:'Pie Chart HTML Markers',
+			desc:'This sample shows how to create HtmlMarkers that look like scaled pie charts using inline SVG\'s. Click on a marker to view the data for each piece of a pie in a chart.',
+			path:'HTML%20Markers/Pie%20Chart%20HTML%20Marker/Pie%20Chart%20HTML%20Markers.html',
+			sourcePath:'HTML%20Markers/Pie%20Chart%20HTML%20Marker',
+			screenshot:'Pie-Chart-HTML-Markers.png',
+			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, chart, pie chart',
+			created:'11/28/2018'
+		},
+	]
+},
+{
+	category:'Image Layer',
+	desc:'See how to overlay images on the map as a layer.',
+	samples: [
+		{
+			title:'Image Layer Options',
+			desc:'This sample shows how the different options of the image layer affect rendering.',
+			path:'Image%20Layer/Image%20Layer%20Options.html',
+			sourcePath:'Image%20Layer/Image%20Layer%20Options.html',
+			screenshot:'Image-Layer-Options.png',
+			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			created:'11/28/2018'
+		},
+		{
+			title:'KML Ground Overlay as Image Layer',
+			desc:'This sample shows how to overlay KML Ground Overlay information as an image layer on the map.',
+			path:'Image%20Layer/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
+			sourcePath:'Image%20Layer/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
+			screenshot:'KML-Ground-Overlay-as-Image-Layer.png',
+			keywords:'map, gis, api, sdk, image, raster, kml, layer, ground overlay, groundoverlay',
+			created:'11/28/2018'
+		},
+		{
+			title:'Simple Image Layer',
+			desc:'This sample shows how to overlay an image on the map as an Image layer.',
+			path:'Image%20Layer/Simple%20Image%20Layer.html',
+			sourcePath:'Image%20Layer/Simple%20Image%20Layer.html',
+			screenshot:'Simple-Image-Layer.png',
+			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			created:'11/28/2018'
 		},
 	]
 },
@@ -375,7 +393,7 @@ var sampleList = [
 			path:'Map/Map%20Events.html',
 			sourcePath:'Map/Map%20Events.html',
 			screenshot:'Map-Events.gif',
-			keywords:'map, gis, api, sdk, events, click, mouse, touch, context menu, wheel',
+			keywords:'map, gis, api, sdk, events, click, mouse, touch, context menu, wheel, zoomed, panned, dragged, pitched, moved',
 			created:'5/4/2018'
 		},
 		{
@@ -413,6 +431,66 @@ var sampleList = [
 			screenshot:'Multiple-Maps.png',
 			keywords:'map, gis, api, sdk, multiple',
 			created:'5/4/2018'
+		},
+	]
+},
+{
+	category:'Polygon and Line Layers',
+	desc:'Learn how to overlay geospatially accurate circles, polygons, linestrings, and multi-geometries on the map using polygon and line layers.',
+	samples: [
+		{
+			title:'Geospatially Accurate Cirle',
+			desc:'This sample shows how to use the extended GeoJSON schema defined by Azure Maps to create a geospatially accurate circle on the map with a filled area and a styled outline.',
+			path:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
+			screenshot:'Geospatially-Accurate-Circle.png',
+			keywords:'map, gis, api, sdk, circles, geospatial',
+			created:'9/23/2018'
+		},
+		{
+			title:'Line Layer Options',
+			desc:'This sample shows how the different options of the line layer affect rendering.',
+			path:'Polygon%20and%20Line%20Layers/Line%20Layer%20Options.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Line%20Layer%20Options.html',
+			screenshot:'Line-Layer-Options.png',
+			keywords:'map, gis, api, sdk, line, linestring, polyline, layer',
+			created:'11/28/2018'
+		},
+		{
+			title:'Mercator Projection and Geospatial Circles',
+			desc:'This sample shows how the Mercator projection of the map affects the scale of geospatially accurate objects on the map.',
+			path:'Polygon%20and%20Line%20Layers/Mercator%20Projection%20and%20Geospatial%20Circles.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Mercator%20Projection%20and%20Geospatial%20Circles.html',
+			screenshot:'Mercator-Projection-and-Geospatial-Circles.png',
+			keywords:'map, gis, api, sdk, circle, geospatial, mercator, projection',
+			created:'9/23/2018'
+		},
+		{
+			title:'Polygon Hover Style',
+			desc:'This sample shows how to create a hover effect on a polygon layer.',
+			path:'Polygon%20and%20Line%20Layers/Polygon%20Hover%20Style.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Polygon%20Hover%20Style.html',
+			screenshot:'Polygon-Hover-Style.gif',
+			keywords:'map, gis, api, sdk, polygon, layer, hover, mouse',
+			created:'9/23/2018'
+		},
+		{
+			title:'Polygon Layer Options',
+			desc:'This sample shows how the different options of the polygon layer affect rendering.',
+			path:'Polygon%20and%20Line%20Layers/Polygon%20Layer%20Options.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Polygon%20Layer%20Options.html',
+			screenshot:'Polygon-Layer-Options.png',
+			keywords:'map, gis, api, sdk, polygon, layer',
+			created:'11/28/2018'
+		},
+		{
+			title:'Simple MultiPolygon',
+			desc:'This sample shows how to render a MultiPolygon on the map.',
+			path:'Polygon%20and%20Line%20Layers/Simple%20MultiPolygon.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Simple%20MultiPolygon.html',
+			screenshot:'Simple-MultiPolygon.png',
+			keywords:'map, gis, api, sdk, polyon, multipolygon',
+			created:'9/23/2018'
 		},
 	]
 },
@@ -543,48 +621,6 @@ var sampleList = [
 	]
 },
 {
-	category:'Shapes',
-	desc:'Gain insights into working with various shapes such as geospatially accurate circles, polygons, linestrings, and multi-geometries.',
-	samples: [
-		{
-			title:'Geospatially Accurate Cirle',
-			desc:'This sample shows how to use the extended GeoJSON schema defined by Azure Maps to create a geospatially accurate circle on the map with a filled area and a styled outline.',
-			path:'Shapes/Geospatially%20Accurate%20Circle.html',
-			sourcePath:'Shapes/Geospatially%20Accurate%20Circle.html',
-			screenshot:'Geospatially-Accurate-Circle.png',
-			keywords:'map, gis, api, sdk, circles, geospatial',
-			created:'9/23/2018'
-		},
-		{
-			title:'Mercator Projection and Geospatial Circles',
-			desc:'This sample shows how the Mercator projection of the map affects the scale of geospatially accurate objects on the map.',
-			path:'Shapes/Mercator%20Projection%20and%20Geospatial%20Circles.html',
-			sourcePath:'Shapes/Mercator%20Projection%20and%20Geospatial%20Circles.html',
-			screenshot:'Mercator-Projection-and-Geospatial-Circles.png',
-			keywords:'map, gis, api, sdk, circle, geospatial, mercator, projection',
-			created:'9/23/2018'
-		},
-		{
-			title:'Polygon Hover Style',
-			desc:'This sample shows how to create a hover effect on a polygon layer.',
-			path:'Shapes/Polygon%20Hover%20Style.html',
-			sourcePath:'Shapes/Polygon%20Hover%20Style.html',
-			screenshot:'Polygon-Hover-Style.gif',
-			keywords:'map, gis, api, sdk, polygon, layer, hover, mouse',
-			created:'9/23/2018'
-		},
-		{
-			title:'Simple MultiPolygon',
-			desc:'This sample shows how to render a MultiPolygon on the map.',
-			path:'Shapes/Simple%20MultiPolygon.html',
-			sourcePath:'Shapes/Simple%20MultiPolygon.html',
-			screenshot:'Simple-MultiPolygon.png',
-			keywords:'map, gis, api, sdk, polyon, multipolygon',
-			created:'9/23/2018'
-		},
-	]
-},
-{
 	category:'Spatial Math',
 	desc:'Learn how to use the spatial math library that is built into the Azure Maps Web Control.',
 	samples: [
@@ -636,65 +672,47 @@ var sampleList = [
 			path:'Spatial%20Math%20with%20Turf.js/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			sourcePath:'Spatial%20Math%20with%20Turf.js/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			screenshot:'Merge-Two-Polygons-Together-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, merge, union',
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, merge, union, spatial analytics',
 			created:'9/23/2018'
 		},
 	]
 },
 {
-	category:'Symbols and Markers',
+	category:'Symbol Layer',
 	desc:'Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling.',
 	samples: [
 		{
-			title:'Adding Mouse Events to HTML Markers',
-			desc:'This sample shows how to add mouse events to an HTML marker by adding standard JavaScript events to the HTML content of the marker.',
-			path:'Symbols%20and%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
-			sourcePath:'Symbols%20and%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
-			screenshot:'Adding-Mouse-Events-to-HTML-Markers.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse',
-			created:'10/8/2018'
+			title:'Change Mouse Cursor when Hovering Layer',
+			desc:'This sample shows how to change the mouse cursor when hovering over shapes in a layer. This will work with the bubble, line, polygon and symbol layer.',
+			path:'Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
+			sourcePath:'Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
+			screenshot:'Change-Mouse-Cursor-when-Hovering-Layer.gif',
+			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor',
+			created:'11/28/2018'
 		},
 		{
 			title:'Create Symbols from Custom JSON',
 			desc:'It is fairly common to access JSON data in your application which contains location data but is not in GeoJSON format. This sample shows how to use this JSON data to create clickable symbols on a map, that when clicked, display a popup with the title and description values of the symbol that was clicked.',
-			path:'Symbols%20and%20Markers/Create%20Symbols%20from%20Custom%20JSON.html',
-			sourcePath:'Symbols%20and%20Markers/Create%20Symbols%20from%20Custom%20JSON.html',
+			path:'Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html',
+			sourcePath:'Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html',
 			screenshot:'Create-Symbols-from-Custom-JSON.png',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, json, layer',
 			created:'9/23/2018'
 		},
 		{
-			title:'CSS Styled HTML Marker',
-			desc:'This sample shows how to use CSS and HTML to create a marker on the map.',
-			path:'Symbols%20and%20Markers/CSS%20Styled%20HTML%20Marker.html',
-			sourcePath:'Symbols%20and%20Markers/CSS%20Styled%20HTML%20Marker.html',
-			screenshot:'CSS-Styled-HTML-Marker.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation',
-			created:'9/23/2018'
-		},
-		{
 			title:'Custom Symbol Image Icon',
 			desc:'This sample shows how to add a custom symbol icon to the map resources and then use it render point data with a custom symbol on the map.',
-			path:'Symbols%20and%20Markers/Custom%20Symbol%20Image%20Icon.html',
-			sourcePath:'Symbols%20and%20Markers/Custom%20Symbol%20Image%20Icon.html',
+			path:'Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html',
+			sourcePath:'Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html',
 			screenshot:'Custom-Symbol-Image-Icon.png',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
 			created:'9/23/2018'
 		},
 		{
-			title:'Draggable HTML Marker',
-			desc:'This sample shows how to make an HTML marker draggable.',
-			path:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
-			sourcePath:'Symbols%20and%20Markers/Draggable%20HTML%20Marker.html',
-			screenshot:'Draggable-HTML-Marker.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
-			created:'9/23/2018'
-		},
-		{
 			title:'Draggable Symbols',
 			desc:'This sample shows how to create a symbol layer that lets you drag the symbols using the mouse.',
-			path:'Symbols%20and%20Markers/Draggable%20Symbols.html',
-			sourcePath:'Symbols%20and%20Markers/Draggable%20Symbols.html',
+			path:'Symbol%20Layer/Draggable%20Symbols.html',
+			sourcePath:'Symbol%20Layer/Draggable%20Symbols.html',
 			screenshot:'Draggable-Symbols.gif',
 			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse',
 			created:'10/2/2018'
@@ -702,20 +720,38 @@ var sampleList = [
 		{
 			title:'Filter Symbols by Property',
 			desc:'This sample shows how to filter symbols on the map by property by creating a layer fro each property value and then toggling the visibility of that layer accordingly. ',
-			path:'Symbols%20and%20Markers/Filter%20Symbols%20by%20Property.html',
-			sourcePath:'Symbols%20and%20Markers/Filter%20Symbols%20by%20Property.html',
+			path:'Symbol%20Layer/Filter%20Symbols%20by%20Property.html',
+			sourcePath:'Symbol%20Layer/Filter%20Symbols%20by%20Property.html',
 			screenshot:'Filter-Symbols-by-Property.png',
 			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
 			created:'10/19/2018'
 		},
 		{
+			title:'Layer Events',
+			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
+			path:'Symbol%20Layer/Layer%20Events.html',
+			sourcePath:'Symbol%20Layer/Layer%20Events.html',
+			screenshot:'Layer-Events.gif',
+			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
+			created:'11/28/2018'
+		},
+		{
 			title:'Styled Symbol Layer',
 			desc:'This sample shows how to create a symbol layer and apply styles to it to customize how it renders each symbol.',
-			path:'Symbols%20and%20Markers/Styled%20Symbol%20Layer.html',
-			sourcePath:'Symbols%20and%20Markers/Styled%20Symbol%20Layer.html',
+			path:'Symbol%20Layer/Styled%20Symbol%20Layer.html',
+			sourcePath:'Symbol%20Layer/Styled%20Symbol%20Layer.html',
 			screenshot:'Styled-Symbol-Layer.png',
 			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
 			created:'9/23/2018'
+		},
+		{
+			title:'Symbol Layer Options',
+			desc:'This sample shows how the different options of the symbol layer affect rendering.',
+			path:'Symbol%20Layer/Symbol%20Layer%20Options.html',
+			sourcePath:'Symbol%20Layer/Symbol%20Layer%20Options.html',
+			screenshot:'Symbol-Layer-Options.png',
+			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, layer',
+			created:'11/28/2018'
 		},
 	]
 },
@@ -771,12 +807,36 @@ var sampleList = [
 	]
 },
 {
+	category:'Tile Layers',
+	desc:'Onverlay raster tile layers on top the map using the same tiling system used by the base maps.',
+	samples: [
+		{
+			title:'Tile Layer Options',
+			desc:'This sample shows how the different options of the tile layer affect rendering.',
+			path:'Tile%20Layers/Tile%20Layer%20Options.html',
+			sourcePath:'Tile%20Layers/Tile%20Layer%20Options.html',
+			screenshot:'Tile-Layer-Options.png',
+			keywords:'map, gis, api, sdk, tiles, layer',
+			created:'11/28/2018'
+		},
+		{
+			title:'Tile Layer using X, Y, and Z',
+			desc:'This sample shows how to create a simple tile layer which points to a set of tiles which use the x, y, zoom tiling system.',
+			path:'Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
+			sourcePath:'Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
+			screenshot:'Tile-Layer-using-X,-Y-and-Z.png',
+			keywords:'map, gis, api, sdk, tiles, layer, weather',
+			created:'11/28/2018'
+		},
+	]
+},
+{
 	category:'Traffic',
 	desc:'Overlay real-time traffic data on the map.',
 	samples: [
 		{
 			title:'Traffic Overlay Options',
-			desc:'This sample shows how to simply overlay traffic data on the map using the maps setTraffic method and TrafficOptions.',
+			desc:'This sample shows how the different Traffic Options change how the traffic overlay is rendered on the map.',
 			path:'Traffic/Traffic%20Overlay%20Options.html',
 			sourcePath:'Traffic/Traffic%20Overlay%20Options.html',
 			screenshot:'Traffic-Overlay-Options.png',
@@ -844,4 +904,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 82;
+}];var numberOfSamples = 86;

@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Solar Terminator Module - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample is of a module that calculates the Solar terminator (shadow of where the sun don't shine) as well as the suns approximate overhead location on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, solar terminator, custom module, module, plugin" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Load the Solar Terminator module. -->
+    <script src="SolarTerminatorModule.js"></script>
+
+    <script type='text/javascript'>
+        var map, terminator;
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a solar terminator source and add it to the map.
+                terminator = new SolarTerminatorSource();
+                map.sources.add(terminator);
+
+                //Create a polygon layer to render the solar terminator.
+                map.layers.add(new atlas.layer.PolygonLayer(terminator, null, {
+                    fillColor: 'black',
+                    fillOpacity: 0.5,
+                    filter: ['==', '$type', 'Polygon']
+                }));
+
+                //Load a custom image icon into the map resources and then create a symbol layer to render .
+                map.imageSprite.add('sun-icon', '../../Common/images/pushpins/sun-icon.png').then(function () {
+                    map.layers.add(new atlas.layer.SymbolLayer(terminator, null, {
+                        iconOptions: {
+                            image: 'sun-icon'
+                        }
+                    }));
+                });
+
+                //Set the slider options to the current date and time.
+                var d = new Date();
+
+                //Set slider values.
+                document.getElementById('YearSlider').value = d.getFullYear();
+                document.getElementById('MonthSlider').value = d.getMonth();
+                document.getElementById('DaySlider').value = d.getDate();
+                document.getElementById('HoursSlider').value = d.getHours();
+
+                //Update info spans.
+                document.getElementById('YearInfo').innerText = d.getFullYear();
+                document.getElementById('MonthInfo').innerText = monthNames[d.getMonth()];
+                document.getElementById('DayInfo').innerText = d.getDate();
+                document.getElementById('HourInfo').innerText = d.getHours();
+            });
+        }
+
+        function DateUpdated() {
+            //Get the date and time information from the sliders.
+            var year = parseInt(document.getElementById('YearSlider').value);
+            var month = parseInt(document.getElementById('MonthSlider').value);
+            var day = parseInt(document.getElementById('DaySlider').value);
+            var hour = parseInt(document.getElementById('HoursSlider').value);
+
+            //Create a date object from slider values.
+            var d = new Date(year, month, day, hour, 0, 0, 0);
+
+            //Update info spans.
+            document.getElementById('YearInfo').innerText = d.getFullYear();
+            document.getElementById('MonthInfo').innerText = monthNames[d.getMonth()];
+            document.getElementById('DayInfo').innerText = d.getDate();
+            document.getElementById('HourInfo').innerText = d.getHours();
+
+            //Update terminator and sun location pushpin.
+            terminator.setDateTime(d);
+            sunPin.setCoordinates(terminator.getSunLocation());
+        }
+    </script>
+    <style>
+        input[type=range] {
+            padding: 0;
+        }
+
+        .inputPanel {
+            position:absolute;
+            top:10px;
+            left:10px;
+            background-color:white;
+            padding:10px;
+            border-radius:10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <div class="inputPanel">
+        Year: <input id="YearSlider" type="range" min="1990" max="2050" oninput="DateUpdated()" onchange="DateUpdated()" /> <span id="YearInfo"></span><br />
+        Month: <input id="MonthSlider" type="range" min="0" max="11" oninput="DateUpdated()" onchange="DateUpdated()" /> <span id="MonthInfo"></span><br />
+        Day: <input id="DaySlider" type="range" min="0" max="30" oninput="DateUpdated()" onchange="DateUpdated()" /> <span id="DayInfo"></span><br />
+        Hour: <input id="HoursSlider" type="range" min="0" max="24" oninput="DateUpdated()" onchange="DateUpdated()" /> <span id="HourInfo"></span>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Solar Terminator Module</legend>
+        This sample is of a module that calculates the Solar terminator (shadow of where the sun don't shine) as well as the suns approximate overhead location on the map.
+    </fieldset>
+</body>
+</html>

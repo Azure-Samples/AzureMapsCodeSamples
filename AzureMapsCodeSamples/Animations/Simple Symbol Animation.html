@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Web Control Samples - Simple Symbol Animation</title>
+    <title>Simple Symbol Animation - Azure Maps Web Control Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -38,6 +38,13 @@
 
                         //For smoother animation, allow symbol to overlap all other symbols on the map.
                         allowOverlap: true  
+                    },
+                    textOptions: {
+                        //For smoother animation, ignore the placement of the text. This skips the label collision calculations and allows the text to overlap map labels.
+                        ignorePlacement: true,
+
+                        //For smoother animation, allow text to overlap all other symbols on the map.
+                        allowOverlap: true
                     }
                 }));
 

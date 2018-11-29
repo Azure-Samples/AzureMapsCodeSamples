@@ -32,21 +32,25 @@ namespace SampleListBuilder
         private static Dictionary<string, string> CategoryFolders = new Dictionary<string, string>()
         {
             { "Animations", "Learn how to animate data on the map." },
+            { "Bubble Layer", "These samples demonstrate different ways to implement the bubble layer to render point based data." },
             { "Controls", "Add UI controls to the map to create an enhanced user experience." },
             { "Custom Modules", "Use custom modules to extend the functionality of the Azure Maps Web Control." },
             { "Demos", "These samples demonstrate real-life scenarios or highlight key topics." },
             { "Device Sensors", "See how to access sensors from a devices browser and use them with Azure Maps." },
             { "Geospatial Files", "Examples of how to import and export common geospatial file formats with Azure Maps." },
+            { "HTML Markers", "Use traditional HTML and CSS to represent point based data on the map as markers." },
+            { "Image Layer", "See how to overlay images on the map as a layer." },
             { "Layers", "Learn how to visualize data using the different types of rendering layers." },
             { "Map", "These samples show how to use the many different features of the map." },
-            { "Shapes", "Gain insights into working with various shapes such as geospatially accurate circles, polygons, linestrings, and multi-geometries." },
+            { "Polygon and Line Layers", "Learn how to overlay geospatially accurate circles, polygons, linestrings, and multi-geometries on the map using polygon and line layers." },
             { "Popups", "See how to display information in a popup on the map." },
             { "REST Services", "Learn how to directly access the Azure Maps REST services from JavaScript." },
             { "Services Module", "Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control." },
             { "Spatial Math", "Learn how to use the spatial math library that is built into the Azure Maps Web Control." },
             { "Spatial Math with Turf.js", "Perform advanced spatial math operations using the open source <a href=\"http://turfjs.org/\" target=\"_blank\">Turf.js</a> library." },
-            { "Symbols and Markers", "Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling." },
+            { "Symbol Layer", "Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling." },
             { "Third Party Map Controls", "As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these." },
+            { "Tile Layers", "Onverlay raster tile layers on top the map using the same tiling system used by the base maps." },
             { "Traffic", "Overlay real-time traffic data on the map." },
             { "Tutorials", "These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href=\"https://docs.microsoft.com/azure/azure-maps/\" target=\"_blank\">here</a>." }
         };

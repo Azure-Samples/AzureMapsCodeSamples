@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Draggable Symbols - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a symbol layer that lets you drag the symbols using the mouse." />
+    <meta name="keywords" content="map, gis, API, SDK, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, selectedShape;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-73.985708, 40.75773],
+                zoom: 12
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a pin at the center of the map and pass in some properties that are unique to the pin.
+                var pin = new atlas.data.Feature(new atlas.data.Point([-73.985708, 40.75773]), {
+                    title: 'Times Square'
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add the data to the data source.
+                datasource.add(pin);
+
+                //Add a layer for rendering point data as symbols.
+                var symbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        ignorePlacement: true, //To skip label collision detection for better performance.
+
+                        allowOverlap: true    //To ensure smooth rendering when dragging, allow symbol to overlap all other symbols on the map.
+                    }
+                });
+                map.layers.add(symbolLayer);
+
+                map.events.add('mousedown', symbolLayer, function (e) {
+                    if (e.shapes && e.shapes.length > 0) {
+                        //Capture the selected shape.
+                        selectedShape = e.shapes[0];
+
+                        //Lock the maps ability to pan so that we can drag the symbol.
+                        map.setUserInteraction({
+                            dragPanInteraction: false
+                        });
+                    }
+                });
+
+                map.events.add('mousemove', function (e) {
+                    //Update the position of the selected shape.
+                    if (selectedShape) {
+                        selectedShape.setCoordinates(e.position);
+                    }
+                });
+
+                map.events.add('mouseup', function (e) {
+                    //Stop tracking the selected shape.
+                    selectedShape = null;
+
+                    //Make map panable again.
+                    map.setUserInteraction({
+                        dragPanInteraction: true
+                    });
+                });
+
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Draggable Symbols</legend>
+        This sample shows how to create a symbol layer that lets you drag the symbols using the mouse.
+    </fieldset>
+</body>
+</html>

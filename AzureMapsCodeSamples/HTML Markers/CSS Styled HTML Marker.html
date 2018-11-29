@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Styled HTML Marker - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use CSS and HTML to create a marker on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, style, CSS, animate, animation" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-0.1406, 51.5018],
+                zoom: 17,
+                style: 'satellite'
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a HTML marker and add it to the map.
+                map.markers.add(new atlas.HtmlMarker({
+                    htmlContent: "<div><div class='pin bounce'></div><div class='pulse'></div></div>",
+                    position: [-0.1406, 51.5018],
+                    pixelOffset: [5, -18]
+                }));
+            });
+        }
+    </script>
+    <style>
+        .pin {
+            width: 30px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            background: #00cae9;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: 50%;
+            top: 50%;
+            margin: -20px 0 0 -20px;
+        }
+
+            .pin:after {
+                content: "";
+                width: 14px;
+                height: 14px;
+                margin: 8px 0 0 8px;
+                background: #e6e6e6;
+                position: absolute;
+                border-radius: 50%;
+            }
+
+        .bounce {
+            animation-name: bounce;
+            animation-fill-mode: both;
+            animation-duration: 1s;
+        }
+
+        .pulse {
+            background: #d6d4d4;
+            border-radius: 50%;
+            height: 14px;
+            width: 14px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: 11px 0px 0px -12px;
+            transform: rotateX(55deg);
+            z-index: -2;
+        }
+
+            .pulse:after {
+                content: "";
+                border-radius: 50%;
+                height: 40px;
+                width: 40px;
+                position: absolute;
+                margin: -13px 0 0 -13px;
+                animation: pulsate 1s ease-out;
+                animation-iteration-count: infinite;
+                opacity: 0;
+                box-shadow: 0 0 1px 2px #00cae9;
+                animation-delay: 1.1s;
+            }
+
+        @keyframes pulsate {
+            0% {
+                transform: scale(0.1, 0.1);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.2, 1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes bounce {
+            0% {
+                opacity: 0;
+                transform: translateY(-2000px) rotate(-45deg);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(30px) rotate(-45deg);
+            }
+
+            80% {
+                transform: translateY(-10px) rotate(-45deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>CSS Styled HTML Marker</legend>
+        This sample shows how to use CSS and HTML to create a marker on the map.
+    </fieldset>
+</body>
+</html>

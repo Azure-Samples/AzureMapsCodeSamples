@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Filter Symbols by Property - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to filter symbols on the map by property by creating a layer fro each property value and then toggling the visibility of that layer accordingly. " />
+    <meta name="keywords" content="map, gis, API, SDK, symbols, markers, pins, pushpins, styling, style, layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, client, datasource;
+        var categories = ['bar', 'coffee', 'restaurant'];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.338124, 47.6078],
+                zoom: 16
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a data set to the data source. 
+                datasource.add([
+                    new atlas.data.Feature(new atlas.data.Point([-122.338913, 47.607471]), { category: 'bar' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.341187, 47.608192]), { category: 'bar' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.335014, 47.607960]), { category: 'bar' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.337555, 47.608620]), { category: 'bar' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.338524, 47.606907]), { category: 'coffee' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.336655, 47.606251]), { category: 'coffee' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.336182, 47.607185]), { category: 'coffee' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.337784, 47.607784]), { category: 'coffee' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.338455, 47.606880]), { category: 'restaurant' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.336823, 47.607239]), { category: 'restaurant' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.339027, 47.608040]), { category: 'restaurant' }),
+                    new atlas.data.Feature(new atlas.data.Point([-122.335892, 47.607594]), { category: 'restaurant' })
+                ]);
+
+                //Create a symbol layer for each category.
+                categories.forEach(function (category) {
+                    //Create a symbol layer for the category. Give each layer an id so we can easily retrieve it later.
+                    map.layers.add(new atlas.layer.SymbolLayer(datasource, category, {
+                        iconOptions: {
+                            //The map control has built in icons for bar, coffee and restaurant that we can use.
+                            image: category,    
+                            anchor: 'center',
+                            allowOverlap: true
+                        },
+
+                        //Create a filter which will only render points for the specified category in this layer.
+                        filter: ['==', 'category', category]
+                    }));
+                });
+            });
+        }
+
+        function filterSymbols(elm, category) {
+            //Retrieve the layer from the map by id. 
+            var layer = map.layers.getLayerById(category);
+
+            //Set the visibility of the layer.
+            if (elm.checked) {
+                layer.setOptions({
+                    visible: true
+                });
+            } else {
+                layer.setOptions({
+                    visible: false
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
+        <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'bar')" /> Bar<br />
+        <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'coffee')" /> Coffee<br />
+        <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'restaurant')" /> Restaurant
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Filter Points by Symbols</legend>
+        This sample shows how to filter symbols on the map by property by creating a layer fro each property value and then toggling the visibility of that layer accordingly.
+    </fieldset>
+</body>
+</html>

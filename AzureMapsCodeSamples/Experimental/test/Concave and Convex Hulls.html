@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Concave and Convex Hulls - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows " />
+    <meta name="keywords" content="map, gis, API, SDK, Turf.js, geospatial, math, concave hull, convex hull, spatial analytics" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Load turf.js a spatial math library. http://turfjs.org/ -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-0.129, 51.5],
+                zoom: 10
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Generate 1000 random points within the bounds of the map view using the Turf.js library
+                var points = turf.randomPoint(1000, {
+                    bbox: map.getCamera().bounds
+                });
+
+                //Create a data source and add it to the map.
+                var datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add the random point data to the data source.
+                datasource.add(points);
+
+                //Create a layer that defines how to render the points.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    }
+                }));
+            });
+        }
+
+        function calculateConcaveHull() {
+
+        }
+
+        function calculateConvexHull() {
+
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <div stlye="position:absolute;top:10px;left:10px;border-radius:10px;background-color:white;">
+        Create:
+        <input type="button" value="Concave Hull" onclick="calculateConcaveHull()" />
+        <input type="button" value="Convex Hull" onclick="GetConvexHull()" />
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Concave and Convex Hulls</legend>
+        This sample shows how to 
+    </fieldset>
+</body>
+</html>

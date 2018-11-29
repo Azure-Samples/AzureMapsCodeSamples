@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Cardinal Spline Options - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample provides a set of controls to test the various features of the Cardinal Spline calculation." />
+    <meta name="keywords" content="map, gis, API, SDK, " />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, spline, straightLine;
+
+        //Sample points.
+        var positions = [
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0]
+        ];
+        
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.64],
+                zoom: 12
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer for visualizing the lines on the map.
+                map.layers.add(
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: ['get', 'color'],
+
+                        strokeWidth: ['get', 'width']
+                    })
+                );
+
+                //Create to line shapes for easy updating. A red straightline will be created to show the straight line path between the points. 
+                straightLine = new atlas.Shape(new atlas.data.LineString(positions), null, {
+                    color: 'red',
+                    width: 2
+                });
+
+                spline = new atlas.Shape(new atlas.data.LineString(atlas.math.getCardinalSpline(positions, 0.5, 30, false)), null, {
+                    color: 'blue',
+                    width: 3
+                });
+
+                //Add the lines to the data source.
+                datasource.add([straightLine, spline]);
+
+                //Create a draggable HTML marker for each position. 
+                //TODO: check to see if symbol layer supports dragging.
+                for (var i = 0; i < positions.length; i++) {
+                    var marker = new atlas.HtmlMarker({
+                        draggable: true,
+                        position: positions[i],
+
+                    });
+
+                    //Store the position index in the marker metadata so that we can easily update the cardinal spline as the marker is dragged.
+                    marker.metadata = {
+                        index: i
+                    };
+
+                    //Add the marker to the map.
+                    map.marker.add(marker);
+
+                    //Create a drag event for the marker.
+                    map.events.add(marker, 'drag', markerDragged);
+                }
+            });
+        }
+
+        function markerDragged(marker) {
+            //Update the position the marker represents.
+            position[marker.metadata.index] = marker.getOptions.position;
+
+            //Calculate the cardinal spline coordinates and update the spline.
+            spline.setCoordinates(atlas.math.getCardinalSpline(positions, 0, 10, false));           
+
+            //Update the lines with the new positions.
+            straightLine.setCoordinates(positions);            
+        }
+
+        function calculateSpline() {
+            //Get the spline options.
+            var tension = parseFloat(document.getElementById("tensionSlider").value);
+            var nodeSize = parseInt(document.getElementById("nodeSizeSlider").value);
+            var close = document.getElementById("closeChbx").checked;
+
+            document.getElementById("tensionVal").innerHTML = tension;
+            document.getElementById("nodeSizeVal").innerHTML = nodeSize;
+
+            //Calculate positions for the new cardinal spline options and update the spline coordinates.
+            spline.setCoordinates(atlas.math.getCardinalSpline(positions, tension, nodeSize, close));
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px; left:10px;border-radius:10px;background-color:white;">
+        <table>
+            <tr>
+                <td>Tension:</td>
+                <td>
+                    <form oninput="tension.value=tensionSlider.value">
+                        <input type="range" id="tensionSlider" value="0.5" min="-2" max="2" step="0.1" oninput="calculateSpline()" onchange="calculateSpline()" />
+                        <output name="tension" for="tensionSlider">0.5</output>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Node Size:</td>
+                <td>
+                    <form oninput="nodeSize.value=nodeSizeSlider.value">
+                        <input type="range" id="nodeSizeSlider" value="30" min="2" max="50" step="1" oninput="calculateSpline()" onchange="calculateSpline()" />
+                        <output name="nodeSize" for="nodeSizeSlider">30</output>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Close:</td>
+                <td>
+                    <input id="closeChbx" type="checkbox" onchange="calculateSpline()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Cardinal Spline Options</legend>
+        This sample provides a set of controls to test the various features of the Cardinal Spline calculation.
+        Drag the markers, change the tension and node size using the sliders, or make the cardinal spline a closed shape.
+    </fieldset>
+</body>
+</html>

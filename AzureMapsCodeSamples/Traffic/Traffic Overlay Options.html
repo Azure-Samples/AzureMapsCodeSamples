@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Web Control Samples - Traffic Overlay Options</title>
+    <title>Traffic Overlay Options - Azure Maps Web Control Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to simply overlay traffic data on the map using the maps setTraffic method and TrafficOptions." />
+    <meta name="description" content="This sample shows how the different Traffic Options change how the traffic overlay is rendered on the map." />
     <meta name="keywords" content="map, gis, API, SDK, traffic, layer, flow, incidents" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -28,7 +28,14 @@
             });
 
             //Wait until the map resources have fully loaded, then load the traffic overlay.
-            map.events.add('load', UpdateTrafficOverlay);
+            map.events.add('load', function () {
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl(), {
+                    position: 'top-right'
+                });
+
+                UpdateTrafficOverlay();
+            });
         }
 
         function UpdateTrafficOverlay() {
@@ -62,7 +69,7 @@
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
-        <legend>Traffic Overlay</legend>
+        <legend>Traffic Overlay Options</legend>
         This sample shows how the different
         <a href="https://docs.microsoft.com/en-us/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>
         change how the traffic overlay is rendered on the map.
@@ -74,12 +81,6 @@
             <li>"absolute" - is the absolute speed of the road.</li>
             <li>"relative-delay" - displays relative speed only where they differ from free-flow; false to stop displaying the traffic flow.</li>
         </ul>
-    </fieldset>
-
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
-        <legend>Traffic Overlay Options</legend>
-        This sample shows how to simply overlay traffic data on the map using the maps setTraffic method and
-        <a href="https://docs.microsoft.com/javascript/api/location-based-services-javascript/trafficoptions?view=azure-iot-typescript-latest" target="_blank">TrafficOptions</a>.
     </fieldset>
 </body>
 </html>

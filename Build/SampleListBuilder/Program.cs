@@ -193,11 +193,11 @@ namespace SampleListBuilder
 
                             if (idx >= 0)
                             {
-                                sample.Title = doc.Substring(idx + 7, doc.IndexOf("</title>", idx) - idx - 7);
+                                sample.Title = doc.Substring(idx + 7, doc.IndexOf(" - Azure Maps Web Control Samples</title>", idx) - idx - 7);
 
                                 if (!string.IsNullOrWhiteSpace(sample.Title))
                                 {
-                                    sample.Title = sample.Title.Replace("Azure Maps Web Control Samples - ", "");
+                                    sample.Title = sample.Title.Replace(" - Azure Maps Web Control Samples", "");
                                 }
                             }
 
