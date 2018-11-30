@@ -17,7 +17,7 @@
     <script src="../Common/scripts/clipboard.min.js"></script>
 
     <script type='text/javascript'>
-        var map, heatMapLayer, defaultOptions, removeDefaults, selectedGradientIdx = 0;
+        var map, datasource, heatMapLayer, defaultOptions, removeDefaults, selectedGradientIdx = 0;
 
         var magWeight = [
             'interpolate',
@@ -176,7 +176,10 @@
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
-            map = new atlas.Map('myMap');
+            map = new atlas.Map('myMap', {
+                center: [-90, 35],
+                zoom: 3
+            });
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
@@ -185,31 +188,25 @@
                 map.controls.add(new atlas.control.StyleControl({
                     style: 'dark'
                 }), {
-                    position: 'top-right'
-                });
+                        position: 'top-right'
+                    });
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource();
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
-                //Load a data set of points, in this case earthquake data from the USGS.
-                fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson')
-                    .then(function (response) {
-                        return response.json();
-                    }).then(function (response) {
+                //Load a data set of points, in this case a sample POI data set.
+                datasource.importDataFromUrl('../Common/data/geojson/SamplePoiDataSet.json');
 
-                        //Add the earthquake data to the data source.
-                        datasource.add(response.features);
+                //Create a heat map layer and add it to the map.
+                heatMapLayer = new atlas.layer.HeatMapLayer(datasource);
+                map.layers.add(heatMapLayer, 'labels');
 
-                        //Create a heat map layer and add it to the map.
-                        heatMapLayer = new atlas.layer.HeatMapLayer(datasource);
-                        map.layers.add(heatMapLayer, 'labels');
+                defaultOptions = heatMapLayer.getOptions();
 
-                        defaultOptions = heatMapLayer.getOptions();
-
-                        //Update the heat map layer with the options in the input fields.
-                        gradientSelected(document.getElementById('gradientDropdown').childNodes[0], 0);
-                    });
+                //Update the heat map layer with the options in the input fields.
+                gradientSelected(document.getElementById('gradientDropdown').childNodes[0], 0);
+                toggleGradientDropdown();
             });
 
             new ClipboardJS('.copyBtn');

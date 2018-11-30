@@ -17,7 +17,7 @@
     <script src="../Common/scripts/clipboard.min.js"></script>
 
     <script type='text/javascript'>
-        var map, polygonLayer, defaultOptions, removeDefaults;
+        var map, datasource, polygonLayer, defaultOptions, removeDefaults;
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -40,7 +40,7 @@
                     });
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource();
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add polygon to data source.

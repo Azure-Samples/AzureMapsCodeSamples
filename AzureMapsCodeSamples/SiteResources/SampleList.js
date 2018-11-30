@@ -259,6 +259,15 @@ var sampleList = [
 	desc:'Use traditional HTML and CSS to represent point based data on the map as markers.',
 	samples: [
 		{
+			title:'Adding Mouse Events to default HTML Marker',
+			desc:'This sample shows how to add mouse events to an HTML marker that uses the default htmlContent by wraping it with a DOM element and adding JavaScript events to it.',
+			path:'HTML%20Markers/Adding%20Mouse%20Events%20to%20default%20HTML%20Marker.html',
+			sourcePath:'HTML%20Markers/Adding%20Mouse%20Events%20to%20default%20HTML%20Marker.html',
+			screenshot:'Adding-Mouse-Events-to-default-HTML-Marker.gif',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse',
+			created:'11/30/2018'
+		},
+		{
 			title:'Adding Mouse Events to HTML Markers',
 			desc:'This sample shows how to add mouse events to an HTML marker by adding standard JavaScript events to the HTML content of the marker.',
 			path:'HTML%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html',
@@ -302,6 +311,24 @@ var sampleList = [
 			screenshot:'Simple-HTML-Marker.png',
 			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
 			created:'11/28/2018'
+		},
+		{
+			title:'Clustered Pie Chart HTML Markers',
+			desc:'This sample combines the HtmlMarkerLayer class with the PieChartMarker class to create pie charts for clustered markers on the map.',
+			path:'HTML%20Markers/HtmlMarkerLayer/Clustered%20Pie%20Chart%20HTML%20Markers.html',
+			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
+			screenshot:'Clustered-Pie-Chart-HTML-Markers.png',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, svg template, chart, pie chart',
+			created:'11/30/2018'
+		},
+		{
+			title:'HTML Marker Layer',
+			desc:'This sample provides a layer which renders point data from a data source as HTML markers on the map.',
+			path:'HTML%20Markers/HtmlMarkerLayer/HTML%20Marker%20Layer.html',
+			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
+			screenshot:'HTML-Marker-Layer.png',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer',
+			created:'11/30/2018'
 		},
 		{
 			title:'Pie Chart HTML Markers',
@@ -904,4 +931,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 86;
+}];var numberOfSamples = 89;

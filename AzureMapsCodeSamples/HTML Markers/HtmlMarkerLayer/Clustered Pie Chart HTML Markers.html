@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Clustered Pie Chart HTML Markers - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample combines the HtmlMarkerLayer class with the PieChartMarker class to create pie charts for clustered markers on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, SVG template, chart, pie chart" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+    
+    <!-- Add a reference to the HtmlMarkerLayer script. -->
+    <script src="HtmlMarkerLayer.js"></script>
+
+    <!-- Add a reference to the PieChartMarker script. -->
+    <script src="../Pie Chart HTML Marker/PieChartMarker.js"></script>
+
+    <script type='text/javascript'>
+        //TODO: Remove out of experimental once aggregates are supported in the clustering functionality. That will significantly improve performance as no need to getLeaves and manually aggregate
+        var map, datasource, markerLayer, popup;
+
+        //GeoJSON feed that contains the data we want to map.
+        var geojsonFeed = "../../Common/data/geojson/SamplePoiDataSet.json";
+        
+        //Colors for each EntityType property in point data: [Gas Station, Grocery Store, Restaurant, School]
+        var entityTypes = ['Gas Station', 'Grocery Store', 'Restaurant', 'School'];
+        var entityTypesColors = ['#3366CC', '#DC3912', '#FF9900', '#109618'];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-97, 39],
+                zoom: 3,
+                style: 'night'
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a reusable popup.
+                popup = new atlas.Popup({
+                    pixelOffset: [0, -20],
+                    closeButton: false
+                });
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource(null, {
+                    cluster: true,
+                    clusterRadius: 150
+                });
+                map.sources.add(datasource);
+
+                //Create a HTML marker layer for rendering data points.
+                markerLayer = new HtmlMarkerLayer(datasource, null, {
+                    markerRenderCallback: function (id, position, properties) {
+                        var marker = new atlas.HtmlMarker({
+                            position: position,
+                            color: 'DodgerBlue'
+                        }); 
+
+                        addEvent('click', marker, markerClicked);
+                        addEvent('mouseenter', marker, markerHovered);
+                        addEvent('mouseleave', marker, hidePopup);
+
+                        return marker;
+                    },
+                    clusterRenderCallback: function (id, position, properties) {
+                        var radius = 20;
+
+                        if (properties.point_count > 1000) {
+                            radius = 50;
+                        } else if (properties.point_count > 100) {
+                            radius = 40;
+                        } else if (properties.point_count > 10) {
+                            radius = 30;
+                        }
+
+                        var cluster = new PieChartMarker({
+                            position: position,
+                            values: [0, 0, 0, 0],
+                            colors: entityTypesColors,
+                            radius: radius,
+                            strokeThickness: 1,
+                            strokeColor: 'white',
+                            innerRadius: radius * 0.5,
+                            text: properties.point_count_abbreviated,
+                            visible: false //Hide the cluster until the pie chart values have been calculated.
+                        }, tooltipCallback);
+
+                        //Count for each EntityType in cluster [Gas Station, Grocery Store, Restaurant, School]
+
+                        //Get all the child point objects of a cluster then aggregage the count of each EntityType in the cluster.
+                        datasource.getClusterLeaves(properties.cluster_id).then(function (children) {
+                            var values = [0, 0, 0, 0];
+
+                            for (var i = 0; i < children.length; i++) {
+                                values[entityTypes.indexOf(children[i].properties.EntityType)]++;
+                            }
+
+                            cluster.setOptions({
+                                values: values,
+                                visible: true
+                            });
+                        });
+                                            
+                        addEvent('click', cluster, markerClicked);
+                        addEvent('mouseenter', cluster, markerHovered);
+                        addEvent('mouseleave', cluster, hidePopup);
+
+                        return cluster;
+                    }
+                });
+
+                map.layers.add(markerLayer);
+
+                //Import the GeoJSON data into the data source.
+                datasource.importDataFromUrl(geojsonFeed);
+            });
+        }
+
+        function addEvent(eventType, marker, handler) {
+            if (eventType && marker && handler) {
+                var options = marker.getOptions();
+                var html = options.htmlContent;
+                var elm = html;
+
+                if (typeof html === 'string') {
+                    elm = document.createElement('div');
+                    elm.innerHTML = html.replace(/{color}/g, options.color || "")
+                        .replace(/{text}/g, options.text || "");
+                    marker.setOptions({ htmlContent: elm });
+                }
+
+                elm['on' + eventType] = function () {
+                    handler(eventType, marker);
+                };
+            }
+        }
+
+        function markerClicked(eventType, marker) {
+            if (marker.properties.cluster) {
+                //Get the cluster expansion zoom level. This is the zoom level at which the cluster starts to break apart.
+                datasource.getClusterExpansionZoom(marker.properties.cluster_id).then(function (zoom) {
+
+                    //Update the map camera to be centered over the cluster.
+                    map.setCamera({
+                        center: marker.getOptions().position,
+                        zoom: zoom,
+                        type: 'ease',
+                        duration: 200
+                    });
+                });
+            } else {
+                var desc = [
+                    '<div class="popup"><div class="popup-title">', marker.properties.Name,
+                    '</div><div>', marker.properties.EntityType, '<br/>',
+                    marker.properties.Address, ', ', marker.properties.City, ', ', marker.properties.State,
+                    ', ', marker.properties.ZipCode,
+                    '</div></div>'
+                ];
+
+                popup.setOptions({
+                    content: desc.join(''),
+                    position: marker.getOptions().position
+                });
+
+                popup.open();
+            }
+        }
+        
+        function markerHovered(eventType, marker) {
+            map.getCanvas().style.cursor = 'pointer';
+        }
+
+        function hidePopup() {
+            map.getCanvas().style.cursor = '';
+        }
+
+        function tooltipCallback(marker, sliceIdx) {
+            return entityTypes[sliceIdx] + '<br/>' + marker.getSliceValue(sliceIdx) + ' (' + marker.getSlicePercentage(sliceIdx) + '%)';
+        }
+    </script>
+    <style>
+        .popup-title {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .popup {
+            padding: 10px;
+        }
+
+        .legend{
+            position:absolute;
+            top:10px;
+            right:10px;
+            border-radius:10px;
+            background-color:white;
+            padding:10px;
+        }
+
+        .legend .color-box{
+            width:10px;
+            height:10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <div class="legend">
+        <table>
+            <tr>
+                <td><div class="color-box" style="background-color:#3366CC"></div></td>
+                <td>Gas Station</td>
+            </tr>
+            <tr>
+                <td><div class="color-box" style="background-color:#DC3912"></div></td>
+                <td>Grocery Store</td>
+            </tr>
+            <tr>
+                <td><div class="color-box" style="background-color:#FF9900"></div></td>
+                <td>Restaurant</td>
+            </tr>
+            <tr>
+                <td><div class="color-box" style="background-color:#109618"></div></td>
+                <td>School</td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Clustered Pie Chart HTML Markers</legend>
+        This sample combines the HtmlMarkerLayer class with the PieChartMarker class to create pie charts for clustered markers on the map.
+        In this case the values of the pie chart is the number of each slice category (EntityType value from data set) in a cluster.
+    </fieldset>
+</body>
+</html>

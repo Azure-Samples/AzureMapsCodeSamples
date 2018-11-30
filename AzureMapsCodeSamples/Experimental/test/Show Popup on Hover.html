@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, popup, symbolLayer;
+        var map, datasource, popup, symbolLayer;
 
         //Define an HTML template for a custom popup content laypout.
         var popupTemplate = '<div class="customInfobox"><div class="name">{name}</div>{description}</div>';
@@ -34,7 +34,7 @@
             map.events.add('load', function (e) {
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource();
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Create three point features on the map and add some metadata in the properties which we will want to display in a popup.

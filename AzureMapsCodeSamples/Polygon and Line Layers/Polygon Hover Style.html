@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1.3"></script>
 
     <script type='text/javascript'>
-        var map;
+        var map, datasource;
 
         var stateBoundaries = '../Common/data/geojson/US_States_500k.json';
 
@@ -31,53 +31,45 @@
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
 
-                //Download the US state boundary data.
-                fetch(stateBoundaries)
-                    .then(function (response) {
-                        return response.json();
-                    }).then(function (response) {
+                //Load the US state boundary data.
+                datasource.importDataFromUrl(stateBoundaries);
 
-                        //Create a data source and add it to the map.
-                        var datasource = new atlas.source.DataSource();
-                        map.sources.add(datasource);
+                //Add a layer for rendering filled polygon area.
+                var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(0, 157, 255, 0.2)'
+                });
 
-                        //Add state boundary data to the data source.
-                        datasource.add(response.features);
+                //Add a layer for rendering a different color polygon for representing a hover state.
+                var polygonHoverLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(150, 50, 255, 0.2)',
 
-                        //Add a layer for rendering filled polygon area.
-                        var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
-                            fillColor: 'rgba(0, 157, 255, 0.2)'
-                        });
+                    //Only polygons with a "GEO_ID" property with a value of '' will be rendered.
+                    filter: ['==', 'GEO_ID', '']
+                });
 
-                        //Add a layer for rendering a different color polygon for representing a hover state.
-                        var polygonHoverLayer = new atlas.layer.PolygonLayer(datasource, null, {
-                            fillColor: 'rgba(150, 50, 255, 0.2)',
+                //Add a layer for rendering the styled outline of the polygon data.
+                var lineLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'white',
+                    strokeWidth: 1
+                });
 
-                            //Only polygons with a "GEO_ID" property with a value of '' will be rendered.
-                            filter: ['==', 'GEO_ID', '']
-                        });
+                //Add the layers to be map, but render it below the labels.
+                map.layers.add([polygonLayer, polygonHoverLayer, lineLayer], 'labels');
 
-                        //Add a layer for rendering the styled outline of the polygon data.
-                        var lineLayer = new atlas.layer.LineLayer(datasource, null, {
-                            strokeColor: 'white',
-                            strokeWidth: 1
-                        });
+                // When the user moves their mouse over the polygonLayer, we'll update the filter in
+                // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
+                map.events.add('mousemove', polygonLayer, function (e) {
+                    polygonHoverLayer.setOptions({ filter: ['==', 'GEO_ID', e.shapes[0].getProperties().GEO_ID] });
+                });
 
-                        //Add the layers to be map, but render it below the labels.
-                        map.layers.add([polygonLayer, polygonHoverLayer, lineLayer], 'labels');
-
-                        // When the user moves their mouse over the polygonLayer, we'll update the filter in
-                        // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
-                        map.events.add('mousemove', polygonLayer, function (e) {
-                            polygonHoverLayer.setOptions({ filter: ['==', 'GEO_ID', e.shapes[0].getProperties().GEO_ID] });
-                        });
-
-                        // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
-                        map.events.add('mouseleave', polygonLayer, function (e) {
-                            polygonHoverLayer.setOptions({ filter: ['==', 'GEO_ID', ''] });
-                        });
-                    });
+                // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
+                map.events.add('mouseleave', polygonLayer, function (e) {
+                    polygonHoverLayer.setOptions({ filter: ['==', 'GEO_ID', ''] });
+                });
             });
         }
     </script>

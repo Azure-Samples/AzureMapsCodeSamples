@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map;
+        var map, datasource;
 
         //GeoJSON feed of significant earthquakes from the past 30 days. Sourced from the USGS.
         var earthquakeFeed = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
@@ -34,63 +34,56 @@
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
 
-                //Download the earthquake data.
-                fetch(earthquakeFeed)
-                    .then(function (response) {
-                        return response.json();
-                    }).then(function (earthquakeData) {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
 
-                        //Create a data source and add it to the map.
-                        var datasource = new atlas.source.DataSource();
-                        map.sources.add(datasource);
+                //Load the earthquake data.
+                datasource.importDataFromUrl(earthquakeFeed);
 
-                        //Add earthquake data to the data source.
-                        datasource.add(earthquakeData);
+                //Create a layer that defines how to render the shapes in the data source and add it to the map.
+                map.layers.add(new atlas.layer.BubbleLayer(datasource, 'earthquake-circles', {
+                    //Bubbles are made semi-transparent.
+                    opacity: 0.75,
 
-                        //Create a layer that defines how to render the shapes in the data source and add it to the map.
-                        map.layers.add(new atlas.layer.BubbleLayer(datasource, 'earthquake-circles', {
-                            //Bubbles are made semi-transparent.
-                            opacity: 0.75,
+                    //Color of each bubble based on the value of "mag" property using a color gradient of green, yellow, orange, and red.
+                    color: [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mag'],
+                        0, 'green',
+                        5, 'yellow',
+                        6, 'orange',
+                        7, 'red'
+                    ],
 
-                            //Color of each bubble based on the value of "mag" property using a color gradient of green, yellow, orange, and red.
-                            color: [
-                                'interpolate',
-                                ['linear'],
-                                ['get', 'mag'],
-                                0, 'green',
-                                5, 'yellow',
-                                6, 'orange',
-                                7, 'red'
-                            ],
+                    /*
+                     * Radius for each data point scaled based on the value of "mag" property.
+                     * When "mag" = 0, radius will be 2 pixels.
+                     * When "mag" = 8, radius will be 40 pixels.
+                     * All other "mag" values will be a linear interpolation between these values.
+                     */
+                    radius: [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mag'],
+                        0, 2,
+                        8, 40
+                    ]
+                }));
 
-                            /*
-                             * Radius for each data point scaled based on the value of "mag" property.
-                             * When "mag" = 0, radius will be 2 pixels.
-                             * When "mag" = 8, radius will be 40 pixels.
-                             * All other "mag" values will be a linear interpolation between these values.
-                             */
-                            radius: [
-                                'interpolate',
-                                ['linear'],
-                                ['get', 'mag'],
-                                0, 2,
-                                8, 40
-                            ]
-                        }));
-
-                        //Create a symbol layer using the same data source to render the magnitude as text above each bubble and add it to the map.
-                        map.layers.add(new atlas.layer.SymbolLayer(datasource, 'earthquake-labels', {
-                            iconOptions: {
-                                //Hide the icon image.
-                                image: 'none'
-                            },
-                            textOptions: {
-                                //An expression is used to concerte the "mag" property value into a string and appends the letter "m" to the end of it.
-                                textField: ['concat', ['to-string', ['get', 'mag']], 'm'],
-                                textSize: 12
-                            }
-                        }));
-                    });
+                //Create a symbol layer using the same data source to render the magnitude as text above each bubble and add it to the map.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, 'earthquake-labels', {
+                    iconOptions: {
+                        //Hide the icon image.
+                        image: 'none'
+                    },
+                    textOptions: {
+                        //An expression is used to concerte the "mag" property value into a string and appends the letter "m" to the end of it.
+                        textField: ['concat', ['to-string', ['get', 'mag']], 'm'],
+                        textSize: 12
+                    }
+                }));
             });
         }
     </script>

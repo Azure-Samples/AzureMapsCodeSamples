@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, pin;
+        var map, pin, datasource;
         var animationTime = 5000;
         var animation;
 
@@ -44,7 +44,7 @@
                 map.imageSprite.add('arrow-icon', '../Common/images/pushpins/gpsArrowIcon.png').then(function () {
 
                     //Create a data source and add it to the map.
-                    var datasource = new atlas.source.DataSource();
+                    datasource = new atlas.source.DataSource();
                     map.sources.add(datasource);
 
                     //Create a layer to render the path.

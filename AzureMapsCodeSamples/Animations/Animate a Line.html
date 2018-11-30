@@ -15,8 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map;
-        var line;
+        var map, datasource, line;
 
         var speedFactor = 30; //The number of frames per longitude degree.
         var animation;
@@ -36,7 +35,7 @@
             map.events.add('load', function (e) {
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource();
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Create a layer that defines how to render the line on the map.

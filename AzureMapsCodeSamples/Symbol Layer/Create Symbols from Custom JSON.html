@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, popup;
+        var map, datasource, popup;
 
         //Define an HTML template for a custom popup content laypout.
         var popupTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
@@ -68,7 +68,7 @@
                 }
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource();
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add point data to the data source.

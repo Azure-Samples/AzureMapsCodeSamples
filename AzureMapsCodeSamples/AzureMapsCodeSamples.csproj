@@ -89,6 +89,7 @@
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Experimental\Animated Tile Layers\Animated Tile Layer.html" />
+    <Content Include="HTML Markers\HtmlMarkerLayer\HTML Marker Layer.html" />
     <Content Include="Experimental\Create a Custom Control\Create a Custom Control.html" />
     <Content Include="Experimental\Solar Terminator Module\Solar Terminator Module.html" />
     <Content Include="Experimental\test\Cardinal Spline Options.html" />
@@ -96,15 +97,20 @@
     <Content Include="Heat Map Layer\Simple Heat Map Layer.html" />
     <Content Include="Heat Map Layer\Weighted Heat Map Layer.html" />
     <Content Include="Heat Map Layer\Heat Map Layer Options.html" />
+    <Content Include="HTML Markers\HtmlMarkerLayer\Clustered Pie Chart HTML Markers.html" />
+    <Content Include="HTML Markers\Adding Mouse Events to default HTML Marker.html" />
     <Content Include="Image Layer\Image Layer Options.html" />
     <Content Include="Image Layer\KML Ground Overlay as Image Layer.html" />
     <Content Include="Image Layer\Simple Image Layer.html" />
     <Content Include="Experimental\Point Clusters in Symbol Layer.html" />
     <Content Include="SiteResources\index_template.html" />
     <Content Include="REST Services\Calculate a Simple Isochrone.html" />
+    <Content Include="SiteResources\screenshots\Adding-Mouse-Events-to-default-HTML-Marker.gif" />
+    <Content Include="SiteResources\screenshots\Clustered-Pie-Chart-HTML-Markers.png" />
     <Content Include="SiteResources\screenshots\Filter-Points-by-Property.png" />
     <Content Include="SiteResources\screenshots\Filter-Symbols-by-Property.png" />
     <Content Include="SiteResources\screenshots\Heat-Map-Layer-Options.png" />
+    <Content Include="SiteResources\screenshots\HTML-Marker-Layer.png" />
     <Content Include="SiteResources\screenshots\HTML-Marker-with-Custom-SVG-Template.gif" />
     <Content Include="SiteResources\screenshots\Image-Layer-Options.png" />
     <Content Include="SiteResources\screenshots\interactiveSearch.png" />
@@ -190,6 +196,7 @@
     <Content Include="REST Services\Simple REST Directions.html" />
     <Content Include="Common\data\geojson\US_States_500k.json" />
     <Content Include="Common\data\US_County_2010_Population.csv" />
+    <Content Include="Common\data\geojson\SamplePoiDataSet.json" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -312,6 +319,7 @@
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Experimental\Animated Tile Layers\AnimatedTileLayer.ts" />
     <TypeScriptCompile Include="Experimental\Create a Custom Control\FullScreenControl.ts" />
+    <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />
     <TypeScriptCompile Include="Experimental\Solar Terminator Module\SolarTerminatorModule.ts" />
     <TypeScriptCompile Include="HTML Markers\Pie Chart HTML Marker\PieChartMarker.ts" />
   </ItemGroup>

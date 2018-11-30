@@ -1,40 +1,80 @@
-﻿
+﻿/*
+ * Copyright(c) 2018 Microsoft Corporation. All rights reserved. 
+ * 
+ * This code is licensed under the MIT License (MIT). 
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal 
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do 
+ * so, subject to the following conditions: 
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software. 
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE. 
+*/
 
+/// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
+
+/**
+ * Options for styling a PieChartMarker.
+ */
 interface PieChartMarkerOptions extends atlas.HtmlMarkerOptions {
     /** The value of each slice of the pie. */
     values: number[],
 
-    /** The radius of a pie chart in pixels. */
+    /** The radius of a pie chart in pixels. Default: 40 */
     radius?: number,  
 
-    /** The colors of each category in the pie chart. Should have a length >= to largest values array in data set. */
+    /** The inner radius of the pie chart. This is a percent. Default: 0 */
+    innerRadius: number;
+
+    /** The colors of each category in the pie chart. Should have a length >= to largest values array in data set. Default: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099'] */
     colors?: string[], 
 
-    /** A stroke thickness to add to the pie chart. */
+    /** A stroke thickness to add to the pie chart. Default: 0 */
     strokeThickness?: number,
 
-    /** The color of the stroke line. */
+    /** The color of the stroke line. Default: #666666 */
     strokeColor?: string,
-
-    /** Any additional metadata that you want to store with the marker. */
-    metadata: any
 }
 
 /**
  * A class for creating Pie Charts as Markers on a map.
+ * In addition to the options, there is also two CSS classes that can be customized:
+ *  - pieChartTooltip - Styles the tooltip div.
+ *  - pieChartText - Styles the text that renders in the center of the pie chart when the 'text' option is set.
  */
 class PieChartMarker extends atlas.HtmlMarker {
+    /********************
+    * Private Properties
+    ********************/
+
     private chartOptions = <PieChartMarkerOptions>{
         values: [],
         radius: 40,  
         colors: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099'], 
         strokeThickness: 0,
-        strokeColor: '#666666'
+        strokeColor: '#666666',
+        innerRadius: 0,
+        color: 'white'
     };
 
     private totalValue: number = 0;
-    private tooltip: HTMLDivElement;
+    private tooltip: HTMLElement;
     private tooltipCallback: (marker: PieChartMarker, sliceIdx: number) => string;
+
+    /********************
+    * Constructor
+    ********************/
 
     /**
      * Creates an HTML Marker in the shape of a pie chart.
@@ -49,43 +89,80 @@ class PieChartMarker extends atlas.HtmlMarker {
         });
 
         this.tooltipCallback = tooltipCallback;
+        
+        this.addCssClassIfDoesntExist('pieChartTooltip', '{background: white;border: 1px solid black;border-radius: 5px;padding: 5px;}');
+        this.addCssClassIfDoesntExist('pieChartText', '{font-size:16px;font-family:arial;fill:#00000;font-weight:bold;}');
 
-        this.tooltip = document.createElement('div');
-        this.tooltip.id = 'pieChartTooltip_' + PieChartMarker.__idCounter++;
-        this.tooltip.style.position = 'absolute';
-        this.tooltip.style.display = 'none';
-        this.tooltip.className = 'pieChartTooltip';
+        this.tooltip = document.getElementById('pieChartTooltip');
+
+        if (!this.tooltip) {
+            this.tooltip = document.createElement('div');
+            this.tooltip.id = 'pieChartTooltip';
+            this.tooltip.style.position = 'absolute';
+            this.tooltip.style.display = 'none';
+            this.tooltip.className = 'pieChartTooltip';
+        }
 
         document.body.appendChild(this.tooltip);
-
-        var tooltipClass = document.createElement('style');
-        tooltipClass.innerHTML = '.pieChartTooltip {background: white;border: 1px solid black;border-radius: 5px;padding: 5px;}';
-        document.body.appendChild(tooltipClass);
 
         this.setOptions(options);
     }
 
+    /********************
+    * Public Methods
+    ********************/
+
+    /** Any additional properties that you want to store with the marker. */
+    public properties: any = {};
+
+    /**
+     * Gets the total value of all slices summed togehter.
+     * @returns The total value of all slices summed togehter.
+     */
     public getTotalValue() {
         return this.totalValue;
     }
 
+    /**
+     * Gets the value of a slice of the pie based on it's index.
+     * @param idx The index of the slice.
+     * @returns The value of a slice of the pie based on it's index.
+     */
     public getSliceValue(idx: number): number {
         return (idx >= 0 && idx < this.chartOptions.values.length)? this.chartOptions.values[idx]: 0;
     }
 
+    /**
+     * Gets the percentage value of a slice of the pie based on it's index. 
+     * @param idx The index of the slice.
+     * @returns The percentage value of a slice of the pie based on it's index.
+     */
     public getSlicePercentage(idx: number): number {
         return (this.totalValue > 0) ? Math.round(this.getSliceValue(idx) / this.totalValue * 10000)/100: 0;
     }
-    
+
+    /**
+     * Gets the options of the pie chart marker.
+     * @returns The options of the pie chart marker.
+     */
     public getOptions(): PieChartMarkerOptions {
         return <PieChartMarkerOptions>this.merge_options(super.getOptions(), this.chartOptions);
     }
 
+    /**
+     * Sets the options of the pie chart marker.
+     * @param options The options to set on the marker.
+     */
     public setOptions(options: PieChartMarkerOptions): void {
         var rerender = false;
 
         if (options.radius && options.radius > 0 && options.radius != this.chartOptions.radius) {
             this.chartOptions.radius = options.radius;
+            rerender = true;
+        }
+
+        if (options.innerRadius && options.innerRadius > 0 && options.innerRadius != this.chartOptions.innerRadius) {
+            this.chartOptions.innerRadius = options.innerRadius;
             rerender = true;
         }
 
@@ -99,8 +176,8 @@ class PieChartMarker extends atlas.HtmlMarker {
             rerender = true;
         }
 
-        if (options.values && JSON.stringify(options.values) !== JSON.stringify(this.chartOptions.values)) {
-            this.chartOptions.values = options.values;
+        if (options.color && JSON.stringify(options.color) !== JSON.stringify(this.chartOptions.color)) {
+            this.chartOptions.color = options.color;
             rerender = true;
         }
 
@@ -111,10 +188,21 @@ class PieChartMarker extends atlas.HtmlMarker {
 
         if (options.tooltipCallback !== undefined && this.tooltipCallback != options.tooltipCallback) {
             this.tooltipCallback = options.tooltipCallback;
+            rerender = true;
+        }
+
+        if (options.values && JSON.stringify(options.values) !== JSON.stringify(this.chartOptions.values)) {
+            this.chartOptions.values = options.values;
+            rerender = true;
         }
 
         if (options.metadata !== undefined) {
             this.chartOptions.metadata = options.metadata;
+            rerender = true;
+        }
+
+        if (options.text && options.text !== this.chartOptions.text) {
+            rerender = true;
         }
 
         if (options.htmlContent !== undefined) {
@@ -128,6 +216,10 @@ class PieChartMarker extends atlas.HtmlMarker {
         super.setOptions(options);
     }
 
+    /********************
+    * Private Methods
+    ********************/
+
     private render() {
         var startAngle = 0, angle = 0;
         var data = this.chartOptions.values;
@@ -138,21 +230,38 @@ class PieChartMarker extends atlas.HtmlMarker {
                 return a + b;
             }, 0);
 
+            //Ensure that there are enough colors defined.
+            while (data.length > this.chartOptions.colors.length) {
+                this.chartOptions.colors.push('rgb(' + Math.round(Math.random() * 150 + 150) + ',' + Math.round(Math.random() * 150 + 150) + ',' + Math.round(Math.random() * 150 + 150) + ')');
+            }
+
             var diameter = 2 * (radius + this.chartOptions.strokeThickness);
 
             var svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="', diameter, 'px" height="', diameter, 'px" style="cursor:pointer">'];
             
             var cx = radius + this.chartOptions.strokeThickness, cy = radius + this.chartOptions.strokeThickness;
             var tooltip = '';
-            for (var i = 0; i < data.length; i++) {
-                angle = (Math.PI * 2 * (data[i] / this.totalValue));
 
-                if (this.tooltipCallback) {
-                    tooltip = this.tooltipCallback(this, i);
+            if (this.totalValue > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    angle = (Math.PI * 2 * (data[i] / this.totalValue));
+
+                    if (this.tooltipCallback) {
+                        tooltip = this.tooltipCallback(this, i);
+                    }
+
+                    svg.push(this.createArc(cx, cy, radius, startAngle, angle, this.chartOptions.colors[i], tooltip));
+                    startAngle += angle;
                 }
+            }
 
-                svg.push(this.createArc(cx, cy, radius, startAngle, angle, this.chartOptions.colors[i], tooltip));
-                startAngle += angle;
+            if (this.chartOptions.innerRadius > 0) {
+                svg.push('<circle r="', this.chartOptions.innerRadius, '" cx="', cx, '" cy="', cy, '" fill="', this.chartOptions.color, '" />');
+            }
+
+            var text = this.getOptions().text;
+            if (text) {
+                svg.push('<text x="', cx, '" y="', (cy + 7),'" class="pieChartText" text-anchor="middle">', text,'</text>');
             }
 
             svg.push('</svg>');
@@ -162,25 +271,39 @@ class PieChartMarker extends atlas.HtmlMarker {
     }
 
     private createArc(cx, cy, r, startAngle, angle, fillColor, tooltip) {
-        var x1 = cx + r * Math.sin(startAngle);
-        var y1 = cy - r * Math.cos(startAngle);
-        var x2 = cx + r * Math.sin(startAngle + angle);
-        var y2 = cy - r * Math.cos(startAngle + angle);
+        if (angle > 2 * Math.PI * 0.99) {
+            //If the shape is nearly a complete circle, create a circle instead of an arc.
+            var path = [
+                '<circle r="', r, '" cx="', cx, '" cy="', cy, '" ',
+                'style="fill:', fillColor,
+                ';stroke:', this.chartOptions.strokeColor,
+                ';stroke-width:', this.chartOptions.strokeThickness,
+                'px;" onmousemove="PieChartMarker.__showTooltip(\'', this.tooltip.id, '\', evt, \'', tooltip,
+                '\');" onmouseout="PieChartMarker.__hideTooltip(\'', this.tooltip.id, '\');" /> '];
 
-        //Flag for when arcs are larger than 180 degrees in radians.
-        var big = 0;
-        if (angle > Math.PI) {
-            big = 1;
+            return path.join('');
+        } else {
+            var x1 = cx + r * Math.sin(startAngle);
+            var y1 = cy - r * Math.cos(startAngle);
+            var x2 = cx + r * Math.sin(startAngle + angle);
+            var y2 = cy - r * Math.cos(startAngle + angle);
+
+            //Flag for when arcs are larger than 180 degrees in radians.
+            var big = 0;
+            if (angle > Math.PI) {
+                big = 1;
+            }
+
+            var path = [
+                '<path d="M ', cx, ' ', cy, ' L ', x1, ' ', y1, ' A ', r, ',', r, ' 0 ', big, ' 1 ', x2, ' ', y2,
+                ' Z" style="fill:', fillColor,
+                ';stroke:', this.chartOptions.strokeColor,
+                ';stroke-width:', this.chartOptions.strokeThickness,
+                'px;" onmousemove="PieChartMarker.__showTooltip(\'', this.tooltip.id, '\', evt, \'', tooltip,
+                '\');" onmouseout="PieChartMarker.__hideTooltip(\'', this.tooltip.id, '\');" /> '];
+
+            return path.join('');
         }
-
-        var path = ['<path d="M ', cx, ' ', cy, ' L ', x1, ' ', y1, ' A ', r, ',', r, ' 0 ', big, ' 1 ', x2, ' ', y2,
-            ' Z" style="fill:', fillColor,
-            ';stroke:', this.chartOptions.strokeColor,
-            ';stroke-width:', this.chartOptions.strokeThickness,
-            'px;" onmousemove="PieChartMarker.__showTooltip(\'', this.tooltip.id, '\', evt, \'', tooltip,
-            '\');" onmouseout="PieChartMarker.__hideTooltip(\'', this.tooltip.id, '\');" /> '];
-
-        return path.join('');
     }
 
     /**
@@ -196,7 +319,17 @@ class PieChartMarker extends atlas.HtmlMarker {
         return obj3;
     }
 
-    public static __idCounter = 0;
+    private addCssClassIfDoesntExist(className: string, style: string) {
+        if (!document.getElementsByClassName(className).length) {
+            var cssClass = document.createElement('style');
+            cssClass.innerHTML = '.' + className + style;
+            document.body.appendChild(cssClass);
+        }
+    }
+
+    /********************
+     * Static Methods
+     ********************/
 
     public static __showTooltip(id: string, evt: MouseEvent, text: string): void {
         if (text) {

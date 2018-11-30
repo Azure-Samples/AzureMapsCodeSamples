@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Point Feature Clustering - Azure Maps Web Control Samples - Azure Maps Web Control Samples</title>
+    <title>Point Feature Clustering - Azure Maps Web Control Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -107,13 +107,7 @@
                 ]);
 
                 //Retrieve a GeoJSON data set and add it to the data source. 
-                //Download the earthquake data.
-                fetch(earthquakeFeed)
-                    .then(function (response) {
-                        return response.json();
-                    }).then(function (earthquakeData) {
-                        datasource.add(earthquakeData);
-                    });
+                datasource.importDataFromUrl(earthquakeFeed);
             });
         }
 

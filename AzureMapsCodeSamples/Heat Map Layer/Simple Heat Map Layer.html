@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map;
+        var map, datasource;
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -28,24 +28,17 @@
             map.events.add('load', function (e) {
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource();
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Load a data set of points, in this case earthquake data from the USGS.
-                fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson')
-                    .then(function (response) {
-                        return response.json();
-                    }).then(function (response) {
+                datasource.importDataFromUrl('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson');
 
-                        //Add the earthquake data to the data source.
-                        datasource.add(response.features);
-
-                        //Create a heatmap and add it to the map.
-                        map.layers.add(new atlas.layer.HeatMapLayer(datasource, null, {
-                            radius: 10,
-                            opacity: 0.8
-                        }), 'labels');
-                    });
+                //Create a heatmap and add it to the map.
+                map.layers.add(new atlas.layer.HeatMapLayer(datasource, null, {
+                    radius: 10,
+                    opacity: 0.8
+                }), 'labels');
             });
         }
     </script>

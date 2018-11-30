@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, popup, maxScale = 30, colorExpressions = [], timer, isPaused = true;
+        var map, datasource, popup, maxScale = 30, colorExpressions = [], timer, isPaused = true;
         
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -38,7 +38,7 @@
                 });
 
                 //Create a data source and add it to the map.
-                var datasource = new atlas.source.DataSource();
+                datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Create an array of expressions to define the fill color based on 

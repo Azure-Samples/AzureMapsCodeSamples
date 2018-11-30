@@ -24,33 +24,33 @@
         var legend = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
 
         //The min and max radius of a pie chart in pixels.
-        var minRadius = 5, maxRadius = 50;  
+        var minRadius = 10, maxRadius = 50;  
 
         //This is the mock data to power the chart.
         var mockData = [
             {
-                metadata: {
+                properties: {
                     name: 'Location 1'
                 },
                 position: [-110, 45],
-                values: [20, 45, 70, 11, 10]  //The values for each bar in the bar chart for the location.
+                values: [20, 45, 70, 11, 10]  //The values for each slice in the pie chart.
             },
             {
-                metadata: {
+                properties: {
                     name: 'Location 2'
                 },
                 position: [-80, 40],
                 values: [35, 33, 10, 13, 35]
             },
             {
-                metadata: {
+                properties: {
                     name: 'Location 3'
                 },
                 position: [-90, 51],
                 values: [15, 80, 30, 10, 5]
             },
             {
-                metadata: {
+                properties: {
                     name: 'Location 3'
                 },
                 position: [-100, 35],
@@ -78,6 +78,7 @@
 
                     //Create the pie chart marker and add it to the map.
                     var marker = new PieChartMarker(mockData[i], tooltipCallback);
+                    marker.properties = mockData[i].properties;
                     map.markers.add(marker);
 
                     //Create a popup for the marker.
@@ -112,7 +113,9 @@
                 //Loop through the markers, set the radius such that it is scaled based on the max value of all pie chart markers.
                 for (var i = 0; i < markers.length; i++) {
                     var r = Math.round(Math.max(markers[i].getTotalValue() / maxValue * maxRadius, minRadius));
-                    markers[i].setOptions({ radius: r });
+                    markers[i].setOptions({
+                        radius: r
+                    });
 
                     //Modify the popup offset so it appears at the top edge of the pie chart.
                     markers[i].getOptions().popup.setOptions({
@@ -134,7 +137,7 @@
         
         function getMarkerPopupContent(marker) {
             var options = marker.getOptions();
-            var desc = ['<div class="popup"><div class="popup-title">', options.metadata.name, '</div><table cellpadding="0"><tr><td><b>Category</b></td><td><b>Value</b></td></tr>'];
+            var desc = ['<div class="popup"><div class="popup-title">', marker.properties.name, '</div><table cellpadding="0"><tr><td><b>Category</b></td><td><b>Value</b></td></tr>'];
 
             for (var i = 0; i < options.values.length; i++) {
                 desc.push('<tr><td width="80px"><span style="color:', options.colors[i], '">', legend[i], '</span></td><td>', options.values[i], '</td></tr>');

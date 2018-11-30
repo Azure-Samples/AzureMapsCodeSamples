@@ -42,7 +42,7 @@
                 //imgElm.onclick = function (e) {
                 //    //Do something
                 //};
-
+    
                 //Create a HTML marker and add it to the map.
                 map.markers.add(new atlas.HtmlMarker({
                     htmlContent: imgElm,
@@ -69,6 +69,9 @@
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Adding Mouse Events to HTML Markers</legend>
         This sample shows how to add mouse events to an HTML marker by adding standard JavaScript events to the HTML content of the marker.
+        If the htmlContent of the marker is a DOM element (div, img...), you can add events directly to them.
+        If the htmlContent is a string (i.e the like the default), you can create a DOM element and add the string as innerHTML to it, then add the DOM element as the htmlContent.
+        If the htmlContent is a templated string, you will need to find/replace {text} and {color} values in the string first.
     </fieldset>
 </body>
 </html>

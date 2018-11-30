@@ -16,7 +16,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, overviewMap;
+        var map, datasource, overviewMap;
 
         //Options that specify if the overview map should also pitch and rotate in alignment of the main map. 
         var pitchOverviewMap = true;
@@ -47,7 +47,7 @@
             overviewMap.events.add('load', function (e) {
                 if (highlightMapViewArea) {
                     //Create a data source and add it to the map.
-                    var datasource = new atlas.source.DataSource();
+                    datasource = new atlas.source.DataSource();
                     overviewMap.sources.add(datasource);
 
                     //Create a layer to render the polygon data.

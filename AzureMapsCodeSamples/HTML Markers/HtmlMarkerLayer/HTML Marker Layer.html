@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Marker Layer - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample provides a layer which renders point data from a data source as HTML markers on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Add a reference to the HtmlMarkerLayer script. -->
+    <script src="HtmlMarkerLayer.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, markerLayer, popup;
+
+        //GeoJSON feed that contains the data we want to map.
+        var geojsonFeed = "../../Common/data/geojson/SamplePoiDataSet.json";
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-97, 39],
+                zoom: 3,
+                style: 'night'
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a reusable popup.
+                popup = new atlas.Popup({
+                    pixelOffset: [0, -20],
+                    closeButton: false
+                });
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource(null, {
+                    //Tell the data source to cluster point data.
+                    cluster: true
+                });
+                map.sources.add(datasource);
+
+                //Create a HTML marker layer for rendering data points.
+                markerLayer = new HtmlMarkerLayer(datasource, null, {
+                    markerRenderCallback: function (id, position, properties) {
+                        //Create an HtmlMarker with a random color.
+                        var marker = new atlas.HtmlMarker({
+                            position: position,
+                            color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+                        });
+
+                        addEvent('mouseenter', marker, markerHovered);
+                        addEvent('mouseleave', marker, hidePopup);  
+
+                        return marker;
+                    },
+                    clusterRenderCallback: function (id, position, properties) {
+                        var cluster = new atlas.HtmlMarker({
+                            position: position,
+                            color: 'DarkViolet',
+                            text: properties.point_count_abbreviated
+                        });
+                        
+                        addEvent('mouseenter', cluster, markerHovered);
+                        addEvent('mouseleave', cluster, hidePopup); 
+
+                        return cluster;
+                    }
+                });
+
+                map.layers.add(markerLayer);
+
+                //Import the GeoJSON data into the data source.
+                datasource.importDataFromUrl(geojsonFeed);
+            });
+        }
+
+        function addEvent(eventType, marker, handler) {
+            if (eventType && marker && handler) {
+                var options = marker.getOptions();
+                var html = options.htmlContent;
+                var elm = html;
+
+                if (typeof html === 'string') {
+                    elm = document.createElement('div');
+                    elm.innerHTML = html.replace(/{color}/g, options.color || "")
+                        .replace(/{text}/g, options.text || "");
+                    marker.setOptions({ htmlContent: elm });
+                }
+
+                elm['on' + eventType] = function () {
+                    handler(eventType, marker);
+                };
+            }
+        }
+
+        function markerHovered(eventType, marker) {
+            var content;
+            if (marker.properties.cluster) {
+                content = 'Cluster of ' + marker.properties.point_count_abbreviated + ' markers';
+            } else {
+                content = marker.properties.Name;
+            }
+
+            //Update the content and position of the popup.
+            popup.setOptions({
+                content: '<div style="padding:10px;">' + content + '</div>',
+                position: marker.getOptions().position
+            });
+
+            //Open the popup.
+            popup.open(map);
+        }
+
+        function hidePopup() {
+            popup.close();
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>HTML Marker Layer</legend>
+        This sample provides a layer which renders point data from a data source as HTML markers on the map. 
+        Note that the more DOM elements that exist on a page, the slower it becomes. 
+        As such, rendering upwards of 1,000 HTML markers on the map can cause performance issues. 
+        Enable clustering on the data source to support larger data sets.
+    </fieldset>
+</body>
+</html>
