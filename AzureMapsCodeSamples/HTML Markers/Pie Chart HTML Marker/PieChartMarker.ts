@@ -278,8 +278,8 @@ class PieChartMarker extends atlas.HtmlMarker {
                 'style="fill:', fillColor,
                 ';stroke:', this.chartOptions.strokeColor,
                 ';stroke-width:', this.chartOptions.strokeThickness,
-                'px;" onmousemove="PieChartMarker.__showTooltip(\'', this.tooltip.id, '\', evt, \'', tooltip,
-                '\');" onmouseout="PieChartMarker.__hideTooltip(\'', this.tooltip.id, '\');" /> '];
+                'px;" onmousemove="PieChartMarker.__showTooltip(evt, \'', tooltip,
+                '\');" onmouseout="PieChartMarker.__hideTooltip();" /> '];
 
             return path.join('');
         } else {
@@ -299,8 +299,8 @@ class PieChartMarker extends atlas.HtmlMarker {
                 ' Z" style="fill:', fillColor,
                 ';stroke:', this.chartOptions.strokeColor,
                 ';stroke-width:', this.chartOptions.strokeThickness,
-                'px;" onmousemove="PieChartMarker.__showTooltip(\'', this.tooltip.id, '\', evt, \'', tooltip,
-                '\');" onmouseout="PieChartMarker.__hideTooltip(\'', this.tooltip.id, '\');" /> '];
+                'px;" onmousemove="PieChartMarker.__showTooltip(evt, \'', tooltip,
+                '\');" onmouseout="PieChartMarker.__hideTooltip();" /> '];
 
             return path.join('');
         }
@@ -330,19 +330,30 @@ class PieChartMarker extends atlas.HtmlMarker {
     /********************
      * Static Methods
      ********************/
+    private static __timeoutHandler: number = 0;
 
-    public static __showTooltip(id: string, evt: MouseEvent, text: string): void {
+    public static __showTooltip(evt: MouseEvent, text: string): void {
         if (text) {
-            var tooltip = document.getElementById(id);
+            if (PieChartMarker.__timeoutHandler !== 0) {
+                clearTimeout(PieChartMarker.__timeoutHandler);
+                PieChartMarker.__timeoutHandler = 0;
+            }
+
+            var tooltip = document.getElementById('pieChartTooltip');
             tooltip.innerHTML = text;
             tooltip.style.display = 'block';
             tooltip.style.left = evt.pageX + 10 + 'px';
             tooltip.style.top = evt.pageY + 10 + 'px';
+
+            PieChartMarker.__timeoutHandler = setTimeout(() => {
+                PieChartMarker.__hideTooltip();
+            }, 5000);
         }
     }
 
-    public static __hideTooltip(id: string): void {
-        var tooltip = document.getElementById(id);
+    public static __hideTooltip(): void {
+        var tooltip = document.getElementById('pieChartTooltip');
         tooltip.style.display = 'none';
+        PieChartMarker.__timeoutHandler = 0;
     }
 }

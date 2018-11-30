@@ -100,7 +100,7 @@
             if (e.shapes && e.shapes.length > 0&& e.shapes[0].getType() === 'Point') {
                 var properties = e.shapes[0].getProperties();
 
-                popup.setPopupOptions({
+                popup.setOptions({
                     //Update the content of the popup.
                     content: popupTemplate.replace('{title}', properties.title).replace('{description}', properties.desc),
 

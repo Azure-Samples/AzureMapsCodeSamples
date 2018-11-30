@@ -218,8 +218,8 @@ var PieChartMarker = /** @class */ (function (_super) {
                 'style="fill:', fillColor,
                 ';stroke:', this.chartOptions.strokeColor,
                 ';stroke-width:', this.chartOptions.strokeThickness,
-                'px;" onmousemove="PieChartMarker.__showTooltip(\'', this.tooltip.id, '\', evt, \'', tooltip,
-                '\');" onmouseout="PieChartMarker.__hideTooltip(\'', this.tooltip.id, '\');" /> '
+                'px;" onmousemove="PieChartMarker.__showTooltip(evt, \'', tooltip,
+                '\');" onmouseout="PieChartMarker.__hideTooltip();" /> '
             ];
             return path.join('');
         }
@@ -238,8 +238,8 @@ var PieChartMarker = /** @class */ (function (_super) {
                 ' Z" style="fill:', fillColor,
                 ';stroke:', this.chartOptions.strokeColor,
                 ';stroke-width:', this.chartOptions.strokeThickness,
-                'px;" onmousemove="PieChartMarker.__showTooltip(\'', this.tooltip.id, '\', evt, \'', tooltip,
-                '\');" onmouseout="PieChartMarker.__hideTooltip(\'', this.tooltip.id, '\');" /> '
+                'px;" onmousemove="PieChartMarker.__showTooltip(evt, \'', tooltip,
+                '\');" onmouseout="PieChartMarker.__hideTooltip();" /> '
             ];
             return path.join('');
         }
@@ -267,22 +267,31 @@ var PieChartMarker = /** @class */ (function (_super) {
             document.body.appendChild(cssClass);
         }
     };
-    /********************
-     * Static Methods
-     ********************/
-    PieChartMarker.__showTooltip = function (id, evt, text) {
+    PieChartMarker.__showTooltip = function (evt, text) {
         if (text) {
-            var tooltip = document.getElementById(id);
+            if (PieChartMarker.__timeoutHandler !== 0) {
+                clearTimeout(PieChartMarker.__timeoutHandler);
+                PieChartMarker.__timeoutHandler = 0;
+            }
+            var tooltip = document.getElementById('pieChartTooltip');
             tooltip.innerHTML = text;
             tooltip.style.display = 'block';
             tooltip.style.left = evt.pageX + 10 + 'px';
             tooltip.style.top = evt.pageY + 10 + 'px';
+            PieChartMarker.__timeoutHandler = setTimeout(function () {
+                PieChartMarker.__hideTooltip();
+            }, 5000);
         }
     };
-    PieChartMarker.__hideTooltip = function (id) {
-        var tooltip = document.getElementById(id);
+    PieChartMarker.__hideTooltip = function () {
+        var tooltip = document.getElementById('pieChartTooltip');
         tooltip.style.display = 'none';
+        PieChartMarker.__timeoutHandler = 0;
     };
+    /********************
+     * Static Methods
+     ********************/
+    PieChartMarker.__timeoutHandler = 0;
     return PieChartMarker;
 }(atlas.HtmlMarker));
 //# sourceMappingURL=PieChartMarker.js.map

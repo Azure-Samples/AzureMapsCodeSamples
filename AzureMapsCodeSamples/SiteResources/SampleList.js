@@ -105,6 +105,15 @@ var sampleList = [
 			keywords:'maps, map, api, sdk, gis, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery',
 			created:'9/7/2018'
 		},
+		{
+			title:'Create a Fullscreen Control',
+			desc:'This sample shows how to create a custom fullscreen control that can be added to the map. In this case a control for toggling the map between its specified size in the page and fullscreen mode.',
+			path:'Controls/Create%20a%20Fullscreen%20Control/Create%20a%20Fullscreen%20Control.html',
+			sourcePath:'Controls/Create%20a%20Fullscreen%20Control',
+			screenshot:'Create-a-Fullscreen-Control.png',
+			keywords:'maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
+			created:'11/30/2018'
+		},
 	]
 },
 {
@@ -931,4 +940,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 89;
+}];var numberOfSamples = 90;

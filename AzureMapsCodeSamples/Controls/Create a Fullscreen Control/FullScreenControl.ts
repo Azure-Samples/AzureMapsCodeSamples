@@ -91,7 +91,7 @@ class FullscreenControl implements atlas.Control {
      * @param options Options for defining how the control is rendered and functions.
      */
     constructor(options?: FullscreenControlOptions) {
-        this._options = { ...this._options, ...options };
+        this._options = { ...this._options, ...options }; 
     }
 
     /****************************
@@ -301,18 +301,18 @@ class FullscreenControl implements atlas.Control {
 
         //TODO: Add translations.
         switch (lang) {
-            case 'fr':
-                return {
-                    exit: 'Plein écran',
-                    view: 'Plein écran',
-                    title: 'Plein écran'
-                };
-            case 'de':
-                return {
-                    exit: 'Vollbild',
-                    view: 'Vollbild',
-                    title: 'Vollbild'
-                };
+            //case 'fr':
+            //    return {
+            //        exit: 'Plein écran',
+            //        view: 'Plein écran',
+            //        title: 'Plein écran'
+            //    };
+            //case 'de':
+            //    return {
+            //        exit: 'Vollbild',
+            //        view: 'Vollbild',
+            //        title: 'Vollbild'
+            //    };
             case 'en':
             default:
                 return {

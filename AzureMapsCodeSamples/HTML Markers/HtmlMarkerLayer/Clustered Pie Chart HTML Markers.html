@@ -21,7 +21,6 @@
     <script src="../Pie Chart HTML Marker/PieChartMarker.js"></script>
 
     <script type='text/javascript'>
-        //TODO: Remove out of experimental once aggregates are supported in the clustering functionality. That will significantly improve performance as no need to getLeaves and manually aggregate
         var map, datasource, markerLayer, popup;
 
         //GeoJSON feed that contains the data we want to map.
@@ -46,8 +45,7 @@
             map.events.add('load', function (e) {
                 //Create a reusable popup.
                 popup = new atlas.Popup({
-                    pixelOffset: [0, -20],
-                    closeButton: false
+                    pixelOffset: [0, -20]
                 });
 
                 //Create a data source and add it to the map.
@@ -66,8 +64,6 @@
                         }); 
 
                         addEvent('click', marker, markerClicked);
-                        addEvent('mouseenter', marker, markerHovered);
-                        addEvent('mouseleave', marker, hidePopup);
 
                         return marker;
                     },
@@ -111,8 +107,6 @@
                         });
                                             
                         addEvent('click', cluster, markerClicked);
-                        addEvent('mouseenter', cluster, markerHovered);
-                        addEvent('mouseleave', cluster, hidePopup);
 
                         return cluster;
                     }
@@ -137,6 +131,8 @@
                         .replace(/{text}/g, options.text || "");
                     marker.setOptions({ htmlContent: elm });
                 }
+
+                elm.style.cursor = 'pointer';
 
                 elm['on' + eventType] = function () {
                     handler(eventType, marker);
@@ -171,21 +167,15 @@
                     position: marker.getOptions().position
                 });
 
-                popup.open();
+                popup.open(map);
             }
-        }
-        
-        function markerHovered(eventType, marker) {
-            map.getCanvas().style.cursor = 'pointer';
-        }
-
-        function hidePopup() {
-            map.getCanvas().style.cursor = '';
         }
 
         function tooltipCallback(marker, sliceIdx) {
             return entityTypes[sliceIdx] + '<br/>' + marker.getSliceValue(sliceIdx) + ' (' + marker.getSlicePercentage(sliceIdx) + '%)';
         }
+
+        //TODO: Update sample when aggregates are supported in the clustering functionality. That will significantly improve performance as no need to getLeaves and manually aggregate
     </script>
     <style>
         .popup-title {

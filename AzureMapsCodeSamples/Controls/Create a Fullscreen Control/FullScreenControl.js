@@ -235,18 +235,18 @@ var FullscreenControl = /** @class */ (function () {
         }
         //TODO: Add translations.
         switch (lang) {
-            case 'fr':
-                return {
-                    exit: 'Plein écran',
-                    view: 'Plein écran',
-                    title: 'Plein écran'
-                };
-            case 'de':
-                return {
-                    exit: 'Vollbild',
-                    view: 'Vollbild',
-                    title: 'Vollbild'
-                };
+            //case 'fr':
+            //    return {
+            //        exit: 'Plein écran',
+            //        view: 'Plein écran',
+            //        title: 'Plein écran'
+            //    };
+            //case 'de':
+            //    return {
+            //        exit: 'Vollbild',
+            //        view: 'Vollbild',
+            //        title: 'Vollbild'
+            //    };
             case 'en':
             default:
                 return {
