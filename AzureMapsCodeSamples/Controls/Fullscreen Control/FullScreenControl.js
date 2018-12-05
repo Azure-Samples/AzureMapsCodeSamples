@@ -86,6 +86,7 @@ var FullscreenControl = /** @class */ (function () {
             //Add css for fullscreen.
             var css = this._fullscreenCss.replace(/{elm}/g, '#' + mapContainer.id)
                 .replace(/{color}/g, color);
+            //Add the CSS style for the control to the DOM.
             var style = document.createElement('style');
             style.innerHTML = css;
             document.body.appendChild(style);

@@ -79,6 +79,8 @@
     <Content Include="Common\images\pushpins\sun-icon.png" />
     <Content Include="Common\images\pushpins\ylw-pushpin.png" />
     <Content Include="Common\scripts\clipboard.min.js" />
+    <Content Include="Controls\Simple Scale Bar Control\Simple Scale Bar Control.html" />
+    <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon and Select Data.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon.html" />
@@ -90,10 +92,10 @@
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Experimental\Animated Tile Layers\Animated Tile Layer.html" />
     <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js" />
-    <Content Include="Controls\Create a Fullscreen Control\FullScreenControl.js" />
+    <Content Include="Controls\Fullscreen Control\FullScreenControl.js" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js" />
     <Content Include="HTML Markers\HtmlMarkerLayer\HTML Marker Layer.html" />
-    <Content Include="Controls\Create a Fullscreen Control\Create a Fullscreen Control.html" />
+    <Content Include="Controls\Fullscreen Control\Fullscreen Control.html" />
     <Content Include="Experimental\Solar Terminator Module\Solar Terminator Module.html" />
     <Content Include="Experimental\test\Cardinal Spline Options.html" />
     <Content Include="Experimental\test\Simple Cardinal Spline.html" />
@@ -112,7 +114,7 @@
     <Content Include="REST Services\Calculate a Simple Isochrone.html" />
     <Content Include="SiteResources\screenshots\Adding-Mouse-Events-to-default-HTML-Marker.gif" />
     <Content Include="SiteResources\screenshots\Clustered-Pie-Chart-HTML-Markers.png" />
-    <Content Include="SiteResources\screenshots\Create-a-Fullscreen-Control.png" />
+    <Content Include="SiteResources\screenshots\Fullscreen-Control.png" />
     <Content Include="SiteResources\screenshots\Filter-Points-by-Property.png" />
     <Content Include="SiteResources\screenshots\Filter-Symbols-by-Property.png" />
     <Content Include="SiteResources\screenshots\Heat-Map-Layer-Options.png" />
@@ -129,6 +131,7 @@
     <Content Include="SiteResources\screenshots\Simple-Heat-Map-Layer.png" />
     <Content Include="SiteResources\screenshots\Simple-HTML-Marker.png" />
     <Content Include="SiteResources\screenshots\Simple-Image-Layer.png" />
+    <Content Include="SiteResources\screenshots\Simple-Scale-Bar-Control.png" />
     <Content Include="SiteResources\screenshots\truckRoute.png" />
     <Content Include="SiteResources\screenshots\Weighted-Heat-Map-Layer.png" />
     <Content Include="Experimental\test\Concave and Convex Hulls.html" />
@@ -206,8 +209,9 @@
     <Content Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.js.map" />
     <Content Include="HTML Markers\Pie Chart HTML Marker\PieChartMarker.js.map" />
     <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js.map" />
-    <Content Include="Controls\Create a Fullscreen Control\FullScreenControl.js.map" />
+    <Content Include="Controls\Fullscreen Control\FullScreenControl.js.map" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js.map" />
+    <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -324,13 +328,13 @@
   <ItemGroup>
     <Folder Include="Common\images\routing\" />
     <Folder Include="Common\scripts\cesium\" />
-    <Folder Include="Controls\Custom Scale Bar\" />
     <Folder Include="Experimental\Map Image Generator\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
+    <TypeScriptCompile Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Experimental\Animated Tile Layers\AnimatedTileLayer.ts" />
-    <TypeScriptCompile Include="Controls\Create a Fullscreen Control\FullScreenControl.ts" />
+    <TypeScriptCompile Include="Controls\Fullscreen Control\FullScreenControl.ts" />
     <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />
     <TypeScriptCompile Include="Experimental\Solar Terminator Module\SolarTerminatorModule.ts" />
     <TypeScriptCompile Include="HTML Markers\Pie Chart HTML Marker\PieChartMarker.ts" />

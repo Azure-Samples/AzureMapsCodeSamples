@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Scale Bar Control - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a custom scale bar control that can be added to the map." />
+    <meta name="keywords" content="maps, map, API, SDK, GIS, custom, control, custom control, scale bar, scalebar" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Load in the JavaScript that has our custom control. -->
+    <script src="SimpleScaleBarControl.js"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map("myMap");
+
+            map.events.add('load', function () {
+
+                //Add controls to the map.
+                map.controls.add([
+                    //Add a imperial scale bar to the map.
+                    new SimpleScaleBarControl({
+                        units: 'imperial'
+                    }),
+
+                    //Add a metric scale bar to the map.
+                    new SimpleScaleBarControl({
+                        units: 'metric'
+                    })], {
+                        position: 'bottom-left'
+                    });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Simple Scale Bar Control</legend>
+        This sample shows how to create a custom simple scale bar control that can be added to the map. This sample is loading two scale bars, one with units set to imperial and the other to metric.
+        <br /><br />
+        This control has two options;
+        <ul>
+            <li>
+                units - The distance units of the scale bar. Supported values: imperial, metric, meters, kilometers, yards, feet, miles, nauticalMiles. 
+                If set to imperial or metric, the values will change between mi/ft and km/m depending on zoom level. Default: imperial
+            </li>
+            <li>
+                maxBarLength - The maximum length of the scale bar in pixels. Default: 100
+            </li>
+        </ul>
+    </fieldset>
+</body>
+</html>
