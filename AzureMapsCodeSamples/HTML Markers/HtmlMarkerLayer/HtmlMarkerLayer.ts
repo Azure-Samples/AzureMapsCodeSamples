@@ -76,6 +76,7 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
     
     private _sourceOptions: string;
     private _sourceShapeCount: number = 0;
+    private _datasourceCache: string = null;
 
     private _optionsChanged: boolean = false;
 
@@ -121,16 +122,19 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
         if (options.source && this._options.source !== options.source) {
             this._options.source = options.source
             newBaseOptions.source = options.source;
+            this.clearCache();
         }
 
         if (options.sourceLayer && this._options.sourceLayer !== options.sourceLayer) {
             this._options.sourceLayer = options.sourceLayer
             newBaseOptions.sourceLayer = options.sourceLayer;
+            this.clearCache();
         }
 
         if (options.filter && this._options.filter !== options.filter) {
             this._options.filter = options.filter
             newBaseOptions.filter = options.filter;
+            this.clearCache();
         }
 
         if (typeof options.minZoom === 'number' && this._options.minZoom !== options.minZoom) {
@@ -150,10 +154,12 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
 
         if (options.markerRenderCallback && this._options.markerRenderCallback != options.markerRenderCallback) {
             this._options.markerRenderCallback = options.markerRenderCallback;
+            this.clearCache();
         }
 
         if (options.clusterRenderCallback && this._options.clusterRenderCallback != options.clusterRenderCallback) {
             this._options.clusterRenderCallback = options.clusterRenderCallback;
+            this.clearCache();
         }
 
         this._optionsChanged = true;
@@ -176,6 +182,7 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
         super['_setMap'](map);
     }
 
+    //TODO: Update this when data source supports updated events.
     private checkLayerForChanges() {
         if (this._map) {
 
@@ -186,28 +193,50 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
                 s = this._map.sources.getById(<string>s);
             }
 
-            var cnt = 0;
             var opt: string = null;
+            var datasourceChanged = false;
 
             if (s instanceof atlas.source.DataSource) {
                 opt = JSON.stringify((<atlas.source.DataSource>s).getOptions());
-                cnt = (<atlas.source.DataSource>s).getShapes().length;
+
+                if (this._sourceShapeCount !== s['shapes'].length) {
+                    this._sourceShapeCount = s['shapes'].length;
+                    datasourceChanged = true;
+                } else {
+                    var d = JSON.stringify(s.toJson());
+
+                    if (d !== this._datasourceCache) {
+                        this._datasourceCache = d;
+                        datasourceChanged = true;
+                    }
+                }
             } else if (s instanceof atlas.source.VectorTileSource) {
                 opt = JSON.stringify((<atlas.source.VectorTileSource>s).getOptions());
             }
 
             //Check to see if any changes have occured to the data source.
-            if (this._optionsChanged || cnt !== this._sourceShapeCount || opt != this._sourceOptions) {
-                this._sourceShapeCount = cnt;
+            if (datasourceChanged || opt != this._sourceOptions) {
                 this._sourceOptions = opt;
-                this._markerCache = {}; //Clear marker cache.
-                this.updateMarkers();
+                this.clearCache();
             }
+
+            this.updateMarkers();
         }
     }
 
+    private clearCache() {
+        //Give data source a moment to update.
+        setTimeout(() => {
+            this._markerCache = {}; //Clear marker cache.  
+            this._map.markers.remove(this._markers);
+            this._markers = [];
+            this._markerIds = [];
+            this.updateMarkers();
+        }, 100);        
+    }
+
     private updateMarkers() {
-        if (this._map) {
+        if (this._map && this._map.getCamera().zoom >= this._options.minZoom && this._map.getCamera().zoom <= this._options.maxZoom) {
             var shapes = this._map.layers.getRenderedShapes(null, [this], this._options.filter);
 
             var newMarkers = [];
@@ -283,7 +312,7 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
             var m: HtmlMarker;
 
             if (properties && properties.cluster) {
-                if (this._options.clusterRenderCallback) {
+                if (this._options.clusterRenderCallback && typeof properties.cluster_id === 'number') {
                     m = this._options.clusterRenderCallback(id, position, properties);
                 }
             } else if (this._options.markerRenderCallback) {

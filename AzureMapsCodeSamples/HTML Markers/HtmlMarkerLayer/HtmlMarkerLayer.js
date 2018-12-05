@@ -47,6 +47,7 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
         _this._markers = [];
         _this._markerIds = [];
         _this._sourceShapeCount = 0;
+        _this._datasourceCache = null;
         _this._optionsChanged = false;
         _this._markerCache = {};
         _this.setOptions(options);
@@ -73,14 +74,17 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
         if (options.source && this._options.source !== options.source) {
             this._options.source = options.source;
             newBaseOptions.source = options.source;
+            this.clearCache();
         }
         if (options.sourceLayer && this._options.sourceLayer !== options.sourceLayer) {
             this._options.sourceLayer = options.sourceLayer;
             newBaseOptions.sourceLayer = options.sourceLayer;
+            this.clearCache();
         }
         if (options.filter && this._options.filter !== options.filter) {
             this._options.filter = options.filter;
             newBaseOptions.filter = options.filter;
+            this.clearCache();
         }
         if (typeof options.minZoom === 'number' && this._options.minZoom !== options.minZoom) {
             this._options.minZoom = options.minZoom;
@@ -96,9 +100,11 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
         }
         if (options.markerRenderCallback && this._options.markerRenderCallback != options.markerRenderCallback) {
             this._options.markerRenderCallback = options.markerRenderCallback;
+            this.clearCache();
         }
         if (options.clusterRenderCallback && this._options.clusterRenderCallback != options.clusterRenderCallback) {
             this._options.clusterRenderCallback = options.clusterRenderCallback;
+            this.clearCache();
         }
         this._optionsChanged = true;
         _super.prototype.setOptions.call(this, newBaseOptions);
@@ -116,32 +122,53 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
         //Call the underlying functionaly for this.
         _super.prototype['_setMap'].call(this, map);
     };
+    //TODO: Update this when data source supports updated events.
     HtmlMarkerLayer.prototype.checkLayerForChanges = function () {
         if (this._map) {
             var s = this.getSource();
             if (typeof s === 'string') {
                 s = this._map.sources.getById(s);
             }
-            var cnt = 0;
             var opt = null;
+            var datasourceChanged = false;
             if (s instanceof atlas.source.DataSource) {
                 opt = JSON.stringify(s.getOptions());
-                cnt = s.getShapes().length;
+                if (this._sourceShapeCount !== s['shapes'].length) {
+                    this._sourceShapeCount = s['shapes'].length;
+                    datasourceChanged = true;
+                }
+                else {
+                    var d = JSON.stringify(s.toJson());
+                    if (d !== this._datasourceCache) {
+                        this._datasourceCache = d;
+                        datasourceChanged = true;
+                    }
+                }
             }
             else if (s instanceof atlas.source.VectorTileSource) {
                 opt = JSON.stringify(s.getOptions());
             }
             //Check to see if any changes have occured to the data source.
-            if (this._optionsChanged || cnt !== this._sourceShapeCount || opt != this._sourceOptions) {
-                this._sourceShapeCount = cnt;
+            if (datasourceChanged || opt != this._sourceOptions) {
                 this._sourceOptions = opt;
-                this._markerCache = {}; //Clear marker cache.
-                this.updateMarkers();
+                this.clearCache();
             }
+            this.updateMarkers();
         }
     };
+    HtmlMarkerLayer.prototype.clearCache = function () {
+        var _this = this;
+        //Give data source a moment to update.
+        setTimeout(function () {
+            _this._markerCache = {}; //Clear marker cache.  
+            _this._map.markers.remove(_this._markers);
+            _this._markers = [];
+            _this._markerIds = [];
+            _this.updateMarkers();
+        }, 100);
+    };
     HtmlMarkerLayer.prototype.updateMarkers = function () {
-        if (this._map) {
+        if (this._map && this._map.getCamera().zoom >= this._options.minZoom && this._map.getCamera().zoom <= this._options.maxZoom) {
             var shapes = this._map.layers.getRenderedShapes(null, [this], this._options.filter);
             var newMarkers = [];
             var newMarkerIds = [];
@@ -206,7 +233,7 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
         else {
             var m;
             if (properties && properties.cluster) {
-                if (this._options.clusterRenderCallback) {
+                if (this._options.clusterRenderCallback && typeof properties.cluster_id === 'number') {
                     m = this._options.clusterRenderCallback(id, position, properties);
                 }
             }

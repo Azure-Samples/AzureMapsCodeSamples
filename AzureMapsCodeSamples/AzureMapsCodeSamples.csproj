@@ -324,6 +324,7 @@
   <ItemGroup>
     <Folder Include="Common\images\routing\" />
     <Folder Include="Common\scripts\cesium\" />
+    <Folder Include="Controls\Custom Scale Bar\" />
     <Folder Include="Experimental\Map Image Generator\" />
   </ItemGroup>
   <ItemGroup>

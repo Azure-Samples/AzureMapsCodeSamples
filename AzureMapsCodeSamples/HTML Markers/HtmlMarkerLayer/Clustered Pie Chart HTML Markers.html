@@ -61,7 +61,7 @@
                         var marker = new atlas.HtmlMarker({
                             position: position,
                             color: 'DodgerBlue'
-                        }); 
+                        });
 
                         addEvent('click', marker, markerClicked);
 
@@ -91,7 +91,6 @@
                         }, tooltipCallback);
 
                         //Count for each EntityType in cluster [Gas Station, Grocery Store, Restaurant, School]
-
                         //Get all the child point objects of a cluster then aggregage the count of each EntityType in the cluster.
                         datasource.getClusterLeaves(properties.cluster_id).then(function (children) {
                             var values = [0, 0, 0, 0];
@@ -104,8 +103,8 @@
                                 values: values,
                                 visible: true
                             });
-                        });
-                                            
+                        });        
+                        
                         addEvent('click', cluster, markerClicked);
 
                         return cluster;
@@ -175,6 +174,26 @@
             return entityTypes[sliceIdx] + '<br/>' + marker.getSliceValue(sliceIdx) + ' (' + marker.getSlicePercentage(sliceIdx) + '%)';
         }
 
+        function UpdateData(){
+            var data = [];
+            for (var i = 0; i < 16000; i++) {
+                data.push(new atlas.data.Feature(new atlas.data.Point([
+                    Math.random() * 50 - 120,
+                    Math.random() * 30 + 25
+                ]), {
+                        EntityType: entityTypes[i % 4],
+                        Name: 'A place',
+                        Address: '1234 main st',
+                        City: 'My City',
+                        State: 'My State',
+                        ZipCode: '90210',
+                        Country: 'USA'
+                    }));
+            }
+
+            datasource.setShapes(data);
+        }
+
         //TODO: Update sample when aggregates are supported in the clustering functionality. That will significantly improve performance as no need to getLeaves and manually aggregate
     </script>
     <style>
@@ -225,6 +244,8 @@
             </tr>
         </table>
     </div>
+
+    <input type="button" value="Update Data Source" onclick="UpdateData()"/>
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Clustered Pie Chart HTML Markers</legend>

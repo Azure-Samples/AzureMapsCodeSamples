@@ -28,15 +28,15 @@
             map = new atlas.Map("myMap");
 
             map.events.add('load', function () {               
-                //Optional. Add the map style control so we can see how the custom control reacts.
-                map.controls.add(new atlas.control.StyleControl(), {
-                    position: 'top-right'
-                });
+                    //Optional. Add the map style control so we can see how the custom control reacts.
+                map.controls.add([
+                    new atlas.control.StyleControl(),
 
-                //Add the custom control to the map.
-                map.controls.add(new FullscreenControl({
-                    style: 'auto'
-                }), {
+                    //Add the custom control to the map.
+                    new FullscreenControl({
+                        style: 'auto'
+                    })
+                ], {
                     position: 'top-right'
                 });
             });
