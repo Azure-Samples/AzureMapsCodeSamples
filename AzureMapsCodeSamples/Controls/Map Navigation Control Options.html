@@ -34,6 +34,7 @@
         function addControls() {
             //Remove all controls on the map.
             map.controls.remove(controls);
+            controls = [];
 
             //Get input options.
             var positionOption = getSelectValue('controlPosition');
@@ -63,7 +64,9 @@
             }));
             
             //Add controls to the map.
-            map.controls.add(controls);
+            map.controls.add(controls, {
+                position: positionOption
+            });
         }
 
         function getSelectValue(id) {

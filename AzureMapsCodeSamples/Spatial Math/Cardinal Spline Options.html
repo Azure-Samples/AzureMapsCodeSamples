@@ -15,14 +15,14 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
     <script type='text/javascript'>
-        var map, datasource, spline, straightLine;
+        var map, datasource, spline, straightLine, tension = 0.5, nodeSize = 30, close = false;
 
         //Sample points.
         var positions = [
-            [0, 0],
-            [0, 0],
-            [0, 0],
-            [0, 0]
+            [-122.102663, 47.644390],
+            [-122.087213, 47.628544],
+            [-122.109186, 47.608526],
+            [-122.111589, 47.580163]
         ];
         
         function GetMap() {
@@ -31,7 +31,7 @@
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-122.33, 47.64],
+                center: [-122.103521, 47.612808],
                 zoom: 12
             });
 
@@ -57,7 +57,7 @@
                     width: 2
                 });
 
-                spline = new atlas.Shape(new atlas.data.LineString(atlas.math.getCardinalSpline(positions, 0.5, 30, false)), null, {
+                spline = new atlas.Shape(new atlas.data.LineString(atlas.math.getCardinalSpline(positions, tension, nodeSize, close)), null, {
                     color: 'blue',
                     width: 3
                 });
@@ -66,34 +66,32 @@
                 datasource.add([straightLine, spline]);
 
                 //Create a draggable HTML marker for each position. 
-                //TODO: check to see if symbol layer supports dragging.
                 for (var i = 0; i < positions.length; i++) {
                     var marker = new atlas.HtmlMarker({
                         draggable: true,
-                        position: positions[i],
-
+                        position: positions[i]
                     });
 
-                    //Store the position index in the marker metadata so that we can easily update the cardinal spline as the marker is dragged.
-                    marker.metadata = {
+                    //Store the position index in the marker properties so that we can easily update the cardinal spline as the marker is dragged.
+                    marker.properties = {
                         index: i
                     };
 
                     //Add the marker to the map.
-                    map.marker.add(marker);
+                    map.markers.add(marker);
 
                     //Create a drag event for the marker.
-                    map.events.add(marker, 'drag', markerDragged);
+                    map.events.add('drag', marker, markerDragged);
                 }
             });
         }
 
-        function markerDragged(marker) {
+        function markerDragged(e) {
             //Update the position the marker represents.
-            position[marker.metadata.index] = marker.getOptions.position;
+            positions[e.target.properties.index] = e.target.getOptions().position;
 
             //Calculate the cardinal spline coordinates and update the spline.
-            spline.setCoordinates(atlas.math.getCardinalSpline(positions, 0, 10, false));           
+            spline.setCoordinates(atlas.math.getCardinalSpline(positions, tension, nodeSize, close));           
 
             //Update the lines with the new positions.
             straightLine.setCoordinates(positions);            
@@ -101,12 +99,9 @@
 
         function calculateSpline() {
             //Get the spline options.
-            var tension = parseFloat(document.getElementById("tensionSlider").value);
-            var nodeSize = parseInt(document.getElementById("nodeSizeSlider").value);
-            var close = document.getElementById("closeChbx").checked;
-
-            document.getElementById("tensionVal").innerHTML = tension;
-            document.getElementById("nodeSizeVal").innerHTML = nodeSize;
+            tension = parseFloat(document.getElementById("tensionSlider").value);
+            nodeSize = parseInt(document.getElementById("nodeSizeSlider").value);
+            close = document.getElementById("closeChbx").checked;
 
             //Calculate positions for the new cardinal spline options and update the spline coordinates.
             spline.setCoordinates(atlas.math.getCardinalSpline(positions, tension, nodeSize, close));
@@ -131,7 +126,7 @@
                 <td>Node Size:</td>
                 <td>
                     <form oninput="nodeSize.value=nodeSizeSlider.value">
-                        <input type="range" id="nodeSizeSlider" value="30" min="2" max="50" step="1" oninput="calculateSpline()" onchange="calculateSpline()" />
+                        <input type="range" id="nodeSizeSlider" value="30" min="2" max="100" step="1" oninput="calculateSpline()" onchange="calculateSpline()" />
                         <output name="nodeSize" for="nodeSizeSlider">30</output>
                     </form>
                 </td>
@@ -147,7 +142,8 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Cardinal Spline Options</legend>
-        This sample provides a set of controls to test the various features of the Cardinal Spline calculation.
+        This sample provides a set of controls to test the various features of the Cardinal Spline calculation. 
+        The red line shows the straight line path between the sample points, and the blue line shows the cardinal spline between the same set of points.
         Drag the markers, change the tension and node size using the sliders, or make the cardinal spline a closed shape.
     </fieldset>
 </body>

@@ -84,9 +84,8 @@
             document.getElementById('DayInfo').innerText = d.getDate();
             document.getElementById('HourInfo').innerText = d.getHours();
 
-            //Update terminator and sun location pushpin.
+            //Update terminator.
             terminator.setDateTime(d);
-            sunPin.setCoordinates(terminator.getSunLocation());
         }
     </script>
     <style>

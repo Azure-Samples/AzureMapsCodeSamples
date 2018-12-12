@@ -25,7 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,7 +97,9 @@
     <Content Include="HTML Markers\HtmlMarkerLayer\HTML Marker Layer.html" />
     <Content Include="Controls\Fullscreen Control\Fullscreen Control.html" />
     <Content Include="Experimental\Solar Terminator Module\Solar Terminator Module.html" />
-    <Content Include="Experimental\test\Cardinal Spline Options.html" />
+    <Content Include="SiteResources\screenshots\WMS-Tile-Layer.png" />
+    <Content Include="SiteResources\screenshots\WMTS-Tile-Layer.png" />
+    <Content Include="Spatial Math\Cardinal Spline Options.html" />
     <Content Include="Experimental\test\Simple Cardinal Spline.html" />
     <Content Include="Heat Map Layer\Simple Heat Map Layer.html" />
     <Content Include="Heat Map Layer\Weighted Heat Map Layer.html" />
@@ -146,6 +148,8 @@
     <Content Include="HTML Markers\Simple HTML Marker.html" />
     <Content Include="HTML Markers\HTML Marker with Custom SVG Template.html" />
     <Content Include="Third Party Map Controls\Satellite Imagery in OpenLayers.html" />
+    <Content Include="Tile Layers\WMS Tile Layer.html" />
+    <Content Include="Tile Layers\WMTS Tile Layer.html" />
     <Content Include="Tutorials\interactiveSearch.html" />
     <Content Include="Tutorials\route.html" />
     <Content Include="Tutorials\search.html" />

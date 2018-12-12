@@ -38,10 +38,10 @@
                 map.layers.add(new atlas.layer.HeatMapLayer(datasource, null, {
                     weight: [
                         'interpolate',
-                        ['linear'],
+                        ['exponential', 2], //Using an exponential interpolation since earthquake magnitudes are on an exponential scale.
                         ['get', 'mag'],
                         0, 0,
-                        6, 1
+                        6, 1    //Any earthquake above a magnitude of 6 will have a weight of 1
                     ],
                     radius: [
                         'interpolate',

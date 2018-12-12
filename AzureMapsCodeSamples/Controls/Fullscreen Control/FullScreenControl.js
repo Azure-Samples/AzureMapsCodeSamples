@@ -21,13 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 */
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 /// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
 /**
@@ -103,14 +106,14 @@ var FullscreenControl = /** @class */ (function () {
             this._button.setAttribute('alt', this._resource.view);
             this._button.addEventListener('click', function () {
                 if (_this.isFullscreen()) {
-                    var closeFullScreenFn = document.webkitCancelFullScreen
+                    var closeFullScreenFn = document['webkitCancelFullScreen']
                         || document['cancelFullScreen']
                         || document['mozCancelFullScreen']
                         || document['msExitFullscreen'];
                     closeFullScreenFn.call(document);
                 }
                 else {
-                    var openFullScreenFn = mapContainer.webkitRequestFullScreen
+                    var openFullScreenFn = mapContainer['webkitRequestFullScreen']
                         || mapContainer['requestFullScreen']
                         || mapContainer['mozRequestFullScreen']
                         || mapContainer['msRequestFullscreen'];
@@ -155,19 +158,19 @@ var FullscreenControl = /** @class */ (function () {
      * Determines if the map is in full screen mode or not.
      */
     FullscreenControl.prototype.isFullscreen = function () {
-        return !(!document.fullscreenElement &&
+        return !(!document['fullscreenElement'] &&
             !document['msFullscreenElement'] &&
             !document['mozFullScreenElement'] &&
-            !document.webkitFullscreenElement);
+            !document['webkitFullscreenElement']);
     };
     /**
      * Determines if fullscreen can be requested of not.
      */
     FullscreenControl.isSupported = function () {
-        return document.fullscreenEnabled ||
+        return document['fullscreenEnabled'] ||
             document['msFullscreenEnabled'] ||
             document['mozFullScreenEnabled'] ||
-            document.webkitFullscreenEnabled;
+            document['webkitFullscreenEnabled'];
     };
     /****************************
      * Private Methods

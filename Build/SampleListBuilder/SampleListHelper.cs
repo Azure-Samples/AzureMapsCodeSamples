@@ -66,6 +66,11 @@ namespace SampleListBuilder
                     {
                         Title = "Angular Azure Maps",
                         Href = "https://github.com/Acaisoft/angular-azure-maps"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "Angular Azure Map Wrapper",
+                        Href = "https://github.com/srednicki95/am_samples"
                     }
                 }
             },
@@ -78,7 +83,17 @@ namespace SampleListBuilder
                     {
                         Title = "Azure Maps .NET UWP IoT Remote Control",
                         Href = "https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control"
-                    }
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "AirMap Azure Maps plugin",
+                        Href = "https://github.com/airmap/js-azure-maps-plugin"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps Bus Demo",
+                        Href = "https://github.com/DibranMulder/Azure-Maps-Bus-Demo"
+                    },
                  }
             },
             new ExternalSampleCategory()
@@ -92,7 +107,19 @@ namespace SampleListBuilder
                         Href = "http://patrickgoode.com/using-azure-maps-with-a-xamarin-forms-app",
                     }
                 }
-            }            
+            }    ,
+            new ExternalSampleCategory()
+            {
+                Title = "Other",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps Python Sample",
+                        Href = "https://github.com/eavanvalkenburg/azuremaps-python-sample"
+                    }
+                }
+            }
         };
     }
 }

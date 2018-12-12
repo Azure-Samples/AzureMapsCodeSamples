@@ -670,6 +670,15 @@ var sampleList = [
 	desc:'Learn how to use the spatial math library that is built into the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Cardinal Spline Options',
+			desc:'This sample provides a set of controls to test the various features of the Cardinal Spline calculation.',
+			path:'Spatial%20Math/Cardinal%20Spline%20Options.html',
+			sourcePath:'Spatial%20Math/Cardinal%20Spline%20Options.html',
+			screenshot:'',
+			keywords:'map, gis, api, sdk, ',
+			created:'12/10/2018'
+		},
+		{
 			title:'Introduction to Spatial Math',
 			desc:'This sample shows how to use many of the built in spatial math functions in the Azure Maps web control.',
 			path:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
@@ -873,6 +882,24 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, tiles, layer, weather',
 			created:'11/28/2018'
 		},
+		{
+			title:'WMS Tile Layer',
+			desc:'This sample shows how to create a tile layer which points to a Web Mapping Service (WMS).',
+			path:'Tile%20Layers/WMS%20Tile%20Layer.html',
+			sourcePath:'Tile%20Layers/WMS%20Tile%20Layer.html',
+			screenshot:'WMS-Tile-Layer.png',
+			keywords:'map, gis, api, sdk, tiles, layer, weather',
+			created:'12/10/2018'
+		},
+		{
+			title:'WMTS Tile Layer',
+			desc:'This sample shows how to create a tile layer which points to a Web Mapping Tile Service (WMTS).',
+			path:'Tile%20Layers/WMTS%20Tile%20Layer.html',
+			sourcePath:'Tile%20Layers/WMTS%20Tile%20Layer.html',
+			screenshot:'WMTS-Tile-Layer.png',
+			keywords:'map, gis, api, sdk, tiles, layer, weather',
+			created:'12/11/2018'
+		},
 	]
 },
 {
@@ -949,4 +976,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 91;
+}];var numberOfSamples = 94;

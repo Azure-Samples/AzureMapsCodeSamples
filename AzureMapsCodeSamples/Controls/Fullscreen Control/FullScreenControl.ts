@@ -150,7 +150,7 @@ class FullscreenControl implements atlas.Control {
             this._button.addEventListener('click', () => {
                 if (this.isFullscreen()) {
                     var closeFullScreenFn =
-                        document.webkitCancelFullScreen
+                        document['webkitCancelFullScreen']
                         || document['cancelFullScreen']
                         || document['mozCancelFullScreen']
                         || document['msExitFullscreen'];
@@ -158,7 +158,7 @@ class FullscreenControl implements atlas.Control {
                     closeFullScreenFn.call(document);
                 } else {
                     var openFullScreenFn =
-                        mapContainer.webkitRequestFullScreen
+                        mapContainer['webkitRequestFullScreen']
                         || mapContainer['requestFullScreen']
                         || mapContainer['mozRequestFullScreen']
                         || mapContainer['msRequestFullscreen'];
@@ -208,20 +208,20 @@ class FullscreenControl implements atlas.Control {
      * Determines if the map is in full screen mode or not.
      */
     public isFullscreen(): boolean {
-        return !(!document.fullscreenElement &&
+        return !(!document['fullscreenElement'] &&
             !document['msFullscreenElement'] &&
             !document['mozFullScreenElement'] &&
-            !document.webkitFullscreenElement);
+            !document['webkitFullscreenElement']);
     }
 
     /**
      * Determines if fullscreen can be requested of not.
      */
     public static isSupported(): boolean {
-        return document.fullscreenEnabled ||
+        return document['fullscreenEnabled'] ||
             document['msFullscreenEnabled'] ||
             document['mozFullScreenEnabled'] ||
-            document.webkitFullscreenEnabled;
+            document['webkitFullscreenEnabled'];
     }
 
     /****************************

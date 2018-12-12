@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>WMS Tile Layer - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a tile layer which points to a Web Mapping Service (WMS)." />
+    <meta name="keywords" content="map, gis, API, SDK, tiles, layer, weather" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-99.47, 40.75],
+                zoom: 4
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a tile layer and add it to the map below the label layer.
+                //Note the bounding box placeholder in the tileUrl and the CRS set to EPSG:3857
+                map.layers.add(new atlas.layer.TileLayer({
+                    tileUrl: 'https://idpgis.ncep.noaa.gov/arcgis/services/NWS_Observations/radar_base_reflectivity/MapServer/WmsServer?REQUEST=GetMap&SERVICE=WMS&VERSION=1.3.0&LAYERS=1&STYLES=default&FORMAT=image/png&TRANSPARENT=TRUE&CRS=EPSG:3857&BBOX={bbox-epsg-3857}&WIDTH=1024&HEIGHT=1024',
+                    opacity: 0.8,
+                    tileSize: 1024,
+                    bounds: atlas.data.BoundingBox.fromEdges(-176.000987, 8.993904, 150.008876, 72.001012)
+                }), 'labels');
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>WMS Tile Layer</legend>
+        This sample shows how to create a tile layer which points to a Web Mapping Service (WMS). 
+        The data in this sample comes from the <a href="http://www.nws.noaa.gov/gis/services.html" target="_blank">NOAA Base Reflective Weather Radar WMS service</a>.
+    </fieldset>
+</body>
+</html>
