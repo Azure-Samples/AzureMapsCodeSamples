@@ -33,3 +33,23 @@
 .sampleCount{
     font-size: 20px;
 }
+
+#scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    right: 10px;
+    z-index: 99;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    padding: 2px 20px;
+    border-radius: 5px 5px 0 0;
+}
+
+    #scrollToTopBtn:hover {
+        background-color: #0069d9;
+    }

@@ -50,7 +50,7 @@
                     var selection = ui.item;
 
                     //Populate the address textbox values.
-                    document.getElementById('addressLineTbx').value = (selection.address.streetNumber || '') + (selection.address.streetName || '');
+                    document.getElementById('addressLineTbx').value = (selection.address.streetNumber ? (selection.address.streetNumber  + ' ') : '') + (selection.address.streetName || '');
                     document.getElementById('cityTbx').value = selection.address.municipality || '';
                     document.getElementById('countyTbx').value = selection.address.countrySecondarySubdivision || '';
                     document.getElementById('stateTbx').value = selection.address.countrySubdivision || '';
@@ -93,6 +93,7 @@
     <input type='text' id='searchBox' />
 
     <table class="addressForm">
+        <tr><td>House Number:</td><td><input type="text" id="houseNumberTbx" /></td></tr>
         <tr><td>Street Address:</td><td><input type="text" id="addressLineTbx" /></td></tr>
         <tr><td>City:</td><td><input type="text" id="cityTbx" /></td></tr>
         <tr><td>County:</td><td><input type="text" id="countyTbx" /></td></tr>

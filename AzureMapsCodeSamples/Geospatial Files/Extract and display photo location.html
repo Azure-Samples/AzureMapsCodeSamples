@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Extract and display photo location - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content=" This sample shows how to extract location information from images from a URL or by dragging and dropping them onto the map, and display them on the map. " />
+    <meta name="keywords" content="map, gis, API, SDK, EXIF, GPS, location, JPG, JPEG, TIFF, image, photo" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <!-- Add a reference to the exif-js library for extracting metadata from images. https://github.com/exif-js/exif-js -->
+    <script src="../Common/scripts/exif-js-min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, symbolLayer, popup, positions = [];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap');
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer to render the point data.
+                symbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        icon: 'marker-blue',
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    }
+                });
+                map.layers.add(symbolLayer);
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0],
+                    pixelOffset: [0, -18]
+                });
+
+                //Add a click event to the symbol layer.
+                map.events.add('click', symbolLayer, symbolClicked);
+
+                //Load an array of image urls and extract their location. 
+                loadPhotosFromUrl(['../Common/images/Pike_Market.jpg']);
+
+                //Setup the drag & drop listeners on the map.
+                var dropZone = document.getElementById('myMap');
+                dropZone.addEventListener('dragover', handleDragOver, false);
+                dropZone.addEventListener('drop', handleFileSelect, false);
+            });
+        }
+
+        function loadPhotosFromUrl(urls) {
+            //Remove any previously loaded data.
+            positions = [];
+            datasource.clear();
+
+            for (var i = 0; i < urls.length; i++) {
+                //Download the image as an array buffer.
+                var req = new XMLHttpRequest();
+                req.open("GET", urls[i], true);
+                req.responseType = "arraybuffer";
+
+                req.onload = function (event) {
+                    loadImageArrayBuffer(req.response, 'image/jpeg');
+                };
+
+                req.send(null);
+            }
+        }
+
+        function handleDragOver(evt) {
+            //Stop the browser from performing its default behavior when a file is dragged and dropped.
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            evt.dataTransfer.dropEffect = 'copy';
+        }
+
+        function handleFileSelect(evt) {
+            //Stop the browser from performing its default behavior when a file is dragged and dropped.
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            //Remove any previously loaded data.
+            positions = [];
+            datasource.clear();
+
+            //The list of files that have been dragged and dropped onto the map.
+            var files = evt.dataTransfer.files;
+
+            //Loop through and attempt to read each file. 
+            for (var i = 0; i < files.length; i++) {
+
+                //Only read JPG, JPEG, and TIFF images.
+                if (files[0].type === 'image/jpeg' || files[0].type === 'image/jpg' || files[0].type === 'image/tiff') {
+
+                    //Read the image file as an array buffer.
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        loadImageArrayBuffer(e.target.result, files[0].type);
+                    };
+                    reader.readAsArrayBuffer(files[i]);
+                }
+            }
+        }
+
+        function loadImageArrayBuffer(arrayBuffer, fileType) {
+            //Extract the exif info from the image file.
+            var exifInfo = EXIF.readFromBinaryFile(arrayBuffer);
+
+            //Extract the position information from the image. 
+            var pos = getExifPosition(exifInfo);
+
+            if (pos) {
+                //Convert the file ArrayBuffer from the file reader into a blob URI. 
+                var blob = new Blob([new Uint8Array(arrayBuffer)], { type: fileType });
+                var urlCreator = window.URL || window.webkitURL;
+                var imageUrl = urlCreator.createObjectURL(blob);
+
+                //Create a point feature and store the URL and EXIF information so we can access it later. Add the feature to the data source.
+                datasource.add(new atlas.data.Feature(new atlas.data.Point(pos), {
+                    url: imageUrl,
+                    exif: exifInfo
+                }));
+
+                //Update the maps position so that it displays the loaded symbols.
+                positions.push(pos);
+                bringPositionsIntoView();
+            }
+        }
+
+        function getExifPosition(exifInfo) {
+            if (typeof exifInfo.GPSLongitude !== 'undefined' &&
+                typeof exifInfo.GPSLongitudeRef !== 'undefined' &&
+                typeof exifInfo.GPSLatitude !== 'undefined' &&
+                typeof exifInfo.GPSLatitudeRef !== 'undefined') {
+
+                //Convert this information into a GeoJSON position.
+                var pos = [
+                    convertDMSToDD(exifInfo.GPSLongitude, exifInfo.GPSLongitudeRef),
+                    convertDMSToDD(exifInfo.GPSLatitude, exifInfo.GPSLatitudeRef),
+                ];
+
+                if (typeof exifInfo.GPSAltitude !== 'undefined') {
+                    pos.push(exifInfo.GPSAltitude);
+                }
+
+                return pos;
+            }
+
+            return null;
+        }
+
+        //Converts a decimal, minute, second coordinate into a decimal degrees coordinate.
+        function convertDMSToDD(dms, direction) {
+            if (Array.isArray(dms) && dms.length >= 3) {
+
+                var dd = dms[0]             //days
+                    + dms[1] / 60           //minutes
+                    + dms[2] / (60 * 60);   //seconds
+
+                if (direction === 'S' || direction === 'W') {
+                    dd *= -1;
+                } // Don't do anything for N or E
+
+                return dd;
+            }
+
+            return null;
+        }
+
+        function symbolClicked(e) {
+            //Make sure the event occured on a point feature.
+            if (e.shapes && e.shapes.length > 0) {
+                var properties = e.shapes[0].getProperties();
+                var pos = e.shapes[0].getCoordinates();
+
+                //Populate the popupTemplate with data from the clicked point feature.
+                popup.setOptions({
+                    //Update the content of the popup with the image.
+                    content: '<div style="padding:10px;"><img style="max-width:400px;" src="' + properties.url + '"/></div>',
+
+                    //Update the position of the popup with the symbols coordinate.
+                    position: pos
+                });
+
+                //Open the popup.
+                popup.open(map);
+
+                //Bring the popup into view by centering the map over the symbol then offsetting it lower.
+                map.setCamera({
+                    center: pos,
+                    centerOffset: [0, -150]
+                });
+            }
+        }
+
+        function bringPositionsIntoView() {
+            //Calcuates the best position to view the symbols on the map.
+            if (positions.length === 1) {
+                map.setCamera({
+                    center: positions[0],
+                    zoom: 15,
+                    type: 'fly'   //Animate the view transition.
+                });
+            } else if (positions.length > 1) {
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromPositions(positions),
+                    padding: 100, //Add some padding to account for the pixel size of the symbols.
+                    type: 'fly'   //Animate the view transition.
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <div id="output"></div>
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Extract and display photo location</legend>
+        This sample shows how to extract location information from images from a URL or by dragging and dropping them onto the map, and display them on the map. 
+        Drag and drop multiple images onto the map all at once. For better performance, consider processing the images in a web worker. 
+        This sample uses the open source <a href="https://github.com/exif-js/exif-js">exif-js library</a> to extract information from images. This supports JPG, JPEG, and TIFF images.
+    </fieldset>
+</body>
+</html>

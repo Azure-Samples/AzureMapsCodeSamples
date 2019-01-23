@@ -1,79 +1,78 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Popups on Shapes - Azure Maps Web Control Samples</title>
+    <title>Add a delimited file (CSV) to the map - Azure Maps Web Control Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to display a popup when a user interacts with any shape on the map." />
-    <meta name="keywords" content="map, gis, API, SDK, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline" />
+    <meta name="description" content="This sample shows how to add a delimied file (CSV, TSV) to the map by convering it into GeoJSON." />
+    <meta name="keywords" content="map, gis, API, SDK, CSV, TSV, delimited file" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
 
+    <!-- Add a reference to the csv2geojson library -->
+    <script src="/Common/scripts/csv2geojson.js"></script>
+
     <script type='text/javascript'>
-        var map, datasource, popup;
+        var map, popup, datasource;
+        var delimitedFileUrl = '/Common/data/earthquakes_gt7_alltime.csv';
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             atlas.setSubscriptionKey('<Your Azure Maps Key>');
 
             //Initialize a map instance.
-            map = new atlas.Map('myMap', {
-                center: [-122.1333, 47.6372],
-                zoom: 16
-            });
+            map = new atlas.Map('myMap');
 
             //Wait until the map resources have fully loaded.
             map.events.add('load', function (e) {
+
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
-                //Add a polygon feature to data source.
-                datasource.add(new atlas.data.Feature(new atlas.data.Polygon([[[-122.132815, 47.636661], [-122.133631, 47.636676], [-122.133636, 47.63652], [-122.133523, 47.63651], [-122.133545, 47.636361], [-122.133759, 47.636361], [-122.133759, 47.636173], [-122.132703, 47.63617], [-122.132713, 47.636343], [-122.13303, 47.636347], [-122.133035, 47.636528], [-122.13281, 47.636528], [-122.132815, 47.636661]]]), {
-                    type: 'Building',
-                    name: 'Microsoft Building 40',
-                    address: '15563 NE 31st St, Redmond, WA'
-                }));
-
-                datasource.add(new atlas.data.Feature(new atlas.data.Point([-122.1333, 47.63754]), {
-                    label: 'Microsoft Building 41'
-                }));
-
-                //Add a line feature to data source.
-                datasource.add(new atlas.data.Feature(new atlas.data.LineString([[-122.132488, 47.6360], [-122.133657, 47.636018], [-122.133829, 47.636058], [-122.133952, 47.63622], [-122.133877, 47.636416], [-122.13384, 47.637511], [-122.133952, 47.637786], [-122.133958, 47.638115]]), {
-                    type: 'Private Road'
-                }));
-
-                //Create a layer to render polygon data.
-                var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
-                    filter: ['==', '$type', 'Polygon']
+                //Add a layer for rendering the data as symbols.
+                var layer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        allowOverlap: true
+                    }
                 });
-
-                //Create a layer to render line data data.
-                var lineLayer = new atlas.layer.LineLayer(datasource, null, {
-                    strokeWidth: 5,
-                    strokeColor: 'orange',
-                    filter: ['==', '$type', 'LineString']
-                });
-
-                //Create a layer to render point data.
-                var pointLayer = new atlas.layer.SymbolLayer(datasource, null, {
-                    filter: ['==', '$type', 'Point']
-                });
-
-                //Add the polygon and line layers to the map.
-                map.layers.add([polygonLayer, lineLayer, pointLayer]);
+                map.layers.add(layer);
 
                 //Add click events to the polygon and line layers.
-                map.events.add('click', [polygonLayer, lineLayer, pointLayer], featureClicked);
+                map.events.add('click', layer, featureClicked);
 
                 //Create a popup but leave it closed so we can update it and display it later.
                 popup = new atlas.Popup();
+
+                //Download the delimited file. 
+                fetch(delimitedFileUrl)
+                    .then(response => response.text())
+                    .then(function (delimitedFile) {
+
+                        //Parse the delimited file using the csv2geojson library.
+                        csv2geojson.csv2geojson(delimitedFile, {
+
+                            //Specify the fields names that contain the latitude and longitude values. 
+                            latfield: 'latitude',
+                            lonfield: 'longitude',
+
+                            //Specify the delimiter to parse the file with.
+                            delimiter: ','
+                        }, function (err, data) {
+                            if (err) {
+                                //Alert the user if there is any error in reading the delimited file.
+                                alert(err);
+                            } else {
+                                //Add the data to the data source.
+                                datasource.add(data);
+                            }
+                        });
+                    });
             });
         }
 
@@ -135,8 +134,12 @@
     <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
-        <legend>Popups on Shapes</legend>
-        This sample shows how to display a popup when a user interacts with any shape on the map.
+        <legend>Add a delimited file (CSV) to the map</legend>
+        This sample shows how to add a delimied file (CSV, TSV) to the map by convering it into GeoJSON.
+        This sample uses the open source <a href="https://github.com/mapbox/csv2geojson">csv2geojson</a> library. 
+        It is also possible to manuallly parse delimited files, but using a library provides more reusable functionality.
+        The data in this sample is sourced from the
+        <a href="https://earthquake.usgs.gov/" target="_blank">USGS Earthquake Hazards Program</a> and consists of all earthquakes with a magitude of 7 or more between 1900 and 2018.
     </fieldset>
 </body>
 </html>

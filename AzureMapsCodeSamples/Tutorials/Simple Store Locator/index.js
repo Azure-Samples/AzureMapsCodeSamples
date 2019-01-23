@@ -147,7 +147,7 @@ function initialize() {
 }
 
 function loadStoreData() {
-    //Download the sotre location data.
+    //Download the store location data.
     fetch(storeLocationDataUrl)
         .then(response => response.text())
         .then(function (text) {

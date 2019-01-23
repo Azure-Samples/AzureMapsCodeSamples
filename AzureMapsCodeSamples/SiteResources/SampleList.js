@@ -229,6 +229,15 @@ var sampleList = [
 	desc:'Examples of how to import and export common geospatial file formats with Azure Maps.',
 	samples: [
 		{
+			title:'Add a delimited file (CSV) to the map',
+			desc:'This sample shows how to add a delimied file (CSV, TSV) to the map by convering it into GeoJSON.',
+			path:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
+			sourcePath:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
+			screenshot:'Add-a-delimited-file-(CSV)-to-the-map.png',
+			keywords:'map, gis, api, sdk, csv, tsv, delimited file',
+			created:'1/14/2019'
+		},
+		{
 			title:'Drag and Drop GeoJSON File onto Map',
 			desc:'This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render.',
 			path:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
@@ -236,6 +245,15 @@ var sampleList = [
 			screenshot:'Drag-and-Drop-GeoJSON-File-onto-Map.gif',
 			keywords:'map, gis, api, sdk, geojson, drag, drop, dropover',
 			created:'10/7/2018'
+		},
+		{
+			title:'Extract and display photo location',
+			desc:'This sample shows how to extract location information from images from a URL or by dragging and dropping them onto the map, and display them on the map. ',
+			path:'Geospatial%20Files/Extract%20and%20display%20photo%20location.html',
+			sourcePath:'Geospatial%20Files/Extract%20and%20display%20photo%20location.html',
+			screenshot:'Extract-and-display-photo-location.png',
+			keywords:'map, gis, api, sdk, exif, gps, location, jpg, jpeg, tiff, image, photo',
+			created:'1/22/2019'
 		},
 	]
 },
@@ -976,4 +994,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 94;
+}];var numberOfSamples = 96;

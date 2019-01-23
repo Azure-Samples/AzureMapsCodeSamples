@@ -32,6 +32,7 @@
                         <a class="dropdown-item" target="_blank" href="https://docs.microsoft.com/azure/location-based-services/">Documentation</a>
                         <a class="dropdown-item" target="_blank" href="https://feedback.azure.com/forums/909172-azure-maps">Feedback</a>
                         <a class="dropdown-item" target="_blank" href="https://stackoverflow.com/questions/tagged/azure-maps">Forums</a>
+                        <a class="dropdown-item" target="_blank" href="https://azure.microsoft.com/en-us/blog/topics/azure-maps/">Blog</a>
                     </div>
                 </li>
             </ul>
@@ -57,39 +58,37 @@
                 <div class="row">
                     {sampleListPlaceholder}
                     <!--<div class="row">
-                            <div class="col-md-12">
-                                <a name="{categoryName}"></a>
-                                <h2>{category}</h2>
-                                <p>{desc}</p>
-                            </div>
-                            <div class="col-md-4" rel="{title}">
-                                <div class="card mb-4 shadow-sm">
-                                    <img class="card-img-top" src="/SiteResources/screenshots/{screenshot}" alt="{title}">
-                                    <div class="card-body">
-                                        <h3>{title}</h3>
-                                        <p class="card-text">{desc}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" onclick="openSample('{title}')" class="btn btn-sm btn-outline-secondary">Run Sample</button>
-                                                <a target="_blank" href="/{path}" class="btn btn-sm btn-outline-secondary">Open In New Tab</a>
-                                                <a target="_blank" href="https://github.com/Azure-Samples/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/{sourcePath}" class="btn btn-sm btn-outline-secondary">Source Code</a>
-                                            </div>
+                        <div class="col-md-12">
+                            <a name="{categoryName}"></a>
+                            <h2>{category}</h2>
+                            <p>{desc}</p>
+                        </div>
+                        <div class="col-md-4" rel="{title}">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" src="/SiteResources/screenshots/{screenshot}" alt="{title}">
+                                <div class="card-body">
+                                    <h3>{title}</h3>
+                                    <p class="card-text">{desc}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" onclick="openSample('{title}')" class="btn btn-sm btn-outline-secondary">Run Sample</button>
+                                            <a target="_blank" href="/{path}" class="btn btn-sm btn-outline-secondary">Open In New Tab</a>
+                                            <a target="_blank" href="https://github.com/Azure-Samples/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/{sourcePath}" class="btn btn-sm btn-outline-secondary">Source Code</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
-                </div> 
+                        </div>
+                    </div>-->
+                </div>
                 {externalSamples}
             </div>
         </div>
+
+        <button onclick="topFunction()" id="scrollToTopBtn" aria-label="Go to top of page">Top</button>
     </main>
     <footer class="text-muted">
         <div class="container">
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-
             <span><a href="https://go.microsoft.com/fwlink/?LinkId=521839&CLCID=0409" target="_blank">Privacy</a></span>
             <span><a href="https://go.microsoft.com/fwlink/?LinkID=246338&CLCID=0409" target="_blank">Legal</a></span>
             <span id="copyrights">&copy; Microsoft </span>

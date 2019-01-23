@@ -78,7 +78,10 @@
     <Content Include="Common\images\pushpins\ssMap.png" />
     <Content Include="Common\images\pushpins\sun-icon.png" />
     <Content Include="Common\images\pushpins\ylw-pushpin.png" />
+    <Content Include="Common\images\Pike_Market.jpg" />
     <Content Include="Common\scripts\clipboard.min.js" />
+    <Content Include="Common\scripts\csv2geojson.js" />
+    <Content Include="Common\scripts\exif-js-min.js" />
     <Content Include="Controls\Simple Scale Bar Control\Simple Scale Bar Control.html" />
     <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
@@ -94,9 +97,13 @@
     <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js" />
     <Content Include="Controls\Fullscreen Control\FullScreenControl.js" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js" />
+    <Content Include="Geospatial Files\Add a delimited file %28CSV%29 to the map.html" />
+    <Content Include="Geospatial Files\Extract and display photo location.html" />
     <Content Include="HTML Markers\HtmlMarkerLayer\HTML Marker Layer.html" />
     <Content Include="Controls\Fullscreen Control\Fullscreen Control.html" />
     <Content Include="Experimental\Solar Terminator Module\Solar Terminator Module.html" />
+    <Content Include="SiteResources\screenshots\Add-a-delimited-file-%28CSV%29-to-the-map.png" />
+    <Content Include="SiteResources\screenshots\Extract-and-display-photo-location.png" />
     <Content Include="SiteResources\screenshots\WMS-Tile-Layer.png" />
     <Content Include="SiteResources\screenshots\WMTS-Tile-Layer.png" />
     <Content Include="Spatial Math\Cardinal Spline Options.html" />
@@ -216,6 +223,7 @@
     <Content Include="Controls\Fullscreen Control\FullScreenControl.js.map" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js.map" />
     <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
+    <Content Include="Common\data\earthquakes_gt7_alltime.csv" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -331,7 +339,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\images\routing\" />
-    <Folder Include="Common\scripts\cesium\" />
     <Folder Include="Experimental\Map Image Generator\" />
   </ItemGroup>
   <ItemGroup>
