@@ -78,15 +78,15 @@ var sampleList = [
 			path:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
 			sourcePath:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
 			screenshot:'Data-Driven-Bubble-Layer-Styling.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven, weather, earthquakes, usgs',
+			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven styling, weather, earthquakes, usgs',
 			created:'11/28/2018'
 		},
 		{
-			title:'Point Feature Clustering',
+			title:'Point Clusters in Bubble Layer',
 			desc:'This sample shows how to enable point based clustering on a data source and render them differently from symbols.',
 			path:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
 			sourcePath:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
-			screenshot:'Point-Feature-Clustering.png',
+			screenshot:'',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer',
 			created:'11/28/2018'
 		},
@@ -179,6 +179,15 @@ var sampleList = [
 			screenshot:'Create-a-Choropleth-Map.png',
 			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map',
 			created:'10/8/2018'
+		},
+		{
+			title:'Data-Driven Styling',
+			desc:'This sample shows some basics around data-driven styling of layers in Azure Maps.',
+			path:'Demos/Data-Driven%20Styling.html',
+			sourcePath:'Demos/Data-Driven%20Styling.html',
+			screenshot:'Data-Driven-Styling.png',
+			keywords:'map, gis, api, sdk, circle, bubble, layers, data-driven, bubblelayer, geojson, data driven styling',
+			created:'1/25/2019'
 		},
 		{
 			title:'Large GeoJSON Files',
@@ -527,6 +536,15 @@ var sampleList = [
 			screenshot:'Mercator-Projection-and-Geospatial-Circles.png',
 			keywords:'map, gis, api, sdk, circle, geospatial, mercator, projection',
 			created:'9/23/2018'
+		},
+		{
+			title:'Polygon Fill Pattern',
+			desc:'This sample shows how to fill a polygon area using a pattern image rather than a solid color.',
+			path:'Polygon%20and%20Line%20Layers/Polygon%20Fill%20Pattern.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Polygon%20Fill%20Pattern.html',
+			screenshot:'Polygon-Fill-Pattern.png',
+			keywords:'map, gis, api, sdk, polyon, fill pattern',
+			created:'1/24/2019'
 		},
 		{
 			title:'Polygon Hover Style',
@@ -994,4 +1012,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 96;
+}];var numberOfSamples = 98;

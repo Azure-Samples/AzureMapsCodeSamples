@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Data-Driven Styling - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows some basics around data-driven styling of layers in Azure Maps." />
+    <meta name="keywords" content="map, gis, API, SDK, circle, bubble, layers, data-driven, bubblelayer, geojson, data driven styling" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+        
+        var testData = [
+            //Has myRadius and category value.
+            new atlas.data.Feature(new atlas.data.Point([-122.3802, 47.54384]), {
+                myRadius: 30,
+                category: 'cat1'
+            }),
+
+            //Has myRadius and category value.
+            new atlas.data.Feature(new atlas.data.Point([-122.1842, 47.61123]), {
+                myRadius: 40,
+                category: 'cat2'
+            }),
+
+            //Has myRadius value, no category.
+            new atlas.data.Feature(new atlas.data.Point([-122.3514, 47.66606]), {
+                radius: 25
+            }),
+
+            //Has no myRadius or category value.
+            new atlas.data.Feature(new atlas.data.Point([-122.1601, 47.54059]))
+        ];
+
+        function GetMap() {
+            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+            atlas.setSubscriptionKey('<Your Azure Maps Key>');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6], 
+                zoom: 10
+            });
+
+            //Wait until the map resources have fully loaded.
+            map.events.add('load', function (e) {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load the test data.
+                datasource.add(testData);
+
+                //Create a layer that defines how to render the shapes in the data source and add it to the map.
+                map.layers.add(new atlas.layer.BubbleLayer(datasource, null, {
+
+                    //Define an expression to match on the category property and assign a value based on its color.
+                    color: [
+                        'match',                        
+                        ['get', 'category'],
+                        'cat1', 'Purple',
+                        'cat2', 'Green',
+
+                        //Specify a default color if no match found.
+                        'red'
+                    ],
+
+                    //Define an expression that checks to see if a custom property is defined on a feature, and if it is, use it as the setting for the radius.
+                    radius: [
+                        'case',
+
+                        //Check to see if the feature has a myRadius property.
+                        ['has', 'myRadius'],
+                        ['get', 'myRadius'],
+
+                        //Specify a default radius if the feature doesn't have a myRadius property.
+                        10
+                    ]
+                }));
+
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Data-Driven Styling</legend>
+        This sample shows some basics around data-driven styling of layers in Azure Maps.
+        Under the covers Azure Maps converts data from a data source into a vector tile layer for better rendering performance.
+        As part of this, many styling options in the rendering layers support expressions which apply busines logic to determine
+        an options value based on properties on the feature being rendered. All of this happens are render time for better performance.
+    </fieldset>
+</body>
+</html>

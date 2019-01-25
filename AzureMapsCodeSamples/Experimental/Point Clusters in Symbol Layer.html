@@ -49,7 +49,9 @@
                     clusterMaxZoom: 15 
                 });
                 map.sources.add(datasource);
-                
+
+                //TODO: convert this into a symbol layer.
+
                 //Create a bubble layer for rendering clustered data points.
                 var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
                     //Scale the size of the clustered bubble based on the number of points inthe cluster.
@@ -102,7 +104,7 @@
 
                     //Create a layer to render the individual locations.
                     new atlas.layer.SymbolLayer(datasource, null, {
-                        filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                        filter: ['!has', 'point_count'] //Filter out clustered points from this layer.
                     })
                 ]);
 

@@ -33,8 +33,7 @@
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
-
-
+                
                 //Add layers to the map to render the data.
                 map.layers.add([
                     //Createa polygon layer to render the isochrone.
@@ -43,7 +42,9 @@
                     }),
 
                     //Create a symbol layer to render the center point.
-                    new atlas.layer.SymbolLayer(datasource)
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        filter: ['==', '$type', 'Point']
+                    })
                 ]);
 
                 //Calculate a 15 minute isochrone from the center of the map. Note that we have to convert 15 minutes to seconds.

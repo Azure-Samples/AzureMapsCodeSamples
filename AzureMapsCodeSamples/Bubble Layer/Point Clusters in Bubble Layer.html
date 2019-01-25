@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Point Feature Clustering - Azure Maps Web Control Samples</title>
+    <title>Point Clusters in Bubble Layer - Azure Maps Web Control Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -102,7 +102,7 @@
 
                     //Create a layer to render the individual locations.
                     new atlas.layer.SymbolLayer(datasource, null, {
-                        filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                        filter: ['!has', 'point_count'] //Filter out clustered points from this layer.
                     })
                 ]);
 
@@ -135,7 +135,7 @@
     <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
-        <legend>Point Feature Clustering</legend>
+        <legend>Point Clusters in Bubble Layer</legend>
         This sample shows how to enable point based clustering on a data source and render them differently from symbols. Clustered points have four properties; 
 
         <ul>

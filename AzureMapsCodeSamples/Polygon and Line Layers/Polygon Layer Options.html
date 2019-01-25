@@ -48,7 +48,7 @@
 
                 //Create a layer to render the polygon data.
                 polygonLayer = new atlas.layer.PolygonLayer(datasource);
-                map.layers.add(polygonLayer);
+                map.layers.add(polygonLayer, 'labels');
 
                 defaultOptions = polygonLayer.getOptions();
 
