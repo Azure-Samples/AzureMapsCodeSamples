@@ -29,8 +29,8 @@
                 zoom: 3
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Load the drawing tools.
                 drawingTools = new PolygonDrawingTool(map, null, function (polygon) {
                     //Do something with the polygon.

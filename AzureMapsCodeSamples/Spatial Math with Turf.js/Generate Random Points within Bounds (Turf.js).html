@@ -30,8 +30,8 @@
                 zoom: 10
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Generate 1000 random points within the bounds of the map view using the Turf.js library
                 var points = turf.randomPoint(1000, {
                     bbox: map.getCamera().bounds

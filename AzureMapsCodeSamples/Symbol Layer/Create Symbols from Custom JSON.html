@@ -47,8 +47,8 @@
                 zoom: 5
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Loop through all results in the custom JSON object can create Point features from them.
                 var points = [];

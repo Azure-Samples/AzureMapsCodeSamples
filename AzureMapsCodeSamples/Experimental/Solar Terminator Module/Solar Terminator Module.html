@@ -28,8 +28,8 @@
             //Initialize a map instance.
             map = new atlas.Map('myMap');
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create a solar terminator source and add it to the map.
                 terminator = new SolarTerminatorSource();

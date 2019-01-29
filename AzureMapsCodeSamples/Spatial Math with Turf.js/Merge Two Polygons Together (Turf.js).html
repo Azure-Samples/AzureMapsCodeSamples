@@ -30,8 +30,8 @@
                 zoom: 12
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create two overlapping polygons. For demo purposes we give them a isUnion property set to false so we can use a single data source for all the data and use filters with layers.
                 var poly1 = new atlas.data.Feature(new atlas.data.Polygon([[

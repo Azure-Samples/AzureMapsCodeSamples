@@ -21,19 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 /// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
 /**
  * A class for creating Pie Charts as Markers on a map.
@@ -41,8 +28,7 @@ var __extends = (this && this.__extends) || (function () {
  *  - pieChartTooltip - Styles the tooltip div.
  *  - pieChartText - Styles the text that renders in the center of the pie chart when the 'text' option is set.
  */
-var PieChartMarker = /** @class */ (function (_super) {
-    __extends(PieChartMarker, _super);
+class PieChartMarker extends atlas.HtmlMarker {
     /********************
     * Constructor
     ********************/
@@ -51,12 +37,12 @@ var PieChartMarker = /** @class */ (function (_super) {
      * @param options Options for rendering the Pie Chart marker.
      * @param tooltipCallback A callback handler which defines the value of a tooltip for a slice of the pie.
      */
-    function PieChartMarker(options, tooltipCallback) {
-        var _this = _super.call(this, options) || this;
+    constructor(options, tooltipCallback) {
+        super(options);
         /********************
         * Private Properties
         ********************/
-        _this.chartOptions = {
+        this.chartOptions = {
             values: [],
             radius: 40,
             colors: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099'],
@@ -65,66 +51,65 @@ var PieChartMarker = /** @class */ (function (_super) {
             innerRadius: 0,
             color: 'white'
         };
-        _this.totalValue = 0;
+        this.totalValue = 0;
         /********************
         * Public Methods
         ********************/
         /** Any additional properties that you want to store with the marker. */
-        _this.properties = {};
-        _super.prototype.setOptions.call(_this, {
+        this.properties = {};
+        super.setOptions({
             htmlContent: document.createElement('div'),
             pixelOffset: [0, 0]
         });
-        _this.tooltipCallback = tooltipCallback;
-        _this.addCssClassIfDoesntExist('pieChartTooltip', '{background: white;border: 1px solid black;border-radius: 5px;padding: 5px;}');
-        _this.addCssClassIfDoesntExist('pieChartText', '{font-size:16px;font-family:arial;fill:#00000;font-weight:bold;}');
-        _this.tooltip = document.getElementById('pieChartTooltip');
-        if (!_this.tooltip) {
-            _this.tooltip = document.createElement('div');
-            _this.tooltip.id = 'pieChartTooltip';
-            _this.tooltip.style.position = 'absolute';
-            _this.tooltip.style.display = 'none';
-            _this.tooltip.className = 'pieChartTooltip';
+        this.tooltipCallback = tooltipCallback;
+        this.addCssClassIfDoesntExist('pieChartTooltip', '{background: white;border: 1px solid black;border-radius: 5px;padding: 5px;}');
+        this.addCssClassIfDoesntExist('pieChartText', '{font-size:16px;font-family:arial;fill:#00000;font-weight:bold;}');
+        this.tooltip = document.getElementById('pieChartTooltip');
+        if (!this.tooltip) {
+            this.tooltip = document.createElement('div');
+            this.tooltip.id = 'pieChartTooltip';
+            this.tooltip.style.position = 'absolute';
+            this.tooltip.style.display = 'none';
+            this.tooltip.className = 'pieChartTooltip';
         }
-        document.body.appendChild(_this.tooltip);
-        _this.setOptions(options);
-        return _this;
+        document.body.appendChild(this.tooltip);
+        this.setOptions(options);
     }
     /**
      * Gets the total value of all slices summed togehter.
      * @returns The total value of all slices summed togehter.
      */
-    PieChartMarker.prototype.getTotalValue = function () {
+    getTotalValue() {
         return this.totalValue;
-    };
+    }
     /**
      * Gets the value of a slice of the pie based on it's index.
      * @param idx The index of the slice.
      * @returns The value of a slice of the pie based on it's index.
      */
-    PieChartMarker.prototype.getSliceValue = function (idx) {
+    getSliceValue(idx) {
         return (idx >= 0 && idx < this.chartOptions.values.length) ? this.chartOptions.values[idx] : 0;
-    };
+    }
     /**
      * Gets the percentage value of a slice of the pie based on it's index.
      * @param idx The index of the slice.
      * @returns The percentage value of a slice of the pie based on it's index.
      */
-    PieChartMarker.prototype.getSlicePercentage = function (idx) {
+    getSlicePercentage(idx) {
         return (this.totalValue > 0) ? Math.round(this.getSliceValue(idx) / this.totalValue * 10000) / 100 : 0;
-    };
+    }
     /**
      * Gets the options of the pie chart marker.
      * @returns The options of the pie chart marker.
      */
-    PieChartMarker.prototype.getOptions = function () {
-        return this.merge_options(_super.prototype.getOptions.call(this), this.chartOptions);
-    };
+    getOptions() {
+        return this.merge_options(super.getOptions(), this.chartOptions);
+    }
     /**
      * Sets the options of the pie chart marker.
      * @param options The options to set on the marker.
      */
-    PieChartMarker.prototype.setOptions = function (options) {
+    setOptions(options) {
         var rerender = false;
         if (options.radius && options.radius > 0 && options.radius != this.chartOptions.radius) {
             this.chartOptions.radius = options.radius;
@@ -171,12 +156,12 @@ var PieChartMarker = /** @class */ (function (_super) {
         if (rerender) {
             this.render();
         }
-        _super.prototype.setOptions.call(this, options);
-    };
+        super.setOptions(options);
+    }
     /********************
     * Private Methods
     ********************/
-    PieChartMarker.prototype.render = function () {
+    render() {
         var startAngle = 0, angle = 0;
         var data = this.chartOptions.values;
         var radius = this.chartOptions.radius;
@@ -210,10 +195,10 @@ var PieChartMarker = /** @class */ (function (_super) {
                 svg.push('<text x="', cx, '" y="', (cy + 7), '" class="pieChartText" text-anchor="middle">', text, '</text>');
             }
             svg.push('</svg>');
-            _super.prototype.getOptions.call(this).htmlContent.innerHTML = svg.join('');
+            super.getOptions().htmlContent.innerHTML = svg.join('');
         }
-    };
-    PieChartMarker.prototype.createArc = function (cx, cy, r, startAngle, angle, fillColor, tooltip) {
+    }
+    createArc(cx, cy, r, startAngle, angle, fillColor, tooltip) {
         if (angle > 2 * Math.PI * 0.99) {
             //If the shape is nearly a complete circle, create a circle instead of an arc.
             var path = [
@@ -246,14 +231,14 @@ var PieChartMarker = /** @class */ (function (_super) {
             ];
             return path.join('');
         }
-    };
+    }
     /**
      * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
      * @param obj1
      * @param obj2
      * @returns obj3 a new object based on obj1 and obj2
      */
-    PieChartMarker.prototype.merge_options = function (obj1, obj2) {
+    merge_options(obj1, obj2) {
         var obj3 = {};
         for (var attrname in obj1) {
             obj3[attrname] = obj1[attrname];
@@ -262,15 +247,15 @@ var PieChartMarker = /** @class */ (function (_super) {
             obj3[attrname] = obj2[attrname];
         }
         return obj3;
-    };
-    PieChartMarker.prototype.addCssClassIfDoesntExist = function (className, style) {
+    }
+    addCssClassIfDoesntExist(className, style) {
         if (!document.getElementsByClassName(className).length) {
             var cssClass = document.createElement('style');
             cssClass.innerHTML = '.' + className + style;
             document.body.appendChild(cssClass);
         }
-    };
-    PieChartMarker.__showTooltip = function (evt, text) {
+    }
+    static __showTooltip(evt, text) {
         if (text) {
             if (PieChartMarker.__timeoutHandler !== 0) {
                 clearTimeout(PieChartMarker.__timeoutHandler);
@@ -281,20 +266,19 @@ var PieChartMarker = /** @class */ (function (_super) {
             tooltip.style.display = 'block';
             tooltip.style.left = evt.pageX + 10 + 'px';
             tooltip.style.top = evt.pageY + 10 + 'px';
-            PieChartMarker.__timeoutHandler = setTimeout(function () {
+            PieChartMarker.__timeoutHandler = setTimeout(() => {
                 PieChartMarker.__hideTooltip();
             }, 5000);
         }
-    };
-    PieChartMarker.__hideTooltip = function () {
+    }
+    static __hideTooltip() {
         var tooltip = document.getElementById('pieChartTooltip');
         tooltip.style.display = 'none';
         PieChartMarker.__timeoutHandler = 0;
-    };
-    /********************
-     * Static Methods
-     ********************/
-    PieChartMarker.__timeoutHandler = 0;
-    return PieChartMarker;
-}(atlas.HtmlMarker));
+    }
+}
+/********************
+ * Static Methods
+ ********************/
+PieChartMarker.__timeoutHandler = 0;
 //# sourceMappingURL=PieChartMarker.js.map

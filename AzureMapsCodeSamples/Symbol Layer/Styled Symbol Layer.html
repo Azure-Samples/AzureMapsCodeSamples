@@ -27,8 +27,8 @@
                 zoom: 12
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create a pin at the center of the map and pass in some properties that are unique to the pin.
                 var pin = new atlas.data.Feature(new atlas.data.Point([-73.985708, 40.75773]), {

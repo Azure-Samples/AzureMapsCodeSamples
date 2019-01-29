@@ -49,8 +49,8 @@
             //Create a popup which we can reuse for each result.
             popup = new atlas.Popup();
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function () {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Add the zoom control to the map.
                 map.controls.add(new atlas.control.ZoomControl(), {

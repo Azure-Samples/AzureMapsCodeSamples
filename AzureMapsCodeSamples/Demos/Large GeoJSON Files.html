@@ -34,8 +34,8 @@
 
             infopane = document.getElementById('infopane');
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Create a data source to store the data in.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);

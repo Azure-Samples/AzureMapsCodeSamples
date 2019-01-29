@@ -21,22 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 */
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 /// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
 /**
  * A control that toggles the map from its defined size to a fullscreen size.
  */
-var FullscreenControl = /** @class */ (function () {
+class FullscreenControl {
     /****************************
      * Constructor
      ***************************/
@@ -44,7 +33,7 @@ var FullscreenControl = /** @class */ (function () {
      * A control that toggles the map from its defined size to a fullscreen size.
      * @param options Options for defining how the control is rendered and functions.
      */
-    function FullscreenControl(options) {
+    constructor(options) {
         this._options = {
             style: 'light',
             hideIfUnsupported: true
@@ -56,7 +45,7 @@ var FullscreenControl = /** @class */ (function () {
             '.fullscreenMapExpand:hover{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAMAAAF6ePCOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAVUExURQAAADCszDCqzTKtzzKszzCszzGszvdFYikAAAAGdFJOUwBQYI+fucOe/hkAAAAJcEhZcwAAFxEAABcRAcom8z8AAADMSURBVDhPzZSNDoIwDITn397/kV27il9Rzmwq4Qux194VRmIombqqDzCvtV236LvRJos28rD6RlPGs5jpvHaZVTLWe0nEbCkxbnKkU4zcMw7xpvTqeHrho2WzzDfWHHPPmraCmAXWzRDrtZ7ZpCeNOe03c3xnL2bOdginc2Iz6/yYuDGxP+WG1Q8Qmvxxx6UGQUgNgpAaBCE1CEJqEITUIHhxXGquTjTHBa+mQRBSgyCkBkFIDYKQGgQhNQhCahDsMmGfoA1r351BSrkDTQQSzEhW2qYAAAAASUVORK5CYII=);}' +
             '.fullscreenMapCollapse{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAD1BMVEWWnJ+Xmp+YnKKYnKKYnKHcteq5AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAFxEAABcRAcom8z8AAAAHdElNRQfiCw8VGzLD58rvAAAANUlEQVQ4y2NgIB+wuLg4IKhRGUpkXGAAKgMFg0JmuIHBH9ajuYTaMszGxgZAiklJSYFg+gAAKrRnAIqOPxgAAAAASUVORK5CYII=);}' +
             '.fullscreenMapCollapse:hover{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAD1BMVEUwrMwwqs0yrM8yrM8xrM6kUFC0AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAFxEAABcRAcom8z8AAAAHdElNRQfiCw8VGSuVugCtAAAANUlEQVQ4y2NgIB+wuLg4IKhRGUpkXGAAKgMFg0JmuIHBH9ajuYTaMszGxgZAiklJSYFg+gAAKrRnAIqOPxgAAAAASUVORK5CYII=);}';
-        this._options = __assign({}, this._options, options);
+        this._options = Object.assign({}, this._options, options);
     }
     /****************************
      * Private Methods
@@ -67,8 +56,7 @@ var FullscreenControl = /** @class */ (function () {
      * @param options The control options used when adding the control to the map.
      * @returns The HTML Element that represents the control.
      */
-    FullscreenControl.prototype.onAdd = function (map, options) {
-        var _this = this;
+    onAdd(map, options) {
         this._map = map;
         var isSupported = FullscreenControl.isSupported();
         if (isSupported || (!isSupported && !this._options.hideIfUnsupported)) {
@@ -82,7 +70,7 @@ var FullscreenControl = /** @class */ (function () {
             }
             else if (color === 'auto') {
                 //Color will change between light and dark depending on map style.
-                this._map.events.add('styledata', function () { _this._mapStyleChanged(); });
+                this._map.events.add('styledata', () => { this._mapStyleChanged(); });
                 color = this._getColorFromMapStyle();
             }
             var mapContainer = this._map.getMapContainer();
@@ -104,8 +92,8 @@ var FullscreenControl = /** @class */ (function () {
             this._button.style.backgroundColor = color;
             this._button.setAttribute('title', this._resource.view);
             this._button.setAttribute('alt', this._resource.view);
-            this._button.addEventListener('click', function () {
-                if (_this.isFullscreen()) {
+            this._button.addEventListener('click', () => {
+                if (this.isFullscreen()) {
                     var closeFullScreenFn = document['webkitCancelFullScreen']
                         || document['cancelFullScreen']
                         || document['mozCancelFullScreen']
@@ -136,57 +124,56 @@ var FullscreenControl = /** @class */ (function () {
                 changeEventName = 'MSFullscreenChange';
             }
             if (changeEventName) {
-                document.addEventListener(changeEventName, function () { _this._updateBtn(); });
+                document.addEventListener(changeEventName, () => { this._updateBtn(); });
             }
             return this._container;
         }
         return null;
-    };
+    }
     /**
      * Action to perform when control is removed from the map.
      */
-    FullscreenControl.prototype.onRemove = function () {
-        var _this = this;
+    onRemove() {
         if (this._container) {
             this._container.remove();
         }
         if (this._options.style === 'auto') {
-            this._map.events.remove('styledata', function () { _this._mapStyleChanged(); });
+            this._map.events.remove('styledata', () => { this._mapStyleChanged(); });
         }
-    };
+    }
     /**
      * Determines if the map is in full screen mode or not.
      */
-    FullscreenControl.prototype.isFullscreen = function () {
+    isFullscreen() {
         return !(!document['fullscreenElement'] &&
             !document['msFullscreenElement'] &&
             !document['mozFullScreenElement'] &&
             !document['webkitFullscreenElement']);
-    };
+    }
     /**
      * Determines if fullscreen can be requested of not.
      */
-    FullscreenControl.isSupported = function () {
+    static isSupported() {
         return document['fullscreenEnabled'] ||
             document['msFullscreenEnabled'] ||
             document['mozFullScreenEnabled'] ||
             document['webkitFullscreenEnabled'];
-    };
+    }
     /****************************
      * Private Methods
      ***************************/
     /**
      * An event handler for when the map style changes. Used when control style is set to auto.
      */
-    FullscreenControl.prototype._mapStyleChanged = function () {
+    _mapStyleChanged() {
         if (this._button) {
             this._button.style.backgroundColor = this._getColorFromMapStyle();
         }
-    };
+    }
     /**
      * Retrieves the background color for the button based on the map style. This is used when style is set to auto.
      */
-    FullscreenControl.prototype._getColorFromMapStyle = function () {
+    _getColorFromMapStyle() {
         var style = this._map.getStyle().style;
         var color = 'white';
         switch (style) {
@@ -204,11 +191,11 @@ var FullscreenControl = /** @class */ (function () {
                 break;
         }
         return color;
-    };
+    }
     /**
      * Toggles the fullscreen state of the button.
      */
-    FullscreenControl.prototype._updateBtn = function () {
+    _updateBtn() {
         var ariaLabel = this._resource.view;
         var removeClass, addClass;
         if (this.isFullscreen()) {
@@ -227,13 +214,13 @@ var FullscreenControl = /** @class */ (function () {
         this._button.setAttribute('alt', ariaLabel);
         this._button.classList.remove(removeClass);
         this._button.classList.add(addClass);
-    };
+    }
     /**
      * Returns the set of translation text resources needed for the fullscreen control for a given language.
      * @param lang The language code to retrieve the text resources for.
      * @returns An object containing text resources in the specified language.
      */
-    FullscreenControl._getTranslations = function (lang) {
+    static _getTranslations(lang) {
         if (lang.indexOf('-') > 0) {
             lang = lang.substring(0, lang.indexOf('-'));
         }
@@ -259,7 +246,6 @@ var FullscreenControl = /** @class */ (function () {
                     title: 'Fullscreen Control'
                 };
         }
-    };
-    return FullscreenControl;
-}());
+    }
+}
 //# sourceMappingURL=FullScreenControl.js.map

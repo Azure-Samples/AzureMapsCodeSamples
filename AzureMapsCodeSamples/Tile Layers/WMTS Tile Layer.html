@@ -32,8 +32,8 @@
                 zoom: 4
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Create a tile layer and add it to the map below the transit layer so that roads appear above the imagery.
                 map.layers.add(new atlas.layer.TileLayer({
                     tileUrl: wmtsServiceUrl,

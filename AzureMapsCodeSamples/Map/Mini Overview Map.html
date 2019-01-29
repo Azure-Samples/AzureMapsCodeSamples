@@ -37,14 +37,14 @@
                 interactive: false
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Monitor all movement of the map.
                 map.events.add('move', mapChangedView);
             });
 
             //Wait until the overviewMap resources have fully loaded.
-            overviewMap.events.add('load', function (e) {
+            overviewmap.events.add('ready', function () {
                 if (highlightMapViewArea) {
                     //Create a data source and add it to the map.
                     datasource = new atlas.source.DataSource();

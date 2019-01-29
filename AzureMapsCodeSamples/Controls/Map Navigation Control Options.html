@@ -27,8 +27,8 @@
                 zoom: 12
             });
 
-            //Wait for map resources to load before loading controls.
-            map.events.add('load', addControls);
+            //Wait for map resources to be ready before loading controls.
+            map.events.add('ready', addControls);
         }
 
         function addControls() {

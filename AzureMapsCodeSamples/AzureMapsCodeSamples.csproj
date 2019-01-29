@@ -35,6 +35,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -84,6 +97,7 @@
     <Content Include="Common\scripts\clipboard.min.js" />
     <Content Include="Common\scripts\csv2geojson.js" />
     <Content Include="Common\scripts\exif-js-min.js" />
+    <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Controls\Simple Scale Bar Control\Simple Scale Bar Control.html" />
     <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
@@ -99,21 +113,28 @@
     <Content Include="Experimental\Animated Tile Layers\Animated Tile Layer.html" />
     <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js" />
     <Content Include="Controls\Fullscreen Control\FullScreenControl.js" />
+    <Content Include="Map\Export Map as Image\Export Map as Image.html" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js" />
     <Content Include="Geospatial Files\Add a delimited file %28CSV%29 to the map.html" />
     <Content Include="Geospatial Files\Extract and display photo location.html" />
     <Content Include="HTML Markers\HtmlMarkerLayer\HTML Marker Layer.html" />
     <Content Include="Controls\Fullscreen Control\Fullscreen Control.html" />
     <Content Include="Experimental\Solar Terminator Module\Solar Terminator Module.html" />
+    <Content Include="Map\Export Map as Image\MapImageExporter.js" />
+    <Content Include="Polygon and Line Layers\Line with Stroke Gradient.html" />
     <Content Include="Polygon and Line Layers\Polygon Fill Pattern.html" />
     <Content Include="SiteResources\screenshots\Add-a-delimited-file-%28CSV%29-to-the-map.png" />
+    <Content Include="SiteResources\screenshots\Cardinal-Spline-Options.png" />
     <Content Include="SiteResources\screenshots\Data-Driven-Styling.png" />
+    <Content Include="SiteResources\screenshots\Export-Map-as-Image.png" />
     <Content Include="SiteResources\screenshots\Extract-and-display-photo-location.png" />
+    <Content Include="SiteResources\screenshots\Line-with-Stroke-Gradient.png" />
     <Content Include="SiteResources\screenshots\Polygon-Fill-Pattern.png" />
+    <Content Include="SiteResources\screenshots\Simple-Cardinal-Spline.png" />
     <Content Include="SiteResources\screenshots\WMS-Tile-Layer.png" />
     <Content Include="SiteResources\screenshots\WMTS-Tile-Layer.png" />
     <Content Include="Spatial Math\Cardinal Spline Options.html" />
-    <Content Include="Experimental\test\Simple Cardinal Spline.html" />
+    <Content Include="Spatial Math\Simple Cardinal Spline.html" />
     <Content Include="Heat Map Layer\Simple Heat Map Layer.html" />
     <Content Include="Heat Map Layer\Weighted Heat Map Layer.html" />
     <Content Include="Heat Map Layer\Heat Map Layer Options.html" />
@@ -124,7 +145,6 @@
     <Content Include="Image Layer\Image Layer Options.html" />
     <Content Include="Image Layer\KML Ground Overlay as Image Layer.html" />
     <Content Include="Image Layer\Simple Image Layer.html" />
-    <Content Include="Experimental\Point Clusters in Symbol Layer.html" />
     <Content Include="SiteResources\index_template.html" />
     <Content Include="REST Services\Calculate a Simple Isochrone.html" />
     <Content Include="SiteResources\screenshots\Adding-Mouse-Events-to-default-HTML-Marker.gif" />
@@ -139,7 +159,7 @@
     <Content Include="SiteResources\screenshots\interactiveSearch.png" />
     <Content Include="SiteResources\screenshots\KML-Ground-Overlay-as-Image-Layer.png" />
     <Content Include="SiteResources\screenshots\Pie-Chart-HTML-Markers.png" />
-    <Content Include="SiteResources\screenshots\Point-Feature-Clustering.png" />
+    <Content Include="SiteResources\screenshots\Point-Clusters-in-Bubble-Layer.png" />
     <Content Include="SiteResources\screenshots\route.png" />
     <Content Include="SiteResources\screenshots\Satellite-Imagery-in-OpenLayers.png" />
     <Content Include="SiteResources\screenshots\search.png" />
@@ -230,6 +250,7 @@
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js.map" />
     <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
     <Content Include="Common\data\earthquakes_gt7_alltime.csv" />
+    <Content Include="Map\Export Map as Image\MapImageExporter.js.map" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -345,13 +366,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\images\routing\" />
-    <Folder Include="Experimental\Map Image Generator\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Experimental\Animated Tile Layers\AnimatedTileLayer.ts" />
     <TypeScriptCompile Include="Controls\Fullscreen Control\FullScreenControl.ts" />
+    <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />
     <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />
     <TypeScriptCompile Include="Experimental\Solar Terminator Module\SolarTerminatorModule.ts" />
     <TypeScriptCompile Include="HTML Markers\Pie Chart HTML Marker\PieChartMarker.ts" />

@@ -29,8 +29,8 @@
                 zoom: 4
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create a style control and add it to the map.
                 map.controls.add(new atlas.control.StyleControl({

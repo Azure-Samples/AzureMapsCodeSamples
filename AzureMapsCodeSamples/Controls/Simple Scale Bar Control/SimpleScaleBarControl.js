@@ -1,26 +1,14 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var SimpleScaleBarControl = /** @class */ (function () {
-    function SimpleScaleBarControl(options) {
+class SimpleScaleBarControl {
+    constructor(options) {
         this._map = null;
         this._scaleBar = null;
         this._options = {
             units: 'imperial',
             maxBarLength: 100
         };
-        this._options = __assign({}, this._options, options);
+        this._options = Object.assign({}, this._options, options);
     }
-    SimpleScaleBarControl.prototype.onAdd = function (map, options) {
-        var _this = this;
+    onAdd(map, options) {
         this._map = map;
         //Add the CSS style for the control to the DOM.
         var style = document.createElement('style');
@@ -28,17 +16,16 @@ var SimpleScaleBarControl = /** @class */ (function () {
         document.body.appendChild(style);
         this._scaleBar = document.createElement('div');
         this._scaleBar.className = 'customAzureMapsScaleBar';
-        this._map.events.add('move', function () { _this.updateScaleBar(); });
+        this._map.events.add('move', () => { this.updateScaleBar(); });
         this.updateScaleBar();
         return this._scaleBar;
-    };
-    SimpleScaleBarControl.prototype.onRemove = function () {
-        var _this = this;
-        this._map.events.remove('move', function () { _this.updateScaleBar(); });
+    }
+    onRemove() {
+        this._map.events.remove('move', () => { this.updateScaleBar(); });
         this._map = null;
         this._scaleBar = null;
-    };
-    SimpleScaleBarControl.prototype.updateScaleBar = function () {
+    }
+    updateScaleBar() {
         var camera = this._map.getCamera();
         //Get the center pixel.
         var cp = this._map.pixelsToPositions([camera.center]);
@@ -77,8 +64,8 @@ var SimpleScaleBarControl = /** @class */ (function () {
         this._scaleBar.style.width = (this._options.maxBarLength * distanceRatio) + 'px';
         //Update the text of the scale bar.
         this._scaleBar.innerHTML = this.createDistanceString(niceDistance, isSmall);
-    };
-    SimpleScaleBarControl.prototype.getRoundNumber = function (num) {
+    }
+    getRoundNumber(num) {
         if (num >= 2) {
             //Convert the number to a round value string and get the number of characters. Then use this to calculate the powe of 10 increment of the number.
             var pow10 = Math.pow(10, (Math.floor(num) + '').length - 1);
@@ -102,8 +89,8 @@ var SimpleScaleBarControl = /** @class */ (function () {
             return pow10 * i;
         }
         return Math.round(100 * num) / 100;
-    };
-    SimpleScaleBarControl.prototype.createDistanceString = function (num, isSmall) {
+    }
+    createDistanceString(num, isSmall) {
         if (this._options.units) {
             switch (this._options.units.toLowerCase()) {
                 case 'feet':
@@ -153,7 +140,6 @@ var SimpleScaleBarControl = /** @class */ (function () {
                     return num + ' m';
             }
         }
-    };
-    return SimpleScaleBarControl;
-}());
+    }
+}
 //# sourceMappingURL=SimpleScaleBarControl.js.map

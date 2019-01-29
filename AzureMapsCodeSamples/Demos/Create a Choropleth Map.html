@@ -41,8 +41,8 @@
             //Create a legend.
             createLegend();
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Create a popup but leave it closed so we can update it and display it later.
                 popup = new atlas.Popup({
                     position: [0, 0]

@@ -37,8 +37,8 @@
                 zoom: 14
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Load a custom image icon into the map resources.
                 map.imageSprite.add('arrow-icon', '../Common/images/pushpins/gpsArrowIcon.png').then(function () {

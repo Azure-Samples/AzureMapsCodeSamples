@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample provides a set of controls to test the various features of the Cardinal Spline calculation." />
-    <meta name="keywords" content="map, gis, API, SDK, " />
+    <meta name="keywords" content="map, gis, API, SDK, spatial math, math, spline, cardinal spline, curves, lines, line layer" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -17,7 +17,7 @@
     <script type='text/javascript'>
         var map, datasource, spline, straightLine, tension = 0.5, nodeSize = 30, close = false;
 
-        //Sample points.
+        //Sample positions.
         var positions = [
             [-122.102663, 47.644390],
             [-122.087213, 47.628544],
@@ -35,8 +35,8 @@
                 zoom: 12
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();

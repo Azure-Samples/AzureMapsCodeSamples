@@ -21,59 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 /// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
 /**
  * A data source which contains a polygon that represents the solar terminator area
  * and a point which represents the position of the sun.
  */
-var SolarTerminatorSource = /** @class */ (function (_super) {
-    __extends(SolarTerminatorSource, _super);
+class SolarTerminatorSource extends atlas.source.DataSource {
     /**********************
     * Constructor
     ***********************/
     /**
      * @contructor
      */
-    function SolarTerminatorSource(dateTime) {
-        var _this = _super.call(this) || this;
-        _this.radiansToDegrees = 180 / Math.PI;
-        _this.degreesToRadians = Math.PI / 180;
-        _this.dateTime = dateTime || new Date();
-        _this.computeTerminatorPosition();
-        return _this;
+    constructor(dateTime) {
+        super();
+        this.radiansToDegrees = 180 / Math.PI;
+        this.degreesToRadians = Math.PI / 180;
+        this.dateTime = dateTime || new Date();
+        this.computeTerminatorPosition();
     }
     /**********************
     * Public Methods
     ***********************/
-    SolarTerminatorSource.prototype.getSunPosition = function () {
+    getSunPosition() {
         //Calculate approximate longitude value of sun based on UTC time.
         var lng = 180 - (this.dateTime.getUTCHours() + this.dateTime.getUTCMinutes() / 60 + this.dateTime.getMilliseconds() / 3600) / 24 * 360;
         return new atlas.data.Position(lng, this.sunEquatorialPosition.delta);
-    };
-    SolarTerminatorSource.prototype.getDateTime = function () {
+    }
+    getDateTime() {
         return this.dateTime;
-    };
-    SolarTerminatorSource.prototype.setDateTime = function (dateTime) {
+    }
+    setDateTime(dateTime) {
         this.dateTime = dateTime;
         this.computeTerminatorPosition();
-    };
+    }
     /**********************
     * Private Methods
     ***********************/
-    SolarTerminatorSource.prototype.computeTerminatorPosition = function () {
+    computeTerminatorPosition() {
         this.dateTime = this.dateTime || new Date();
         var julianDay = this.getJulian(this.dateTime);
         var gst = this.getGMST(this.dateTime);
@@ -107,19 +92,19 @@ var SolarTerminatorSource = /** @class */ (function (_super) {
             this.solarArea.setCoordinates([positions]);
             this.sunPoint.setCoordinates(this.getSunPosition());
         }
-    };
-    SolarTerminatorSource.prototype.getJulian = function (date) {
+    }
+    getJulian(date) {
         //Calculate the present UTC Julian Date. Function is valid after the beginning of the UNIX epoch 1970-01-01 and ignores leap seconds.
         return (date.getTime() / 86400000) + 2440587.5;
-    };
-    SolarTerminatorSource.prototype.getGMST = function (date) {
+    }
+    getGMST(date) {
         //Calculate Greenwich Mean Sidereal Time according to http://aa.usno.navy.mil/faq/docs/GAST.php
         var julianDay = this.getJulian(date);
         var d = julianDay - 2451545.0;
         // Low precision equation is good enough for our purposes.
         return (18.697374558 + 24.06570982441908 * d) % 24;
-    };
-    SolarTerminatorSource.prototype.getSunEclipticPosition = function (julianDay) {
+    }
+    getSunEclipticPosition(julianDay) {
         //Compute the position of the Sun in ecliptic coordinates at julianDay. Following http://en.wikipedia.org/wiki/Position_of_the_Sun
         // Days since start of J2000.0
         var n = julianDay - 2451545.0;
@@ -132,16 +117,16 @@ var SolarTerminatorSource = /** @class */ (function (_super) {
         // distance from Sun in AU
         var R = 1.00014 - 0.01671 * Math.cos(g * this.degreesToRadians) - 0.0014 * Math.cos(2 * g * this.degreesToRadians);
         return { lambda: lambda, R: R };
-    };
-    SolarTerminatorSource.prototype.getEclipticObliquity = function (julianDay) {
+    }
+    getEclipticObliquity(julianDay) {
         // Following the short term expression in http://en.wikipedia.org/wiki/Axial_tilt#Obliquity_of_the_ecliptic_.28Earth.27s_axial_tilt.29
         // Julian centuries since J2000.0
         var n = julianDay - 2451545.0;
         var T = n / 36525;
         //epsilon
         return 23.43929111 - T * (46.836769 / 3600 - T * (0.0001831 / 3600 + T * (0.00200340 / 3600 - T * (0.576e-6 / 3600 - T * 4.34e-8 / 3600))));
-    };
-    SolarTerminatorSource.prototype.getSunEquatorialPosition = function (sunEclLng, eclObliq) {
+    }
+    getSunEquatorialPosition(sunEclLng, eclObliq) {
         //Compute the Sun's equatorial position from its ecliptic position. Inputs are expected in degrees. Outputs are in degrees as well.
         var alpha = Math.atan(Math.cos(eclObliq * this.degreesToRadians) * Math.tan(sunEclLng * this.degreesToRadians)) * this.radiansToDegrees;
         var delta = Math.asin(Math.sin(eclObliq * this.degreesToRadians) * Math.sin(sunEclLng * this.degreesToRadians)) * this.radiansToDegrees;
@@ -149,16 +134,15 @@ var SolarTerminatorSource = /** @class */ (function (_super) {
         var raQuadrant = Math.floor(alpha / 90) * 90;
         alpha += (lQuadrant - raQuadrant);
         return { alpha: alpha, delta: delta };
-    };
-    SolarTerminatorSource.prototype.getHourAngle = function (lng, sunPos, gst) {
+    }
+    getHourAngle(lng, sunPos, gst) {
         //Compute the hour angle of the sun for a longitude on Earth. Return the hour angle in degrees.
         return (gst + lng / 15) * 15 - sunPos.alpha;
-    };
-    SolarTerminatorSource.prototype.getLatitude = function (ha, sunPos) {
+    }
+    getLatitude(ha, sunPos) {
         //TODO: verify, might need to clip latitude
         /* For a given hour angle and sun position, compute the latitude of the terminator in degrees. */
         return Math.atan(-Math.cos(ha * this.degreesToRadians) / Math.tan(sunPos.delta * this.degreesToRadians)) * this.radiansToDegrees;
-    };
-    return SolarTerminatorSource;
-}(atlas.source.DataSource));
+    }
+}
 //# sourceMappingURL=SolarTerminatorModule.js.map

@@ -30,8 +30,8 @@
                 zoom: 15
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Update the style of mouse cursor to a crosshair.
                 map.getCanvasContainer().style.cursor = 'crosshair';
 

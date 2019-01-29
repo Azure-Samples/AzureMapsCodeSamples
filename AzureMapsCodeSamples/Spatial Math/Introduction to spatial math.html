@@ -27,8 +27,8 @@
                 zoom: 3
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create two test points.
                 var startPosition = [-122.33, 47.64];

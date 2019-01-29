@@ -9,7 +9,7 @@ var sampleList = [
 			path:'Animations/Animate%20a%20Choropleth%20Map.html',
 			sourcePath:'Animations/Animate%20a%20Choropleth%20Map.html',
 			screenshot:'Animate-a-Choropleth-Map.png',
-			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population',
+			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population, data-driven, data driven styling',
 			created:'10/8/2018'
 		},
 		{
@@ -86,7 +86,7 @@ var sampleList = [
 			desc:'This sample shows how to enable point based clustering on a data source and render them differently from symbols.',
 			path:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
 			sourcePath:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
-			screenshot:'',
+			screenshot:'Point-Clusters-in-Bubble-Layer.png',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer',
 			created:'11/28/2018'
 		},
@@ -504,6 +504,15 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, multiple',
 			created:'5/4/2018'
 		},
+		{
+			title:'Export Map as Image',
+			desc:'This sample shows how to export the map canavs as an image which can be used in reports or emails. ',
+			path:'Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html',
+			sourcePath:'Map/Export%20Map%20as%20Image',
+			screenshot:'Export-Map-as-Image.png',
+			keywords:'map, gis, api, sdk, ',
+			created:'1/28/2019'
+		},
 	]
 },
 {
@@ -527,6 +536,15 @@ var sampleList = [
 			screenshot:'Line-Layer-Options.png',
 			keywords:'map, gis, api, sdk, line, linestring, polyline, layer',
 			created:'11/28/2018'
+		},
+		{
+			title:'Line with Stroke Gradient',
+			desc:'This sample shows how to apply a stroke gradient to a line on the map.',
+			path:'Polygon%20and%20Line%20Layers/Line%20with%20Stroke%20Gradient.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Line%20with%20Stroke%20Gradient.html',
+			screenshot:'Line-with-Stroke-Gradient.png',
+			keywords:'map, gis, api, sdk, , line, linestring, polyline, layer, stroke gradient, gradient',
+			created:'1/28/2019'
 		},
 		{
 			title:'Mercator Projection and Geospatial Circles',
@@ -710,8 +728,8 @@ var sampleList = [
 			desc:'This sample provides a set of controls to test the various features of the Cardinal Spline calculation.',
 			path:'Spatial%20Math/Cardinal%20Spline%20Options.html',
 			sourcePath:'Spatial%20Math/Cardinal%20Spline%20Options.html',
-			screenshot:'',
-			keywords:'map, gis, api, sdk, ',
+			screenshot:'Cardinal-Spline-Options.png',
+			keywords:'map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
 			created:'12/10/2018'
 		},
 		{
@@ -722,6 +740,15 @@ var sampleList = [
 			screenshot:'Introduction-to-spatial-math.png',
 			keywords:'map, gis, api, sdk, gepspatial, math, haversine, heading, bearing',
 			created:'9/23/2018'
+		},
+		{
+			title:'Simple Cardinal Spline',
+			desc:'This sample shows how to create a simple cardinal spline and display it on the map.',
+			path:'Spatial%20Math/Simple%20Cardinal%20Spline.html',
+			sourcePath:'Spatial%20Math/Simple%20Cardinal%20Spline.html',
+			screenshot:'Simple-Cardinal-Spline.png',
+			keywords:'map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
+			created:'1/25/2019'
 		},
 	]
 },
@@ -1012,4 +1039,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 98;
+}];var numberOfSamples = 101;

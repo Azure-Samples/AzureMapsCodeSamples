@@ -1,78 +1,63 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 /**
  * A layer that renders point data from a data source as HTML elements on the map.
  */
-var HtmlMarkerLayer = /** @class */ (function (_super) {
-    __extends(HtmlMarkerLayer, _super);
+class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
     /**
     * Constructs a new HtmlMarkerLayer.
     * @param source The id or instance of a data source which the layer will render.
     * @param id The id of the layer. If not specified a random one will be generated.
     * @param options The options of the Html marker layer.
     */
-    function HtmlMarkerLayer(source, id, options) {
-        var _this = _super.call(this, source, id, {
+    constructor(source, id, options) {
+        super(source, id, {
             color: 'transparent',
             radius: 1,
             strokeWidth: 0
-        }) || this;
-        _this._options = {
+        });
+        this._options = {
             sourceLayer: undefined,
             source: undefined,
             filter: undefined,
             minZoom: 0,
             maxZoom: 24,
             visible: true,
-            markerRenderCallback: function (id, position, properties) {
+            markerRenderCallback: (id, position, properties) => {
                 return new atlas.HtmlMarker({
                     position: position
                 });
             },
-            clusterRenderCallback: function (id, position, properties) {
+            clusterRenderCallback: (id, position, properties) => {
                 return new atlas.HtmlMarker({
                     position: position,
                     text: properties.point_count_abbreviated
                 });
             }
         };
-        _this._markers = [];
-        _this._markerIds = [];
-        _this._sourceShapeCount = 0;
-        _this._datasourceCache = null;
-        _this._optionsChanged = false;
-        _this._markerCache = {};
-        _this.setOptions(options);
-        return _this;
+        this._markers = [];
+        this._markerIds = [];
+        this._sourceShapeCount = 0;
+        this._datasourceCache = null;
+        this._optionsChanged = false;
+        this._markerCache = {};
+        this.setOptions(options);
     }
     /**
     * Gets the options of the Html Marker layer.
     */
-    HtmlMarkerLayer.prototype.getOptions = function () {
+    getOptions() {
         return this._options;
-    };
+    }
     /**
      * Gets the source provided when creating the layer.
      */
-    HtmlMarkerLayer.prototype.getSource = function () {
-        return _super.prototype.getSource.call(this);
-    };
+    getSource() {
+        return super.getSource();
+    }
     /**
     * Sets the options of the Html marker layer.
     * @param options The new options of the Html marker layer.
     */
-    HtmlMarkerLayer.prototype.setOptions = function (options) {
+    setOptions(options) {
         var newBaseOptions = {};
         if (options.source && this._options.source !== options.source) {
             this._options.source = options.source;
@@ -110,23 +95,22 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
             this.clearCache();
         }
         this._optionsChanged = true;
-        _super.prototype.setOptions.call(this, newBaseOptions);
-    };
+        super.setOptions(newBaseOptions);
+    }
     //TODO: Update this once map supports layer added/removed events and layers support getMap function.
-    HtmlMarkerLayer.prototype._setMap = function (map) {
-        var _this = this;
+    _setMap(map) {
         if (this._map) {
-            this._map.events.remove('moveend', function () { _this.updateMarkers(); });
-            this._map.events.remove('render', function () { _this.checkLayerForChanges(); });
+            this._map.events.remove('moveend', () => { this.updateMarkers(); });
+            this._map.events.remove('render', () => { this.checkLayerForChanges(); });
         }
         this._map = map;
-        this._map.events.add('moveend', function () { _this.updateMarkers(); });
-        this._map.events.add('render', function () { _this.checkLayerForChanges(); });
+        this._map.events.add('moveend', () => { this.updateMarkers(); });
+        this._map.events.add('render', () => { this.checkLayerForChanges(); });
         //Call the underlying functionaly for this.
-        _super.prototype['_setMap'].call(this, map);
-    };
+        super['_setMap'](map);
+    }
     //TODO: Update this when data source supports updated events.
-    HtmlMarkerLayer.prototype.checkLayerForChanges = function () {
+    checkLayerForChanges() {
         if (this._map) {
             var s = this.getSource();
             if (typeof s === 'string') {
@@ -158,19 +142,18 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
             }
             this.updateMarkers();
         }
-    };
-    HtmlMarkerLayer.prototype.clearCache = function () {
-        var _this = this;
+    }
+    clearCache() {
         //Give data source a moment to update.
-        setTimeout(function () {
-            _this._markerCache = {}; //Clear marker cache.  
-            _this._map.markers.remove(_this._markers);
-            _this._markers = [];
-            _this._markerIds = [];
-            _this.updateMarkers();
+        setTimeout(() => {
+            this._markerCache = {}; //Clear marker cache.  
+            this._map.markers.remove(this._markers);
+            this._markers = [];
+            this._markerIds = [];
+            this.updateMarkers();
         }, 100);
-    };
-    HtmlMarkerLayer.prototype.updateMarkers = function () {
+    }
+    updateMarkers() {
         if (this._map && this._map.getCamera().zoom >= this._options.minZoom && this._map.getCamera().zoom <= this._options.maxZoom) {
             var shapes = this._map.layers.getRenderedShapes(null, [this], this._options.filter);
             var newMarkers = [];
@@ -227,8 +210,8 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
             this._markers = this._markers.concat(newMarkers);
             this._markerIds = newMarkerIds;
         }
-    };
-    HtmlMarkerLayer.prototype.getMarker = function (id, position, properties) {
+    }
+    getMarker(id, position, properties) {
         //Check cache for existing marker.
         if (this._markerCache[id]) {
             return this._markerCache[id];
@@ -255,9 +238,8 @@ var HtmlMarkerLayer = /** @class */ (function (_super) {
             }
             return null;
         }
-    };
-    return HtmlMarkerLayer;
-}(atlas.layer.BubbleLayer));
+    }
+}
 /**
  * //TODO: Future improvements
  *  - Add support for layer level events

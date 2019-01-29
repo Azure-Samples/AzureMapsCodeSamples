@@ -24,8 +24,8 @@
             //Initialize a map instance.
             map = new atlas.Map('myMap');
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Load the custom fill image into the map resources. Ideal patterns will be square and have width/height values that are multiples of 2 for best alignment
                 map.imageSprite.add('fill-checker-red', '../Common/images/fill-patterns/fill-checker-red.png').then(function () {

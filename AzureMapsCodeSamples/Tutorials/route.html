@@ -27,8 +27,8 @@
             //Initialize a map instance.
             map = new atlas.Map('myMap');
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function () {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();

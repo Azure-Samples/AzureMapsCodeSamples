@@ -27,8 +27,8 @@
                 zoom: 4
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Create a tile layer and add it to the map below the label layer.
                 //Note the bounding box placeholder in the tileUrl and the CRS set to EPSG:3857
                 map.layers.add(new atlas.layer.TileLayer({

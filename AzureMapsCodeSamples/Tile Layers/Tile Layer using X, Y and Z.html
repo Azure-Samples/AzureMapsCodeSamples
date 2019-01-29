@@ -27,8 +27,8 @@
                 zoom: 4
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Create a tile layer and add it to the map below the label layer.
                 //Weather radar tiles from Iowa Environmental Mesonet of Iowa State University.
                 map.layers.add(new atlas.layer.TileLayer({

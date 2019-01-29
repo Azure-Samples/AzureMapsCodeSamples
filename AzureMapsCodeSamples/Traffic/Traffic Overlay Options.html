@@ -27,8 +27,8 @@
                 zoom: 12
             });
 
-            //Wait until the map resources have fully loaded, then load the traffic overlay.
-            map.events.add('load', function () {
+            //Wait until the map resources have fully loaded are ready, then load the traffic overlay.
+            map.events.add('ready', function () {
                 //Create a style control and add it to the map.
                 map.controls.add(new atlas.control.StyleControl(), {
                     position: 'top-right'

@@ -26,8 +26,8 @@
                 center: [-110, 45]
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //Create a HTML marker and add it to the map.
                 marker = new atlas.HtmlMarker({
                     htmlContent: '<div class="pulseIcon"></div>',

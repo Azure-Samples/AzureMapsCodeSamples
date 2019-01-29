@@ -27,8 +27,8 @@
                 zoom: 12
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
                 //A embedded video in a popup.
                 var videoPopup = new atlas.Popup({
                     content: '<iframe style="margin:10px" width="560" height="315" src="https://channel9.msdn.com/Shows/Internet-of-Things-Show/Azure-Maps-intro-for-developers/player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>',

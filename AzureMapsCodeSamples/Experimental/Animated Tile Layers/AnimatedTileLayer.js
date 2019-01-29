@@ -1,8 +1,8 @@
 /**
  * Provides a layer which can smoothly animate through an array of tile layers.
  */
-var AnimatedTileLayerManager = /** @class */ (function () {
-    function AnimatedTileLayerManager(map, options) {
+class AnimatedTileLayerManager {
+    constructor(map, options) {
         this._options = {
             tileLayers: [],
             autoPlay: true,
@@ -20,19 +20,19 @@ var AnimatedTileLayerManager = /** @class */ (function () {
         //this._primers = [];
         this.setOptions(options);
     }
-    AnimatedTileLayerManager.prototype.dispose = function () {
+    dispose() {
         this._removeAllTileLayers();
         this.onFrameLoaded = null;
         this._options = null;
-    };
-    AnimatedTileLayerManager.prototype.getOptions = function () {
+    }
+    getOptions() {
         return this._options;
-    };
+    }
     /**
      * Sets the options
      * @param options Set of animated tile layer options.
      */
-    AnimatedTileLayerManager.prototype.setOptions = function (options) {
+    setOptions(options) {
         if (options) {
             if (typeof options.duration === "number") {
                 this._options.duration = options.duration;
@@ -71,57 +71,56 @@ var AnimatedTileLayerManager = /** @class */ (function () {
                 this.play();
             }
         }
-    };
+    }
     /**
     * Stop the layer animation, hide layer, and reset frame to the beginning
     */
-    AnimatedTileLayerManager.prototype.stop = function () {
+    stop() {
         this._animationState = 3 /* stopped */;
         this._clearAnimation();
         this._map && this._toggleFrameVisibility(this._currentFrameIndex, false);
         this._currentFrameIndex = 0;
-    };
+    }
     /**
      * Pause the tile layer animation.
      */
-    AnimatedTileLayerManager.prototype.pause = function () {
+    pause() {
         this._animationState = 2 /* paused */;
         this._clearAnimation();
-    };
+    }
     /**
      * Play the animation either from start or where it was paused.
      */
-    AnimatedTileLayerManager.prototype.play = function () {
-        var _this = this;
+    play() {
         this._clearAnimation();
         this._animationState = 1 /* playing */;
         this._toggleFrameVisibility(this._currentFrameIndex, true);
-        this._animation = setInterval(function () {
-            if (_this._map) {
-                var prevIndex = _this._currentFrameIndex;
-                _this._currentFrameIndex = _this._currentFrameIndex + 1 === _this._options.tileLayers.length ? 0 : _this._currentFrameIndex + 1;
-                _this._toggleFrameVisibility(_this._currentFrameIndex, true);
-                _this._toggleFrameVisibility(prevIndex, false);
+        this._animation = setInterval(() => {
+            if (this._map) {
+                var prevIndex = this._currentFrameIndex;
+                this._currentFrameIndex = this._currentFrameIndex + 1 === this._options.tileLayers.length ? 0 : this._currentFrameIndex + 1;
+                this._toggleFrameVisibility(this._currentFrameIndex, true);
+                this._toggleFrameVisibility(prevIndex, false);
             }
         }, this._options.duration / this._options.tileLayers.length);
-    };
+    }
     /**
      * Removes all tile layers.
      */
-    AnimatedTileLayerManager.prototype._removeAllTileLayers = function () {
+    _removeAllTileLayers() {
         this._clearAnimation();
         for (var i = 0; i < this._options.tileLayers.length; i++) {
             this._map.layers.remove(this._options.tileLayers[i]);
         }
-    };
-    AnimatedTileLayerManager.prototype._addAllTileLayers = function () {
+    }
+    _addAllTileLayers() {
         if (this._options.tileLayers) {
             for (var i = 0; i < this._options.tileLayers.length; i++) {
                 this._options.tileLayers[i].setOptions({ visible: false });
                 this._map.layers.add(this._options.tileLayers[i], this._options.below);
             }
         }
-    };
+    }
     /**
      * Pre-loads tiles of all layers in current viewport by generating primers for each of them
      */
@@ -194,18 +193,18 @@ var AnimatedTileLayerManager = /** @class */ (function () {
     /**
      * Clears the animation of this layer
      */
-    AnimatedTileLayerManager.prototype._clearAnimation = function () {
+    _clearAnimation() {
         if (this._animation) {
             clearInterval(this._animation);
             this._animation = null;
         }
-    };
+    }
     /**
      * Toggles the visibility of a tile layer frame at the given index.
      * @param index The index of the tile layer frame.
      * @param visible Whether the frame should be visible.
      */
-    AnimatedTileLayerManager.prototype._toggleFrameVisibility = function (index, visible) {
+    _toggleFrameVisibility(index, visible) {
         if (index < this._options.tileLayers.length) {
             this._options.tileLayers[index].setOptions({
                 visible: visible
@@ -214,7 +213,6 @@ var AnimatedTileLayerManager = /** @class */ (function () {
                 this.onFrameLoaded({ index: this._currentFrameIndex });
             }
         }
-    };
-    return AnimatedTileLayerManager;
-}());
+    }
+}
 //# sourceMappingURL=AnimatedTileLayer.js.map

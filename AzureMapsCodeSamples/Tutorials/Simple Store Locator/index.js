@@ -43,8 +43,8 @@ function initialize() {
     //If the user presses the My Location button, use the geolocation API to get the users location and center/zoom the map to that location.
     document.getElementById('myLocationBtn').onclick = setMapToUserLocation;
 
-    //Wait until the map resources have fully loaded.
-    map.events.add('load', function () {
+    //Wait until the map resources are ready.
+    map.events.add('ready', function () {
         //Add the zoom control to the map.
         map.controls.add(new atlas.control.ZoomControl(), {
             position: 'top-right'

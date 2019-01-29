@@ -18,7 +18,7 @@
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
     <script type='text/javascript'>
-        var map, datasource;
+        var map, datasource, points, hullPolygon;
 
         function GetMap() {
             //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -26,40 +26,79 @@
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-0.129, 51.5],
-                zoom: 10
+                zoom: 3
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
-                //Generate 1000 random points within the bounds of the map view using the Turf.js library
-                var points = turf.randomPoint(1000, {
-                    bbox: map.getCamera().bounds
-                });
-
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
-                //Add the random point data to the data source.
-                datasource.add(points);
+                //Create some random points to calculate a hull for.
+                createRandomPoints();
 
-                //Create a layer that defines how to render the points.
-                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
-                    iconOptions: {
-                        allowOverlap: true,
-                        ignorePlacement: true
-                    }
-                }));
+                //Create a layers to render the hull polygon outline and the sample points.
+                map.layers.add([
+                    //Layer for drawing the hull polygon area.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+
+                        filter: ['==', '$type', 'Polygon']
+                    }),
+
+                    //Layer for drawing the hull polygon outline.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        color: 'red',
+                        strokeWidth: 3,
+                        filter: ['==', '$type', 'Polygon']
+                    }),
+
+                    //Layer for displaying the random points.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            allowOverlap: true,
+                            ignorePlacement: true
+                        },
+                        filter: ['==', '$type', 'Point']
+                    })
+                ]);
             });
         }
 
         function calculateConcaveHull() {
+            if (hullPolygon) {
+                datasource.remove(hullPolygon);
+            }
 
+            //Calculate a concave hull and turn into a Shape so we can easily remove it from the data source.
+            hullPolygon = new atlas.Shape(turf.concave(points));
+
+            datasource.add(hullPolygon);
         }
 
         function calculateConvexHull() {
+            if (hullPolygon) {
+                datasource.remove(hullPolygon);
+            }
 
+            //Calculate a convex hull and turn into a Shape so we can easily remove it from the data source.
+            hullPolygon = new atlas.Shape(turf.convex(points));
+
+            datasource.add(hullPolygon);
+        }
+
+        function createRandomPoints() {
+            datasource.clear();
+            hullPolygon = null;
+
+            //Generate 10 random points within a small bounding box in the center of the map.
+            points = turf.randomPoint(10, {
+                bbox: [-0.0001, -0.0001, 0.0001, 0.0001]
+            });
+
+            //Add the random point data to the data source.
+            datasource.add(points.features);
         }
     </script>
 </head>
@@ -68,8 +107,10 @@
 
     <div stlye="position:absolute;top:10px;left:10px;border-radius:10px;background-color:white;">
         Create:
-        <input type="button" value="Concave Hull" onclick="calculateConcaveHull()" />
-        <input type="button" value="Convex Hull" onclick="GetConvexHull()" />
+        <input type="button" value="Concave Hull" onclick="calculateConcaveHull();" />
+        <input type="button" value="Convex Hull" onclick="calculateConvexHull();" />
+        <br/>
+        <input type="button" value="Randomize Points" onclick="createRandomPoints();"/>
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">

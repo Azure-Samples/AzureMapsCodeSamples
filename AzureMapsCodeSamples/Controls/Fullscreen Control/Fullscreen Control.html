@@ -27,8 +27,9 @@
             //Initialize a map instance.
             map = new atlas.Map("myMap");
 
-            map.events.add('load', function () {               
-                    //Optional. Add the map style control so we can see how the custom control reacts.
+            map.events.add('ready', function () {               
+
+                //Optional. Add the map style control so we can see how the custom control reacts.
                 map.controls.add([
                     new atlas.control.StyleControl(),
 

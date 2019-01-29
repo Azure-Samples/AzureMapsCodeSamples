@@ -30,8 +30,8 @@
                 zoom: 14
             });
 
-            //Wait until the map resources have fully loaded.
-            map.events.add('load', function (e) {
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
 
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
