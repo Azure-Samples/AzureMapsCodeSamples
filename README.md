@@ -1,6 +1,6 @@
 # Azure Maps Code Samples
 
-A collection of code samples for the [Azure Maps](http://aka.ms/AzureMaps) web map control.
+A collection of over a hundred code samples for the [Azure Maps](http://aka.ms/AzureMaps) Web SDK.
 
 [Try it now](https://azuremapscodesamples.azurewebsites.net/)
 
