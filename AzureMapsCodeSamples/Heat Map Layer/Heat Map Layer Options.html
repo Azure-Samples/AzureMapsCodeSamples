@@ -11,8 +11,8 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
 
     <script src="../Common/scripts/clipboard.min.js"></script>
 
@@ -168,14 +168,17 @@
         function GetMap() {
             createGradientOptions();
 
-            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
-
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-120, 40],
                 zoom: 1,
-                style: 'grayscale_dark'
+                style: 'grayscale_dark',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: ''<Your Azure Maps Key>''
+                }
             });
 
             //Wait until the map resources are ready.
@@ -464,7 +467,7 @@
                 <ul>
                     <li>sourceLayer - used with VectorTileSource.</li>
                 </ul>
-                Many options in this layer also support StyleFunctions and Expressions which are not demonstrated in this sample.
+                Many options in this layer also support Expressions which are not demonstrated in this sample.
             </p>
         </div>
 

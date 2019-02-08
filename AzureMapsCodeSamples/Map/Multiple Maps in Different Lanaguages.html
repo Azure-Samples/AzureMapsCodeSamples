@@ -11,8 +11,8 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
 
     <script type='text/javascript'>
         var map, map2;
@@ -20,21 +20,30 @@
         function GetMap() {
             var zoom = 3, center = [20, 50];
 
-            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
-
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 language: 'en-US',
                 center: center,
-                zoom: zoom
+                zoom: zoom,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: ''<Your Azure Maps Key>''
+                }
             });
 
             //Initialize a second map instance.
             map2 = new atlas.Map('myMap2', {
                 language: 'fr-FR',
                 center: center,
-                zoom: zoom
+                zoom: zoom,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: ''<Your Azure Maps Key>''
+                }
             });
         }
 

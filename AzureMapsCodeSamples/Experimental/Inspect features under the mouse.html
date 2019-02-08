@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Inspect features under the mouse - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to access any rendered feature on the map, whether it came from a vector tile source or a GeoJSON file, or is part of the base map." />
+    <meta name="keywords" content="map, gis, API, SDK, vector tiles, inspect features, base map, basemap, access roads" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.64],
+                zoom: 12,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: ''<Your Azure Maps Key>''
+                }
+            });
+
+            //Change the cursor of the mouse when it is over the map to be a pointer.
+            map.getCanvasContainer().style.cursor = 'pointer';
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Add the Style Control to the map.
+                map.controls.add(new atlas.control.StyleControl(), {
+                    position: "top-right"
+                });  
+
+                //Create a data source to load what should he highlighted.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer for rendering the highlighted data.
+                map.layers.add([
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'red',
+                        strokeWidth: 5,
+                        filter: ['any', ['==', '$type', 'Polygon'], ['==', '$type', 'LineString']]
+                    }),
+
+                    new atlas.layer.BubbleLayer(datasource, null, {
+                        radius: 20,
+                        strokeColor: 'red',
+                        strokeWidth: 5,
+                        color: 'transparent',
+                        filter: ['==', '$type', 'Point']
+                    })
+                ]);
+
+                //Add a click event to query the map features.
+                map.events.add('click', function (e) {
+                    //This accesses a hidden feature that accesses the rendered data on the map. We are working on exposing in the near future in a more intutive way.
+                    var features = map.map.queryRenderedFeatures(e.pixel);
+
+                    if (features.length > 0) {
+                        var selected = features[0];
+
+                        //Optionally, loop over the features and filter out features that aren't a part of the data source or source layer you want to inspect. 
+                        //var layersToIgnore = ['Built-up area'];
+
+                        //for (var i = 0; i < features.length; i++) {
+                        //    if (features[i].layer && features[i].layer['source-layer'] && layersToIgnore.indexOf(features[i].layer['source-layer']) === -1) {
+                        //        selected = features[i];
+                        //        break;
+                        //    }
+                        //}
+
+                        //Overwrite the data in the data source.
+                        datasource.setShapes(selected);
+
+                        //Display the features JSON data in the side panel.
+                        document.getElementById('sidePanel').innerHTML = JSON.stringify(selected, null, 2);
+                    }
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:calc(100% - 400px);min-width:350px;height:600px;float:left;"></div>
+
+    <pre id='sidePanel' style="position:relative;width:400px;height:600px;float:left;overflow:auto;"></pre>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Inspect features under the mouse</legend>
+        This sample shows how to access any rendered feature on the map, whether it came from a vector tile source or a GeoJSON file, or is part of the base map.
+    </fieldset>
+</body>
+</html>

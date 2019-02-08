@@ -3,7 +3,7 @@
 }
 
 .jumbotron{
-    margin-top:80px;
+    margin-top:55px;
     margin-bottom: 0px;
 }
 
@@ -25,8 +25,14 @@
     }
 }
 
+@media screen and (min-width: 1600px) {
+    .container, .modal-dialog {
+        max-width: 1520px;
+    }
+}
+
 .col-md-4{
-    min-width:380px;
+    max-width:380px;
 }
 
 

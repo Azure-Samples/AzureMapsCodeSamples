@@ -27,23 +27,14 @@
 
             //Create a tile layer that points to the Azure Maps tiles.
             L.tileLayer('https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=512&zoom={z}&x={x}&y={y}&subscription-key={subscriptionKey}', {
-                attribution: '© ' + new Date().getFullYear() + ' Microsoft, © 1992 - ' + new Date().getFullYear() + ' TomTom',
+                attribution: '© ' + new Date().getFullYear() + ' Microsoft, © ' + new Date().getFullYear() + ' TomTom',
                 maxZoom: 22,
                 tileSize: 512,
                 zoomOffset: -1,
                 id: 'azuremaps.road',
                 crossOrigin: true,
-                subscriptionKey: '<Your Azure Maps Key>'    //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                subscriptionKey: ''<Your Azure Maps Key>''    //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             }).addTo(map);
-
-            //Add a Microsoft logo.
-            var logo = L.control({ position: 'bottomright' });
-            logo.onAdd = function (map) {
-                var div = L.DomUtil.create('div');
-                div.innerHTML = '<img src="../Common/images/MicrosoftLogo.png" title="Microsoft Logo">';
-                return div;
-            }
-            logo.addTo(map);
         }
     </script>
 </head>

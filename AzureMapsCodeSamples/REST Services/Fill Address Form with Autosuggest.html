@@ -17,12 +17,12 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
 
     <script type='text/javascript'>
         //Get your Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
+        var subscriptionKey = ''<Your Azure Maps Key>'';
 
         var addresssGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/address/json?typeahead=true&subscription-key={subscription-key}&api-version=1&query={query}&language={language}&countrySet={countrySet}';
 
@@ -93,7 +93,6 @@
     <input type='text' id='searchBox' />
 
     <table class="addressForm">
-        <tr><td>House Number:</td><td><input type="text" id="houseNumberTbx" /></td></tr>
         <tr><td>Street Address:</td><td><input type="text" id="addressLineTbx" /></td></tr>
         <tr><td>City:</td><td><input type="text" id="cityTbx" /></td></tr>
         <tr><td>County:</td><td><input type="text" id="countyTbx" /></td></tr>

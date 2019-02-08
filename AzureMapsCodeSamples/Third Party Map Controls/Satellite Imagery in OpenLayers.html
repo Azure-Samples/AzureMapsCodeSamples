@@ -18,7 +18,7 @@
 
     <script type='text/javascript'>
         //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
+        var subscriptionKey = ''<Your Azure Maps Key>'';
 
         var map;
 
@@ -30,7 +30,7 @@
                         source: new ol.source.XYZ({
                             url: 'https://atlas.microsoft.com/map/imagery/png?api-version=1&style=satellite&tileSize=256&zoom={z}&x={x}&y={y}' +
                                 '&subscription-key=' + subscriptionKey,
-                            attributions: '<img src="../Common/images/MicrosoftLogo.png" title="Microsoft Logo"><br/>© ' + new Date().getFullYear() + ' Microsoft, © ' + new Date().getFullYear() + ' DigitalGlobe',
+                            attributions: '© ' + new Date().getFullYear() + ' Microsoft, © ' + new Date().getFullYear() + ' DigitalGlobe',
                             tileSize: 256
                         })
                     })

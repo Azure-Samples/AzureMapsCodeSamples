@@ -11,21 +11,29 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
 
     <script type='text/javascript'>
         var map, datasource, popup;
 
         function GetMap() {
-            //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-            atlas.setSubscriptionKey('<Your Azure Maps Key>');
-
             //Initialize a map instance.
-            map = new atlas.Map('myMap');
+            map = new atlas.Map('myMap', {
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: ''<Your Azure Maps Key>''
+                }
+            });
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
+                //Add the Style Control to the map.
+                map.controls.add(new atlas.control.StyleControl(), {
+                    position: "top-right"
+                });
 
                 //Setup the drag & drop listeners on the map.
                 var dropZone = document.getElementById('myMap');
@@ -38,6 +46,7 @@
 
                 //Add a layer for rendering the polygons.
                 var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: '#1e90ff',
                     filter: ['==', '$type', 'Polygon']
                 });
 
@@ -46,6 +55,7 @@
 
                 //Add a layer for rendering line data.
                 var lineLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: '#1e90ff',
                     strokeWidth: 4,
                     filter: ['==', '$type', 'LineString']
                 });

@@ -15,13 +15,16 @@ var map, popup, datasource, iconLayer, centerMarker, serviceClient;
 var listItemTemplate = '<div class="listItem" onclick="itemSelected(\'{id}\')"><div class="listItem-title">{title}</div>{city}<br />Open until {closes}<br />{distance} miles away</div>';
 
 function initialize() {
-    //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-    atlas.setSubscriptionKey('<Your Azure Maps Key>');
-
     //Initialize a map instance.
     map = new atlas.Map('myMap', {
         center: [-90, 40],
-        zoom: 2
+        zoom: 2,
+
+        //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+        authOptions: {
+            authType: 'subscriptionKey',
+            subscriptionKey: ''<Your Azure Maps Key>''
+        }
     });
 
     //Create a popup but leave it closed so we can update it and display it later.
