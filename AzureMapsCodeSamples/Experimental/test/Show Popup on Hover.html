@@ -23,7 +23,7 @@
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-122.33, 47.64],
+                center: [-122.33, 47.6],
                 zoom: 14,
 
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -41,7 +41,7 @@
                 map.sources.add(datasource);
 
                 //Create three point features on the map and add some metadata in the properties which we will want to display in a popup.
-                var point1 = new atlas.data.Feature(new atlas.data.Point([-122.33, 47.64]), {
+                var point1 = new atlas.data.Feature(new atlas.data.Point([-122.33, 47.6]), {
                     name: 'Point 1 Title',
                     description: 'This is the description 1.'
                 });

@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API." />
-    <meta name="keywords" content="map, gis, API, SDK, " />
+    <meta name="keywords" content="map, gis, API, SDK, route directions service, direcitons, travelling salesmen problem, route optimization, optimize, vehicle routing problem, VRP, TSP" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -61,7 +61,8 @@
                     new atlas.layer.SymbolLayer(datasource, null, {
                         textOptions: {
                             textField: ['get', 'title'],
-                            offset: [0, 1.2]
+                            offset: [0, -1.2],
+                            color: 'white'
                         },
                         filter: ['==', '$type', 'Point']
                     })
@@ -74,11 +75,11 @@
 
                 for (var i = 0; i < waypoints.length; i++) {
                     points.push(new atlas.data.Feature(new atlas.data.Point(waypoints[i]), {
-                        title: 'Pin' + i
+                        title: i + ''
                     }));
 
                     query.push(waypoints[i][1] + ',' + waypoints[i][0]);
-                    defaultOrder.push('Pin' + i);
+                    defaultOrder.push(i);
                 }
 
                 //Add the points to the data source.
@@ -115,13 +116,13 @@
                     var output = 'Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
 
                     if (optimized) {
-                        var pinOrder = ['Pin0'];
+                        var pinOrder = ['0'];
 
                         for (var i = 0; i < r.optimizedWaypoints.length; i++) {
-                            pinOrder.push('Pin' + (r.optimizedWaypoints[i].optimizedIndex + 1));
+                            pinOrder.push(r.optimizedWaypoints[i].optimizedIndex + 1);
                         }
 
-                        pinOrder.push('Pin' + (waypoints.length - 1));
+                        pinOrder.push(waypoints.length - 1);
 
                         output += 'Waypoint Order: ' + pinOrder.join(', ');
                     } else {

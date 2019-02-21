@@ -11,7 +11,7 @@ var iconImageUrl = 'images/CoffeeIcon.png';
 //An array of country region ISO2 values to limit searches to.
 var countrySet = ['US', 'CA', 'GB', 'FR','DE','IT','ES','NL','DK'];      
 
-var map, popup, datasource, iconLayer, centerMarker, serviceClient;
+var map, popup, datasource, iconLayer, centerMarker, searchURL;
 var listItemTemplate = '<div class="listItem" onclick="itemSelected(\'{id}\')"><div class="listItem-title">{title}</div>{city}<br />Open until {closes}<br />{distance} miles away</div>';
 
 function initialize() {
@@ -30,15 +30,23 @@ function initialize() {
     //Create a popup but leave it closed so we can update it and display it later.
     popup = new atlas.Popup();
 
-    //Create an instance of the services client.
-    serviceClient = new atlas.service.Client(atlas.getSubscriptionKey());
+    //Use SubscriptionKeyCredential with a subscription key
+    const subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+    //Use subscriptionKeyCredential to create a pipeline
+    const pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
+        retryOptions: { maxTries: 4 }, // Retry options
+    });
+
+    //Create an instance of the SearchURL client.
+    searchURL = new atlas.service.SearchURL(pipeline);
 
     //If the user presses the search button, geocode the value they passed in.
     document.getElementById('searchBtn').onclick = performSearch;
 
     //If the user presses enter in the search textbox, perform a search.
     document.getElementById('searchTbx').onkeyup = function (e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             performSearch();
         }
     };
@@ -59,11 +67,14 @@ function initialize() {
             position: map.getCamera().center
         });
 
+        map.markers.add(centerMarker);
+
         //Create a data source and add it to the map and enable clustering.
         datasource = new atlas.source.DataSource(null, {
             cluster: true,
             clusterMaxZoom: maxClusterZoomLevel - 1
         });
+
         map.sources.add(datasource);
 
         //Load all the store data now that the data source has been defined. 
@@ -141,9 +152,9 @@ function initialize() {
             });
 
             //Add an event to monitor when the map has finished moving.
-            map.events.add('moveend', function () {
+            map.events.add('render', function () {
                 //Give the map a chance to move and render data before updating the list.
-                setTimeout(updateListItems, 1000);
+                updateListItems();
             });
         });
     });
@@ -167,12 +178,14 @@ function loadStoreData() {
             //Parse the header row and index each column, so that when our code for parsing each row is easier to follow.
             var header = {};
             var numColumns = row.length;
-            for (var i = 0; i < row.length; i++) {
+            var i;
+
+            for (i = 0; i < row.length; i++) {
                 header[row[i]] = i;
             }
 
             //Skip the header row and then parse each row into a GeoJSON feature.
-            for (var i = 1; i < lines.length; i++) {
+            for (i = 1; i < lines.length; i++) {
                 row = lines[i].split('\t');
 
                 //Ensure that the row has the right number of columns.
@@ -187,8 +200,8 @@ function loadStoreData() {
                         PostCode: row[header['PostCode']],
                         Phone: row[header['Phone']],
                         StoreType: row[header['StoreType']],
-                        IsWiFiHotSpot: (row[header['IsWiFiHotSpot']].toLowerCase() == 'true') ? true : false,
-                        IsWheelchairAccessible: (row[header['IsWheelchairAccessible']].toLowerCase() == 'true') ? true : false,
+                        IsWiFiHotSpot: (row[header['IsWiFiHotSpot']].toLowerCase() === 'true') ? true : false,
+                        IsWheelchairAccessible: (row[header['IsWheelchairAccessible']].toLowerCase() === 'true') ? true : false,
                         Opens: parseInt(row[header['Opens']]),
                         Closes: parseInt(row[header['Closes']])
                     }));
@@ -206,22 +219,18 @@ function loadStoreData() {
 function performSearch() {
     var query = document.getElementById('searchTbx').value;
 
-    //Get the bounding box of the map.
-    var center = map.getCamera().center;
-
     //Perform a fuzzy search on the users query.
-    serviceClient.search.getSearchFuzzy(query, {
+    searchURL.searchFuzzy(atlas.service.Aborter.timeout(3000), query, {
         //Pass in the array of country ISO2 for which we want to limit the search to.
         countrySet: countrySet
-    }).then(response => {
+    }).then(results => {
         //Parse the response into GeoJSON so that the map can understand.
-        var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
-        var geojsonResults = geojsonResponse.getGeoJsonResults();
+        var data = results.geojson.getFeatures();
 
-        if (geojsonResults.features.length > 0) {
+        if (data.features.length > 0) {
             //Set the camera to the bounds of the results.
             map.setCamera({
-                bounds: geojsonResults.features[0].bbox,
+                bounds: data.features[0].bbox,
                 padding: 40
             });
         } else {
@@ -258,13 +267,30 @@ function setMapToUserLocation() {
 }
 
 function updateListItems() {
-    //Remove the center marker from the map.
-    map.markers.remove(centerMarker);
+    //Hide the center marker.
+    centerMarker.setOptions({
+        visible: false
+    });
 
     //Get the current camera/view information for the map.
     var camera = map.getCamera();
 
     var listPanel = document.getElementById('listPanel');
+
+    //Get all the shapes that have been rendered in the bubble layer. 
+    var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
+
+    data.forEach(function (shape) {
+        if (shape instanceof atlas.Shape) {
+            //Calculate the distance from the center of the map to each shape and store the data in a distance property. 
+            shape.distance = atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles');
+        }
+    });
+
+    //Sort the data by distance.
+    data.sort(function (x, y) {
+        return x.distance - y.distance;
+    });
 
     //Check to see if the user is zoomed out a lot. If they are, tell them to zoom in closer, perform a search or press the My Location button.
     if (camera.zoom < maxClusterZoomLevel) {
@@ -277,24 +303,6 @@ function updateListItems() {
         centerMarker.setOptions({
             position: camera.center,
             visible: true
-        });
-
-        //Add the center marker to the map.
-        map.markers.add(centerMarker);
-
-        //Get all the shapes that have been rendered in the bubble layer. 
-        var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
-
-        data.forEach(function (shape) {
-            if (shape instanceof atlas.Shape) {
-                //Calculate the distance from the center of the map to each shape and store the data in a distance property. 
-                shape.distance = atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles');
-            }
-        });
-
-        //Sort the data by distance.
-        data.sort(function (x, y) {
-            return x.distance - y.distance;
         });
 
         //List the ten closest locations in the side panel.
@@ -345,9 +353,9 @@ function getOpenTillTime(properties) {
 
     var sTime;
 
-    if (time == 1200) {
+    if (time === 1200) {
         sTime = 'noon';
-    } else if (time == 0 || time == 2400) {
+    } else if (time === 0 || time === 2400) {
         sTime = 'midnight';
     } else {
         sTime = Math.round(t) + ':';
@@ -355,7 +363,7 @@ function getOpenTillTime(properties) {
         //Get the minutes.
         t = (t - Math.round(t)) * 100;
 
-        if (t == 0) {
+        if (t === 0) {
             sTime += '00';
         } else if (t < 10) {
             sTime += '0' + t;
@@ -381,22 +389,17 @@ function itemSelected(id) {
 
     //Center the map over the shape on the map.
     var center = shape.getCoordinates();
+    var offset;
 
     //If the map is less than 700 pixels wide, then the layout is set for small screens.
     if (map.getCanvas().width < 700) {
         //When the map is small, offset the center of the map relative to the shape so that there is room for the popup to appear.
-        //Calculate the pixel coordinate of the shapes cooridnate.
-        var p = map.positionsToPixels([center]);
-
-        //Offset the y value.
-        p[0][1] -= 80;
-
-        //Calculate the coordinate on the map for the offset pixel value.
-        center = map.pixelsToPositions(p)[0];
-    } 
+        offset = [0, -80];
+    }
 
     map.setCamera({
-        center: center
+        center: center,
+        centerOffset: offset
     });
 }
 

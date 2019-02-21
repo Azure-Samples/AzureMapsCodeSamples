@@ -252,7 +252,7 @@
             <table>
                 <tr title="The color used to outline the line.">
                     <td>Stroke Color:</td>
-                    <td><input type="color" id="StrokeColor" value="#000000" onchange="updateLineLayer()" /></td>
+                    <td><input type="color" id="StrokeColor" value="#1E90FF" onchange="updateLineLayer()" /></td>
                 </tr>
                 <tr title="A number between 0 and 1 that indicates the opacity at which the stroke will be drawn.">
                     <td>Stroke Opacity:</td>
@@ -267,8 +267,8 @@
                     <td>Stroke Width:</td>
                     <td>
                         <form oninput="sw.value=StrokeWidth.value">
-                            <input type="range" id="StrokeWidth" value="1" min="0" max="25" step="1" oninput="updateLineLayer()" onchange="updateLineLayer()" />
-                            <output name="sw" for="StrokeWidth">1</output>
+                            <input type="range" id="StrokeWidth" value="2" min="0" max="25" step="1" oninput="updateLineLayer()" onchange="updateLineLayer()" />
+                            <output name="sw" for="StrokeWidth">2</output>
                         </form>
                     </td>
                 </tr>
@@ -276,8 +276,8 @@
                     <td>Line Cap:</td>
                     <td>
                         <select id="LineCap" onchange="updateLineLayer()">
-                            <option value="butt" selected="selected">butt</option>
-                            <option value="round">round</option>
+                            <option value="butt">butt</option>
+                            <option value="round" selected="selected">round</option>
                             <option value="square">square</option>
                         </select>
                     </td>
@@ -287,8 +287,8 @@
                     <td>
                         <select id="LineJoin" onchange="updateLineLayer()">
                             <option value="bevel">bevel</option>
-                            <option value="miter" selected="selected">miter</option>
-                            <option value="round">round</option>
+                            <option value="miter">miter</option>
+                            <option value="round" selected="selected">round</option>
                         </select>
                     </td>
                 </tr>

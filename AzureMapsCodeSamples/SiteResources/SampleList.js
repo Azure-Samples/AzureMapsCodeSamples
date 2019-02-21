@@ -252,8 +252,17 @@ var sampleList = [
 			path:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			screenshot:'Drag-and-Drop-GeoJSON-File-onto-Map.gif',
-			keywords:'map, gis, api, sdk, geojson, drag, drop, dropover',
+			keywords:'map, gis, api, sdk, geojson, drag, drop, dropover, filereader',
 			created:'10/7/2018'
+		},
+		{
+			title:'Drag and Drop Shapefiles onto the Map',
+			desc:'This sample shows how load add support for dragging and droping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map.',
+			path:'Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html',
+			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html',
+			screenshot:'Drag-and-Drop-Shapefiles-onto-the-Map.gif',
+			keywords:'map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker, drag, drop, dropover, filereader',
+			created:'2/20/2019'
 		},
 		{
 			title:'Extract and display photo location',
@@ -263,6 +272,24 @@ var sampleList = [
 			screenshot:'Extract-and-display-photo-location.png',
 			keywords:'map, gis, api, sdk, exif, gps, location, jpg, jpeg, tiff, image, photo',
 			created:'1/22/2019'
+		},
+		{
+			title:'Load large Shapefiles using a Web Worker',
+			desc:'This sample shows how to load large shapefiles (.shp, .dbf, .prj) onto the map using a web worker so that it doesn\'t freeze the UI.',
+			path:'Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html',
+			sourcePath:'Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html',
+			screenshot:'Load-large-Shapefiles-using-a-Web-Worker.png',
+			keywords:'map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker',
+			created:'2/20/2019'
+		},
+		{
+			title:'Load Shapefiles onto the Map',
+			desc:'This sample shows how to easily load shapefiles (.shp, .dbf, .prj) onto the map.',
+			path:'Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html',
+			sourcePath:'Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html',
+			screenshot:'Load-Shapefiles-onto-the-Map.png',
+			keywords:'map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc',
+			created:'2/20/2019'
 		},
 	]
 },
@@ -510,7 +537,7 @@ var sampleList = [
 			path:'Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html',
 			sourcePath:'Map/Export%20Map%20as%20Image',
 			screenshot:'Export-Map-as-Image.png',
-			keywords:'map, gis, api, sdk, ',
+			keywords:'map, gis, api, sdk, map image, export image, screenshots, reports, export map',
 			created:'1/28/2019'
 		},
 	]
@@ -663,7 +690,7 @@ var sampleList = [
 			path:'REST%20Services/Route%20Waypoint%20Optimization.html',
 			sourcePath:'REST%20Services/Route%20Waypoint%20Optimization.html',
 			screenshot:'Route-Waypoint-Optimization.png',
-			keywords:'map, gis, api, sdk, ',
+			keywords:'map, gis, api, sdk, route directions service, direcitons, travelling salesmen problem, route optimization, optimize, vehicle routing problem, vrp, tsp',
 			created:'10/18/2018'
 		},
 		{
@@ -1039,4 +1066,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 101;
+}];var numberOfSamples = 104;
