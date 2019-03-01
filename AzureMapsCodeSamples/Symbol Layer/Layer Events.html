@@ -39,7 +39,12 @@
                 datasource.add(generateRandomPoints(testDataSize));
 
                 //Create a layer to render the point data.
-                var symbolLayer = new atlas.layer.SymbolLayer(datasource);
+                var symbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    }
+                });
                 map.layers.add(symbolLayer);
 
                 //Add the events to the symbol layer.

@@ -11,6 +11,7 @@ namespace SampleListBuilder
     {
         private static int NumberOfSamples = 0;
         private static string sampleListJsonPath = "SiteResources/SampleList.js";
+        private static string siteMapPath = "sitemap.xml";
         private static string indexTemplatePath = "SiteResources/index_template.html";
         private static string indexPath = "index.html";
         private static string screenshotFolderDir;
@@ -67,14 +68,23 @@ namespace SampleListBuilder
             var externalSampleHtml = new StringBuilder();
             var sampleCatListHtml = new StringBuilder();
             var sampleJson = new StringBuilder();
+            var sitemap = new StringBuilder();
+            sitemap.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sitemap.AppendLine("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">");
+            sitemap.AppendFormat("<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>{0}</lastmod></url>\n",
+                DateTime.Now.ToString("yyyy-MM-dd"));
+
             sampleJson.AppendLine("var sampleList = [");
 
             foreach (var c in categories)
             {
+                sitemap.Append(c.ToSiteMap());
                 sampleHtml.Append(c.ToHtml());
                 sampleCatListHtml.Append(c.ToListItem());
                 sampleJson.Append(c.ToJson());
             }
+
+            sitemap.AppendLine("</urlset>");
 
             //Create Sample List JSON
 
@@ -88,6 +98,14 @@ namespace SampleListBuilder
                 using (var sWriter = new StreamWriter(writer))
                 {
                     sWriter.Write(sampleJson.ToString());
+                }
+            }
+
+            using (var writer = new FileStream(dir + siteMapPath, FileMode.Create, FileAccess.Write))
+            {
+                using (var sWriter = new StreamWriter(writer))
+                {
+                    sWriter.Write(sitemap.ToString());
                 }
             }
 

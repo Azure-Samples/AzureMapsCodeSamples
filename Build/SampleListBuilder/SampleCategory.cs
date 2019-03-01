@@ -22,6 +22,18 @@ namespace SampleListBuilder
                 );
         }
 
+        public  string ToSiteMap()
+        {
+            var sb = new StringBuilder();
+            
+            foreach (var s in Samples)
+            {
+                sb.AppendFormat("<url><loc>https://azuremapscodesamples.azurewebsites.net/{0}</loc></url>\n", s.Path);
+            }
+
+            return sb.ToString();
+        }
+
         public string ToHtml()
         {
             var sb = new StringBuilder();

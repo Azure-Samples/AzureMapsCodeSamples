@@ -135,7 +135,7 @@
                             populationInfo[stateId][countyId] = obj;
                         }
 
-                        //Download the country boundary GeoJSON data.
+                        //Download the county boundary GeoJSON data.
                         fetch('/Common/data/geojson/US_County_Boundaries.json')
                             .then(function (response) {
                                 return response.json();

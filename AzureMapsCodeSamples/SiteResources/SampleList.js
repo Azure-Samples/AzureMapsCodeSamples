@@ -156,6 +156,15 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, polygon, drawing, draw',
 			created:'9/23/2018'
 		},
+		{
+			title:'Expanding Spider Clusters',
+			desc:'This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout.',
+			path:'Custom%20Modules/SpiderClusters/Expanding%20Spider%20Clusters.html',
+			sourcePath:'Custom%20Modules/SpiderClusters',
+			screenshot:'Expanding-Spider-Clusters.gif',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
+			created:'2/28/2019'
+		},
 	]
 },
 {
@@ -1066,4 +1075,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 104;
+}];var numberOfSamples = 105;

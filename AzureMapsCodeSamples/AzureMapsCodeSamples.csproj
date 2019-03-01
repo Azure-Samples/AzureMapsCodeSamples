@@ -77,6 +77,7 @@
     <Content Include="Animations\HTML Marker Pulse Animation.html" />
     <Content Include="Animations\Simple HTML Marker Animation.html" />
     <Content Include="Animations\Simple Symbol Animation.html" />
+    <Content Include="BingSiteAuth.xml" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
@@ -135,6 +136,8 @@
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\LineDrawingTool.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\PolygonDrawingTool.js" />
+    <Content Include="Custom Modules\SpiderClusters\Expanding Spider Clusters.html" />
+    <Content Include="Custom Modules\SpiderClusters\SpiderClusterManager.js" />
     <Content Include="Demos\Car vs Truck Route.html" />
     <Content Include="Bubble Layer\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Data-Driven Styling.html" />
@@ -157,10 +160,14 @@
     <Content Include="Map\Export Map as Image\MapImageExporter.js" />
     <Content Include="Polygon and Line Layers\Line with Stroke Gradient.html" />
     <Content Include="Polygon and Line Layers\Polygon Fill Pattern.html" />
+    <Content Include="sitemap.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SiteResources\screenshots\Add-a-delimited-file-%28CSV%29-to-the-map.png" />
     <Content Include="SiteResources\screenshots\Cardinal-Spline-Options.png" />
     <Content Include="SiteResources\screenshots\Data-Driven-Styling.png" />
     <Content Include="SiteResources\screenshots\Drag-and-Drop-Shapefiles-onto-the-Map.gif" />
+    <Content Include="SiteResources\screenshots\Expanding-Spider-Clusters.gif" />
     <Content Include="SiteResources\screenshots\Export-Map-as-Image.png" />
     <Content Include="SiteResources\screenshots\Extract-and-display-photo-location.png" />
     <Content Include="SiteResources\screenshots\Line-with-Stroke-Gradient.png" />
@@ -300,6 +307,7 @@
     <Content Include="Common\data\shp\POL_adm.zip" />
     <Content Include="Common\data\shp\plzzip5.zip" />
     <Content Include="Common\data\shp\Electric_Power_Transmission_Lines.zip" />
+    <Content Include="Custom Modules\SpiderClusters\SpiderClusterManager.js.map" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -419,6 +427,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
+    <TypeScriptCompile Include="Custom Modules\SpiderClusters\SpiderClusterManager.ts" />
     <TypeScriptCompile Include="Experimental\Animated Tile Layers\AnimatedTileLayer.ts" />
     <TypeScriptCompile Include="Controls\Fullscreen Control\FullScreenControl.ts" />
     <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />
