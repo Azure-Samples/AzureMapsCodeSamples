@@ -59,3 +59,7 @@
     #scrollToTopBtn:hover {
         background-color: #0069d9;
     }
+
+.modal-header, .modal-body, .modal-footer {
+    padding: 0.5rem 1rem;
+}

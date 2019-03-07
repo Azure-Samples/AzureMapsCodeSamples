@@ -106,22 +106,13 @@ var sampleList = [
 			created:'9/7/2018'
 		},
 		{
-			title:'Create a Fullscreen Control',
-			desc:'This sample shows how to create a custom fullscreen control that can be added to the map. In this case a control for toggling the map between its specified size in the page and fullscreen mode.',
-			path:'Controls/Fullscreen%20Control/Fullscreen%20Control.html',
-			sourcePath:'Controls/Fullscreen%20Control',
-			screenshot:'Fullscreen-Control.png',
-			keywords:'maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
-			created:'11/30/2018'
-		},
-		{
-			title:'Simple Scale Bar Control',
-			desc:'This sample shows how to create a custom scale bar control that can be added to the map.',
-			path:'Controls/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
-			sourcePath:'Controls/Simple%20Scale%20Bar%20Control',
-			screenshot:'Simple-Scale-Bar-Control.png',
-			keywords:'maps, map, api, sdk, gis, custom, control, custom control, scale bar, scalebar',
-			created:'12/4/2018'
+			title:'Map Style Picker',
+			desc:'This sample shows how to add the map style picker control to the map.',
+			path:'Controls/Map%20Style%20Picker.html',
+			sourcePath:'Controls/Map%20Style%20Picker.html',
+			screenshot:'Map-Style-Picker.png',
+			keywords:'map, gis, api, sdk,  navigation controls, map style, style picker, map type, satellite, aerial, imagery',
+			created:'3/6/2019'
 		},
 	]
 },
@@ -157,10 +148,28 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
+			title:'Create a Fullscreen Control',
+			desc:'This sample shows how to create a custom fullscreen control that can be added to the map. In this case a control for toggling the map between its specified size in the page and fullscreen mode.',
+			path:'Custom%20Modules/Fullscreen%20Control/Fullscreen%20Control.html',
+			sourcePath:'Custom%20Modules/Fullscreen%20Control',
+			screenshot:'Fullscreen-Control.png',
+			keywords:'maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
+			created:'3/6/2019'
+		},
+		{
+			title:'Simple Scale Bar Control',
+			desc:'This sample shows how to create a custom scale bar control that can be added to the map.',
+			path:'Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
+			sourcePath:'Custom%20Modules/Simple%20Scale%20Bar%20Control',
+			screenshot:'Simple-Scale-Bar-Control.png',
+			keywords:'maps, map, api, sdk, gis, custom, control, custom control, scale bar, scalebar',
+			created:'3/6/2019'
+		},
+		{
 			title:'Expanding Spider Clusters',
 			desc:'This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout.',
-			path:'Custom%20Modules/SpiderClusters/Expanding%20Spider%20Clusters.html',
-			sourcePath:'Custom%20Modules/SpiderClusters',
+			path:'Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html',
+			sourcePath:'Custom%20Modules/Spider%20Clusters',
 			screenshot:'Expanding-Spider-Clusters.gif',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
 			created:'2/28/2019'
@@ -1075,4 +1084,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 105;
+}];var numberOfSamples = 106;

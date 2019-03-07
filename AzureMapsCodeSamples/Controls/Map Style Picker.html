@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Map Style Picker - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add the map style picker control to the map." />
+    <meta name="keywords" content="map, gis, API, SDK,  navigation controls, map style, style picker, map type, satellite, aerial, imagery" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    //Optionally specify which map styles you want to appear in the picker. 
+                    //All styles available with the S0 license tier appear by default in the control. 
+                    //If using a S1 tier license, you can use the mapStyles option to add the 'satellite' and 'satellite_road_labels' styles to the control.
+                    mapStyles: ['road', 'grayscale_dark', 'night', 'road_shaded_relief', 'satellite', 'satellite_road_labels']
+                }));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Map Style Picker</legend>
+        This sample shows how to add the map style picker control to the map.
+        By default, all map styles available with the S0 license tier appear in the control. 
+        The <i>mapStyles</i> option can be used to specify which map styles to display in the control.
+        If using the S1 tier license, you can use the <i>mapStyles</i> option to add the 'satellite' and 'satellite_road_labels' styles to the control.
+        See the <a href="https://docs.microsoft.com/azure/azure-maps/supported-map-styles">Supported Styles</a> documentation for a complete list of supported styles.
+    </fieldset>
+</body>
+</html>

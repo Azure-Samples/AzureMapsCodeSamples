@@ -57,6 +57,19 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -129,15 +142,16 @@
     <Content Include="Common\scripts\exif-js-min.js" />
     <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Common\scripts\shp.min.js" />
-    <Content Include="Controls\Simple Scale Bar Control\Simple Scale Bar Control.html" />
-    <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js" />
+    <Content Include="Controls\Map Style Picker.html" />
+    <Content Include="Custom Modules\Simple Scale Bar Control\Simple Scale Bar Control.html" />
+    <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon and Select Data.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\LineDrawingTool.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\PolygonDrawingTool.js" />
-    <Content Include="Custom Modules\SpiderClusters\Expanding Spider Clusters.html" />
-    <Content Include="Custom Modules\SpiderClusters\SpiderClusterManager.js" />
+    <Content Include="Custom Modules\Spider Clusters\Expanding Spider Clusters.html" />
+    <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js" />
     <Content Include="Demos\Car vs Truck Route.html" />
     <Content Include="Bubble Layer\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Data-Driven Styling.html" />
@@ -145,7 +159,7 @@
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Experimental\Animated Tile Layers\Animated Tile Layer.html" />
     <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js" />
-    <Content Include="Controls\Fullscreen Control\FullScreenControl.js" />
+    <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js" />
     <Content Include="Experimental\Inspect features under the mouse.html" />
     <Content Include="Geospatial Files\Drag and Drop Shapefiles onto the Map.html" />
     <Content Include="Geospatial Files\Load large Shapefiles using a Web Worker.html" />
@@ -155,7 +169,7 @@
     <Content Include="Geospatial Files\Add a delimited file %28CSV%29 to the map.html" />
     <Content Include="Geospatial Files\Extract and display photo location.html" />
     <Content Include="HTML Markers\HtmlMarkerLayer\HTML Marker Layer.html" />
-    <Content Include="Controls\Fullscreen Control\Fullscreen Control.html" />
+    <Content Include="Custom Modules\Fullscreen Control\Fullscreen Control.html" />
     <Content Include="Experimental\Solar Terminator Module\Solar Terminator Module.html" />
     <Content Include="Map\Export Map as Image\MapImageExporter.js" />
     <Content Include="Polygon and Line Layers\Line with Stroke Gradient.html" />
@@ -173,6 +187,7 @@
     <Content Include="SiteResources\screenshots\Line-with-Stroke-Gradient.png" />
     <Content Include="SiteResources\screenshots\Load-large-Shapefiles-using-a-Web-Worker.png" />
     <Content Include="SiteResources\screenshots\Load-Shapefiles-onto-the-Map.png" />
+    <Content Include="SiteResources\screenshots\Map-Style-Picker.png" />
     <Content Include="SiteResources\screenshots\Polygon-Fill-Pattern.png" />
     <Content Include="SiteResources\screenshots\Simple-Cardinal-Spline.png" />
     <Content Include="SiteResources\screenshots\WMS-Tile-Layer.png" />
@@ -290,9 +305,9 @@
     <Content Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.js.map" />
     <Content Include="HTML Markers\Pie Chart HTML Marker\PieChartMarker.js.map" />
     <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js.map" />
-    <Content Include="Controls\Fullscreen Control\FullScreenControl.js.map" />
+    <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js.map" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js.map" />
-    <Content Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
+    <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
     <Content Include="Common\data\earthquakes_gt7_alltime.csv" />
     <Content Include="Map\Export Map as Image\MapImageExporter.js.map" />
     <Content Include="Common\data\shp\cities.dbf" />
@@ -307,7 +322,7 @@
     <Content Include="Common\data\shp\POL_adm.zip" />
     <Content Include="Common\data\shp\plzzip5.zip" />
     <Content Include="Common\data\shp\Electric_Power_Transmission_Lines.zip" />
-    <Content Include="Custom Modules\SpiderClusters\SpiderClusterManager.js.map" />
+    <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js.map" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -426,10 +441,10 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
-    <TypeScriptCompile Include="Controls\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
-    <TypeScriptCompile Include="Custom Modules\SpiderClusters\SpiderClusterManager.ts" />
+    <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
+    <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />
     <TypeScriptCompile Include="Experimental\Animated Tile Layers\AnimatedTileLayer.ts" />
-    <TypeScriptCompile Include="Controls\Fullscreen Control\FullScreenControl.ts" />
+    <TypeScriptCompile Include="Custom Modules\Fullscreen Control\FullScreenControl.ts" />
     <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />
     <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />
     <TypeScriptCompile Include="Experimental\Solar Terminator Module\SolarTerminatorModule.ts" />
