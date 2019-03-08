@@ -22,8 +22,6 @@
  * THE SOFTWARE. 
 */
 
-/// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
-
 /**
  * An object that represents the full screen control text resources.
  */
@@ -127,8 +125,7 @@ class FullscreenControl implements atlas.Control {
             var mapContainer = this._map.getMapContainer();
 
             //Add css for fullscreen.
-            var css = this._fullscreenCss.replace(/{elm}/g, '#' + mapContainer.id)
-                .replace(/{color}/g, color);
+            var css = this._fullscreenCss.replace(/{elm}/g, '#' + mapContainer.id);
 
             //Add the CSS style for the control to the DOM.
             var style = document.createElement('style');

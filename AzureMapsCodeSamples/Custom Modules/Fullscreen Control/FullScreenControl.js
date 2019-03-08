@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 */
-/// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
 /**
  * A control that toggles the map from its defined size to a fullscreen size.
  */
@@ -75,8 +74,7 @@ class FullscreenControl {
             }
             var mapContainer = this._map.getMapContainer();
             //Add css for fullscreen.
-            var css = this._fullscreenCss.replace(/{elm}/g, '#' + mapContainer.id)
-                .replace(/{color}/g, color);
+            var css = this._fullscreenCss.replace(/{elm}/g, '#' + mapContainer.id);
             //Add the CSS style for the control to the DOM.
             var style = document.createElement('style');
             style.innerHTML = css;

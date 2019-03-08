@@ -121,6 +121,15 @@ var sampleList = [
 	desc:'Use custom modules to extend the functionality of the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Bring Data Into View Control',
+			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
+			path:'Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html',
+			sourcePath:'Custom%20Modules/Bring%20Data%20Into%20View%20Control',
+			screenshot:'Bring-Data-Into-View-Control.png',
+			keywords:'map, gis, api, sdk, ',
+			created:'3/8/2019'
+		},
+		{
 			title:'Draw Line',
 			desc:'This sample shows how to draw a line on the map using the Line Drawing tools.',
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html',
@@ -494,6 +503,24 @@ var sampleList = [
 			screenshot:'',
 			keywords:'map, gis, api, sdk, lazy load, reduce cost, tabs',
 			created:'5/4/2018'
+		},
+		{
+			title:'Limit Map to Two Finger Panning',
+			desc:'This sample shows how to limit the map drag functionality such that the user is only able to drag the map when using two fingers. This is useful when using the map API inside of mobile apps where the user is likely to scroll the page using a single finger.',
+			path:'Map/Limit%20Map%20to%20Two%20Finger%20Panning.html',
+			sourcePath:'Map/Limit%20Map%20to%20Two%20Finger%20Panning.html',
+			screenshot:'Limit-Map-to-Two-Finger-Panning.png',
+			keywords:'map, gis, api, sdk, two finger panning, dragging, panning, map, user interaction, dragpaninteraction',
+			created:'3/8/2019'
+		},
+		{
+			title:'Limit Scroll Wheel Zoom',
+			desc:'This sample shows how to limit the scroll zooming functionality of the map such that the map will only be zoomed when the CTRL key is pressed. When the CTRL key is not pressed, the scroll wheel will scroll the page when over the map.',
+			path:'Map/Limit%20Scroll%20Wheel%20Zoom.html',
+			sourcePath:'Map/Limit%20Scroll%20Wheel%20Zoom.html',
+			screenshot:'Limit-Scroll-Wheel-Zoom.png',
+			keywords:'map, gis, api, sdk, mouse wheel, mousewheel, scroll page, map, user interaction, scrollzoominteraction',
+			created:'3/8/2019'
 		},
 		{
 			title:'Load Map with Options',
@@ -1084,4 +1111,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 106;
+}];var numberOfSamples = 109;

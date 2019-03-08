@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-03-06</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-03-08</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -12,6 +12,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Controls/Map%20Navigation%20Control%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Controls/Map%20Style%20Picker.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon%20and%20Select%20Data.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html</loc></url>
@@ -49,6 +50,8 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Add%20a%20Context%20Menu%20to%20the%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Full%20Screen%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Lazy%20Load%20the%20Map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Limit%20Map%20to%20Two%20Finger%20Panning.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Limit%20Scroll%20Wheel%20Zoom.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Load%20Map%20with%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20Events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20Localization.html</loc></url>

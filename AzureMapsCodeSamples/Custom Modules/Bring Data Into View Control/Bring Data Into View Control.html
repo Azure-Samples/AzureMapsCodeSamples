@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Bring Data Into View Control - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, " />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+
+    <script src="BringDataIntoViewControl.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Add controls to the map.
+                map.controls.add(
+                    //Add a imperial scale bar to the map.
+                    new BringDataIntoViewControl({
+                        units: 'imperial'
+                    }), {
+                        position: 'top-left'
+                    });
+
+
+                //Load some test data.
+                loadTestData();
+            });
+        }
+
+        function loadTestData() {
+
+            //Create a data source to add your data to.
+            datasource = new atlas.source.DataSource(null, {
+                //Tell the data source to cluster point data.
+                cluster: true,
+
+                //The radius in pixels to cluster points together.
+                clusterRadius: 45,
+
+                //The maximium zoom level in which clustering occurs.
+                //If you zoom in more than this, all points are rendered as symbols.
+                clusterMaxZoom: 15
+            });
+            map.sources.add(datasource);
+
+            //Load some point data into the data source.
+            datasource.importDataFromUrl('../../Common/data/geojson/SamplePoiDataSet.json');
+
+            //Add a layer for rendering point data as symbols.
+            map.layers.add(new atlas.layer.SymbolLayer(datasource));
+
+            //Create a HTML marker and add it to the map.
+            map.markers.add(new atlas.HtmlMarker({
+                color: 'DodgerBlue',
+                text: '10',
+                position: [-122.33, 47.6]
+            }));
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Bring Data Into View Control</legend>
+        This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map. This works with data in a HtmlMarkers, DataSource and ImageLayers. Does not support TileLayers and VectorTileSources.
+    </fieldset>
+</body>
+</html>
