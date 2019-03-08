@@ -1,9 +1,10 @@
+/** A control that makes it easy to bring any data loaded on the map into view. */
 class BringDataIntoViewControl {
     /****************************
      * Constructor
      ***************************/
     /**
-     * A control that toggles the map from its defined size to a fullscreen size.
+     * A control that makes it easy to bring any data loaded on the map into view.
      * @param options Options for defining how the control is rendered and functions.
      */
     constructor(options) {
@@ -44,7 +45,7 @@ class BringDataIntoViewControl {
         var style = document.createElement('style');
         style.innerHTML = this._buttonCSS;
         document.body.appendChild(style);
-        //Create the fullscreen button.
+        //Create a button container.
         this._container = document.createElement('div');
         this._container.classList.add('azure-maps-control-container');
         this._container.setAttribute('aria-label', ariaLabel);

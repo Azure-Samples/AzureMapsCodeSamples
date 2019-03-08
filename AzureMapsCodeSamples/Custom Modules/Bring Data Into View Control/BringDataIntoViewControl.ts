@@ -1,8 +1,10 @@
 ﻿
+/** Options for the BringDataIntoViewControl. */
 interface BringDataIntoViewControlOptions extends atlas.ControlOptions {
     padding?: number
 }
 
+/** A control that makes it easy to bring any data loaded on the map into view. */
 class BringDataIntoViewControl implements atlas.Control {
     /****************************
      * Private Properties
@@ -26,7 +28,7 @@ class BringDataIntoViewControl implements atlas.Control {
      ***************************/
 
     /**
-     * A control that toggles the map from its defined size to a fullscreen size.
+     * A control that makes it easy to bring any data loaded on the map into view.
      * @param options Options for defining how the control is rendered and functions.
      */
     constructor(options?: BringDataIntoViewControlOptions) {
@@ -65,7 +67,7 @@ class BringDataIntoViewControl implements atlas.Control {
         style.innerHTML = this._buttonCSS;
         document.body.appendChild(style);
 
-        //Create the fullscreen button.
+        //Create a button container.
         this._container = document.createElement('div');
         this._container.classList.add('azure-maps-control-container');
         this._container.setAttribute('aria-label', ariaLabel);
