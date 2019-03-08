@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>Search for points of interest - Azure Maps Web Control Samples</title>
 
@@ -15,25 +16,23 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
+    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=2"></script>
 
     <script>
-        var map, datasource, client, popup;
-
         function GetMap() {
-            //Initialize a map instance.
-            map = new atlas.Map('myMap', {
-
+            
+            // Instantiate a map object
+            var map = new atlas.Map("myMap", {
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
                 }
             });
-            
-            //Wait until the map resources are ready.
-            map.events.add('ready', function () {
-                
+
+            //Wait until the map resources are loaded.
+            map.events.add('load', function () {
+
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
@@ -41,64 +40,80 @@
                 //Add a layer for rendering point data.
                 var resultLayer = new atlas.layer.SymbolLayer(datasource, null, {
                     iconOptions: {
-                        iconImage: 'pin-round-darkblue',
+                        image: 'pin-round-darkblue',
                         anchor: 'center',
                         allowOverlap: true
+                    },
+                    textOptions: {
+                        anchor: "top"
                     }
                 });
+
                 map.layers.add(resultLayer);
 
-                //Create an instance of the services client.
-                client = new atlas.service.Client(atlas.getSubscriptionKey());
+                // Use SubscriptionKeyCredential with a subscription key
+                var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
 
-                //Execute a POI search query then add the results to the map.
-                client.search.getSearchPOI('gasoline station', {
-                    lat: 47.6292,
-                    lon: -122.2337,
-                    radius: 100000
-                }).then(response => {
-                    //Parse the response into GeoJSON so that the map can understand.
-                    var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
-                    var results = geojsonResponse.getGeoJsonResults();
+                // Use subscriptionKeyCredential to create a pipeline
+                var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential);
 
-                    //Add the results to the data source so they can be rendered. 
-                    datasource.add(results);
+                // Construct the SearchURL object
+                var searchURL = new atlas.service.SearchURL(pipeline);
 
-                    // Set the camera bounds
+                var query = 'gasoline-station';
+                var radius = 9000;
+                var lat = 47.64452336193245;
+                var lon = -122.13687658309935;
+
+                searchURL.searchPOI(atlas.service.Aborter.timeout(10000), query, {
+                    limit: 10,
+                    lat: lat,
+                    lon: lon,
+                    radius: radius
+                }).then((results) => {
+
+                    // Extract GeoJSON feature collection from the response and add it to the datasource
+                    var data = results.geojson.getFeatures();
+                    datasource.add(data);
+
+                    // set camera to bounds to show the results
                     map.setCamera({
-                        bounds: results.bbox,
-                        padding: 50
+                        bounds: data.bbox,
+                        zoom: 10,
+                        padding: 15
                     });
                 });
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+
+                //Add a mouse over event to the result layer and display a popup when this event fires.
+                map.events.add('mouseover', resultLayer, showPopup);
+
+                function showPopup(e) {
+                    //Get the properties and coordinates of the first shape that the event occured on.
+
+                    var p = e.shapes[0].getProperties();
+                    var position = e.shapes[0].getCoordinates();
+
+                    //Create HTML from properties of the selected result.
+                    var html = ['<div style="padding:5px"><div><b>', p.poi.name,
+                        '</b></div><div>', p.address.freeformAddress,
+                        '</div><div>', position[1], ', ', position[0], '</div></div>'];
+
+                    //Update the content and position of the popup.
+                    popup.setPopupOptions({
+                        content: html.join(''),
+                        position: position
+                    });
+
+                    //Open the popup.
+                    popup.open(map);
+                }
             });
-
-            //Create a popup but leave it closed so we can update it and display it later.
-            popup = new atlas.Popup();
-
-            //Add a mouse over event to the result layer and display a popup when this event fires.
-            map.events.add('mouseover', resultLayer, showPopup);
-        }
-
-        function showPopup(e) {
-            //Get the properties and coordinates of the first shape that the event occured on.
-            var p = e.shapes[0].getProperties();
-            var position = e.shapes[0].getCoordinates();
-
-            //Create HTML from properties of the selected result.
-            var html = ['<div style="padding:5px"><div><b>', p.poi.name,
-                '</b></div><div>', p.address.freeformAddress,
-                '</div><div>', position[1], ', ', position[0], '</div></div>'];
-
-            //Update the content and position of the popup.
-            popup.setOptions({
-                content: html.join(''),
-                position: position
-            });
-
-            //Open the popup.
-            popup.open(map);
         }
     </script>
+
     <style>
         html,
         body {
@@ -109,13 +124,14 @@
         }
 
         #myMap {
-            position: relative;
             width: 100%;
             height: 100%;
         }
     </style>
 </head>
+
 <body onload="GetMap()">
     <div id="myMap"></div>
 </body>
+
 </html>
