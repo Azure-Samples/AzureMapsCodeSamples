@@ -6,9 +6,9 @@ IF SUFFICIENT INFORMATION IS NOT PROVIDED VIA THE FOLLOWING TEMPLATE THE ISSUE M
 
 ### This issue is for a: (mark with an `x`)
 ```
-- [ ] bug report -> please search issues before submitting
+- [ ] bug report -> please search issues before submitting. If this issue is specific to the Azure Maps platform and not a sample itself, please raise this on the forums: https://stackoverflow.com/questions/tagged/azure-maps
 - [ ] feature request
-- [ ] documentation issue or request
+- [ ] documentation issue or request - Raise this on the forums: https://stackoverflow.com/questions/tagged/azure-maps
 - [ ] regression (a behavior that used to work and stopped in a new release)
 ```
 
