@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Add TopoJSON data to the map - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add TopoJSON data to the map, by converting it into GeoJSON in a Web Worker so that map can easily render it." />
+    <meta name="keywords" content="map, gis, API, SDK, TopoJSON" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+
+    <!-- Load in Catiline.js library which makes it easier to work with web workers. -->
+    <script src="../Common/scripts/catiline.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, popup, topojsonWorker;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                style: 'grayscale_dark',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                popup = new atlas.Popup();
+
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for the polygon areas and add it below the map labels.
+                var polygonLayer = new atlas.layer.PolygonLayer(datasource);
+                map.layers.add(polygonLayer, 'labels');
+
+                //Add a line layer for the polygon outlines.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'white'
+                }));
+
+                map.events.add('click', polygonLayer, featureClicked);
+
+                //Create a web worker that uses the topojson-client library.
+                var wfunc = function (base, cb) {
+                    //Import the topojson-client library.
+                    importScripts('https://unpkg.com/topojson-client@3');
+
+                    //Download the topojson data.
+                    fetch(base)
+                        .then(response => response.json())
+                        .then(function (topology) {
+
+                            //Extract all layers from the TopoJSON topology and convert into GeoJSON.
+                            var geojson = [];
+
+                            Object.keys(topology.objects).forEach(function (val, idx, arr) {
+                                var d = topojson.feature(topology, topology.objects[val]);
+                                if (d.type === 'FeatureCollection') {
+                                    geojson = geojson.concat(d.features);
+                                } else {
+                                    geojson.push(d);
+                                }
+                            });
+
+                            cb(geojson);
+                        });
+                };
+
+                topojsonWorker = cw({ data: wfunc }, 2);
+            });
+        }
+
+        function loadTopoJsonFile(url) {
+            datasource.clear();
+            popup.close();
+            document.getElementById('loadingIcon').style.display = '';
+
+            topojsonWorker.data(cw.makeUrl(url)).then(function (geojson) {
+                //Add the GeoJSON to the map.
+                datasource.add(geojson);
+
+                //Set the map view over the data.
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromData(geojson)
+                });
+
+                document.getElementById('loadingIcon').style.display = 'none';
+            });
+        }
+
+        function featureClicked(e) {
+            //Make sure the event occured on a shape feature.
+            if (e.shapes && e.shapes.length > 0) {
+                //By default, show the popup where the mouse event occured.
+                var pos = e.position;
+                var offset = [0, 0];
+                var properties;
+
+                if (e.shapes[0] instanceof atlas.Shape) {
+                    properties = e.shapes[0].getProperties();
+
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].getType() === 'Point') {
+                        pos = e.shapes[0].getCoordinates();
+                        offset = [0, -18];
+                    }
+                } else {
+                    properties = e.shapes[0].properties;
+
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].type === 'Point') {
+                        pos = e.shapes[0].geometry.coordinates;
+                        offset = [0, -18];
+                    }
+                }
+
+                //Update the content and position of the popup.
+                popup.setOptions({
+                    //Create a table from the properties in the feature.
+                    content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + object2Table(properties) + '</div>',
+                    position: pos,
+                    pixelOffset: offset
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+
+        function object2Table(obj) {
+            //Create a HTML table from an objects property names and values.
+            var html = ['<table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
+
+            Object.keys(obj).forEach(function (key, index) {
+                //Ignore private properties which are commonly denoted using an underscore.
+                if (key.indexOf('_') !== 0) {
+                    html.push('<tr><td>', key, '</td><td>');
+
+                    if (typeof obj[key] === 'object') {
+                        //If the value of the property is an object, create a sub-table recursively.
+                        html.push(object2Table(obj[key]));
+                    } else {
+                        html.push(obj[key]);
+                    }
+
+                    html.push('</td><tr>');
+                }
+            });
+
+            html.push('</table>');
+
+            return html.join('');
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:white;border-radius:5px;padding:5px;">
+        Load TopoJSON:<br />
+        <input type="button" onclick="loadTopoJsonFile('../Common/data/topojson/Spain_Municipalities.json')" value="Spain Municipalities (1.5MB)" /><br />
+        <input type="button" onclick="loadTopoJsonFile('../Common/data/topojson/Brazil_Municipalities.json')" value="Brazil Municipalities (3.5MB)" /><br />
+        <input type="button" onclick="loadTopoJsonFile('../Common/data/topojson/zips_us_topo.json')" value="US Zip Codes (5.3MB)" /><br />
+        <input type="button" onclick="loadTopoJsonFile('../Common/data/topojson/sandiego_zoning_datasd.topojson')" value="San Diego Zoning data (7.3MB)" /><br />
+        <input type="button" onclick="loadTopoJsonFile('../Common/data/topojson/England_Electoral_Wards.json')" value="England Electoral  Wards (4.3MB)" />
+    </div>
+
+    <img id="loadingIcon" src="../Common/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Add TopoJSON data to the map</legend>
+        This sample shows how to add TopoJSON data to the map, by converting it into GeoJSON in a Web Worker so that map can easily render it.
+        TopoJSON data is an extension of GeoJSON that encodes topology.
+        This is ideal for reducing the file size of polygon data sets that that share edges.
+        This sample uses the open source <a href="https://github.com/topojson/topojson-client">topojson-client library</a> for converting the decoding the TopoJSON data into GeoJSON which can be easily add to the map.
+        It also makes use of the open source <a href="http://catilinejs.com/">Catiline.js</a> library which makes working with web workers easier.
+        <br />
+        <br />
+        <b>Note:</b> Not all file and mime types are enabled in all servers. If using .NET, it is recommended to add the following to the web.config file:
+        <br />
+        <br />
+        &lt;system.webServer&gt;<br />&nbsp;&nbsp;&lt;staticContent&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.topojson&quot; mimeType=&quot;application/json&quot; /&gt;<br />&nbsp;&nbsp;&lt;/staticContent&gt;<br />&lt;system.webServer&gt;
+    </fieldset>
+</body>
+</html>

@@ -109,9 +109,9 @@
                 spiderManager = new SpiderClusterManager(map, clusterBubbleLayer, shapeLayer, {
                     featureSelected: function (shape, cluster) {
                         if (cluster) {
-                            showPopup(cluster.geometry.coordinates, shape.getProperties());
+                            showPopup(cluster.geometry.coordinates, shape.getProperties(), [0, 0]);
                         } else {
-                            showPopup(shape.getCoordinates(), shape.getProperties());
+                            showPopup(shape.getCoordinates(), shape.getProperties(), [0, -20]);
                         }
                     },
                     featureUnselected: function () {
@@ -121,13 +121,16 @@
             });
         }
 
-        function showPopup(position, properties) {
+        function showPopup(position, properties, pixelOffset) {
             popup.setOptions({
                 //Update the content of the popup.
                 content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + object2Table(properties) + '</div>',
 
                 //Update the position of the popup with the symbols coordinate.
-                position: position
+                position: position,
+
+                //Offset the popups position for better alignment with the layer.
+                pixelOffset: pixelOffset
             });
 
             //Open the popup.

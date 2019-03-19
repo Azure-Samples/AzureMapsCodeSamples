@@ -53,6 +53,7 @@ class SpiderClusterManager {
         //Make a copy of the cluster layer options.
         var unclustedLayerOptions = this._deepCopy(unclustedLayer.getOptions(), ['source']);
         unclustedLayerOptions.filter = ['==', '$type', 'Point'];
+        this._unclustedLayer = unclustedLayer;
         if (unclustedLayer instanceof atlas.layer.BubbleLayer) {
             this._spiderFeatureLayer = new atlas.layer.BubbleLayer(this._spiderDataSource, null, unclustedLayerOptions);
         }
@@ -68,8 +69,9 @@ class SpiderClusterManager {
         map.events.add('movestart', () => { this.hideSpiderCluster(); });
         map.events.add('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(e); });
         map.events.add('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(e); });
-        map.events.add('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
         map.events.add('click', this._clusterLayer, (e) => { this._layerClickEvent(e); });
+        map.events.add('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
+        map.events.add('click', this._unclustedLayer, (e) => { this._layerClickEvent(e); });
     }
     /**********************
     * Public Functions
@@ -91,6 +93,7 @@ class SpiderClusterManager {
         this._map.events.remove('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(e); });
         this._map.events.remove('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(e); });
         this._map.events.remove('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
+        this._map.events.remove('click', this._unclustedLayer, (e) => { this._layerClickEvent(e); });
     }
     /**
     * Collapses any open spider clusters.
@@ -204,16 +207,28 @@ class SpiderClusterManager {
     */
     _layerClickEvent(e) {
         if (e && e.shapes && e.shapes.length > 0) {
-            var f = e.shapes[0];
-            if (f.properties.cluster) {
+            var prop;
+            var pos;
+            var s;
+            if (e.shapes[0] instanceof atlas.Shape) {
+                s = e.shapes[0];
+                prop = s.getProperties();
+                pos = s.getCoordinates();
+            }
+            else {
+                var f = e.shapes[0];
+                prop = f.properties;
+                pos = f.geometry.coordinates;
+            }
+            if (prop.cluster) {
                 if (this._options.featureUnselected) {
                     this._options.featureUnselected();
                 }
-                this._currentCluster = f;
-                if (f.properties.point_count > this._options.maxFeaturesInWeb) {
-                    this._datasource.getClusterExpansionZoom(f.properties.cluster_id).then(zoom => {
+                this._currentCluster = e.shapes[0];
+                if (prop.point_count > this._options.maxFeaturesInWeb) {
+                    this._datasource.getClusterExpansionZoom(prop.cluster_id).then(zoom => {
                         this._map.setCamera({
-                            center: f.geometry.coordinates,
+                            center: pos,
                             zoom: zoom
                         });
                     });
@@ -223,7 +238,12 @@ class SpiderClusterManager {
                 }
             }
             else {
-                var s = this._datasource.getShapeById(f.properties._parentId);
+                if (typeof prop._parentId !== 'undefined') {
+                    s = this._datasource.getShapeById(prop._parentId);
+                }
+                else {
+                    this._currentCluster = null;
+                }
                 if (this._options.featureSelected && s) {
                     this._options.featureSelected(s, this._currentCluster);
                 }

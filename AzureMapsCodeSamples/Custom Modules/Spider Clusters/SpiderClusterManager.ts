@@ -46,6 +46,7 @@ class SpiderClusterManager {
     private _datasource: atlas.source.DataSource;
     private _spiderDataSource: atlas.source.DataSource;
     private _clusterLayer: atlas.layer.BubbleLayer | atlas.layer.SymbolLayer;
+    private _unclustedLayer: atlas.layer.BubbleLayer | atlas.layer.SymbolLayer;
     private _spiderFeatureLayer: atlas.layer.BubbleLayer | atlas.layer.SymbolLayer;
     private _spiderLineLayer: atlas.layer.LineLayer;
     private _hoverStateId: string = null;
@@ -113,6 +114,8 @@ class SpiderClusterManager {
         var unclustedLayerOptions = this._deepCopy(unclustedLayer.getOptions(), ['source']);
         unclustedLayerOptions.filter = ['==', '$type', 'Point'];        
 
+        this._unclustedLayer = unclustedLayer;
+
         if (unclustedLayer instanceof atlas.layer.BubbleLayer) {
             this._spiderFeatureLayer = new atlas.layer.BubbleLayer(this._spiderDataSource, null, unclustedLayerOptions);
         } else {
@@ -129,9 +132,10 @@ class SpiderClusterManager {
         map.events.add('click', () => { this.hideSpiderCluster(); });
         map.events.add('movestart', () => { this.hideSpiderCluster(); });
         map.events.add('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(e) });
-        map.events.add('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(e) });
-        map.events.add('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
+        map.events.add('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(e) });        
         map.events.add('click', this._clusterLayer, (e) => { this._layerClickEvent(e); });
+        map.events.add('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
+        map.events.add('click', this._unclustedLayer, (e) => { this._layerClickEvent(e); });
     }
 
     /**********************
@@ -158,6 +162,7 @@ class SpiderClusterManager {
         this._map.events.remove('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(<atlas.MapMouseEvent>e) });
         this._map.events.remove('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(<atlas.MapMouseEvent>e) });
         this._map.events.remove('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(<atlas.MapMouseEvent>e); });
+        this._map.events.remove('click', this._unclustedLayer, (e) => { this._layerClickEvent(<atlas.MapMouseEvent>e); });
     }
 
     /**
@@ -296,19 +301,32 @@ class SpiderClusterManager {
     */
     private _layerClickEvent(e: atlas.MapMouseEvent): void {
         if (e && e.shapes && e.shapes.length > 0) {
-            var f = <atlas.data.Feature<atlas.data.Point, any>>e.shapes[0];
 
-            if (f.properties.cluster) {
+            var prop;
+            var pos;
+            var s: atlas.Shape;
+
+            if (e.shapes[0] instanceof atlas.Shape) {
+                s = <atlas.Shape>e.shapes[0];
+                prop = s.getProperties();
+                pos = s.getCoordinates();
+            } else {
+                var f = <atlas.data.Feature<atlas.data.Point, any>>e.shapes[0];
+                prop = f.properties;
+                pos = f.geometry.coordinates;
+            }
+
+            if (prop.cluster) {
                 if (this._options.featureUnselected) {
                     this._options.featureUnselected();
                 }
 
-                this._currentCluster = f;
+                this._currentCluster = <atlas.data.Feature<atlas.data.Point, any>>e.shapes[0];
 
-                if (f.properties.point_count > this._options.maxFeaturesInWeb) {
-                    this._datasource.getClusterExpansionZoom(f.properties.cluster_id).then(zoom => {
+                if (prop.point_count > this._options.maxFeaturesInWeb) {
+                    this._datasource.getClusterExpansionZoom(prop.cluster_id).then(zoom => {
                         this._map.setCamera({
-                            center: f.geometry.coordinates,
+                            center: pos,
                             zoom: zoom
                         });
                     });
@@ -316,7 +334,11 @@ class SpiderClusterManager {
                     this.showSpiderCluster(f);
                 }
             } else {
-                var s: atlas.Shape | atlas.data.Feature<atlas.data.Point, any> = this._datasource.getShapeById(f.properties._parentId);
+                if (typeof prop._parentId !== 'undefined') {
+                    s = this._datasource.getShapeById(prop._parentId);
+                } else {
+                    this._currentCluster = null;
+                }
                
                 if (this._options.featureSelected && s) {
                     this._options.featureSelected(s, this._currentCluster);

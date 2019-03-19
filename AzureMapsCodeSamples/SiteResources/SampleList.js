@@ -274,6 +274,15 @@ var sampleList = [
 			created:'1/14/2019'
 		},
 		{
+			title:'Add TopoJSON data to the map',
+			desc:'This sample shows how to add TopoJSON data to the map, by converting it into GeoJSON in a Web Worker so that map can easily render it.',
+			path:'Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html',
+			sourcePath:'Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html',
+			screenshot:'Add-TopoJSON-data-to-the-map.png',
+			keywords:'map, gis, api, sdk, topojson',
+			created:'3/18/2019'
+		},
+		{
 			title:'Drag and Drop GeoJSON File onto Map',
 			desc:'This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render.',
 			path:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
@@ -1111,4 +1120,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 109;
+}];var numberOfSamples = 110;

@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2018 Microsoft Corporation. All rights reserved.
+ * Copyright(c) 2019 Microsoft Corporation. All rights reserved.
  *
  * This code is licensed under the MIT License (MIT).
  *
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 */
-/// <reference path="../../Common/typings/azure-maps-control.d.ts"/>
 /**
  * A class for creating Pie Charts as Markers on a map.
  * In addition to the options, there is also two CSS classes that can be customized:

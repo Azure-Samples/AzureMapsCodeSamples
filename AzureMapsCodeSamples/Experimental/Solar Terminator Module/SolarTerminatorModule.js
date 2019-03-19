@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2018 Microsoft Corporation. All rights reserved.
+ * Copyright(c) 2019 Microsoft Corporation. All rights reserved.
  *
  * This code is licensed under the MIT License (MIT).
  *

@@ -163,6 +163,7 @@
     <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js" />
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js" />
     <Content Include="Experimental\Inspect features under the mouse.html" />
+    <Content Include="Geospatial Files\Add TopoJSON data to the map.html" />
     <Content Include="Geospatial Files\Drag and Drop Shapefiles onto the Map.html" />
     <Content Include="Geospatial Files\Load large Shapefiles using a Web Worker.html" />
     <Content Include="Geospatial Files\Load Shapefiles onto the Map.html" />
@@ -182,6 +183,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SiteResources\screenshots\Add-a-delimited-file-%28CSV%29-to-the-map.png" />
+    <Content Include="SiteResources\screenshots\Add-TopoJSON-data-to-the-map.png" />
     <Content Include="SiteResources\screenshots\Bring-Data-Into-View-Control.png" />
     <Content Include="SiteResources\screenshots\Cardinal-Spline-Options.png" />
     <Content Include="SiteResources\screenshots\Data-Driven-Styling.png" />
@@ -331,6 +333,12 @@
     <Content Include="Common\data\shp\Electric_Power_Transmission_Lines.zip" />
     <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js.map" />
     <Content Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.js.map" />
+    <Content Include="Common\data\topojson\England_Electoral_Wards.json" />
+    <Content Include="Common\data\topojson\sandiego_zoning_datasd.topojson" />
+    <Content Include="Common\data\topojson\Spain_Municipalities.json" />
+    <Content Include="Common\data\topojson\Brazil_Municipalities.json" />
+    <Content Include="Common\data\topojson\zip-code-level-2017-topojson.json" />
+    <Content Include="Common\data\topojson\zips_us_topo.json" />
     <None Include="packages.config" />
     <Content Include="Common\images\pushpins\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />

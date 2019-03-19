@@ -105,54 +105,68 @@
         }
 
         function featureClicked(e) {
-        //Make sure the event occured on a shape feature.
-        if (e.shapes && e.shapes.length > 0) {
-            var properties = e.shapes[0].getProperties();
+            //Make sure the event occured on a shape feature.
+            if (e.shapes && e.shapes.length > 0) {
+                //By default, show the popup where the mouse event occured.
+                var pos = e.position;
+                var offset = [0, 0];
+                var properties;
 
-            //By default, show the popup where the mouse event occured.
-            var pos = e.position;
+                if (e.shapes[0] instanceof atlas.Shape) {
+                    properties = e.shapes[0].getProperties();
 
-            //If the shape is a point feature, show the popup at the points coordinate.
-            if (e.shapes[0].getType() === 'Point') {
-                pos = e.shapes[0].getCoordinates();
-            }
-
-            //Update the content and position of the popup.
-            popup.setOptions({
-                //Create a table from the properties in the feature.
-                content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + object2Table(properties) + '</div>',
-                position: pos
-            });
-
-            //Open the popup.
-            popup.open(map);
-        }
-    }
-
-    function object2Table(obj) {
-        //Create a HTML table from an objects property names and values.
-        var html = ['<table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
-
-        Object.keys(obj).forEach(function (key, index) {
-            //Ignore private properties which are commonly denoted using an underscore.
-            if (key.indexOf('_') !== 0) {
-                html.push('<tr><td>', key, '</td><td>');
-
-                if (typeof obj[key] === 'object') {
-                    //If the value of the property is an object, create a sub-table recursively.
-                    html.push(object2Table(obj[key]));
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].getType() === 'Point') {
+                        pos = e.shapes[0].getCoordinates();
+                        offset = [0, -18];
+                    }
                 } else {
-                    html.push(obj[key]);
+                    properties = e.shapes[0].properties;
+
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].type === 'Point') {
+                        pos = e.shapes[0].geometry.coordinates;
+                        offset = [0, -18];
+                    }
                 }
 
-                html.push('</td><tr>');
+                //Update the content and position of the popup.
+                popup.setOptions({
+                    //Create a table from the properties in the feature.
+                    content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + object2Table(properties) + '</div>',
+                    position: pos,
+                    pixelOffset: offset
+                });
+
+                //Open the popup.
+                popup.open(map);
             }
-        });
+        }
+        
+        function object2Table(obj) {
+            //Create a HTML table from an objects property names and values.
+            var html = ['<table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
 
-        html.push('</table>');
+            Object.keys(obj).forEach(function (key, index) {
+                //Ignore private properties which are commonly denoted using an underscore.
+                if (key.indexOf('_') !== 0) {
+                    html.push('<tr><td>', key, '</td><td>');
 
-        return html.join('');
-    }
+                    if (typeof obj[key] === 'object') {
+                        //If the value of the property is an object, create a sub-table recursively.
+                        html.push(object2Table(obj[key]));
+                    } else {
+                        html.push(obj[key]);
+                    }
+
+                    html.push('</td><tr>');
+                }
+            });
+
+            html.push('</table>');
+
+            return html.join('');
+        }
     </script>
     <style>
         #myMap {

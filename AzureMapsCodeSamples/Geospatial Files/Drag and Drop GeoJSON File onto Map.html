@@ -160,21 +160,35 @@
         function featureClicked(e) {
             //Make sure the event occured on a shape feature.
             if (e.shapes && e.shapes.length > 0) {
-                var properties = e.shapes[0].getProperties();
-
                 //By default, show the popup where the mouse event occured.
                 var pos = e.position;
+                var offset = [0, 0];
+                var properties;
 
-                //If the shape is a point feature, show the popup at the points coordinate.
-                if (e.shapes[0].getType() === 'Point') {
-                    pos = e.shapes[0].getCoordinates();
+                if (e.shapes[0] instanceof atlas.Shape) {
+                    properties = e.shapes[0].getProperties();
+
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].getType() === 'Point') {
+                        pos = e.shapes[0].getCoordinates();
+                        offset = [0, -18];
+                    }
+                } else {
+                    properties = e.shapes[0].properties;
+
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].type === 'Point') {
+                        pos = e.shapes[0].geometry.coordinates;
+                        offset = [0, -18];
+                    }
                 }
 
                 //Update the content and position of the popup.
                 popup.setOptions({
                     //Create a table from the properties in the feature.
                     content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + object2Table(properties) + '</div>',
-                    position: pos
+                    position: pos,
+                    pixelOffset: offset
                 });
 
                 //Open the popup.
