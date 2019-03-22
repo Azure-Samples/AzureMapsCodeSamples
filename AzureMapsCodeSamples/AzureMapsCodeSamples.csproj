@@ -131,7 +131,9 @@
     <Content Include="Common\data\geojson\address.json" />
     <Content Include="Common\data\geojson\streets.json" />
     <Content Include="Common\images\image-overlays\newark_nj_1922.jpg" />
+    <Content Include="Common\images\pushpins\blueArrowRight.png" />
     <Content Include="Common\images\pushpins\gpsArrowIcon.png" />
+    <Content Include="Common\images\pushpins\purpleArrowRight.png" />
     <Content Include="Common\images\pushpins\ssMap.png" />
     <Content Include="Common\images\pushpins\sun-icon.png" />
     <Content Include="Common\images\pushpins\ylw-pushpin.png" />
@@ -177,12 +179,14 @@
     <Content Include="Map\Export Map as Image\MapImageExporter.js" />
     <Content Include="Map\Limit Scroll Wheel Zoom.html" />
     <Content Include="Map\Limit Map to Two Finger Panning.html" />
+    <Content Include="Polygon and Line Layers\Add Arrows along a Path.html" />
     <Content Include="Polygon and Line Layers\Line with Stroke Gradient.html" />
     <Content Include="Polygon and Line Layers\Polygon Fill Pattern.html" />
     <Content Include="sitemap.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SiteResources\screenshots\Add-a-delimited-file-%28CSV%29-to-the-map.png" />
+    <Content Include="SiteResources\screenshots\Add-Arrows-along-a-Path.png" />
     <Content Include="SiteResources\screenshots\Add-TopoJSON-data-to-the-map.png" />
     <Content Include="SiteResources\screenshots\Bring-Data-Into-View-Control.png" />
     <Content Include="SiteResources\screenshots\Cardinal-Spline-Options.png" />

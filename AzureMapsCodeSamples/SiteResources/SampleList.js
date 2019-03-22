@@ -601,6 +601,15 @@ var sampleList = [
 	desc:'Learn how to overlay geospatially accurate circles, polygons, linestrings, and multi-geometries on the map using polygon and line layers.',
 	samples: [
 		{
+			title:'Add Arrow along a Path',
+			desc:'This sample shows how to add arrow icons along a line on the map. ',
+			path:'Polygon%20and%20Line%20Layers/Add%20Arrows%20along%20a%20Path.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Add%20Arrows%20along%20a%20Path.html',
+			screenshot:'Add-Arrows-along-a-Path.png',
+			keywords:'map, gis, api, sdk, linestring, arrows, path, symbols',
+			created:'3/22/2019'
+		},
+		{
 			title:'Geospatially Accurate Cirle',
 			desc:'This sample shows how to use the extended GeoJSON schema defined by Azure Maps to create a geospatially accurate circle on the map with a filled area and a styled outline.',
 			path:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
@@ -1120,4 +1129,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 110;
+}];var numberOfSamples = 111;
