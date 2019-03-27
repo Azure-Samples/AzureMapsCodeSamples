@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to enable point based clustering on a data source and render them differently from symbols." />
+    <meta name="description" content="This sample shows how to enable point based clustering on a data source and render them differently from individual points on the map." />
     <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -139,12 +139,12 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Point Clusters in Bubble Layer</legend>
-        This sample shows how to enable point based clustering on a data source and render them differently from symbols. Clustered points have four properties; 
+        This sample shows how to enable point based clustering on a data source and render them differently from individual points on the map. Clustered points have four properties; 
 
         <ul>
             <li>cluster - A boolean value indiciating that it is a cluster.</li>
-            <li>cluster_id - A unqiue id for the cluster which can be used with the DataSource getClusterExpansionZoom, getClusterChildren, and getClusterLeaves functions.</li>
-            <li>point_count - A number indicating the number of points in the cluster.</li>
+            <li>cluster_id - A unique id for the cluster which can be used with the DataSource getClusterExpansionZoom, getClusterChildren, and getClusterLeaves functions.</li>
+            <li>point_count - The number of points the cluster contains.</li>
             <li>point_count_abbreviated - A string that abbreviates the point_count value if it is long. (i.e. 4,000 becomes 4K)</li>
         </ul>
     </fieldset>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-03-22</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-03-27</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -33,6 +33,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Extract%20and%20display%20photo%20location.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Simple%20Heat%20Map%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html</loc></url>
@@ -82,6 +83,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Cardinal%20Spline%20Options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Introduction%20to%20spatial%20math.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Simple%20Cardinal%20Spline.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math%20with%20Turf.js/Filter%20Data%20Along%20Route.html</loc></url>
@@ -91,6 +93,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Draggable%20Symbols.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Filter%20Symbols%20by%20Property.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Layer%20Events.html</loc></url>

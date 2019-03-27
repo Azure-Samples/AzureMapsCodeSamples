@@ -131,12 +131,14 @@
     <Content Include="Common\data\geojson\address.json" />
     <Content Include="Common\data\geojson\streets.json" />
     <Content Include="Common\images\image-overlays\newark_nj_1922.jpg" />
-    <Content Include="Common\images\pushpins\blueArrowRight.png" />
-    <Content Include="Common\images\pushpins\gpsArrowIcon.png" />
-    <Content Include="Common\images\pushpins\purpleArrowRight.png" />
-    <Content Include="Common\images\pushpins\ssMap.png" />
-    <Content Include="Common\images\pushpins\sun-icon.png" />
-    <Content Include="Common\images\pushpins\ylw-pushpin.png" />
+    <Content Include="Common\images\icons\blueArrowRight.png" />
+    <Content Include="Common\images\icons\earthquake_icon.png" />
+    <Content Include="Common\images\icons\gpsArrowIcon.png" />
+    <Content Include="Common\images\icons\purpleArrowRight.png" />
+    <Content Include="Common\images\icons\ssMap.png" />
+    <Content Include="Common\images\icons\sun-icon.png" />
+    <Content Include="Common\images\icons\warning_triangle_icon.png" />
+    <Content Include="Common\images\icons\ylw-pushpin.png" />
     <Content Include="Common\images\Pike_Market.jpg" />
     <Content Include="Common\scripts\catiline.min.js" />
     <Content Include="Common\scripts\clipboard.min.js" />
@@ -169,6 +171,7 @@
     <Content Include="Geospatial Files\Drag and Drop Shapefiles onto the Map.html" />
     <Content Include="Geospatial Files\Load large Shapefiles using a Web Worker.html" />
     <Content Include="Geospatial Files\Load Shapefiles onto the Map.html" />
+    <Content Include="Heat Map Layer\Cluster weighted Heat Map.html" />
     <Content Include="Map\Export Map as Image\Export Map as Image.html" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js" />
     <Content Include="Geospatial Files\Add a delimited file %28CSV%29 to the map.html" />
@@ -190,7 +193,10 @@
     <Content Include="SiteResources\screenshots\Add-TopoJSON-data-to-the-map.png" />
     <Content Include="SiteResources\screenshots\Bring-Data-Into-View-Control.png" />
     <Content Include="SiteResources\screenshots\Cardinal-Spline-Options.png" />
+    <Content Include="SiteResources\screenshots\Cluster-weighted-Heat-Map.png" />
     <Content Include="SiteResources\screenshots\Data-Driven-Styling.png" />
+    <Content Include="SiteResources\screenshots\Display-cluster-area-with-Convex-Hull.png" />
+    <Content Include="SiteResources\screenshots\Display-clusters-with-a-Symbol-Layer.png" />
     <Content Include="SiteResources\screenshots\Drag-and-Drop-Shapefiles-onto-the-Map.gif" />
     <Content Include="SiteResources\screenshots\Expanding-Spider-Clusters.gif" />
     <Content Include="SiteResources\screenshots\Export-Map-as-Image.png" />
@@ -206,6 +212,7 @@
     <Content Include="SiteResources\screenshots\WMS-Tile-Layer.png" />
     <Content Include="SiteResources\screenshots\WMTS-Tile-Layer.png" />
     <Content Include="Spatial Math\Cardinal Spline Options.html" />
+    <Content Include="Spatial Math\Display cluster area with Convex Hull.html" />
     <Content Include="Spatial Math\Simple Cardinal Spline.html" />
     <Content Include="Heat Map Layer\Simple Heat Map Layer.html" />
     <Content Include="Heat Map Layer\Weighted Heat Map Layer.html" />
@@ -243,6 +250,7 @@
     <Content Include="SiteResources\screenshots\Weighted-Heat-Map-Layer.png" />
     <Content Include="Experimental\test\Concave and Convex Hulls.html" />
     <Content Include="Bubble Layer\Point Clusters in Bubble Layer.html" />
+    <Content Include="Symbol Layer\Display clusters with a Symbol layer.html" />
     <Content Include="Symbol Layer\Filter Symbols by Property.html" />
     <Content Include="SiteResources\screenshots\Calculate-a-Simple-Isochrone.png" />
     <Content Include="SiteResources\screenshots\Filter-Data-Along-Route.png" />
@@ -344,7 +352,7 @@
     <Content Include="Common\data\topojson\zip-code-level-2017-topojson.json" />
     <Content Include="Common\data\topojson\zips_us_topo.json" />
     <None Include="packages.config" />
-    <Content Include="Common\images\pushpins\showers.png" />
+    <Content Include="Common\images\icons\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
     <Content Include="index.html" />
     <None Include="Properties\PublishProfiles\AzureMapsCodeSamples - Web Deploy.pubxml" />

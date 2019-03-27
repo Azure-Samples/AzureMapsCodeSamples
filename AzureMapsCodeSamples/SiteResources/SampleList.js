@@ -83,7 +83,7 @@ var sampleList = [
 		},
 		{
 			title:'Point Clusters in Bubble Layer',
-			desc:'This sample shows how to enable point based clustering on a data source and render them differently from symbols.',
+			desc:'This sample shows how to enable point based clustering on a data source and render them differently from individual points on the map.',
 			path:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
 			sourcePath:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
 			screenshot:'Point-Clusters-in-Bubble-Layer.png',
@@ -333,6 +333,15 @@ var sampleList = [
 	category:'Heat Map Layer',
 	desc:'',
 	samples: [
+		{
+			title:'Cluster weighted Heat Map',
+			desc:'This sample shows how to create a heat map that uses clustering on the data source to improve performance for large data sets. ',
+			path:'Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html',
+			sourcePath:'Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html',
+			screenshot:'Cluster-weighted-Heat-Map.png',
+			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, clustering, superclusterer',
+			created:'3/27/2019'
+		},
 		{
 			title:'Heat Map Layer Options',
 			desc:'This sample shows how the different options of the heat map affect rendering.',
@@ -823,6 +832,15 @@ var sampleList = [
 			created:'12/10/2018'
 		},
 		{
+			title:'Display cluster area with Convex Hull',
+			desc:'This sample shows how to display the area of the points contained within a cluster by calculating a convex hull. ',
+			path:'Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html',
+			sourcePath:'Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html',
+			screenshot:'Display-cluster-area-with-Convex-Hull.png',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, convex hull, spatial math',
+			created:'3/27/2019'
+		},
+		{
 			title:'Introduction to Spatial Math',
 			desc:'This sample shows how to use many of the built in spatial math functions in the Azure Maps web control.',
 			path:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
@@ -914,6 +932,15 @@ var sampleList = [
 			screenshot:'Custom-Symbol-Image-Icon.png',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
 			created:'9/23/2018'
+		},
+		{
+			title:'Display clusters with a Symbol Layer',
+			desc:'This sample shows how to enable point based clustering on a data source and render them with different symbols.',
+			path:'Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html',
+			sourcePath:'Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html',
+			screenshot:'Display-clusters-with-a-Symbol-Layer.png',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer',
+			created:'3/27/2019'
 		},
 		{
 			title:'Draggable Symbols',
@@ -1129,4 +1156,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 111;
+}];var numberOfSamples = 114;

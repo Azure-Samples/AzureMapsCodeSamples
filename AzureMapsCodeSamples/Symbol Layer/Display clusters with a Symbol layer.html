@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Display clusters with a Symbol Layer - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to enable point based clustering on a data source and render them with different symbols." />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, layer, clustering, superclusterer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        //GeoJSON feed of all earthquakes from the past 30 days. Sourced from the USGS.
+        var earthquakeFeed = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+
+        //Find more earthquake data feeds here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-97, 39],
+                zoom: 3,
+                style: 'grayscale_dark',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an array of custom icon promises to load into the map. 
+                var iconPromises = [
+                    map.imageSprite.add('earthquake_icon', '../Common/images/icons/earthquake_icon.png'),
+                    map.imageSprite.add('warning_triangle_icon', '../Common/images/icons/warning_triangle_icon.png')
+                ];
+
+                //Load all the custom image icons into the map resources.
+                Promise.all(iconPromises).then(function () {
+
+                    //Create a data source and add it to the map.
+                    datasource = new atlas.source.DataSource(null, {
+                        //Tell the data source to cluster point data.
+                        cluster: true
+                    });
+                    map.sources.add(datasource);
+
+                    //Add two symbol layers to the map, one for clusters, one for individual points.
+                    map.layers.add([
+                        //Create a symbol layer to render the clusters.
+                        new atlas.layer.SymbolLayer(datasource, null, {
+                            iconOptions: {
+                                image: 'warning_triangle_icon'
+                            },
+                            textOptions: {
+                                textField: '{point_count_abbreviated}',
+                                offset: [0, -0.4]
+                            }
+                        }),
+
+                        //Create a layer to render the individual locations.
+                        new atlas.layer.SymbolLayer(datasource, null, {
+                            iconOptions: {
+                                image: 'earthquake_icon'
+                            },
+                            filter: ['!has', 'point_count'] //Filter out clustered points from this layer.
+                        })
+                    ]);
+
+                    //Retrieve a GeoJSON data set and add it to the data source.
+                    datasource.importDataFromUrl(earthquakeFeed);
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Display clusters with a Symbol Layer</legend>
+        This sample shows how to enable point based clustering on a data source and render them with different symbols. Clustered points have four properties;
+
+        <ul>
+            <li>cluster - A boolean value indiciating that it is a cluster.</li>
+            <li>cluster_id - A unique id for the cluster which can be used with the DataSource getClusterExpansionZoom, getClusterChildren, and getClusterLeaves functions.</li>
+            <li>point_count - The number of points the cluster contains.</li>
+            <li>point_count_abbreviated - A string that abbreviates the point_count value if it is long. (i.e. 4,000 becomes 4K)</li>
+        </ul>
+    </fieldset>
+</body>
+</html>

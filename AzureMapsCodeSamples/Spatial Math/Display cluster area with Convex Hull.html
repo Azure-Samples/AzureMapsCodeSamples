@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Display cluster area with Convex Hull - Azure Maps Web Control Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to display the area of the points contained within a cluster by calculating a convex hull. " />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, layer, clustering, superclusterer, convex hull, spatial math" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, polygonDatasource;
+
+        //GeoJSON feed of all earthquakes from the past 30 days. Sourced from the USGS.
+        var earthquakeFeed = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+
+        //Find more earthquake data feeds here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-97, 39],
+                zoom: 3,
+                style: 'grayscale_dark',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source for the point data.
+                datasource = new atlas.source.DataSource(null, {
+                    //Tell the data source to cluster point data.
+                    cluster: true
+                });
+
+                //Create a data source for the convex hull polygon. Since this will be updated frequently it is more efficient to seperate this into its own data source.
+                polygonDatasource = new atlas.source.DataSource();
+
+                //Add the data sources to the map.
+                map.sources.add([polygonDatasource, datasource]);
+
+                //Create a symbol layer to render the clusters.
+                var clusterLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: 'marker-red'
+                    },
+                    textOptions: {
+                        textField: '{point_count_abbreviated}',
+                        offset: [0, -1.2],
+                        color: "#ffffff",
+                        size: 14
+                    },
+                    filter: ['has', 'point_count'] //Filter individual points from this layer.
+                });
+
+                //Add a mouse over event to calculate and display the cluster area using a convex hull.
+                map.events.add('mouseover', clusterLayer, displayClusterArea);
+
+                //Add a mouse leave event to remove the convex hull from the map.
+                map.events.add('mouseleave', clusterLayer, function () {
+                    polygonDatasource.clear();
+                });
+
+                //Add a polygon layer and a line layer to display the convex hull. 
+                //Add two symbol layers to the map, one for clusters, one for individual points.
+                map.layers.add([
+                    //Create a polygon layer to display the area of the convex hull.
+                    new atlas.layer.PolygonLayer(polygonDatasource),
+
+                    //Create a line layer to display the outline of the convex hull.
+                    new atlas.layer.LineLayer(polygonDatasource),
+
+                    clusterLayer,
+
+                    //Create a layer to render the individual locations.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        filter: ['!has', 'point_count'] //Filter out clustered points from this layer.
+                    })
+                ]);
+
+                //Retrieve a GeoJSON data set and add it to the data source.
+                datasource.importDataFromUrl(earthquakeFeed);
+            });
+        }
+        
+        function displayClusterArea(e) {
+            if (e && e.shapes && e.shapes.length > 0 && e.shapes[0].properties.cluster) {
+                //Get the clustered point from the event.
+                var cluster = e.shapes[0];
+
+                //Get all points in the cluster. Set the offset to 0 and the limit to Infinity to return all points.
+                datasource.getClusterLeaves(cluster.properties.cluster_id, Infinity, 0).then(function (points) {
+
+                    if (points.length === 2) {
+                        //When only two points in a cluster. Render a line.
+                        polygonDatasource.setShapes(new atlas.data.LineString([points[0].geometry.coordinates, points[1].geometry.coordinates]));
+                    } else {
+                        var hullPolygon = atlas.math.getConvexHull(points);
+
+                        //Overwrite all data in the polygon data source with the newly calculated convex hull polygon.
+                        polygonDatasource.setShapes(hullPolygon);
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend>Display cluster area with Convex Hull</legend>
+        This sample shows how to display the area of the points contained within a cluster by calculating a convex hull. 
+    </fieldset>
+</body>
+</html>
