@@ -47,14 +47,14 @@
                     //Layer for drawing the hull polygon area.
                     new atlas.layer.PolygonLayer(datasource, null, {
 
-                        filter: ['==', '$type', 'Polygon']
+                        filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
                     }),
 
                     //Layer for drawing the hull polygon outline.
                     new atlas.layer.LineLayer(datasource, null, {
                         color: 'red',
                         strokeWidth: 3,
-                        filter: ['==', '$type', 'Polygon']
+                        filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
                     }),
 
                     //Layer for displaying the random points.
@@ -63,7 +63,7 @@
                             allowOverlap: true,
                             ignorePlacement: true
                         },
-                        filter: ['==', '$type', 'Point']
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                     })
                 ]);
             });

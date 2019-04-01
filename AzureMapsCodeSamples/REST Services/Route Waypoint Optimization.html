@@ -53,8 +53,7 @@
                     //Render linestring data using a line layer.
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'blue',
-                        strokeWidth: 5,
-                        filter: ['==', '$type', 'LineString']
+                        strokeWidth: 5
                     }),
 
                     //Render point data using a symbol layer.
@@ -64,7 +63,7 @@
                             offset: [0, -1.2],
                             color: 'white'
                         },
-                        filter: ['==', '$type', 'Point']
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                     })
                 ]);
 

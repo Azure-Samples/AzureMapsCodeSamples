@@ -167,11 +167,87 @@ class BringDataIntoViewControl {
         if (lang.indexOf('-') > 0) {
             lang = lang.substring(0, lang.indexOf('-'));
         }
-        //TODO: Add translations.
         switch (lang) {
-            //case 'fr':
-            //    return '';
+            case 'af':
+                return 'Bring data in die oog';
+            case 'ar':
+                return 'جلب البيانات في الرأي';
+            case 'eu':
+                return 'Ekarri datuak ikusteko';
+            case 'bg':
+                return 'Привеждане на данните в изглед';
+            case 'zh':
+                return '将数据带入视图';
+            case 'hr':
+                return 'Donesite podatke u prikaz';
+            case 'cs':
+                return 'Přenést data do zobrazení';
+            case 'da':
+                return 'Få vist data i visningen';
+            case 'nl':
+                return 'Gegevens in beeld brengen';
+            case 'et':
+                return 'Andmete vaatamine';
+            case 'fi':
+                return 'Tuo tiedot näkymään';
+            case 'fr':
+                return 'Mettre les données en vue';
+            case 'gl':
+                return 'Fai ver os datos';
+            case 'de':
+                return 'Daten in den Blick bringen';
+            case 'el':
+                return 'Εισαγωγή δεδομένων σε προβολή';
+            case 'hi':
+                return 'डेटा को दृश्य में लाएं';
+            case 'hu':
+                return 'Adatok áthozása a nézetbe';
+            case 'id':
+                return 'Bawa data ke tampilan';
+            case 'it':
+                return 'Portare i dati in vista';
+            case 'ja':
+                return 'データをビューに取り込む';
+            case 'kk':
+                return 'Деректерді көрініске енгізіңіз';
+            case 'ko':
+                return '데이터를 뷰로 가져오기';
+            case 'es':
+                return 'Lleve los datos a la vista';
+            case 'lv':
+                return 'Datu skatīšana skatā';
+            case 'lt':
+                return 'Atvesti duomenis į rodinį';
+            case 'ms':
+                return 'Membawa data ke dalam paparan';
+            case 'nb':
+                return 'Hent data til visning';
+            case 'pl':
+                return 'Przynieś dane do widoku';
+            case 'pt':
+                return 'Colocar os dados em exibição';
+            case 'ro':
+                return 'Aducerea datelor în vizualizare';
+            case 'ru':
+                return 'Перенесите данные в представление';
+            case 'sr':
+                return 'Uskladi podatke u prikaz';
+            case 'sk':
+                return 'Preniesť údaje do zobrazenia';
+            case 'sl':
+                return 'Prinesite podatke v pogled';
+            case 'sv':
+                return 'Ta fram data i vyn';
+            case 'th':
+                return 'นำข้อมูลมาไว้ในมุมมอง';
+            case 'tr':
+                return 'Verileri görünüme getirme';
+            case 'uk':
+                return 'Приведення даних у режим перегляду';
+            case 'vi':
+                return 'Mang dữ liệu vào chế độ xem';
             case 'en':
+            case 'ngt':
             default:
                 return 'Bring data into view';
         }

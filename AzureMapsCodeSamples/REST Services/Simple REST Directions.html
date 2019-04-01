@@ -43,8 +43,7 @@
                     strokeColor: '#2272B9',
                     strokeWidth: 5,
                     lineJoin: 'round',
-                    lineCap: 'round',
-                    filter: ['==', '$type', 'LineString']
+                    lineCap: 'round'
                 }), 'labels');
 
                 //Add a layer for rendering point data.
@@ -58,7 +57,7 @@
                         textField: ['get', 'title'],
                         offset: [0, 1]
                     },
-                    filter: ['==', '$type', 'Point']
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                 }));
 
                 /* Create the GeoJSON objects which represent the start and end point of the route */

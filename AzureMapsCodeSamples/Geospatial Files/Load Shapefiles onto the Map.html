@@ -47,19 +47,19 @@
                 //Add a layers for rendering the data.
                 var layers = [
                     new atlas.layer.PolygonLayer(datasource, null, {
-                        filter: ['==', '$type', 'Polygon']
+                        filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
                     }),
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'white',
                         strokeWidth: 2,
-                        filter: ['==', '$type', 'Polygon']
+                        filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
                     }),
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'red',
-                        filter: ['==', '$type', 'LineString']
+                        filter: ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]	//Only render LineString or MultiLineString in this layer.
                     }),
                     new atlas.layer.BubbleLayer(datasource, null, {
-                        filter: ['==', '$type', 'Point']
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                     })
                 ];
 

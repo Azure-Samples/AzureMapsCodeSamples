@@ -62,20 +62,20 @@
                     //Add a layer for rendering line data.
                     new atlas.layer.PolygonLayer(datasource, null, {
                         fillColor: 'rgba(255, 0, 255, 0.4)',
-                        filter: ['==', '$type', 'Polygon']
+                        filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
                     }),
 
                     //Add a layer for rendering line data.
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'rgb(0, 204, 153)',
                         strokeWidth: 5,
-                        filter: ['==', '$type', 'LineString']
+                        filter: ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]	//Only render LineString or MultiLineString in this layer.
                     }),
 
                     //Add a layer for rendering points as symbols.
                     new atlas.layer.BubbleLayer(datasource, null, {
                         color: ['get', 'color'],
-                        filter: ['==', '$type', 'Point']
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                     })
                 ]);
             });

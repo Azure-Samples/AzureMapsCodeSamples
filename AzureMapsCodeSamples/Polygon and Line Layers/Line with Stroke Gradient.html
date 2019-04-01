@@ -22,6 +22,7 @@
             map = new atlas.Map('myMap', {
                 center: [-122.135, 47.65],
                 zoom: 12,
+                style: 'grayscale_dark',
 
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
@@ -83,7 +84,8 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Line with Stroke Gradient</legend>
-        This sample shows how to apply a stroke gradient to a line on the map. In order to apply this feature to a line, the data source must have the lineMetrics option set to true. 
+        This sample shows how to apply a stroke gradient to a line on the map. 
+        In order to apply this feature to a line, the data source must have the lineMetrics option set to true. 
     </fieldset>
 </body>
 </html>

@@ -43,7 +43,7 @@
                 map.layers.add(new atlas.layer.PolygonLayer(terminator, null, {
                     fillColor: 'black',
                     fillOpacity: 0.5,
-                    filter: ['==', '$type', 'Polygon']
+                    filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
                 }));
 
                 //Load a custom image icon into the map resources and then create a symbol layer to render .

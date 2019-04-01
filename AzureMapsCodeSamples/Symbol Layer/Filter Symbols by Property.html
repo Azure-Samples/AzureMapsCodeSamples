@@ -65,7 +65,7 @@
                         },
 
                         //Create a filter which will only render points for the specified category in this layer.
-                        filter: ['==', 'category', category]
+                        filter: ['==', ['get', 'category'], category]
                     }));
                 });
             });

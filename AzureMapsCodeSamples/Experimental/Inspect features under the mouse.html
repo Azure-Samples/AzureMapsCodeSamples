@@ -49,7 +49,7 @@
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'red',
                         strokeWidth: 5,
-                        filter: ['any', ['==', '$type', 'Polygon'], ['==', '$type', 'LineString']]
+                        filter: ['!', ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']]] //Anything but a Point or a MultiPoint feature.
                     }),
 
                     new atlas.layer.BubbleLayer(datasource, null, {
@@ -57,7 +57,7 @@
                         strokeColor: 'red',
                         strokeWidth: 5,
                         color: 'transparent',
-                        filter: ['==', '$type', 'Point']
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                     })
                 ]);
 

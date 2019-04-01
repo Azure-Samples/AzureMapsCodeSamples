@@ -51,7 +51,7 @@
                     fillColor: 'rgba(150, 50, 255, 0.2)',
 
                     //Only polygons with a "GEO_ID" property with a value of '' will be rendered.
-                    filter: ['==', 'GEO_ID', '']
+                    filter: ['==', ['get', 'GEO_ID'], '']
                 });
 
                 //Add a layer for rendering the styled outline of the polygon data.
@@ -66,12 +66,12 @@
                 // When the user moves their mouse over the polygonLayer, we'll update the filter in
                 // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
                 map.events.add('mousemove', polygonLayer, function (e) {
-                    polygonHoverLayer.setOptions({ filter: ['==', 'GEO_ID', e.shapes[0].getProperties().GEO_ID] });
+                    polygonHoverLayer.setOptions({ filter: ['==', ['get', 'GEO_ID'], e.shapes[0].getProperties().GEO_ID] });
                 });
 
                 // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
                 map.events.add('mouseleave', polygonLayer, function (e) {
-                    polygonHoverLayer.setOptions({ filter: ['==', 'GEO_ID', ''] });
+                    polygonHoverLayer.setOptions({ filter: ['==', ['get', 'GEO_ID'], ''] });
                 });
             });
         }

@@ -73,7 +73,7 @@
                             iconOptions: {
                                 image: 'earthquake_icon'
                             },
-                            filter: ['!has', 'point_count'] //Filter out clustered points from this layer.
+                            filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
                         })
                     ]);
 

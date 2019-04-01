@@ -58,7 +58,7 @@
 
                         //Create a symbol layer to render the users position on the map.
                         new atlas.layer.SymbolLayer(datasource, null, {
-                            filter: ['==', '$type', 'Point']
+                            filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                         })
                     ]);
 

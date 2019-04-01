@@ -89,7 +89,7 @@
                         },
 
                         //Only render the point data in the symbol layer.
-                        filter: ['==', '$type', 'Point']    
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.    
                     }));
 
                     //Create a pin and wrap with the shape class and add to data source.

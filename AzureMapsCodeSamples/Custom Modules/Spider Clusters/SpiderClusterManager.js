@@ -52,7 +52,7 @@ class SpiderClusterManager {
         map.layers.add(this._spiderLineLayer);
         //Make a copy of the cluster layer options.
         var unclustedLayerOptions = this._deepCopy(unclustedLayer.getOptions(), ['source']);
-        unclustedLayerOptions.filter = ['==', '$type', 'Point'];
+        unclustedLayerOptions.filter = ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']]; //Only render Point or MultiPoints in this layer.;        
         this._unclustedLayer = unclustedLayer;
         if (unclustedLayer instanceof atlas.layer.BubbleLayer) {
             this._spiderFeatureLayer = new atlas.layer.BubbleLayer(this._spiderDataSource, null, unclustedLayerOptions);

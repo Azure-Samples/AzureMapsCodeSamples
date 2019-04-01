@@ -72,8 +72,7 @@
                     //Add a layer for rendering line data.
                     new atlas.layer.LineLayer(datasource, null, {
                         strokeColor: 'purple',
-                        strokeWidth: 4,
-                        filter: ['==', '$type', 'LineString']
+                        strokeWidth: 4
                     }),
 
                     //Add a layer for rendering point data.
@@ -86,7 +85,7 @@
                             textField: ['get', 'title'],
                             offset: [0, 1]
                         },
-                        filter: ['==', '$type', 'Point']
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                     })
                 ]);
 

@@ -112,7 +112,7 @@ class SpiderClusterManager {
         
         //Make a copy of the cluster layer options.
         var unclustedLayerOptions = this._deepCopy(unclustedLayer.getOptions(), ['source']);
-        unclustedLayerOptions.filter = ['==', '$type', 'Point'];        
+        unclustedLayerOptions.filter = ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.;        
 
         this._unclustedLayer = unclustedLayer;
 

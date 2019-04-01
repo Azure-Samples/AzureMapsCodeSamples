@@ -85,7 +85,7 @@
 
                 //Create a layer to render the individual locations.
                 var shapeLayer = new atlas.layer.SymbolLayer(datasource, null, {
-                    filter: ['!has', 'point_count'] //Filter out clustered points from this layer.
+                    filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
                 });
 
                 //Add the clusterBubbleLayer and two additional layers to the map.

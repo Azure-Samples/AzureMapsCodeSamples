@@ -46,7 +46,7 @@
 
                     //Create a symbol layer to render the center point.
                     new atlas.layer.SymbolLayer(datasource, null, {
-                        filter: ['==', '$type', 'Point']
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                     })
                 ]);
 

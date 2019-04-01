@@ -121,6 +121,15 @@ var sampleList = [
 	desc:'Use custom modules to extend the functionality of the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Animated Tile Layer',
+			desc:'This sample shows how to animate an sequence of tile layers smoothly.',
+			path:'Custom%20Modules/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html',
+			sourcePath:'Custom%20Modules/Animated%20Tile%20Layers',
+			screenshot:'Animated-Tile-Layer.gif',
+			keywords:'map, gis, api, sdk, animate, animation, tiles, layer, weather',
+			created:'4/1/2019'
+		},
+		{
 			title:'Bring Data Into View Control',
 			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
 			path:'Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html',
@@ -961,6 +970,15 @@ var sampleList = [
 			created:'10/19/2018'
 		},
 		{
+			title:'Formatted text field',
+			desc:'This sample shows how to format the symbol layers text field.',
+			path:'Symbol%20Layer/Formatted%20text%20field.html',
+			sourcePath:'Symbol%20Layer/Formatted%20text%20field.html',
+			screenshot:'Formatted-text-field.png',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, text formatting, formatting, string formatting',
+			created:'3/29/2019'
+		},
+		{
 			title:'Layer Events',
 			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
 			path:'Symbol%20Layer/Layer%20Events.html',
@@ -1156,4 +1174,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 114;
+}];var numberOfSamples = 116;

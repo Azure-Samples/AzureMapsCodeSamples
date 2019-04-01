@@ -163,8 +163,8 @@
     <Content Include="Demos\Data-Driven Styling.html" />
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
-    <Content Include="Experimental\Animated Tile Layers\Animated Tile Layer.html" />
-    <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js" />
+    <Content Include="Custom Modules\Animated Tile Layers\Animated Tile Layer.html" />
+    <Content Include="Custom Modules\Animated Tile Layers\AnimatedTileLayer.js" />
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js" />
     <Content Include="Experimental\Inspect features under the mouse.html" />
     <Content Include="Geospatial Files\Add TopoJSON data to the map.html" />
@@ -191,6 +191,7 @@
     <Content Include="SiteResources\screenshots\Add-a-delimited-file-%28CSV%29-to-the-map.png" />
     <Content Include="SiteResources\screenshots\Add-Arrows-along-a-Path.png" />
     <Content Include="SiteResources\screenshots\Add-TopoJSON-data-to-the-map.png" />
+    <Content Include="SiteResources\screenshots\Animated-Tile-Layer.gif" />
     <Content Include="SiteResources\screenshots\Bring-Data-Into-View-Control.png" />
     <Content Include="SiteResources\screenshots\Cardinal-Spline-Options.png" />
     <Content Include="SiteResources\screenshots\Cluster-weighted-Heat-Map.png" />
@@ -201,6 +202,7 @@
     <Content Include="SiteResources\screenshots\Expanding-Spider-Clusters.gif" />
     <Content Include="SiteResources\screenshots\Export-Map-as-Image.png" />
     <Content Include="SiteResources\screenshots\Extract-and-display-photo-location.png" />
+    <Content Include="SiteResources\screenshots\Formatted-text-field.png" />
     <Content Include="SiteResources\screenshots\Limit-Map-to-Two-Finger-Panning.png" />
     <Content Include="SiteResources\screenshots\Limit-Scroll-Wheel-Zoom.png" />
     <Content Include="SiteResources\screenshots\Line-with-Stroke-Gradient.png" />
@@ -260,6 +262,7 @@
     <Content Include="HTML Markers\Pie Chart HTML Marker\Pie Chart HTML Markers.html" />
     <Content Include="HTML Markers\Simple HTML Marker.html" />
     <Content Include="HTML Markers\HTML Marker with Custom SVG Template.html" />
+    <Content Include="Symbol Layer\Formatted text field.html" />
     <Content Include="Third Party Map Controls\Satellite Imagery in OpenLayers.html" />
     <Content Include="Tile Layers\WMS Tile Layer.html" />
     <Content Include="Tile Layers\WMTS Tile Layer.html" />
@@ -325,7 +328,7 @@
     <Content Include="Common\data\geojson\SamplePoiDataSet.json" />
     <Content Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.js.map" />
     <Content Include="HTML Markers\Pie Chart HTML Marker\PieChartMarker.js.map" />
-    <Content Include="Experimental\Animated Tile Layers\AnimatedTileLayer.js.map" />
+    <Content Include="Custom Modules\Animated Tile Layers\AnimatedTileLayer.js.map" />
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js.map" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js.map" />
     <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
@@ -472,7 +475,7 @@
     <TypeScriptCompile Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />
-    <TypeScriptCompile Include="Experimental\Animated Tile Layers\AnimatedTileLayer.ts" />
+    <TypeScriptCompile Include="Custom Modules\Animated Tile Layers\AnimatedTileLayer.ts" />
     <TypeScriptCompile Include="Custom Modules\Fullscreen Control\FullScreenControl.ts" />
     <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />
     <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />

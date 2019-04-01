@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="map, gis, API, SDK, " />
+    <meta name="description" content="This sample shows how to animate an sequence of tile layers smoothly." />
+    <meta name="keywords" content="map, gis, API, SDK, animate, animation, tiles, layer, weather" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -32,6 +32,7 @@
             map = new atlas.Map('myMap', {
                 center: [-95, 40],
                 zoom: 3,
+                style: 'grayscale_dark',
 
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
@@ -44,13 +45,14 @@
             map.events.add('ready', function () {
                 var tileLayers = [];
 
-                //Create a tile source for each time stamp.
+                //Create a tile layer option for each time stamp.
                 for (var i = 0; i < timestamps.length; i++) {
-                    var tileLayer = new atlas.layer.TileLayer({
+                    var layerOptions = {
                         tileUrl: urlTemplate.replace('{timestamp}', timestamps[i]),
-                        tileSize: 256
-                    });
-                    tileLayers.push(tileLayer);
+                        tileSize: 256,
+                        opacity: 0.8
+                    };
+                    tileLayers.push(layerOptions);
 
                     //Create a message to display for each frame of the animation based on the time stamp.
                     var msg = 'Current';
@@ -62,11 +64,13 @@
                     displayMessages.push(msg);
                 }
 
+                //Create the animation manager. 
                 animationManager = new AnimatedTileLayerManager(map, {
-                    tileLayers: tileLayers,
+                    tileLayerOptions: tileLayers,
                     below: 'labels'
                 });
 
+                //When an animation frame loads, update the message panel. 
                 animationManager.onFrameLoaded = function (e) {
                     var msg = displayMessages[e.index];
                     document.getElementById('messagePanel').innerText = msg;
@@ -97,7 +101,10 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
         <legend>Animated Tile Layer</legend>
-        This sample shows how to [Description]
+        This sample shows how to animate an sequence of tile layers smoothly.
+        This example uses the AnimatedTileLayer to animate through an array of tile layers. 
+        For this sample weather radar tiles from the <a href="https://www.mesonet.agron.iastate.edu/ogc/">Iowa Environmental Mesonet of Iowa State University</a> 
+        over the USA  are animated for the last 50 minutes in 5 minute increments.
     </fieldset>
 </body>
 </html>

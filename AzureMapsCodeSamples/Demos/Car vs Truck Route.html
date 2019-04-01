@@ -47,8 +47,7 @@
                 //Add a layer for rendering line data.
                 map.layers.add(new atlas.layer.LineLayer(datasource, null, {
                     strokeColor: ['get', 'strokeColor'],
-                    strokeWidth: 5,
-                    filter: ['==', '$type', 'LineString']
+                    strokeWidth: 5
                 }), 'labels');
 
                 //Add a layer for rendering point data.
@@ -62,7 +61,7 @@
                         font: ['SegoeUi-Bold'],
                         offset: [0, 1.2]
                     },
-                    filter: ['==', '$type', 'Point']
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                 }));
 
                 //Load scenarios

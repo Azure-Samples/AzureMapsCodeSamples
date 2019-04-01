@@ -54,19 +54,19 @@
 
                 //Create a layer to render polygon data.
                 var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
-                    filter: ['==', '$type', 'Polygon']
+                    filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
                 });
 
                 //Create a layer to render line data data.
                 var lineLayer = new atlas.layer.LineLayer(datasource, null, {
                     strokeWidth: 5,
                     strokeColor: 'orange',
-                    filter: ['==', '$type', 'LineString']
+                    filter: ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]	//Only render LineString or MultiLineString in this layer.
                 });
 
                 //Create a layer to render point data.
                 var pointLayer = new atlas.layer.SymbolLayer(datasource, null, {
-                    filter: ['==', '$type', 'Point']
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
                 });
 
                 //Add the polygon and line layers to the map.
