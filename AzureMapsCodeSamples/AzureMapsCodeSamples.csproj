@@ -163,8 +163,10 @@
     <Content Include="Demos\Data-Driven Styling.html" />
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
-    <Content Include="Custom Modules\Animated Tile Layers\Animated Tile Layer.html" />
-    <Content Include="Custom Modules\Animated Tile Layers\AnimatedTileLayer.js" />
+    <Content Include="Heat Map Layer\Consistent zoomable Heat Map.html" />
+    <Content Include="SiteResources\screenshots\Consistent-zoomable-Heat-Map.gif" />
+    <Content Include="Tile Layers\Animated Tile Layers\Animated Tile Layer.html" />
+    <Content Include="Tile Layers\Animated Tile Layers\AnimatedTileLayer.js" />
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js" />
     <Content Include="Experimental\Inspect features under the mouse.html" />
     <Content Include="Geospatial Files\Add TopoJSON data to the map.html" />
@@ -258,7 +260,7 @@
     <Content Include="SiteResources\screenshots\Filter-Data-Along-Route.png" />
     <Content Include="SiteResources\screenshots\Route-Waypoint-Optimization.png" />
     <Content Include="SiteResources\screenshots\Simple-Store-Locator.png" />
-    <Content Include="Spatial Math with Turf.js\Filter Data Along Route.html" />
+    <Content Include="Spatial Math\Filter Data Along Route.html" />
     <Content Include="HTML Markers\Pie Chart HTML Marker\Pie Chart HTML Markers.html" />
     <Content Include="HTML Markers\Simple HTML Marker.html" />
     <Content Include="HTML Markers\HTML Marker with Custom SVG Template.html" />
@@ -328,7 +330,7 @@
     <Content Include="Common\data\geojson\SamplePoiDataSet.json" />
     <Content Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.js.map" />
     <Content Include="HTML Markers\Pie Chart HTML Marker\PieChartMarker.js.map" />
-    <Content Include="Custom Modules\Animated Tile Layers\AnimatedTileLayer.js.map" />
+    <Content Include="Tile Layers\Animated Tile Layers\AnimatedTileLayer.js.map" />
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js.map" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js.map" />
     <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
@@ -432,9 +434,7 @@
     <Content Include="SiteResources\screenshots\Traffic-Overlay-Options.png" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay.png" />
     <Content Include="SiteResources\screenshots\User-Position-Accuracy-Circle.png" />
-    <Content Include="Spatial Math with Turf.js\Generate Random Points within Bounds %28Turf.js%29.html" />
-    <Content Include="Spatial Math with Turf.js\Generate Random Polygons within Bounds %28Turf.js%29.html" />
-    <Content Include="Spatial Math with Turf.js\Merge Two Polygons Together %28Turf.js%29.html" />
+    <Content Include="Spatial Math\Merge Two Polygons Together %28Turf.js%29.html" />
     <Content Include="Spatial Math\Introduction to spatial math.html" />
     <Content Include="Symbol Layer\Create Symbols from Custom JSON.html" />
     <Content Include="HTML Markers\CSS Styled HTML Marker.html" />
@@ -475,7 +475,7 @@
     <TypeScriptCompile Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />
-    <TypeScriptCompile Include="Custom Modules\Animated Tile Layers\AnimatedTileLayer.ts" />
+    <TypeScriptCompile Include="Tile Layers\Animated Tile Layers\AnimatedTileLayer.ts" />
     <TypeScriptCompile Include="Custom Modules\Fullscreen Control\FullScreenControl.ts" />
     <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />
     <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />

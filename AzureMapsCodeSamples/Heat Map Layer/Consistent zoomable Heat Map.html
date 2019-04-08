@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Heat Map Layer - Azure Maps Web Control Samples</title>
+    <title>Consistent zoomable Heat Map - Azure Maps Web Control Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to create a simple heat map from a data set of point features." />
+    <meta name="description" content="This sample shows how to create a heat map where the radius of each data point covers the same physical area on the ground and creates a more consistent user expreince when zooming the map." />
     <meta name="keywords" content="map, gis, API, SDK, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -40,8 +40,16 @@
 
                 //Create a heatmap and add it to the map.
                 map.layers.add(new atlas.layer.HeatMapLayer(datasource, null, {
-                    radius: 10,
-                    opacity: 0.8
+                    radius: [
+                        'interpolate',
+                        ['exponential', 2],
+                        ['zoom'],
+                        //For all zoom levels 10 or lower, set the radius to 2 pixels.
+                        10, 2,
+
+                        //Between zoom level 10 and 22, exponentially scale the radius from 2 pixels to 50000 pixels.
+                        22, 50000
+                    ]
                 }), 'labels');
             });
         }
@@ -51,12 +59,13 @@
     <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
-        <legend>Simple Heat Map Layer</legend>
-        This sample shows how to create a simple heat map from a data set of point features.
-        In this sample each heat point will has a radius of 10 pixels at all zoom levels.
-        The data in this sample is  sourced from the 
-        <a href="https://earthquake.usgs.gov/" target="_blank">USGS Earthquake Hazards Program</a> 
-        and consists of points that represents significant earthquakes that have occured in the last 30 days.
+        <legend>Consistent zoomable Heat Map</legend>
+        This sample shows how to create a heat map where the radius of each data point covers the same
+        physical area on the ground and creates a more consistent user expreince when zooming the map. 
+        In this sample, the heat map will scale consistently between zoom levels 10 and 22.
+        Each zoom level of the map has twice as many pixels vertically and horizontally as the previous zoom level, 
+        as such, scaling the radius such that it doubles with each zoom level will create a heat map that looks consistent on 
+        all zoom levels. This can be accomplished by using the zoom with a base 2 exponential interpolation expression as shown below.
     </fieldset>
 </body>
 </html>

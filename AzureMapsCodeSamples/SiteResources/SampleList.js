@@ -121,15 +121,6 @@ var sampleList = [
 	desc:'Use custom modules to extend the functionality of the Azure Maps Web Control.',
 	samples: [
 		{
-			title:'Animated Tile Layer',
-			desc:'This sample shows how to animate an sequence of tile layers smoothly.',
-			path:'Custom%20Modules/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html',
-			sourcePath:'Custom%20Modules/Animated%20Tile%20Layers',
-			screenshot:'Animated-Tile-Layer.gif',
-			keywords:'map, gis, api, sdk, animate, animation, tiles, layer, weather',
-			created:'4/1/2019'
-		},
-		{
 			title:'Bring Data Into View Control',
 			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
 			path:'Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html',
@@ -850,6 +841,15 @@ var sampleList = [
 			created:'3/27/2019'
 		},
 		{
+			title:'Filter Data Along Route',
+			desc:'This sample shows how to take a route line, calculate a buffer around it and then filter a set of points to find those that are within the buffer.',
+			path:'Spatial%20Math/Filter%20Data%20Along%20Route.html',
+			sourcePath:'Spatial%20Math/Filter%20Data%20Along%20Route.html',
+			screenshot:'Filter-Data-Along-Route.png',
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, points, buffer, within, intersects, intersection',
+			created:'4/1/2019'
+		},
+		{
 			title:'Introduction to Spatial Math',
 			desc:'This sample shows how to use many of the built in spatial math functions in the Azure Maps web control.',
 			path:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
@@ -859,6 +859,15 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
+			title:'Merge Two Polygons Together',
+			desc:'This sample shows how to merge (union) two polygons together to create a single polygon object.',
+			path:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
+			sourcePath:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
+			screenshot:'Merge-Two-Polygons-Together-(Turf.js).png',
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, merge, union, spatial analytics',
+			created:'4/1/2019'
+		},
+		{
 			title:'Simple Cardinal Spline',
 			desc:'This sample shows how to create a simple cardinal spline and display it on the map.',
 			path:'Spatial%20Math/Simple%20Cardinal%20Spline.html',
@@ -866,48 +875,6 @@ var sampleList = [
 			screenshot:'Simple-Cardinal-Spline.png',
 			keywords:'map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
 			created:'1/25/2019'
-		},
-	]
-},
-{
-	category:'Spatial Math with Turf.js',
-	desc:'Perform advanced spatial math operations using the open source <a href="http://turfjs.org/" target="_blank">Turf.js</a> library.',
-	samples: [
-		{
-			title:'Filter Data Along Route',
-			desc:'This sample shows how to take a route line, calculate a buffer around it and then filter a set of points to find those that are within the buffer. ',
-			path:'Spatial%20Math%20with%20Turf.js/Filter%20Data%20Along%20Route.html',
-			sourcePath:'Spatial%20Math%20with%20Turf.js/Filter%20Data%20Along%20Route.html',
-			screenshot:'Filter-Data-Along-Route.png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, points, buffer, within, intersects, intersection',
-			created:'10/19/2018'
-		},
-		{
-			title:'Generate Random Points within Bounds',
-			desc:'This sample shows how to generate a 1,000 random point features within a bounding box using the open source Turf.js library.',
-			path:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Points%20within%20Bounds%20(Turf.js).html',
-			sourcePath:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Points%20within%20Bounds%20(Turf.js).html',
-			screenshot:'Generate-Random-Points-within-Bounds-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, points, symbols, markers, pins, pushpins, bounds, random',
-			created:'9/23/2018'
-		},
-		{
-			title:'Generate Random Polygons within Bounds',
-			desc:'This sample shows how to generate random polygon features within a bounding box using the open source Turf.js library.',
-			path:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Polygons%20within%20Bounds%20(Turf.js).html',
-			sourcePath:'Spatial%20Math%20with%20Turf.js/Generate%20Random%20Polygons%20within%20Bounds%20(Turf.js).html',
-			screenshot:'Generate-Random-Polygons-within-Bounds-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, bounds, random',
-			created:'9/23/2018'
-		},
-		{
-			title:'Merge Two Polygons Together (Turf.js)',
-			desc:'This sample shows how to merge (union) two polygons together to create a single polygon object. To accomplish this, this sample uses the open source Turf.js library.',
-			path:'Spatial%20Math%20with%20Turf.js/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
-			sourcePath:'Spatial%20Math%20with%20Turf.js/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
-			screenshot:'Merge-Two-Polygons-Together-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, merge, union, spatial analytics',
-			created:'9/23/2018'
 		},
 	]
 },
@@ -1098,6 +1065,15 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, tiles, layer, weather',
 			created:'12/11/2018'
 		},
+		{
+			title:'Animated Tile Layer',
+			desc:'This sample shows how to animate an sequence of tile layers smoothly.',
+			path:'Tile%20Layers/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html',
+			sourcePath:'Tile%20Layers/Animated%20Tile%20Layers',
+			screenshot:'Animated-Tile-Layer.gif',
+			keywords:'map, gis, api, sdk, animate, animation, tiles, layer, weather',
+			created:'4/1/2019'
+		},
 	]
 },
 {
@@ -1174,4 +1150,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 116;
+}];var numberOfSamples = 114;

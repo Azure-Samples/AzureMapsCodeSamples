@@ -12,7 +12,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Controls/Map%20Navigation%20Control%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Controls/Map%20Style%20Picker.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon%20and%20Select%20Data.html</loc></url>
@@ -85,12 +84,10 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Cardinal%20Spline%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Filter%20Data%20Along%20Route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Introduction%20to%20spatial%20math.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Simple%20Cardinal%20Spline.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math%20with%20Turf.js/Filter%20Data%20Along%20Route.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math%20with%20Turf.js/Generate%20Random%20Points%20within%20Bounds%20(Turf.js).html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math%20with%20Turf.js/Generate%20Random%20Polygons%20within%20Bounds%20(Turf.js).html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math%20with%20Turf.js/Merge%20Two%20Polygons%20Together%20(Turf.js).html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html</loc></url>
@@ -110,6 +107,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/WMS%20Tile%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/WMTS%20Tile%20Layer.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/interactiveSearch.html</loc></url>

@@ -49,7 +49,7 @@
     font-size: 16px;
     border: none;
     outline: none;
-    background-color: #007bff;
+    background-color: #0051A8;
     color: white;
     cursor: pointer;
     padding: 2px 20px;
@@ -57,9 +57,34 @@
 }
 
     #scrollToTopBtn:hover {
-        background-color: #0069d9;
+        background-color: #002B57;
     }
 
 .modal-header, .modal-body, .modal-footer {
     padding: 0.5rem 1rem;
+}
+
+.btn-outline-success {
+    color: #A0E302;
+    border-color: #A0E302;
+}
+
+    .btn-outline-success:hover {
+        color: black;
+        background-color: #A0E302;
+        border-color: #A0E302;
+    }
+
+.btn-lg {
+    background-color: #0051A8;
+    border-color: #0051A8;
+}
+
+    .btn-lg:hover {
+        background-color: #002B57;
+        border-color: #002B57;
+    }
+
+a {
+    color: #0051A8;
 }

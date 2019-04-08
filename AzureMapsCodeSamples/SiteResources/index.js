@@ -196,7 +196,7 @@ function openSample(sampleName) {
 
         $('.modal-title').text(sample.title);
         $('#modelSourceCode').attr('href', 'https://github.com/Azure-Samples/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/' + sample.sourcePath);
-        $('.modal-body').html('<iframe src="' + sample.path + '" frameborder="0" scrolling="0" width="99.6%" height="' + ($(window).height() - 190) + 'px"></iframe>');
+        $('.modal-body').html('<iframe src="' + sample.path + '" frameborder="0" scrolling="0" width="99.6%" height="' + ($(window).height() - 190) + 'px" aria-label="Live code sample window" lang="en"></iframe>');
         $("#myModal").modal('show');
     }
 }

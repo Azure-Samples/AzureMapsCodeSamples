@@ -47,7 +47,6 @@ namespace SampleListBuilder
             { "REST Services", "Learn how to directly access the Azure Maps REST services from JavaScript." },
             { "Services Module", "Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control." },
             { "Spatial Math", "Learn how to use the spatial math library that is built into the Azure Maps Web Control." },
-            { "Spatial Math with Turf.js", "Perform advanced spatial math operations using the open source <a href=\"http://turfjs.org/\" target=\"_blank\">Turf.js</a> library." },
             { "Symbol Layer", "Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling." },
             { "Third Party Map Controls", "As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these." },
             { "Tile Layers", "Onverlay raster tile layers on top the map using the same tiling system used by the base maps." },
@@ -107,12 +106,17 @@ namespace SampleListBuilder
                         Href = "http://patrickgoode.com/using-azure-maps-with-a-xamarin-forms-app",
                     }
                 }
-            }    ,
+            },
             new ExternalSampleCategory()
             {
                 Title = "Other",
                 Samples = new List<ExternalSample>()
                 {
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps .NET REST Client",
+                        Href = "https://github.com/perfahlen/AzureMapsRestServices"
+                    },
                     new ExternalSample()
                     {
                         Title = "Azure Maps Python Sample",

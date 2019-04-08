@@ -11,8 +11,8 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <script src="../Common/scripts/clipboard.min.js"></script>
 
@@ -108,11 +108,10 @@
                 'step',
                 ['heatmap-density'],
                 'transparent',          
-                0.01, 'navy',     
-                0.25, 'navy',
-                0.50, 'green',
-                0.75, 'yellow',
-                1.00, 'red'
+                0.01, 'navy',
+                0.25, 'green',
+                0.50, 'yellow',
+                0.75, 'red'
             ],
 
             //Sunrise
@@ -280,13 +279,15 @@
                 } else if (heatGradients[i][0] === 'step') {
                     grd.addColorStop(0, heatGradients[i][2]);
 
-                    for (var j = 3; j < heatGradients[i].length; j += 2) {
+                    for (var j = 3; j < heatGradients[i].length - 1; j += 2) {
                         grd.addColorStop(heatGradients[i][j], heatGradients[i][j + 1]);
 
-                        if ((j + 3) < heatGradients[i].length && (heatGradients[i][j] + 0.001) <= 1) {
-                            grd.addColorStop(heatGradients[i][j] + 0.001, heatGradients[i][j + 3]);
+                        if ((j + 3) < heatGradients[i].length && (heatGradients[i][j] - 0.001) <= 1) {
+                            grd.addColorStop(heatGradients[i][j + 2] - 0.001, heatGradients[i][j + 1]);
                         }
                     }
+
+                    grd.addColorStop(1, heatGradients[i][heatGradients[i].length - 1]);
                 }
                 
                 ctx.fillStyle = grd;

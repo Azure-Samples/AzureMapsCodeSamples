@@ -11,8 +11,8 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=2" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=2"></script>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <script type='text/javascript'>
         var map, datasource;
@@ -42,7 +42,7 @@
 
                     //Create a point feature and add it to the data source.
                     datasource.add(new atlas.data.Feature(new atlas.data.Point([-73.985708, 40.75773]), {
-                        temperature: '64°'
+                        temperature: 64
                     }));
 
                     //Add a layer for rendering point data as symbols.
@@ -55,7 +55,11 @@
                             size: 0.5
                         },
                         textOptions: {
-                            textField: ['get', 'temperature'] //Get text from the temperature property of each feature in the layer.
+                            //Convert the temperature property of each feature into a string and concatenate "°F".
+                            textField: ['concat', ['to-string', ['get', 'temperature']], '°F'],
+
+                            //Offset the text so that it appears on top of the icon.
+                            offset: [0, -2]
                         }
                     }));
                 });
