@@ -93,7 +93,7 @@ class FullscreenControl implements atlas.Control {
     }
 
     /****************************
-     * Private Methods
+     * Public Methods
      ***************************/
 
     /**
@@ -150,7 +150,8 @@ class FullscreenControl implements atlas.Control {
                         document['webkitCancelFullScreen']
                         || document['cancelFullScreen']
                         || document['mozCancelFullScreen']
-                        || document['msExitFullscreen'];
+                        || document['msExitFullscreen']
+                        || document.exitFullscreen;
 
                     closeFullScreenFn.call(document);
                 } else {
@@ -158,7 +159,8 @@ class FullscreenControl implements atlas.Control {
                         mapContainer['webkitRequestFullScreen']
                         || mapContainer['requestFullScreen']
                         || mapContainer['mozRequestFullScreen']
-                        || mapContainer['msRequestFullscreen'];
+                        || mapContainer['msRequestFullscreen']
+                        || mapContainer.requestFullscreen;
 
                     openFullScreenFn.call(mapContainer);
                 }
@@ -176,7 +178,7 @@ class FullscreenControl implements atlas.Control {
                 changeEventName = 'mozfullscreenchange';
             } else if (document['msExitFullscreen']) {
                 changeEventName = 'MSFullscreenChange';
-            }
+            } 
 
             if (changeEventName) {
                 document.addEventListener(changeEventName, () => { this._updateBtn() });
@@ -292,8 +294,8 @@ class FullscreenControl implements atlas.Control {
      * @param lang The language code to retrieve the text resources for.
      * @returns An object containing text resources in the specified language.
      */
-    private static _getTranslations(lang: string): FullscreenTranslation {
-        if (lang.indexOf('-') > 0) {
+    private static _getTranslations(lang?: string): FullscreenTranslation {
+        if (lang && lang.indexOf('-') > 0) {
             lang = lang.substring(0, lang.indexOf('-'));
         }
 

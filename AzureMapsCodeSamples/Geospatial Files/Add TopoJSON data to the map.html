@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Add TopoJSON data to the map - Azure Maps Web Control Samples</title>
+    <title>Add TopoJSON data to the map - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -28,7 +28,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -165,7 +165,7 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;background-color:white;border-radius:5px;padding:5px;">
         Load TopoJSON:<br />
@@ -178,7 +178,7 @@
 
     <img id="loadingIcon" src="../Common/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Add TopoJSON data to the map</legend>
         This sample shows how to add TopoJSON data to the map, by converting it into GeoJSON in a Web Worker so that map can easily render it.
         TopoJSON data is an extension of GeoJSON that encodes topology.

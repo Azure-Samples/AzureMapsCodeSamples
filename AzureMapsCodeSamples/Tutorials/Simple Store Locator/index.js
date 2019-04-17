@@ -23,7 +23,7 @@ function initialize() {
         //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
         authOptions: {
             authType: 'subscriptionKey',
-            subscriptionKey: '<Your Azure Maps Key>'
+            subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
         }
     });
 
@@ -95,7 +95,7 @@ function initialize() {
                 image: 'none' //Hide the icon image.
             },
             textOptions: {
-                textField: '{point_count_abbreviated}',
+                textField: ['get', 'point_count_abbreviated'],
                 size: 12,
                 font: ['StandardFont-Bold'],
                 offset: [0, 0.4],

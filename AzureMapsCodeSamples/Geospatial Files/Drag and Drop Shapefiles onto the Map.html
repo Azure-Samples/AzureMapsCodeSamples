@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Drag and Drop Shapefiles onto the Map - Azure Maps Web Control Samples</title>
+    <title>Drag and Drop Shapefiles onto the Map - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -26,7 +26,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -190,9 +190,9 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Drag and Drop Shapefiles onto the Map</legend>
         This sample shows how load add support for dragging and droping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map.
         This sample uses the open source <a href="https://github.com/calvinmetcalf/shapefile-js" target="_blank">Shapefile.js</a> library which converts Shapefiles into GeoJSON which can easily be consumed by the map control.

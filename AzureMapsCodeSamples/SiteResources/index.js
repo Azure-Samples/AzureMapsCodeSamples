@@ -39,7 +39,8 @@ window.onload = function () {
             'Custom%20Pin%20Image%20Icon': 'Custom%20Symbol%20Image%20Icon',
             'Pin%20Layer%20Options': 'Symbol%20Layer%20Options',
             'Simple%20directions': 'Calculate%20Route%with%20Services%20Module',
-            'Basic%20Geocoding%20Request': 'Simple%20REST%20Geocoding%20Request'
+            'Basic%20Geocoding%20Request': 'Simple%20REST%20Geocoding%20Request',
+            'Layer%20Events': 'Symbol%20layer%20events'
         };
 
         var redirect = sampleRedirects[hash];

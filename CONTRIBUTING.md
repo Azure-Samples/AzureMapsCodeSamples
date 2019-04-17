@@ -76,7 +76,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 ### <a name="sampleRequirements"></a> Requirements for adding a Sample
 
-* Fill the \<title\> tag of the sample with a discription title in the format "[Your Sample Title] - Azure Maps Web Control Samples".
+* Fill the \<title\> tag of the sample with a discription title in the format "[Your Sample Title] - Azure Maps Web SDK Samples".
 * Add a short discription to the description meta tag. This is used to populate the description on the card and also a SEO optimization.
 * Add related keywords to the keyword meta tag. This is used for search and also a SEO optimization.
 * Create a screenshot of your sample that is 350px width and 225px tall and save it in the SiteResources/screenshots folder with the name of your sample but with spaces replaced with dashes. Alternatively run the SampleListBuilder app and it will attempt to capture a screenshot automatically. If your sample doesn't have a UI or not much of one, go into the SampleListBuilder/SampleListHelper.cs file and add the name of the sample to the ScreenshotsToIgnore list.

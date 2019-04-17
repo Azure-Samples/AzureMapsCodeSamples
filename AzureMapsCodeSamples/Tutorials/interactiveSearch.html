@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Interactive Search Quickstart - Azure Maps Web Control Samples</title>
+    <title>Interactive Search Quickstart - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -26,32 +26,38 @@
         var keyStrokeDelay = 150;
         function GetMap() {
             //Initialize a map instance.
-            map = new atlas.Map("myMap", {
+            map = new atlas.Map('myMap', {
                 center: [-118.270293, 34.039737],
                 zoom: 14,
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
             //Store a reference to the Search Info Panel.
             resultsPanel = document.getElementById("results-panel");
+
             //Add key up event to the search box. 
             searchInput = document.getElementById("search-input");
             searchInput.addEventListener("keyup", searchInputKeyup);
+
             //Create a popup which we can reuse for each result.
             popup = new atlas.Popup();
+
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
+
                 //Add the zoom control to the map.
                 map.controls.add(new atlas.control.ZoomControl(), {
                     position: 'top-right'
                 });
+
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
+
                 //Add a layer for rendering the results.
                 var searchLayer = new atlas.layer.SymbolLayer(datasource, null, {
                     iconOptions: {
@@ -61,6 +67,7 @@
                     }
                 });
                 map.layers.add(searchLayer);
+
                 //Add a click event to the search layer and show a popup when a result is clicked.
                 map.events.add("click", searchLayer, function (e) {
                     //Make sure the event occured on a shape feature.

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Synchronize map views - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to synchronize the views of two or more maps." />
+    <meta name="keywords" content="map, gis, API, SDK, synchronized maps" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript for the map synchronizer module. -->
+    <script src="MapSynchronizerModule.js"></script>
+
+    <script type='text/javascript'>
+        var maps = [];
+
+        function GetMap() {
+            //Initialize a map instance.
+            maps.push(new atlas.Map('map1', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            }));
+
+            maps.push(new atlas.Map('map2', {
+                style: 'night',
+
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            }));
+
+            maps.push(new atlas.Map('map3', {
+                style: 'grayscale_dark',
+
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            }));
+
+            new MapSynchronizer(maps);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="map1" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
+    <div id="map2" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
+    <div id="map3" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Synchronize map views</legend>
+        This sample shows how to synchronize the views of two or more maps.
+    </fieldset>
+</body>
+</html>

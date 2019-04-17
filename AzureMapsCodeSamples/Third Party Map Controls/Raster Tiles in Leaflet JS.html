@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Azure Maps Raster Tiles in Leaflet JS - Azure Maps Web Control Samples</title>
+    <title>Azure Maps Raster Tiles in Leaflet JS - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -33,15 +33,15 @@
                 zoomOffset: -1,
                 id: 'azuremaps.road',
                 crossOrigin: true,
-                subscriptionKey: '<Your Azure Maps Key>'    //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'    //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
             }).addTo(map);
         }
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Raster Tiles in Leaflet JS</legend>
         This sample shows how to render Azure Maps Raster Tiles in the <a href="http://leafletjs.com/">Leaflet JS map control</a>. <br/>
         Tip: Use 512 tiles instead of 256 tiles as it generates 1/4th the tile requests.

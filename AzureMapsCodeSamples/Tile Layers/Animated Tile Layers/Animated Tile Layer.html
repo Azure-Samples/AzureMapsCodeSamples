@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Animated Tile Layer - Azure Maps Web Control Samples</title>
+    <title>Animated Tile Layer - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -37,7 +37,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -92,14 +92,14 @@
     </style>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
     <div id="messagePanel"></div>
 
     <input type="button" value="Pause" onclick="animationManager.pause();" />
     <input type="button" value="Play" onclick="animationManager.play();" />
     <input type="button" value="Stop" onclick="animationManager.stop();" />
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Animated Tile Layer</legend>
         This sample shows how to animate an sequence of tile layers smoothly.
         This example uses the AnimatedTileLayer to animate through an array of tile layers. 

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Export Map as Image - Azure Maps Web Control Samples</title>
+    <title>Export Map as Image - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -32,7 +32,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -167,7 +167,7 @@
     <input type="button" value="Generate Email" onclick="generateEmail();" />
     <a download="message.eml" id="emailLink" style="display: none">Open Email</a>
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Export Map as Image</legend>
         This sample shows how to export the map canavs as an image which can be used in reports or emails.
         Note that this will only export the rendered map HTML canvas, other HTML elements, such as HTML markers and controls are not rendered on the image.

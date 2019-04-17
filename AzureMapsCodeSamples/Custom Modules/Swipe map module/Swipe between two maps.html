@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Swipe between two maps - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to swipe between two overlapping synchronized maps to view different data sets." />
+    <meta name="keywords" content="map, gis, API, SDK, synchronized maps, swipe map" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript that has our custom module. -->
+    <script src="SwipeMapModule.js"></script>
+
+    <script type='text/javascript'>
+        var primaryMap, secondaryMap, primaryDataSource, secondaryDataSource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            primaryMap = new atlas.Map('primaryMap', {
+                center: [-100, 35],
+                zoom: 3,
+                style: 'grayscale_dark',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            });
+
+            secondaryMap = new atlas.Map('secondaryMap', {
+                style: 'grayscale_dark',
+
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            });
+
+            new SwipeMapControl(primaryMap, secondaryMap);
+
+            //Add some data to the left map.
+            primaryMap.events.add('ready', function () {
+                primaryDataSource = new atlas.source.DataSource();
+                primaryMap.sources.add(primaryDataSource);
+
+                primaryDataSource.importDataFromUrl('/Common/data/geojson/US_County_Unemployment_2017.geojson');
+
+                //Choropleth based on unemployment rates in the US counties.
+                primaryMap.layers.add(new atlas.layer.PolygonLayer(primaryDataSource, null, {
+                    fillColor: [
+                        'step',
+                        ['get', 'unemployment_rate'],
+                        '#FFEDA0',
+                        3, '#FED976',
+                        4, '#FD8D3C',
+                        5, '#E31A1C',
+                        6, '#800026'
+                    ],
+                    fillOpacity: 0.8
+                }), 'labels');
+            });
+
+            //Add some data to the right map.
+            secondaryMap.events.add('ready', function () {
+                secondaryDataSource = new atlas.source.DataSource();
+                secondaryMap.sources.add(secondaryDataSource);
+
+                secondaryDataSource.importDataFromUrl('/Common/data/geojson/US_County_Unemployment_2017.geojson');
+
+                //Choropleth based on suze of labor force in the US counties.
+                secondaryMap.layers.add(new atlas.layer.PolygonLayer(secondaryDataSource, null, {
+                    fillColor: [
+                        'step',
+                        ['get', 'labor_force'],
+                        '#fff7f3',
+                        10000, '#fcc5c0',
+                        50000, '#dd3497',
+                        100000, '#48006a'
+                    ],
+                    fillOpacity: 0.8
+                }), 'labels');
+            });
+        }
+    </script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 100%;
+            height: 600px;
+        }
+
+        .map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-width:290px;
+            height: 600px;
+        }
+
+        .legend {
+            font-family: Arial;
+            font-size: 12px;
+            position: absolute;
+            top: 15px;
+            background-color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .legend i {
+            width: 12px;
+            height: 12px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="mapContainer">
+        <div id="primaryMap" class="map"></div>
+        <div id="secondaryMap" class="map"></div>
+    </div>
+
+    <div class="legend" style="left: 15px;">
+        <b>Unemployment rate</b>
+        <table>
+            <tr><td><i style="background:#800026" /></td><td>6%+</td></tr>
+            <tr><td><i style="background:#E31A1C" /></td><td>5% - 5.99%</td></tr>
+            <tr><td><i style="background:#FD8D3C" /></td><td>4% - 4.99%</td></tr>
+            <tr><td><i style="background:#FED976" /></td><td>3% - 3.99%</td></tr>
+            <tr><td><i style="background:#FFEDA0" /></td><td>0% - 2.99%</td></tr>
+        </table>
+    </div>
+
+    <div class="legend" style="right: 15px;">
+        <b>Size of labor force</b>
+        <table>
+            <tr><td><i style="background:#48006a" /></td><td>100,000+</td></tr>
+            <tr><td><i style="background:#dd3497" /></td><td>50,000 - 99,999</td></tr>
+            <tr><td><i style="background:#fcc5c0" /></td><td>10,000 - 49,999</td></tr>
+            <tr><td><i style="background:#fff7f3" /></td><td>0 - 9,999</td></tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Swipe between two maps</legend>
+        This sample shows how to swipe between two overlapping synchronized maps to view different data sets.
+    </fieldset>
+</body>
+</html>

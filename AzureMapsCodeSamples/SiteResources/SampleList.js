@@ -166,6 +166,15 @@ var sampleList = [
 			created:'3/6/2019'
 		},
 		{
+			title:'Synchronize map views',
+			desc:'This sample shows how to synchronize the views of two or more maps.',
+			path:'Custom%20Modules/Map%20Synchronizer%20Module/Synchronize%20map%20views.html',
+			sourcePath:'Custom%20Modules/Map%20Synchronizer%20Module',
+			screenshot:'Synchronize-map-views.png',
+			keywords:'map, gis, api, sdk, synchronized maps',
+			created:'4/15/2019'
+		},
+		{
 			title:'Simple Scale Bar Control',
 			desc:'This sample shows how to create a custom scale bar control that can be added to the map.',
 			path:'Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
@@ -182,6 +191,42 @@ var sampleList = [
 			screenshot:'Expanding-Spider-Clusters.gif',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
 			created:'2/28/2019'
+		},
+		{
+			title:'Spyglass map visualization',
+			desc:'This sample shows how to add a spyglass data viewer to the map.',
+			path:'Custom%20Modules/Spyglass%20module/Spyglass%20map%20visualization.html',
+			sourcePath:'Custom%20Modules/Spyglass%20module',
+			screenshot:'Spyglass-map-visualization.png',
+			keywords:'map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
+			created:'4/16/2019'
+		},
+		{
+			title:'Spyglass module options',
+			desc:'This sample shows how all the options of the spyglass module can be used to customize the user experience.',
+			path:'Custom%20Modules/Spyglass%20module/Spyglass%20module%20options.html',
+			sourcePath:'Custom%20Modules/Spyglass%20module',
+			screenshot:'Spyglass-module-options.png',
+			keywords:'map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
+			created:'4/16/2019'
+		},
+		{
+			title:'Swipe between two maps',
+			desc:'This sample shows how to swipe between two overlapping synchronized maps to view different data sets.',
+			path:'Custom%20Modules/Swipe%20map%20module/Swipe%20between%20two%20maps.html',
+			sourcePath:'Custom%20Modules/Swipe%20map%20module',
+			screenshot:'Swipe-between-two-maps.png',
+			keywords:'map, gis, api, sdk, synchronized maps, swipe map',
+			created:'4/15/2019'
+		},
+		{
+			title:'Swipe map module options',
+			desc:'This sample shows how to swipe between two overlapping synchronized maps to view different data sets.',
+			path:'Custom%20Modules/Swipe%20map%20module/Swipe%20map%20module%20options.html',
+			sourcePath:'Custom%20Modules/Swipe%20map%20module',
+			screenshot:'Swipe-map-module-options.png',
+			keywords:'map, gis, api, sdk, synchronized maps, swipe map',
+			created:'4/15/2019'
 		},
 	]
 },
@@ -343,6 +388,15 @@ var sampleList = [
 			created:'3/27/2019'
 		},
 		{
+			title:'Consistent zoomable Heat Map',
+			desc:'This sample shows how to create a heat map where the radius of each data point covers the same physical area on the ground and creates a more consistent user expreince when zooming the map.',
+			path:'Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html',
+			sourcePath:'Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html',
+			screenshot:'Consistent-zoomable-Heat-Map.gif',
+			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
+			created:'4/1/2019'
+		},
+		{
 			title:'Heat Map Layer Options',
 			desc:'This sample shows how the different options of the heat map affect rendering.',
 			path:'Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html',
@@ -367,7 +421,7 @@ var sampleList = [
 			sourcePath:'Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html',
 			screenshot:'Weighted-Heat-Map-Layer.png',
 			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
-			created:'11/28/2018'
+			created:'4/10/2019'
 		},
 	]
 },
@@ -723,6 +777,15 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup',
 			created:'5/4/2018'
 		},
+		{
+			title:'Show popup on hover',
+			desc:'This sample shows how to show a popup when the mouse hovers over or touches a shape.',
+			path:'Popups/Show%20popup%20on%20hover.html',
+			sourcePath:'Popups/Show%20popup%20on%20hover.html',
+			screenshot:'Show-popup-on-hover.png',
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover',
+			created:'4/15/2019'
+		},
 	]
 },
 {
@@ -946,15 +1009,6 @@ var sampleList = [
 			created:'3/29/2019'
 		},
 		{
-			title:'Layer Events',
-			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
-			path:'Symbol%20Layer/Layer%20Events.html',
-			sourcePath:'Symbol%20Layer/Layer%20Events.html',
-			screenshot:'Layer-Events.gif',
-			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
-			created:'11/28/2018'
-		},
-		{
 			title:'Styled Symbol Layer',
 			desc:'This sample shows how to create a symbol layer and apply styles to it to customize how it renders each symbol.',
 			path:'Symbol%20Layer/Styled%20Symbol%20Layer.html',
@@ -962,6 +1016,15 @@ var sampleList = [
 			screenshot:'Styled-Symbol-Layer.png',
 			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
 			created:'9/23/2018'
+		},
+		{
+			title:'Layer Events',
+			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
+			path:'Symbol%20Layer/Symbol%20layer%20events.html',
+			sourcePath:'Symbol%20Layer/Symbol%20layer%20events.html',
+			screenshot:'Symbol-layer-events.gif',
+			keywords:'map, gis, api, sdk, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
+			created:'11/28/2018'
 		},
 		{
 			title:'Symbol Layer Options',
@@ -1150,4 +1213,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 114;
+}];var numberOfSamples = 121;

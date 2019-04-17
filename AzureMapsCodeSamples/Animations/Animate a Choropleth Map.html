@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Animate a Choropleth Map - Azure Maps Web Control Samples</title>
+    <title>Animate a Choropleth Map - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -26,7 +26,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -253,7 +253,7 @@
         .mapContainer, #myMap {
             position: relative;
             width: 100%;
-            min-width:350px;
+            min-width:290px;
             height: 600px;
         }
 
@@ -317,9 +317,9 @@
         </div>
     </div>
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Animate a Choropleth Map</legend>
-        This sameples shows hwo to create a choropleth map and animate it over time. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to 
+        This sameples shows how to create a choropleth map and animate it over time. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to 
         the measurement of the statistical variable being displayed on the map, in this case the estimated % population change between 2000 and 2010 of each US county relative 
         to the 2000 census population data. This sample uses two data files; a GeoJSON file that contains the US county boundary data, and a CSV file that contains the population 
         data. This sample cross references the population data and adds it as properties of the county boundary. A simple polygon layer is used to render the data and the animation 

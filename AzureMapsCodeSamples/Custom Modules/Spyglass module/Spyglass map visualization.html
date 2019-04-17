@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Spyglass map visualization - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add a spyglass data viewer to the map." />
+    <meta name="keywords" content="map, gis, API, SDK, spyglass, synchronized maps, magnifying glass" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript that has our custom module. -->
+    <script src="SpyglassModule.js"></script>
+
+    <script type='text/javascript'>
+        var primaryMap, spyMap;
+
+        function GetMap() {
+            //Initialize a map instance.
+            primaryMap = new atlas.Map('primaryMap', {
+                center: [-87.65, 41.87],
+                zoom: 11,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            });
+
+            spyMap = new atlas.Map('spyMap', {
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            });
+
+            new SpyglassControl(primaryMap, spyMap, {
+                size: 400,
+                borderColor: '#555555',
+                borderWidth: 8
+            });
+
+            //Wait until the spyMap resources are ready and then load some data into is.
+            spyMap.events.add('ready', function () {
+
+                //Add an overlay of an old map image to the spyglass map.
+                spyMap.layers.add(new atlas.layer.ImageLayer({
+                    url: '/Common/images/image-overlays/Chicago_1872_Map.png',
+                    coordinates: [
+                        [-87.732, 41.938], //Top Left Corner
+                        [-87.592, 41.9381], //Top Right Corner
+                        [-87.589, 41.811], //Bottom Right Corner
+                        [-87.7298, 41.8105]  //Bottom Left Corner
+                    ]
+                }));
+            });
+        }
+    </script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 100%;
+            min-width: 290px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="mapContainer">
+        <div id="primaryMap" class="mapContainer"></div>
+        <div id="spyMap"></div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Spyglass map visualization</legend>
+        This sample shows how to add a spyglass data viewer to the map.
+
+        The old map image in this sample comes from <a href="https://commons.wikimedia.org/wiki/File:Chicago-warner-beers-1875.jpg" target="_blank">Wikimedia</a> and is a map of Chicago from 1875 created by Warner and Beers.
+    </fieldset>
+</body>
+</html>

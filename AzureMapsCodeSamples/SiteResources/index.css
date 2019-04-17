@@ -7,6 +7,16 @@
     margin-bottom: 0px;
 }
 
+@media screen and (max-width: 340px) {
+    .col-md-4 {
+        max-width: 290px;
+    }
+
+    .btn-sm {
+        font-size: 11px;
+    }
+}
+
 @media screen and (min-width: 768px) {
     .modal-dialog {
         max-width: 700px;
@@ -31,9 +41,9 @@
     }
 }
 
-.col-md-4{
-    max-width:380px;
-}
+/*.col-md-4 {
+    max-width: 380px;
+}*/
 
 
 .sampleCount{

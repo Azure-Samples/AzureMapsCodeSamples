@@ -4,7 +4,7 @@
 
 <html lang="en">
 <head runat="server">
-    <title>Azure Maps Web Control Samples - Azure Maps Web Control Samples</title>
+    <title>Azure Maps Web SDK Samples - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />

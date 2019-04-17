@@ -48,7 +48,7 @@ class BringDataIntoViewControl implements atlas.Control {
     public onAdd(map: atlas.Map, options?: atlas.ControlOptions): HTMLElement {
         this._map = map;
 
-        var ariaLabel = BringDataIntoViewControl._getTranslations(this._map.getStyle().language);
+        var ariaLabel = BringDataIntoViewControl._getAriaLabel(this._map.getStyle().language);
 
         var color = this._options.style || 'light';
 
@@ -81,7 +81,7 @@ class BringDataIntoViewControl implements atlas.Control {
         this._button.setAttribute('alt', ariaLabel);
         this._button.addEventListener('click', () => {
             //Logic that gets all shapes on the map and calculates the bounding box of the map.            
-            var data = [];
+            var data: atlas.data.Feature<atlas.data.Geometry, any>[] = [];
 
             for (var s of this._map.sources['sources'].values()) {
                 if (s instanceof atlas.source.DataSource) {
@@ -202,8 +202,8 @@ class BringDataIntoViewControl implements atlas.Control {
      * @param lang The language code to retrieve the text resources for.
      * @returns The translated text for the aria label for the center and zoom control.
      */
-    private static _getTranslations(lang: string): string {
-        if (lang.indexOf('-') > 0) {
+    private static _getAriaLabel(lang?: string): string {
+        if (lang && lang.indexOf('-') > 0) {
             lang = lang.substring(0, lang.indexOf('-'));
         }
 

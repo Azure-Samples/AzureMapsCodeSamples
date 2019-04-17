@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Draw Polygon - Azure Maps Web Control Samples</title>
+    <title>Draw Polygon - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -28,7 +28,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -43,14 +43,14 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;">
         <input type="button" value="Draw Polygon" onclick="drawingTools.startDrawing();" />
         <input type="button" value="Clear Drawing Layer" onclick="drawingTools.clear();" />
     </div>
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Draw Polygon</legend>
         This sample shows how to draw a polygon on the map using the Polygon Drawing tools.
         Press the "Draw Polygon" then start selecting points on the map.

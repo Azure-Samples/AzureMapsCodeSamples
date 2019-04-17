@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Mini Overview Map - Azure Maps Web Control Samples</title>
+    <title>Mini Overview Map - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -27,8 +27,16 @@
         var mapViewPolygon;
 
         function GetMap() {
+
             //Initialize a map instance.
-            map = new atlas.Map('myMap');
+            map = new atlas.Map('myMap', {
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
+                }
+            });
+
             overviewMap = new atlas.Map('myOverviewMap', {
                 //Disable all user interaction on the overview map. 
                 interactive: false,
@@ -36,7 +44,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -47,7 +55,7 @@
             });
 
             //Wait until the overviewMap resources have fully loaded.
-            overviewmap.events.add('ready', function () {
+            overviewMap.events.add('ready', function () {
                 if (highlightMapViewArea) {
                     //Create a data source and add it to the map.
                     datasource = new atlas.source.DataSource();
@@ -74,7 +82,7 @@
 
             if (camera) {
                 var view = {
-                    zoom: 1,
+                    zoom: 0,
                     pitch: 0,
                     bearing: 0,
                     center: camera.center
@@ -138,12 +146,12 @@
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
     <div id="myOverviewMap" style="box-shadow: 0 2px 4px rgba(0,0,0,.5); width: 200px; height: 200px; left: 1em; top: 1em; position: absolute; border: solid 1px darkgray;z-index: 1; background-color: azure;"></div>
 
     <div style="clear:both;"></div>
 
-    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Mini Overview Map</legend>
         This sample shows how to create a second mini overview map which shows the main maps area of focus.
     </fieldset>
