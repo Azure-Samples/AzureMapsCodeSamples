@@ -173,7 +173,9 @@
     <Content Include="Custom Modules\Spyglass module\Spyglass map visualization.html" />
     <Content Include="Custom Modules\Spyglass module\Spyglass module options.html" />
     <Content Include="Heat Map Layer\Consistent zoomable Heat Map.html" />
+    <Content Include="Services Module\Load POI as the map moves.html" />
     <Content Include="SiteResources\screenshots\Consistent-zoomable-Heat-Map.gif" />
+    <Content Include="SiteResources\screenshots\Load-POIs-as-the-map-moves.png" />
     <Content Include="SiteResources\screenshots\Show-popup-on-hover.png" />
     <Content Include="SiteResources\screenshots\Spyglass-map-visualization.png" />
     <Content Include="SiteResources\screenshots\Spyglass-module-options.png" />

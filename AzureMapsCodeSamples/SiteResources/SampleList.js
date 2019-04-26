@@ -5,7 +5,7 @@ var sampleList = [
 	samples: [
 		{
 			title:'Animate a Choropleth Map',
-			desc:'This sameples shows hwo to create a choropleth map and animate it over time.',
+			desc:'This sample shows how to create a choropleth map and animate it over time.',
 			path:'Animations/Animate%20a%20Choropleth%20Map.html',
 			sourcePath:'Animations/Animate%20a%20Choropleth%20Map.html',
 			screenshot:'Animate-a-Choropleth-Map.png',
@@ -98,7 +98,7 @@ var sampleList = [
 	samples: [
 		{
 			title:'Map Navigation Control Options',
-			desc:'This sample shows all the map navigaiton controls on the map and how they react with different option settings.',
+			desc:'This sample shows all the map navigation controls on the map and how they react with different option settings.',
 			path:'Controls/Map%20Navigation%20Control%20Options.html',
 			sourcePath:'Controls/Map%20Navigation%20Control%20Options.html',
 			screenshot:'Map-Navigation-Control-Options.gif',
@@ -245,7 +245,7 @@ var sampleList = [
 		},
 		{
 			title:'Create a Choropleth Map',
-			desc:'This sameples shows hwo to create a choropleth map. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to the measurement of the statistical variable being displayed on the map, in this case the population density of each state.',
+			desc:'This sample shows how to create a choropleth map. A choropleth map is a thematic map in which areas are shaded or patterned in proportion to the measurement of the statistical variable being displayed on the map, in this case the population density of each state.',
 			path:'Demos/Create%20a%20Choropleth%20Map.html',
 			sourcePath:'Demos/Create%20a%20Choropleth%20Map.html',
 			screenshot:'Create-a-Choropleth-Map.png',
@@ -311,7 +311,7 @@ var sampleList = [
 	samples: [
 		{
 			title:'Add a delimited file (CSV) to the map',
-			desc:'This sample shows how to add a delimied file (CSV, TSV) to the map by convering it into GeoJSON.',
+			desc:'This sample shows how to add a delimited file (CSV, TSV) to the map by converting it into GeoJSON.',
 			path:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
 			sourcePath:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
 			screenshot:'Add-a-delimited-file-(CSV)-to-the-map.png',
@@ -329,7 +329,7 @@ var sampleList = [
 		},
 		{
 			title:'Drag and Drop GeoJSON File onto Map',
-			desc:'This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render.',
+			desc:'This sample shows how load add support for dragging and dropping GeoJSON files on to the map and having them render.',
 			path:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			screenshot:'Drag-and-Drop-GeoJSON-File-onto-Map.gif',
@@ -338,7 +338,7 @@ var sampleList = [
 		},
 		{
 			title:'Drag and Drop Shapefiles onto the Map',
-			desc:'This sample shows how load add support for dragging and droping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map.',
+			desc:'This sample shows how load add support for dragging and dropping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map.',
 			path:'Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html',
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html',
 			screenshot:'Drag-and-Drop-Shapefiles-onto-the-Map.gif',
@@ -389,7 +389,7 @@ var sampleList = [
 		},
 		{
 			title:'Consistent zoomable Heat Map',
-			desc:'This sample shows how to create a heat map where the radius of each data point covers the same physical area on the ground and creates a more consistent user expreince when zooming the map.',
+			desc:'This sample shows how to create a heat map where the radius of each data point covers the same physical area on the ground and creates a more consistent user experience when zooming the map.',
 			path:'Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html',
 			sourcePath:'Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html',
 			screenshot:'Consistent-zoomable-Heat-Map.gif',
@@ -431,7 +431,7 @@ var sampleList = [
 	samples: [
 		{
 			title:'Adding Mouse Events to default HTML Marker',
-			desc:'This sample shows how to add mouse events to an HTML marker that uses the default htmlContent by wraping it with a DOM element and adding JavaScript events to it.',
+			desc:'This sample shows how to add mouse events to an HTML marker that uses the default htmlContent by wrapping it with a DOM element and adding JavaScript events to it.',
 			path:'HTML%20Markers/Adding%20Mouse%20Events%20to%20default%20HTML%20Marker.html',
 			sourcePath:'HTML%20Markers/Adding%20Mouse%20Events%20to%20default%20HTML%20Marker.html',
 			screenshot:'Adding-Mouse-Events-to-default-HTML-Marker.gif',
@@ -560,7 +560,7 @@ var sampleList = [
 		},
 		{
 			title:'Full Screen Map',
-			desc:'This sample shows how to toggle between displying the standard page layout, and a full screen map view.',
+			desc:'This sample shows how to toggle between displaying the standard page layout, and a full screen map view.',
 			path:'Map/Full%20Screen%20Map.html',
 			sourcePath:'Map/Full%20Screen%20Map.html',
 			screenshot:'Full-Screen-Map.png',
@@ -569,7 +569,7 @@ var sampleList = [
 		},
 		{
 			title:'Lazy Load the Map',
-			desc:'This sample shows how to delay the loading of the map SDK until it is needed. This is useful if your map is hiden and not displayed by default (i.e. hosted in a tab). By waiting until the user actually needs the map before loading it, you can reduce the amount of resources the browser usesinitially and speed up your page loading while also reducing the number of transactions that are generated by your application and thus reducing your costs.',
+			desc:'This sample shows how to delay the loading of the map SDK until it is needed. This is useful if your map is hidden and not displayed by default (i.e. hosted in a tab). By waiting until the user actually needs the map before loading it, you can reduce the amount of resources the browser uses initially and speed up your page loading while also reducing the number of transactions that are generated by your application and thus reducing your costs.',
 			path:'Map/Lazy%20Load%20the%20Map.html',
 			sourcePath:'Map/Lazy%20Load%20the%20Map.html',
 			screenshot:'',
@@ -650,7 +650,7 @@ var sampleList = [
 		},
 		{
 			title:'Export Map as Image',
-			desc:'This sample shows how to export the map canavs as an image which can be used in reports or emails. ',
+			desc:'This sample shows how to export the map canvas as an image which can be used in reports or emails. ',
 			path:'Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html',
 			sourcePath:'Map/Export%20Map%20as%20Image',
 			screenshot:'Export-Map-as-Image.png',
@@ -673,7 +673,7 @@ var sampleList = [
 			created:'3/22/2019'
 		},
 		{
-			title:'Geospatially Accurate Cirle',
+			title:'Geospatially Accurate Circle',
 			desc:'This sample shows how to use the extended GeoJSON schema defined by Azure Maps to create a geospatially accurate circle on the map with a filled area and a styled outline.',
 			path:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
 			sourcePath:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
@@ -812,7 +812,7 @@ var sampleList = [
 		},
 		{
 			title:'Get Users Timezone with Prompt',
-			desc:'This sample shows how to determine a users timezone by passing the users location into the Azure Maps REST Timezone service. The users location is retrived using the HTML5 geolocation API which displays a prompt to the user to share their location.',
+			desc:'This sample shows how to determine a users timezone by passing the users location into the Azure Maps REST Timezone service. The users location is retrieved using the HTML5 geolocation API which displays a prompt to the user to share their location.',
 			path:'REST%20Services/Get%20Users%20Timezone.html',
 			sourcePath:'REST%20Services/Get%20Users%20Timezone.html',
 			screenshot:'',
@@ -830,7 +830,7 @@ var sampleList = [
 		},
 		{
 			title:'Search Autosuggest and JQuery UI',
-			desc:'This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predicitive mode. The UI is managed using JQuery UIs autocomplete widget.',
+			desc:'This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search services. Several of the search services have a typeahead URL parameter which when set to true will tell the geocoder that a partial query has been passed in and to go into predictive mode. The UI is managed using JQuery UIs autocomplete widget.',
 			path:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			sourcePath:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			screenshot:'Search-Autosuggest-and-JQuery-UI.gif',
@@ -871,8 +871,17 @@ var sampleList = [
 			created:'9/26/2018'
 		},
 		{
+			title:'Load POIs as the map moves',
+			desc:'This sample shows how to load points of interest data on the map as the user moves the map.',
+			path:'Services%20Module/Load%20POI%20as%20the%20map%20moves.html',
+			sourcePath:'Services%20Module/Load%20POI%20as%20the%20map%20moves.html',
+			screenshot:'Load-POIs-as-the-map-moves.png',
+			keywords:'map, gis, api, sdk, services, module, search, points of interest, poi',
+			created:'4/26/2019'
+		},
+		{
 			title:'Reverse Geocode with Services Module',
-			desc:'This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinte.',
+			desc:'This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinate.',
 			path:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			screenshot:'Reverse-Geocode-using-Services-Module.png',
@@ -1090,7 +1099,7 @@ var sampleList = [
 },
 {
 	category:'Tile Layers',
-	desc:'Onverlay raster tile layers on top the map using the same tiling system used by the base maps.',
+	desc:'Overlay raster tile layers on top the map using the same tiling system used by the base maps.',
 	samples: [
 		{
 			title:'Tile Layer Options',
@@ -1213,4 +1222,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 121;
+}];var numberOfSamples = 122;

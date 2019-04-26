@@ -166,3 +166,5 @@ class SimpleScaleBarControl implements atlas.Control {
         }
     }
 }
+
+//TODO: add translations for aria label

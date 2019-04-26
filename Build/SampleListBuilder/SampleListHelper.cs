@@ -49,7 +49,7 @@ namespace SampleListBuilder
             { "Spatial Math", "Learn how to use the spatial math library that is built into the Azure Maps Web Control." },
             { "Symbol Layer", "Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling." },
             { "Third Party Map Controls", "As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these." },
-            { "Tile Layers", "Onverlay raster tile layers on top the map using the same tiling system used by the base maps." },
+            { "Tile Layers", "Overlay raster tile layers on top the map using the same tiling system used by the base maps." },
             { "Traffic", "Overlay real-time traffic data on the map." },
             { "Tutorials", "These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href=\"https://docs.microsoft.com/azure/azure-maps/\" target=\"_blank\">here</a>." }
         };

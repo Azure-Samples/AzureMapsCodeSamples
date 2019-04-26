@@ -328,6 +328,7 @@ class PieChartMarker extends atlas.HtmlMarker {
     /********************
      * Static Methods
      ********************/
+
     private static __timeoutHandler: any = 0;
 
     public static __showTooltip(evt: MouseEvent, text: string): void {

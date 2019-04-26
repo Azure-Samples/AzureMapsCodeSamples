@@ -41,10 +41,9 @@
     }
 }
 
-/*.col-md-4 {
+.col-md-4 {
     max-width: 380px;
-}*/
-
+}
 
 .sampleCount{
     font-size: 20px;

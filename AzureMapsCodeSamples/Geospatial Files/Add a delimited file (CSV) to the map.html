@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to add a delimied file (CSV, TSV) to the map by convering it into GeoJSON." />
+    <meta name="description" content="This sample shows how to add a delimited file (CSV, TSV) to the map by converting it into GeoJSON." />
     <meta name="keywords" content="map, gis, API, SDK, CSV, TSV, delimited file" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -81,11 +81,11 @@
         }
 
         function featureClicked(e) {
-            //Make sure the event occured on a shape feature.
+            //Make sure the event occurred on a shape feature.
             if (e.shapes && e.shapes.length > 0) {
                 var properties = e.shapes[0].getProperties();
 
-                //By default, show the popup where the mouse event occured.
+                //By default, show the popup where the mouse event occurred.
                 var pos = e.position;
                 var offset = [0, 0];
 
@@ -139,11 +139,11 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Add a delimited file (CSV) to the map</legend>
-        This sample shows how to add a delimied file (CSV, TSV) to the map by convering it into GeoJSON.
+        This sample shows how to add a delimited file (CSV, TSV) to the map by converting it into GeoJSON.
         This sample uses the open source <a href="https://github.com/mapbox/csv2geojson">csv2geojson</a> library. 
-        It is also possible to manuallly parse delimited files, but using a library provides more reusable functionality.
+        It is also possible to manually parse delimited files, but using a library provides more reusable functionality.
         The data in this sample is sourced from the
-        <a href="https://earthquake.usgs.gov/" target="_blank">USGS Earthquake Hazards Program</a> and consists of all earthquakes with a magitude of 7 or more between 1900 and 2018.
+        <a href="https://earthquake.usgs.gov/" target="_blank">USGS Earthquake Hazards Program</a> and consists of all earthquakes with a magnitude of 7 or more between 1900 and 2018.
     </fieldset>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how load add support for dragging and droping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map." />
+    <meta name="description" content="This sample shows how load add support for dragging and dropping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map." />
     <meta name="keywords" content="map, gis, API, SDK, ESRI Shapefiles, shapefiles, shp, dbf, OGC, web worker, drag, drop, dropover, FileReader" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -138,11 +138,11 @@
         }
 
         function featureClicked(e) {
-            //Make sure the event occured on a shape feature.
+            //Make sure the event occurred on a shape feature.
             if (e.shapes && e.shapes.length > 0) {
                 var properties = e.shapes[0].getProperties();
 
-                //By default, show the popup where the mouse event occured.
+                //By default, show the popup where the mouse event occurred.
                 var pos = e.position;
 
                 //If the shape is a point feature, show the popup at the points coordinate.
@@ -194,7 +194,7 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Drag and Drop Shapefiles onto the Map</legend>
-        This sample shows how load add support for dragging and droping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map.
+        This sample shows how load add support for dragging and dropping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map.
         This sample uses the open source <a href="https://github.com/calvinmetcalf/shapefile-js" target="_blank">Shapefile.js</a> library which converts Shapefiles into GeoJSON which can easily be consumed by the map control.
         It also makes use of the open source <a href="http://catilinejs.com/">Catiline.js</a> library which makes working with web workers easier.
     </fieldset>

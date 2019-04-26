@@ -224,27 +224,128 @@ class FullscreenControl {
         if (lang && lang.indexOf('-') > 0) {
             lang = lang.substring(0, lang.indexOf('-'));
         }
-        //TODO: Add translations.
         switch (lang) {
-            //case 'fr':
-            //    return {
-            //        exit: 'Plein écran',
-            //        view: 'Plein écran',
-            //        title: 'Plein écran'
-            //    };
-            //case 'de':
-            //    return {
-            //        exit: 'Vollbild',
-            //        view: 'Vollbild',
-            //        title: 'Vollbild'
-            //    };
+            //Afrikaans
+            case 'af':
+                return { exit: 'Verlaat volskerm', view: 'Vertoon volskerm', title: 'Volskerm beheer' };
+            //Arabic
+            case 'ar':
+                return { exit: 'الخروج من وضع ملئ للشاشة', view: 'المشاهدة بحجم الشاشة', title: 'تحكم ملء الشاشة' };
+            //Basque
+            case 'eu':
+                return { exit: 'Irten pantaila osoko', view: 'ikusi pantaila osoan', title: 'Pantaila osoa kontrol' };
+            //Bulgarian
+            case 'bg':
+                return { exit: 'Изход на цял екран', view: 'Преглед на цял екран', title: 'Контрол на цял екран' };
+            //Chinese
+            case 'zh':
+                return { exit: '退出全屏', view: '全屏查看', title: '全屏控制' };
+            //Croatian
+            case 'hr':
+                return { exit: 'Izlaz na cijelom zaslonu', view: 'Prikaz na cijelom zaslonu', title: 'Puni zaslon kontrola' };
+            //Czech
+            case 'cs':
+                return { exit: 'Ukončit celou obrazovku', view: 'pohled na celou obrazovku', title: 'fullscreen kontrola' };
+            //Danish
+            case 'da':
+                return { exit: 'Afslut fuld skærm', view: 'Se fuld skærm', title: 'fullscreen kontrol' };
+            //Dutch
+            case 'nl':
+                return { exit: 'Verlaat volledig scherm', view: 'Bekijk fullscreen', title: 'fullscreen controle' };
+            //Estonian
+            case 'et':
+                return { exit: 'Välja täisekraani', view: 'Vaata täisekraani', title: 'Täisekraan kontrolli' };
+            //Finnish
+            case 'fi':
+                return { exit: 'Poistu koko näytöstä', view: 'Koko näyttö', title: 'fullscreen ohjaus' };
+            //French
+            case 'fr':
+                return { exit: 'Quitter le mode plein écran', view: 'Voir en plein écran', title: 'Contrôle plein écran' };
+            //Galician
+            case 'gl':
+                return { exit: 'Saia da pantalla completa', view: 'Ver a pantalla completa', title: 'Control de pantalla completa' };
+            //German
+            case 'de':
+                return { exit: 'Beenden Vollbild', view: 'Ansicht Vollbild', title: 'Vollbild-Steuerung' };
+            //Greek
+            case 'el':
+                return { exit: 'Έξοδος από πλήρη οθόνη', view: 'Προβολή σε πλήρη οθόνη', title: 'Πλήρης οθόνη ελέγχου' };
+            //Hindi
+            case 'hi':
+                return { exit: 'पूर्ण स्क्रीन से बाहर निकलें', view: 'पूर्णस्क्रीन देखें', title: 'पूर्ण स्क्रीन नियंत्रण' };
+            //Hungarian
+            case 'hu':
+                return { exit: 'Kilépés a teljes képernyős', view: 'Megtekintés teljes képernyőn', title: 'Nagyítás ellenőrzés' };
+            //Indonesian
+            case 'id':
+                return { exit: 'Keluar layar penuh', view: 'Lihat fullscreen', title: 'Kontrol layar penuh' };
+            //Italian
+            case 'it':
+                return { exit: 'Esci da schermo intero', view: 'Visualizza schermo intero', title: 'controllo a tutto schermo' };
+            //Japanese
+            case 'ja':
+                return { exit: '出口フルスクリーン', view: '表示フルスクリーン', title: 'フルスクリーンコントロール' };
+            //Kazakh
+            case 'kk':
+                return { exit: 'Толық экраннан шығу', view: 'View толық экран', title: 'Fullscreen бақылау' };
+            //Korean
+            case 'ko':
+                return { exit: '전체 화면 종료', view: '전체 화면보기', title: '전체 화면 제어' };
+            //Spanish
+            case 'es':
+                return { exit: 'Salir de pantalla completa', view: 'Ver en pantalla completa', title: 'control de pantalla completa' };
+            //Latvian
+            case 'lv':
+                return { exit: 'Iziet no pilnekrāna', view: 'Skatīt pilnekrāna režīmā', title: 'Pilnekrāna kontrole' };
+            //Lithuanian
+            case 'lt':
+                return { exit: 'Išjungti viso ekrano režimą', view: 'Peržiūrėti per visą ekraną', title: 'Fullscreen kontrolė' };
+            //Malay
+            case 'ms':
+                return { exit: 'keluar skrin penuh', view: 'paparan skrin penuh', title: 'kawalan skrin penuh' };
+            //Norwegian
+            case 'nb':
+                return { exit: 'Avslutt full skjerm', view: 'Vis fullskjerm', title: 'Full skjermkontroll' };
+            //Polish
+            case 'pl':
+                return { exit: 'Wyłączyć tryb pełnoekranowy', view: 'Zobacz na pełnym ekranie', title: 'kontrola na pełnym ekranie' };
+            //Portuguese
+            case 'pt':
+                return { exit: 'Sair em tela cheia', view: 'Ver tela cheia', title: 'controle de tela cheia' };
+            //Romanian
+            case 'ro':
+                return { exit: 'Ieșire ecran complet', view: 'Vezi tot ecranul', title: 'controlul pe tot ecranul' };
+            //Russian
+            case 'ru':
+                return { exit: 'Выход из полноэкранного режима', view: 'Просмотреть весь экран', title: 'Полноэкранный контроль' };
+            //Serbian
+            case 'sr':
+                return { exit: 'Излаз из целог екрана', view: 'Погледај преко целог екрана', title: 'фуллсцреен контрола' };
+            //Slovak
+            case 'sk':
+                return { exit: 'Skončiť celú obrazovku', view: 'pohľad na celú obrazovku', title: 'fullscreen kontrola' };
+            //Slovenian
+            case 'sl':
+                return { exit: 'Izhod celozaslonski', view: 'Poglej celozaslonski', title: 'celozaslonski nadzor' };
+            //Swedish
+            case 'sv':
+                return { exit: 'Avsluta helskärm', view: 'Visa helskärm', title: 'Full skärms kontroll' };
+            //Thai
+            case 'th':
+                return { exit: 'แบบเต็มหน้าจอออกจาก', view: 'ดูแบบเต็มจอ', title: 'การควบคุมแบบเต็มหน้าจอ' };
+            //Turkish
+            case 'tr':
+                return { exit: 'Tam ekrandan çık', view: 'Tam ekran görüntüle', title: 'Tam Ekran kontrolü' };
+            //Ukrainian
+            case 'uk':
+                return { exit: 'Вихід з повноекранного режиму', view: 'Переглянути весь екран', title: 'Редакція контроль' };
+            //Vietnamese
+            case 'vi':
+                return { exit: 'Thoát toàn màn hình', view: 'Xem toàn màn hình', title: 'kiểm soát toàn màn hình' };
+            //English
             case 'en':
             default:
-                return {
-                    exit: 'Exit Fullscreen',
-                    view: 'View Fullscreen',
-                    title: 'Fullscreen Control'
-                };
+                return { exit: 'Exit Fullscreen', view: 'View Fullscreen', title: 'Fullscreen Control' };
         }
     }
 }

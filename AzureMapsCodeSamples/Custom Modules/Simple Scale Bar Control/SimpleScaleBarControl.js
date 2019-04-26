@@ -142,4 +142,5 @@ class SimpleScaleBarControl {
         }
     }
 }
+//TODO: add translations for aria label
 //# sourceMappingURL=SimpleScaleBarControl.js.map
