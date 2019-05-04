@@ -56,6 +56,7 @@ class BringDataIntoViewControl {
         this._button.style.backgroundColor = color;
         this._button.setAttribute('title', ariaLabel);
         this._button.setAttribute('alt', ariaLabel);
+        this._button.setAttribute('type', 'button');
         this._button.addEventListener('click', () => {
             //Logic that gets all shapes on the map and calculates the bounding box of the map.            
             var data = [];

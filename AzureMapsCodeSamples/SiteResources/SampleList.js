@@ -306,6 +306,48 @@ var sampleList = [
 	]
 },
 {
+	category:'Drawing Tools Module',
+	desc:'Add mouse and touch based drawing capabilities to the map.',
+	samples: [
+		{
+			title:'Add drawing toolbar to map',
+			desc:'This sample shows how to use the Drawing Tools module and display the drawing toolbar on the map.',
+			path:'Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html',
+			sourcePath:'Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html',
+			screenshot:'Add-drawing-toolbar-to-map.png',
+			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint',
+			created:'5/4/2019'
+		},
+		{
+			title:'Change drawing rendering style',
+			desc:'This sample shows how to customize the rendering of the drawing shapes in the drawing manager by accessing the rendering layers using the drawingManager.getLayers() function.',
+			path:'Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html',
+			sourcePath:'Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html',
+			screenshot:'Change-drawing-rendering-style.png',
+			keywords:'map, gis, api, sdk, drawing tools, drawing manager, paint, customize',
+			created:'5/4/2019'
+		},
+		{
+			title:'Drawing manager options',
+			desc:'This sample shows how the different options of the drawing manager change the user experience.',
+			path:'Drawing%20Tools%20Module/Drawing%20manager%20options.html',
+			sourcePath:'Drawing%20Tools%20Module/Drawing%20manager%20options.html',
+			screenshot:'Drawing-manager-options.png',
+			keywords:'map, gis, api, sdk, drawing tools, drawing manager, drawing mode, interaction type, freehand interval',
+			created:'5/4/2019'
+		},
+		{
+			title:'Get drawn shapes from drawing manager',
+			desc:'This sample shows how to get the shapes that have been drawn on the map using the grawing managers drawingManager.getSource() function.',
+			path:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
+			sourcePath:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
+			screenshot:'Get-drawn-shapes-from-drawing-manager.png',
+			keywords:'map, gis, api, sdk, drawing tools, drawing manager, paint, shapes',
+			created:'5/4/2019'
+		},
+	]
+},
+{
 	category:'Geospatial Files',
 	desc:'Examples of how to import and export common geospatial file formats with Azure Maps.',
 	samples: [
@@ -376,7 +418,7 @@ var sampleList = [
 },
 {
 	category:'Heat Map Layer',
-	desc:'',
+	desc:'Heat maps are a type of data visualization used to represent the density of data using a range of colors. They\'re often used to show the data "hot spots" on a map and are a great way to render large point data sets.',
 	samples: [
 		{
 			title:'Cluster weighted Heat Map',
@@ -1222,4 +1264,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 122;
+}];var numberOfSamples = 126;

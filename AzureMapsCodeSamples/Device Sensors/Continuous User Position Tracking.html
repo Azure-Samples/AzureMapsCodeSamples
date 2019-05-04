@@ -15,8 +15,6 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <script type='text/javascript'>
-        //TODO: add heading and speed info, if available. 
-
         var map, watchId, datasource, userShape;
 
         function GetMap() {
@@ -44,15 +42,20 @@
         function startTracking() {
             if (!watchId) {
                 //Watch the users position.
-                watchId = navigator.geolocation.watchPosition(function (position) {
-                    var userPosition = [position.coords.longitude, position.coords.latitude];
+                watchId = navigator.geolocation.watchPosition(function (geoPosition) {
+
+                    //Get the coordinate information from the geoPosition.
+                    var userPosition = [geoPosition.coords.longitude, posgeoPositionition.coords.latitude];
+
+                    //TIP: altitude? in meters, speed? in meters/second and heading? in degrees are also potential properties of geoPosition.coords
 
                     if (!userShape) {
                         //Create a shape to show the users position and add it to the data source.
-                        userShape = new atlas.Shape(new atlas.data.Point(userPosition));
+                        userShape = new atlas.Shape(new atlas.data.Feature(new atlas.data.Point(userPosition), geoPosition));
                         datasource.add(userShape);
                     } else {
                         userShape.setCoordinates(userPosition);
+                        userShape.setProperties(geoPosition);
                     }
 
                     //Center the map on the users position.

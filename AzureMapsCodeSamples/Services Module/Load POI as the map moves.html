@@ -18,6 +18,8 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
 
     <script type='text/javascript'>
+         //TODO: Update to version 2 of services module.
+
         var map, searchClient, datasource, popup, lastSearchPosition;
         var minSearchZoom = 15;             //The minium zoom level the user must be zoomed into before POI data is searched/displayed.
         var minSearchCenterOffset = 200;  //The minimum distance in meters the map center mush move before a new search is done.
@@ -27,7 +29,7 @@
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-122.33, 47.6],
+                center: [-6.271616, 53.346430],
                 zoom: 16,
 
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -68,6 +70,8 @@
                         'CASH_DISPENSER', 'limegreen',
 
                         'PUBLIC_TRANSPORT_STOP', 'blue',
+
+                        'NIGHTLIFE', 'pink',
 
                         //Default color. Set to 'transparent' to hide all other categories.
                         'gray'
@@ -110,10 +114,14 @@
                 limit: 100,
                 radius: 5000
             }).then(response => {
+                //Parse the response into GeoJSON so that the map can understand.
+                var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
+                var geojsonResults = geojsonResponse.getGeoJsonResults();
+
                 //If offset is 0, remove previous data, check the response to see if there are more results to page through.
-                if (offset == 0) {
-                    //Remove any previous results from the map.
-                    datasource.clear();
+                if (response.summary.offset == 0) {
+                    //Replace all data on the map with the new data.
+                    datasource.setShapes(geojsonResults);
 
                     //Calculate the number of pages
                     var maxPages = Math.ceil(Math.min(maxSearchResults, response.summary.totalResults) / 100);
@@ -122,11 +130,10 @@
                     for (var oft = 1; oft <= maxPages; oft++) {
                         performSearch(center, oft);
                     }
+                } else {
+                    //Add the results to the map.
+                    datasource.add(geojsonResults);
                 }
-
-                //Parse the response into GeoJSON so that the map can understand.
-                var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
-                var geojsonResults = geojsonResponse.getGeoJsonResults();
 
                 //Add the results to the data source.
                 datasource.add(geojsonResults);

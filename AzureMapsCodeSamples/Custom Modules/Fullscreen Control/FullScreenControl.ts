@@ -144,6 +144,7 @@ class FullscreenControl implements atlas.Control {
             this._button.style.backgroundColor = color;
             this._button.setAttribute('title', this._resource.view);
             this._button.setAttribute('alt', this._resource.view);
+            this._button.setAttribute('type', 'button');
             this._button.addEventListener('click', () => {
                 if (this.isFullscreen()) {
                     var closeFullScreenFn =

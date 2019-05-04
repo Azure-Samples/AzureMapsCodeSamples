@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Add drawing toolbar to map - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Drawing Tools module and display the drawing toolbar on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.js"></script>
+    
+    <script type='text/javascript'>
+        var map, drawingManager;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Add drawing toolbar to map</legend>
+        This sample shows how to use the Drawing Tools module and display the drawing toolbar on the map.
+        <br /><br />
+        <b>Interaction types</b>
+        <ul>
+            <li>click - click/touch the map to add a position. Double click, press "c" key or click the toolbar to complete drawing.</li>
+            <li>freehand - press and hold the mouse/touch down. Mouse up, press "c" key to complete drawing.</li>
+            <li>hybrid (default) - combines click and freehand together and allows switching midway through a drawing.</li>
+        </ul>
+        <b>Keyboard shortcuts:</b>
+        <ul>
+            <li>"f" key - add a position where the mouse pointer is with increased percision.
+            <li>"c" key - complete a shape.</li>
+            <li>"esc" key - cancel the draw.</li>
+        </ul>
+        To get the drawn data, use the <b>drawingManager.getSource()</b> function.
+    </fieldset>
+</body>
+</html>

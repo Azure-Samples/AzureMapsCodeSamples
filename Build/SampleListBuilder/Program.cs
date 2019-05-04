@@ -135,7 +135,7 @@ namespace SampleListBuilder
                 externalSampleHtml.Append("\t\t\t\t\t</ul>\n");
             }
 
-            externalSampleHtml.Append("\t\t\t\t</p></div></div>");
+            externalSampleHtml.Append("\t\t\t\t</p></div>");
 
             using (var reader = new StreamReader(new FileStream(dir + indexTemplatePath, FileMode.Open, FileAccess.Read)))
             {

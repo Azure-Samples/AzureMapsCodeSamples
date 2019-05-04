@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-04-26</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-05-04</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -31,6 +31,10 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Continuous%20User%20Position%20Tracking.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Show%20a%20Users%20Position.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/User%20Position%20Accuracy%20Circle.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Drawing%20manager%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html</loc></url>

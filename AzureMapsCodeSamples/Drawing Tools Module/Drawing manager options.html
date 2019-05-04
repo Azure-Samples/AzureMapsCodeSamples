@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Drawing manager options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the drawing manager change the user experience." />
+    <meta name="keywords" content="map, gis, API, SDK, drawing tools, drawing manager, drawing mode, interaction type, freehand interval" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, drawingManager;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: ['road', 'grayscale_dark', 'night', 'road_shaded_relief', 'satellite', 'satellite_road_labels']
+                }));
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' }),
+
+                    //Specifies how the drawing action works. Can be 'click', 'freehand' or 'hybrid'. Default: 'hybrid'
+                    interactionType: 'hybrid', 
+
+                    //Specifies the minimum pixel distance the mouse must move before a new position is added to the shape when drawing freehand. Default: 3
+                    //The smaller the value, the more detailed the drawing, but less performant.
+                    freehandInterval: 3 
+                });
+            });
+        }
+
+        function showToolbar(elm) {
+            if (elm.checked) {
+                drawingManager.setOptions({ toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' }) });
+            } else {
+                drawingManager.setOptions({ toolbar: null });
+            }
+        }
+
+        function updateDraiwngMode(elm) {
+            drawingManager.setOptions({ mode: elm.options[elm.selectedIndex].value });
+        }
+
+        function updateInteractionType(elm) {
+            drawingManager.setOptions({ interactionType: elm.options[elm.selectedIndex].value });
+        }
+
+        function updateFreehandInterval(elm) {
+            drawingManager.setOptions({ freehandInterval: parseInt(elm.options[elm.selectedIndex].value) });
+        }
+    </script>
+    <style>
+        .sidePanel {
+            width: 350px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 360px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="sidePanel">
+        <fieldset style="width:320px;margin-bottom:10px;">
+            <legend>Drawing manager options</legend>
+            This sample shows how the different options of the drawing manager change the user experience.
+            <br/><br/>
+            Double click, press "c", click the toolbar, or change drawing mode to complete drawing.
+        </fieldset>
+
+        <h3>Drawing manager Options</h3>
+
+        <table>
+            <tr>
+                <td>Show toolbar:</td>
+                <td><input type="checkbox" onclick="showToolbar(this)" checked="checked" /></td>
+            </tr>
+            <tr title="Specifies mode the drawing manager is in.">
+                <td>Drawing mode:</td>
+                <td>
+                    <select onchange="updateDraiwngMode(this)">
+                        <option>draw-point</option>
+                        <option>draw-line</option>
+                        <option>draw-polygon</option>
+                        <option>draw-circle</option>
+                        <option>draw-rectangle</option>
+                        <option selected="selected">idle</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="Specifies how the user can interact with the map to draw shapes.">
+                <td>Interaction type:</td>
+                <td>
+                    <select onchange="updateInteractionType(this)">
+                        <option>click</option>
+                        <option>freehand</option>
+                        <option selected="selected">hybrid</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="Specifies the minimum pixel distance the mouse must move before a new position is added to the shape when drawing freehand.">
+                <td>Freehand Interval:</td>
+                <td>
+                    <select onchange="updateFreehandInterval(this)">
+                        <option>1</option>
+                        <option>2</option>
+                        <option selected="selected">3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>10</option>
+                        <option>25</option>
+                        <option>50</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+</html>
