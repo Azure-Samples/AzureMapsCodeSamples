@@ -157,9 +157,8 @@
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\LineDrawingTool.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\PolygonDrawingTool.js" />
-    <Content Include="Custom Modules\Snakeline\Snakeline.js" />
-    <Content Include="Custom Modules\Snakeline\SnakelineModule.js" />
     <Content Include="Custom Modules\Snakeline\Animate a snakeline.html" />
+    <Content Include="Custom Modules\Snakeline\SnakelineModule.js" />
     <Content Include="Custom Modules\Spider Clusters\Expanding Spider Clusters.html" />
     <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js" />
@@ -182,6 +181,7 @@
     <Content Include="Heat Map Layer\Consistent zoomable Heat Map.html" />
     <Content Include="Services Module\Load POI as the map moves.html" />
     <Content Include="SiteResources\screenshots\Add-drawing-toolbar-to-map.png" />
+    <Content Include="SiteResources\screenshots\Animate-a-snakeline.gif" />
     <Content Include="SiteResources\screenshots\Change-drawing-rendering-style.png" />
     <Content Include="SiteResources\screenshots\Consistent-zoomable-Heat-Map.gif" />
     <Content Include="SiteResources\screenshots\Drawing-manager-options.png" />
@@ -387,6 +387,7 @@
     <Content Include="Custom Modules\Map Synchronizer Module\MapSynchronizerModule.js.map" />
     <Content Include="Common\data\geojson\US_County_Unemployment_2017.geojson" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js.map" />
+    <Content Include="Custom Modules\Snakeline\SnakelineModule.js.map" />
     <None Include="packages.config" />
     <Content Include="Common\images\icons\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -505,6 +506,7 @@
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
+    <TypeScriptCompile Include="Custom Modules\Snakeline\SnakelineModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />
     <TypeScriptCompile Include="Custom Modules\Spyglass module\SpyglassModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Swipe map module\SwipeMapModule.ts" />

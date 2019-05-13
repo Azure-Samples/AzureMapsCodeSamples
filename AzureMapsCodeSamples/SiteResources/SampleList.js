@@ -29,7 +29,7 @@ var sampleList = [
 			screenshot:'Animate-a-Symbol-along-a-Path.gif',
 			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
 			created:'10/10/2018'
-        },
+		},
 		{
 			title:'HTML Marker Pulse Animation',
 			desc:'This sample shows how to pulse animate the position of a HTML marker on the map.',
@@ -184,6 +184,15 @@ var sampleList = [
 			created:'3/6/2019'
 		},
 		{
+			title:'Animate a snakeline',
+			desc:'This sample shows to use Snakeline module to animate the path of a line.',
+			path:'Custom%20Modules/Snakeline/Animate%20a%20snakeline.html',
+			sourcePath:'Custom%20Modules/Snakeline',
+			screenshot:'Animate-a-snakeline.gif',
+			keywords:'map, gis, api, sdk, snakeline, animation, animate, linestring',
+			created:'5/13/2019'
+		},
+		{
 			title:'Expanding Spider Clusters',
 			desc:'This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout.',
 			path:'Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html',
@@ -227,16 +236,7 @@ var sampleList = [
 			screenshot:'Swipe-map-module-options.png',
 			keywords:'map, gis, api, sdk, synchronized maps, swipe map',
 			created:'4/15/2019'
-        },
-        {
-            title: 'Animate a snakeline',
-            desc: 'This sample shows how to animate a polyline with Snakeline module, add animation durtion',
-            path: 'Custom%20Modules/Snakeline/Animate%20a%20snakeline.html',
-            sourcePath: 'Custom%20a%20Modules/Snakeline/Snakeline.html',
-            screenshot: 'SiteResources/screenshots/MapsSampleIcon.png',
-            keywords: 'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
-            created: '05/13/2018'
-        },
+		},
 	]
 },
 {
@@ -1273,4 +1273,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 126;
+}];var numberOfSamples = 127;
