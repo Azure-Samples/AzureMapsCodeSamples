@@ -29,7 +29,7 @@ var sampleList = [
 			screenshot:'Animate-a-Symbol-along-a-Path.gif',
 			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
 			created:'10/10/2018'
-		},
+        },
 		{
 			title:'HTML Marker Pulse Animation',
 			desc:'This sample shows how to pulse animate the position of a HTML marker on the map.',
@@ -227,7 +227,16 @@ var sampleList = [
 			screenshot:'Swipe-map-module-options.png',
 			keywords:'map, gis, api, sdk, synchronized maps, swipe map',
 			created:'4/15/2019'
-		},
+        },
+        {
+            title: 'Animate a snakeline',
+            desc: 'This sample shows how to animate a polyline with Snakeline module, add animation durtion',
+            path: 'Custom%20Modules/Snakeline/Animate%20a%20snakeline.html',
+            sourcePath: 'Custom%20a%20Modules/Snakeline/Snakeline.html',
+            screenshot: 'SiteResources/screenshots/MapsSampleIcon.png',
+            keywords: 'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
+            created: '05/13/2018'
+        },
 	]
 },
 {

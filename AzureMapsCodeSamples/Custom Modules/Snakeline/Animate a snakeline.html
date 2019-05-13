@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Snakeline module options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows an example of snakeline custom module." />
+    <meta name="keywords" content="map, gis, API, SDK, spyglass, synchronized maps, magnifying glass" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript that has our custom module. -->
+    <script src="Snakeline.js" type="module"></script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 100%;
+            min-width:290px;
+            height: 600px;
+        }
+        #btnReplay{
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body">
+    <div class="mapContainer">
+        <div id="map" class="mapContainer"></div>
+    </div>
+    <button id="btnReplay">5 second replay</button>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Snakeline</legend>
+        This sample shows to use Snakeline module.
+    </fieldset>
+</body>
+</html>

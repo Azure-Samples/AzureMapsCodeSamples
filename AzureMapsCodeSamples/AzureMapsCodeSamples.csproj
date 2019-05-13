@@ -25,7 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -157,6 +157,9 @@
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Polygon.html" />
     <Content Include="Custom Modules\Custom Drawing Tools\LineDrawingTool.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\PolygonDrawingTool.js" />
+    <Content Include="Custom Modules\Snakeline\Snakeline.js" />
+    <Content Include="Custom Modules\Snakeline\SnakelineModule.js" />
+    <Content Include="Custom Modules\Snakeline\Animate a snakeline.html" />
     <Content Include="Custom Modules\Spider Clusters\Expanding Spider Clusters.html" />
     <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js" />
