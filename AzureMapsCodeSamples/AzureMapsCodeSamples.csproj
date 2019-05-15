@@ -94,6 +94,10 @@
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
+    <Content Include="Common\images\icons\gas_station_pin.png" />
+    <Content Include="Common\images\icons\grocery_cart_pin.png" />
+    <Content Include="Common\images\icons\restaurant_pin.png" />
+    <Content Include="Common\images\icons\school_pin.png" />
     <Content Include="Common\images\image-overlays\Chicago_1872_Map.png" />
     <Content Include="Common\images\fill-patterns\fill-checker-blue.png" />
     <Content Include="Common\images\fill-patterns\fill-checker-darkblue.png" />
@@ -184,6 +188,7 @@
     <Content Include="SiteResources\screenshots\Animate-a-snakeline.gif" />
     <Content Include="SiteResources\screenshots\Change-drawing-rendering-style.png" />
     <Content Include="SiteResources\screenshots\Consistent-zoomable-Heat-Map.gif" />
+    <Content Include="SiteResources\screenshots\Data-driven-symbol-icons.png" />
     <Content Include="SiteResources\screenshots\Drawing-manager-options.png" />
     <Content Include="SiteResources\screenshots\Get-drawn-shapes-from-drawing-manager.png" />
     <Content Include="SiteResources\screenshots\Load-POIs-as-the-map-moves.png" />
@@ -193,6 +198,7 @@
     <Content Include="SiteResources\screenshots\Swipe-between-two-maps.png" />
     <Content Include="SiteResources\screenshots\Swipe-map-module-options.png" />
     <Content Include="SiteResources\screenshots\Synchronize-map-views.png" />
+    <Content Include="Symbol Layer\Data-driven symbol icons.html" />
     <Content Include="Tile Layers\Animated Tile Layers\Animated Tile Layer.html" />
     <Content Include="Tile Layers\Animated Tile Layers\AnimatedTileLayer.js" />
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-05-13</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-05-14</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -104,6 +104,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Data-driven%20symbol%20icons.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Draggable%20Symbols.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Filter%20Symbols%20by%20Property.html</loc></url>

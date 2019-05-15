@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Data-driven symbol icons - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use multiple custom icons in a single symbol layer by using data-driven styling with an expression." />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, layer, icon, image, expression" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-73.985708, 40.75773],
+                zoom: 9,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load some point data into the data source.
+                datasource.importDataFromUrl('../../Common/data/geojson/SamplePoiDataSet.json');
+
+                //Create an array of custom icon promises to load into the map. 
+                var iconPromises = [
+                    map.imageSprite.add('gas_station_icon', '../Common/images/icons/gas_station_pin.png'),
+                    map.imageSprite.add('grocery_store_icon', '../Common/images/icons/grocery_cart_pin.png'),
+                    map.imageSprite.add('restaurant_icon', '../Common/images/icons/restaurant_pin.png'),
+                    map.imageSprite.add('school_icon', '../Common/images/icons/school_pin.png'),
+                ];
+
+                //Load all the custom image icons into the map resources.
+                Promise.all(iconPromises).then(function () {
+
+                    //Add a layer for rendering point data as symbols.
+                    map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            //Use a match expression to select the image icon based on the EntityType property of the data point.
+                            image: [
+                                'match',
+
+                                ['get', 'EntityType'],
+
+                                //For each entity type, specify the icon name to use.
+                                'Gas Station', 'gas_station_icon',
+                                'Grocery Store', 'grocery_store_icon',
+                                'Restaurant', 'restaurant_icon',
+                                'School', 'school_icon',
+
+                                //Default fallback icon.
+                                'marker-blue'
+                            ]
+                        }
+                    }));
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Data-driven symbol icons</legend>
+        This sample shows how to use multiple custom icons in a single symbol layer by using data-driven styling with an expression. 
+        This sample uses a GeoJSON file that contains points of interest as a data source. 
+        Each record in this data set has an EntityType property which is one of the following properties: 
+        'Gas Station', 'Grocery Store', 'Restaurant', 'School'. 
+        This sample uses the EntityType property to select the icon to display on the map.
+    </fieldset>
+</body>
+</html>

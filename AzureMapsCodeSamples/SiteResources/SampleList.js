@@ -1033,6 +1033,15 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
+			title:'Data-driven symbol icons',
+			desc:'This sample shows how to use multiple custom icons in a single symbol layer by using data-driven styling with an expression.',
+			path:'Symbol%20Layer/Data-driven%20symbol%20icons.html',
+			sourcePath:'Symbol%20Layer/Data-driven%20symbol%20icons.html',
+			screenshot:'Data-driven-symbol-icons.png',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image, expression',
+			created:'5/14/2019'
+		},
+		{
 			title:'Display clusters with a Symbol Layer',
 			desc:'This sample shows how to enable point based clustering on a data source and render them with different symbols.',
 			path:'Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html',
@@ -1273,4 +1282,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 127;
+}];var numberOfSamples = 128;

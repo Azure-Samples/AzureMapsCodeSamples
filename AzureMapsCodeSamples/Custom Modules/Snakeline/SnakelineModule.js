@@ -25,7 +25,7 @@ class Snakeline {
      * @param map A map instance to attach the snakeline to.
      * @param path A line path to animate over.
      * @param lineOptions Options specifying how the line should be rendered.
-     * @param duration The duration to play the animation.
+     * @param duration The duration in milliseconds to play the animation.
      * @param autoPlay Specifies if the animation should play immediately.
      * @param beforeLayer The layer or id of the layer to insert the new snake line layer before.
      */
@@ -104,7 +104,7 @@ class Snakeline {
     }
     /**
      * Replays the snakeline.
-     * @param duration The duration of the snakeline animation.
+     * @param duration The duration in milliseconds to play the snakeline animation.
      */
     replay(duration) {
         if (duration) {
