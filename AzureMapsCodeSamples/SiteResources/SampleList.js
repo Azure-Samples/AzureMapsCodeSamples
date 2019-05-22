@@ -191,7 +191,16 @@ var sampleList = [
 			screenshot:'Animate-a-snakeline.gif',
 			keywords:'map, gis, api, sdk, snakeline, animation, animate, linestring',
 			created:'5/13/2019'
-		},
+        },
+        {
+            title: 'Animate a symbol',
+            desc: 'This sample shows to use Extended symbol module to animate a symbol.',
+            path: 'Custom%20Modules/Extended%20Symbol%20module/ExtendedSymbol.html',
+            sourcePath: 'Custom%20Modules/Extended%symbol',
+            screenshot: 'MapsSampleIcon.png',
+            keywords: 'map, gis, api, sdk, snakeline, animation, animate, symbol',
+            created: '5/22/2019'
+        },
 		{
 			title:'Expanding Spider Clusters',
 			desc:'This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout.',
