@@ -154,6 +154,8 @@
     <Content Include="Controls\Map Style Picker.html" />
     <Content Include="Custom Modules\Bring Data Into View Control\Bring Data Into View Control.html" />
     <Content Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.js" />
+    <Content Include="Custom Modules\Extended Symbol module\ExtendedSymbol.js" />
+    <Content Include="Custom Modules\Extended Symbol module\ExtendedSymbol.html" />
     <Content Include="Custom Modules\Simple Scale Bar Control\Simple Scale Bar Control.html" />
     <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
@@ -405,6 +407,7 @@
     <Content Include="Common\data\geojson\US_County_Unemployment_2017.geojson" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js.map" />
     <Content Include="Custom Modules\Snakeline\SnakelineModule.js.map" />
+    <Content Include="Custom Modules\Extended Symbol module\ExtendedSymbol.js.map" />
     <Content Include="Common\data\topojson\cb_2018_us_zcta510_500k.json" />
     <None Include="packages.config" />
     <Content Include="Common\images\icons\showers.png" />
@@ -523,6 +526,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.ts" />
+    <TypeScriptCompile Include="Custom Modules\Extended Symbol module\ExtendedSymbol.ts" />
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Snakeline\SnakelineModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />
