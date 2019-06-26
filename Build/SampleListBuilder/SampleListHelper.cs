@@ -123,6 +123,21 @@ namespace SampleListBuilder
                     {
                         Title = "Azure Maps Python Sample",
                         Href = "https://github.com/eavanvalkenburg/azuremaps-python-sample"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "A-Maps - A QGIS plugin for the Azure Maps REST services.",
+                        Href = "https://github.com/riccardoklinger/amaps"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "Vue Azure Maps - Integrate Azure Maps in your Vue application.",
+                        Href = "https://github.com/rickyruiz/vue-azure-maps"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "Azure Web Services - A collection of clients for Azure & Microsoft Web Services - Azure Cognitive Services, Azure Maps",
+                        Href = "https://github.com/cjoakim/azure-web-services"
                     }
                 }
             }

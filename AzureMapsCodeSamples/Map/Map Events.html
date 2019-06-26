@@ -17,9 +17,9 @@
     <script type='text/javascript'>
         var map,
             mapEvents = ['boxzoomend', 'boxzoomstart', 'click', 'contextmenu', 'dblclick', 'drag', 'dragend', 'dragstart',
-                'error', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover',
+                'error', 'layeradded', 'layerremoved', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover',
                 'mouseup', 'move', 'moveend', 'movestart', 'pitch', 'pitchend', 'pitchstart', 'ready', 'render', 'resize', 'rotate',
-                'rotateend', 'rotatestart', 'styledata', 'touchcancel', 'touchend', 'touchmove', 'touchstart', 'wheel',
+                'rotateend', 'rotatestart', 'sourceadded', 'sourceremoved', 'styledata', 'touchcancel', 'touchend', 'touchmove', 'touchstart', 'wheel',
                 'zoom', 'zoomend', 'zoomstart'];
 
         function GetMap() {
@@ -42,6 +42,11 @@
                     //Add a div to highlight the event.
                     document.getElementById('eventPanel').innerHTML += '<div id="' + mapEvents[i] + '">' + mapEvents[i] + '</div>'
                 }
+
+                //Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl(), {
+                    position: 'top-right'
+                });
             });
         }
 

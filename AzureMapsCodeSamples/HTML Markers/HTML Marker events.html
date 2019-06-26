@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Marker events - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add events to an HTML marker." />
+    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, events, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, events = ["click", "contextmenu", "dblclick", "drag", "dragstart", "dragend", "keydown", "keypress", "keyup", "mousedown", "mousemove", "mouseout", "mouseover", "mouseup"];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a marker that has the default htmlContent.
+                var marker = new atlas.HtmlMarker({
+                    position: [0, 0],
+                    draggable: true
+                });
+                                
+                for (var i = 0; i < events.length; i++) {
+                    //Add the event to the marker.
+                    map.events.add(events[i], marker, highlight);
+
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + events[i] + '">' + events[i] + '</div>'
+                }                
+
+                //Add the marker to the map.
+                map.markers.add(marker);
+            });
+        }
+
+        function highlight(e) {
+            //Highlight the div to indicate that the event has fired.
+            document.getElementById(e.type).style.background = 'LightGreen';
+
+            //Remove the highlighting after a second.
+            setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>HTML Marker events</legend>
+        This sample shows how to add events to an HTML marker.
+    </fieldset>
+</body>
+</html>

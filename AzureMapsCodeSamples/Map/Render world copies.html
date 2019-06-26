@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Render world copies - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to the renderWolrdCopies map style option changes the layout of the map when zoomed out." />
+    <meta name="keywords" content="map, gis, API, SDK, map, worldwrap" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                renderWorldCopies: true,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Add some data to the map so that we can see how the rendering of data also changes.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                map.layers.add(new atlas.layer.BubbleLayer(datasource));
+                
+                datasource.add(new atlas.data.Point([0, 0]));
+            });
+        }
+
+        function toggleRenderWorldCopies() {
+            var styleOptions = map.getStyle();
+
+            map.setStyle({
+                renderWorldCopies: !styleOptions.renderWorldCopies
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <input type="button" value="Toggle Render World Copies" onclick="toggleRenderWorldCopies()" style="position:absolute;top:10px;left:10px;"/>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Render world copies</legend>
+        This sample shows how to the renderWolrdCopies map style option changes the layout of the map when zoomed out. When zoomed out, by default, 
+        if there is a lot of horizontal space, copies of the map view will be displayed. 
+        Setting the renderWorldCopies map style option to false makes it so only one copy is displayed.
+    </fieldset>
+</body>
+</html>

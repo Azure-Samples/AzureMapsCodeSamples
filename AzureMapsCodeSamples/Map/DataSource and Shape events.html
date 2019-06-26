@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DataSource and Shape - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to the DataSource and Shape events work." />
+    <meta name="keywords" content="map, gis, API, SDK, events, data source, datasource, shapes" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource,
+            dsEvents = ['datasourceupdated', 'dataadded', 'dataremoved', 'sourceadded', 'sourceremoved'],
+            shapeEvents = ['shapechanged'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                
+                //Add the events to the datasource.
+                for (var i = 0; i < dsEvents.length; i++) {
+                    map.events.add(dsEvents[i], datasource, highlight);
+
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + dsEvents[i] + '">' + dsEvents[i] + '</div>';
+                }
+
+                document.getElementById('eventPanel').innerHTML += '<br/><b>Shape events:</b><br/>';
+
+                //Add monitor for the shape events.
+                for (var i = 0; i < shapeEvents.length; i++) {
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + shapeEvents[i] + '">' + shapeEvents[i] + '</div>';
+                }
+
+                map.sources.add(datasource);
+
+                //Create a layer to render point data.
+                var layer = new atlas.layer.BubbleLayer(datasource, null, {
+                    color: ['get', 'color']
+                });
+                map.layers.add(layer);
+
+                addShape();
+            });
+        }
+
+        function highlight(e) {
+            //Highlight the div to indicate that the event has fired.
+            document.getElementById(e.type).style.background = 'LightGreen';
+
+            //Remove the highlighting after a second.
+            setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+        }
+
+        function addShape() {
+            var shape = new atlas.Shape(new atlas.data.Point([Math.random() * 360 - 180, Math.random() * 170 - 85]), null, {
+                color: 'blue'
+            });
+
+            //Add events to the shape
+            for (var i = 0; i < shapeEvents.length; i++) {
+                map.events.add(shapeEvents[i], shape, highlight);
+            }
+
+            datasource.add(shape);
+        }
+
+        function removeShape() {
+            var s = datasource.getShapes();
+
+            if (s.length > 0) {
+                datasource.remove(s.length - 1);
+            }
+        }
+
+        function modifyShape() {
+            var s = datasource.getShapes();
+
+            if (s.length > 0) {
+                var shape = s[s.length - 1];
+
+                //Change the color property of the shape to a random value.
+                shape.setProperties({
+                    color: "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); })
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"><b>Data Source events:</b><br/></div>
+
+    <div style="position:absolute;top:10px;right:10px;">
+        <input type="button" value="Add Shape" onclick="addShape()" />
+        <input type="button" value="Remove Shape" onclick="removeShape()" />
+        <input type="button" value="Modify Shape" onclick="modifyShape()" />
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>DataSource and Shape events</legend>
+        This sample shows how to the DataSource and Shape events work.
+    </fieldset>
+</body>
+</html>

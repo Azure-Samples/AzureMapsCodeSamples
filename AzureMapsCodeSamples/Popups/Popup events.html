@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Popup events - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add events to Popups." />
+    <meta name="keywords" content="map, gis, API, SDK, popups, infobox, infowindow, events, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, popup, events = ['drag', 'dragstart', 'dragend', 'open', 'close'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a popup.
+                popup = new atlas.Popup({
+                    content: '<div style="padding:10px;">Hello World</div>',
+                    position: [0, 0],
+                    draggable: true
+                });
+
+                popup.open(map);
+
+                for (var i = 0; i < events.length; i++) {
+                    //Add the event to the popup.
+                    map.events.add(events[i], popup, highlight);
+
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + events[i] + '">' + events[i] + '</div>';
+                }
+            });
+        }
+
+        function highlight(e) {
+            //Highlight the div to indicate that the event has fired.
+            document.getElementById(e.type).style.background = 'LightGreen';
+
+            //Remove the highlighting after a second.
+            setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+        }
+
+        function openPopup() {
+            popup.open(map);
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"></div>
+
+    <input type="button" value="Open Popup" onclick="openPopup()" style="position:absolute;top:10px;right:10px;"/>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Popup events</legend>
+        This sample shows how to add events to Popups.
+    </fieldset>
+</body>
+</html>

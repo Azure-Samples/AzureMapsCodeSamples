@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Symbol layer with built-in icon template - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use a built-in icon template. " />
+    <meta name="keywords" content="map, gis, API, SDK, template, icon, linestring, arrows, path, symbols, linelayer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        //TODO: Test
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a line and add it to the data source.
+                datasource.add(new atlas.data.Feature(new atlas.data.LineString([
+                    [-122.18822, 47.63208],
+                    [-122.18204, 47.63196],
+                    [-122.17243, 47.62976],
+                    [-122.16419, 47.63023],
+                    [-122.15852, 47.62942],
+                    [-122.15183, 47.62988],
+                    [-122.14256, 47.63451],
+                    [-122.13483, 47.64041],
+                    [-122.13466, 47.64422],
+                    [-122.13844, 47.65440],
+                    [-122.13277, 47.66515],
+                    [-122.12779, 47.66712],
+                    [-122.11595, 47.66712],
+                    [-122.11063, 47.66735],
+                    [-122.10668, 47.67035],
+                    [-122.10565, 47.67498]
+                ])));
+
+                //Create an icon from one of the built-in templates and use it with a symbol layer.
+                map.imageSprite.createFromTemplate('myTemplatedIcon', 'marker-flat', 'teal', '#fff').then(function () {
+
+                    //Add a layers for rendering data.
+                    map.layers.add([
+                        //Add a line layer for displaying the line.
+                        new atlas.layer.LineLayer(datasource, null, {
+                            strokeColor: 'DarkOrchid',
+                            strokeWidth: 3
+                        }),
+
+                        //Add a symbol layer for rendering the arrow along the line.
+                        new atlas.layer.SymbolLayer(datasource, null, {
+                            lineSpacing: 100,
+                            placement: 'line',
+                            iconOptions: {
+                                image: 'myTemplatedIcon',
+                                allowOverlap: true,
+                                anchor: 'center',
+                                size: 0.6
+                            }
+                        })
+                    ]);
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Symbol layer with built-in icon template</legend>
+        This sample shows how to use a built-in icon template with a line layer. There are several icon templates available within the Azure Maps Web SDK.
+    </fieldset>
+</body>
+</html>
