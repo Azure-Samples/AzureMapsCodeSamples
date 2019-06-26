@@ -15,11 +15,11 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas-service.min.js"></script>
 
     <script type='text/javascript'>
-        var map, client, popup;
-        //TODO: Update to version 2 of services module.
+        var map, searchURL, popup;
+
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -33,13 +33,21 @@
                 }
             });
 
+            //Use SubscriptionKeyCredential with a subscription key
+            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
+                retryOptions: { maxTries: 4 }, // Retry options
+            });
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
                 //Update the style of mouse cursor to a crosshair.
                 map.getCanvasContainer().style.cursor = 'crosshair';
-
-                //Create an instance of the services client.
-                client = new atlas.service.Client(atlas.getSubscriptionKey());
 
                 //Create a popup but leave it closed so we can update it and display it later.
                 popup = new atlas.Popup({
@@ -52,21 +60,15 @@
         }
 
         function mapClicked(e) {
-            //Construct the reverse address search query string.
-            var revSearchQuery = e.position[1] + "," + e.position[0];
-
             //Execute the reverse address search query and open a popup once a response is received.
-            client.search.getSearchAddressReverse(revSearchQuery).then(response => {
-                //Parse the response into GeoJSON.
-                var geojsonResponse = new atlas.service.geojson.GeoJsonSearchReverseResponse(response);
-
-                //Get the addresses.
-                var addresses = geojsonResponse.getGeoJsonAddresses().features;
+            searchURL.searchAddressReverse(atlas.service.Aborter.timeout(3000), e.position).then(results => {
+                //Get the results in GeoJSON format.
+                var data = results.geojson.getFeatures();
 
                 var content = '<div style="padding:10px">';
 
-                if (addresses.length > 0 && addresses[0].properties && addresses[0].properties.address && addresses[0].properties.address.freeformAddress) {
-                    content += addresses[0].properties.address.freeformAddress;
+                if (data.features.length > 0 && data.features[0].properties && data.features[0].properties.address && data.features[0].properties.address.freeformAddress) {
+                    content += data.features[0].properties.address.freeformAddress;
                 } else {
                     content += 'No address for that location!';
                 }

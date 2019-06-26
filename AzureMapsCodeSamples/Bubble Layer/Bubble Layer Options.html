@@ -82,7 +82,8 @@
                 radius: getPropertyValue('radius', parseFloat(document.getElementById('Radius').value)),
                 minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
                 maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
-                visible: getPropertyValue('visible', document.getElementById('Visible').checked)
+                visible: getPropertyValue('visible', document.getElementById('Visible').checked),
+                pitchAlignment: getPropertyValue('pitchAlignment', getSelectValue('PitchAlignment'))
             };
         }
 
@@ -293,6 +294,15 @@
                             <input type="range" id="Blur" value="0" min="0" max="1" step="0.1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
                             <output name="blur" for="Blur">0</output>
                         </form>
+                    </td>
+                </tr>
+                <tr title="Specifies the orientation of circle when map is pitched.">
+                    <td>Pitch Alignment:</td>
+                    <td>
+                        <select id="PitchAlignment" onchange="updateBubbleLayer()">
+                            <option value="map">map</option>
+                            <option value="viewport" selected="selected">viewport</option>                            
+                        </select>
                     </td>
                 </tr>
             </table>

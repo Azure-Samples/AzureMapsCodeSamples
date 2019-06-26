@@ -5,6 +5,7 @@
 .jumbotron{
     margin-top:55px;
     margin-bottom: 0px;
+    padding:2rem;
 }
 
 @media screen and (max-width: 340px) {
@@ -96,4 +97,17 @@
 
 a {
     color: #0051A8;
+}
+
+h3 {
+    font-size:16px;
+}
+
+.card-img-top {
+    overflow: hidden;
+}
+
+.card-img-top img {
+    height: 225px;
+    position: relative;
 }

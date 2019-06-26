@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Layer Events - Azure Maps Web SDK Samples</title>
+    <title>Layer events - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events." />
-    <meta name="keywords" content="map, gis, API, SDK, events, bubbble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel" />
+    <meta name="keywords" content="map, gis, API, SDK, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -16,7 +16,7 @@
 
     <script type='text/javascript'>
         var map, datasource, testDataSize = 100,
-            symbolLayerEvents = ['mousedown', 'mouseup', 'mouseover', 'mousemove', 'click', 'dblclick', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'touchstart', 'touchend', 'touchmove', 'touchcancel', 'wheel'];
+            symbolLayerEvents = ['mousedown', 'mouseup', 'mouseover', 'mousemove', 'click', 'dblclick', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'touchstart', 'touchend', 'touchmove', 'touchcancel', 'wheel', 'layeradded', 'layerremoved'];
 
         function GetMap() {
             //Initialize a map instance.
@@ -52,7 +52,7 @@
                     map.events.add(symbolLayerEvents[i], symbolLayer, highlight);
 
                     //Add a div to highlight the event.
-                    document.getElementById('eventPanel').innerHTML += '<div id="' + symbolLayerEvents[i] + '">' + symbolLayerEvents[i] + '</div>'
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + symbolLayerEvents[i] + '">' + symbolLayerEvents[i] + '</div>';
                 }
             });
         }
@@ -85,7 +85,7 @@
     <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Layer Event</legend>
+        <legend>Layer events</legend>
         This sample highlights the name of the events that are firing as you interact with the Symbol Layer. 
         The Symbol, Bubble, Line and Polygon layer all support the same set of events. 
         The Tile Layer does not support any of these events.

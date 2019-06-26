@@ -15,15 +15,14 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas-service.min.js"></script>
 
     <!-- Load turf.js a spatial math library. http://turfjs.org/ -->
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
     <script type='text/javascript'>
-        var map, client, points, datasource, routeLine;
-        var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
-         //TODO: Update to version 2 of services module.
+        var map, searchURL, routeURL, points, datasource, routeLine;
+
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -37,10 +36,22 @@
                 }
             });
 
+            //Use SubscriptionKeyCredential with a subscription key
+            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
+                retryOptions: { maxTries: 4 }, // Retry options
+            });
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
+            //Create an instance of the RouteURL client.
+            routeURL = new atlas.service.RouteURL(pipeline);
+
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
-                //Create an instance of the services client.
-                client = new atlas.service.Client(atlas.getSubscriptionKey());
 
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
@@ -80,6 +91,7 @@
                 ]);
             });
         }
+
         function calculateRoute() {
             var start = document.getElementById('startTbx').value;
             var end = document.getElementById('endTbx').value;
@@ -103,7 +115,9 @@
                         return;
                     }
 
-                    client.route.getRouteDirections(startPoint + ':' + endPoint).then(function (r) {
+                    routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(3000), [startPoint, endPoint], {
+                        maxAlternatives: 0
+                    }).then(r => {
                         if (r && r.routes && r.routes.length > 0) {
                             var route = r.routes[0];
                             var routeCoordinates = [];
@@ -133,7 +147,7 @@
             if (routeLine) {
                 var bufferDistance = parseFloat(document.getElementById('bufferDistance').value);
 
-                //Create a polygon search area by buffering the route line. 
+                //Create a polygon search area by buffering the route line.
                 filterArea = turf.buffer(routeLine, bufferDistance, { units: 'miles' });
 
                 //Reset the color property of each point.
@@ -141,7 +155,7 @@
                     points.features[i].properties.color = '#3399ff';
                 }
 
-                //Calculate all points that are within the filter area. 
+                //Calculate all points that are within the filter area.
                 var ptsWithin = turf.pointsWithinPolygon(points, filterArea);
 
                 //Change to color of all points that are in the filter area to red.
@@ -150,29 +164,24 @@
                 }
 
                 //Update the data on the map.
-                datasource.clear();
-                datasource.add(points);
+                datasource.setShapes(points);
                 datasource.add([filterArea, routeLine]);
             }
         }
 
-        //Geocode the query and return the first coordinate in "latitude,longitude" format for use with the route service.
+        //Geocode the query and return the first coordinate.
         function geocodeQuery(query, callback) {
             if (callback) {
-                //Check to see if the query is a coordinate in latitude/longitude format. if so, it doesn't need to be geocoded.
-                if (coordinateRx.test(query)) {
-                    callback(query);
-                } else {
-                    client.search.getSearchFuzzy(query).then(response => {
-                        if (response &&
-                            response.results &&
-                            response.results.length > 0) {
-                            callback(response.results[0].position.lat + ',' + response.results[0].position.lon);
-                        } else {
-                            callback(null);
-                        }
-                    });
-                }
+                searchURL.searchAddress(atlas.service.Aborter.timeout(3000), query, {
+                    limit: 1
+                }).then(results => {
+                    var data = results.geojson.getFeatures();
+                    if (data && data.features.length > 0) {
+                        callback(data.features[0].geometry.coordinates);
+                    } else {
+                        callback(null);
+                    }
+                });
             }
         }
     </script>

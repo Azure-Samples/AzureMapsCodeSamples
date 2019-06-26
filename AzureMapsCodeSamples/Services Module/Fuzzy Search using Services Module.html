@@ -15,11 +15,11 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas-service.min.js"></script>
 
     <script type='text/javascript'>
-        var map, client, datasource, popup;
-        //TODO: Update to version 2 of services module.
+        var map, searchURL, datasource, popup;
+
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -31,11 +31,19 @@
                 }
             });
 
+            //Use SubscriptionKeyCredential with a subscription key
+            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
+                retryOptions: { maxTries: 4 }, // Retry options
+            });
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
-                //Create an instance of the services client.
-                client = new atlas.service.Client(atlas.getSubscriptionKey());
-
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
@@ -65,21 +73,18 @@
             //Remove any previous results from the map.
             datasource.clear();
 
-            client.search.getSearchFuzzy(query, {
+            searchURL.searchFuzzy(atlas.service.Aborter.timeout(10000), query, {
                 lat: userLatitude,
                 lon: userLongitude,
                 radius: 100000
-            }).then(response => {
-                //Parse the response into GeoJSON so that the map can understand.
-                var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
-                var geojsonResults = geojsonResponse.getGeoJsonResults();
-
-                //Add the results to the data source.
-                datasource.add(geojsonResults);
-
+            }).then(results => {
+                //Get the results in GeoJSON format and add it to the data source.
+                var data = results.geojson.getFeatures();  
+                datasource.add(data);
+             
                 //Set the camera to the bounds of the results.
                 map.setCamera({
-                    bounds: geojsonResults.bbox,
+                    bounds: data.bbox,
                     padding: 40
                 });
             });

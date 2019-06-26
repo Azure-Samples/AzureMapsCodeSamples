@@ -15,15 +15,14 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas-service.min.js"></script>
 
     <script type='text/javascript'>
-         //TODO: Update to version 2 of services module.
 
-        var map, searchClient, datasource, popup, lastSearchPosition;
+        var map, searchURL, datasource, popup, lastSearchPosition;
         var minSearchZoom = 15;             //The minium zoom level the user must be zoomed into before POI data is searched/displayed.
         var minSearchCenterOffset = 200;  //The minimum distance in meters the map center mush move before a new search is done.
-        var maxSearchResults = 500;         //The maximum number of points of interests that will be queried on each update. 
+        var maxSearchResults = 500;         //The maximum number of points of interests that will be queried on each update.
         //The service has a limit of 100 results, but additional results can be accesed by paging through the results.
 
         function GetMap() {
@@ -39,12 +38,20 @@
                 }
             });
 
+            //Use SubscriptionKeyCredential with a subscription key
+            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
+                retryOptions: { maxTries: 4 }, // Retry options
+            });
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
 
-                //Create an instance of the services client.
-                searchClient = new atlas.service.Client(atlas.getSubscriptionKey());
-                
                 //Create a data source to add point of interest data to.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
@@ -65,7 +72,7 @@
 
                         'CAFE_PUB', 'green',
 
-                        'PARKING_GARAGE', 'lightblue', 
+                        'PARKING_GARAGE', 'lightblue',
 
                         'CASH_DISPENSER', 'limegreen',
 
@@ -109,34 +116,29 @@
 
         function performSearch(center, offset) {
             //Make a query for nearby points of interest.
-            searchClient.search.getSearchNearby(center[1],center[0], {
+            searchURL.searchNearby(atlas.service.Aborter.timeout(3000), center, {
                 ofs: offset * 100,
                 limit: 100,
                 radius: 5000
-            }).then(response => {
-                //Parse the response into GeoJSON so that the map can understand.
-                var geojsonResponse = new atlas.service.geojson.GeoJsonSearchResponse(response);
-                var geojsonResults = geojsonResponse.getGeoJsonResults();
+            }).then(results => {
+                var data = results.geojson.getFeatures();
 
                 //If offset is 0, remove previous data, check the response to see if there are more results to page through.
-                if (response.summary.offset == 0) {
+                if (results.summary.offset == 0) {
                     //Replace all data on the map with the new data.
-                    datasource.setShapes(geojsonResults);
+                    datasource.setShapes(data);
 
                     //Calculate the number of pages
-                    var maxPages = Math.ceil(Math.min(maxSearchResults, response.summary.totalResults) / 100);
+                    var maxPages = Math.ceil(Math.min(maxSearchResults, results.summary.totalResults) / 100);
 
                     //Make requests for the other pages.
                     for (var oft = 1; oft <= maxPages; oft++) {
                         performSearch(center, oft);
                     }
                 } else {
-                    //Add the results to the map.
-                    datasource.add(geojsonResults);
+                    //Add the results to the data source.
+                    datasource.add(data);
                 }
-
-                //Add the results to the data source.
-                datasource.add(geojsonResults);
             });
         }
 

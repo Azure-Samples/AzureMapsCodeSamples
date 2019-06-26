@@ -75,6 +75,30 @@ window.onload = function () {
     window.onscroll = function () { scrollFunction(); };
 };
 
+function toggleDescriptions() {
+    var displayState = (document.getElementById('showDescriptionsCbx').checked) ? '': 'none';
+
+    var i, elements = document.getElementsByClassName('card-text');
+
+    for (i = 0; i < elements.length; i++) {
+        elements[i].style.display = displayState;
+    }
+
+    elements = document.getElementsByClassName('card-img-top');
+
+    if (displayState === '') {
+        for (i = 0; i < elements.length; i++) {
+            elements[i].style.height = '225px';
+            elements[i].firstChild.style.top = '0';
+        }
+    } else {
+        for (i = 0; i < elements.length; i++) {
+            elements[i].style.height = '120px';
+            elements[i].firstChild.style.top = '-50%';
+        }
+    }
+}
+
 function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("scrollToTopBtn").style.display = "block";

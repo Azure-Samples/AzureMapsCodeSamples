@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how the different options of the line layer affect rendering." />
-    <meta name="keywords" content="map, gis, API, SDK, line, linestring, polyline, layer" />
+    <meta name="keywords" content="map, gis, API, SDK, line, linestring, polyline, layer, linelayer" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -86,8 +86,6 @@
                     }
                 }
             }   
-
-            //TODO: Add stroke gradient option
 
             return {
                 strokeColor: getPropertyValue('color', document.getElementById('StrokeColor').value),
@@ -240,7 +238,6 @@
                 In addition to the options in this tool, the LineLayer also has options for;
                 <ul>
                     <li>sourceLayer - used with VectorTileSource.</li>
-                    <li>strokeDashArray</li>
                     <li>strokeGradient</li>
                     <li>filter - used to filter data in layer.</li>
                 </ul>

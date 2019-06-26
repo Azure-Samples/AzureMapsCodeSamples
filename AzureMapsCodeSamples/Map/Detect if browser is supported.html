@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Detect if browser is supported - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to detect if the browser is supported by the Azure Maps Web SDK. If it is, load the map, otherwise fallback gracefully." />
+    <meta name="keywords" content="map, gis, API, SDK, browser support, supported browsers" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        function GetMap() {
+            //Check to see if the browser is supported. 
+
+            if (!atlas.isSupported(true))
+            {
+                //The browser is not supported. 
+                document.getElementById('myMap').innerHTML = '<div style="position:absolute;width:calc(100% - 40px);color:#000;background-color:#fff194;top:calc(50% - 12px);left:0;padding:20px;font-family:arial;">This browser is not supported. Azure Maps uses <a href="https://get.webgl.org/">WebGL</a> and some required components do not appear to be available or have known performance caveats in this browser.</div>';
+            } else {
+                //Browser is supported, load the map.
+
+                //Initialize a map instance.
+                map = new atlas.Map('myMap', {
+                    //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                    authOptions: {
+                        authType: 'subscriptionKey',
+                        subscriptionKey: '<Your Azure Maps Key>'
+                    }
+                });
+
+                //Wait until the map resources are ready.
+                map.events.add('ready', function () {
+
+                    //Add your post map load code here.
+
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Detect if browser is supported</legend>
+        This sample shows how to detect if the browser is supported by the Azure Maps Web SDK. If it is, load the map, otherwise fallback gracefully.
+        There are many ways in which to handle this situation. Some common approaches include:
+        <ul>            
+            <li>Show an error message and recommend the user tries a more modern browser.</li>
+            <li>If the map part of a page that has a lot of other content, consider hiding the map div.</li>
+            <li>If showing a smaller data set on the map, consider generating a static map image using the <a href="https://docs.microsoft.com/azure/azure-maps/how-to-render-custom-data" target="_blank">Azure Maps Render service</a></li>
+            <li>Write additional code to fallback to a legacy browser such as <a href="/Third Party Map Controls/Raster Tiles in Leaflet JS.html" target="_blank">Leaflet</a>.</li>
+        </ul>
+    </fieldset>
+</body>
+</html>

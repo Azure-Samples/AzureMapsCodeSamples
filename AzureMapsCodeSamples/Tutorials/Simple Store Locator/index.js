@@ -35,7 +35,7 @@ function initialize() {
 
     //Use subscriptionKeyCredential to create a pipeline
     const pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
-        retryOptions: { maxTries: 4 }, // Retry options
+        retryOptions: { maxTries: 4 } // Retry options
     });
 
     //Create an instance of the SearchURL client.
@@ -277,21 +277,6 @@ function updateListItems() {
 
     var listPanel = document.getElementById('listPanel');
 
-    //Get all the shapes that have been rendered in the bubble layer. 
-    var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
-
-    data.forEach(function (shape) {
-        if (shape instanceof atlas.Shape) {
-            //Calculate the distance from the center of the map to each shape and store the data in a distance property. 
-            shape.distance = atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles');
-        }
-    });
-
-    //Sort the data by distance.
-    data.sort(function (x, y) {
-        return x.distance - y.distance;
-    });
-
     //Check to see if the user is zoomed out a lot. If they are, tell them to zoom in closer, perform a search or press the My Location button.
     if (camera.zoom < maxClusterZoomLevel) {
         //Close the popup as clusters may be displayed on the map. 
@@ -319,6 +304,25 @@ function updateListItems() {
             </div>
          */
 
+        //Get all the shapes that have been rendered in the bubble layer. 
+        var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
+
+        //Create an index of the distances of each shape.
+        var distances = {};
+
+        data.forEach(function (shape) {
+            if (shape instanceof atlas.Shape) {
+
+                //Calculate the distance from the center of the map to each shape and store in the index. Round to 2 decimals.
+                distances[shape.getId()] = Math.round(atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles') * 100) / 100;
+            }
+        });
+
+        //Sort the data by distance.
+        data.sort(function (x, y) {
+            return distances[x.getId()] - distances[y.getId()];
+        });
+
         data.forEach(function (shape) {
             properties = shape.getProperties();
 
@@ -334,8 +338,8 @@ function updateListItems() {
                 getOpenTillTime(properties),
                 '<br />',
 
-                //Route the distance to 2 decimal places. 
-                (Math.round(shape.distance * 100) / 100),
+                //Get the distance of the shape.
+                distances[shape.getId()],
                 ' miles away</div>');
         });
         
@@ -425,6 +429,9 @@ function showPopup(shape) {
             </div>
      */
 
+    //Calculate the distance from the center of the map to the shape in miles, round to 2 decimals.
+    var distance = Math.round(atlas.math.getDistanceTo(map.getCamera().center, shape.getCoordinates(), 'miles') * 100)/100;
+
     var html = ['<div class="storePopup">'];
 
     html.push('<div class="popupTitle">',
@@ -436,8 +443,8 @@ function showPopup(shape) {
         //Convert the closing time into a nicely formated time.
         getOpenTillTime(properties),
 
-        //Route the distance to 2 decimal places. 
-        '<br/>', (Math.round(shape.distance * 100) / 100),
+        //Add the distance information.  
+        '<br/>', distance,
         ' miles away',
         '<br /><img src="images/PhoneIcon.png" title="Phone Icon"/><a href="tel:',
         properties['Phone'],
@@ -450,11 +457,11 @@ function showPopup(shape) {
         html.push('<br/>Amenities: ');
 
         if (properties['IsWiFiHotSpot']) {
-            html.push('<img src="images/WiFiIcon.png" title="Wi-Fi Hotspot"/>')
+            html.push('<img src="images/WiFiIcon.png" title="Wi-Fi Hotspot"/>');
         }
 
         if (properties['IsWheelchairAccessible']) {
-            html.push('<img src="images/WheelChair-small.png" title="Wheelchair Accessible"/>')
+            html.push('<img src="images/WheelChair-small.png" title="Wheelchair Accessible"/>');
         }
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-05-14</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-06-26</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -48,10 +48,9 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Simple%20Heat%20Map%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/Adding%20Mouse%20Events%20to%20default%20HTML%20Marker.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/Adding%20Mouse%20Events%20to%20HTML%20Markers.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/CSS%20Styled%20HTML%20Marker.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/Draggable%20HTML%20Marker.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/HTML%20Marker%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/HTML%20Marker%20with%20Custom%20SVG%20Template.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/Simple%20HTML%20Marker.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/HTML%20Markers/HtmlMarkerLayer/Clustered%20Pie%20Chart%20HTML%20Markers.html</loc></url>
@@ -61,6 +60,8 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Image%20Layer/KML%20Ground%20Overlay%20as%20Image%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Image%20Layer/Simple%20Image%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Add%20a%20Context%20Menu%20to%20the%20Map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/DataSource%20and%20Shape%20events.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Detect%20if%20browser%20is%20supported.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Full%20Screen%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Lazy%20Load%20the%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Limit%20Map%20to%20Two%20Finger%20Panning.html</loc></url>
@@ -71,6 +72,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20Overview%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps%20in%20Different%20Lanaguages.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Render%20world%20copies.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Add%20Arrows%20along%20a%20Path.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html</loc></url>
@@ -81,6 +83,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20Hover%20Style.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20Layer%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Simple%20MultiPolygon.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20with%20Media%20Content.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popups%20on%20Shapes.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Reusing%20Popup%20with%20Multiple%20Pins.html</loc></url>
