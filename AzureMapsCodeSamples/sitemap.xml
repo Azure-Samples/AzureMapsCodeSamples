@@ -18,6 +18,9 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Fullscreen%20Control/Fullscreen%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Map%20Synchronizer%20Module/Synchronize%20map%20views.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Shape%20Animation%20module/Animate%20a%20point.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Shape%20Animation%20module/Animate%20multiple%20points.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Shape%20Animation%20module/Shape%20animation%20module%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Snakeline/Animate%20a%20snakeline.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html</loc></url>
@@ -60,7 +63,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Image%20Layer/KML%20Ground%20Overlay%20as%20Image%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Image%20Layer/Simple%20Image%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Add%20a%20Context%20Menu%20to%20the%20Map.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/DataSource%20and%20Shape%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Detect%20if%20browser%20is%20supported.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Full%20Screen%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Lazy%20Load%20the%20Map.html</loc></url>

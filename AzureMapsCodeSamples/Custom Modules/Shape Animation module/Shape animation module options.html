@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shape animaiton module options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the shape animation module work." />
+    <meta name="keywords" content="map, gis, API, SDK, animation, animate, point" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.js"></script>
+
+    <!-- Load in the JavaScript that has our custom module. -->
+    <script src="ShapeAnimationModule.js"></script>
+
+    <script type='text/javascript'>
+        var map, point;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                point = new AnimatedPoint(new atlas.data.Point([-122.33825, 47.53945]));
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add the data to the data source.
+                datasource.add(point);
+
+                //Add a layer for rendering point data. This could be able layer that supports rendering point data.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        //For smoother animation, ignore the placement of the icon. This skips the label collision calculations and allows the icon to overlap map labels.
+                        ignorePlacement: true,
+
+                        //For smoother animation, allow symbol to overlap all other symbols on the map.
+                        allowOverlap: true
+                    }
+                }));
+            });
+        }
+
+        function stopAllAnimations() {
+            ShapeAnimationManager.instance.stop();
+        }
+
+        function playAmimations() {
+            ShapeAnimationManager.instance.play();
+        }
+
+        function animatePoint() {
+            var geodesic = document.getElementById('geodesicCgx').checked;
+            var duration = parseInt(document.getElementById('durationTbx').value);
+
+            //Get a random coordinate.
+            var newPosition = [Math.random() * 360 - 180, Math.random() * 170 - 85];
+
+            point.setCoordinates(newPosition, duration, geodesic);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;border-radius:5px;background-color:#fff;padding:5px;">
+        <table>
+            <tr title="Specifies if the animation should use a geodesic path.">
+                <td>Geodesic</td>
+                <td><input id="geodesicCgx" type="checkbox" checked="checked" /></td>
+            </tr>
+            <tr title="The duration of the animation.">
+                <td>Duration</td>
+                <td><input id="durationTbx" type="number" value="1000" /></td>
+            </tr>
+            <tr><td></td><td><input type="button" value="Animate" onclick="animatePoint()" /></td></tr>
+            <tr>
+                <td colspan="2">
+                    <br />
+                    Animations:
+                    <input type="button" value="Stop" onclick="stopAllAnimations()" />
+                    <input type="button" value="Play" onclick="playAmimations()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Shape animaiton module options</legend>
+        This sample shows how the different options of the shape animation module work.
+    </fieldset>
+</body>
+</html>

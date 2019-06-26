@@ -154,8 +154,8 @@
     <Content Include="Controls\Map Style Picker.html" />
     <Content Include="Custom Modules\Bring Data Into View Control\Bring Data Into View Control.html" />
     <Content Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.js" />
-    <Content Include="Custom Modules\Extended Symbol module\ExtendedSymbol.js" />
-    <Content Include="Custom Modules\Extended Symbol module\ExtendedSymbol.html" />
+    <Content Include="Custom Modules\Shape Animation module\Animate multiple points.html" />
+    <Content Include="Custom Modules\Shape Animation module\Animate a point.html" />
     <Content Include="Custom Modules\Simple Scale Bar Control\Simple Scale Bar Control.html" />
     <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
@@ -187,15 +187,19 @@
     <Content Include="Experimental\Fill polygon with built-in icon template.html" />
     <Content Include="Experimental\HTML Marker with built-in icon template.html" />
     <Content Include="Experimental\Icon template options.html" />
+    <Content Include="Custom Modules\Shape Animation module\Shape animation module options.html" />
+    <Content Include="Custom Modules\Shape Animation module\ShapeAnimationModule.js" />
     <Content Include="Heat Map Layer\Consistent zoomable Heat Map.html" />
-    <Content Include="Map\DataSource and Shape events.html" />
+    <Content Include="Experimental\DataSource and Shape events.html" />
     <Content Include="Map\Detect if browser is supported.html" />
     <Content Include="Map\Render world copies.html" />
     <Content Include="Experimental\Line layer with built-in icon template.html" />
     <Content Include="Popups\Popup events.html" />
     <Content Include="Services Module\Load POI as the map moves.html" />
     <Content Include="SiteResources\screenshots\Add-drawing-toolbar-to-map.png" />
+    <Content Include="SiteResources\screenshots\Animate-a-point.gif" />
     <Content Include="SiteResources\screenshots\Animate-a-snakeline.gif" />
+    <Content Include="SiteResources\screenshots\Animate-multiple-points.gif" />
     <Content Include="SiteResources\screenshots\Change-drawing-rendering-style.png" />
     <Content Include="SiteResources\screenshots\Consistent-zoomable-Heat-Map.gif" />
     <Content Include="SiteResources\screenshots\Data-driven-symbol-icons.png" />
@@ -206,6 +210,7 @@
     <Content Include="SiteResources\screenshots\Load-POIs-as-the-map-moves.png" />
     <Content Include="SiteResources\screenshots\Popup-events.png" />
     <Content Include="SiteResources\screenshots\Render-world-copies.png" />
+    <Content Include="SiteResources\screenshots\Shape-animation-module-options.gif" />
     <Content Include="SiteResources\screenshots\Show-popup-on-hover.png" />
     <Content Include="SiteResources\screenshots\Spyglass-map-visualization.png" />
     <Content Include="SiteResources\screenshots\Spyglass-module-options.png" />
@@ -407,8 +412,8 @@
     <Content Include="Common\data\geojson\US_County_Unemployment_2017.geojson" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js.map" />
     <Content Include="Custom Modules\Snakeline\SnakelineModule.js.map" />
-    <Content Include="Custom Modules\Extended Symbol module\ExtendedSymbol.js.map" />
     <Content Include="Common\data\topojson\cb_2018_us_zcta510_500k.json" />
+    <Content Include="Custom Modules\Shape Animation module\ShapeAnimationModule.js.map" />
     <None Include="packages.config" />
     <Content Include="Common\images\icons\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -453,7 +458,7 @@
     <Content Include="SiteResources\screenshots\Geospatially-Accurate-Circle.png" />
     <Content Include="SiteResources\screenshots\Introduction-to-spatial-math.png" />
     <Content Include="SiteResources\screenshots\Large-GeoJSON-Files.png" />
-    <Content Include="SiteResources\screenshots\Symbol-layer-events.gif" />
+    <Content Include="SiteResources\screenshots\Layer-events.gif" />
     <Content Include="SiteResources\screenshots\Line-Layer-Options.png" />
     <Content Include="SiteResources\screenshots\Load-Map-with-Options.png" />
     <Content Include="SiteResources\screenshots\Map-Events.gif" />
@@ -526,7 +531,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.ts" />
-    <TypeScriptCompile Include="Custom Modules\Extended Symbol module\ExtendedSymbol.ts" />
+    <TypeScriptCompile Include="Custom Modules\Shape Animation module\ShapeAnimationModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Snakeline\SnakelineModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />

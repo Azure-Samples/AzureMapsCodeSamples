@@ -175,6 +175,33 @@ var sampleList = [
 			created:'4/15/2019'
 		},
 		{
+			title:'Animate a point',
+			desc:'This sample shows how to animate a point on the map to a new coordinate.',
+			path:'Custom%20Modules/Shape%20Animation%20module/Animate%20a%20point.html',
+			sourcePath:'Custom%20Modules/Shape%20Animation%20module',
+			screenshot:'Animate-a-point.gif',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'6/26/2019'
+		},
+		{
+			title:'Animate multiple points',
+			desc:'This sample shows how to animate multiple points on the map.',
+			path:'Custom%20Modules/Shape%20Animation%20module/Animate%20multiple%20points.html',
+			sourcePath:'Custom%20Modules/Shape%20Animation%20module',
+			screenshot:'Animate-multiple-points.gif',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'6/26/2019'
+		},
+		{
+			title:'Shape animaiton module options',
+			desc:'This sample shows how the different options of the shape animation module work.',
+			path:'Custom%20Modules/Shape%20Animation%20module/Shape%20animation%20module%20options.html',
+			sourcePath:'Custom%20Modules/Shape%20Animation%20module',
+			screenshot:'Shape-animation-module-options.gif',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'6/26/2019'
+		},
+		{
 			title:'Simple Scale Bar Control',
 			desc:'This sample shows how to create a custom scale bar control that can be added to the map.',
 			path:'Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
@@ -191,16 +218,7 @@ var sampleList = [
 			screenshot:'Animate-a-snakeline.gif',
 			keywords:'map, gis, api, sdk, snakeline, animation, animate, linestring',
 			created:'5/13/2019'
-        },
-        {
-            title: 'Animate a symbol',
-            desc: 'This sample shows to use Extended symbol module to animate a symbol.',
-            path: 'Custom%20Modules/Extended%20Symbol%20module/ExtendedSymbol.html',
-            sourcePath: 'Custom%20Modules/Extended%symbol',
-            screenshot: 'MapsSampleIcon.png',
-            keywords: 'map, gis, api, sdk, snakeline, animation, animate, symbol',
-            created: '5/22/2019'
-        },
+		},
 		{
 			title:'Expanding Spider Clusters',
 			desc:'This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout.',
@@ -608,15 +626,6 @@ var sampleList = [
 			screenshot:'Add-a-Context-Menu-to-the-Map.png',
 			keywords:'map, gis, api, sdk, context menu, popup, right click, mouse',
 			created:'10/8/2018'
-		},
-		{
-			title:'DataSource and Shape',
-			desc:'This sample shows how to the DataSource and Shape events work.',
-			path:'Map/DataSource%20and%20Shape%20events.html',
-			sourcePath:'Map/DataSource%20and%20Shape%20events.html',
-			screenshot:'DataSource-and-Shape-events.png',
-			keywords:'map, gis, api, sdk, events, data source, datasource, shapes',
-			created:'6/24/2019'
 		},
 		{
 			title:'Detect if browser is supported',
@@ -1127,7 +1136,7 @@ var sampleList = [
 			desc:'This sample highlights the name of the events that are firing as you interact with the Symbol Layer. The Symbol, Bubble, Line and Polygon layer all support the same set of events. The Tile Layer does not support any of these events.',
 			path:'Symbol%20Layer/Symbol%20layer%20events.html',
 			sourcePath:'Symbol%20Layer/Symbol%20layer%20events.html',
-			screenshot:'Symbol-layer-events.gif',
+			screenshot:'Layer-events.gif',
 			keywords:'map, gis, api, sdk, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
 			created:'11/28/2018'
 		},
@@ -1318,4 +1327,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 131;
+}];var numberOfSamples = 133;

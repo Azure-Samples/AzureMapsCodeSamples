@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Animate multiple points - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate multiple points on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, animation, animate, point" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript that has our custom module. -->
+    <script src="ShapeAnimationModule.js"></script>
+
+    <script type='text/javascript'>
+        var map, points = [], numPoints = 50;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                for (var i = 0; i < numPoints; i++) {
+                    //Create an AnimatedPoint object with a random position and color.
+                    points.push(new AnimatedPoint(new atlas.data.Point(getRandomPosition()), null, {
+                        color: "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); })
+                    }));
+                }
+
+                //Add the points to the data source.
+                datasource.add(points);
+
+                //Add a layer for rendering point data as symbols.
+                map.layers.add(new atlas.layer.BubbleLayer(datasource, null, {
+                    color: ['get', 'color']
+                }));
+
+                map.events.add('click', function () {
+
+                    //Animate each point to a random coordinate over a random duration between 100ms and 2000ms
+                    for (var i = 0; i < numPoints; i++) {
+                        points[i].setCoordinates(getRandomPosition(), Math.random() * 1900 + 100);
+                    }
+                });
+            });
+        }
+
+        function getRandomPosition() {
+            return [Math.random() * 360 - 180, Math.random() * 170 - 85];
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:0px;left:calc(50% - 100px);background-color:white;padding:5px;">Click the map to animate points.</div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Animate multiple points</legend>
+        This sample shows how to animate multiple points on the map. 
+    </fieldset>
+</body>
+</html>
