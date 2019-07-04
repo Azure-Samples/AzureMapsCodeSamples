@@ -1,3 +1,13 @@
+---
+topic: sample
+description: A collection of over a hundred code samples for the Azure Maps Web SDK.
+languages:
+- javascript
+products:
+- azure
+- azure-maps
+---
+
 # Azure Maps Code Samples
 
 A collection of over a hundred code samples for the [Azure Maps](https://azure.com/maps) Web SDK.
