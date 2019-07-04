@@ -31,7 +31,7 @@ A collection of over a hundred code samples for the [Azure Maps](https://azure.c
 * [StackOverflow [azure-maps]](https://stackoverflow.com/questions/tagged/azure-maps)
 * [Azure Maps feedback](https://feedback.azure.com/forums/909172-azure-maps)
 
-## Contributing ##
+## Contributing
 
 We welcome contributions. Feel free to submit code samples, file issues and pull requests on the repo and we'll address them as we can. 
 Learn more about how you can help on our [Contribution Rules & Guidelines](CONTRIBUTING.md). 
@@ -45,7 +45,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or 
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## License ##
+## License
 
 MIT
  
