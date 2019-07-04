@@ -16,13 +16,13 @@ A collection of over a hundred code samples for the [Azure Maps](https://azure.c
 
 [![screenshot](Images/screenshot.png)](https://azuremapscodesamples.azurewebsites.net/)
 
-## Related Projects ##
+## Related Projects
 
 * [Azure Maps Tutorial Samples](https://github.com/Azure-Samples/azure-maps-samples/tree/master/src)
 * [Azure Maps .NET UWP IoT Remote Control](https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control)
 * [AirMap Azure Maps plugin](https://github.com/airmap/js-azure-maps-plugin)
 
-## Additional Resources ##
+## Additional Resources
 
 * [Azure Maps (main site)](https://azure.com/maps)
 * [Azure Maps Documentation](https://docs.microsoft.com/azure/azure-maps/index)
