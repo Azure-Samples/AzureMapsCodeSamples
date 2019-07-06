@@ -105,7 +105,7 @@
 
                     if (points.length === 2) {
                         //When only two points in a cluster. Render a line.
-                        polygonDatasource.setShapes(new atlas.data.LineString([points[0].geometry.coordinates, points[1].geometry.coordinates]));
+                        polygonDatasource.setShapes(new atlas.data.LineString(atlas.math.getPositions(points)));
                     } else {
                         var hullPolygon = atlas.math.getConvexHull(points);
 

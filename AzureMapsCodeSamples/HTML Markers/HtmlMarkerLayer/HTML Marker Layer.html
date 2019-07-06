@@ -55,14 +55,34 @@
                 //Create a HTML marker layer for rendering data points.
                 markerLayer = new HtmlMarkerLayer(datasource, null, {
                     markerRenderCallback: function (id, position, properties) {
+                        //Business logic to define color of marker.
+                        var color = 'blue';
+
+                        switch (properties.EntityType) {
+                            case 'Gas Station':
+                                color = '#3366CC';
+                                break;
+                            case 'Grocery Store':
+                                color = '#DC3912';
+                                break;
+                            case 'Restaurant':
+                                color = '#FF9900';
+                                break;
+                            case 'School':
+                                color = '#109618';
+                                break;
+                            default:
+                                break;
+                        }
+
                         //Create an HtmlMarker with a random color.
                         var marker = new atlas.HtmlMarker({
                             position: position,
-                            color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+                            color: color
                         });
 
-                        addEvent('mouseenter', marker, markerHovered);
-                        addEvent('mouseleave', marker, hidePopup);  
+                        map.events.add('mouseover', marker, markerHovered);
+                        map.events.add('mouseout', marker, hidePopup);  
 
                         return marker;
                     },
@@ -72,9 +92,9 @@
                             color: 'DarkViolet',
                             text: properties.point_count_abbreviated
                         });
-                        
-                        addEvent('mouseenter', cluster, markerHovered);
-                        addEvent('mouseleave', cluster, hidePopup); 
+
+                        map.events.add('mouseover', cluster, markerHovered);
+                        map.events.add('mouseout', cluster, hidePopup); 
 
                         return cluster;
                     }
@@ -87,27 +107,9 @@
             });
         }
 
-        function addEvent(eventType, marker, handler) {
-            if (eventType && marker && handler) {
-                var options = marker.getOptions();
-                var html = options.htmlContent;
-                var elm = html;
-
-                if (typeof html === 'string') {
-                    elm = document.createElement('div');
-                    elm.innerHTML = html.replace(/{color}/g, options.color || "")
-                        .replace(/{text}/g, options.text || "");
-                    marker.setOptions({ htmlContent: elm });
-                }
-
-                elm['on' + eventType] = function () {
-                    handler(eventType, marker);
-                };
-            }
-        }
-
-        function markerHovered(eventType, marker) {
+        function markerHovered(e) {
             var content;
+            var marker = e.target;
             if (marker.properties.cluster) {
                 content = 'Cluster of ' + marker.properties.point_count_abbreviated + ' markers';
             } else {

@@ -68,7 +68,6 @@
                 createFillPatternOptions();
                 fillPatternSelected(document.getElementById('fillPatternDropdown').childNodes[0], 0);
                 toggleFillPatternDropdown();
-                //updatePolygonLayer();
             });
 
             new ClipboardJS('.copyBtn');
@@ -86,13 +85,15 @@
         function getInputOptions() {
             removeDefaults = document.getElementById('RemoveDefaults').checked;
 
-            var options = {
-                
+            var options = {                
                 fillOpacity: getPropertyValue('fillOpacity', parseFloat(document.getElementById('FillOpacity').value)),
                 minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
                 maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
                 visible: getPropertyValue('visible', document.getElementById('Visible').checked)
             };
+
+            //Need to make the fill pattern undefined to override it.
+            polygonLayer.setOptions({ fillPattern: undefined });
 
             if (document.getElementById('fillColorBtn').checked || document.getElementById('FillColorTransparent').checked) {
                 options.fillColor = getPropertyValue('fillColor', document.getElementById('FillColorTransparent').checked ? 'transparent' : document.getElementById('FillColor').value);
@@ -145,8 +146,9 @@
         function fillPatternSelected(elm, idx) {
             selectedFillPatternIdx = idx;            
             document.getElementById('fillPatternBtn').style.backgroundImage = elm.style.backgroundImage;
-            updatePolygonLayer();
+            
             toggleFillPatternDropdown();
+            updatePolygonLayer();
         }
 
         function toggleFillPatternDropdown() {

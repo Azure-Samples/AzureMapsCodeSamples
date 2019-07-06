@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Symbol layer with built-in icon template - Azure Maps Web SDK Samples</title>
+    <title>Line layer with built-in icon template - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to use a built-in icon template. " />
-    <meta name="keywords" content="map, gis, API, SDK, template, icon, linestring, arrows, path, symbols, linelayer" />
+    <meta name="description" content="This sample shows how to use a built-in icon templates with a line layer." />
+    <meta name="keywords" content="map, gis, API, SDK, template, linestring, arrows, path, symbols, linelayer" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -22,6 +22,10 @@
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
+                center: [-122.135, 47.65],
+                zoom: 12,
+                style: 'night',
+
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
@@ -55,14 +59,14 @@
                     [-122.10565, 47.67498]
                 ])));
 
-                //Create an icon from one of the built-in templates and use it with a symbol layer.
-                map.imageSprite.createFromTemplate('myTemplatedIcon', 'marker-flat', 'teal', '#fff').then(function () {
+                //Create an icon from one of the built-in templates and use it with a line/symbol layer.
+                map.imageSprite.createFromTemplate('myTemplatedIcon', 'car', 'DodgerBlue', '#fff').then(function () {
 
                     //Add a layers for rendering data.
                     map.layers.add([
                         //Add a line layer for displaying the line.
                         new atlas.layer.LineLayer(datasource, null, {
-                            strokeColor: 'DarkOrchid',
+                            strokeColor: 'DeepPink',
                             strokeWidth: 3
                         }),
 
@@ -74,7 +78,7 @@
                                 image: 'myTemplatedIcon',
                                 allowOverlap: true,
                                 anchor: 'center',
-                                size: 0.6
+                                rotation: 90 //Since the car points up by default, rotate it 90 degrees so it points left. This will make the car point in the direction of the line.
                             }
                         })
                     ]);
@@ -87,7 +91,7 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Symbol layer with built-in icon template</legend>
+        <legend>Line layer with built-in icon template</legend>
         This sample shows how to use a built-in icon template with a line layer. There are several icon templates available within the Azure Maps Web SDK.
     </fieldset>
 </body>

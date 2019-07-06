@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon template options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the icon template options effect the rendering of built-in icon templates."/>
+    <meta name="keywords" content="map, gis, API, SDK, template, icon templates, symbols, fill patterns" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, layout = 'symbol';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Load template names into UI.
+            var templateNames = atlas.getAllImageTemplateNames();
+            var html = [];
+            for (var i = 0; i < templateNames.length; i++) {
+                if (i === 0) {
+                    html.push('<option value="', templateNames[i], '" selected="selected">', templateNames[i], '</option>');
+                } else {
+                    html.push('<option value="', templateNames[i], '">', templateNames[i], '</option>');
+                }
+            }
+            document.getElementById('TemplateNames').innerHTML = html.join('');
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                map.controls.add(new atlas.control.StyleControl(), {
+                    position: 'top-right'
+                });
+
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                map.layers.add([
+                    //Add a polygon layer for rendering fill patterns.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        fillPattern: 'myTemplatedIcon',
+
+                        fillOpacity: 1,
+
+                        filter: ['==', ['geometry-type'], 'Polygon']
+                    }),
+
+                    //Add a line layer for displaying the line.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'Purple',
+                        strokeWidth: 3,
+                        filter: ['==', ['geometry-type'], 'LineString']
+                    }),
+
+                    //Add a symbol layer for rendering the arrow along the line.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        lineSpacing: 50,
+                        placement: 'line',
+                        iconOptions: {
+                            image: 'myTemplatedIcon',
+                            allowOverlap: true,
+                            anchor: 'center'
+                        },
+
+                        filter: ['==', ['geometry-type'], 'LineString']
+                    }),
+
+                    //Add a symbol layer for rendering images as symbols. 
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            image: 'myTemplatedIcon',
+                            allowOverlap: true,
+                            ignorePlacement: true
+                        },
+                        filter: ['==', ['geometry-type'], 'Point']
+                    })
+                ]);
+
+                update();
+            });
+        }
+
+        function update(type) {
+            if (type) {
+                layout = type;
+            }
+
+            var color = document.getElementById('PrimaryColor').value;
+            var colorTransparent = document.getElementById('PrimaryColorTransparent').checked;
+
+            if (colorTransparent) {
+                color = 'transparent';
+            }
+
+            var sColor = document.getElementById('SecondaryColor').value;
+            var sColorTransparent = document.getElementById('SecondaryColorTransparent').checked;
+
+            if (sColorTransparent) {
+                sColor = 'transparent';
+            }
+
+            var scale = parseFloat(document.getElementById('Scale').value);
+
+            var templateName = getSelectValue('TemplateNames');
+
+            if (map.imageSprite.hasImage('myTemplatedIcon')) {
+                map.imageSprite.remove('myTemplatedIcon');
+            }
+
+            map.imageSprite.createFromTemplate('myTemplatedIcon', templateName, color, sColor, scale).then(function () {
+                //Reload the geometry to trigger a re-render.
+
+                switch (layout) {
+                    case 'symbol':
+                        datasource.setShapes([new atlas.data.Point([0, 0])]);
+                        break;
+                    case 'line':
+                        datasource.setShapes([new atlas.data.LineString([[-50, -20], [0, 40], [50, -20]])]);
+                        break;
+                    case 'polygon':
+                        datasource.setShapes([new atlas.data.Polygon([[[-50, -20], [0, 40], [50, -20], [-50, -20]]])]);
+                        break;
+                }
+            });
+        }
+
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:white;border-radius:10px;padding:10px;">
+        <table>
+            <tr title="The method in which to use the icons.">
+                <td>Layout:</td>
+                <td>
+                    <input type="radio" name="layout" checked="checked" onclick="update('symbol')">Symbol icon<br>
+                    <input type="radio" name="layout" onclick="update('line')">Line symbols<br>
+                    <input type="radio" name="layout" onclick="update('polygon')">Polygon fill
+                </td>
+            </tr>
+            <tr title="The name of the template to use.">
+                <td>Template Name:</td>
+                <td>
+                    <select id="TemplateNames" onchange="update()"></select>
+                </td>
+            </tr>
+            <tr title="The primary color for the template.">
+                <td>Primary Color:</td>
+                <td>
+                    <input type="color" value="#1A73AA" id="PrimaryColor" onchange="update()" />
+                    <input type="checkbox" id="PrimaryColorTransparent" onclick="update()" />Transparent
+                </td>
+            </tr>
+            <tr title="The secondary color for the template.">
+                <td>Secondary Color:</td>
+                <td>
+                    <input type="color" value="#ffffff" id="SecondaryColor" onchange="update()" />
+                    <input type="checkbox" id="SecondaryColorTransparent" onclick="update()" />Transparent
+                </td>
+            </tr>
+            <tr title="The amount to scale the icon template by.">
+                <td>Scale:</td>
+                <td>
+                    <form oninput="o.value=Scale.value">
+                        <input type="range" id="Scale" value="1" min="0.1" max="5" step="0.1" oninput="update()" onchange="update()" />
+                        <output name="o" for="Scale">1</output>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Icon template options</legend>
+        This sample shows how the icon template options effect the rendering of built-in icon templates.
+    </fieldset>
+</body>
+</html>

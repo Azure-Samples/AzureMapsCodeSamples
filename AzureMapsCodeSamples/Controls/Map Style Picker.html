@@ -37,8 +37,12 @@
                 map.controls.add(new atlas.control.StyleControl({
                     //Optionally specify which map styles you want to appear in the picker. 
                     //All styles available with the S0 license tier appear by default in the control. 
-                    //If using a S1 tier license, you can use the mapStyles option to add the 'satellite' and 'satellite_road_labels' styles to the control.
-                    mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels']
+                    //If using a S1 tier license, you can use the mapStyles option to add premium styles such as 'satellite' and 'satellite_road_labels' to the control.
+                    //To add all available styles, you can use the 'all' keyword.
+                    mapStyles: 'all'
+
+                    //Alternatively, specify an array of all the map styles you would like displayed in the style picker.
+                    //mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels']
                 }));
             });
         }

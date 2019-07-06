@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Fill polygon with built-in icon template - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use an image template as a fill pattern in a polygon layer." />
+    <meta name="keywords" content="map, gis, API, SDK, template, fill pattern, polygonlayer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add polygon to data source.
+                datasource.add(new atlas.data.Polygon([[[-50, -20], [0, 40], [50, -20], [-50, -20]]]));
+
+
+                //Create an fill pattern image from one of the built-in templates and use it with a polygon layer.
+                map.imageSprite.createFromTemplate('myFillPattern', 'dots', 'red', 'transparent').then(function () {
+                   
+                    //Create a layer to render the polygon data and add it to the map, below the labels.
+                    map.layers.add(new atlas.layer.PolygonLayer(datasource, null, {
+
+                        //Add the fill pattern image to the layer.
+                        fillPattern: 'myFillPattern',
+
+                        fillOpacity: 1
+                    }));
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Fill polygon with built-in icon template</legend>
+        This sample shows how to use an image template as a fill pattern in a polygon layer. There are several icon templates available within the Azure Maps Web SDK that make great fill patterns.
+    </fieldset>
+</body>
+</html>

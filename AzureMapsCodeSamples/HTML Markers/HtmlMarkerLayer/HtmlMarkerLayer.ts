@@ -1,4 +1,6 @@
-﻿/*
+﻿import { inspect } from "util";
+
+/*
  * Copyright(c) 2019 Microsoft Corporation. All rights reserved. 
  * 
  * This code is licensed under the MIT License (MIT). 
@@ -39,6 +41,14 @@ interface HtmlMarkerLayerOptions extends atlas.LayerOptions {
     sourceLayer?: string;
 
     /**
+     * Specifies if the layer should update while the map is moving. When set to false, rendering in the map view will 
+     * occur after the map has finished moving. New data is not rendered until the moveend event fires. When set to true, 
+     * the layer will constantly re-render as the map is moving which ensures new data is always rendered right away, 
+     * but may reduce overall performance. 
+     */
+    updateWhileMoving: boolean
+
+    /**
      * A callback function that customizes the rendering of a HtmlMarker. This is called each time the map is moved.
      */
     markerRenderCallback?: ((id: string, position: atlas.data.Position, properties: any) => HtmlMarker);
@@ -46,7 +56,7 @@ interface HtmlMarkerLayerOptions extends atlas.LayerOptions {
     /**
      * A callback function that customizes the rendering of a ClusteredHtmlMarker. This is called each time the map is moved.
      */
-    clusterRenderCallback?: ((id: string, position: atlas.data.Position, properties: ClusteredProperties) => HtmlMarker);
+    clusterRenderCallback?: ((id: string, position: atlas.data.Position, properties: atlas.ClusteredProperties) => HtmlMarker);
 }
 
 /**
@@ -58,19 +68,14 @@ interface HtmlMarker extends atlas.HtmlMarker {
 }
 
 /**
- * A HtmlMarker that has a properties property that contains cluster information.
- */
-interface ClusteredProperties {
-    cluster: boolean;
-    cluster_id: number;
-    point_count: number;
-    point_count_abbreviated: string;
-}
-
-/**
  * A layer that renders point data from a data source as HTML elements on the map.
  */
 class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
+
+    /*********************
+     * Private Properties
+     *********************/
+
     private _options = <HtmlMarkerLayerOptions>{
         sourceLayer: undefined,
         source: undefined,
@@ -78,6 +83,7 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
         minZoom: 0,
         maxZoom: 24,
         visible: true,
+        updateWhileMoving: false,
         markerRenderCallback: (id, position, properties) => {
             return new atlas.HtmlMarker({
                 position: position
@@ -95,14 +101,12 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
 
     private _markers: HtmlMarker[] = [];
     private _markerIds: string[] = [];
-    
-    private _sourceOptions: string;
-    private _sourceShapeCount: number = 0;
-    private _datasourceCache: string = null;
-
-    private _optionsChanged: boolean = false;
 
     private _markerCache: any = {};
+    
+    /*********************
+     * Constructor
+     *********************/
 
      /**
      * Constructs a new HtmlMarkerLayer.
@@ -120,43 +124,41 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
         this.setOptions(options);
     }
 
-     /**
-     * Gets the options of the Html Marker layer.
-     */
+    /*********************
+     * Public methods
+     *********************/
+
+    /**
+    * Gets the options of the Html Marker layer.
+    */
     public getOptions(): HtmlMarkerLayerOptions {
         return this._options;
     }
 
     /**
-     * Gets the source provided when creating the layer.
-     */
-    public getSource(): string | atlas.source.Source {
-        return super.getSource();
-    }
-
-     /**
-     * Sets the options of the Html marker layer.
-     * @param options The new options of the Html marker layer.
-     */
+    * Sets the options of the Html marker layer.
+    * @param options The new options of the Html marker layer.
+    */
     public setOptions(options: HtmlMarkerLayerOptions) {
         var newBaseOptions = <atlas.BubbleLayerOptions>{};
+        var cc = false;
 
         if (options.source && this._options.source !== options.source) {
             this._options.source = options.source
             newBaseOptions.source = options.source;
-            this.clearCache();
+            cc = true;
         }
 
         if (options.sourceLayer && this._options.sourceLayer !== options.sourceLayer) {
             this._options.sourceLayer = options.sourceLayer
             newBaseOptions.sourceLayer = options.sourceLayer;
-            this.clearCache();
+            cc = true;
         }
 
         if (options.filter && this._options.filter !== options.filter) {
             this._options.filter = options.filter
             newBaseOptions.filter = options.filter;
-            this.clearCache();
+            cc = true;
         }
 
         if (typeof options.minZoom === 'number' && this._options.minZoom !== options.minZoom) {
@@ -176,90 +178,111 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
 
         if (options.markerRenderCallback && this._options.markerRenderCallback != options.markerRenderCallback) {
             this._options.markerRenderCallback = options.markerRenderCallback;
-            this.clearCache();
+            cc = true;
         }
 
         if (options.clusterRenderCallback && this._options.clusterRenderCallback != options.clusterRenderCallback) {
             this._options.clusterRenderCallback = options.clusterRenderCallback;
-            this.clearCache();
+            cc = true;
         }
 
-        this._optionsChanged = true;
+        if (typeof options.updateWhileMoving === 'boolean' && this._options.updateWhileMoving !== options.updateWhileMoving) {
+            this._options.updateWhileMoving = options.updateWhileMoving;
+        }
+
+        if (cc) {
+            this.clearCache(true);
+        } else {
+            this.updateMarkers();
+        }
+
         super.setOptions(newBaseOptions);
     }
 
-    //TODO: Update this once map supports layer added/removed events and layers support getMap function.
-    public _setMap(map: atlas.Map): void {
+    /***************************
+     * Public override methods
+     ***************************/
+
+    //Override the layers onAdd function. 
+    public onAdd(map: atlas.Map): void {
         if (this._map) {
             this._map.events.remove('moveend', () => { this.updateMarkers(); });
-            this._map.events.remove('render', () => { this.checkLayerForChanges(); });
+            this._map.events.remove('move', () => { this.mapMoved(); });
+            this._map.events.remove('sourcedata', () => { this.sourceUpdated(); });
         }
-
+   
         this._map = map;
 
         this._map.events.add('moveend', () => { this.updateMarkers(); });
-        this._map.events.add('render', () => { this.checkLayerForChanges(); });
+        this._map.events.add('move', () => { this.mapMoved(); });
+        this._map.events.add('data', (e) => {
+            this.sourceUpdated();
+        });
 
         //Call the underlying functionaly for this.
-        super['_setMap'](map);
+        super.onAdd(map);
     }
 
-    //TODO: Update this when data source supports updated events.
-    private checkLayerForChanges() {
+    //Override the layers onRemove function.
+    public onRemove(): void {
         if (this._map) {
+            this._map.events.remove('moveend', () => { this.updateMarkers(); });
+            this._map.events.remove('move', () => { this.mapMoved(); });
+            this._map.events.remove('sourcedata', () => { this.sourceUpdated(); });
+        }
 
-            var s = this.getSource();
+        this.clearCache(false);
+        this._map = null;
 
-            if (typeof s === 'string') {
+        super.onRemove();
+    }
 
-                s = this._map.sources.getById(<string>s);
-            }
+    /*********************
+     * Private methods
+     *********************/
 
-            var opt: string = null;
-            var datasourceChanged = false;
-
-            if (s instanceof atlas.source.DataSource) {
-                opt = JSON.stringify((<atlas.source.DataSource>s).getOptions());
-
-                if (this._sourceShapeCount !== s['shapes'].length) {
-                    this._sourceShapeCount = s['shapes'].length;
-                    datasourceChanged = true;
-                } else {
-                    var d = JSON.stringify(s.toJson());
-
-                    if (d !== this._datasourceCache) {
-                        this._datasourceCache = d;
-                        datasourceChanged = true;
-                    }
-                }
-            } else if (s instanceof atlas.source.VectorTileSource) {
-                opt = JSON.stringify((<atlas.source.VectorTileSource>s).getOptions());
-            }
-
-            //Check to see if any changes have occurred to the data source.
-            if (datasourceChanged || opt != this._sourceOptions) {
-                this._sourceOptions = opt;
-                this.clearCache();
-            }
-
+    private mapMoved() {
+        if (this._options.updateWhileMoving) {
             this.updateMarkers();
         }
     }
 
-    private clearCache() {
-        //Give data source a moment to update.
-        setTimeout(() => {
-            this._markerCache = {}; //Clear marker cache.  
+    private getSourceClass(): atlas.source.Source {
+        var s = this.getSource();
+        if (typeof s === 'string' && this._map !== null) {
+            return this._map.sources.getById(s);
+        } else if (s instanceof atlas.source.Source) {
+            return s;
+        }
+
+        return null;
+    }
+
+    private sourceUpdated(): void {
+        var s = this.getSourceClass();
+
+        if (s) {
+            //TODO: optimize so that this only processes if the source for this layer has changed. Currently runs when any source changes.
+            this.clearCache(true);
+        }
+    }
+
+    private clearCache(update): void {
+        this._markerCache = {}; //Clear marker cache. 
+        if (this._map) {
             this._map.markers.remove(this._markers);
-            this._markers = [];
-            this._markerIds = [];
+        }
+        this._markers = [];
+        this._markerIds = [];
+
+        if (update) {
             this.updateMarkers();
-        }, 100);        
+        }     
     }
 
     private updateMarkers() {
         if (this._map && this._map.getCamera().zoom >= this._options.minZoom && this._map.getCamera().zoom <= this._options.maxZoom) {
-            var shapes = this._map.layers.getRenderedShapes(null, [this], this._options.filter);
+            var shapes = this._map.layers.getRenderedShapes(null, this, this._options.filter);
 
             var newMarkers = [];
             var newMarkerIds = [];

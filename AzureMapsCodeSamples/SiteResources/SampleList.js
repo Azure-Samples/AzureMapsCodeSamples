@@ -508,6 +508,15 @@ var sampleList = [
 	desc:'Use traditional HTML and CSS to represent point based data on the map as markers.',
 	samples: [
 		{
+			title:'All built-in icon templates as HTML markers',
+			desc:'This sample shows all the built-in icon templates rendered as HTML markers.',
+			path:'HTML%20Markers/All%20built-in%20icon%20templates%20as%20HTML%20markers.html',
+			sourcePath:'HTML%20Markers/All%20built-in%20icon%20templates%20as%20HTML%20markers.html',
+			screenshot:'All-built-in-icon-templates-as-HTML-markers.png',
+			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
+			created:'7/5/2019'
+		},
+		{
 			title:'CSS Styled HTML Marker',
 			desc:'This sample shows how to use CSS and HTML to create a marker on the map.',
 			path:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
@@ -535,6 +544,15 @@ var sampleList = [
 			created:'11/28/2018'
 		},
 		{
+			title:'HTML Marker with built-in icon template',
+			desc:'This sample shows how use image templates with an HTML marker.',
+			path:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
+			sourcePath:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
+			screenshot:'HTML-Marker-with-built-in-icon-template.png',
+			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons',
+			created:'7/5/2019'
+		},
+		{
 			title:'HTML Marker with Custom SVG Template',
 			desc:'This sample shows how to create a custom SVG template and use it with the HtmlMarker class. ',
 			path:'HTML%20Markers/HTML%20Marker%20with%20Custom%20SVG%20Template.html',
@@ -559,7 +577,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
 			screenshot:'Clustered-Pie-Chart-HTML-Markers.png',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, svg template, chart, pie chart',
-			created:'11/30/2018'
+			created:'7/5/2019'
 		},
 		{
 			title:'HTML Marker Layer',
@@ -568,7 +586,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
 			screenshot:'HTML-Marker-Layer.png',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer',
-			created:'11/30/2018'
+			created:'7/5/2019'
 		},
 		{
 			title:'Pie Chart HTML Markers',
@@ -585,6 +603,15 @@ var sampleList = [
 	category:'Image Layer',
 	desc:'See how to overlay images on the map as a layer.',
 	samples: [
+		{
+			title:'Cross reference pixels in image layer',
+			desc:'This sample shows how to cross reference pixel positions on a source image with the position of an image overlay on a map.',
+			path:'Image%20Layer/Cross%20reference%20pixels%20in%20image%20layer.html',
+			sourcePath:'Image%20Layer/Cross%20reference%20pixels%20in%20image%20layer.html',
+			screenshot:'Cross-reference-pixels-in-image-layer.png',
+			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			created:'7/5/2019'
+		},
 		{
 			title:'Image Layer Options',
 			desc:'This sample shows how the different options of the image layer affect rendering.',
@@ -628,6 +655,15 @@ var sampleList = [
 			created:'10/8/2018'
 		},
 		{
+			title:'Add custom icon template to atlas namespace',
+			desc:'This sample shows how to add more image templates to the atlas namespace.',
+			path:'Map/Add%20custom%20icon%20template%20to%20atlas%20namespace.html',
+			sourcePath:'Map/Add%20custom%20icon%20template%20to%20atlas%20namespace.html',
+			screenshot:'Add-custom-icon-template-to-atlas-namespace.png',
+			keywords:'map, gis, api, sdk, image template, symbology, symbols',
+			created:'7/5/2019'
+		},
+		{
 			title:'Detect if browser is supported',
 			desc:'This sample shows how to detect if the browser is supported by the Azure Maps Web SDK. If it is, load the map, otherwise fallback gracefully.',
 			path:'Map/Detect%20if%20browser%20is%20supported.html',
@@ -644,6 +680,15 @@ var sampleList = [
 			screenshot:'Full-Screen-Map.png',
 			keywords:'map, gis, api, sdk, full, screen',
 			created:'5/4/2018'
+		},
+		{
+			title:'Icon template options',
+			desc:'This sample shows how the icon template options effect the rendering of built-in icon templates.',
+			path:'Map/Icon%20template%20options.html',
+			sourcePath:'Map/Icon%20template%20options.html',
+			screenshot:'Icon-template-options.png',
+			keywords:'map, gis, api, sdk, template, icon templates, symbols, fill patterns',
+			created:'7/5/2019'
 		},
 		{
 			title:'Lazy Load the Map',
@@ -760,6 +805,15 @@ var sampleList = [
 			created:'3/22/2019'
 		},
 		{
+			title:'Fill polygon with built-in icon template',
+			desc:'This sample shows how to use an image template as a fill pattern in a polygon layer.',
+			path:'Polygon%20and%20Line%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
+			screenshot:'Fill-polygon-with-built-in-icon-template.png',
+			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer',
+			created:'7/5/2019'
+		},
+		{
 			title:'Geospatially Accurate Circle',
 			desc:'This sample shows how to use the extended GeoJSON schema defined by Azure Maps to create a geospatially accurate circle on the map with a filled area and a styled outline.',
 			path:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
@@ -776,6 +830,15 @@ var sampleList = [
 			screenshot:'Line-Layer-Options.png',
 			keywords:'map, gis, api, sdk, line, linestring, polyline, layer, linelayer',
 			created:'11/28/2018'
+		},
+		{
+			title:'Line layer with built-in icon template',
+			desc:'This sample shows how to use a built-in icon templates with a line layer.',
+			path:'Polygon%20and%20Line%20Layers/Line%20layer%20with%20built-in%20icon%20template.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Line%20layer%20with%20built-in%20icon%20template.html',
+			screenshot:'Line-layer-with-built-in-icon-template.png',
+			keywords:'map, gis, api, sdk, template, linestring, arrows, path, symbols, linelayer',
+			created:'7/5/2019'
 		},
 		{
 			title:'Line with Stroke Gradient',
@@ -991,6 +1054,15 @@ var sampleList = [
 	desc:'Learn how to use the spatial math library that is built into the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Calculate a convex hull',
+			desc:'This sample shows how to calculate a convex hull from an array of shapes.',
+			path:'Spatial%20Math/Calculate%20a%20convex%20hull.html',
+			sourcePath:'Spatial%20Math/Calculate%20a%20convex%20hull.html',
+			screenshot:'Calculate-a-convex-hull.png',
+			keywords:'map, gis, api, sdk, geospatial, spatial math, math, convex hull',
+			created:'7/5/2019'
+		},
+		{
 			title:'Cardinal Spline Options',
 			desc:'This sample provides a set of controls to test the various features of the Cardinal Spline calculation.',
 			path:'Spatial%20Math/Cardinal%20Spline%20Options.html',
@@ -998,6 +1070,15 @@ var sampleList = [
 			screenshot:'Cardinal-Spline-Options.png',
 			keywords:'map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
 			created:'12/10/2018'
+		},
+		{
+			title:'Convex hull and HTML markers',
+			desc:'This sample shows how to calculate a convex hull for a set of HTML markers.',
+			path:'Spatial%20Math/Convex%20hull%20and%20HTML%20markers.html',
+			sourcePath:'Spatial%20Math/Convex%20hull%20and%20HTML%20markers.html',
+			screenshot:'Convex-hull-and-HTML-markers.gif',
+			keywords:'map, gis, api, sdk, geospatial, spatial math, math, convex hull, markers',
+			created:'7/5/2019'
 		},
 		{
 			title:'Display cluster area with Convex Hull',
@@ -1018,12 +1099,21 @@ var sampleList = [
 			created:'4/1/2019'
 		},
 		{
+			title:'Get closest point to geometry',
+			desc:'This sample shows how to get the closest point on a geometry from another point or position.',
+			path:'Spatial%20Math/Get%20closest%20point%20to%20geometry.html',
+			sourcePath:'Spatial%20Math/Get%20closest%20point%20to%20geometry.html',
+			screenshot:'Get-closest-point-to-geometry.png',
+			keywords:'map, gis, api, sdk, geospatial, spatial math, math',
+			created:'7/5/2019'
+		},
+		{
 			title:'Introduction to Spatial Math',
 			desc:'This sample shows how to use many of the built in spatial math functions in the Azure Maps web control.',
 			path:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
 			sourcePath:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
 			screenshot:'Introduction-to-spatial-math.png',
-			keywords:'map, gis, api, sdk, gepspatial, math, haversine, heading, bearing',
+			keywords:'map, gis, api, sdk, geospatial, spatial math, math, haversine, heading, bearing',
 			created:'9/23/2018'
 		},
 		{
@@ -1032,7 +1122,7 @@ var sampleList = [
 			path:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			sourcePath:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			screenshot:'Merge-Two-Polygons-Together-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, polygons, merge, union, spatial analytics',
+			keywords:'map, gis, api, sdk, turf.js, geospatial, math, spatial math, polygons, merge, union, spatial analytics',
 			created:'4/1/2019'
 		},
 		{
@@ -1050,6 +1140,15 @@ var sampleList = [
 	category:'Symbol Layer',
 	desc:'Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling.',
 	samples: [
+		{
+			title:'All built-in icon templates as symbols',
+			desc:'This sample shows all the built-in icon templates rendered on a symbol layer.',
+			path:'Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html',
+			sourcePath:'Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html',
+			screenshot:'All-built-in-icon-templates-as-symbols.png',
+			keywords:'map, gis, api, sdk, ',
+			created:'7/5/2019'
+		},
 		{
 			title:'Change Mouse Cursor when Hovering Layer',
 			desc:'This sample shows how to change the mouse cursor when hovering over shapes in a layer. This will work with the bubble, line, polygon and symbol layer.',
@@ -1148,6 +1247,15 @@ var sampleList = [
 			screenshot:'Symbol-Layer-Options.png',
 			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, layer',
 			created:'11/28/2018'
+		},
+		{
+			title:'Symbol layer with built-in icon template',
+			desc:'This sample shows how to use a built-in icon template with a symbol layer.',
+			path:'Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html',
+			sourcePath:'Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html',
+			screenshot:'Symbol-layer-with-built-in-icon-template.png',
+			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons',
+			created:'7/5/2019'
 		},
 	]
 },
@@ -1327,4 +1435,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 133;
+}];var numberOfSamples = 145;
