@@ -153,10 +153,15 @@
     <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Common\scripts\shp.min.js" />
     <Content Include="Controls\Map Style Picker.html" />
+    <Content Include="Custom Modules\Animation module\AnimationModule.js" />
     <Content Include="Custom Modules\Bring Data Into View Control\Bring Data Into View Control.html" />
     <Content Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.js" />
-    <Content Include="Custom Modules\Shape Animation module\Animate multiple points.html" />
-    <Content Include="Custom Modules\Shape Animation module\Animate a point.html" />
+    <Content Include="Custom Modules\Animation module\Animate a LineString.html" />
+    <Content Include="Custom Modules\Animation module\Animate multiple points.html" />
+    <Content Include="Custom Modules\Animation module\Animate a point.html" />
+    <Content Include="Custom Modules\Animation module\Animate point along path.html" />
+    <Content Include="Custom Modules\Animation module\Drop multiple symbols animation.html" />
+    <Content Include="Custom Modules\Animation module\Drop symbol animation.html" />
     <Content Include="Custom Modules\Simple Scale Bar Control\Simple Scale Bar Control.html" />
     <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
@@ -187,12 +192,14 @@
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
+    <Content Include="Popups\Customize a popup.html" />
     <Content Include="SiteResources\screenshots\Add-custom-icon-template-to-atlas-namespace.png" />
     <Content Include="SiteResources\screenshots\All-built-in-icon-templates-as-HTML-markers.png" />
     <Content Include="SiteResources\screenshots\All-built-in-icon-templates-as-symbols.png" />
     <Content Include="SiteResources\screenshots\Calculate-a-convex-hull.png" />
     <Content Include="SiteResources\screenshots\Convex-hull-and-HTML-markers.gif" />
     <Content Include="SiteResources\screenshots\Cross-reference-pixels-in-image-layer.png" />
+    <Content Include="SiteResources\screenshots\Customize-a-popup.png" />
     <Content Include="SiteResources\screenshots\Fill-polygon-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Get-closest-point-to-geometry.png" />
     <Content Include="SiteResources\screenshots\HTML-Marker-with-built-in-icon-template.png" />
@@ -207,8 +214,6 @@
     <Content Include="Spatial Math\Get closest point to geometry.html" />
     <Content Include="HTML Markers\HTML Marker with built-in icon template.html" />
     <Content Include="Map\Icon template options.html" />
-    <Content Include="Custom Modules\Shape Animation module\Shape animation module options.html" />
-    <Content Include="Custom Modules\Shape Animation module\ShapeAnimationModule.js" />
     <Content Include="Heat Map Layer\Consistent zoomable Heat Map.html" />
     <Content Include="Experimental\DataSource and Shape events.html" />
     <Content Include="Map\Detect if browser is supported.html" />
@@ -230,7 +235,6 @@
     <Content Include="SiteResources\screenshots\Load-POIs-as-the-map-moves.png" />
     <Content Include="SiteResources\screenshots\Popup-events.png" />
     <Content Include="SiteResources\screenshots\Render-world-copies.png" />
-    <Content Include="SiteResources\screenshots\Shape-animation-module-options.gif" />
     <Content Include="SiteResources\screenshots\Show-popup-on-hover.png" />
     <Content Include="SiteResources\screenshots\Spyglass-map-visualization.png" />
     <Content Include="SiteResources\screenshots\Spyglass-module-options.png" />
@@ -433,7 +437,8 @@
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js.map" />
     <Content Include="Custom Modules\Snakeline\SnakelineModule.js.map" />
     <Content Include="Common\data\topojson\cb_2018_us_zcta510_500k.json" />
-    <Content Include="Custom Modules\Shape Animation module\ShapeAnimationModule.js.map" />
+    <Content Include="Custom Modules\Animation module\AnimationModule.js.map" />
+    <Content Include="Custom Modules\Animation module\README.md" />
     <None Include="packages.config" />
     <Content Include="Common\images\icons\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -551,7 +556,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.ts" />
-    <TypeScriptCompile Include="Custom Modules\Shape Animation module\ShapeAnimationModule.ts" />
+    <TypeScriptCompile Include="Custom Modules\Animation module\AnimationModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Snakeline\SnakelineModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />

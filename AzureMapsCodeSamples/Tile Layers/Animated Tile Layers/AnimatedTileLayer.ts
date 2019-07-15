@@ -10,6 +10,9 @@ interface AnimatedTileLayerOptions {
     /** The number of frames per second the animation should transition through the tile layers. Default: 10 */
     frameRate?: number;
 
+    /** Specifies if the animation should loop infinitly. Default: true */
+    loop?: boolean;
+
     /** A boolean specifying if the animated tile layer is visible or not. Default: true */
     visible?: boolean;
 
@@ -49,7 +52,8 @@ class AnimatedTileLayerManager {
         tileLayerOptions: [],
         autoPlay: true,
         frameRate: 10,
-        visible: true
+        visible: true,
+        loop: true
     };
 
     private _animationState: AnimatedTileLayerState = AnimatedTileLayerState.ready;
@@ -118,6 +122,7 @@ class AnimatedTileLayerManager {
             }
             
             this._options.visible = typeof options.visible === "boolean" ? options.visible : this._options.visible;
+            this._options.loop = typeof options.loop === "boolean" ? options.loop : this._options.loop;
 
             //Update animation based on visible property if layer is already added to map.
             if (this._options.visible) {
@@ -256,3 +261,5 @@ class AnimatedTileLayerManager {
         }
     }
 }
+
+//TODO: try refactoring to use a single tile layer and update it's URL/source as this should work better now.

@@ -12,7 +12,8 @@ class AnimatedTileLayerManager {
             tileLayerOptions: [],
             autoPlay: true,
             frameRate: 10,
-            visible: true
+            visible: true,
+            loop: true
         };
         this._animationState = 0 /* ready */;
         /** Indicates the index of the current layer frame that is shown on the map */
@@ -54,6 +55,7 @@ class AnimatedTileLayerManager {
                 }
             }
             this._options.visible = typeof options.visible === "boolean" ? options.visible : this._options.visible;
+            this._options.loop = typeof options.loop === "boolean" ? options.loop : this._options.loop;
             //Update animation based on visible property if layer is already added to map.
             if (this._options.visible) {
                 this._toggleFrameVisibility(this._currentFrameIndex, this._animationState !== 3 /* stopped */);
@@ -170,4 +172,5 @@ class AnimatedTileLayerManager {
         }
     }
 }
+//TODO: try refactoring to use a single tile layer and update it's URL/source as this should work better now.
 //# sourceMappingURL=AnimatedTileLayer.js.map

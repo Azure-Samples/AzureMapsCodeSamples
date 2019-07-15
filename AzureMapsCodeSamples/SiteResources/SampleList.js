@@ -32,7 +32,7 @@ var sampleList = [
 		},
 		{
 			title:'HTML Marker Pulse Animation',
-			desc:'This sample shows how to pulse animate the position of a HTML marker on the map.',
+			desc:'This sample shows how to pulse animate the position of a HTML marker on the map using CSS.',
 			path:'Animations/HTML%20Marker%20Pulse%20Animation.html',
 			sourcePath:'Animations/HTML%20Marker%20Pulse%20Animation.html',
 			screenshot:'HTML-Marker-Pulse-Animation.gif',
@@ -121,6 +121,60 @@ var sampleList = [
 	desc:'Use custom modules to extend the functionality of the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Animate a LineString',
+			desc:'This sample shows how to animate a LineString such that its path is drawn out smoothly over time on top of the map.',
+			path:'Custom%20Modules/Animation%20module/Animate%20a%20LineString.html',
+			sourcePath:'Custom%20Modules/Animation%20module',
+			screenshot:'',
+			keywords:'map, gis, api, sdk, animation, animate, line, linestring',
+			created:'7/9/2019'
+		},
+		{
+			title:'Animate a point',
+			desc:'This sample shows how to animate a point on the map to a new coordinate.',
+			path:'Custom%20Modules/Animation%20module/Animate%20a%20point.html',
+			sourcePath:'Custom%20Modules/Animation%20module',
+			screenshot:'Animate-a-point.gif',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'6/26/2019'
+		},
+		{
+			title:'Animate multiple points',
+			desc:'This sample shows how to animate multiple points on the map.',
+			path:'Custom%20Modules/Animation%20module/Animate%20multiple%20points.html',
+			sourcePath:'Custom%20Modules/Animation%20module',
+			screenshot:'Animate-multiple-points.gif',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'6/26/2019'
+		},
+		{
+			title:'Animate point along path',
+			desc:'This sample shows how to animate a point along a path on the map.',
+			path:'Custom%20Modules/Animation%20module/Animate%20point%20along%20path.html',
+			sourcePath:'Custom%20Modules/Animation%20module',
+			screenshot:'',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'7/9/2019'
+		},
+		{
+			title:'Drop multiple symbols animation',
+			desc:'This sample shows how to animate multiple points on the map as dropping symbols.',
+			path:'Custom%20Modules/Animation%20module/Drop%20multiple%20symbols%20animation.html',
+			sourcePath:'Custom%20Modules/Animation%20module',
+			screenshot:'',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'7/12/2019'
+		},
+		{
+			title:'Drop symbol animation',
+			desc:'This sample shows how to animate a point on the map as a dropping symbol.',
+			path:'Custom%20Modules/Animation%20module/Drop%20symbol%20animation.html',
+			sourcePath:'Custom%20Modules/Animation%20module',
+			screenshot:'',
+			keywords:'map, gis, api, sdk, animation, animate, point',
+			created:'7/12/2019'
+		},
+		{
 			title:'Bring Data Into View Control',
 			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
 			path:'Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html',
@@ -173,33 +227,6 @@ var sampleList = [
 			screenshot:'Synchronize-map-views.png',
 			keywords:'map, gis, api, sdk, synchronized maps',
 			created:'4/15/2019'
-		},
-		{
-			title:'Animate a point',
-			desc:'This sample shows how to animate a point on the map to a new coordinate.',
-			path:'Custom%20Modules/Shape%20Animation%20module/Animate%20a%20point.html',
-			sourcePath:'Custom%20Modules/Shape%20Animation%20module',
-			screenshot:'Animate-a-point.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
-			created:'6/26/2019'
-		},
-		{
-			title:'Animate multiple points',
-			desc:'This sample shows how to animate multiple points on the map.',
-			path:'Custom%20Modules/Shape%20Animation%20module/Animate%20multiple%20points.html',
-			sourcePath:'Custom%20Modules/Shape%20Animation%20module',
-			screenshot:'Animate-multiple-points.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
-			created:'6/26/2019'
-		},
-		{
-			title:'Shape animaiton module options',
-			desc:'This sample shows how the different options of the shape animation module work.',
-			path:'Custom%20Modules/Shape%20Animation%20module/Shape%20animation%20module%20options.html',
-			sourcePath:'Custom%20Modules/Shape%20Animation%20module',
-			screenshot:'Shape-animation-module-options.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
-			created:'6/26/2019'
 		},
 		{
 			title:'Simple Scale Bar Control',
@@ -901,6 +928,15 @@ var sampleList = [
 	desc:'See how to display information in a popup on the map.',
 	samples: [
 		{
+			title:'Customize a popup',
+			desc:'This sample shows how to customize the look of a popup.',
+			path:'Popups/Customize%20a%20popup.html',
+			sourcePath:'Popups/Customize%20a%20popup.html',
+			screenshot:'Customize-a-popup.png',
+			keywords:'map, gis, api, sdk, popup, style',
+			created:'7/8/2019'
+		},
+		{
 			title:'Popup events',
 			desc:'This sample shows how to add events to Popups.',
 			path:'Popups/Popup%20events.html',
@@ -1435,4 +1471,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 145;
+}];var numberOfSamples = 149;
