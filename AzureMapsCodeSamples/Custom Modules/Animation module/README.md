@@ -105,6 +105,7 @@ The following easing names can be used with the animation library. See this [Jav
 	- Time series animations
     - Animated tile layers
 	- Expanding/collapsing circle mask
+    - Wrap map events and expose as playable animations.
  - Add easing examples, update animation options sample.
  - Events - onProgress, onEnd, on data point
  - Support for play, pause, stop for some animations.
@@ -113,3 +114,4 @@ The following easing names can be used with the animation library. See this [Jav
  - Expose easings as strings or function.
  - Consider removing type option from shape animation and automatically choose one based on the coordinate input.
  - Async animations for sequences of a set of animations. 
+ - Add support for adding group animations into ply/playSeq/playInterval. Then we can mix an match to create long running complex combinations of animations.
