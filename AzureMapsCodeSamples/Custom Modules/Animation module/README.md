@@ -22,7 +22,7 @@ The following classes and option interfaces are exposed on the `atlas.animations
 
 ### GroupAnimation class
 
-Group animation handler.
+Group animation handler. 
 
 **Methods**
 
@@ -55,7 +55,7 @@ Group animation handler.
 
 ## Easings
 
-The following easing names can be used with the animation library.
+The following easing names can be used with the animation library. See this [JavaScript Easing Functions site](http://andrewraycode.github.io/easing-utils/gh-pages) for examples of these easings.
 
 | Name | Description |
 |------|-------------|
