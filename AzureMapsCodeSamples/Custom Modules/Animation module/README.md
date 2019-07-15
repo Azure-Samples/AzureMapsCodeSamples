@@ -8,7 +8,7 @@ The following static methods are exposed on the `atlas.animations` namespace.
 
 | Name | Return Type | Description |
 |------|-------------|-------------|
-| `drop(shapes: atlas.data.Point | atlas.data.Feature<atlas.data.Point, any>; | atlas.Shape | (atlas.data.Point | atlas.data.Featuree<atlas.data.Point, any> | atlas.Shape)[], dataSource: atlas.source.DataSource, height?: number, options?: DropAnimationOptions)` | PlayableAnimation | Adds an offset array property to point shapes and animates it's y value to simulate dropping. Use with a symbol layer with the icon/text offset property set to \['get', 'offset'\]. |
+| `drop(shapes: atlas.data.Point \| atlas.data.Feature<atlas.data.Point, any>; \| atlas.Shape \| (atlas.data.Point \| atlas.data.Featuree<atlas.data.Point, any> \| atlas.Shape)[], dataSource: atlas.source.DataSource, height?: number, options?: DropAnimationOptions)` | PlayableAnimation | Adds an offset array property to point shapes and animates it's y value to simulate dropping. Use with a symbol layer with the icon/text offset property set to \['get', 'offset'\]. |
 | moveAlongPath(shape: atlas.Shape, path?: atlas.data.Position\[\] \| atlas.data.LineString \| atlas.Shape, options?: BaseAnimationOptions) | PlayableAnimation | Animates a Point shape along a path.  |
 | play(animations: PlayableAnimation\[\], options?: BaseAnimationOptions) | GroupAnimation | Plays an array of animations at the same time. |
 | playInterval(animations: PlayableAnimation\[\], interval?: number, options?: BaseAnimationOptions) | GroupAnimation | Plays an array of animations one by one based on an interval.  |
@@ -28,8 +28,8 @@ Group animation handler.
 
 | Name | Return Type | Description |
 |------|-------------|-------------|
-| cancel() |  | When called, will prevent any animation that hasn't already started in the group animation from starting. |
-| stop() |  | Stops all animations and jumps to the final state of each animation. |
+| `cancel()` |  | When called, will prevent any animation that hasn't already started in the group animation from starting. |
+| `stop()` |  | Stops all animations and jumps to the final state of each animation. |
 
 
 ### PlayableAnimation class
@@ -40,8 +40,8 @@ Group animation handler.
 
 | Name | Return Type | Description |
 |------|-------------|-------------|
-| play(options?: BaseAnimationOptions) |  | Plays the animation. |
-| stop() |  |  Stops the animation and jumps to the final state of the animation. |
+| `play(options?: BaseAnimationOptions)` |  | Plays the animation. |
+| `stop()` |  |  Stops the animation and jumps to the final state of the animation. |
 
 ### BaseAnimationOptions object
 
