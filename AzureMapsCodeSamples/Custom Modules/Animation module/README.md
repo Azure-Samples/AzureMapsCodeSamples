@@ -53,6 +53,15 @@ Group animation handler.
 | `duration` | number | The duration of the animation in ms. Default: 100 ms |
 | `easing` | string | The easing of the animaiton. |
 
+### PathAnimationOptions object
+
+Extends the BaseAnimationOptions object.
+
+| Name | Type | Description |
+|------|------|-------------|
+| `captureMetadata` | boolean | Specifies if metadata should be captured as properties of the shape. Potential metadata properties that may be captured: _heading |
+| `geodesic` | boolean | Specifies if a curved geodesic path should be used between points rather than a straight pixel path. Default: false |
+
 ## Easings
 
 The following easing names can be used with the animation library. See this [JavaScript Easing Functions site](http://andrewraycode.github.io/easing-utils/gh-pages) for examples of these easings.

@@ -48,7 +48,8 @@ module atlas {
          * @param newCoordinates The new coordinates of the shape. Must be the same format as required by the shape. 
          * @param options Options for the animation.
          */
-        export function setCoordinates(shape: atlas.Shape, newCoordinates: atlas.data.Position | atlas.data.Position[] | atlas.data.Position[][] | atlas.data.Position[][][], options?: BaseAnimationOptions): PlayableAnimation {
+        export function setCoordinates(shape: atlas.Shape, newCoordinates: atlas.data.Position | atlas.data.Position[] | atlas.data.Position[][] | atlas.data.Position[][][], options?: PathAnimationOptions): PlayableAnimation {
+
             switch (shape.getType()) {
                 case 'Point':
                     if (getDimensions(newCoordinates) === 0) {
@@ -73,7 +74,7 @@ module atlas {
          * @param shape A LineString shape to animate.
          * @param options Options for the animation.
          */
-        export function snakeline(shape: atlas.Shape, options?: BaseAnimationOptions): PlayableAnimation {
+        export function snakeline(shape: atlas.Shape, options?: PathAnimationOptions): PlayableAnimation {
             if (shape && shape.getType() === 'LineString') {
                 return new PathAnimation(shape, (shape.getCoordinates() as atlas.data.Position[]).slice(0), options);
             }
@@ -87,7 +88,7 @@ module atlas {
          * @param path The path to animate the point along. Must be either an array of positions, or a LineString geometry/shape.
          * @param options Options for the animation.
          */
-        export function moveAlongPath(shape: atlas.Shape, path?: atlas.data.Position[] | atlas.data.LineString | atlas.Shape, options?: BaseAnimationOptions): PlayableAnimation {
+        export function moveAlongPath(shape: atlas.Shape, path?: atlas.data.Position[] | atlas.data.LineString | atlas.Shape, options?: PathAnimationOptions): PlayableAnimation {
             if (shape && shape.getType() === 'Point') {
                 var p: atlas.data.Position[];
 
@@ -282,8 +283,8 @@ module atlas {
         easing?: string,
     }
 
-    /** Options for point translate animation. */
-    interface PointTranslateOptions extends BaseAnimationOptions {
+    /** Options for animations that involve coordiates following a path. */
+    export interface PathAnimationOptions extends BaseAnimationOptions {
         /** Specifies if a curved geodesic path should be used between points rather than a straight pixel path. Default: false */
         geodesic?: boolean;
 
@@ -948,7 +949,7 @@ module atlas {
         * Private properties
         ***************************/
 
-        private _options: PointTranslateOptions = {
+        private _options: PathAnimationOptions = {
             duration: 1000
         };
         private _shape: atlas.Shape;
@@ -967,7 +968,7 @@ module atlas {
          * @param shapes An array point geometry shapes to animatie dropping.
          * @param options Options for the animation.
          */
-        constructor(shape: atlas.Shape, newCoordinate?: atlas.data.Position, options?: PointTranslateOptions) {
+        constructor(shape: atlas.Shape, newCoordinate?: atlas.data.Position, options?: PathAnimationOptions) {
             super();
 
             this._originPosition = shape.getCoordinates() as atlas.data.Position;
@@ -1042,7 +1043,7 @@ module atlas {
         * Private functions
         ***************************/
 
-        private _setOptions(options: PointTranslateOptions): void {
+        private _setOptions(options: PathAnimationOptions): void {
             if (options) {
                 if (options.easing && Easings[options.easing]) {
                     this._easing = Easings[options.easing];
@@ -1088,7 +1089,7 @@ module atlas {
         * Private Properties
         ***************************/
 
-        private _options: PointTranslateOptions = {
+        private _options: PathAnimationOptions = {
             duration: 1000
         };
         private _totalLength: number;
@@ -1102,7 +1103,7 @@ module atlas {
         * Constructor
         ***************************/
 
-        constructor(shape: atlas.Shape, path: atlas.data.Position[], options?: PointTranslateOptions) {
+        constructor(shape: atlas.Shape, path: atlas.data.Position[], options?: PathAnimationOptions) {
             super();
 
             this._shape = shape;
@@ -1258,7 +1259,7 @@ module atlas {
         * Private functions
         ***************************/
 
-        private _setOptions(options: PointTranslateOptions): void {
+        private _setOptions(options: PathAnimationOptions): void {
             if (options) {
                 if (options.easing && Easings[options.easing]) {
                     this._easing = Easings[options.easing];
