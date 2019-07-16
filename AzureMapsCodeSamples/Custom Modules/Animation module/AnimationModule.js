@@ -856,9 +856,19 @@ var atlas;
                 //Calculate the mercator pixels of the coordinates at zoom level 21.
                 var pixels = atlas.math.mercatorPositionsToPixels([this._originPosition, this._destinationPosition], 21);
                 this._originPixel = pixels[0];
+                //Ensure that the shortest path is taken between coordinates.
+                if (Math.abs(this._originPosition[0] - this._destinationPosition[0]) > 180) {
+                    var mapWidth = Math.pow(2, 21) * 512;
+                    if (pixels[0][0] > pixels[1][0]) {
+                        pixels[1][0] += mapWidth;
+                    }
+                    else {
+                        pixels[0][0] += mapWidth;
+                    }
+                }
                 //Calculate the distance and heading between the pixels. 
                 this._dx = getPixelDistance(pixels[0], pixels[1]);
-                this._heading = atlas.math.getPixelHeading(this._originPosition, this._destinationPosition);
+                this._heading = getPixelHeading(pixels[0], pixels[1]);
             }
             if (this._options.captureMetadata) {
                 this._shape.addProperty('_heading', this._heading);

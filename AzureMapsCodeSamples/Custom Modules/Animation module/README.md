@@ -9,12 +9,12 @@ The following static methods are exposed on the `atlas.animations` namespace.
 | Name | Return Type | Description |
 |------|-------------|-------------|
 | `drop(shapes: atlas.data.Point \| atlas.data.Feature<atlas.data.Point, any> \| atlas.Shape \| (atlas.data.Point \| atlas.data.Featuree<atlas.data.Point, any> \| atlas.Shape)[], dataSource: atlas.source.DataSource, height?: number, options?: DropAnimationOptions)` | PlayableAnimation | Adds an offset array property to point shapes and animates it's y value to simulate dropping. Use with a symbol layer with the icon/text offset property set to \['get', 'offset'\]. |
-| `moveAlongPath(shape: atlas.Shape, path?: atlas.data.Position[] \| atlas.data.LineString \| atlas.Shape, options?: BaseAnimationOptions)` | PlayableAnimation | Animates a Point shape along a path.  |
+| `moveAlongPath(shape: atlas.Shape, path?: atlas.data.Position[] \| atlas.data.LineString \| atlas.Shape, options?: PathAnimationOptions)` | PlayableAnimation | Animates a Point shape along a path.  |
 | `play(animations: PlayableAnimation[], options?: BaseAnimationOptions)` | GroupAnimation | Plays an array of animations at the same time. |
 | `playInterval(animations: PlayableAnimation[], interval?: number, options?: BaseAnimationOptions)` | GroupAnimation | Plays an array of animations one by one based on an interval.  |
 | `playSeq(animations: PlayableAnimation[], options?: BaseAnimationOptions)` | GroupAnimation | Plays an array of animations sequentially. |
-| `setCoordinates(shape: atlas.Shape, newCoordinates: atlas.data.Position \| atlas.data.Position[] \| atlas.data.Position[][] \| atlas.data.Position[][][], options?: BaseAnimationOptions)` | PlayableAnimation | Animates the update of coordinates on a shape. Shapes will stay the same type. Currently supports Point shapes. |
-| `snakeline(shape: atlas.Shape, options?: BaseAnimationOptions)` | PlayableAnimation | Animates the path of a LineString. |
+| `setCoordinates(shape: atlas.Shape, newCoordinates: atlas.data.Position \| atlas.data.Position[] \| atlas.data.Position[][] \| atlas.data.Position[][][], options?: PathAnimationOptions)` | PlayableAnimation | Animates the update of coordinates on a shape. Shapes will stay the same type. Currently supports Point shapes. |
+| `snakeline(shape: atlas.Shape, options?: PathAnimationOptions)` | PlayableAnimation | Animates the path of a LineString. |
 
 ## Classes and Option interfaces
 
