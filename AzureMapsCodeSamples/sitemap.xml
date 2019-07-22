@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-07-15</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-07-22</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -85,6 +85,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Render%20world%20copies.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Add%20Arrows%20along%20a%20Path.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Data-driven%20stroke%20gradient.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Line%20Layer%20Options.html</loc></url>

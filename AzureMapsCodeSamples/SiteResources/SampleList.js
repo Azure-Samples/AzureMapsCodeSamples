@@ -832,6 +832,15 @@ var sampleList = [
 			created:'3/22/2019'
 		},
 		{
+			title:'Data-driven stroke gradient',
+			desc:'This sample shows how to create a path between a set of data points can apply a stroke gradient based on properties in each data point.',
+			path:'Polygon%20and%20Line%20Layers/Data-driven%20stroke%20gradient.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Data-driven%20stroke%20gradient.html',
+			screenshot:'Data-driven-stroke-gradient.png',
+			keywords:'map, gis, api, sdk, line, linestring, polyline, layer, stroke gradient, gradient, linelayer, data-driven, data driven styling',
+			created:'7/22/2019'
+		},
+		{
 			title:'Fill polygon with built-in icon template',
 			desc:'This sample shows how to use an image template as a fill pattern in a polygon layer.',
 			path:'Polygon%20and%20Line%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
@@ -1471,4 +1480,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 149;
+}];var numberOfSamples = 150;

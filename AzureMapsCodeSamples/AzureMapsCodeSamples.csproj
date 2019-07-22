@@ -192,6 +192,7 @@
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
+    <Content Include="Polygon and Line Layers\Data-driven stroke gradient.html" />
     <Content Include="Popups\Customize a popup.html" />
     <Content Include="SiteResources\screenshots\Add-custom-icon-template-to-atlas-namespace.png" />
     <Content Include="SiteResources\screenshots\All-built-in-icon-templates-as-HTML-markers.png" />
@@ -200,6 +201,7 @@
     <Content Include="SiteResources\screenshots\Convex-hull-and-HTML-markers.gif" />
     <Content Include="SiteResources\screenshots\Cross-reference-pixels-in-image-layer.png" />
     <Content Include="SiteResources\screenshots\Customize-a-popup.png" />
+    <Content Include="SiteResources\screenshots\Data-driven-stroke-gradient.png" />
     <Content Include="SiteResources\screenshots\Fill-polygon-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Get-closest-point-to-geometry.png" />
     <Content Include="SiteResources\screenshots\HTML-Marker-with-built-in-icon-template.png" />
