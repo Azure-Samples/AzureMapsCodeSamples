@@ -192,8 +192,10 @@
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
+    <Content Include="Polygon and Line Layers\Add arrows to end of paths.html" />
     <Content Include="Polygon and Line Layers\Data-driven stroke gradient.html" />
     <Content Include="Popups\Customize a popup.html" />
+    <Content Include="SiteResources\screenshots\Add-arrows-to-end-of-paths.png" />
     <Content Include="SiteResources\screenshots\Add-custom-icon-template-to-atlas-namespace.png" />
     <Content Include="SiteResources\screenshots\All-built-in-icon-templates-as-HTML-markers.png" />
     <Content Include="SiteResources\screenshots\All-built-in-icon-templates-as-symbols.png" />

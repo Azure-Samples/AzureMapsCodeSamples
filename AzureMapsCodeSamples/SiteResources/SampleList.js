@@ -832,6 +832,15 @@ var sampleList = [
 			created:'3/22/2019'
 		},
 		{
+			title:'Add arrows to end of paths',
+			desc:'This sample shows how to add arrow icons along a line on the map. ',
+			path:'Polygon%20and%20Line%20Layers/Add%20arrows%20to%20end%20of%20paths.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Add%20arrows%20to%20end%20of%20paths.html',
+			screenshot:'Add-arrows-to-end-of-paths.png',
+			keywords:'map, gis, api, sdk, linestring, arrows, path, symbols, linelayer',
+			created:'7/22/2019'
+		},
+		{
 			title:'Data-driven stroke gradient',
 			desc:'This sample shows how to create a path between a set of data points can apply a stroke gradient based on properties in each data point.',
 			path:'Polygon%20and%20Line%20Layers/Data-driven%20stroke%20gradient.html',
@@ -1480,4 +1489,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 150;
+}];var numberOfSamples = 151;

@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Add arrows to end of paths - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add arrow icons along a line on the map. " />
+    <meta name="keywords" content="map, gis, API, SDK, linestring, arrows, path, symbols, linelayer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        //Sample line data.
+        var lineData = [
+            new atlas.data.LineString([[-70.13671, 37.23032], [-74.09179, 40.71395]]),
+
+            new atlas.data.LineString([[-73.91601, 28.99853], [-80.59570, 24.36711], [-88.33007, 24.44714], [-95.00976, 29.30556]]),
+
+            new atlas.data.LineString([[-156.00585, 20.79720], [-142.38281, 20.46818], [-127.00195, 31.65338], [-118.82812, 33.65120]]),
+
+            new atlas.data.LineString([[-136.49414, 57.23150], [-143.17382, 53.80065], [-130.78125, 46.31658], [-124.27734, 46.07323]])
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-100, 40],
+                zoom: 3,
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an arrow icon from one of the built-in templates
+                map.imageSprite.createFromTemplate('arrow-icon', 'triangle-arrow-up', 'DarkOrchid', 'DarkOrchid').then(function () {
+
+                    //Create a data source to add your data to.
+                    datasource = new atlas.source.DataSource();
+                    map.sources.add(datasource);
+
+                    //Add line data to the data source.
+                    datasource.add(lineData);
+
+                    //Calculate the end points of the lines and add them to the data source.
+                    datasource.add(calculateLineEndPoints(lineData));
+
+                    //Add a layers for rendering data.
+                    map.layers.add([
+                        //Add a line layer for displaying the line.
+                        new atlas.layer.LineLayer(datasource, null, {
+                            strokeColor: 'DarkOrchid',
+                            strokeWidth: 3
+                        }),
+
+                        //Add a symbol layer for rendering the arrow along the line.
+                        new atlas.layer.SymbolLayer(datasource, null, {
+                            iconOptions: {
+                                image: 'arrow-icon',            //Reference the custom created icon.
+                                allowOverlap: true,             //Allow icons to overlay.
+                                anchor: 'top',                  //Want the top of the image to align with the end of the line.
+                                rotationAlignment: 'map',       //Lock icon rotation to the map.
+                                rotation: ['get', 'heading'],   //Rotate the icon based on the heading property of each data point.
+                                size: 0.7                       //Scale the size of the icon.
+                            },
+                            filter: ['==', ['geometry-type'], 'Point'] //Only render point data in this layer and not the coordinates of lines.
+                        })
+                    ]);
+                });
+            });
+        }
+
+        function calculateLineEndPoints(lines) {
+            var points = [];
+            for (var i = 0; i < lines.length; i++) {
+                var p = calculateLineEndPoint(lines[i]);
+                if (p) {
+                    points.push(p);
+                }
+            }
+
+            return points;
+        }
+
+        function calculateLineEndPoint(line) {
+            var l = null;
+
+            if (line instanceof atlas.Shape) {
+                l = line.getCoordinates();
+            } else if (line.type === 'Feature') {
+                l = line.geometry.coordinates;
+            } else if (line.type === 'LineString') {
+                l = line.coordinates;
+            }
+
+            if (l && l.length >= 2) {
+                //Use the last coordinate of the line for the point of the end. Calculate the heading from the second last coordinate to the last coordinate.
+                return new atlas.data.Feature(new atlas.data.Point(l[l.length - 1]), {
+                    heading: atlas.math.getPixelHeading(l[l.length - 2], l[l.length - 1])
+                });
+            }
+
+            return null;
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Add Arrow along a Path</legend>
+        This sample shows how to add arrow icons along a line on the map.
+        When using a symbol layer, set the "placement" option to "line", this will render the symbols along the line and rotate the icons (0 degrees = right).
+    </fieldset>
+</body>
+</html>
