@@ -105,15 +105,31 @@
 
                     if (points.length === 2) {
                         //When only two points in a cluster. Render a line.
-                        polygonDatasource.setShapes(new atlas.data.LineString(atlas.math.getPositions(points)));
+                        polygonDatasource.setShapes(new atlas.data.LineString(getPositions(points)));
                     } else {
-                        var hullPolygon = atlas.math.getConvexHull(points);
+                        var hullPolygon = atlas.math.getConvexHull(getPositions(points));
 
                         //Overwrite all data in the polygon data source with the newly calculated convex hull polygon.
                         polygonDatasource.setShapes(hullPolygon);
                     }
                 });
             }
+        }
+
+        function getPositions(shapes) {
+            var pos = [];
+
+            if (shapes) {
+                for (var i = 0; i < shapes.length; i++) {
+                    if (shapes[i] instanceof atlas.Shape) {
+                        pos.push(shapes[i].getCoordinates());
+                    } else {
+                        pos.push(atlas.math.getPosition(shapes[i]));
+                    }
+                }
+            }
+
+            return pos;
         }
     </script>
 </head>
