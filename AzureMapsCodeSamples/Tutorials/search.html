@@ -16,14 +16,16 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas-service.min.js"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
     <script>
         function GetMap() {
             
             // Instantiate a map object
             var map = new atlas.Map('myMap', {
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+				
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -69,7 +71,8 @@
                     limit: 10,
                     lat: lat,
                     lon: lon,
-                    radius: radius
+                    radius: radius,
+                    view: 'Auto'
                 }).then((results) => {
 
                     // Extract GeoJSON feature collection from the response and add it to the datasource

@@ -27,8 +27,9 @@
             map = new atlas.Map('myMap', {
                 center: [-99.47, 40.75],
                 zoom: 4,
-
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+				
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

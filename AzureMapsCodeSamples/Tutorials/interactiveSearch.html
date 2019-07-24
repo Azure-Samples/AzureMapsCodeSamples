@@ -16,20 +16,25 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas-service.min.js"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
     <script>
         var map, datasource, client, popup, searchInput, resultsPanel, searchInputLength, centerMapOnResults;
+
         //The minimum number of characters needed in the search input before a search is performed.
         var minSearchInputLength = 3;
+
         //The number of ms between key strokes to wait before performing a search.
         var keyStrokeDelay = 150;
+
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-118.270293, 34.039737],
                 zoom: 14,
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -101,23 +106,24 @@
             popup.close();
             resultsPanel.innerHTML = '';
 
-            // Use SubscriptionKeyCredential with a subscription key
+            //Use SubscriptionKeyCredential with a subscription key
             var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
 
-            // Use subscriptionKeyCredential to create a pipeline
+            //Use subscriptionKeyCredential to create a pipeline
             var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential);
 
-            // Construct the SearchURL object
+            //Construct the SearchURL object
             var searchURL = new atlas.service.SearchURL(pipeline);
 
             var query = document.getElementById("search-input").value;
             searchURL.searchPOI(atlas.service.Aborter.timeout(10000), query, {
                 lon: map.getCamera().center[0],
                 lat: map.getCamera().center[1],
-                maxFuzzyLevel: 4
+                maxFuzzyLevel: 4,
+                view: 'Auto'
             }).then((results) => {
 
-                // Extract GeoJSON feature collection from the response and add it to the datasource
+                //Extract GeoJSON feature collection from the response and add it to the datasource
                 var data = results.geojson.getFeatures();
                 datasource.add(data);
 

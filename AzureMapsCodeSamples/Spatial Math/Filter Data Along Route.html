@@ -15,7 +15,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas-service.min.js"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
     <!-- Load turf.js a spatial math library. http://turfjs.org/ -->
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
@@ -28,8 +28,9 @@
             map = new atlas.Map('myMap', {
                 center: [-122.25, 47.64],
                 zoom: 11,
+                view: 'Auto',
 
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -173,7 +174,8 @@
         function geocodeQuery(query, callback) {
             if (callback) {
                 searchURL.searchAddress(atlas.service.Aborter.timeout(3000), query, {
-                    limit: 1
+                    limit: 1,
+                    view: 'Auto'
                 }).then(results => {
                     var data = results.geojson.getFeatures();
                     if (data && data.features.length > 0) {

@@ -16,15 +16,16 @@
 
     <script type='text/javascript'>
         var map, datasource;
-        var reachableRangeUrlTemplate = 'https://atlas.microsoft.com/route/range/json?subscription-key={subscription-key}&api-version=1.0&query={lat},{lon}&timeBudgetInSec={time}';
+        var reachableRangeUrlTemplate = 'https://atlas.microsoft.com/route/range/json?subscription-key={subscription-key}&api-version=1.0&query={lat},{lon}&timeBudgetInSec={time}&view=Auto';
 
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-0.113042, 51.511859],
                 zoom: 12,
+                view: 'Auto',
 
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

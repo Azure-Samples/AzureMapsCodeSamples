@@ -25,8 +25,9 @@
             primaryMap = new atlas.Map('primaryMap', {
                 center: [-85, 44],
                 zoom: 4,
-
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+				
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -35,8 +36,7 @@
 
             spyMap = new atlas.Map('spyMap', {
                 style: 'satellite_road_labels',
-
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

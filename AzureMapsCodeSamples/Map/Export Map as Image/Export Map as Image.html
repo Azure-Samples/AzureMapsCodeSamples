@@ -28,8 +28,9 @@
             map = new atlas.Map('myMap', {
                 //This option must be set to true in order to generate an image from the map canvas.
                 preserveDrawingBuffer: true,
-
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+				
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

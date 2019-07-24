@@ -25,8 +25,9 @@
             maps.push(new atlas.Map('map1', {
                 center: [-122.33, 47.6],
                 zoom: 12,
-
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+				
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -35,7 +36,7 @@
 
             maps.push(new atlas.Map('map2', {
                 style: 'night',
-
+                view: 'Auto',
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -44,7 +45,7 @@
 
             maps.push(new atlas.Map('map3', {
                 style: 'grayscale_dark',
-
+                view: 'Auto',
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

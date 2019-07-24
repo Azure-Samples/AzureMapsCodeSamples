@@ -19,8 +19,9 @@ function initialize() {
     map = new atlas.Map('myMap', {
         center: [-90, 40],
         zoom: 2,
-
-        //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+        view: 'Auto',
+		
+		//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
         authOptions: {
             authType: 'subscriptionKey',
             subscriptionKey: '<Your Azure Maps Key>'
@@ -222,7 +223,8 @@ function performSearch() {
     //Perform a fuzzy search on the users query.
     searchURL.searchFuzzy(atlas.service.Aborter.timeout(3000), query, {
         //Pass in the array of country ISO2 for which we want to limit the search to.
-        countrySet: countrySet
+        countrySet: countrySet,
+        view: 'Auto'
     }).then(results => {
         //Parse the response into GeoJSON so that the map can understand.
         var data = results.geojson.getFeatures();

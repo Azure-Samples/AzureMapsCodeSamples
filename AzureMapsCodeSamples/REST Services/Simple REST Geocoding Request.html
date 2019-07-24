@@ -13,7 +13,7 @@
     <script type='text/javascript'>
         //Get an Azure Maps key at https://azure.com/maps
         var subscriptionKey = '<Your Azure Maps Key>';
-        var geocodeUrlTemplate = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1&query={query}&language={language}&countrySet={countrySet}';
+        var geocodeUrlTemplate = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1&query={query}&language={language}&countrySet={countrySet}&view=Auto';
 
         function geocode() {
             var query = document.getElementById('input').value;

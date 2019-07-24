@@ -23,7 +23,9 @@
         function GetMap() {
             //Initialize a map instance.
             primaryMap = new atlas.Map('primaryMap', {
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+				
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -32,7 +34,7 @@
 
             secondaryMap = new atlas.Map('secondaryMap', {
                 style: 'grayscale_dark',
-
+				view: 'Auto',
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

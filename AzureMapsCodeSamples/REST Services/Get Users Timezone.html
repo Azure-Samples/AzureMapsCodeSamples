@@ -15,7 +15,7 @@
         //Get your Azure Maps key at https://azure.com/maps
         var subscriptionKey = '<Your Azure Maps Key>';
 
-        var timezoneRequestUrl = 'https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&subscription-key={subscription-key}&options=all&query={latitude},{longitude}';
+        var timezoneRequestUrl = 'https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&subscription-key={subscription-key}&options=all&query={latitude},{longitude}&view=Auto';
 
         function getTimezone() {
             var output = document.getElementById('output');

@@ -17,7 +17,7 @@
     <script type='text/javascript'>
         var map, datasource, routeLine, waypointQuery, defaultOrder;
 
-        var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car';
+        var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
 
         var waypoints = [
             [-122.336502, 47.606544],
@@ -35,7 +35,8 @@
                 center: [-122.216217, 47.619383],
                 zoom: 9,
 
-                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                view: 'Auto',
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
