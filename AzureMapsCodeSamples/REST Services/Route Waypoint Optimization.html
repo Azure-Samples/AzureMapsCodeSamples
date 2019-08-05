@@ -119,9 +119,11 @@
                         var pinOrder = ['0'];
 
                         for (var i = 0; i < r.optimizedWaypoints.length; i++) {
+                            //Increase index by one to account for origin index.
                             pinOrder.push(r.optimizedWaypoints[i].optimizedIndex + 1);
                         }
 
+                        //Add the desintation index to the end. 
                         pinOrder.push(waypoints.length - 1);
 
                         output += 'Waypoint Order: ' + pinOrder.join(', ');
@@ -166,7 +168,10 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Route Waypoint Optimization</legend>
-        This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API.
+        This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API.<br /><br />
+        <b>Note:</b> The optimized waypoint order information from the routing service provides a set of indices.
+        These exclude the origin and destination indices.
+        You need to increase all of these values by 1 to account for the origin and then add your destination to the end to get the complete ordered waypoint list.
     </fieldset>
 </body>
 </html>
