@@ -73,6 +73,15 @@ var sampleList = [
 			created:'11/28/2018'
 		},
 		{
+			title:'Cluster aggregates',
+			desc:'This sample shows how to define custom properties on clusters that are defined using data-driven style expresison calculation. These calculations aggregate values across all points contained within the cluster.',
+			path:'Bubble%20Layer/Cluster%20aggregates.html',
+			sourcePath:'Bubble%20Layer/Cluster%20aggregates.html',
+			screenshot:'',
+			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, cluster aggregate',
+			created:'8/5/2019'
+		},
+		{
 			title:'Data-Driven Bubble Layer Styling',
 			desc:'This sample shows how to use data-driven styles on a BubbleLayer to define the radius and color of each circle based on the magnitude of each data point.',
 			path:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
@@ -540,7 +549,7 @@ var sampleList = [
 			path:'HTML%20Markers/All%20built-in%20icon%20templates%20as%20HTML%20markers.html',
 			sourcePath:'HTML%20Markers/All%20built-in%20icon%20templates%20as%20HTML%20markers.html',
 			screenshot:'All-built-in-icon-templates-as-HTML-markers.png',
-			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
+			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -576,7 +585,7 @@ var sampleList = [
 			path:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
 			sourcePath:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
 			screenshot:'HTML-Marker-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons',
+			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -714,7 +723,7 @@ var sampleList = [
 			path:'Map/Icon%20template%20options.html',
 			sourcePath:'Map/Icon%20template%20options.html',
 			screenshot:'Icon-template-options.png',
-			keywords:'map, gis, api, sdk, template, icon templates, symbols, fill patterns',
+			keywords:'map, gis, api, sdk, template, icon templates, symbols, fill patterns, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -855,7 +864,7 @@ var sampleList = [
 			path:'Polygon%20and%20Line%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
 			sourcePath:'Polygon%20and%20Line%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
 			screenshot:'Fill-polygon-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer',
+			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -882,7 +891,7 @@ var sampleList = [
 			path:'Polygon%20and%20Line%20Layers/Line%20layer%20with%20built-in%20icon%20template.html',
 			sourcePath:'Polygon%20and%20Line%20Layers/Line%20layer%20with%20built-in%20icon%20template.html',
 			screenshot:'Line-layer-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, linestring, arrows, path, symbols, linelayer',
+			keywords:'map, gis, api, sdk, template, linestring, arrows, path, symbols, linelayer, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -929,6 +938,15 @@ var sampleList = [
 			screenshot:'Polygon-Layer-Options.png',
 			keywords:'map, gis, api, sdk, polygon, layer',
 			created:'11/28/2018'
+		},
+		{
+			title:'Polygon masks',
+			desc:'Polygon masks limit the viewable area of the map to a polygon area.',
+			path:'Polygon%20and%20Line%20Layers/Polygon%20masks.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Polygon%20masks.html',
+			screenshot:'Polygon-masks.png',
+			keywords:'map, gis, api, sdk, polygon mask, restrict map view',
+			created:'8/20/2019'
 		},
 		{
 			title:'Simple MultiPolygon',
@@ -1200,7 +1218,7 @@ var sampleList = [
 			path:'Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html',
 			sourcePath:'Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html',
 			screenshot:'All-built-in-icon-templates-as-symbols.png',
-			keywords:'map, gis, api, sdk, ',
+			keywords:'map, gis, api, sdk, image template, icon templates',
 			created:'7/5/2019'
 		},
 		{
@@ -1308,7 +1326,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html',
 			sourcePath:'Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html',
 			screenshot:'Symbol-layer-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons',
+			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
 			created:'7/5/2019'
 		},
 	]
@@ -1489,4 +1507,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 151;
+}];var numberOfSamples = 153;

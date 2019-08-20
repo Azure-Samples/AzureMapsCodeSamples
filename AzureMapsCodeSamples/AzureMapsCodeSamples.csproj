@@ -91,6 +91,7 @@
     <Content Include="Animations\Simple HTML Marker Animation.html" />
     <Content Include="Animations\Simple Symbol Animation.html" />
     <Content Include="BingSiteAuth.xml" />
+    <Content Include="Bubble Layer\Cluster aggregates.html" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
@@ -194,12 +195,14 @@
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
     <Content Include="Polygon and Line Layers\Add arrows to end of paths.html" />
     <Content Include="Polygon and Line Layers\Data-driven stroke gradient.html" />
+    <Content Include="Polygon and Line Layers\Polygon masks.html" />
     <Content Include="Popups\Customize a popup.html" />
     <Content Include="SiteResources\screenshots\Add-arrows-to-end-of-paths.png" />
     <Content Include="SiteResources\screenshots\Add-custom-icon-template-to-atlas-namespace.png" />
     <Content Include="SiteResources\screenshots\All-built-in-icon-templates-as-HTML-markers.png" />
     <Content Include="SiteResources\screenshots\All-built-in-icon-templates-as-symbols.png" />
     <Content Include="SiteResources\screenshots\Calculate-a-convex-hull.png" />
+    <Content Include="SiteResources\screenshots\Cluster-aggregate.png" />
     <Content Include="SiteResources\screenshots\Convex-hull-and-HTML-markers.gif" />
     <Content Include="SiteResources\screenshots\Cross-reference-pixels-in-image-layer.png" />
     <Content Include="SiteResources\screenshots\Customize-a-popup.png" />
@@ -209,6 +212,7 @@
     <Content Include="SiteResources\screenshots\HTML-Marker-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Icon-template-options.png" />
     <Content Include="SiteResources\screenshots\Line-layer-with-built-in-icon-template.png" />
+    <Content Include="SiteResources\screenshots\Polygon-masks.png" />
     <Content Include="SiteResources\screenshots\Symbol-layer-with-built-in-icon-template.png" />
     <Content Include="Symbol Layer\All built-in icon templates as symbols.html" />
     <Content Include="Spatial Math\Calculate a convex hull.html" />

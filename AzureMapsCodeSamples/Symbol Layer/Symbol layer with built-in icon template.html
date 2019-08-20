@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to use a built-in icon template with a symbol layer." />
-    <meta name="keywords" content="map, gis, API, SDK, template, symbols, markers, pins, pushpins, styling, style, layer, icons" />
+    <meta name="keywords" content="map, gis, API, SDK, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -16,15 +16,13 @@
 
     <script type='text/javascript'>
         var map, datasource;
-
-        //TODO: Test
-
+        
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 				
-				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

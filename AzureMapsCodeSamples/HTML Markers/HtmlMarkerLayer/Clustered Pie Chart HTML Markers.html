@@ -24,7 +24,7 @@
         var map, datasource, markerLayer, popup;
 
         //GeoJSON feed that contains the data we want to map.
-        var geojsonFeed = "../../Common/data/geojson/SamplePoiDataSet.json";
+        var geojsonFeed = '../../Common/data/geojson/SamplePoiDataSet.json';
         
         //Colors for each EntityType property in point data: [Gas Station, Grocery Store, Restaurant, School]
         var entityTypes = ['Gas Station', 'Grocery Store', 'Restaurant', 'School'];
@@ -202,8 +202,6 @@
 
             datasource.setShapes(data);
         }
-
-        //TODO: Update sample when aggregates are supported in the clustering functionality. That will significantly improve performance as no need to getLeaves and manually aggregate
     </script>
     <style>
         .popup-title {
