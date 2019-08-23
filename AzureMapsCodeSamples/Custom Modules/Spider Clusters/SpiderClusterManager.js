@@ -54,6 +54,91 @@ class SpiderClusterManager {
             featureSelected: null,
             featureUnselected: null
         };
+        /**
+        * Collapses any open spider clusters.
+        */
+        this.hideSpiderCluster = () => {
+            this._spiderDataSource.clear();
+        };
+        /**********************
+        * Private Functions
+        ***********************/
+        /**
+        * Click event handler for when a shape in the cluster layer is clicked.
+        * @param e The mouse event argurment from the click event.
+        */
+        this._layerClickEvent = (e) => {
+            if (e && e.shapes && e.shapes.length > 0) {
+                var prop;
+                var pos;
+                var s;
+                if (e.shapes[0] instanceof atlas.Shape) {
+                    s = e.shapes[0];
+                    prop = s.getProperties();
+                    pos = s.getCoordinates();
+                }
+                else {
+                    var f = e.shapes[0];
+                    prop = f.properties;
+                    pos = f.geometry.coordinates;
+                }
+                if (prop.cluster) {
+                    if (this._options.featureUnselected) {
+                        this._options.featureUnselected();
+                    }
+                    this._currentCluster = e.shapes[0];
+                    if (prop.point_count > this._options.maxFeaturesInWeb) {
+                        this._datasource.getClusterExpansionZoom(prop.cluster_id).then(zoom => {
+                            this._map.setCamera({
+                                center: pos,
+                                zoom: zoom
+                            });
+                        });
+                    }
+                    else {
+                        this.showSpiderCluster(f);
+                    }
+                }
+                else {
+                    if (typeof prop._parentId !== 'undefined') {
+                        s = this._datasource.getShapeById(prop._parentId);
+                    }
+                    else {
+                        this._currentCluster = null;
+                    }
+                    if (this._options.featureSelected && s) {
+                        this._options.featureSelected(s, this._currentCluster);
+                    }
+                    this.hideSpiderCluster();
+                }
+                e.preventDefault();
+            }
+        };
+        this._highlightStick = (e) => {
+            if (e && e.shapes && e.shapes.length > 0) {
+                var stickId;
+                if (e.shapes[0] instanceof atlas.Shape) {
+                    stickId = e.shapes[0].getProperties()._stickId;
+                }
+                else {
+                    stickId = e.shapes[0].properties._stickId;
+                }
+                if (this._hoverStateId) {
+                    //TODO: replace with built-in function.
+                    this._map.map.setFeatureState({ source: this._spiderDatasourceId, id: this._hoverStateId }, { hover: false });
+                }
+                this._hoverStateId = stickId;
+                //TODO: replace with built-in function.
+                this._map.map.setFeatureState({ source: this._spiderDatasourceId, id: this._hoverStateId }, { hover: true });
+            }
+        };
+        this._unhighlightStick = (e) => {
+            if (this._hoverStateId) {
+                //TODO: replace with built-in function.
+                this._map.map.setFeatureState({ source: this._spiderDatasourceId, id: this._hoverStateId }, { hover: false });
+                this._hoverStateId = null;
+            }
+        };
         this._map = map;
         this._clusterLayer = clusterLayer;
         var s = clusterLayer.getSource();
@@ -88,13 +173,13 @@ class SpiderClusterManager {
         }
         map.layers.add(this._spiderFeatureLayer);
         this.setOptions(options);
-        map.events.add('click', () => { this.hideSpiderCluster(); });
-        map.events.add('movestart', () => { this.hideSpiderCluster(); });
-        map.events.add('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(e); });
-        map.events.add('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(e); });
-        map.events.add('click', this._clusterLayer, (e) => { this._layerClickEvent(e); });
-        map.events.add('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
-        map.events.add('click', this._unclustedLayer, (e) => { this._layerClickEvent(e); });
+        map.events.add('click', this.hideSpiderCluster);
+        map.events.add('movestart', this.hideSpiderCluster);
+        map.events.add('mouseleave', this._spiderFeatureLayer, this._unhighlightStick);
+        map.events.add('mousemove', this._spiderFeatureLayer, this._highlightStick);
+        map.events.add('click', this._clusterLayer, this._layerClickEvent);
+        map.events.add('click', this._spiderFeatureLayer, this._layerClickEvent);
+        map.events.add('click', this._unclustedLayer, this._layerClickEvent);
     }
     /**********************
     * Public Functions
@@ -103,26 +188,23 @@ class SpiderClusterManager {
     * Disposes the SpiderClusterManager and releases it's resources.
     */
     dispose() {
-        this._spiderDataSource.clear();
-        this._map.sources.remove(this._spiderDataSource);
-        this._spiderDataSource = null;
+        //Remove events.
+        this._map.events.remove('click', this.hideSpiderCluster);
+        this._map.events.remove('movestart', this.hideSpiderCluster);
+        this._map.events.remove('click', this._clusterLayer, this._layerClickEvent);
+        this._map.events.remove('mouseleave', this._spiderFeatureLayer, this._unhighlightStick);
+        this._map.events.remove('mousemove', this._spiderFeatureLayer, this._highlightStick);
+        this._map.events.remove('click', this._spiderFeatureLayer, this._layerClickEvent);
+        this._map.events.remove('click', this._unclustedLayer, this._layerClickEvent);
+        //Remove layers.
         this._map.layers.remove(this._spiderFeatureLayer);
         this._spiderFeatureLayer = null;
         this._map.layers.remove(this._spiderLineLayer);
         this._spiderLineLayer = null;
-        this._map.events.remove('click', () => { this.hideSpiderCluster(); });
-        this._map.events.remove('movestart', () => { this.hideSpiderCluster(); });
-        this._map.events.remove('click', this._clusterLayer, (e) => { this._layerClickEvent(e); });
-        this._map.events.remove('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(e); });
-        this._map.events.remove('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(e); });
-        this._map.events.remove('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
-        this._map.events.remove('click', this._unclustedLayer, (e) => { this._layerClickEvent(e); });
-    }
-    /**
-    * Collapses any open spider clusters.
-    */
-    hideSpiderCluster() {
+        //Clear and dispose of datasource.
         this._spiderDataSource.clear();
+        this._map.sources.remove(this._spiderDataSource);
+        this._spiderDataSource = null;
     }
     /**
     * Sets the options used to customize how the SpiderClusterManager renders clusters.
@@ -219,85 +301,6 @@ class SpiderClusterManager {
                 }
                 this._spiderDataSource.add(shapes);
             });
-        }
-    }
-    /**********************
-    * Private Functions
-    ***********************/
-    /**
-    * Click event handler for when a shape in the cluster layer is clicked.
-    * @param e The mouse event argurment from the click event.
-    */
-    _layerClickEvent(e) {
-        if (e && e.shapes && e.shapes.length > 0) {
-            var prop;
-            var pos;
-            var s;
-            if (e.shapes[0] instanceof atlas.Shape) {
-                s = e.shapes[0];
-                prop = s.getProperties();
-                pos = s.getCoordinates();
-            }
-            else {
-                var f = e.shapes[0];
-                prop = f.properties;
-                pos = f.geometry.coordinates;
-            }
-            if (prop.cluster) {
-                if (this._options.featureUnselected) {
-                    this._options.featureUnselected();
-                }
-                this._currentCluster = e.shapes[0];
-                if (prop.point_count > this._options.maxFeaturesInWeb) {
-                    this._datasource.getClusterExpansionZoom(prop.cluster_id).then(zoom => {
-                        this._map.setCamera({
-                            center: pos,
-                            zoom: zoom
-                        });
-                    });
-                }
-                else {
-                    this.showSpiderCluster(f);
-                }
-            }
-            else {
-                if (typeof prop._parentId !== 'undefined') {
-                    s = this._datasource.getShapeById(prop._parentId);
-                }
-                else {
-                    this._currentCluster = null;
-                }
-                if (this._options.featureSelected && s) {
-                    this._options.featureSelected(s, this._currentCluster);
-                }
-                this.hideSpiderCluster();
-            }
-            e.preventDefault();
-        }
-    }
-    _highlightStick(e) {
-        if (e && e.shapes && e.shapes.length > 0) {
-            var stickId;
-            if (e.shapes[0] instanceof atlas.Shape) {
-                stickId = e.shapes[0].getProperties()._stickId;
-            }
-            else {
-                stickId = e.shapes[0].properties._stickId;
-            }
-            if (this._hoverStateId) {
-                //TODO: replace with built-in function.
-                this._map.map.setFeatureState({ source: this._spiderDatasourceId, id: this._hoverStateId }, { hover: false });
-            }
-            this._hoverStateId = stickId;
-            //TODO: replace with built-in function.
-            this._map.map.setFeatureState({ source: this._spiderDatasourceId, id: this._hoverStateId }, { hover: true });
-        }
-    }
-    _unhighlightStick(e) {
-        if (this._hoverStateId) {
-            //TODO: replace with built-in function.
-            this._map.map.setFeatureState({ source: this._spiderDatasourceId, id: this._hoverStateId }, { hover: false });
-            this._hoverStateId = null;
         }
     }
     _deepCopy(obj, filter) {

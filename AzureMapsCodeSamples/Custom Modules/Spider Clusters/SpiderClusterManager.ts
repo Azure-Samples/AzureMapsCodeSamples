@@ -153,13 +153,13 @@ class SpiderClusterManager {
 
         this.setOptions(options);
 
-        map.events.add('click', () => { this.hideSpiderCluster(); });
-        map.events.add('movestart', () => { this.hideSpiderCluster(); });
-        map.events.add('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(e) });
-        map.events.add('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(e) });        
-        map.events.add('click', this._clusterLayer, (e) => { this._layerClickEvent(e); });
-        map.events.add('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(e); });
-        map.events.add('click', this._unclustedLayer, (e) => { this._layerClickEvent(e); });
+        map.events.add('click', this.hideSpiderCluster);
+        map.events.add('movestart', this.hideSpiderCluster);
+        map.events.add('mouseleave', this._spiderFeatureLayer, this._unhighlightStick);
+        map.events.add('mousemove', this._spiderFeatureLayer, this._highlightStick);        
+        map.events.add('click', this._clusterLayer, this._layerClickEvent);
+        map.events.add('click', this._spiderFeatureLayer, this._layerClickEvent);
+        map.events.add('click', this._unclustedLayer, this._layerClickEvent);
     }
 
     /**********************
@@ -170,29 +170,33 @@ class SpiderClusterManager {
     * Disposes the SpiderClusterManager and releases it's resources.
     */
     public dispose(): void {
-        this._spiderDataSource.clear();
-        this._map.sources.remove(this._spiderDataSource);
-        this._spiderDataSource = null;
+        //Remove events.
+        this._map.events.remove('click', this.hideSpiderCluster);
+        this._map.events.remove('movestart', this.hideSpiderCluster);
+        this._map.events.remove('click', this._clusterLayer, this._layerClickEvent);
+        this._map.events.remove('mouseleave', this._spiderFeatureLayer, this._unhighlightStick);
+        this._map.events.remove('mousemove', this._spiderFeatureLayer, this._highlightStick);
+        this._map.events.remove('click', this._spiderFeatureLayer, this._layerClickEvent);
+        this._map.events.remove('click', this._unclustedLayer, this._layerClickEvent);
 
+        //Remove layers.
         this._map.layers.remove(this._spiderFeatureLayer);
         this._spiderFeatureLayer = null;
 
         this._map.layers.remove(this._spiderLineLayer);
         this._spiderLineLayer = null;
         
-        this._map.events.remove('click', () => { this.hideSpiderCluster(); });
-        this._map.events.remove('movestart', () => { this.hideSpiderCluster(); });
-        this._map.events.remove('click', this._clusterLayer, (e) => { this._layerClickEvent(<atlas.MapMouseEvent>e); });
-        this._map.events.remove('mouseleave', this._spiderFeatureLayer, (e) => { this._unhighlightStick(<atlas.MapMouseEvent>e) });
-        this._map.events.remove('mousemove', this._spiderFeatureLayer, (e) => { this._highlightStick(<atlas.MapMouseEvent>e) });
-        this._map.events.remove('click', this._spiderFeatureLayer, (e) => { this._layerClickEvent(<atlas.MapMouseEvent>e); });
-        this._map.events.remove('click', this._unclustedLayer, (e) => { this._layerClickEvent(<atlas.MapMouseEvent>e); });
+
+        //Clear and dispose of datasource.
+        this._spiderDataSource.clear();
+        this._map.sources.remove(this._spiderDataSource);
+        this._spiderDataSource = null;
     }
 
     /**
     * Collapses any open spider clusters.
     */
-    private hideSpiderCluster(): void {
+    private hideSpiderCluster = (): void => {
         this._spiderDataSource.clear();
     }
 
@@ -323,7 +327,7 @@ class SpiderClusterManager {
     * Click event handler for when a shape in the cluster layer is clicked. 
     * @param e The mouse event argurment from the click event.
     */
-    private _layerClickEvent(e: atlas.MapMouseEvent): void {
+    private _layerClickEvent = (e: atlas.MapMouseEvent): void => {
         if (e && e.shapes && e.shapes.length > 0) {
 
             var prop;
@@ -375,7 +379,7 @@ class SpiderClusterManager {
         }
     }
 
-    private _highlightStick(e: atlas.MapMouseEvent): void {
+    private _highlightStick = (e: atlas.MapMouseEvent): void => {
         if (e && e.shapes && e.shapes.length > 0) {
             var stickId: string;
 
@@ -396,7 +400,7 @@ class SpiderClusterManager {
         }
     }
 
-    private _unhighlightStick(e: atlas.MapMouseEvent): void {
+    private _unhighlightStick = (e: atlas.MapMouseEvent): void => {
         if (this._hoverStateId) {
             //TODO: replace with built-in function.
             this._map.map.setFeatureState({ source: this._spiderDatasourceId, id: this._hoverStateId }, { hover: false });
