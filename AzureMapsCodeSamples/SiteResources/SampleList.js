@@ -873,7 +873,7 @@ var sampleList = [
 			path:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
 			sourcePath:'Polygon%20and%20Line%20Layers/Geospatially%20Accurate%20Circle.html',
 			screenshot:'Geospatially-Accurate-Circle.png',
-			keywords:'map, gis, api, sdk, circles, geospatial',
+			keywords:'map, gis, api, sdk, circles, geospatial, geospatial circles',
 			created:'9/23/2018'
 		},
 		{

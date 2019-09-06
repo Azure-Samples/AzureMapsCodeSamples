@@ -89,16 +89,25 @@
 
             //Update the data source with the new convex hull polygon. 
             datasource.setShapes(hull);
+
+            //Calculate the area and perimeter of the convex hull.
+            var p = atlas.math.getLengthOfPath(hull.coordinates[0], 'miles');
+            var a = atlas.math.getArea(hull, 'squareMiles', 1);
+
+            document.getElementById('measurementTbx').innerHTML = `Perimeter: ${Math.round(p*10)/10} miles<br\>Area: ${a} sq miles`;
         }
     </script>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
+    <div id="measurementTbx" style="position:absolute;top:10px;left:10px;background-color:white;border-radius:10px;padding:10px;"></div>
+
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Convex hull and HTML markers</legend>
         This sample shows how to calculate a convex hull for a set of HTML markers. Drag the markers on the map to see the convex hull update.
         A convex hull is a shape that represents that minimum convex geometry that encloses all shapes in the specified data set.
+        Additionally, the perimeter and area of the convex hull are also calculated.
     </fieldset>
 </body>
 </html>
