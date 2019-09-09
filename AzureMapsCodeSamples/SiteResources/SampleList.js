@@ -77,7 +77,7 @@ var sampleList = [
 			desc:'This sample shows how to define custom properties on clusters that are defined using data-driven style expresison calculation. These calculations aggregate values across all points contained within the cluster.',
 			path:'Bubble%20Layer/Cluster%20aggregates.html',
 			sourcePath:'Bubble%20Layer/Cluster%20aggregates.html',
-			screenshot:'',
+			screenshot:'Cluster-aggregates.png',
 			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, cluster aggregate',
 			created:'8/5/2019'
 		},
@@ -134,7 +134,7 @@ var sampleList = [
 			desc:'This sample shows how to animate a LineString such that its path is drawn out smoothly over time on top of the map.',
 			path:'Custom%20Modules/Animation%20module/Animate%20a%20LineString.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'',
+			screenshot:'Animate-a-LineString.gif',
 			keywords:'map, gis, api, sdk, animation, animate, line, linestring',
 			created:'7/9/2019'
 		},
@@ -161,7 +161,7 @@ var sampleList = [
 			desc:'This sample shows how to animate a point along a path on the map.',
 			path:'Custom%20Modules/Animation%20module/Animate%20point%20along%20path.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'',
+			screenshot:'Animate-point-along-path.gif',
 			keywords:'map, gis, api, sdk, animation, animate, point',
 			created:'7/9/2019'
 		},
@@ -170,7 +170,7 @@ var sampleList = [
 			desc:'This sample shows how to animate multiple points on the map as dropping symbols.',
 			path:'Custom%20Modules/Animation%20module/Drop%20multiple%20symbols%20animation.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'',
+			screenshot:'Drop-multiple-symbols-animation.gif',
 			keywords:'map, gis, api, sdk, animation, animate, point',
 			created:'7/12/2019'
 		},
@@ -179,7 +179,7 @@ var sampleList = [
 			desc:'This sample shows how to animate a point on the map as a dropping symbol.',
 			path:'Custom%20Modules/Animation%20module/Drop%20symbol%20animation.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'',
+			screenshot:'Drop-symbol-animation.gif',
 			keywords:'map, gis, api, sdk, animation, animate, point',
 			created:'7/12/2019'
 		},
@@ -1111,6 +1111,15 @@ var sampleList = [
 			created:'4/26/2019'
 		},
 		{
+			title:'Page through POI results',
+			desc:'',
+			path:'Services%20Module/Page%20through%20POI%20results.html',
+			sourcePath:'Services%20Module/Page%20through%20POI%20results.html',
+			screenshot:'Page-through-POI-results.png',
+			keywords:'map, gis, api, sdk, ',
+			created:'9/9/2019'
+		},
+		{
 			title:'Reverse Geocode with Services Module',
 			desc:'This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinate.',
 			path:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
@@ -1507,4 +1516,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 153;
+}];var numberOfSamples = 154;

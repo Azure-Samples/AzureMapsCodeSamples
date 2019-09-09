@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Page through POI results - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="map, gis, API, SDK, " />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, searchURL, totalResults, query;
+
+        //The current page index.
+        var pageIdx = 0;
+
+        //The number of results to retrieve per "page".
+        var pageSize = 10;
+
+        //Initial query options for the POI search, biased towards the initial center of the map.
+        var queryOptions = {
+            radius: 5000,
+            ofs: pageIdx,
+            limit: pageSize,
+            view: 'Auto'
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Use SubscriptionKeyCredential with a subscription key
+            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
+                retryOptions: { maxTries: 4 }, // Retry options
+            });
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a reusable popup.
+                popup = new atlas.Popup();
+
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a bubble layer to render the points of interests.
+                var poiLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    color: '#007343'
+                });
+                map.layers.add(poiLayer);
+                
+                //Add a click event to the poi layer.
+                map.events.add('click', poiLayer, (e) => {
+                    showPopup(e.shapes[0]);
+                });
+
+                //Add a mouse move move event to the poi layer and have it highlight the releated item in the list.
+                map.events.add('mousemove', poiLayer, highlightListItem);
+
+                //When the mouse leaves the item on the layer, change the cursor back to the default which is grab.
+                map.events.add('mouseout', poiLayer, () => {
+                    map.getCanvasContainer().style.cursor = 'grab';
+                });
+
+                //Make an initial query.
+                updatePoiQuery();
+            });
+        }
+
+        function updatePoiQuery() {
+            //Get the users query.
+            query = document.getElementById('queryTbx').value;
+
+            //Reset the page index and total results.
+            pageIdx = 0;
+            totalResults = 0;
+
+            var center = map.getCamera().center;
+
+            //Update the location to bias the results.
+            queryOptions.lon = center[0];
+            queryOptions.lat = center[1];
+
+            getNearbyPoi();
+        }
+
+        function getNearbyPoi() {
+            //Close popup.
+            popup.close();
+
+            updatePageBtns();
+
+            //Update the query options to skip results based on the page index and size.
+            queryOptions.ofs = pageIdx * pageSize,
+
+            //Make a query for nearby points of interest.
+            searchURL.searchPOI(atlas.service.Aborter.timeout(3000), query, queryOptions).then(results => {
+        
+                //If the initial search has just been performed, capture the total number of results available for the query.
+                if (results.summary.offset === 0) {
+                    totalResults = results.summary.totalResults;
+                    updatePageBtns();
+                }
+
+                //Calculate the start and end result index.
+                var start = pageIdx * pageSize + 1;
+                var end = start + results.summary.numResults - 1;
+
+                //Display details on the number of results and result index.
+                document.getElementById('pageInfo').innerText = `Results: ${start} - ${end} of ${totalResults} results`;
+
+                //Get GeoJSON versions of the results.
+                var data = results.geojson.getFeatures();
+
+                //Loop through and create a list of the results.
+                var listHTML = ['<table>'];
+
+                //Create HTML for each line item in the list.
+                for (var i = 0, len = data.features.length; i < len; i++) {
+                    var f = data.features[i];
+                                        
+                    listHTML.push(
+                        //Add a column of index numbers. Pass in the ID of each result into the rel attribute for cross referencing the list item to the shape.
+                        `<tr rel="${f.id}" onmouseover="listItemClicked('${f.id}');" onmouseout="popup.close();" style="cursor:pointer"><td valign="top"> ${start + i}) </td>`,
+
+                        //Add some information about the list item.
+                        `<td><b>${f.properties.poi.name}</b><br/>${f.properties.address.freeformAddress}</td>`,
+
+                        //Create a column to display the distance to the location.
+                        `<td>${atlas.math.convertDistance(f.properties.dist, 'meters', 'miles', 2)} mi(s)</td></tr>`);
+
+                    //Add the result index as a property of the feature.
+                    f.properties._listIdx = start + i + '';
+                }
+
+                listHTML.push('</table>');
+
+                document.getElementById('resultList').innerHTML = listHTML.join('');
+
+                //Add the GeoJSON data to the map.
+                datasource.setShapes(data);
+
+                //Have the map camera fit the data.
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromData(data),
+                    padding: 50
+                });
+            });
+        }
+
+        function showPopup(shape) {
+            var prop = shape.getProperties();
+
+            //Update the content and position of the popup.
+            popup.setOptions({
+                //Create a table from the properties of the shape.
+                content: `<div style="padding:10px;"><b>${prop.poi.name}</b><br/>${prop.address.freeformAddress}</div>`,
+                position: shape.getCoordinates()
+            });
+
+            //Open the popup.
+            popup.open(map);
+        }
+
+        function listItemClicked(id) {
+            //Retrieve the shape for the list item from the data source.
+            var shape = datasource.getShapeById(id);
+
+            //Show the popup for the shape.
+            showPopup(shape);
+        }
+
+        function pageBackwards() {
+            if (pageIdx > 0) {
+                pageIdx--;
+                getNearbyPoi();
+            }
+        }
+
+        function pageForward() {
+            //Ensure that paging does not exceed the number of results.
+            if ((pageIdx + 1) * pageSize < totalResults) {
+                pageIdx++;
+                getNearbyPoi();
+            }
+        }
+
+        function updatePageBtns() {
+            //Update the disabled state of the page buttons based on the page index and number of results.
+            document.getElementById('pageBackBtn').disabled = (pageIdx === 0);
+            document.getElementById('pageFwdBtn').disabled = ((pageIdx + 1) * pageSize >= totalResults);
+        }
+
+        function highlightListItem(e) {
+            //Retrieve the list item based on the id of a shape.
+            var elm = getListItemById(e.shapes[0].getId());
+
+            if (elm) {
+                //Highlight the list item to indicate that its shape has been hovered.
+                elm.style.backgroundColor = 'LightGreen';
+
+                //Remove the highlighting after a second.
+                setTimeout(function () {
+                    elm.style.backgroundColor = 'white';
+                }, 1000);
+            }
+
+            //Change the mouse pointer over the shape.
+            map.getCanvasContainer().style.cursor = 'pointer';
+        }
+
+        function getListItemById(id) {
+            var listItems = document.getElementById('resultList').getElementsByTagName('tr');
+
+            for (var i = 0, len = listItems.length; i < len; i++) {
+                var rel = listItems[i].getAttribute('rel');
+                if (rel === id) {
+                    return listItems[i];
+                }
+            }
+
+            return null;
+        }
+    </script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 100%;
+            min-width: 290px;
+            height: 600px;
+        }
+
+        .sidePanel {
+            position: relative;
+            float: left;
+            margin-left: 10px;
+            width: 300px;
+            height: 600px;
+        }
+
+        #resultList{
+            height: 485px;
+            overflow-y: auto;
+        }
+
+        #myMap {
+            position: relative;
+            float: left;
+            width: calc(100% - 310px);
+            height: 600px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+
+    <div class="mapContainer">
+        
+        <div class="sidePanel">
+            <table style="margin-bottom:10px;">
+                <tr>
+                    <td><input id="queryTbx" type="text" value="Starbucks" /></td>
+                    <td><input type="button" onclick="updatePoiQuery()" value="Search" /></td>
+                </tr>
+            </table>
+            <input id="pageBackBtn" type="button" value="<" onclick="pageBackwards();" />
+            <input id="pageFwdBtn" type="button" value=">" onclick="pageForward();" /><br /><br />
+            <div id="pageInfo"></div><br />
+            <div id="resultList"></div>
+        </div>
+
+        <div id="myMap"></div>
+    </div>    
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Page through POI results</legend>
+        This sample shows how to step through all the results available for a POI query. 
+        This sample also creates a list of the results and cross references the list items to the shapes on the map.
+    </fieldset>
+</body>
+</html>
