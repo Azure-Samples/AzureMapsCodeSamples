@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-09-09</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-09-16</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -112,6 +112,8 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Simple%20REST%20Directions.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Simple%20REST%20Geocoding%20Request.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Calculate%20a%20simple%20route.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Calculate%20spaced%20positions%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Load%20POI%20as%20the%20map%20moves.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Page%20through%20POI%20results.html</loc></url>

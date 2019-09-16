@@ -1093,6 +1093,24 @@ var sampleList = [
 	desc:'Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Calculate a simple route',
+			desc:'This sample shows how to calculate a simple route and display it on the map using the Services module for Azure Maps.',
+			path:'Services%20Module/Calculate%20a%20simple%20route.html',
+			sourcePath:'Services%20Module/Calculate%20a%20simple%20route.html',
+			screenshot:'Calculate-a-simple-route.png',
+			keywords:'map, gis, api, sdk, services, module, route, directions',
+			created:'9/16/2019'
+		},
+		{
+			title:'Calculate spaced positions along route',
+			desc:'This sample shows how to calculate a evenly spaced out positions along a route, in this case every 10 kilometers.',
+			path:'Services%20Module/Calculate%20spaced%20positions%20along%20route.html',
+			sourcePath:'Services%20Module/Calculate%20spaced%20positions%20along%20route.html',
+			screenshot:'Calculate-spaced-positions-along-route.png',
+			keywords:'map, gis, api, sdk, services, module, route, directions',
+			created:'9/16/2019'
+		},
+		{
 			title:'Fuzzy Search with Services Module',
 			desc:'This sample shows how to use the Services module for Azure Maps to perform a fuzzy search for points of interests, address, and places. Providing user location information allows the search service choose results that are more local to the user.',
 			path:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
@@ -1112,11 +1130,11 @@ var sampleList = [
 		},
 		{
 			title:'Page through POI results',
-			desc:'',
+			desc:'This sample shows how to step through all the results available for a POI query. This sample also creates a list of the results and cross references the list items to the shapes on the map.',
 			path:'Services%20Module/Page%20through%20POI%20results.html',
 			sourcePath:'Services%20Module/Page%20through%20POI%20results.html',
 			screenshot:'Page-through-POI-results.png',
-			keywords:'map, gis, api, sdk, ',
+			keywords:'map, gis, api, sdk, page results, paging results, pagination',
 			created:'9/9/2019'
 		},
 		{
@@ -1516,4 +1534,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 154;
+}];var numberOfSamples = 156;

@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate a simple route - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate a simple route and display it on the map using the Services module for Azure Maps." />
+    <meta name="keywords" content="map, gis, API, SDK, services, module, route, directions" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, routeURL;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.335, 47.608],
+                zoom: 15,
+                view: 'Auto',
+
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Use SubscriptionKeyCredential with a subscription key
+            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential);
+
+            // Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create the GeoJSON objects which represent the start and end points of the route.
+                var startPoint = new atlas.data.Feature(new atlas.data.Point([-122.33028, 47.60323]), {
+                    title: "Seattle",
+                    icon: "pin-round-blue"
+                });
+
+                var endPoint = new atlas.data.Feature(new atlas.data.Point([-122.124, 47.67491]), {
+                    title: "Redmond",
+                    icon: "pin-blue"
+                });
+
+                //Add the data to the data source.
+                datasource.add([startPoint, endPoint]);
+
+                //Create a layer for rendering the route line under the road labels.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: '#2272B9',
+                    strokeWidth: 5,
+                    lineJoin: 'round',
+                    lineCap: 'round'
+                }), 'labels');
+
+                //Create a layer for rendering the start and end points of the route as symbols.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: ['get', 'icon'],
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    },
+                    textOptions: {
+                        textField: ['get', 'title'],
+                        offset: [0, 1.2]
+                    },
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                }));
+
+                //Get the coordnates of the start and end points.
+                var coordinates = [
+                    startPoint.geometry.coordinates,
+                    endPoint.geometry.coordinates
+                ];
+
+                //Calculate a route.
+                routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), coordinates).then((directions) => {
+                    //Get the route data as GeoJSON and add it to the data source.
+                    var data = directions.geojson.getFeatures();
+                    datasource.add(data);
+
+                    //Update the map view to center over the route.
+                    map.setCamera({
+                        bounds: data.bbox,
+                        padding: 30 //Add a padding to account for the pixel size of symbols.
+                    });
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Calculate a simple route</legend>
+        This sample shows how to calculate a simple route and display it on the map using the Services module for Azure Maps.
+    </fieldset>
+</body>
+</html>

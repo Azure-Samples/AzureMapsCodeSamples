@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate spaced positions along route - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate a evenly spaced out positions along a route, in this case every 10 kilometers." />
+    <meta name="keywords" content="map, gis, API, SDK, services, module, route, directions" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, routeURL;
+
+        var stepDistance = 10; //The distance in KM along the route to retrieve locations.
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.335, 47.608],
+                zoom: 15,
+                view: 'Auto',
+
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Use SubscriptionKeyCredential with a subscription key
+            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential);
+
+            // Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create the GeoJSON objects which represent the start and end points of the route.
+                var startPoint = new atlas.data.Feature(new atlas.data.Point([-122.33028, 47.60323]), {
+                    title: "Seattle",
+                    icon: "pin-round-blue"
+                });
+
+                var endPoint = new atlas.data.Feature(new atlas.data.Point([-122.124, 47.67491]), {
+                    title: "Redmond",
+                    icon: "pin-blue"
+                });
+
+                //Add the data to the data source.
+                datasource.add([startPoint, endPoint]);
+
+                //Create a layer for rendering the route line under the road labels.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: '#2272B9',
+                    strokeWidth: 5,
+                    lineJoin: 'round',
+                    lineCap: 'round'
+                }), 'labels');
+
+                //Create a layer for rendering the start and end points of the route as symbols.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: ['get', 'icon'],
+                        allowOverlap: true,
+                        ignorePlacement: true
+                    },
+                    textOptions: {
+                        textField: ['get', 'title'],
+                        offset: [0, 1.2]
+                    },
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                }));
+
+                //Get the coordnates of the start and end points.
+                var coordinates = [
+                    startPoint.geometry.coordinates,
+                    endPoint.geometry.coordinates
+                ];
+
+                //Calculate a route.
+                routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), coordinates).then((directions) => {
+                    //Get the route data as GeoJSON and add it to the data source.
+                    var data = directions.geojson.getFeatures();
+                    datasource.add(data);
+
+                    //Update the map view to center over the route.
+                    map.setCamera({
+                        bounds: data.bbox,
+                        padding: 30 //Add a padding to account for the pixel size of symbols.
+                    });
+
+                    var path = [];
+
+                    //Get all points along the path. The route line could be a LineString or MultiLineString.
+                    if (data.features[0].geometry.type === 'LineString') {
+                        path = data.features[0].geometry.coordinates;
+                    } else if (data.features[0].geometry.type === 'MultiLineString') {
+                        data.features[0].geometry.coordinates.forEach(c => {
+                            path = path.concat(c);
+                        });
+                    }
+
+                    //Create an array to store the calculated positions, add the starting location.
+                    var positionsAlongPath = [path[0]];
+
+                    //Calculate the length of the route.
+                    var routeLength = atlas.math.getLengthOfPath(path, 'kilometers');
+
+                    var numSteps = Math.floor(routeLength / stepDistance);
+                    var loc;
+
+                    for (var i = 1; i <= numSteps; i++) {
+                        loc = atlas.math.getPositionAlongPath(path, stepDistance * i, 'kilometers');
+                        positionsAlongPath.push(loc);
+                    }
+
+                    //Add the last location on the path.
+                    positionsAlongPath.push(path[path.length - 1]);
+
+                    //Do something with the calculated locations. Lets show red markers for now.
+                    for (var i = 0, len = positionsAlongPath.length; i < len; i++) {
+                        datasource.add(new atlas.data.Feature(new atlas.data.Point(positionsAlongPath[i]), { icon: 'marker-red' }))
+                    }
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Calculate spaced positions along route</legend>
+        This sample shows how to calculate a spaced out positions along a route, in this case every 10 kilometers.
+    </fieldset>
+</body>
+</html>

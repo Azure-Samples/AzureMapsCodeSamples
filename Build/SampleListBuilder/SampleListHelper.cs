@@ -82,6 +82,11 @@ namespace SampleListBuilder
                 {
                     new ExternalSample()
                     {
+                        Title = "Azure Maps + Time Series Insights + IoT Hub Hands On Lab",
+                        Href = "https://github.com/rangv/MarchWorkshop/tree/master/AzureMaps"
+                    },
+                    new ExternalSample()
+                    {
                         Title = "Azure Maps .NET UWP IoT Remote Control",
                         Href = "https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control"
                     },

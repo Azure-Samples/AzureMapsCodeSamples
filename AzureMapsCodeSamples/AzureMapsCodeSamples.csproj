@@ -197,6 +197,8 @@
     <Content Include="Polygon and Line Layers\Data-driven stroke gradient.html" />
     <Content Include="Polygon and Line Layers\Polygon masks.html" />
     <Content Include="Popups\Customize a popup.html" />
+    <Content Include="Services Module\Calculate a simple route.html" />
+    <Content Include="Services Module\Calculate spaced positions along route.html" />
     <Content Include="Services Module\Page through POI results.html" />
     <Content Include="SiteResources\screenshots\Add-arrows-to-end-of-paths.png" />
     <Content Include="SiteResources\screenshots\Add-custom-icon-template-to-atlas-namespace.png" />
@@ -205,6 +207,8 @@
     <Content Include="SiteResources\screenshots\Animate-a-LineString.gif" />
     <Content Include="SiteResources\screenshots\Animate-point-along-path.gif" />
     <Content Include="SiteResources\screenshots\Calculate-a-convex-hull.png" />
+    <Content Include="SiteResources\screenshots\Calculate-a-simple-route.png" />
+    <Content Include="SiteResources\screenshots\Calculate-spaced-positions-along-route.png" />
     <Content Include="SiteResources\screenshots\Cluster-aggregates.png" />
     <Content Include="SiteResources\screenshots\Convex-hull-and-HTML-markers.gif" />
     <Content Include="SiteResources\screenshots\Cross-reference-pixels-in-image-layer.png" />
