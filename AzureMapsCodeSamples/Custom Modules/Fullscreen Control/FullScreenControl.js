@@ -225,7 +225,7 @@ class FullscreenControl {
         if (lang && lang.indexOf('-') > 0) {
             lang = lang.substring(0, lang.indexOf('-'));
         }
-        switch (lang) {
+        switch (lang.toLowerCase()) {
             //Afrikaans
             case 'af':
                 return { exit: 'Verlaat volskerm', view: 'Vertoon volskerm', title: 'Volskerm beheer' };

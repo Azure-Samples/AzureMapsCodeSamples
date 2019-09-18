@@ -175,6 +175,7 @@
     <Content Include="Custom Modules\Spider Clusters\Expanding Spider Clusters.html" />
     <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js" />
+    <Content Include="Custom Modules\Traffic Control\Traffic Control.html" />
     <Content Include="Demos\Car vs Truck Route.html" />
     <Content Include="Bubble Layer\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Data-Driven Styling.html" />
@@ -191,6 +192,7 @@
     <Content Include="Drawing Tools Module\Change drawing rendering style.html" />
     <Content Include="Drawing Tools Module\Drawing manager options.html" />
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
+    <Content Include="Experimental\Dynamic Popup\Dynamicly posisitoned popups.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
     <Content Include="Polygon and Line Layers\Add arrows to end of paths.html" />
@@ -224,6 +226,7 @@
     <Content Include="SiteResources\screenshots\Page-through-POI-results.png" />
     <Content Include="SiteResources\screenshots\Polygon-masks.png" />
     <Content Include="SiteResources\screenshots\Symbol-layer-with-built-in-icon-template.png" />
+    <Content Include="SiteResources\screenshots\Traffic-Control.png" />
     <Content Include="Symbol Layer\All built-in icon templates as symbols.html" />
     <Content Include="Spatial Math\Calculate a convex hull.html" />
     <Content Include="Spatial Math\Convex hull and HTML markers.html" />
@@ -581,6 +584,8 @@
     <TypeScriptCompile Include="Custom Modules\Spyglass module\SpyglassModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Swipe map module\SwipeMapModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Map Synchronizer Module\MapSynchronizerModule.ts" />
+    <TypeScriptCompile Include="Custom Modules\Traffic Control\TrafficControl.ts" />
+    <TypeScriptCompile Include="Experimental\Dynamic Popup\DynamicPopup.ts" />
     <TypeScriptCompile Include="Tile Layers\Animated Tile Layers\AnimatedTileLayer.ts" />
     <TypeScriptCompile Include="Custom Modules\Fullscreen Control\FullScreenControl.ts" />
     <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />

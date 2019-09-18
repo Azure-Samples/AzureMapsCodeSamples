@@ -300,6 +300,15 @@ var sampleList = [
 			keywords:'map, gis, api, sdk, synchronized maps, swipe map',
 			created:'4/15/2019'
 		},
+		{
+			title:'Create a Traffic Control',
+			desc:'This sample shows how to create a custom traffic control that can be added to the map.',
+			path:'Custom%20Modules/Traffic%20Control/Traffic%20Control.html',
+			sourcePath:'Custom%20Modules/Traffic%20Control',
+			screenshot:'Traffic-Control.png',
+			keywords:'maps, map, api, sdk, gis, custom, control, custom control, traffic',
+			created:'9/18/2019'
+		},
 	]
 },
 {
@@ -1534,4 +1543,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 156;
+}];var numberOfSamples = 157;

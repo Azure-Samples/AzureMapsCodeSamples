@@ -45,13 +45,13 @@ interface FullscreenControlOptions extends atlas.Options {
     * Default `light'.
     * @default light
     */
-    style: atlas.ControlStyle | string;
+    style?: atlas.ControlStyle | string;
 
     /**
     * Specifies if the control should be hidden if fullscreen is not supported by the browser. 
     * @default false
     */
-    hideIfUnsupported: boolean;
+    hideIfUnsupported?: boolean;
 }
 
 /**
@@ -65,7 +65,7 @@ class FullscreenControl implements atlas.Control {
 
     private _container: HTMLElement;
     private _button: HTMLButtonElement;
-    private _options: atlas.ControlOptions = <FullscreenControlOptions>{
+    private _options: atlas.ControlOptions = {
         style: 'light',
         hideIfUnsupported: true
     };
@@ -300,7 +300,7 @@ class FullscreenControl implements atlas.Control {
             lang = lang.substring(0, lang.indexOf('-'));
         }
 
-        switch (lang) {
+        switch (lang.toLowerCase()) {
             //Afrikaans
             case 'af':
                 return { exit: 'Verlaat volskerm', view: 'Vertoon volskerm', title: 'Volskerm beheer' };

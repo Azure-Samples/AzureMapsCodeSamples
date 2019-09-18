@@ -461,7 +461,7 @@ class SwipeMapControl {
             lang = lang.substring(0, lang.indexOf('-'));
         }
         
-        switch (lang) {
+        switch (lang.toLowerCase()) {
             case 'af':
                 return 'Sleep sien onderliggende data';
             case 'ar':

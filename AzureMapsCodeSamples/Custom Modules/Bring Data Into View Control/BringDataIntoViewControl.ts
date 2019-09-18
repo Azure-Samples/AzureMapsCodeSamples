@@ -208,7 +208,7 @@ class BringDataIntoViewControl implements atlas.Control {
             lang = lang.substring(0, lang.indexOf('-'));
         }
 
-        switch (lang) {
+        switch (lang.toLowerCase()) {
             case 'af':
                 return 'Bring data in die oog';
             case 'ar':
