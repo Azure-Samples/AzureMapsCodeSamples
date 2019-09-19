@@ -1,5 +1,5 @@
-﻿
-interface CustomScaleBarControlOptions extends atlas.Options {
+﻿/** Options for the SimpleScaleBarControl. */
+interface CustomScaleBarControlOptions {
     /** The distance units of the scale bar. Supported values: imperial, metric, meters, kilometers, yards, feet, miles, nauticalMiles */
     units?: string;
 
@@ -7,43 +7,77 @@ interface CustomScaleBarControlOptions extends atlas.Options {
     maxBarLength?: number;
 }
 
+/** A simple scale bar control. */
 class SimpleScaleBarControl implements atlas.Control {
+    /****************************
+    * Private Properties
+    ***************************/
+
     private _map: atlas.Map = null;
     private _scaleBar: HTMLElement = null;
     private _options: CustomScaleBarControlOptions = {
         units: 'imperial',
         maxBarLength: 100
     };
-    
+
+    /****************************
+     * Constructor
+     ***************************/
+
+    /**
+     * A simple scale bar control.
+     * @param options Options for defining how the control is rendered and functions.
+     */
     constructor(options: CustomScaleBarControlOptions) {
         this._options = { ...this._options, ...options }; 
     }
-    
+
+     /****************************
+     * Public Methods
+     ***************************/
+
+     /**
+     * Action to perform when the control is added to the map.
+     * @param map The map the control was added to.
+     * @param options The control options used when adding the control to the map.
+     * @returns The HTML Element that represents the control.
+     */
     public onAdd(map: atlas.Map, options?: atlas.ControlOptions): HTMLElement {
         this._map = map;
 
         //Add the CSS style for the control to the DOM.
         var style = document.createElement('style');
-        style.innerHTML = '.customAzureMapsScaleBar {background-color:rgba(255,255,255,0.8);font-size:10px;border-width:medium 2px 2px;border-style:none solid solid;border-color:black;padding:0 5px;color:black;}';
+        style.innerHTML = '.atlas-map-customScaleBar {background-color:rgba(255,255,255,0.8);font-size:10px;border-width:medium 2px 2px;border-style:none solid solid;border-color:black;padding:0 5px;color:black;}';
         document.body.appendChild(style);
         
         this._scaleBar = document.createElement('div');
-        this._scaleBar.className = 'customAzureMapsScaleBar';
+        this._scaleBar.className = 'atlas-map-customScaleBar';
 
-        this._map.events.add('move', () => { this.updateScaleBar(); });
+        this._map.events.add('move', this._updateScaleBar);
 
-        this.updateScaleBar();
+        this._updateScaleBar();
 
         return this._scaleBar;
     }
 
+    /**
+     * Action to perform when control is removed from the map.
+     */
     public onRemove(): void {
-        this._map.events.remove('move', () => { this.updateScaleBar(); });
+        if (this._map) {
+            this._map.events.remove('move', this._updateScaleBar);
+        }
         this._map = null;
+        this._scaleBar.remove();
         this._scaleBar = null;
     }
 
-    private updateScaleBar(): void {
+    /****************************
+     * Private Methods
+     ***************************/
+
+    /** Updates the layout of the scalebar. */
+    private _updateScaleBar = () => {
         var camera = this._map.getCamera();
 
         //Get the center pixel.
@@ -64,19 +98,19 @@ class SimpleScaleBarControl implements atlas.Control {
         var trueDistance = atlas.math.getDistanceTo(pos[0], pos[1], units);
 
         //Round the true distance to a nicer number.
-        var niceDistance = this.getRoundNumber(trueDistance);
+        var niceDistance = this._getRoundNumber(trueDistance);
         var isSmall = false;
         if (niceDistance < 2) {
             units = this._options.units.toLowerCase();
             if (units === 'imperial') {
                 //Convert to feet.
                 trueDistance *= 5280;
-                niceDistance = this.getRoundNumber(trueDistance);
+                niceDistance = this._getRoundNumber(trueDistance);
                 isSmall = true;
             } else if (units === 'metric') {
                 //Convert to meters.
                 trueDistance *= 1000;
-                niceDistance = this.getRoundNumber(trueDistance);
+                niceDistance = this._getRoundNumber(trueDistance);
                 isSmall = true;
             }
         }
@@ -88,10 +122,14 @@ class SimpleScaleBarControl implements atlas.Control {
         this._scaleBar.style.width = (this._options.maxBarLength * distanceRatio) + 'px';
 
         //Update the text of the scale bar.
-        this._scaleBar.innerHTML = this.createDistanceString(niceDistance, isSmall);
+        this._scaleBar.innerHTML = this._createDistanceString(niceDistance, isSmall);
     }
 
-    private getRoundNumber(num: number): number {
+    /**
+     * Rounds a number to a nice value. 
+     * @param num The number to round.
+     */
+    private _getRoundNumber(num: number): number {
         if (num >= 2) {
             //Convert the number to a round value string and get the number of characters. Then use this to calculate the powe of 10 increment of the number.
             var pow10 = Math.pow(10, (Math.floor(num) + '').length - 1);
@@ -116,7 +154,12 @@ class SimpleScaleBarControl implements atlas.Control {
         return Math.round(100 * num) / 100;
     }
 
-    private createDistanceString(num: number, isSmall: boolean): string {
+    /**
+     * Create the string to display the distance information.
+     * @param num The dustance value.
+     * @param isSmall Specifies if the number is a small value (meters or feet).
+     */
+    private _createDistanceString(num: number, isSmall: boolean): string {
          if (this._options.units) {
              switch (this._options.units.toLowerCase()) {
                 case 'feet':

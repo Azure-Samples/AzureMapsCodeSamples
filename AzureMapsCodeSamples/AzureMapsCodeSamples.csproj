@@ -163,6 +163,9 @@
     <Content Include="Custom Modules\Animation module\Animate point along path.html" />
     <Content Include="Custom Modules\Animation module\Drop multiple symbols animation.html" />
     <Content Include="Custom Modules\Animation module\Drop symbol animation.html" />
+    <Content Include="Custom Modules\Geolocation Control\Geolocation control options.html" />
+    <Content Include="Custom Modules\Geolocation Control\Geolocation Control.html" />
+    <Content Include="Custom Modules\Geolocation Control\GeolocationControl.js" />
     <Content Include="Custom Modules\Simple Scale Bar Control\Simple Scale Bar Control.html" />
     <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js" />
     <Content Include="Custom Modules\Custom Drawing Tools\Draw Line.html" />
@@ -176,6 +179,7 @@
     <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js" />
     <Content Include="Custom Modules\Traffic Control\Traffic Control.html" />
+    <Content Include="Custom Modules\Traffic Control\TrafficControl.js" />
     <Content Include="Demos\Car vs Truck Route.html" />
     <Content Include="Bubble Layer\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Data-Driven Styling.html" />
@@ -219,6 +223,8 @@
     <Content Include="SiteResources\screenshots\Drop-multiple-symbols-animation.gif" />
     <Content Include="SiteResources\screenshots\Drop-symbol-animation.gif" />
     <Content Include="SiteResources\screenshots\Fill-polygon-with-built-in-icon-template.png" />
+    <Content Include="SiteResources\screenshots\Geolocation-Control-Options.png" />
+    <Content Include="SiteResources\screenshots\Geolocation-Control.png" />
     <Content Include="SiteResources\screenshots\Get-closest-point-to-geometry.png" />
     <Content Include="SiteResources\screenshots\HTML-Marker-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Icon-template-options.png" />
@@ -460,6 +466,8 @@
     <Content Include="Common\data\topojson\cb_2018_us_zcta510_500k.json" />
     <Content Include="Custom Modules\Animation module\AnimationModule.js.map" />
     <Content Include="Custom Modules\Animation module\README.md" />
+    <Content Include="Custom Modules\Traffic Control\TrafficControl.js.map" />
+    <Content Include="Custom Modules\Geolocation Control\GeolocationControl.js.map" />
     <None Include="packages.config" />
     <Content Include="Common\images\icons\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
@@ -578,6 +586,7 @@
     <TypeScriptCompile Include="Common\typings\azure-maps-control.d.ts" />
     <TypeScriptCompile Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Animation module\AnimationModule.ts" />
+    <TypeScriptCompile Include="Custom Modules\Geolocation Control\GeolocationControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Snakeline\SnakelineModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />

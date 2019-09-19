@@ -1,18 +1,21 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Traffic Overlay - Azure Maps Web SDK Samples</title>
+    <title>Create a Geolocation Control - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to show the traffic overlay over top of the map." />
-    <meta name="keywords" content="map, gis, API, SDK, traffic, layer, flow, incidents" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="maps, map, API, SDK, GIS, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript that has our custom control. -->
+    <script src="GeolocationControl.js"></script>
 
     <script type='text/javascript'>
         var map;
@@ -20,10 +23,8 @@
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-122.33, 47.6],
-                zoom: 12,
                 view: 'Auto',
-				
+
 				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
@@ -34,10 +35,16 @@
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
 
-                //Show traffic on the map using the traffic options
-                map.setTraffic({
-                    incidents: true,
-                    flow: 'absolute'
+                //Optional. Add the map style control so we can see how the custom control reacts.
+                map.controls.add([
+                    new atlas.control.StyleControl(),
+
+                    //Add the custom control to the map.
+                    new GeolocationControl({
+                        style: 'auto'
+                    })
+                ], {
+                    position: 'top-right'
                 });
             });
         }
@@ -47,8 +54,8 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Traffic Overlay</legend>
-        This sample shows how to show the traffic overlay over top of the map. 
+        <legend>Create a Geolocation Control</legend>
+        This sample shows how to create a custom geolocaiton control that displays the users location on the map.
     </fieldset>
 </body>
 </html>

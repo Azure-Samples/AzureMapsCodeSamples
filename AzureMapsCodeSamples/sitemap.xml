@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-09-18</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-09-19</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -24,6 +24,8 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon%20and%20Select%20Data.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Fullscreen%20Control/Fullscreen%20Control.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Geolocation%20Control/Geolocation%20control%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Geolocation%20Control/Geolocation%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Map%20Synchronizer%20Module/Synchronize%20map%20views.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Snakeline/Animate%20a%20snakeline.html</loc></url>

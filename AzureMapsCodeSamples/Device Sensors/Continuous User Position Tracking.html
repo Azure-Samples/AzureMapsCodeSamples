@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to continuously get the users position information from the browser by using the HTML5 geolocation API and update it on a map." />
-    <meta name="keywords" content="map, gis, API, SDK, geolocation, user, location, position, tracking" />
+    <meta name="keywords" content="map, gis, API, SDK, geolocation, user, location, position, tracking, gps, gps tracking" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -46,7 +46,7 @@
                 watchId = navigator.geolocation.watchPosition(function (geoPosition) {
 
                     //Get the coordinate information from the geoPosition.
-                    var userPosition = [geoPosition.coords.longitude, posgeoPositionition.coords.latitude];
+                    var userPosition = [geoPosition.coords.longitude, geoPosition.coords.latitude];
 
                     //TIP: altitude? in meters, speed? in meters/second and heading? in degrees are also potential properties of geoPosition.coords
 

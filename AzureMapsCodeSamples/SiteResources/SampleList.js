@@ -229,6 +229,24 @@ var sampleList = [
 			created:'3/6/2019'
 		},
 		{
+			title:'Geolocation Control Options',
+			desc:'This sample shows all the options of the geolocation control.',
+			path:'Custom%20Modules/Geolocation%20Control/Geolocation%20control%20options.html',
+			sourcePath:'Custom%20Modules/Geolocation%20Control',
+			screenshot:'Geolocation-Control-Options.png',
+			keywords:'maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
+			created:'9/19/2019'
+		},
+		{
+			title:'Create a Geolocation Control',
+			desc:'',
+			path:'Custom%20Modules/Geolocation%20Control/Geolocation%20Control.html',
+			sourcePath:'Custom%20Modules/Geolocation%20Control',
+			screenshot:'Geolocation-Control.png',
+			keywords:'maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
+			created:'9/19/2019'
+		},
+		{
 			title:'Synchronize map views',
 			desc:'This sample shows how to synchronize the views of two or more maps.',
 			path:'Custom%20Modules/Map%20Synchronizer%20Module/Synchronize%20map%20views.html',
@@ -363,7 +381,7 @@ var sampleList = [
 			path:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
 			sourcePath:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
 			screenshot:'',
-			keywords:'map, gis, api, sdk, geolocation, user, location, position, tracking',
+			keywords:'map, gis, api, sdk, geolocation, user, location, position, tracking, gps, gps tracking',
 			created:'9/30/2018'
 		},
 		{
@@ -372,7 +390,7 @@ var sampleList = [
 			path:'Device%20Sensors/Show%20a%20Users%20Position.html',
 			sourcePath:'Device%20Sensors/Show%20a%20Users%20Position.html',
 			screenshot:'',
-			keywords:'map, gis, api, sdk, geolocation, user, location, position',
+			keywords:'map, gis, api, sdk, geolocation, user, location, position, gps',
 			created:'9/30/2018'
 		},
 		{
@@ -381,7 +399,7 @@ var sampleList = [
 			path:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			screenshot:'User-Position-Accuracy-Circle.png',
-			keywords:'map, gis, api, sdk, accuracy, circle, geolocation, user, location, position',
+			keywords:'map, gis, api, sdk, accuracy, circle, geolocation, user, location, position, gps',
 			created:'9/30/2018'
 		},
 	]
@@ -1543,4 +1561,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 157;
+}];var numberOfSamples = 159;
