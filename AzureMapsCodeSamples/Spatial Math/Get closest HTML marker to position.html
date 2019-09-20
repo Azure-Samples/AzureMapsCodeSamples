@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Get closest HTML marker to position - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate the closest marker to a given position, in this case, where the user clicked on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, geospatial, spatial math, math, markers, coordinate" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, closestMarker;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Generate some random markers.
+                generateRandomMarkers();
+
+                //Add a click event to the map.
+                map.events.add('click', getClosestMarker);
+            });
+        }
+
+        function getClosestMarker(e) {
+            //Reset the color of any previously closest point.
+            if (closestMarker) {
+                closestMarker.setOptions({ color: 'blue' });
+                closestMarker = null;
+                document.getElementById('infoPanel').innerHTML = '';
+            }
+
+            var markers = map.markers.getMarkers();
+            var minDistance = Infinity;
+
+            for (var i = 0; i < markers.length; i++) {
+                //Calculate the distance between marker and the position.
+                var d = atlas.math.getDistanceTo(markers[i].getOptions().position, e.position, 'miles');
+
+                if (d < minDistance) {
+                    closestMarker = markers[i];
+                    minDistance = d;
+                }
+            }
+
+            if (closestMarker) {
+                closestMarker.setOptions({ color: 'red' });
+
+                //Display details about closest point.
+                document.getElementById('infoPanel').innerHTML = ` - Marker Id: ${closestMarker.properties.id}<br/> - Distance: ${Math.round(minDistance)} miles`;
+            }
+        }
+
+        function generateRandomMarkers() {
+            var markers = [];
+
+            for (var i = 0; i < 100; i++) {
+                var m = new atlas.HtmlMarker({
+                    position: [Math.random() * 360 - 180, Math.random() * 170 - 85],
+                    color: 'blue'
+                });
+
+                //Attach custom properites to the marker. 
+                m.properties = {
+                    id: i
+                };
+
+                markers.push(m);
+            }
+
+            map.markers.add(markers);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:#fff;padding:10px;border-radius:20px;">
+        Click on the map to find the closest marker. <br /><br />
+        Closest marker:<br /><br />
+        <span id="infoPanel"></span>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Get closest HTML marker to position</legend>
+        This sample shows how to calculate the closest marker to a given position, in this case, where the user clicked on the map.
+        The closest marker will have it's color changed to red.
+        This is achieved by looping over through the data and calculating the distance between the position and each marker using the atlas.math.getDistanceTo function.
+    </fieldset>
+</body>
+</html>

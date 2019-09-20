@@ -1225,6 +1225,15 @@ var sampleList = [
 			created:'4/1/2019'
 		},
 		{
+			title:'Get closest HTML marker to position',
+			desc:'This sample shows how to calculate the closest marker to a given position, in this case, where the user clicked on the map.',
+			path:'Spatial%20Math/Get%20closest%20HTML%20marker%20to%20position.html',
+			sourcePath:'Spatial%20Math/Get%20closest%20HTML%20marker%20to%20position.html',
+			screenshot:'Get-closest-HTML-marker-to-position.png',
+			keywords:'map, gis, api, sdk, geospatial, spatial math, math, markers, coordinate',
+			created:'9/20/2019'
+		},
+		{
 			title:'Get closest point to geometry',
 			desc:'This sample shows how to get the closest point on a geometry from another point or position.',
 			path:'Spatial%20Math/Get%20closest%20point%20to%20geometry.html',
@@ -1232,6 +1241,15 @@ var sampleList = [
 			screenshot:'Get-closest-point-to-geometry.png',
 			keywords:'map, gis, api, sdk, geospatial, spatial math, math',
 			created:'7/5/2019'
+		},
+		{
+			title:'Get closest point to position',
+			desc:'This sample shows how to calculate the closest point to a given coordinate, in this case, where the user clicked on the map. ',
+			path:'Spatial%20Math/Get%20closest%20point%20to%20position.html',
+			sourcePath:'Spatial%20Math/Get%20closest%20point%20to%20position.html',
+			screenshot:'Get-closest-point-to-position.png',
+			keywords:'map, gis, api, sdk, geospatial, spatial math, math, point, coordinate',
+			created:'9/20/2019'
 		},
 		{
 			title:'Introduction to Spatial Math',
@@ -1561,4 +1579,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 159;
+}];var numberOfSamples = 161;
