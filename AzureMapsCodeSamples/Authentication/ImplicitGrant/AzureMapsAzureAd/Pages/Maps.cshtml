@@ -1,0 +1,37 @@
+﻿@page
+@model AzureMapsAzureAd.Pages.MapsModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="col-md-10">
+                <h3>Implicit Grant Map</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div id="map" style="width: 100%; height: 400px"></div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+<script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+<script>
+    var map = new atlas.Map("map", {
+        center: [-122.33, 47.64],
+        zoom: 12,
+        language: "en-US",
+        authOptions: {
+            authType: "aad",
+            clientId: "bde2322c-4f3e-494d-bc31-fa68db51d5f4",
+            aadAppId: "cf637c1c-1d5f-477d-92c6-228a11d3402b",
+            aadTenant: "azuremaps.onmicrosoft.com",
+            aadInstance: "https://login.microsoftonline.com/"
+        }
+    });
+</script>
