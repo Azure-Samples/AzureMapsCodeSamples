@@ -958,6 +958,24 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
+			title:'Polygon labels - calculated',
+			desc:'TThis sample shows how to create labels for polygons by calculating a coordinates and creating a point feature for the label.',
+			path:'Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20calculated.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20calculated.html',
+			screenshot:'Polygon-labels---calculated.png',
+			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer',
+			created:'9/27/2019'
+		},
+		{
+			title:'Polygon labels - symbol layer',
+			desc:'This sample shows how the symbol layer can be used to automatically render labels for polygons on the map. ',
+			path:'Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20symbol%20layer.html',
+			sourcePath:'Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20symbol%20layer.html',
+			screenshot:'Polygon-labels---symbol-layer.png',
+			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer',
+			created:'9/27/2019'
+		},
+		{
 			title:'Polygon Layer Options',
 			desc:'This sample shows how the different options of the polygon layer affect rendering.',
 			path:'Polygon%20and%20Line%20Layers/Polygon%20Layer%20Options.html',
@@ -1579,4 +1597,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 161;
+}];var numberOfSamples = 163;

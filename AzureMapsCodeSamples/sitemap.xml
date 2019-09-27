@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-09-20</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-09-27</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -99,6 +99,8 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Mercator%20Projection%20and%20Geospatial%20Circles.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20Fill%20Pattern.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20Hover%20Style.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20calculated.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20symbol%20layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20Layer%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Polygon%20masks.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Line%20Layers/Simple%20MultiPolygon.html</loc></url>

@@ -248,14 +248,8 @@ class GeolocationControl {
                     this._onGpsSuccess(this._lastKnownLocation);
                 }
             }
-            var needsStateUpdate = false;
             if (typeof options.trackUserLocation === 'boolean') {
                 this._options.trackUserLocation = options.trackUserLocation;
-                this._isActive = options.trackUserLocation;
-                if (this._lastKnownLocation) {
-                    this._onGpsSuccess(this._lastKnownLocation);
-                }
-                needsStateUpdate = true;
             }
             if (options.positionOptions) {
                 var opt = {};
@@ -271,13 +265,22 @@ class GeolocationControl {
                 if (Object.keys(opt).length > 0) {
                     this._options.positionOptions = Object.assign(this._options.positionOptions, opt);
                     this._stopTracking();
-                    needsStateUpdate = true;
+                    this._updateState();
                 }
             }
-            if (needsStateUpdate) {
-                this._updateState();
-            }
         }
+    }
+    /**
+     * Toggles the state of the GPS button.
+     * @param isActive The state to toggle to. If not specified, will toggle to opposite of current state.
+     */
+    toggle(isActive) {
+        this._isActive = (typeof isActive === 'boolean') ? isActive : !this._isActive;
+        if (this._isActive && this._options.trackUserLocation && this._lastKnownLocation) {
+            this._onGpsSuccess(this._lastKnownLocation);
+        }
+        this._updateMapCamera = true;
+        this._updateState();
     }
     /** Checks to see if the geolocation API is supported in the browser. */
     static isSupported() {

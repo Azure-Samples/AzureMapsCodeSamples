@@ -201,6 +201,8 @@
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
     <Content Include="Polygon and Line Layers\Add arrows to end of paths.html" />
     <Content Include="Polygon and Line Layers\Data-driven stroke gradient.html" />
+    <Content Include="Polygon and Line Layers\Polygon labels - symbol layer.html" />
+    <Content Include="Polygon and Line Layers\Polygon labels - calculated.html" />
     <Content Include="Polygon and Line Layers\Polygon masks.html" />
     <Content Include="Popups\Customize a popup.html" />
     <Content Include="Services Module\Calculate a simple route.html" />
@@ -232,6 +234,8 @@
     <Content Include="SiteResources\screenshots\Icon-template-options.png" />
     <Content Include="SiteResources\screenshots\Line-layer-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Page-through-POI-results.png" />
+    <Content Include="SiteResources\screenshots\Polygon-labels---calculated.png" />
+    <Content Include="SiteResources\screenshots\Polygon-labels---symbol-layer.png" />
     <Content Include="SiteResources\screenshots\Polygon-masks.png" />
     <Content Include="SiteResources\screenshots\Symbol-layer-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Traffic-Control.png" />

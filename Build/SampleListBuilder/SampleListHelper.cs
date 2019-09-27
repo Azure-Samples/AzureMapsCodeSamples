@@ -104,6 +104,18 @@ namespace SampleListBuilder
             },
             new ExternalSampleCategory()
             {
+                Title = "Vue.js",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Vue Azure Maps - Integrate Azure Maps in your Vue application.",
+                        Href = "https://github.com/rickyruiz/vue-azure-maps"
+                    }
+                }
+            },
+            new ExternalSampleCategory()
+            {
                 Title = "Xamarin",
                 Samples = new List<ExternalSample>()
                 {
@@ -134,11 +146,7 @@ namespace SampleListBuilder
                         Title = "A-Maps - A QGIS plugin for the Azure Maps REST services.",
                         Href = "https://github.com/riccardoklinger/amaps"
                     },
-                    new ExternalSample()
-                    {
-                        Title = "Vue Azure Maps - Integrate Azure Maps in your Vue application.",
-                        Href = "https://github.com/rickyruiz/vue-azure-maps"
-                    },
+
                     new ExternalSample()
                     {
                         Title = "Azure Web Services - A collection of clients for Azure & Microsoft Web Services - Azure Cognitive Services, Azure Maps",
