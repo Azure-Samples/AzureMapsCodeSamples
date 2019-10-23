@@ -19,10 +19,6 @@ class AnimatedTileLayerManager {
         /** Indicates the index of the current layer frame that is shown on the map */
         this._currentFrameIndex = 0;
         this._map = map;
-        if (options) {
-            this.setOptions(options);
-        }
-        //this._primers = [];
         this.setOptions(options);
     }
     /** Disposes the animation manager and any resources it is using. */

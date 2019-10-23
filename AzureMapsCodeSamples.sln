@@ -15,9 +15,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{81665FDD-C48F-4107-96DD-AFBAA526620C}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
+		SECURITY.md = SECURITY.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleListBuilder", "Build\SampleListBuilder\SampleListBuilder.csproj", "{9454148E-99D6-42B3-8099-8DB12AD605F6}"

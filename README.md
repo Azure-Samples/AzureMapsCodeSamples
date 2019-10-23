@@ -18,9 +18,13 @@ A collection of over a hundred code samples for the [Azure Maps](https://azure.c
 
 ## Related Projects
 
-* [Azure Maps Tutorial Samples](https://github.com/Azure-Samples/azure-maps-samples/tree/master/src)
-* [Azure Maps .NET UWP IoT Remote Control](https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control)
+* [Azure Maps & Azure Active Directory Samples](https://github.com/Azure-Samples/Azure-Maps-AzureAD-Samples)
 * [AirMap Azure Maps plugin](https://github.com/airmap/js-azure-maps-plugin)
+* [Azure Maps PowerApps PCF component](https://github.com/jenschristianschroder/pcfAzureMaps)
+* [Azure Maps PowerApps PCF Search component](https://github.com/mkcgphy/Azure-Maps-Get-Search-Address-TypeAhead)
+* [Real-time flight map with Azure functions, CosmosDB and SignalR](https://github.com/davetheunissen/Global-Azure-Bootcamp-2019-Workshop)
+* [Azure Maps Jupyter Notebook samples](https://github.com/Azure-Samples/Azure-Maps-Jupyter-Notebook)
+* [Azure Maps for Retail, Jupyter Notebooks](https://github.com/5h15h/Azure-Maps-Jupyter-Notebooks)
 
 ## Additional Resources
 

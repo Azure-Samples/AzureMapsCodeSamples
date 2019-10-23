@@ -65,7 +65,7 @@ class GeolocationControl implements atlas.Control {
     private _watchId: number;
     private _isActive = false;
     private _updateMapCamera = true;
-    private _lastKnownLocation: Position;
+    private _lastKnownPosition: Position;
 
     private _gpsArrowIcon = '<div style="{transform}"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><g transform="translate(2 2)"><polygon points="12,0 0,24 12,17 24,24" stroke-width="2" stroke="white" fill="{color}"/></g></svg></div>';
     private _gpsDotIcon = '<div class="atlas-map-gpsPulseIcon" style="background-color:{color}"></div>';
@@ -115,6 +115,11 @@ class GeolocationControl implements atlas.Control {
     /****************************
      * Public Methods
      ***************************/
+
+    /** Get sthe last known position from the geolocation control. */
+    public getLastKnownPosition(): Position {
+        return this._lastKnownPosition;
+    }
 
     /**
      * Action to perform when the control is added to the map.
@@ -248,8 +253,8 @@ class GeolocationControl implements atlas.Control {
                     this._gpsMarker.setOptions({
                         visible: this._isActive && this._options.showUserLocation
                     });
-                } else if (this._lastKnownLocation) {
-                    this._onGpsSuccess(this._lastKnownLocation);
+                } else if (this._lastKnownPosition) {
+                    this._onGpsSuccess(this._lastKnownPosition);
                 }
             }
 
@@ -288,8 +293,8 @@ class GeolocationControl implements atlas.Control {
     public toggle(isActive: boolean): void {
         this._isActive = (typeof isActive === 'boolean') ? isActive : !this._isActive;
 
-        if (this._isActive && this._options.trackUserLocation && this._lastKnownLocation) {
-            this._onGpsSuccess(this._lastKnownLocation);
+        if (this._isActive && this._options.trackUserLocation && this._lastKnownPosition) {
+            this._onGpsSuccess(this._lastKnownPosition);
         }
 
         this._updateMapCamera = true;
@@ -420,7 +425,7 @@ class GeolocationControl implements atlas.Control {
      * @param position The GPS position information.
      */
     private _onGpsSuccess = (position: Position) => {
-        this._lastKnownLocation = position;
+        this._lastKnownPosition = position;
 
         if (this._isActive) {
             var pos = [position.coords.longitude, position.coords.latitude];
@@ -478,7 +483,7 @@ class GeolocationControl implements atlas.Control {
     private _getMarkerIcon(): string {
         var icon = this._gpsDotIcon;
 
-        var h = this._lastKnownLocation.coords.heading;
+        var h = this._lastKnownPosition.coords.heading;
 
         if (this._options.trackUserLocation && h !== null && !isNaN(h)) {
             h = Math.round(h);

@@ -94,6 +94,7 @@
     <Content Include="Bubble Layer\Cluster aggregates.html" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
+    <None Include="Common\data\topojson\neilsen_dma.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
     <Content Include="Common\images\icons\gas_station_pin.png" />
     <Content Include="Common\images\icons\grocery_cart_pin.png" />

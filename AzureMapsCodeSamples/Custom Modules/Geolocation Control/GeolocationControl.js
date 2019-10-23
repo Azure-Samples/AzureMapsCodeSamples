@@ -68,7 +68,7 @@ class GeolocationControl {
          * @param position The GPS position information.
          */
         this._onGpsSuccess = (position) => {
-            this._lastKnownLocation = position;
+            this._lastKnownPosition = position;
             if (this._isActive) {
                 var pos = [position.coords.longitude, position.coords.latitude];
                 var icon = this._getMarkerIcon();
@@ -136,6 +136,10 @@ class GeolocationControl {
     /****************************
      * Public Methods
      ***************************/
+    /** Get sthe last known position from the geolocation control. */
+    getLastKnownPosition() {
+        return this._lastKnownPosition;
+    }
     /**
      * Action to perform when the control is added to the map.
      * @param map The map the control was added to.
@@ -244,8 +248,8 @@ class GeolocationControl {
                         visible: this._isActive && this._options.showUserLocation
                     });
                 }
-                else if (this._lastKnownLocation) {
-                    this._onGpsSuccess(this._lastKnownLocation);
+                else if (this._lastKnownPosition) {
+                    this._onGpsSuccess(this._lastKnownPosition);
                 }
             }
             if (typeof options.trackUserLocation === 'boolean') {
@@ -276,8 +280,8 @@ class GeolocationControl {
      */
     toggle(isActive) {
         this._isActive = (typeof isActive === 'boolean') ? isActive : !this._isActive;
-        if (this._isActive && this._options.trackUserLocation && this._lastKnownLocation) {
-            this._onGpsSuccess(this._lastKnownLocation);
+        if (this._isActive && this._options.trackUserLocation && this._lastKnownPosition) {
+            this._onGpsSuccess(this._lastKnownPosition);
         }
         this._updateMapCamera = true;
         this._updateState();
@@ -365,7 +369,7 @@ class GeolocationControl {
     /** Generates the mark icon HTML */
     _getMarkerIcon() {
         var icon = this._gpsDotIcon;
-        var h = this._lastKnownLocation.coords.heading;
+        var h = this._lastKnownPosition.coords.heading;
         if (this._options.trackUserLocation && h !== null && !isNaN(h)) {
             h = Math.round(h);
             var transform = `-webkit-transform:rotate(${h}deg);transform:rotate(${h}deg)`;

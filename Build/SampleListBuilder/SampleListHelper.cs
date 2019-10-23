@@ -82,6 +82,11 @@ namespace SampleListBuilder
                 {
                     new ExternalSample()
                     {
+                        Title = "Implement IoT spatial analytics using Azure Maps",
+                        Href = "https://github.com/Azure-Samples/iothub-to-azure-maps-geofencing"
+                    },
+                    new ExternalSample()
+                    {
                         Title = "Azure Maps + Time Series Insights + IoT Hub Hands On Lab",
                         Href = "https://github.com/rangv/MarchWorkshop/tree/master/AzureMaps"
                     },
@@ -101,6 +106,45 @@ namespace SampleListBuilder
                         Href = "https://github.com/DibranMulder/Azure-Maps-Bus-Demo"
                     },
                  }
+            },
+            new ExternalSampleCategory()
+            {
+                Title = "PowerApps",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps PowerApps PCF Search component",
+                        Href = "https://github.com/mkcgphy/Azure-Maps-Get-Search-Address-TypeAhead"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "A PowerApps PCF control that displays a dataset as pins on Azure Map",
+                        Href = "https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control"
+                    }
+                 }
+            },
+            new ExternalSampleCategory()
+            {
+                Title = "Python",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps Jupyter Notebook samples",
+                        Href = "https://github.com/Azure-Samples/Azure-Maps-Jupyter-Notebook"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps for Retail, Jupyter Notebooks",
+                        Href = "https://github.com/5h15h/Azure-Maps-Jupyter-Notebooks",
+                    },                    
+                     new ExternalSample()
+                    {
+                        Title = "Azure Maps Python Sample",
+                        Href = "https://github.com/eavanvalkenburg/azuremaps-python-sample"
+                    },
+                }
             },
             new ExternalSampleCategory()
             {
@@ -133,13 +177,18 @@ namespace SampleListBuilder
                 {
                     new ExternalSample()
                     {
-                        Title = "Azure Maps .NET REST Client",
-                        Href = "https://github.com/perfahlen/AzureMapsRestServices"
+                        Title = "Azure Maps & Azure Active Directory Samples",
+                        Href = "https://github.com/Azure-Samples/Azure-Maps-AzureAD-Samples"
                     },
                     new ExternalSample()
                     {
-                        Title = "Azure Maps Python Sample",
-                        Href = "https://github.com/eavanvalkenburg/azuremaps-python-sample"
+                        Title = "Real-time flight map with Azure functions, CosmosDB and SignalR",
+                        Href = "https://github.com/davetheunissen/Global-Azure-Bootcamp-2019-Workshop"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps .NET REST Client",
+                        Href = "https://github.com/perfahlen/AzureMapsRestServices"
                     },
                     new ExternalSample()
                     {
@@ -151,6 +200,11 @@ namespace SampleListBuilder
                     {
                         Title = "Azure Web Services - A collection of clients for Azure & Microsoft Web Services - Azure Cognitive Services, Azure Maps",
                         Href = "https://github.com/cjoakim/azure-web-services"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps GeoJSON Admin Portal",
+                        Href = "https://github.com/richorama/azure-maps-admin-portal"
                     }
                 }
             }

@@ -437,7 +437,7 @@ var sampleList = [
 		},
 		{
 			title:'Get drawn shapes from drawing manager',
-			desc:'This sample shows how to get the shapes that have been drawn on the map using the grawing managers drawingManager.getSource() function.',
+			desc:'This sample shows how to get the shapes that have been drawn on the map using the drawing managers drawingManager.getSource() function.',
 			path:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
 			sourcePath:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
 			screenshot:'Get-drawn-shapes-from-drawing-manager.png',
@@ -959,7 +959,7 @@ var sampleList = [
 		},
 		{
 			title:'Polygon labels - calculated',
-			desc:'TThis sample shows how to create labels for polygons by calculating a coordinates and creating a point feature for the label.',
+			desc:'This sample shows how to create labels for polygons by calculating a coordinates and creating a point feature for the label.',
 			path:'Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20calculated.html',
 			sourcePath:'Polygon%20and%20Line%20Layers/Polygon%20labels%20-%20calculated.html',
 			screenshot:'Polygon-labels---calculated.png',

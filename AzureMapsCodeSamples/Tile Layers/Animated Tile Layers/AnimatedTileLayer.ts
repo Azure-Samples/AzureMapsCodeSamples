@@ -81,11 +81,6 @@ class AnimatedTileLayerManager {
     constructor(map: atlas.Map, options?: AnimatedTileLayerOptions) {
         this._map = map;
 
-        if (options) {
-            this.setOptions(options);
-        }
-
-        //this._primers = [];
         this.setOptions(options);
     }
 

@@ -36,20 +36,26 @@
 
                 var contextMenuHtml = [
                     '<ul class="contextMenu">',
-                    '<li onclick="setStyle(event, \'road\');">Road</li>',
-                    '<li onclick="setStyle(event, \'satellite_road_labels\');">Satellite</li>',
-                    '<li onclick="changeZoom(event, 1);">Zoom In</li>',
-                    '<li onclick="changeZoom(event, -1);">Zoom Out</li>',
+                    '<li onmousedown="setStyle(event, \'road\');">Road</li>',
+                    '<li onmousedown="setStyle(event, \'satellite_road_labels\');">Satellite</li>',
+                    '<li onmousedown="changeZoom(event, 1);">Zoom In</li>',
+                    '<li onmousedown="changeZoom(event, -1);">Zoom Out</li>',
                     '</ul>'
                 ];
 
                 //Create a context menu using a popup.
                 contextMenu = new atlas.Popup({
-                    position: [0, 0],
+                    //Hide the close button. Will close the context menu when the user selects an option or clicks anywhere else on the screen.
+                    closeButton: false,
 
                     //Set content of the popup with HTML for the context menu.
                     content: contextMenuHtml.join('')
                 });
+
+                //Close the context menu if the user presses the mouses down anywhere else on the screen.
+                document.body.onmousedown = function () {
+                    contextMenu.close();
+                };
 
                 //Add a right click event to the map.
                 map.events.add('contextmenu', function (e) {
@@ -61,30 +67,25 @@
                     //Open the popup context menu.
                     contextMenu.open(map);
                 });
-
-                //Close the context menu if the user presses the mouse up anywhere else on the screen.
-                document.body.onmouseup = function () {
-                    contextMenu.close();
-                };
             });
         }
 
         function setStyle(event, style) {
-            //Prevent event from bubbling up.
-            event.preventDefault();
-
             //Set the map style.
             map.setStyle({
                 style: style
             });
+
+            //Prevent event from bubbling up.
+            event.preventDefault();
         }
 
         function changeZoom(event, zoomOffset) {
-            //Prevent event from bubbling up.
-            event.preventDefault();
-
             //Get the current zoom level of the map and offset it accordingly. 
             map.setCamera({ zoom: map.getCamera().zoom + zoomOffset });
+
+            //Prevent event from bubbling up.
+            event.preventDefault();
         }
     </script>
     <style>

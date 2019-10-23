@@ -68,7 +68,8 @@
                 //Create the animation manager. 
                 animationManager = new AnimatedTileLayerManager(map, {
                     tileLayerOptions: tileLayers,
-                    below: 'labels'
+                    below: 'labels',
+                    frameRate: 2
                 });
 
                 //When an animation frame loads, update the message panel. 
