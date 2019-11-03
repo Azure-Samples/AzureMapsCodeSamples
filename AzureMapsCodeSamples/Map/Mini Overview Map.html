@@ -46,7 +46,11 @@
                 //Hide the logo on the mini map since it is small.
                 showLogo: false,
 
+                //Hide the feedback link on the mini map. 
+                showFeedbackLink: false,
+
                 view: 'Auto',
+
 				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
@@ -123,9 +127,9 @@
         function getMapViewPolygon(map) {
             //Simply using the bounding box of the map will not generate a polygon that represents the map area when it is rotated and pitched. 
             //Instead we need to calculate the coordinates of the corners of the map. 
-            var container = map.getCanvas();
-            var width = container.width;
-            var height = container.height;
+            var mapRect = map.getCanvasContainer().getBoundingClientRect();
+            var width = mapRect.width;
+            var height = mapRect.height;
 
             //Calculate coordinates from the pixel corners of the map.
             var coordinates = map.pixelsToPositions([

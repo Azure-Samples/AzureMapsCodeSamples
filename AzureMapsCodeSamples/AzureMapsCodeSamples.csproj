@@ -231,6 +231,7 @@
     <Content Include="SiteResources\screenshots\Get-closest-HTML-marker-to-position.png" />
     <Content Include="SiteResources\screenshots\Get-closest-point-to-geometry.png" />
     <Content Include="SiteResources\screenshots\Get-closest-point-to-position.png" />
+    <Content Include="SiteResources\screenshots\Get-points-in-current-map-view.png" />
     <Content Include="SiteResources\screenshots\HTML-Marker-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Icon-template-options.png" />
     <Content Include="SiteResources\screenshots\Line-layer-with-built-in-icon-template.png" />
@@ -242,6 +243,7 @@
     <Content Include="SiteResources\screenshots\Traffic-Control.png" />
     <Content Include="Spatial Math\Get closest HTML marker to position.html" />
     <Content Include="Spatial Math\Get closest point to position.html" />
+    <Content Include="Spatial Math\Get points in current map view.html" />
     <Content Include="Symbol Layer\All built-in icon templates as symbols.html" />
     <Content Include="Spatial Math\Calculate a convex hull.html" />
     <Content Include="Spatial Math\Convex hull and HTML markers.html" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-10-23</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-11-03</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -131,6 +131,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Get%20closest%20HTML%20marker%20to%20position.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Get%20closest%20point%20to%20geometry.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Get%20closest%20point%20to%20position.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Get%20points%20in%20current%20map%20view.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Introduction%20to%20spatial%20math.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Simple%20Cardinal%20Spline.html</loc></url>

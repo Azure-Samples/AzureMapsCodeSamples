@@ -1270,6 +1270,15 @@ var sampleList = [
 			created:'9/20/2019'
 		},
 		{
+			title:'Get points in current map view',
+			desc:'This sample shows how to determine which points of a data set are in the current map view.',
+			path:'Spatial%20Math/Get%20points%20in%20current%20map%20view.html',
+			sourcePath:'Spatial%20Math/Get%20points%20in%20current%20map%20view.html',
+			screenshot:'Get-points-in-current-map-view.png',
+			keywords:'map, gis, api, sdk, events, overview map, overview, mini map, minimap',
+			created:'11/3/2019'
+		},
+		{
 			title:'Introduction to Spatial Math',
 			desc:'This sample shows how to use many of the built in spatial math functions in the Azure Maps web control.',
 			path:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
@@ -1597,4 +1606,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 163;
+}];var numberOfSamples = 164;
