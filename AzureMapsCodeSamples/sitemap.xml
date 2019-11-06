@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-11-03</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-11-05</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -115,6 +115,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Get%20Users%20Timezone.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Route%20Waypoint%20Optimization.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Show%20weather%20overlays%20on%20a%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Simple%20REST%20Directions.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Simple%20REST%20Geocoding%20Request.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Calculate%20a%20simple%20route.html</loc></url>

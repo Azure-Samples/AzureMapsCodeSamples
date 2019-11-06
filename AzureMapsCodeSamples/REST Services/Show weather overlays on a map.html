@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Show weather overlays on a map - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add weather radar and infrared overlays to the map as a tile layer." />
+    <meta name="keywords" content="map, gis, API, SDK, tiles, layer, weather, AccuWeather" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, tileLayer;
+
+        var weatherTileUrl = 'https://atlas.microsoft.com/map/tile?subscription-key={subscription-key}&api-version=2.0&tilesetId={layerName}&zoom={z}&x={x}&y={y}';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-99.47, 40.75],
+                zoom: 3,
+                view: 'Auto',
+                style: 'grayscale_dark',
+
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Initialize the weather tile layer.
+                updateTileLayer();
+            });
+        }
+
+        function updateTileLayer() {
+            var layerName = document.getElementById("layerSelector").value;
+
+            var tileUrl = weatherTileUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{layerName}', layerName);
+
+            if (!tileLayer) {
+                //Create a tile layer and add it to the map below the label layer.
+                tileLayer = new atlas.layer.TileLayer({
+                    tileUrl: tileUrl,
+                    opacity: 0.9,
+                    tileSize: 256
+                });
+
+                map.layers.add(tileLayer, 'labels');
+            } else {
+                tileLayer.setOptions({
+                    tileUrl: tileUrl
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;padding:10px;background-color:white;border-radius:10px;">
+        Select weather overlay:
+        <select id="layerSelector" onchange="updateTileLayer()">
+            <option value="microsoft.weather.radar.main" selected="selected">Radar</option>
+            <option value="microsoft.weather.infrared.main">Infrared</option>
+        </select>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Show weather overlays on a map</legend>
+        This sample shows how to add weather radar and infrared overlays to the map as a tile layer.
+    </fieldset>
+</body>
+</html>

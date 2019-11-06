@@ -1114,6 +1114,15 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
+			title:'Show weather overlays on a map',
+			desc:'This sample shows how to add weather radar and infrared overlays to the map as a tile layer.',
+			path:'REST%20Services/Show%20weather%20overlays%20on%20a%20map.html',
+			sourcePath:'REST%20Services/Show%20weather%20overlays%20on%20a%20map.html',
+			screenshot:'Show-weather-overlays-on-a-map.png',
+			keywords:'map, gis, api, sdk, tiles, layer, weather, accuweather',
+			created:'11/4/2019'
+		},
+		{
 			title:'Simple REST Directions (Route)',
 			desc:'This sample shows how to calculate simple directions between two points using the Azure Maps REST Route API and render it on a map.',
 			path:'REST%20Services/Simple%20REST%20Directions.html',
@@ -1500,7 +1509,7 @@ var sampleList = [
 			path:'Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
 			sourcePath:'Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
 			screenshot:'Tile-Layer-using-X,-Y-and-Z.png',
-			keywords:'map, gis, api, sdk, tiles, layer, weather',
+			keywords:'map, gis, api, sdk, tiles, layer, nautical chart, openseamap',
 			created:'11/28/2018'
 		},
 		{
@@ -1509,7 +1518,7 @@ var sampleList = [
 			path:'Tile%20Layers/WMS%20Tile%20Layer.html',
 			sourcePath:'Tile%20Layers/WMS%20Tile%20Layer.html',
 			screenshot:'WMS-Tile-Layer.png',
-			keywords:'map, gis, api, sdk, tiles, layer, weather',
+			keywords:'map, gis, api, sdk, tiles, layer, wms, web mapping service',
 			created:'12/10/2018'
 		},
 		{
@@ -1518,7 +1527,7 @@ var sampleList = [
 			path:'Tile%20Layers/WMTS%20Tile%20Layer.html',
 			sourcePath:'Tile%20Layers/WMTS%20Tile%20Layer.html',
 			screenshot:'WMTS-Tile-Layer.png',
-			keywords:'map, gis, api, sdk, tiles, layer, weather',
+			keywords:'map, gis, api, sdk, tiles, layer, wmts, web mapping tile service',
 			created:'12/11/2018'
 		},
 		{
@@ -1527,7 +1536,7 @@ var sampleList = [
 			path:'Tile%20Layers/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html',
 			sourcePath:'Tile%20Layers/Animated%20Tile%20Layers',
 			screenshot:'Animated-Tile-Layer.gif',
-			keywords:'map, gis, api, sdk, animate, animation, tiles, layer, weather',
+			keywords:'map, gis, api, sdk, animate, animation, tiles, layer',
 			created:'4/1/2019'
 		},
 	]
@@ -1606,4 +1615,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 164;
+}];var numberOfSamples = 165;

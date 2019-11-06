@@ -206,6 +206,7 @@
     <Content Include="Polygon and Line Layers\Polygon labels - calculated.html" />
     <Content Include="Polygon and Line Layers\Polygon masks.html" />
     <Content Include="Popups\Customize a popup.html" />
+    <Content Include="REST Services\Show weather overlays on a map.html" />
     <Content Include="Services Module\Calculate a simple route.html" />
     <Content Include="Services Module\Calculate spaced positions along route.html" />
     <Content Include="Services Module\Page through POI results.html" />
@@ -239,6 +240,7 @@
     <Content Include="SiteResources\screenshots\Polygon-labels---calculated.png" />
     <Content Include="SiteResources\screenshots\Polygon-labels---symbol-layer.png" />
     <Content Include="SiteResources\screenshots\Polygon-masks.png" />
+    <Content Include="SiteResources\screenshots\Show-weather-overlays-on-a-map.png" />
     <Content Include="SiteResources\screenshots\Symbol-layer-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Traffic-Control.png" />
     <Content Include="Spatial Math\Get closest HTML marker to position.html" />
