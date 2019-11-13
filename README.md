@@ -26,6 +26,7 @@ Code samples for the commercial version of Azure can be found [here](https://git
 * [Azure Maps PowerApps PCF component](https://github.com/jenschristianschroder/pcfAzureMaps)
 * [Azure Maps PowerApps PCF Search component](https://github.com/mkcgphy/Azure-Maps-Get-Search-Address-TypeAhead)
 * [Azure Maps PowerApps PCF spider cluster control](https://github.com/alano444/PCFAzureMapCluststerSpider) ([Video](https://www.youtube.com/watch?v=9ehWIk2l4Tc&feature=youtu.be))
+* [Azure IoT Real-time tracking workshop](https://github.com/kartben/azure-iot-realtime-asset-tracking-workshop) 
 * [Real-time flight map with Azure functions, CosmosDB and SignalR](https://github.com/davetheunissen/Global-Azure-Bootcamp-2019-Workshop)
 * [Azure Maps Jupyter Notebook samples](https://github.com/Azure-Samples/Azure-Maps-Jupyter-Notebook)
 * [Azure Maps for Retail, Jupyter Notebooks](https://github.com/5h15h/Azure-Maps-Jupyter-Notebooks)

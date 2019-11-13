@@ -92,6 +92,11 @@ namespace SampleListBuilder
                     },
                     new ExternalSample()
                     {
+                        Title = "Azure IoT Real-time tracking workshop",
+                        Href = "https://github.com/kartben/azure-iot-realtime-asset-tracking-workshop"
+                    },
+                    new ExternalSample()
+                    {
                         Title = "Azure Maps .NET UWP IoT Remote Control",
                         Href = "https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control"
                     },

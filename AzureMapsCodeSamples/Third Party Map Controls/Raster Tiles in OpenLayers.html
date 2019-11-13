@@ -12,6 +12,7 @@
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css" />
+
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
@@ -28,10 +29,10 @@
                 layers: [
                     new ol.layer.Tile({
                         source: new ol.source.XYZ({
-                            url: 'https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=512&view=Auto&zoom={z}&x={x}&y={y}' +
+                            url: 'https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=256&view=Auto&zoom={z}&x={x}&y={y}' +
                                 '&subscription-key=' + subscriptionKey,
-                            attributions: '© ' + new Date().getFullYear() + ' Microsoft, © ' + new Date().getFullYear() + ' TomTom',
-                            tileSize: 512
+                            attributions: `© ${new Date().getFullYear()} TomTom, Microsoft`,
+                            tileSize: 256
                         })
                     })
                 ],
