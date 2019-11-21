@@ -1009,6 +1009,15 @@ var sampleList = [
 	desc:'See how to display information in a popup on the map.',
 	samples: [
 		{
+			title:'Accessible popups',
+			desc:'This sample shows how to use popups in a way that users can easily access them using keyboard shortcuts or on mouse click.',
+			path:'Popups/Accessible%20popups.html',
+			sourcePath:'Popups/Accessible%20popups.html',
+			screenshot:'Accessible-popups.png',
+			keywords:'map, gis, api, sdk, popups, infobox, infowindow, events, mouse, accessibility',
+			created:'11/20/2019'
+		},
+		{
 			title:'Customize a popup',
 			desc:'This sample shows how to customize the look of a popup.',
 			path:'Popups/Customize%20a%20popup.html',
@@ -1615,4 +1624,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 165;
+}];var numberOfSamples = 166;

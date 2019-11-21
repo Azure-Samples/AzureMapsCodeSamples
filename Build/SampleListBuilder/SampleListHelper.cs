@@ -200,7 +200,11 @@ namespace SampleListBuilder
                         Title = "A-Maps - A QGIS plugin for the Azure Maps REST services.",
                         Href = "https://github.com/riccardoklinger/amaps"
                     },
-
+                    new ExternalSample()
+                    {
+                        Title = "Flutter_map - Use Azure Maps with the flutter UI toolkit.",
+                        Href = "https://github.com/johnpryan/flutter_map"
+                    },
                     new ExternalSample()
                     {
                         Title = "Azure Web Services - A collection of clients for Azure & Microsoft Web Services - Azure Cognitive Services, Azure Maps",
