@@ -32,7 +32,7 @@ Reporting these types of issues using this methods will likely result in your is
 ### Expected/desired behavior
 >
 
-### OS, Broswer and Version?
+### OS, Browser and Version?
 > Windows 7, 8 or 10. Android, iOS.
 > Edge, Chrome, Firefox, Safari
 
