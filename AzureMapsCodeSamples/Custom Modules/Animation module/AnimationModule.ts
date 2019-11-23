@@ -1033,7 +1033,7 @@ module atlas {
                     if (this._options.geodesic) {
                         this._shape.setCoordinates(atlas.math.getDestination(this._originPosition, this._heading, dx));
                     } else {
-                        this._shape.setCoordinates(atlas.math.mercatorPixelsToPositions([getPixelDestination(this._originPixel, this._heading, dx)], 21)[0]);
+                        this._shape.setCoordinates(atlas.math.mercatorPixelsToPositions([atlas.Pixel.getDestination(this._originPixel, this._heading, dx)], 21)[0]);
                     }
                 }
             }
@@ -1083,8 +1083,8 @@ module atlas {
                 }
 
                 //Calculate the distance and heading between the pixels. 
-                this._dx = getPixelDistance(pixels[0], pixels[1]);
-                this._heading = getPixelHeading(pixels[0], pixels[1]);
+                this._dx = atlas.Pixel.getDistance(pixels[0], pixels[1]);
+                this._heading = atlas.Pixel.getHeading(pixels[0], pixels[1]);
             }
 
             if (this._options.captureMetadata) {
@@ -1221,12 +1221,12 @@ module atlas {
 
                         if (dx > this._totalLength) {
                             heading = this._headings[this._headings.length - 1];
-                            px = getPixelDestination(this._pixels[this._pixels.length - 1], heading, dx - this._totalLength);
+                            px = atlas.Pixel.getDestination(this._pixels[this._pixels.length - 1], heading, dx - this._totalLength);
                             pos = this._positions.slice(0);
                             pos.push((atlas.math.mercatorPixelsToPositions([px], 21)[0]));
                         } else if (dx < 0) {
                             heading = this._headings[0];
-                            px = getPixelDestination(this._pixels[0], heading, dx);
+                            px = atlas.Pixel.getDestination(this._pixels[0], heading, dx);
                             pos = this._positions.slice(0, 1);
                             pos.push(atlas.math.mercatorPixelsToPositions([px], 21)[0]);
                         } else {
@@ -1235,7 +1235,7 @@ module atlas {
                             for (var i = 0; i < this._distances.length; i++) {
                                 if (travelled + this._distances[i] >= dx) {
                                     heading = this._headings[i];
-                                    px = getPixelDestination(this._pixels[i], heading, dx - travelled);
+                                    px = atlas.Pixel.getDestination(this._pixels[i], heading, dx - travelled);
                                     pos = this._positions.slice(0, i + 1);
                                     pos.push(atlas.math.mercatorPixelsToPositions([px], 21)[0]);
                                     break;
@@ -1308,11 +1308,11 @@ module atlas {
                 this._pixels = atlas.math.mercatorPositionsToPixels(this._positions, 21);
 
                 for (var i = 1, len = this._pixels.length; i < len; i++) {
-                    var d = getPixelDistance(this._pixels[i - 1], this._pixels[i]);
+                    var d = atlas.Pixel.getDistance(this._pixels[i - 1], this._pixels[i]);
                     this._totalLength += d;
                     this._distances.push(d);
 
-                    var h = getPixelHeading(this._pixels[i - 1], this._pixels[i]);
+                    var h = atlas.Pixel.getHeading(this._pixels[i - 1], this._pixels[i]);
                     this._headings.push(h);
                 }
             }
@@ -1353,23 +1353,6 @@ module atlas {
         }
 
         return -1;
-    }
-    
-    function getPixelDistance(px1: atlas.Pixel, px2: atlas.Pixel): number {
-        return Math.sqrt(Math.pow(px1[0] - px2[0], 2) + Math.pow(px1[1] - px2[1], 2));
-    }
-
-    function getPixelDestination(origin: atlas.Pixel, heading: number, distance: number): atlas.Pixel {
-        return [
-            origin[0] + distance * Math.cos((heading - 90) * Math.PI / 180),
-            origin[1] + distance * Math.sin((heading - 90) * Math.PI / 180),
-        ];
-    }
-
-    function getPixelHeading(origin: atlas.Pixel, destination: atlas.Pixel): number {
-        var dx = (destination[0] - origin[0]);
-        var dy = (origin[1] - destination[1]);
-        return ((5 / 2 * Math.PI) - Math.atan2(dy, dx)) * 180 / Math.PI % 360;
     }
 }
 

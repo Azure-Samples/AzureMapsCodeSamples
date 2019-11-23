@@ -198,13 +198,17 @@
     <Content Include="Drawing Tools Module\Drawing manager options.html" />
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Experimental\Dynamic Popup\Dynamicly posisitoned popups.html" />
+    <Content Include="SiteResources\screenshots\Image-sprite-fallback-expression.png" />
+    <Content Include="Symbol Layer\Image sprite fallback expression.html" />
+    <Content Include="Experimental\Load missing image into sprite.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
-    <Content Include="Polygon and Line Layers\Add arrows to end of paths.html" />
-    <Content Include="Polygon and Line Layers\Data-driven stroke gradient.html" />
-    <Content Include="Polygon and Line Layers\Polygon labels - symbol layer.html" />
-    <Content Include="Polygon and Line Layers\Polygon labels - calculated.html" />
-    <Content Include="Polygon and Line Layers\Polygon masks.html" />
+    <Content Include="Line Layer\Add arrows to end of paths.html" />
+    <Content Include="Line Layer\Data-driven stroke gradient.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon Extrusion Layer Options.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon labels - symbol layer.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon labels - calculated.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon masks.html" />
     <Content Include="Popups\Accessible popups.html" />
     <Content Include="Popups\Customize a popup.html" />
     <Content Include="REST Services\Show weather overlays on a map.html" />
@@ -239,6 +243,7 @@
     <Content Include="SiteResources\screenshots\Icon-template-options.png" />
     <Content Include="SiteResources\screenshots\Line-layer-with-built-in-icon-template.png" />
     <Content Include="SiteResources\screenshots\Page-through-POI-results.png" />
+    <Content Include="SiteResources\screenshots\Polygon-Extrusion-Layer-Options.png" />
     <Content Include="SiteResources\screenshots\Polygon-labels---calculated.png" />
     <Content Include="SiteResources\screenshots\Polygon-labels---symbol-layer.png" />
     <Content Include="SiteResources\screenshots\Polygon-masks.png" />
@@ -252,7 +257,7 @@
     <Content Include="Spatial Math\Calculate a convex hull.html" />
     <Content Include="Spatial Math\Convex hull and HTML markers.html" />
     <Content Include="Image Layer\Cross reference pixels in image layer.html" />
-    <Content Include="Polygon and Line Layers\Fill polygon with built-in icon template.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Fill polygon with built-in icon template.html" />
     <Content Include="Spatial Math\Get closest point to geometry.html" />
     <Content Include="HTML Markers\HTML Marker with built-in icon template.html" />
     <Content Include="Map\Icon template options.html" />
@@ -260,7 +265,7 @@
     <Content Include="Experimental\DataSource and Shape events.html" />
     <Content Include="Map\Detect if browser is supported.html" />
     <Content Include="Map\Render world copies.html" />
-    <Content Include="Polygon and Line Layers\Line layer with built-in icon template.html" />
+    <Content Include="Line Layer\Line layer with built-in icon template.html" />
     <Content Include="Popups\Popup events.html" />
     <Content Include="Services Module\Load POI as the map moves.html" />
     <Content Include="SiteResources\screenshots\Add-drawing-toolbar-to-map.png" />
@@ -304,9 +309,9 @@
     <Content Include="Map\Export Map as Image\MapImageExporter.js" />
     <Content Include="Map\Limit Scroll Wheel Zoom.html" />
     <Content Include="Map\Limit Map to Two Finger Panning.html" />
-    <Content Include="Polygon and Line Layers\Add Arrows along a Path.html" />
-    <Content Include="Polygon and Line Layers\Line with Stroke Gradient.html" />
-    <Content Include="Polygon and Line Layers\Polygon Fill Pattern.html" />
+    <Content Include="Line Layer\Add Arrows along a Path.html" />
+    <Content Include="Line Layer\Line with Stroke Gradient.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon Fill Pattern.html" />
     <Content Include="sitemap.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -426,8 +431,8 @@
     <Content Include="Device Sensors\User Position Accuracy Circle.html" />
     <Content Include="Bubble Layer\Bubble Layer Options.html" />
     <Content Include="Symbol Layer\Change Mouse Cursor when Hovering Layer.html" />
-    <Content Include="Polygon and Line Layers\Line Layer Options.html" />
-    <Content Include="Polygon and Line Layers\Polygon Layer Options.html" />
+    <Content Include="Line Layer\Line Layer Options.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon Layer Options.html" />
     <Content Include="Symbol Layer\Symbol layer events.html" />
     <Content Include="Symbol Layer\Symbol Layer Options.html" />
     <Content Include="Tile Layers\Tile Layer Options.html" />
@@ -436,10 +441,10 @@
     <Content Include="REST Services\Get Users Timezone.html" />
     <Content Include="Services Module\Fuzzy Search using Services Module.html" />
     <Content Include="Services Module\Reverse Geocode using Services Module.html" />
-    <Content Include="Polygon and Line Layers\Geospatially Accurate Circle.html" />
-    <Content Include="Polygon and Line Layers\Mercator Projection and Geospatial Circles.html" />
-    <Content Include="Polygon and Line Layers\Polygon Hover Style.html" />
-    <Content Include="Polygon and Line Layers\Simple MultiPolygon.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Geospatially Accurate Circle.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Mercator Projection and Geospatial Circles.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon Hover Style.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Simple MultiPolygon.html" />
     <Content Include="REST Services\Search Autosuggest and JQuery UI.html" />
     <Content Include="REST Services\Simple REST Directions.html" />
     <Content Include="Common\data\geojson\US_States_500k.json" />

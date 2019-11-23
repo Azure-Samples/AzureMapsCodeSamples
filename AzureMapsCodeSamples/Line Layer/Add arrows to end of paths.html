@@ -109,7 +109,7 @@
             if (l && l.length >= 2) {
                 //Use the last coordinate of the line for the point of the end. Calculate the heading from the second last coordinate to the last coordinate.
                 return new atlas.data.Feature(new atlas.data.Point(l[l.length - 1]), {
-                    heading: atlas.math.getPixelHeading(l[l.length - 2], l[l.length - 1])
+                    heading: atlas.Pixel.getHeading(l[l.length - 2], l[l.length - 1])
                 });
             }
 

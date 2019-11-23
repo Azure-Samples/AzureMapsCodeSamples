@@ -87,7 +87,8 @@
                     opacity: getPropertyValue('iconOptions.opacity', parseFloat(document.getElementById('IconOpacity').value)),
                     allowOverlap: getPropertyValue('iconOptions.allowOverlap', document.getElementById('IconAllowOverlap').checked),
                     ignorePlacement: getPropertyValue('iconOptions.ignorePlacement', document.getElementById('IgnoreIconPlacement').checked),
-                    optional: getPropertyValue('iconOptions.optional', document.getElementById('IconOptional').checked)
+                    optional: getPropertyValue('iconOptions.optional', document.getElementById('IconOptional').checked),
+                    pitchAlignment: getPropertyValue('iconOptions.pitchAlignment', document.getElementById('IconPitchAlignment').value)
                 },
                 textOptions: {
                     allowOverlap: getPropertyValue('textOptions.allowOverlap', document.getElementById('TextAllowOverlap').checked),
@@ -105,7 +106,10 @@
                     opacity: getPropertyValue('textOptions.opacity', parseFloat(document.getElementById('TextOpacity').value)),
                     optional: getPropertyValue('textOptions.optional', document.getElementById('TextOptional').checked),
                     size: getPropertyValue('textOptions.size', parseFloat(document.getElementById('FontSize').value)),
-                    textField: ['get', 'title']
+                    textField: ['get', 'title'],
+                    pitchAlignment: getPropertyValue('iconOptions.pitchAlignment', document.getElementById('TextPitchAlignment').value),
+                    rotation: getPropertyValue('iconOptions.rotation', parseFloat(document.getElementById('TextRotation').value)),
+                    rotationAlignment: getPropertyValue('iconOptions.rotationAlignment', getSelectValue('TextRotationAlignment'))
                 },
                 minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
                 maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
@@ -182,7 +186,7 @@
 
         #CodeOutput {
             width: 300px;
-            height: 400px;
+            height: 390px;
             overflow-y: auto;
         }
 
@@ -228,6 +232,8 @@
             padding: 6px 12px;
             border: 1px solid #ccc;
             border-top: none;
+            height: 440px;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -289,7 +295,7 @@
                         <select id="Icon" onchange="updateSymbolLayer()">
                             <option value="marker-black">marker-black</option>
                             <option value="marker-black-styled">marker-black-styled</option>
-                            <option value="marker-blue">marker-blue</option>
+                            <option value="marker-blue" selected="selected">marker-blue</option>
                             <option value="marker-blue-styled">marker-blue-styled</option>
                             <option value="marker-darkblue">marker-darkblue</option>
                             <option value="marker-darkblue-styled">marker-darkblue-styled</option>
@@ -297,7 +303,7 @@
                             <option value="marker-red-styled">marker-red-styled</option>
                             <option value="marker-yellow">marker-yellow</option>
                             <option value="marker-yellow-styled">marker-yellow-styled</option>
-                            <option value="pin-darkblue" selected="selected">pin-darkblue</option>
+                            <option value="pin-darkblue">pin-darkblue</option>
                             <option value="pin-blue">pin-blue</option>
                             <option value="pin-red">pin-red</option>
                             <option value="pin-round-darkblue">pin-round-darkblue</option>
@@ -354,7 +360,7 @@
                         </form>
                     </td>
                 </tr>
-                <tr title="The amount to rotate the icon clockwise in degrees.">
+                <tr title="The amount to rotate the icon image clockwise in degrees.">
                     <td>Rotation:</td>
                     <td>
                         <form oninput="r.value=IconRotation.value">
@@ -363,13 +369,23 @@
                         </form>
                     </td>
                 </tr>
-                <tr title="Specifies which part of the icon is placed closest to the icons anchor position on the map.">
+                <tr title="Specifies the orientation of the icon image when the map is rotated.">
                     <td>Rotation Alignment:</td>
                     <td>
                         <select id="IconRotationAlignment" onchange="updateSymbolLayer()">
                             <option value="auto" selected="selected">auto</option>
                             <option value="map">map</option>
                             <option value="viewport">viewport</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr title="Specifies the orientation of the icon image when map is pitched.">
+                    <td>Pitch Alignment:</td>
+                    <td>
+                        <select id="IconPitchAlignment" onchange="updateSymbolLayer()">
+                            <option value="auto">auto</option>
+                            <option value="map">map</option>
+                            <option value="viewport" selected="selected">viewport</option>
                         </select>
                     </td>
                 </tr>
@@ -487,6 +503,35 @@
                             <input type="range" id="TextOffsetY" value="0" min="-5" max="5" step="0.1" oninput="updateSymbolLayer()" onchange="updateSymbolLayer()" />
                             <output name="y" for="TextOffsetY">0</output>
                         </form>
+                    </td>
+                </tr>
+                <tr title="The amount to rotate the text clockwise in degrees.">
+                    <td>Rotation:</td>
+                    <td>
+                        <form oninput="r.value=TextRotation.value">
+                            <input type="range" id="TextRotation" value="0" min="-360" max="360" step="1" oninput="updateSymbolLayer()" onchange="updateSymbolLayer()" />
+                            <output name="r" for="TextRotation">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Specifies the orientation of the text when the map is rotated.">
+                    <td>Rotation Alignment:</td>
+                    <td>
+                        <select id="TextRotationAlignment" onchange="updateSymbolLayer()">
+                            <option value="auto" selected="selected">auto</option>
+                            <option value="map">map</option>
+                            <option value="viewport">viewport</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr title="Specifies the orientation of the text when map is pitched.">
+                    <td>Pitch Alignment:</td>
+                    <td>
+                        <select id="TextPitchAlignment" onchange="updateSymbolLayer()">
+                            <option value="auto">auto</option>
+                            <option value="map">map</option>
+                            <option value="viewport" selected="selected">viewport</option>
+                        </select>
                     </td>
                 </tr>
                 <tr title="The halo's fadeout distance towards the outside in pixels.">
