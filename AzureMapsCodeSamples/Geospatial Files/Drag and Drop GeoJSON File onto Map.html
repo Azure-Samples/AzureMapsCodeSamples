@@ -192,7 +192,7 @@
                 //Update the content and position of the popup.
                 popup.setOptions({
                     //Create a table from the properties in the feature.
-                    content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + object2Table(properties) + '</div>',
+                    content: atlas.PopupTemplate.applyTemplate(properties),
                     position: pos,
                     pixelOffset: offset
                 });
@@ -200,31 +200,6 @@
                 //Open the popup.
                 popup.open(map);
             }
-        }
-
-        function object2Table(obj) {
-            //Create a HTML table from an objects property names and values.
-            var html = ['<table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
-
-            Object.keys(obj).forEach(function (key, index) {
-                //Ignore private properties which are commonly denoted using an underscore.
-                if (key.indexOf('_') !== 0) {
-                    html.push('<tr><td>', key, '</td><td>');
-
-                    if (typeof obj[key] === 'object') {
-                        //If the value of the property is an object, create a sub-table recursively.
-                        html.push(object2Table(obj[key]));
-                    } else {
-                        html.push(obj[key]);
-                    }
-
-                    html.push('</td><tr>');
-                }
-            });
-
-            html.push('</table>');
-
-            return html.join('');
         }
     </script>
 </head>

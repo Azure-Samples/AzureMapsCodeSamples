@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Show popup on hover - Azure Maps Web SDK Samples</title>
+    <title>Reuse a popup template - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to show a popup when the mouse hovers over or touches a shape." />
-    <meta name="keywords" content="map, gis, API, SDK, pins, symbols, pushpins, markers, infobox, infowindow, hover" />
+    <meta name="description" content="This sample shows how to use reuse a single popup template with multiple features that share a common set of property fields." />
+    <meta name="keywords" content="map, gis, API, SDK, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -16,6 +16,14 @@
 
     <script type='text/javascript'>
         var map, datasource, popup, symbolLayer;
+
+        //Define a popup template. 
+        var myTemplate = {
+            content: 'This template uses a string template with placeholders.<br/><br/> - Value 1 = {value1}<br/> - Value 2 = {value2/subValue}<br/> - Array value [2] = {arrayValue/2}',
+            numberFormat: {
+                maximumFractionDigits: 2
+            }
+        };
 
         function GetMap() {
             //Initialize a map instance.
@@ -41,58 +49,53 @@
                 //Create three point features on the map and add some metadata in the properties which we will want to display in a popup.
                 datasource.add([
                     new atlas.data.Feature(new atlas.data.Point([-122.33, 47.6]), {
-                        name: 'Point 1 Title',
-                        description: 'This is the description 1.'
+                        title: 'First feature',
+                        value1: 1.2345678,
+                        value2: {
+                            subValue: 'Pizza'
+                        },
+                        arrayValue: [1, 2, 6]
                     }),
 
                     new atlas.data.Feature(new atlas.data.Point([-122.335, 47.645]), {
-                        name: 'Point 2 Title',
-                        description: 'This is the description 2.'
+                        title: 'Second feature',
+                        value1: 3.14159,
+                        value2: {
+                            subValue: 'Donut'
+                        },
+                        arrayValue: [13, 34, 42, 46]
                     }),
 
                     new atlas.data.Feature(new atlas.data.Point([-122.325, 47.635]), {
-                        name: 'Point 3 Title',
-                        description: 'This is the description 3.'
+                        title: 'Thrid feature',
+                        value1: 100.1000001,
+                        value2: {
+                            subValue: 'Taco'
+                        },
+                        arrayValue: [0, 0, 0]
                     })
                 ]);
 
                 //Add a layer for rendering point data as symbols.
                 symbolLayer = new atlas.layer.SymbolLayer(datasource, null, { iconOptions: {allowOverlap: true}});
                 map.layers.add(symbolLayer);
+                
+                //Add a click event to the symbol layer.
+                map.events.add('click', symbolLayer, featureClicked);
 
-                //Create a popup but leave it closed so we can update it and display it later.
-                popup = new atlas.Popup({
-                    position: [0, 0],
-                    pixelOffset: [0, -18]
-                });
-
-                /**
-                 * Open the popup on mouse move or touchstart on the symbol layer.
-                 * Mouse move is used as mouseover only fires when the mouse initially goes over a symbol. 
-                 * If two symbols overlap, moving the mouse from one to the other won't trigger the event for the new shape as the mouse is still over the layer.
-                 */
-                map.events.add('mousemove', symbolLayer, symbolHovered);
-                map.events.add('touchstart', symbolLayer, symbolHovered);
-
-                //Close the popup on mouseout or touchend.
-                map.events.add('mouseout', symbolLayer, closePopup);
-                map.events.add('touchend', closePopup);
+                //Create a popup but leave it closed so we can update and display it later.
+                popup = new atlas.Popup();
             });
         }
 
-        function closePopup() {
-            popup.close();
-        }
-        
-        function symbolHovered(e) {
+        function featureClicked(e) {
             //Make sure the event occurred on a shape feature.
             if (e.shapes && e.shapes.length > 0) {
-
                 //Update the content and position of the popup.
                 popup.setOptions({
-                    //Create the content of the popup.
-                    content: `<div style="padding:10px;"><b>${properties.name}</b><br/>${properties.description}</div>`,
-                    position: e.shapes[0].getProperties(),
+                    //Apply a template to the properties of the shape feature.
+                    content: atlas.PopupTemplate.applyTemplate(e.shapes[0].getProperties(), myTemplate),
+                    position: e.shapes[0].getCoordinates(),
                     pixelOffset: [0, -18]
                 });
 
@@ -106,11 +109,8 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Show popup on hover</legend>
-        This sample shows how to show a popup when the mouse hovers over or touches a shape. 
-        This sample uses the mouse move event to detect when hovering over a shape instead of the mouse over event. 
-        The mouse enter and over events only fires when initially hovering over a shape in a layer. 
-        If two shapes overlap, these events won't fire again. The mouse move event will fire while moving the mouse over shapes in the layer.
+        <legend>Reuse a popup template</legend>
+        This sample shows how to use reuse a single popup template with multiple features that share a common set of property fields.
     </fieldset>
 </body>
 </html>

@@ -198,7 +198,15 @@
     <Content Include="Drawing Tools Module\Drawing manager options.html" />
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Experimental\Dynamic Popup\Dynamicly posisitoned popups.html" />
+    <Content Include="Popups\Reuse a popup template.html" />
+    <Content Include="Popups\Popup templates.html" />
+    <Content Include="Map\Map style options.html" />
+    <Content Include="REST Services\Get weather along a route.html" />
+    <Content Include="SiteResources\screenshots\Get-weather-along-a-route.png" />
     <Content Include="SiteResources\screenshots\Image-sprite-fallback-expression.png" />
+    <Content Include="SiteResources\screenshots\Map-style-options.png" />
+    <Content Include="SiteResources\screenshots\Popup-templates.png" />
+    <Content Include="SiteResources\screenshots\Reuse-a-popup-template.png" />
     <Content Include="Symbol Layer\Image sprite fallback expression.html" />
     <Content Include="Experimental\Load missing image into sprite.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
@@ -262,7 +270,7 @@
     <Content Include="HTML Markers\HTML Marker with built-in icon template.html" />
     <Content Include="Map\Icon template options.html" />
     <Content Include="Heat Map Layer\Consistent zoomable Heat Map.html" />
-    <Content Include="Experimental\DataSource and Shape events.html" />
+    <Content Include="Map\DataSource and Shape events.html" />
     <Content Include="Map\Detect if browser is supported.html" />
     <Content Include="Map\Render world copies.html" />
     <Content Include="Line Layer\Line layer with built-in icon template.html" />

@@ -15,8 +15,9 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <script type='text/javascript'>
-        var map, datasource,
-            dsEvents = ['datasourceupdated', 'dataadded', 'dataremoved', 'sourceadded', 'sourceremoved'],
+        var map, datasource, datasources = [],
+            sourceEvents = ['sourceadded', 'sourceremoved'],
+            dsEvents = ['datasourceupdated', 'dataadded', 'dataremoved'],
             shapeEvents = ['shapechanged'];
 
         function GetMap() {
@@ -38,10 +39,18 @@
                 
                 //Add the events to the datasource.
                 for (var i = 0; i < dsEvents.length; i++) {
-                    map.events.add(dsEvents[i], datasource, highlight);
+                    map.events.add(dsEvents[i], datasource, createHighlightEvent(dsEvents[i]));
 
                     //Add a div to highlight the event.
                     document.getElementById('eventPanel').innerHTML += '<div id="' + dsEvents[i] + '">' + dsEvents[i] + '</div>';
+                }
+
+                //Add the events to the datasource.
+                for (var i = 0; i < sourceEvents.length; i++) {
+                    map.events.add(sourceEvents[i], datasource, createHighlightEvent(sourceEvents[i]));
+
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + sourceEvents[i] + '">' + sourceEvents[i] + '</div>';
                 }
 
                 document.getElementById('eventPanel').innerHTML += '<br/><b>Shape events:</b><br/>';
@@ -64,12 +73,15 @@
             });
         }
 
-        function highlight(e) {
-            //Highlight the div to indicate that the event has fired.
-            document.getElementById(e.type).style.background = 'LightGreen';
+        function createHighlightEvent(eventType) {
 
-            //Remove the highlighting after a second.
-            setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+            return function (e) {
+                //Highlight the div to indicate that the event has fired.
+                document.getElementById(eventType).style.background = 'LightGreen';
+
+                //Remove the highlighting after a second.
+                setTimeout(function () { document.getElementById(eventType).style.background = 'white'; }, 1000);
+            }
         }
 
         function addShape() {
@@ -79,7 +91,7 @@
 
             //Add events to the shape
             for (var i = 0; i < shapeEvents.length; i++) {
-                map.events.add(shapeEvents[i], shape, highlight);
+                map.events.add(shapeEvents[i], shape, createHighlightEvent(shapeEvents[i]));
             }
 
             datasource.add(shape);
@@ -105,6 +117,31 @@
                 });
             }
         }
+
+        function updateDataSourceOptions() {
+            //Toggle the cluster property to force an update.
+            datasource.setOptions({ cluster: !datasource.getOptions().cluster })
+        }
+        
+        function addADataSource() {
+            var ds = new atlas.source.DataSource();
+            datasources.push(ds);
+
+            //Add the events to the datasource.
+            for (var i = 0; i < sourceEvents.length; i++) {
+                map.events.add(sourceEvents[i], ds, createHighlightEvent(sourceEvents[i]));
+            }
+
+            map.events.add(['sourceadded', 'sourceremoved'], ds, createHighlightEvent(dsEvents[i]));
+            map.sources.add(ds);
+        }
+
+        function removeADataSource() {
+            if (datasources.length > 0) {
+                var ds = datasources.pop();
+                map.sources.remove(ds);
+            }
+        }
     </script>
 </head>
 <body onload="GetMap()">
@@ -113,9 +150,12 @@
     <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"><b>Data Source events:</b><br/></div>
 
     <div style="position:absolute;top:10px;right:10px;">
-        <input type="button" value="Add Shape" onclick="addShape()" />
-        <input type="button" value="Remove Shape" onclick="removeShape()" />
-        <input type="button" value="Modify Shape" onclick="modifyShape()" />
+        <input type="button" value="Update data source options" onclick="updateDataSourceOptions()" /><br />
+        <input type="button" value="Add a data source" onclick="addADataSource()" /><br />
+        <input type="button" value="Remove a data source" onclick="removeADataSource()" /><br />
+        <input type="button" value="Add shape" onclick="addShape()" /><br />
+        <input type="button" value="Remove shape" onclick="removeShape()" /><br />
+        <input type="button" value="Modify shape" onclick="modifyShape()" /><br />
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">

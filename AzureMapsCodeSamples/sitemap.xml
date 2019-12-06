@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-11-22</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-12-06</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -80,6 +80,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Line%20Layer/Line%20with%20Stroke%20Gradient.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Add%20a%20Context%20Menu%20to%20the%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Add%20custom%20icon%20template%20to%20atlas%20namespace.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/DataSource%20and%20Shape%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Detect%20if%20browser%20is%20supported.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Full%20Screen%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Icon%20template%20options.html</loc></url>
@@ -89,6 +90,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Load%20Map%20with%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20Events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20Localization.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20style%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20Overview%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps%20in%20Different%20Lanaguages.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps.html</loc></url>
@@ -108,13 +110,16 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Accessible%20popups.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Customize%20a%20popup.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20events.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20templates.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20with%20Media%20Content.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popups%20on%20Shapes.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Reuse%20a%20popup%20template.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Reusing%20Popup%20with%20Multiple%20Pins.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Show%20popup%20on%20hover.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Calculate%20a%20Simple%20Isochrone.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Get%20Users%20Timezone.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Get%20weather%20along%20a%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Route%20Waypoint%20Optimization.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Show%20weather%20overlays%20on%20a%20map.html</loc></url>

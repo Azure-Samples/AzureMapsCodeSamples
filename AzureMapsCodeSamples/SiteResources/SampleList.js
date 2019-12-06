@@ -787,6 +787,15 @@ var sampleList = [
 			created:'7/5/2019'
 		},
 		{
+			title:'DataSource and Shape events',
+			desc:'This sample shows how to the DataSource and Shape events work.',
+			path:'Map/DataSource%20and%20Shape%20events.html',
+			sourcePath:'Map/DataSource%20and%20Shape%20events.html',
+			screenshot:'DataSource-and-Shape-events.png',
+			keywords:'map, gis, api, sdk, events, data source, datasource, shapes',
+			created:'12/6/2019'
+		},
+		{
 			title:'Detect if browser is supported',
 			desc:'This sample shows how to detect if the browser is supported by the Azure Maps Web SDK. If it is, load the map, otherwise fallback gracefully.',
 			path:'Map/Detect%20if%20browser%20is%20supported.html',
@@ -866,6 +875,15 @@ var sampleList = [
 			screenshot:'Map-Localization.png',
 			keywords:'map, gis, api, sdk, language, culture, localization, user region',
 			created:'5/4/2018'
+		},
+		{
+			title:'Map style options',
+			desc:'This sample shows how the different style options of the map affect rendering.',
+			path:'Map/Map%20style%20options.html',
+			sourcePath:'Map/Map%20style%20options.html',
+			screenshot:'Map-style-options.png',
+			keywords:'map, gis, api, sdk, style, logo, lighting',
+			created:'11/26/2019'
 		},
 		{
 			title:'Mini Overview Map',
@@ -1051,6 +1069,15 @@ var sampleList = [
 			created:'6/24/2019'
 		},
 		{
+			title:'Popup templates',
+			desc:'This sample shows how to use a various popup templates to generate formatted content from porperties of features.',
+			path:'Popups/Popup%20templates.html',
+			sourcePath:'Popups/Popup%20templates.html',
+			screenshot:'Popup-templates.png',
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
+			created:'12/6/2019'
+		},
+		{
 			title:'Popup with Media Content',
 			desc:'This sample shows popups that contain media content.',
 			path:'Popups/Popup%20with%20Media%20Content.html',
@@ -1067,6 +1094,15 @@ var sampleList = [
 			screenshot:'Popups-on-Shapes.png',
 			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline',
 			created:'10/8/2018'
+		},
+		{
+			title:'Reuse a popup template',
+			desc:'This sample shows how to use reuse a single popup template with multiple features that share a common set of property fields.',
+			path:'Popups/Reuse%20a%20popup%20template.html',
+			sourcePath:'Popups/Reuse%20a%20popup%20template.html',
+			screenshot:'Reuse-a-popup-template.png',
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
+			created:'12/6/2019'
 		},
 		{
 			title:'Reusing Popup with Multiple Pins',
@@ -1118,6 +1154,15 @@ var sampleList = [
 			screenshot:'',
 			keywords:'map, gis, api, sdk, rest, service, timezone, user, location, geolocation',
 			created:'9/24/2018'
+		},
+		{
+			title:'Get weather along a route',
+			desc:'This sample shows how to retrieve weather data for all the waypoints along a route.',
+			path:'REST%20Services/Get%20weather%20along%20a%20route.html',
+			sourcePath:'REST%20Services/Get%20weather%20along%20a%20route.html',
+			screenshot:'Get-weather-along-a-route.png',
+			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
+			created:'12/6/2019'
 		},
 		{
 			title:'Route Waypoint Optimization',
@@ -1648,4 +1693,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 168;
+}];var numberOfSamples = 173;
