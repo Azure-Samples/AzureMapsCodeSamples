@@ -40,7 +40,9 @@
                 //Add a style control to the map.
                 map.controls.add(new atlas.control.StyleControl({
                     mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels']
-                }));
+                }), {
+                    position: 'top-left'
+                });
 
                 //Create an instance of the drawing manager and display the drawing toolbar.
                 drawingManager = new atlas.drawing.DrawingManager(map, {
@@ -101,8 +103,6 @@
             <br/><br/>
             Double click, press "c", click the toolbar, or change drawing mode to complete drawing.
         </fieldset>
-
-        <h3>Drawing manager Options</h3>
 
         <table>
             <tr>

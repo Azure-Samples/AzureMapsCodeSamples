@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Drawing tools events - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to the events in the Drawing Tools module work." />
+    <meta name="keywords" content="map, gis, API, SDK, drawing tools, paint, events" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, drawingManager, drawingEvents = ['drawingchanged', 'drawingchanging', 'drawingcomplete', 'drawingmodechanged', 'drawingstarted'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                });
+
+                //Add events to the drawing manager.
+                for (var i = 0; i < drawingEvents.length; i++) {
+                    map.events.add(drawingEvents[i], drawingManager, createHighlightEvent(drawingEvents[i]));
+
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + drawingEvents[i] + '">' + drawingEvents[i] + '</div>'
+                }
+            });
+        }
+
+        function createHighlightEvent(eventType) {
+
+            return function (e) {
+                //Highlight the div to indicate that the event has fired.
+                document.getElementById(eventType).style.background = 'LightGreen';
+
+                //Remove the highlighting after a second.
+                setTimeout(function () { document.getElementById(eventType).style.background = 'white'; }, 1000);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"></div>
+
+    <div style="clear:both;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Drawing tools events</legend>
+        This sample shows how to the events in the Drawing Tools module work.
+    </fieldset>
+</body>
+</html>

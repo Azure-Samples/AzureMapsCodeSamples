@@ -202,15 +202,6 @@ var sampleList = [
 			created:'10/9/2018'
 		},
 		{
-			title:'Draw Polygon and Select Data',
-			desc:'This sample shows how to draw a polygon on the map using the Polygon Drawing tools and then use the generated polygon to calculate all pins on the map that intersect with that polygon.',
-			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon%20and%20Select%20Data.html',
-			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
-			screenshot:'Draw-Polygon-and-Select-Data.png',
-			keywords:'map, gis, api, sdk, polygon, drawing, draw, symbols, pushpins, pins, markers',
-			created:'9/23/2018'
-		},
-		{
 			title:'Draw Polygon',
 			desc:'This sample shows how to draw a polygon on the map using the Polygon Drawing tools.',
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html',
@@ -427,6 +418,24 @@ var sampleList = [
 			created:'5/4/2019'
 		},
 		{
+			title:'Create a measuring tool',
+			desc:'This sample shows how to use the drawing tools to measure distances and areas. ',
+			path:'Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html',
+			sourcePath:'Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html',
+			screenshot:'Create-a-measuring-tool.png',
+			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, measuring tape, measure',
+			created:'12/10/2019'
+		},
+		{
+			title:'Draw and search polygon area',
+			desc:'This sample shows how to use the drawing tools to search for points of interests within drawn areas.',
+			path:'Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html',
+			sourcePath:'Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html',
+			screenshot:'Draw-and-search-polygon-area.png',
+			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, poi',
+			created:'12/10/2019'
+		},
+		{
 			title:'Drawing manager options',
 			desc:'This sample shows how the different options of the drawing manager change the user experience.',
 			path:'Drawing%20Tools%20Module/Drawing%20manager%20options.html',
@@ -436,6 +445,24 @@ var sampleList = [
 			created:'5/4/2019'
 		},
 		{
+			title:'Drawing toolbar options',
+			desc:'This sample shows how the different options of the drawing toolbar change the user experience.',
+			path:'Drawing%20Tools%20Module/Drawing%20toolbar%20options.html',
+			sourcePath:'Drawing%20Tools%20Module/Drawing%20toolbar%20options.html',
+			screenshot:'Drawing-toolbar-options.png',
+			keywords:'map, gis, api, sdk, drawing tools, drawing manager, toolbar, drawing toolbar',
+			created:'12/10/2019'
+		},
+		{
+			title:'Drawing tools events',
+			desc:'This sample shows how to the events in the Drawing Tools module work.',
+			path:'Drawing%20Tools%20Module/Drawing%20tools%20events.html',
+			sourcePath:'Drawing%20Tools%20Module/Drawing%20tools%20events.html',
+			screenshot:'Drawing-tools-events.png',
+			keywords:'map, gis, api, sdk, drawing tools, paint, events',
+			created:'12/10/2019'
+		},
+		{
 			title:'Get drawn shapes from drawing manager',
 			desc:'This sample shows how to get the shapes that have been drawn on the map using the drawing managers drawingManager.getSource() function.',
 			path:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
@@ -443,6 +470,15 @@ var sampleList = [
 			screenshot:'Get-drawn-shapes-from-drawing-manager.png',
 			keywords:'map, gis, api, sdk, drawing tools, drawing manager, paint, shapes',
 			created:'5/4/2019'
+		},
+		{
+			title:'Select data in drawn polygon area',
+			desc:'This sample shows how to use the drawing tools to draw polygon areas on the map and select points that are within them. ',
+			path:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
+			sourcePath:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
+			screenshot:'Select-data-in-drawn-polygon-area.png',
+			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
+			created:'12/10/2019'
 		},
 	]
 },
@@ -1693,4 +1729,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 173;
+}];var numberOfSamples = 177;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-12-06</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-12-10</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -21,7 +21,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animation%20module/Drop%20symbol%20animation.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon%20and%20Select%20Data.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Fullscreen%20Control/Fullscreen%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Geolocation%20Control/Geolocation%20control%20options.html</loc></url>
@@ -44,8 +43,13 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/User%20Position%20Accuracy%20Circle.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Drawing%20manager%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Drawing%20toolbar%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Drawing%20tools%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html</loc></url>

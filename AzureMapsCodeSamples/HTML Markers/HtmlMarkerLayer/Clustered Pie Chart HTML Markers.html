@@ -55,7 +55,9 @@
                 //Add a style control to the map.
                 map.controls.add(new atlas.control.StyleControl({
                     mapStyles: 'all'
-                }));
+                }), {
+                    position: 'top-left'
+                });
 
                 //Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource(null, {
