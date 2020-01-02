@@ -479,7 +479,17 @@ var sampleList = [
 			screenshot:'Select-data-in-drawn-polygon-area.png',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
 			created:'12/10/2019'
-		},
+        },
+
+        {
+            title: 'Generate squares inside a polygon',
+            desc: 'This sample shows how to generate squares inside a polygon and bind drawing tool to HTML-element',
+            path: 'Drawing%20Tools%20Module/Grid%20Polygons.html',
+            sourcePath: 'Drawing%20Tools%20Module/Grid%20Polygons.html',
+            screenshot: 'squares-inside-polygon.png',
+            keywords: 'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
+            created: '2/2/2020'
+        },
 	]
 },
 {
