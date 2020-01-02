@@ -221,11 +221,12 @@ namespace SampleListBuilder
 
                             if (string.IsNullOrWhiteSpace(sample.Title))
                             {
-                                idx = doc.IndexOf("<label>");
+                                idx = doc.IndexOf("<h1 ");
 
                                 if (idx > 0)
                                 {
-                                    sample.Title = doc.Substring(idx + 7, doc.IndexOf("</label>", idx) - idx - 7);
+                                    idx = doc.IndexOf(">", idx);
+                                    sample.Title = doc.Substring(idx + 1, doc.IndexOf("</h1>", idx) - idx - 1);
 
                                     if (sample.Title.EndsWith(" sample", StringComparison.OrdinalIgnoreCase))
                                     {

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Draw and search polygon area - Azure Maps Web SDK Samples</title>
 
@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to use the drawing tools to search for points of interests within drawn areas." />
-    <meta name="keywords" content="map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, POI" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, POI" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -22,7 +22,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
     <script type='text/javascript'>
-        var map, searchURL, datasource, drawingManager;
+        var map, searchURL, datasource, drawingManager, popup;
 
         function GetMap() {
             //Initialize a map instance.
@@ -34,7 +34,7 @@
                 //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -89,6 +89,7 @@
         function drawingModeChanged(mode) {
             //Clear the map and drawing canvas when the user enters into a drawing mode.
             if (mode.startsWith('draw')) {
+                popup.close();
                 datasource.clear();
                 drawingManager.getSource().clear();
             }
@@ -164,7 +165,7 @@
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Draw and search polygon area</legend>
+        <legend><h1 style="font-size:16px">Draw and search polygon area</h1></legend>
         This sample shows how to use the drawing tools to search for points of interests within drawn areas. 
         Update the type of point of interest in the text box to filter what results are returned. 
     </fieldset>

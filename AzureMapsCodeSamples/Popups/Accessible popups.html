@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Accessible popups - Azure Maps Web SDK Samples</title>
 
@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to use popups in a way that users can easily access them using keyboard shortcuts or on mouse click." />
-    <meta name="keywords" content="map, gis, API, SDK, popups, infobox, infowindow, events, mouse, accessibility" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, popups, infobox, infowindow, events, mouse, accessibility" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -41,7 +41,7 @@
 				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -71,12 +71,6 @@
                 //Add all the popups to the map. 
                 map.popups.add(popups);
 
-                //Workaround: map.popups.add doesn't yet call the attach function under the hood automatically. 
-                //TODO: Remove this December when this is no longer needed.
-                popups.forEach(x => {
-                    x.attach(map);
-                });
-
                 //Add a symbol layer to display the point features on the map. 
                 var layer = new atlas.layer.SymbolLayer(datasource);
                 map.layers.add(layer);
@@ -102,7 +96,7 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Accessible popups</legend>
+        <legend><h1 style="font-size:16px">Accessible popups</h1></legend>
         This sample shows how to use popups in a way that users can easily access them using keyboard shortcuts (tab) or on mouse click.
     </fieldset>
 </body>

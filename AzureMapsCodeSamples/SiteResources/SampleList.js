@@ -9,7 +9,7 @@ var sampleList = [
 			path:'Animations/Animate%20a%20Choropleth%20Map.html',
 			sourcePath:'Animations/Animate%20a%20Choropleth%20Map.html',
 			screenshot:'Animate-a-Choropleth-Map.png',
-			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population, data-driven, data driven styling',
+			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population, data-driven, data driven styling',
 			created:'10/8/2018'
 		},
 		{
@@ -18,7 +18,7 @@ var sampleList = [
 			path:'Animations/Animate%20a%20Line.html',
 			sourcePath:'Animations/Animate%20a%20Line.html',
 			screenshot:'Animate-a-Line.gif',
-			keywords:'map, gis, api, sdk, animate, animation, line, linestring, polyline',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, line, linestring, polyline',
 			created:'6/8/2018'
 		},
 		{
@@ -27,7 +27,7 @@ var sampleList = [
 			path:'Animations/Animate%20a%20Symbol%20along%20a%20Path.html',
 			sourcePath:'Animations/Animate%20a%20Symbol%20along%20a%20Path.html',
 			screenshot:'Animate-a-Symbol-along-a-Path.gif',
-			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
 			created:'10/10/2018'
 		},
 		{
@@ -36,7 +36,7 @@ var sampleList = [
 			path:'Animations/HTML%20Marker%20Pulse%20Animation.html',
 			sourcePath:'Animations/HTML%20Marker%20Pulse%20Animation.html',
 			screenshot:'HTML-Marker-Pulse-Animation.gif',
-			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
 			created:'10/11/2018'
 		},
 		{
@@ -45,7 +45,7 @@ var sampleList = [
 			path:'Animations/Simple%20HTML%20Marker%20Animation.html',
 			sourcePath:'Animations/Simple%20HTML%20Marker%20Animation.html',
 			screenshot:'Simple-HTML-Marker-Animation.gif',
-			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
 			created:'9/23/2018'
 		},
 		{
@@ -54,7 +54,7 @@ var sampleList = [
 			path:'Animations/Simple%20Symbol%20Animation.html',
 			sourcePath:'Animations/Simple%20Symbol%20Animation.html',
 			screenshot:'Simple-Symbol-Animation.gif',
-			keywords:'map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
 			created:'9/23/2018'
 		},
 	]
@@ -69,7 +69,7 @@ var sampleList = [
 			path:'Bubble%20Layer/Bubble%20Layer%20Options.html',
 			sourcePath:'Bubble%20Layer/Bubble%20Layer%20Options.html',
 			screenshot:'Bubble-Layer-Options.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer',
+			keywords:'microsoft maps, map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer',
 			created:'11/28/2018'
 		},
 		{
@@ -78,7 +78,7 @@ var sampleList = [
 			path:'Bubble%20Layer/Cluster%20aggregates.html',
 			sourcePath:'Bubble%20Layer/Cluster%20aggregates.html',
 			screenshot:'Cluster-aggregates.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, cluster aggregate',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, cluster aggregate',
 			created:'8/5/2019'
 		},
 		{
@@ -87,7 +87,7 @@ var sampleList = [
 			path:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
 			sourcePath:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
 			screenshot:'Data-Driven-Bubble-Layer-Styling.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven styling, weather, earthquakes, usgs',
+			keywords:'microsoft maps, map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven styling, weather, earthquakes, usgs',
 			created:'11/28/2018'
 		},
 		{
@@ -96,7 +96,7 @@ var sampleList = [
 			path:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
 			sourcePath:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
 			screenshot:'Point-Clusters-in-Bubble-Layer.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer',
 			created:'11/28/2018'
 		},
 	]
@@ -111,7 +111,7 @@ var sampleList = [
 			path:'Controls/Map%20Navigation%20Control%20Options.html',
 			sourcePath:'Controls/Map%20Navigation%20Control%20Options.html',
 			screenshot:'Map-Navigation-Control-Options.gif',
-			keywords:'maps, map, api, sdk, gis, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery',
 			created:'9/7/2018'
 		},
 		{
@@ -120,7 +120,7 @@ var sampleList = [
 			path:'Controls/Map%20Style%20Picker.html',
 			sourcePath:'Controls/Map%20Style%20Picker.html',
 			screenshot:'Map-Style-Picker.png',
-			keywords:'map, gis, api, sdk,  navigation controls, map style, style picker, map type, satellite, aerial, imagery',
+			keywords:'microsoft maps, map, gis, api, sdk,  navigation controls, map style, style picker, map type, satellite, aerial, imagery',
 			created:'3/6/2019'
 		},
 	]
@@ -135,7 +135,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20a%20LineString.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-a-LineString.gif',
-			keywords:'map, gis, api, sdk, animation, animate, line, linestring',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, line, linestring',
 			created:'7/9/2019'
 		},
 		{
@@ -144,7 +144,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20a%20point.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-a-point.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
 			created:'6/26/2019'
 		},
 		{
@@ -153,7 +153,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20multiple%20points.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-multiple-points.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
 			created:'6/26/2019'
 		},
 		{
@@ -162,7 +162,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20point%20along%20path.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-point-along-path.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
 			created:'7/9/2019'
 		},
 		{
@@ -171,7 +171,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Drop%20multiple%20symbols%20animation.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Drop-multiple-symbols-animation.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
 			created:'7/12/2019'
 		},
 		{
@@ -180,7 +180,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Drop%20symbol%20animation.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Drop-symbol-animation.gif',
-			keywords:'map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
 			created:'7/12/2019'
 		},
 		{
@@ -189,7 +189,7 @@ var sampleList = [
 			path:'Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html',
 			sourcePath:'Custom%20Modules/Bring%20Data%20Into%20View%20Control',
 			screenshot:'Bring-Data-Into-View-Control.png',
-			keywords:'map, gis, api, sdk, ',
+			keywords:'microsoft maps, map, gis, api, sdk, ',
 			created:'3/8/2019'
 		},
 		{
@@ -198,7 +198,7 @@ var sampleList = [
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
 			screenshot:'Draw-Line.gif',
-			keywords:'map, gis, api, sdk, line, linestring, polyline, drawing, draw',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, drawing, draw',
 			created:'10/9/2018'
 		},
 		{
@@ -207,7 +207,7 @@ var sampleList = [
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
 			screenshot:'Draw-Polygon.gif',
-			keywords:'map, gis, api, sdk, polygon, drawing, draw',
+			keywords:'microsoft maps, map, gis, api, sdk, polygon, drawing, draw',
 			created:'9/23/2018'
 		},
 		{
@@ -216,7 +216,7 @@ var sampleList = [
 			path:'Custom%20Modules/Fullscreen%20Control/Fullscreen%20Control.html',
 			sourcePath:'Custom%20Modules/Fullscreen%20Control',
 			screenshot:'Fullscreen-Control.png',
-			keywords:'maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
 			created:'3/6/2019'
 		},
 		{
@@ -225,7 +225,7 @@ var sampleList = [
 			path:'Custom%20Modules/Geolocation%20Control/Geolocation%20control%20options.html',
 			sourcePath:'Custom%20Modules/Geolocation%20Control',
 			screenshot:'Geolocation-Control-Options.png',
-			keywords:'maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
 			created:'9/19/2019'
 		},
 		{
@@ -234,7 +234,7 @@ var sampleList = [
 			path:'Custom%20Modules/Geolocation%20Control/Geolocation%20Control.html',
 			sourcePath:'Custom%20Modules/Geolocation%20Control',
 			screenshot:'Geolocation-Control.png',
-			keywords:'maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
 			created:'9/19/2019'
 		},
 		{
@@ -243,7 +243,7 @@ var sampleList = [
 			path:'Custom%20Modules/Map%20Synchronizer%20Module/Synchronize%20map%20views.html',
 			sourcePath:'Custom%20Modules/Map%20Synchronizer%20Module',
 			screenshot:'Synchronize-map-views.png',
-			keywords:'map, gis, api, sdk, synchronized maps',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps',
 			created:'4/15/2019'
 		},
 		{
@@ -252,7 +252,7 @@ var sampleList = [
 			path:'Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
 			sourcePath:'Custom%20Modules/Simple%20Scale%20Bar%20Control',
 			screenshot:'Simple-Scale-Bar-Control.png',
-			keywords:'maps, map, api, sdk, gis, custom, control, custom control, scale bar, scalebar',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, scale bar, scalebar',
 			created:'3/6/2019'
 		},
 		{
@@ -261,7 +261,7 @@ var sampleList = [
 			path:'Custom%20Modules/Snakeline/Animate%20a%20snakeline.html',
 			sourcePath:'Custom%20Modules/Snakeline',
 			screenshot:'Animate-a-snakeline.gif',
-			keywords:'map, gis, api, sdk, snakeline, animation, animate, linestring',
+			keywords:'microsoft maps, map, gis, api, sdk, snakeline, animation, animate, linestring',
 			created:'5/13/2019'
 		},
 		{
@@ -270,7 +270,7 @@ var sampleList = [
 			path:'Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html',
 			sourcePath:'Custom%20Modules/Spider%20Clusters',
 			screenshot:'Expanding-Spider-Clusters.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
 			created:'2/28/2019'
 		},
 		{
@@ -279,7 +279,7 @@ var sampleList = [
 			path:'Custom%20Modules/Spyglass%20module/Spyglass%20map%20visualization.html',
 			sourcePath:'Custom%20Modules/Spyglass%20module',
 			screenshot:'Spyglass-map-visualization.png',
-			keywords:'map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
+			keywords:'microsoft maps, map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
 			created:'4/16/2019'
 		},
 		{
@@ -288,7 +288,7 @@ var sampleList = [
 			path:'Custom%20Modules/Spyglass%20module/Spyglass%20module%20options.html',
 			sourcePath:'Custom%20Modules/Spyglass%20module',
 			screenshot:'Spyglass-module-options.png',
-			keywords:'map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
+			keywords:'microsoft maps, map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
 			created:'4/16/2019'
 		},
 		{
@@ -297,7 +297,7 @@ var sampleList = [
 			path:'Custom%20Modules/Swipe%20map%20module/Swipe%20between%20two%20maps.html',
 			sourcePath:'Custom%20Modules/Swipe%20map%20module',
 			screenshot:'Swipe-between-two-maps.png',
-			keywords:'map, gis, api, sdk, synchronized maps, swipe map',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
 			created:'4/15/2019'
 		},
 		{
@@ -306,7 +306,7 @@ var sampleList = [
 			path:'Custom%20Modules/Swipe%20map%20module/Swipe%20map%20module%20options.html',
 			sourcePath:'Custom%20Modules/Swipe%20map%20module',
 			screenshot:'Swipe-map-module-options.png',
-			keywords:'map, gis, api, sdk, synchronized maps, swipe map',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
 			created:'4/15/2019'
 		},
 		{
@@ -315,7 +315,7 @@ var sampleList = [
 			path:'Custom%20Modules/Traffic%20Control/Traffic%20Control.html',
 			sourcePath:'Custom%20Modules/Traffic%20Control',
 			screenshot:'Traffic-Control.png',
-			keywords:'maps, map, api, sdk, gis, custom, control, custom control, traffic',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, traffic',
 			created:'9/18/2019'
 		},
 	]
@@ -330,7 +330,7 @@ var sampleList = [
 			path:'Demos/Car%20vs%20Truck%20Route.html',
 			sourcePath:'Demos/Car%20vs%20Truck%20Route.html',
 			screenshot:'Car-vs-Truck-Route.png',
-			keywords:'map, gis, api, sdk, truck, car, routing, route, directions',
+			keywords:'microsoft maps, map, gis, api, sdk, truck, car, routing, route, directions',
 			created:'9/23/2018'
 		},
 		{
@@ -339,7 +339,7 @@ var sampleList = [
 			path:'Demos/Create%20a%20Choropleth%20Map.html',
 			sourcePath:'Demos/Create%20a%20Choropleth%20Map.html',
 			screenshot:'Create-a-Choropleth-Map.png',
-			keywords:'map, gis, api, sdk, thematic, choropleth, heatmap, heat map',
+			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map',
 			created:'10/8/2018'
 		},
 		{
@@ -348,7 +348,7 @@ var sampleList = [
 			path:'Demos/Data-Driven%20Styling.html',
 			sourcePath:'Demos/Data-Driven%20Styling.html',
 			screenshot:'Data-Driven-Styling.png',
-			keywords:'map, gis, api, sdk, circle, bubble, layers, data-driven, bubblelayer, geojson, data driven styling',
+			keywords:'microsoft maps, map, gis, api, sdk, circle, bubble, layers, data-driven, bubblelayer, geojson, data driven styling',
 			created:'1/25/2019'
 		},
 		{
@@ -357,7 +357,7 @@ var sampleList = [
 			path:'Demos/Large%20GeoJSON%20Files.html',
 			sourcePath:'Demos/Large%20GeoJSON%20Files.html',
 			screenshot:'Large-GeoJSON-Files.png',
-			keywords:'map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
 			created:'9/23/2018'
 		},
 	]
@@ -372,7 +372,7 @@ var sampleList = [
 			path:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
 			sourcePath:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
 			screenshot:'',
-			keywords:'map, gis, api, sdk, geolocation, user, location, position, tracking, gps, gps tracking',
+			keywords:'microsoft maps, map, gis, api, sdk, geolocation, user, location, position, tracking, gps, gps tracking',
 			created:'9/30/2018'
 		},
 		{
@@ -381,7 +381,7 @@ var sampleList = [
 			path:'Device%20Sensors/Show%20a%20Users%20Position.html',
 			sourcePath:'Device%20Sensors/Show%20a%20Users%20Position.html',
 			screenshot:'',
-			keywords:'map, gis, api, sdk, geolocation, user, location, position, gps',
+			keywords:'microsoft maps, map, gis, api, sdk, geolocation, user, location, position, gps',
 			created:'9/30/2018'
 		},
 		{
@@ -390,7 +390,7 @@ var sampleList = [
 			path:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			screenshot:'User-Position-Accuracy-Circle.png',
-			keywords:'map, gis, api, sdk, accuracy, circle, geolocation, user, location, position, gps',
+			keywords:'microsoft maps, map, gis, api, sdk, accuracy, circle, geolocation, user, location, position, gps',
 			created:'9/30/2018'
 		},
 	]
@@ -405,7 +405,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html',
 			sourcePath:'Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html',
 			screenshot:'Add-drawing-toolbar-to-map.png',
-			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint',
 			created:'5/4/2019'
 		},
 		{
@@ -414,7 +414,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html',
 			sourcePath:'Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html',
 			screenshot:'Change-drawing-rendering-style.png',
-			keywords:'map, gis, api, sdk, drawing tools, drawing manager, paint, customize',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, paint, customize',
 			created:'5/4/2019'
 		},
 		{
@@ -423,7 +423,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html',
 			sourcePath:'Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html',
 			screenshot:'Create-a-measuring-tool.png',
-			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, measuring tape, measure',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, measuring tape, measure',
 			created:'12/10/2019'
 		},
 		{
@@ -432,7 +432,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html',
 			sourcePath:'Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html',
 			screenshot:'Draw-and-search-polygon-area.png',
-			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, poi',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, poi',
 			created:'12/10/2019'
 		},
 		{
@@ -441,7 +441,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Drawing%20manager%20options.html',
 			sourcePath:'Drawing%20Tools%20Module/Drawing%20manager%20options.html',
 			screenshot:'Drawing-manager-options.png',
-			keywords:'map, gis, api, sdk, drawing tools, drawing manager, drawing mode, interaction type, freehand interval',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, drawing mode, interaction type, freehand interval',
 			created:'5/4/2019'
 		},
 		{
@@ -450,16 +450,16 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Drawing%20toolbar%20options.html',
 			sourcePath:'Drawing%20Tools%20Module/Drawing%20toolbar%20options.html',
 			screenshot:'Drawing-toolbar-options.png',
-			keywords:'map, gis, api, sdk, drawing tools, drawing manager, toolbar, drawing toolbar',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, toolbar, drawing toolbar',
 			created:'12/10/2019'
 		},
 		{
 			title:'Drawing tools events',
-			desc:'This sample shows how to the events in the Drawing Tools module work.',
+			desc:'This sample shows how the events in the Drawing Tools module work.',
 			path:'Drawing%20Tools%20Module/Drawing%20tools%20events.html',
 			sourcePath:'Drawing%20Tools%20Module/Drawing%20tools%20events.html',
 			screenshot:'Drawing-tools-events.png',
-			keywords:'map, gis, api, sdk, drawing tools, paint, events',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, paint, events',
 			created:'12/10/2019'
 		},
 		{
@@ -468,7 +468,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
 			sourcePath:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
 			screenshot:'Get-drawn-shapes-from-drawing-manager.png',
-			keywords:'map, gis, api, sdk, drawing tools, drawing manager, paint, shapes',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, paint, shapes',
 			created:'5/4/2019'
 		},
 		{
@@ -477,7 +477,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
 			sourcePath:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
 			screenshot:'Select-data-in-drawn-polygon-area.png',
-			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
 			created:'12/10/2019'
 		},
 	]
@@ -492,7 +492,7 @@ var sampleList = [
 			path:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
 			sourcePath:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
 			screenshot:'Add-a-delimited-file-(CSV)-to-the-map.png',
-			keywords:'map, gis, api, sdk, csv, tsv, delimited file',
+			keywords:'microsoft maps, map, gis, api, sdk, csv, tsv, delimited file',
 			created:'1/14/2019'
 		},
 		{
@@ -501,7 +501,7 @@ var sampleList = [
 			path:'Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html',
 			sourcePath:'Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html',
 			screenshot:'Add-TopoJSON-data-to-the-map.png',
-			keywords:'map, gis, api, sdk, topojson',
+			keywords:'microsoft maps, map, gis, api, sdk, topojson',
 			created:'3/18/2019'
 		},
 		{
@@ -510,16 +510,16 @@ var sampleList = [
 			path:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			screenshot:'Drag-and-Drop-GeoJSON-File-onto-Map.gif',
-			keywords:'map, gis, api, sdk, geojson, drag, drop, dropover, filereader',
+			keywords:'microsoft maps, map, gis, api, sdk, geojson, drag, drop, dropover, filereader',
 			created:'10/7/2018'
 		},
 		{
 			title:'Drag and Drop Shapefiles onto the Map',
-			desc:'This sample shows how load add support for dragging and dropping zipped shapefile (.shp, .dbf, .prj) files from your local computer file system on to the map and having them render on the map.',
+			desc:'This sample shows how to load zipped shapefile (.shp, .dbf, .prj) files onto the map by  dragging and dropping from a local file.',
 			path:'Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html',
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html',
 			screenshot:'Drag-and-Drop-Shapefiles-onto-the-Map.gif',
-			keywords:'map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker, drag, drop, dropover, filereader',
+			keywords:'microsoft maps, map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker, drag, drop, dropover, filereader',
 			created:'2/20/2019'
 		},
 		{
@@ -528,7 +528,7 @@ var sampleList = [
 			path:'Geospatial%20Files/Extract%20and%20display%20photo%20location.html',
 			sourcePath:'Geospatial%20Files/Extract%20and%20display%20photo%20location.html',
 			screenshot:'Extract-and-display-photo-location.png',
-			keywords:'map, gis, api, sdk, exif, gps, location, jpg, jpeg, tiff, image, photo',
+			keywords:'microsoft maps, map, gis, api, sdk, exif, gps, location, jpg, jpeg, tiff, image, photo',
 			created:'1/22/2019'
 		},
 		{
@@ -537,7 +537,7 @@ var sampleList = [
 			path:'Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html',
 			sourcePath:'Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html',
 			screenshot:'Load-large-Shapefiles-using-a-Web-Worker.png',
-			keywords:'map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker',
+			keywords:'microsoft maps, map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker',
 			created:'2/20/2019'
 		},
 		{
@@ -546,7 +546,7 @@ var sampleList = [
 			path:'Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html',
 			sourcePath:'Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html',
 			screenshot:'Load-Shapefiles-onto-the-Map.png',
-			keywords:'map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc',
+			keywords:'microsoft maps, map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc',
 			created:'2/20/2019'
 		},
 	]
@@ -561,7 +561,7 @@ var sampleList = [
 			path:'Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html',
 			sourcePath:'Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html',
 			screenshot:'Cluster-weighted-Heat-Map.png',
-			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, clustering, superclusterer',
+			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, clustering, superclusterer',
 			created:'3/27/2019'
 		},
 		{
@@ -570,7 +570,7 @@ var sampleList = [
 			path:'Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html',
 			sourcePath:'Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html',
 			screenshot:'Consistent-zoomable-Heat-Map.gif',
-			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
+			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
 			created:'4/1/2019'
 		},
 		{
@@ -579,7 +579,7 @@ var sampleList = [
 			path:'Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html',
 			sourcePath:'Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html',
 			screenshot:'Heat-Map-Layer-Options.png',
-			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, thermatic, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, thermatic, layer',
 			created:'11/28/2018'
 		},
 		{
@@ -588,7 +588,7 @@ var sampleList = [
 			path:'Heat%20Map%20Layer/Simple%20Heat%20Map%20Layer.html',
 			sourcePath:'Heat%20Map%20Layer/Simple%20Heat%20Map%20Layer.html',
 			screenshot:'Simple-Heat-Map-Layer.png',
-			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
+			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
 			created:'11/28/2018'
 		},
 		{
@@ -597,7 +597,7 @@ var sampleList = [
 			path:'Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html',
 			sourcePath:'Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html',
 			screenshot:'Weighted-Heat-Map-Layer.png',
-			keywords:'map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
+			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
 			created:'4/10/2019'
 		},
 	]
@@ -612,7 +612,7 @@ var sampleList = [
 			path:'HTML%20Markers/All%20built-in%20icon%20templates%20as%20HTML%20markers.html',
 			sourcePath:'HTML%20Markers/All%20built-in%20icon%20templates%20as%20HTML%20markers.html',
 			screenshot:'All-built-in-icon-templates-as-HTML-markers.png',
-			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, image template',
+			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -621,7 +621,7 @@ var sampleList = [
 			path:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
 			sourcePath:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
 			screenshot:'CSS-Styled-HTML-Marker.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation',
 			created:'11/28/2018'
 		},
 		{
@@ -630,7 +630,7 @@ var sampleList = [
 			path:'HTML%20Markers/Draggable%20HTML%20Marker.html',
 			sourcePath:'HTML%20Markers/Draggable%20HTML%20Marker.html',
 			screenshot:'Draggable-HTML-Marker.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
 			created:'11/28/2018'
 		},
 		{
@@ -639,7 +639,7 @@ var sampleList = [
 			path:'HTML%20Markers/HTML%20Marker%20events.html',
 			sourcePath:'HTML%20Markers/HTML%20Marker%20events.html',
 			screenshot:'HTML-Marker-events.gif',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse',
 			created:'11/28/2018'
 		},
 		{
@@ -648,7 +648,7 @@ var sampleList = [
 			path:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
 			sourcePath:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
 			screenshot:'HTML-Marker-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
+			keywords:'microsoft maps, map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -657,7 +657,7 @@ var sampleList = [
 			path:'HTML%20Markers/HTML%20Marker%20with%20Custom%20SVG%20Template.html',
 			sourcePath:'HTML%20Markers/HTML%20Marker%20with%20Custom%20SVG%20Template.html',
 			screenshot:'HTML-Marker-with-Custom-SVG-Template.gif',
-			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
+			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
 			created:'11/28/2018'
 		},
 		{
@@ -666,7 +666,7 @@ var sampleList = [
 			path:'HTML%20Markers/Simple%20HTML%20Marker.html',
 			sourcePath:'HTML%20Markers/Simple%20HTML%20Marker.html',
 			screenshot:'Simple-HTML-Marker.png',
-			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
+			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
 			created:'11/28/2018'
 		},
 		{
@@ -675,7 +675,7 @@ var sampleList = [
 			path:'HTML%20Markers/HtmlMarkerLayer/Clustered%20Pie%20Chart%20HTML%20Markers.html',
 			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
 			screenshot:'Clustered-Pie-Chart-HTML-Markers.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, svg template, chart, pie chart',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, svg template, chart, pie chart',
 			created:'7/5/2019'
 		},
 		{
@@ -684,7 +684,7 @@ var sampleList = [
 			path:'HTML%20Markers/HtmlMarkerLayer/HTML%20Marker%20Layer.html',
 			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
 			screenshot:'HTML-Marker-Layer.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer',
 			created:'7/5/2019'
 		},
 		{
@@ -693,7 +693,7 @@ var sampleList = [
 			path:'HTML%20Markers/Pie%20Chart%20HTML%20Marker/Pie%20Chart%20HTML%20Markers.html',
 			sourcePath:'HTML%20Markers/Pie%20Chart%20HTML%20Marker',
 			screenshot:'Pie-Chart-HTML-Markers.png',
-			keywords:'map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, chart, pie chart',
+			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, chart, pie chart',
 			created:'11/28/2018'
 		},
 	]
@@ -708,7 +708,7 @@ var sampleList = [
 			path:'Image%20Layer/Cross%20reference%20pixels%20in%20image%20layer.html',
 			sourcePath:'Image%20Layer/Cross%20reference%20pixels%20in%20image%20layer.html',
 			screenshot:'Cross-reference-pixels-in-image-layer.png',
-			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			keywords:'microsoft maps, map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
 			created:'7/5/2019'
 		},
 		{
@@ -717,7 +717,7 @@ var sampleList = [
 			path:'Image%20Layer/Image%20Layer%20Options.html',
 			sourcePath:'Image%20Layer/Image%20Layer%20Options.html',
 			screenshot:'Image-Layer-Options.png',
-			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			keywords:'microsoft maps, map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
 			created:'11/28/2018'
 		},
 		{
@@ -726,7 +726,7 @@ var sampleList = [
 			path:'Image%20Layer/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
 			sourcePath:'Image%20Layer/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
 			screenshot:'KML-Ground-Overlay-as-Image-Layer.png',
-			keywords:'map, gis, api, sdk, image, raster, kml, layer, ground overlay, groundoverlay',
+			keywords:'microsoft maps, map, gis, api, sdk, image, raster, kml, layer, ground overlay, groundoverlay',
 			created:'11/28/2018'
 		},
 		{
@@ -735,7 +735,7 @@ var sampleList = [
 			path:'Image%20Layer/Simple%20Image%20Layer.html',
 			sourcePath:'Image%20Layer/Simple%20Image%20Layer.html',
 			screenshot:'Simple-Image-Layer.png',
-			keywords:'map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
+			keywords:'microsoft maps, map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
 			created:'11/28/2018'
 		},
 	]
@@ -750,7 +750,7 @@ var sampleList = [
 			path:'Line%20Layer/Add%20Arrows%20along%20a%20Path.html',
 			sourcePath:'Line%20Layer/Add%20Arrows%20along%20a%20Path.html',
 			screenshot:'Add-Arrows-along-a-Path.png',
-			keywords:'map, gis, api, sdk, linestring, arrows, path, symbols, linelayer',
+			keywords:'microsoft maps, map, gis, api, sdk, linestring, arrows, path, symbols, linelayer',
 			created:'11/22/2019'
 		},
 		{
@@ -759,7 +759,7 @@ var sampleList = [
 			path:'Line%20Layer/Add%20arrows%20to%20end%20of%20paths.html',
 			sourcePath:'Line%20Layer/Add%20arrows%20to%20end%20of%20paths.html',
 			screenshot:'Add-arrows-to-end-of-paths.png',
-			keywords:'map, gis, api, sdk, linestring, arrows, path, symbols, linelayer',
+			keywords:'microsoft maps, map, gis, api, sdk, linestring, arrows, path, symbols, linelayer',
 			created:'11/22/2019'
 		},
 		{
@@ -768,7 +768,7 @@ var sampleList = [
 			path:'Line%20Layer/Data-driven%20stroke%20gradient.html',
 			sourcePath:'Line%20Layer/Data-driven%20stroke%20gradient.html',
 			screenshot:'Data-driven-stroke-gradient.png',
-			keywords:'map, gis, api, sdk, line, linestring, polyline, layer, stroke gradient, gradient, linelayer, data-driven, data driven styling',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, stroke gradient, gradient, linelayer, data-driven, data driven styling',
 			created:'11/22/2019'
 		},
 		{
@@ -777,7 +777,7 @@ var sampleList = [
 			path:'Line%20Layer/Line%20Layer%20Options.html',
 			sourcePath:'Line%20Layer/Line%20Layer%20Options.html',
 			screenshot:'Line-Layer-Options.png',
-			keywords:'map, gis, api, sdk, line, linestring, polyline, layer, linelayer',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, linelayer',
 			created:'11/22/2019'
 		},
 		{
@@ -786,7 +786,7 @@ var sampleList = [
 			path:'Line%20Layer/Line%20layer%20with%20built-in%20icon%20template.html',
 			sourcePath:'Line%20Layer/Line%20layer%20with%20built-in%20icon%20template.html',
 			screenshot:'Line-layer-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, linestring, arrows, path, symbols, linelayer, image template',
+			keywords:'microsoft maps, map, gis, api, sdk, template, linestring, arrows, path, symbols, linelayer, image template',
 			created:'11/22/2019'
 		},
 		{
@@ -795,7 +795,7 @@ var sampleList = [
 			path:'Line%20Layer/Line%20with%20Stroke%20Gradient.html',
 			sourcePath:'Line%20Layer/Line%20with%20Stroke%20Gradient.html',
 			screenshot:'Line-with-Stroke-Gradient.png',
-			keywords:'map, gis, api, sdk, line, linestring, polyline, layer, stroke gradient, gradient, linelayer',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, stroke gradient, gradient, linelayer',
 			created:'11/22/2019'
 		},
 	]
@@ -810,7 +810,7 @@ var sampleList = [
 			path:'Map/Add%20a%20Context%20Menu%20to%20the%20Map.html',
 			sourcePath:'Map/Add%20a%20Context%20Menu%20to%20the%20Map.html',
 			screenshot:'Add-a-Context-Menu-to-the-Map.png',
-			keywords:'map, gis, api, sdk, context menu, popup, right click, mouse',
+			keywords:'microsoft maps, map, gis, api, sdk, context menu, popup, right click, mouse',
 			created:'10/8/2018'
 		},
 		{
@@ -819,7 +819,7 @@ var sampleList = [
 			path:'Map/Add%20custom%20icon%20template%20to%20atlas%20namespace.html',
 			sourcePath:'Map/Add%20custom%20icon%20template%20to%20atlas%20namespace.html',
 			screenshot:'Add-custom-icon-template-to-atlas-namespace.png',
-			keywords:'map, gis, api, sdk, image template, symbology, symbols',
+			keywords:'microsoft maps, map, gis, api, sdk, image template, symbology, symbols',
 			created:'7/5/2019'
 		},
 		{
@@ -828,7 +828,7 @@ var sampleList = [
 			path:'Map/DataSource%20and%20Shape%20events.html',
 			sourcePath:'Map/DataSource%20and%20Shape%20events.html',
 			screenshot:'DataSource-and-Shape-events.png',
-			keywords:'map, gis, api, sdk, events, data source, datasource, shapes',
+			keywords:'microsoft maps, map, gis, api, sdk, events, data source, datasource, shapes',
 			created:'12/6/2019'
 		},
 		{
@@ -837,7 +837,7 @@ var sampleList = [
 			path:'Map/Detect%20if%20browser%20is%20supported.html',
 			sourcePath:'Map/Detect%20if%20browser%20is%20supported.html',
 			screenshot:'Detect-if-browser-is-supported.png',
-			keywords:'map, gis, api, sdk, browser support, supported browsers',
+			keywords:'microsoft maps, map, gis, api, sdk, browser support, supported browsers',
 			created:'6/14/2019'
 		},
 		{
@@ -846,7 +846,7 @@ var sampleList = [
 			path:'Map/Full%20Screen%20Map.html',
 			sourcePath:'Map/Full%20Screen%20Map.html',
 			screenshot:'Full-Screen-Map.png',
-			keywords:'map, gis, api, sdk, full, screen',
+			keywords:'microsoft maps, map, gis, api, sdk, full, screen',
 			created:'5/4/2018'
 		},
 		{
@@ -855,7 +855,7 @@ var sampleList = [
 			path:'Map/Icon%20template%20options.html',
 			sourcePath:'Map/Icon%20template%20options.html',
 			screenshot:'Icon-template-options.png',
-			keywords:'map, gis, api, sdk, template, icon templates, symbols, fill patterns, image template',
+			keywords:'microsoft maps, map, gis, api, sdk, template, icon templates, symbols, fill patterns, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -864,7 +864,7 @@ var sampleList = [
 			path:'Map/Lazy%20Load%20the%20Map.html',
 			sourcePath:'Map/Lazy%20Load%20the%20Map.html',
 			screenshot:'',
-			keywords:'map, gis, api, sdk, lazy load, reduce cost, tabs',
+			keywords:'microsoft maps, map, gis, api, sdk, lazy load, reduce cost, tabs',
 			created:'5/4/2018'
 		},
 		{
@@ -873,7 +873,7 @@ var sampleList = [
 			path:'Map/Limit%20Map%20to%20Two%20Finger%20Panning.html',
 			sourcePath:'Map/Limit%20Map%20to%20Two%20Finger%20Panning.html',
 			screenshot:'Limit-Map-to-Two-Finger-Panning.png',
-			keywords:'map, gis, api, sdk, two finger panning, dragging, panning, map, user interaction, dragpaninteraction',
+			keywords:'microsoft maps, map, gis, api, sdk, two finger panning, dragging, panning, map, user interaction, dragpaninteraction',
 			created:'3/8/2019'
 		},
 		{
@@ -882,7 +882,7 @@ var sampleList = [
 			path:'Map/Limit%20Scroll%20Wheel%20Zoom.html',
 			sourcePath:'Map/Limit%20Scroll%20Wheel%20Zoom.html',
 			screenshot:'Limit-Scroll-Wheel-Zoom.png',
-			keywords:'map, gis, api, sdk, mouse wheel, mousewheel, scroll page, map, user interaction, scrollzoominteraction',
+			keywords:'microsoft maps, map, gis, api, sdk, mouse wheel, mousewheel, scroll page, map, user interaction, scrollzoominteraction',
 			created:'3/8/2019'
 		},
 		{
@@ -891,7 +891,7 @@ var sampleList = [
 			path:'Map/Load%20Map%20with%20Options.html',
 			sourcePath:'Map/Load%20Map%20with%20Options.html',
 			screenshot:'Load-Map-with-Options.png',
-			keywords:'map, gis, api, sdk, multiple',
+			keywords:'microsoft maps, map, gis, api, sdk, multiple',
 			created:'5/4/2018'
 		},
 		{
@@ -900,7 +900,7 @@ var sampleList = [
 			path:'Map/Map%20Events.html',
 			sourcePath:'Map/Map%20Events.html',
 			screenshot:'Map-Events.gif',
-			keywords:'map, gis, api, sdk, events, click, mouse, touch, context menu, wheel, zoomed, panned, dragged, pitched, moved',
+			keywords:'microsoft maps, map, gis, api, sdk, events, click, mouse, touch, context menu, wheel, zoomed, panned, dragged, pitched, moved',
 			created:'5/4/2018'
 		},
 		{
@@ -909,7 +909,7 @@ var sampleList = [
 			path:'Map/Map%20Localization.html',
 			sourcePath:'Map/Map%20Localization.html',
 			screenshot:'Map-Localization.png',
-			keywords:'map, gis, api, sdk, language, culture, localization, user region',
+			keywords:'microsoft maps, map, gis, api, sdk, language, culture, localization, user region',
 			created:'5/4/2018'
 		},
 		{
@@ -918,7 +918,7 @@ var sampleList = [
 			path:'Map/Map%20style%20options.html',
 			sourcePath:'Map/Map%20style%20options.html',
 			screenshot:'Map-style-options.png',
-			keywords:'map, gis, api, sdk, style, logo, lighting',
+			keywords:'microsoft maps, map, gis, api, sdk, style, logo, lighting',
 			created:'11/26/2019'
 		},
 		{
@@ -927,7 +927,7 @@ var sampleList = [
 			path:'Map/Mini%20Overview%20Map.html',
 			sourcePath:'Map/Mini%20Overview%20Map.html',
 			screenshot:'Mini-Overview-Map.png',
-			keywords:'map, gis, api, sdk, events, overview map, overview, mini map, minimap',
+			keywords:'microsoft maps, map, gis, api, sdk, events, overview map, overview, mini map, minimap',
 			created:'10/11/2018'
 		},
 		{
@@ -936,7 +936,7 @@ var sampleList = [
 			path:'Map/Multiple%20Maps%20in%20Different%20Lanaguages.html',
 			sourcePath:'Map/Multiple%20Maps%20in%20Different%20Lanaguages.html',
 			screenshot:'Multiple-Maps-in-Different-Lanaguages.png',
-			keywords:'map, gis, api, sdk, multiple, language, localization, culture',
+			keywords:'microsoft maps, map, gis, api, sdk, multiple, language, localization, culture',
 			created:'5/4/2018'
 		},
 		{
@@ -945,7 +945,7 @@ var sampleList = [
 			path:'Map/Multiple%20Maps.html',
 			sourcePath:'Map/Multiple%20Maps.html',
 			screenshot:'Multiple-Maps.png',
-			keywords:'map, gis, api, sdk, multiple',
+			keywords:'microsoft maps, map, gis, api, sdk, multiple',
 			created:'5/4/2018'
 		},
 		{
@@ -954,7 +954,7 @@ var sampleList = [
 			path:'Map/Render%20world%20copies.html',
 			sourcePath:'Map/Render%20world%20copies.html',
 			screenshot:'Render-world-copies.png',
-			keywords:'map, gis, api, sdk, map, worldwrap',
+			keywords:'microsoft maps, map, gis, api, sdk, map, worldwrap',
 			created:'6/24/2019'
 		},
 		{
@@ -963,7 +963,7 @@ var sampleList = [
 			path:'Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html',
 			sourcePath:'Map/Export%20Map%20as%20Image',
 			screenshot:'Export-Map-as-Image.png',
-			keywords:'map, gis, api, sdk, map image, export image, screenshots, reports, export map',
+			keywords:'microsoft maps, map, gis, api, sdk, map image, export image, screenshots, reports, export map',
 			created:'1/28/2019'
 		},
 	]
@@ -978,7 +978,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
 			screenshot:'Fill-polygon-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer, image template',
+			keywords:'microsoft maps, map, gis, api, sdk, template, fill pattern, polygonlayer, image template',
 			created:'7/5/2019'
 		},
 		{
@@ -987,7 +987,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Geospatially%20Accurate%20Circle.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Geospatially%20Accurate%20Circle.html',
 			screenshot:'Geospatially-Accurate-Circle.png',
-			keywords:'map, gis, api, sdk, circles, geospatial, geospatial circles',
+			keywords:'microsoft maps, map, gis, api, sdk, circles, geospatial, geospatial circles',
 			created:'9/23/2018'
 		},
 		{
@@ -996,7 +996,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Mercator%20Projection%20and%20Geospatial%20Circles.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Mercator%20Projection%20and%20Geospatial%20Circles.html',
 			screenshot:'Mercator-Projection-and-Geospatial-Circles.png',
-			keywords:'map, gis, api, sdk, circle, geospatial, mercator, projection',
+			keywords:'microsoft maps, map, gis, api, sdk, circle, geospatial, mercator, projection',
 			created:'9/23/2018'
 		},
 		{
@@ -1005,7 +1005,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Extrusion%20Layer%20Options.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Extrusion%20Layer%20Options.html',
 			screenshot:'Polygon-Extrusion-Layer-Options.png',
-			keywords:'map, gis, api, sdk, polygon, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, polygon, layer',
 			created:'11/22/2019'
 		},
 		{
@@ -1014,7 +1014,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Fill%20Pattern.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Fill%20Pattern.html',
 			screenshot:'Polygon-Fill-Pattern.png',
-			keywords:'map, gis, api, sdk, polyon, fill pattern',
+			keywords:'microsoft maps, map, gis, api, sdk, polyon, fill pattern',
 			created:'1/24/2019'
 		},
 		{
@@ -1023,7 +1023,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Hover%20Style.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Hover%20Style.html',
 			screenshot:'Polygon-Hover-Style.gif',
-			keywords:'map, gis, api, sdk, polygon, layer, hover, mouse',
+			keywords:'microsoft maps, map, gis, api, sdk, polygon, layer, hover, mouse',
 			created:'9/23/2018'
 		},
 		{
@@ -1032,7 +1032,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20calculated.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20calculated.html',
 			screenshot:'Polygon-labels---calculated.png',
-			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer',
+			keywords:'microsoft maps, map, gis, api, sdk, template, fill pattern, polygonlayer',
 			created:'9/27/2019'
 		},
 		{
@@ -1041,7 +1041,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20symbol%20layer.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20symbol%20layer.html',
 			screenshot:'Polygon-labels---symbol-layer.png',
-			keywords:'map, gis, api, sdk, template, fill pattern, polygonlayer',
+			keywords:'microsoft maps, map, gis, api, sdk, template, fill pattern, polygonlayer',
 			created:'9/27/2019'
 		},
 		{
@@ -1050,7 +1050,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Layer%20Options.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Layer%20Options.html',
 			screenshot:'Polygon-Layer-Options.png',
-			keywords:'map, gis, api, sdk, polygon, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, polygon, layer',
 			created:'11/28/2018'
 		},
 		{
@@ -1059,7 +1059,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20masks.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20masks.html',
 			screenshot:'Polygon-masks.png',
-			keywords:'map, gis, api, sdk, polygon mask, restrict map view',
+			keywords:'microsoft maps, map, gis, api, sdk, polygon mask, restrict map view',
 			created:'8/20/2019'
 		},
 		{
@@ -1068,7 +1068,7 @@ var sampleList = [
 			path:'Polygon%20and%20Polygon%20Extrusion%20Layers/Simple%20MultiPolygon.html',
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Simple%20MultiPolygon.html',
 			screenshot:'Simple-MultiPolygon.png',
-			keywords:'map, gis, api, sdk, polyon, multipolygon',
+			keywords:'microsoft maps, map, gis, api, sdk, polyon, multipolygon',
 			created:'9/23/2018'
 		},
 	]
@@ -1083,7 +1083,7 @@ var sampleList = [
 			path:'Popups/Accessible%20popups.html',
 			sourcePath:'Popups/Accessible%20popups.html',
 			screenshot:'Accessible-popups.png',
-			keywords:'map, gis, api, sdk, popups, infobox, infowindow, events, mouse, accessibility',
+			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse, accessibility',
 			created:'11/20/2019'
 		},
 		{
@@ -1092,7 +1092,7 @@ var sampleList = [
 			path:'Popups/Customize%20a%20popup.html',
 			sourcePath:'Popups/Customize%20a%20popup.html',
 			screenshot:'Customize-a-popup.png',
-			keywords:'map, gis, api, sdk, popup, style',
+			keywords:'microsoft maps, map, gis, api, sdk, popup, style',
 			created:'7/8/2019'
 		},
 		{
@@ -1101,7 +1101,7 @@ var sampleList = [
 			path:'Popups/Popup%20events.html',
 			sourcePath:'Popups/Popup%20events.html',
 			screenshot:'Popup-events.png',
-			keywords:'map, gis, api, sdk, popups, infobox, infowindow, events, mouse',
+			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse',
 			created:'6/24/2019'
 		},
 		{
@@ -1110,7 +1110,7 @@ var sampleList = [
 			path:'Popups/Popup%20templates.html',
 			sourcePath:'Popups/Popup%20templates.html',
 			screenshot:'Popup-templates.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
+			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
 			created:'12/6/2019'
 		},
 		{
@@ -1119,7 +1119,7 @@ var sampleList = [
 			path:'Popups/Popup%20with%20Media%20Content.html',
 			sourcePath:'Popups/Popup%20with%20Media%20Content.html',
 			screenshot:'Popup-with-Media-Content.png',
-			keywords:'map, gis, api, sdk, popup, infobox, infowindow, media',
+			keywords:'microsoft maps, map, gis, api, sdk, popup, infobox, infowindow, media',
 			created:'5/4/2018'
 		},
 		{
@@ -1128,7 +1128,7 @@ var sampleList = [
 			path:'Popups/Popups%20on%20Shapes.html',
 			sourcePath:'Popups/Popups%20on%20Shapes.html',
 			screenshot:'Popups-on-Shapes.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline',
+			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline',
 			created:'10/8/2018'
 		},
 		{
@@ -1137,7 +1137,7 @@ var sampleList = [
 			path:'Popups/Reuse%20a%20popup%20template.html',
 			sourcePath:'Popups/Reuse%20a%20popup%20template.html',
 			screenshot:'Reuse-a-popup-template.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
+			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
 			created:'12/6/2019'
 		},
 		{
@@ -1146,7 +1146,7 @@ var sampleList = [
 			path:'Popups/Reusing%20Popup%20with%20Multiple%20Pins.html',
 			sourcePath:'Popups/Reusing%20Popup%20with%20Multiple%20Pins.html',
 			screenshot:'Reusing-Popup-with-Multiple-Pins.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup',
+			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup',
 			created:'5/4/2018'
 		},
 		{
@@ -1155,7 +1155,7 @@ var sampleList = [
 			path:'Popups/Show%20popup%20on%20hover.html',
 			sourcePath:'Popups/Show%20popup%20on%20hover.html',
 			screenshot:'Show-popup-on-hover.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover',
+			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover',
 			created:'4/15/2019'
 		},
 	]
@@ -1170,7 +1170,7 @@ var sampleList = [
 			path:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
 			sourcePath:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
 			screenshot:'Calculate-a-Simple-Isochrone.png',
-			keywords:'map, gis, api, sdk, rest, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range',
 			created:'10/18/2018'
 		},
 		{
@@ -1179,7 +1179,7 @@ var sampleList = [
 			path:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
 			sourcePath:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
 			screenshot:'Fill-Address-Form-with-Autosuggest.PNG',
-			keywords:'map, gis, api, sdk, search, geocoding, geocode, autosuggest, autocomplete, jquery',
+			keywords:'microsoft maps, map, gis, api, sdk, search, geocoding, geocode, autosuggest, autocomplete, jquery',
 			created:'10/8/2018'
 		},
 		{
@@ -1188,7 +1188,7 @@ var sampleList = [
 			path:'REST%20Services/Get%20Users%20Timezone.html',
 			sourcePath:'REST%20Services/Get%20Users%20Timezone.html',
 			screenshot:'',
-			keywords:'map, gis, api, sdk, rest, service, timezone, user, location, geolocation',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, service, timezone, user, location, geolocation',
 			created:'9/24/2018'
 		},
 		{
@@ -1197,7 +1197,7 @@ var sampleList = [
 			path:'REST%20Services/Get%20weather%20along%20a%20route.html',
 			sourcePath:'REST%20Services/Get%20weather%20along%20a%20route.html',
 			screenshot:'Get-weather-along-a-route.png',
-			keywords:'map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
+			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
 			created:'12/6/2019'
 		},
 		{
@@ -1206,7 +1206,7 @@ var sampleList = [
 			path:'REST%20Services/Route%20Waypoint%20Optimization.html',
 			sourcePath:'REST%20Services/Route%20Waypoint%20Optimization.html',
 			screenshot:'Route-Waypoint-Optimization.png',
-			keywords:'map, gis, api, sdk, route directions service, direcitons, travelling salesmen problem, route optimization, optimize, vehicle routing problem, vrp, tsp',
+			keywords:'microsoft maps, map, gis, api, sdk, route directions service, direcitons, travelling salesmen problem, route optimization, optimize, vehicle routing problem, vrp, tsp',
 			created:'10/18/2018'
 		},
 		{
@@ -1215,7 +1215,7 @@ var sampleList = [
 			path:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			sourcePath:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			screenshot:'Search-Autosuggest-and-JQuery-UI.gif',
-			keywords:'map, gis, api, sdk, rest, search, geocoding, geocode, fuzzy, address, place, poi, points of interest, category, autosuggest, autocomplete, jquery',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, search, geocoding, geocode, fuzzy, address, place, poi, points of interest, category, autosuggest, autocomplete, jquery',
 			created:'9/23/2018'
 		},
 		{
@@ -1224,7 +1224,7 @@ var sampleList = [
 			path:'REST%20Services/Show%20weather%20overlays%20on%20a%20map.html',
 			sourcePath:'REST%20Services/Show%20weather%20overlays%20on%20a%20map.html',
 			screenshot:'Show-weather-overlays-on-a-map.png',
-			keywords:'map, gis, api, sdk, tiles, layer, weather, accuweather',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, weather, accuweather',
 			created:'11/4/2019'
 		},
 		{
@@ -1233,7 +1233,7 @@ var sampleList = [
 			path:'REST%20Services/Simple%20REST%20Directions.html',
 			sourcePath:'REST%20Services/Simple%20REST%20Directions.html',
 			screenshot:'Simple-REST-Directions.png',
-			keywords:'map, gis, api, sdk, rest, service, directions, route, routing',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, service, directions, route, routing',
 			created:'9/23/2018'
 		},
 		{
@@ -1242,7 +1242,7 @@ var sampleList = [
 			path:'REST%20Services/Simple%20REST%20Geocoding%20Request.html',
 			sourcePath:'REST%20Services/Simple%20REST%20Geocoding%20Request.html',
 			screenshot:'Simple-REST-Geocoding-Request.png',
-			keywords:'map, gis, api, sdk, rest, service, search, geocoding, geocode',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, service, search, geocoding, geocode',
 			created:'9/23/2018'
 		},
 	]
@@ -1257,7 +1257,7 @@ var sampleList = [
 			path:'Services%20Module/Calculate%20a%20simple%20route.html',
 			sourcePath:'Services%20Module/Calculate%20a%20simple%20route.html',
 			screenshot:'Calculate-a-simple-route.png',
-			keywords:'map, gis, api, sdk, services, module, route, directions',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions',
 			created:'9/16/2019'
 		},
 		{
@@ -1266,7 +1266,7 @@ var sampleList = [
 			path:'Services%20Module/Calculate%20spaced%20positions%20along%20route.html',
 			sourcePath:'Services%20Module/Calculate%20spaced%20positions%20along%20route.html',
 			screenshot:'Calculate-spaced-positions-along-route.png',
-			keywords:'map, gis, api, sdk, services, module, route, directions',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions',
 			created:'9/16/2019'
 		},
 		{
@@ -1275,7 +1275,7 @@ var sampleList = [
 			path:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			screenshot:'Fuzzy-Search-using-Services-Module.png',
-			keywords:'map, gis, api, sdk, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places',
 			created:'9/26/2018'
 		},
 		{
@@ -1284,7 +1284,7 @@ var sampleList = [
 			path:'Services%20Module/Load%20POI%20as%20the%20map%20moves.html',
 			sourcePath:'Services%20Module/Load%20POI%20as%20the%20map%20moves.html',
 			screenshot:'Load-POIs-as-the-map-moves.png',
-			keywords:'map, gis, api, sdk, services, module, search, points of interest, poi',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, search, points of interest, poi',
 			created:'4/26/2019'
 		},
 		{
@@ -1293,7 +1293,7 @@ var sampleList = [
 			path:'Services%20Module/Page%20through%20POI%20results.html',
 			sourcePath:'Services%20Module/Page%20through%20POI%20results.html',
 			screenshot:'Page-through-POI-results.png',
-			keywords:'map, gis, api, sdk, page results, paging results, pagination',
+			keywords:'microsoft maps, map, gis, api, sdk, page results, paging results, pagination',
 			created:'9/9/2019'
 		},
 		{
@@ -1302,7 +1302,7 @@ var sampleList = [
 			path:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			sourcePath:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			screenshot:'Reverse-Geocode-using-Services-Module.png',
-			keywords:'map, gis, api, sdk, services, module, search, reverse, geocode, geocoding, address, addresses',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, search, reverse, geocode, geocoding, address, addresses',
 			created:'9/26/2018'
 		},
 	]
@@ -1317,7 +1317,7 @@ var sampleList = [
 			path:'Spatial%20Math/Calculate%20a%20convex%20hull.html',
 			sourcePath:'Spatial%20Math/Calculate%20a%20convex%20hull.html',
 			screenshot:'Calculate-a-convex-hull.png',
-			keywords:'map, gis, api, sdk, geospatial, spatial math, math, convex hull',
+			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, convex hull',
 			created:'7/5/2019'
 		},
 		{
@@ -1326,7 +1326,7 @@ var sampleList = [
 			path:'Spatial%20Math/Cardinal%20Spline%20Options.html',
 			sourcePath:'Spatial%20Math/Cardinal%20Spline%20Options.html',
 			screenshot:'Cardinal-Spline-Options.png',
-			keywords:'map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
 			created:'12/10/2018'
 		},
 		{
@@ -1335,7 +1335,7 @@ var sampleList = [
 			path:'Spatial%20Math/Convex%20hull%20and%20HTML%20markers.html',
 			sourcePath:'Spatial%20Math/Convex%20hull%20and%20HTML%20markers.html',
 			screenshot:'Convex-hull-and-HTML-markers.gif',
-			keywords:'map, gis, api, sdk, geospatial, spatial math, math, convex hull, markers',
+			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, convex hull, markers',
 			created:'7/5/2019'
 		},
 		{
@@ -1344,7 +1344,7 @@ var sampleList = [
 			path:'Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html',
 			sourcePath:'Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html',
 			screenshot:'Display-cluster-area-with-Convex-Hull.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, convex hull, spatial math',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, convex hull, spatial math',
 			created:'3/27/2019'
 		},
 		{
@@ -1353,7 +1353,7 @@ var sampleList = [
 			path:'Spatial%20Math/Filter%20Data%20Along%20Route.html',
 			sourcePath:'Spatial%20Math/Filter%20Data%20Along%20Route.html',
 			screenshot:'Filter-Data-Along-Route.png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, points, buffer, within, intersects, intersection',
+			keywords:'microsoft maps, map, gis, api, sdk, turf.js, geospatial, math, points, buffer, within, intersects, intersection',
 			created:'4/1/2019'
 		},
 		{
@@ -1362,7 +1362,7 @@ var sampleList = [
 			path:'Spatial%20Math/Get%20closest%20HTML%20marker%20to%20position.html',
 			sourcePath:'Spatial%20Math/Get%20closest%20HTML%20marker%20to%20position.html',
 			screenshot:'Get-closest-HTML-marker-to-position.png',
-			keywords:'map, gis, api, sdk, geospatial, spatial math, math, markers, coordinate',
+			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, markers, coordinate',
 			created:'9/20/2019'
 		},
 		{
@@ -1371,7 +1371,7 @@ var sampleList = [
 			path:'Spatial%20Math/Get%20closest%20point%20to%20geometry.html',
 			sourcePath:'Spatial%20Math/Get%20closest%20point%20to%20geometry.html',
 			screenshot:'Get-closest-point-to-geometry.png',
-			keywords:'map, gis, api, sdk, geospatial, spatial math, math',
+			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math',
 			created:'7/5/2019'
 		},
 		{
@@ -1380,7 +1380,7 @@ var sampleList = [
 			path:'Spatial%20Math/Get%20closest%20point%20to%20position.html',
 			sourcePath:'Spatial%20Math/Get%20closest%20point%20to%20position.html',
 			screenshot:'Get-closest-point-to-position.png',
-			keywords:'map, gis, api, sdk, geospatial, spatial math, math, point, coordinate',
+			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, point, coordinate',
 			created:'9/20/2019'
 		},
 		{
@@ -1389,7 +1389,7 @@ var sampleList = [
 			path:'Spatial%20Math/Get%20points%20in%20current%20map%20view.html',
 			sourcePath:'Spatial%20Math/Get%20points%20in%20current%20map%20view.html',
 			screenshot:'Get-points-in-current-map-view.png',
-			keywords:'map, gis, api, sdk, events, overview map, overview, mini map, minimap',
+			keywords:'microsoft maps, map, gis, api, sdk, events, overview map, overview, mini map, minimap',
 			created:'11/3/2019'
 		},
 		{
@@ -1398,7 +1398,7 @@ var sampleList = [
 			path:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
 			sourcePath:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
 			screenshot:'Introduction-to-spatial-math.png',
-			keywords:'map, gis, api, sdk, geospatial, spatial math, math, haversine, heading, bearing',
+			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, haversine, heading, bearing',
 			created:'9/23/2018'
 		},
 		{
@@ -1407,7 +1407,7 @@ var sampleList = [
 			path:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			sourcePath:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
 			screenshot:'Merge-Two-Polygons-Together-(Turf.js).png',
-			keywords:'map, gis, api, sdk, turf.js, geospatial, math, spatial math, polygons, merge, union, spatial analytics',
+			keywords:'microsoft maps, map, gis, api, sdk, turf.js, geospatial, math, spatial math, polygons, merge, union, spatial analytics',
 			created:'4/1/2019'
 		},
 		{
@@ -1416,7 +1416,7 @@ var sampleList = [
 			path:'Spatial%20Math/Simple%20Cardinal%20Spline.html',
 			sourcePath:'Spatial%20Math/Simple%20Cardinal%20Spline.html',
 			screenshot:'Simple-Cardinal-Spline.png',
-			keywords:'map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
 			created:'1/25/2019'
 		},
 	]
@@ -1431,7 +1431,7 @@ var sampleList = [
 			path:'Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html',
 			sourcePath:'Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html',
 			screenshot:'All-built-in-icon-templates-as-symbols.png',
-			keywords:'map, gis, api, sdk, image template, icon templates',
+			keywords:'microsoft maps, map, gis, api, sdk, image template, icon templates',
 			created:'7/5/2019'
 		},
 		{
@@ -1440,7 +1440,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
 			sourcePath:'Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
 			screenshot:'Change-Mouse-Cursor-when-Hovering-Layer.gif',
-			keywords:'map, gis, api, sdk, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor',
+			keywords:'microsoft maps, map, gis, api, sdk, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor',
 			created:'11/28/2018'
 		},
 		{
@@ -1449,7 +1449,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html',
 			sourcePath:'Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html',
 			screenshot:'Create-Symbols-from-Custom-JSON.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, json, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, json, layer',
 			created:'9/23/2018'
 		},
 		{
@@ -1458,7 +1458,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html',
 			sourcePath:'Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html',
 			screenshot:'Custom-Symbol-Image-Icon.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
 			created:'9/23/2018'
 		},
 		{
@@ -1467,7 +1467,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Data-driven%20symbol%20icons.html',
 			sourcePath:'Symbol%20Layer/Data-driven%20symbol%20icons.html',
 			screenshot:'Data-driven-symbol-icons.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image, expression',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image, expression',
 			created:'5/14/2019'
 		},
 		{
@@ -1476,7 +1476,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html',
 			sourcePath:'Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html',
 			screenshot:'Display-clusters-with-a-Symbol-Layer.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer',
 			created:'3/27/2019'
 		},
 		{
@@ -1485,7 +1485,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Draggable%20Symbols.html',
 			sourcePath:'Symbol%20Layer/Draggable%20Symbols.html',
 			screenshot:'Draggable-Symbols.gif',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse',
+			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse',
 			created:'10/2/2018'
 		},
 		{
@@ -1494,7 +1494,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Filter%20Symbols%20by%20Property.html',
 			sourcePath:'Symbol%20Layer/Filter%20Symbols%20by%20Property.html',
 			screenshot:'Filter-Symbols-by-Property.png',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
 			created:'10/19/2018'
 		},
 		{
@@ -1503,7 +1503,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Formatted%20text%20field.html',
 			sourcePath:'Symbol%20Layer/Formatted%20text%20field.html',
 			screenshot:'Formatted-text-field.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, text formatting, formatting, string formatting',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, text formatting, formatting, string formatting',
 			created:'3/29/2019'
 		},
 		{
@@ -1512,7 +1512,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Image%20sprite%20fallback%20expression.html',
 			sourcePath:'Symbol%20Layer/Image%20sprite%20fallback%20expression.html',
 			screenshot:'Image-sprite-fallback-expression.png',
-			keywords:'map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
 			created:'11/22/2019'
 		},
 		{
@@ -1521,7 +1521,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Styled%20Symbol%20Layer.html',
 			sourcePath:'Symbol%20Layer/Styled%20Symbol%20Layer.html',
 			screenshot:'Styled-Symbol-Layer.png',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
 			created:'9/23/2018'
 		},
 		{
@@ -1530,7 +1530,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Symbol%20layer%20events.html',
 			sourcePath:'Symbol%20Layer/Symbol%20layer%20events.html',
 			screenshot:'Layer-events.gif',
-			keywords:'map, gis, api, sdk, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
+			keywords:'microsoft maps, map, gis, api, sdk, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
 			created:'11/28/2018'
 		},
 		{
@@ -1539,7 +1539,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Symbol%20Layer%20Options.html',
 			sourcePath:'Symbol%20Layer/Symbol%20Layer%20Options.html',
 			screenshot:'Symbol-Layer-Options.png',
-			keywords:'map, gis, api, sdk, symbols, markers, pins, pushpins, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, layer',
 			created:'11/28/2018'
 		},
 		{
@@ -1548,7 +1548,7 @@ var sampleList = [
 			path:'Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html',
 			sourcePath:'Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html',
 			screenshot:'Symbol-layer-with-built-in-icon-template.png',
-			keywords:'map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
+			keywords:'microsoft maps, map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
 			created:'7/5/2019'
 		},
 	]
@@ -1563,7 +1563,7 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS%204.6.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS%204.6.html',
 			screenshot:'Raster-Tiles-in-ArcGIS-JS-4.6.png',
-			keywords:'map, gis, api, sdk, tiles, raster, arcgis, esri',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, arcgis, esri',
 			created:'9/23/2018'
 		},
 		{
@@ -1572,7 +1572,7 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Cesium%20JS.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Cesium%20JS.html',
 			screenshot:'Raster-Tiles-in-Cesium-JS.png',
-			keywords:'map, gis, api, sdk, tiles, raster, cesium, cesium.js',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
 			created:'9/23/2018'
 		},
 		{
@@ -1581,7 +1581,7 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
 			screenshot:'Raster-Tiles-in-Leaflet-JS.png',
-			keywords:'map, gis, api, sdk, tiles, raster, leaflet, leaflet.js',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js',
 			created:'9/23/2018'
 		},
 		{
@@ -1590,7 +1590,7 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
 			screenshot:'Raster-Tiles-in-OpenLayers.png',
-			keywords:'map, gis, api, sdk, raster, tiles, open layers, openlayers',
+			keywords:'microsoft maps, map, gis, api, sdk, raster, tiles, open layers, openlayers',
 			created:'9/23/2018'
 		},
 		{
@@ -1599,7 +1599,7 @@ var sampleList = [
 			path:'Third%20Party%20Map%20Controls/Satellite%20Imagery%20in%20OpenLayers.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Satellite%20Imagery%20in%20OpenLayers.html',
 			screenshot:'Satellite-Imagery-in-OpenLayers.png',
-			keywords:'map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
+			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
 			created:'11/14/2018'
 		},
 	]
@@ -1614,7 +1614,7 @@ var sampleList = [
 			path:'Tile%20Layers/Tile%20Layer%20Options.html',
 			sourcePath:'Tile%20Layers/Tile%20Layer%20Options.html',
 			screenshot:'Tile-Layer-Options.png',
-			keywords:'map, gis, api, sdk, tiles, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer',
 			created:'11/28/2018'
 		},
 		{
@@ -1623,7 +1623,7 @@ var sampleList = [
 			path:'Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
 			sourcePath:'Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
 			screenshot:'Tile-Layer-using-X,-Y-and-Z.png',
-			keywords:'map, gis, api, sdk, tiles, layer, nautical chart, openseamap',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, nautical chart, openseamap',
 			created:'11/28/2018'
 		},
 		{
@@ -1632,7 +1632,7 @@ var sampleList = [
 			path:'Tile%20Layers/WMS%20Tile%20Layer.html',
 			sourcePath:'Tile%20Layers/WMS%20Tile%20Layer.html',
 			screenshot:'WMS-Tile-Layer.png',
-			keywords:'map, gis, api, sdk, tiles, layer, wms, web mapping service',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, wms, web mapping service',
 			created:'12/10/2018'
 		},
 		{
@@ -1641,7 +1641,7 @@ var sampleList = [
 			path:'Tile%20Layers/WMTS%20Tile%20Layer.html',
 			sourcePath:'Tile%20Layers/WMTS%20Tile%20Layer.html',
 			screenshot:'WMTS-Tile-Layer.png',
-			keywords:'map, gis, api, sdk, tiles, layer, wmts, web mapping tile service',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, wmts, web mapping tile service',
 			created:'12/11/2018'
 		},
 		{
@@ -1650,7 +1650,7 @@ var sampleList = [
 			path:'Tile%20Layers/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html',
 			sourcePath:'Tile%20Layers/Animated%20Tile%20Layers',
 			screenshot:'Animated-Tile-Layer.gif',
-			keywords:'map, gis, api, sdk, animate, animation, tiles, layer',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, tiles, layer',
 			created:'4/1/2019'
 		},
 	]
@@ -1665,7 +1665,7 @@ var sampleList = [
 			path:'Traffic/Traffic%20Overlay%20Options.html',
 			sourcePath:'Traffic/Traffic%20Overlay%20Options.html',
 			screenshot:'Traffic-Overlay-Options.png',
-			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents',
+			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
 			created:'5/4/2018'
 		},
 		{
@@ -1674,7 +1674,7 @@ var sampleList = [
 			path:'Traffic/Traffic%20Overlay.html',
 			sourcePath:'Traffic/Traffic%20Overlay.html',
 			screenshot:'Traffic-Overlay.png',
-			keywords:'map, gis, api, sdk, traffic, layer, flow, incidents',
+			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
 			created:'5/4/2018'
 		},
 	]
@@ -1689,7 +1689,7 @@ var sampleList = [
 			path:'Tutorials/interactiveSearch.html',
 			sourcePath:'Tutorials/interactiveSearch.html',
 			screenshot:'interactiveSearch.png',
-			keywords:'map, gis, api, sdk, services, module, tutorials, search, point of interest, poi',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, search, point of interest, poi',
 			created:'10/25/2018'
 		},
 		{
@@ -1698,7 +1698,7 @@ var sampleList = [
 			path:'Tutorials/route.html',
 			sourcePath:'Tutorials/route.html',
 			screenshot:'route.png',
-			keywords:'map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
 			created:'10/25/2018'
 		},
 		{
@@ -1707,7 +1707,7 @@ var sampleList = [
 			path:'Tutorials/search.html',
 			sourcePath:'Tutorials/search.html',
 			screenshot:'search.png',
-			keywords:'map, gis, api, sdk, services, module, tutorials, search',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, search',
 			created:'10/25/2018'
 		},
 		{
@@ -1716,7 +1716,7 @@ var sampleList = [
 			path:'Tutorials/truckRoute.html',
 			sourcePath:'Tutorials/truckRoute.html',
 			screenshot:'truckRoute.png',
-			keywords:'map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
 			created:'10/25/2018'
 		},
 		{
@@ -1725,7 +1725,7 @@ var sampleList = [
 			path:'Tutorials/Simple%20Store%20Locator/index.html',
 			sourcePath:'Tutorials/Simple%20Store%20Locator',
 			screenshot:'Simple-Store-Locator.png',
-			keywords:'map, gis, api, sdk, tutorials, store locator, locator, coffee, contoso, clustering',
+			keywords:'microsoft maps, map, gis, api, sdk, tutorials, store locator, locator, coffee, contoso, clustering',
 			created:'10/25/2018'
 		},
 	]

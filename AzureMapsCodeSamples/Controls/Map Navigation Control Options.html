@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Map Navigation Control Options - Azure Maps Web SDK Samples</title>
 
@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows all the map navigation controls on the map and how they react with different option settings." />
-    <meta name="keywords" content="maps, map, API, SDK, GIS, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery" />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -27,7 +27,7 @@
 				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -43,6 +43,16 @@
             //Get input options.
             var positionOption = getSelectValue('controlPosition');
             var controlStyle = getSelectValue('controlStyle');
+            var pickerLayout = getSelectValue('pickerLayout');
+
+            var mapStyles = [];
+            var pickerStyles = document.getElementById('pickerStyles');
+
+            for (var i = 0; i < pickerStyles.length; i++) {
+                if (pickerStyles.options[i].selected) {
+                    mapStyles.push(pickerStyles.options[i].value);
+                }
+            }
 
             //Create a zoom control.
             controls.push(new atlas.control.ZoomControl({
@@ -64,7 +74,9 @@
 
             //Create a style control and add it to the map.
             controls.push(new atlas.control.StyleControl({
-                style: controlStyle
+                style: controlStyle,
+                mapStyles: mapStyles,
+                layout: pickerLayout
             }));
 
             //Add controls to the map.
@@ -99,15 +111,13 @@
 
     <div class="sidePanel">
         <fieldset style="width:320px;margin-bottom:10px;">
-            <legend>Map Navigation Control Options</legend>
+            <legend><h1 style="font-size:16px">Map Navigation Control Options</h1></legend>
             This sample shows all the map navigation controls on the map and how they react with different option settings. <br /><br />
             To test the zoom delta, simply press the zoom button to see how the map zoom per click changes, moving several levels at a time when the delta is greater than one. <br /><br />
             To test the pitch and compass rotation deltas, hover over the appropriate control and use the addition buttons that appear to see how the new delta has changed the behavior of the button. <br /><br />
             See the <a href="https://docs.microsoft.com/azure/azure-maps/map-add-controls" target="_blank">Add map controls</a> and <a href="https://docs.microsoft.com/azure/azure-maps/choose-map-style" target="_blank">Choose map style</a> documentation for more examples using the map navigation controls.
         </fieldset>
-
-        <h3>Control Options</h3>
-
+        
         <table>
             <tr title="The position the control will be placed on the map. If not specified, the control will be located at the default position it defines.">
                 <td>Control Position:</td>
@@ -171,6 +181,32 @@
                         <option>35</option>
                         <option>40</option>
                         <option>45</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The name of the style to use when rendering the map. Available styles can be found in the supported styles article.">
+                <td>Picker Styles:</td>
+                <td>
+                    <select id="pickerStyles" multiple="multiple" onchange="addControls()">
+                        <option value="blank">blank</option>
+                        <option value="blank_accessible">blank_accessible</option>
+                        <option value="grayscale_dark" selected="selected">grayscale_dark</option>
+                        <option value="grayscale_light" selected="selected">grayscale_light</option>
+                        <option value="night" selected="selected">night</option>
+                        <option value="road" selected="selected">road</option>
+                        <option value="road_shaded_relief" selected="selected">road_shaded_relief</option>
+                        <option value="satellite">satellite</option>
+                        <option value="satellite_road_labels">satellite_road_labels</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr title="The style of the control.">
+                <td>Style Picker Layout:</td>
+                <td>
+                    <select id="pickerLayout" onchange="addControls()">
+                        <option selected="selected">icons</option>
+                        <option>list</option>
                     </select>
                 </td>
             </tr>

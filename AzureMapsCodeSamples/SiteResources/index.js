@@ -114,7 +114,7 @@ function topFunction() {
 }
 
 function search() {
-    var recentDayLimit = 60;
+    var recentDayLimit = 45;
 
     var query = document.getElementById('searchTbx').value;
 

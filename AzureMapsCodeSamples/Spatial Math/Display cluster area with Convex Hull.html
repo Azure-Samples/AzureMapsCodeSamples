@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Display cluster area with Convex Hull - Azure Maps Web SDK Samples</title>
 
@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to display the area of the points contained within a cluster by calculating a convex hull. " />
-    <meta name="keywords" content="map, gis, API, SDK, markers, pins, pushpins, symbols, layer, clustering, superclusterer, convex hull, spatial math" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, clustering, superclusterer, convex hull, spatial math" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -33,7 +33,7 @@
 				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA'
                 }
             });
 
@@ -116,17 +116,13 @@
                 });
             }
         }
-        //TODO: update this when atlas.Shapes is supported by atlas.math.getPositions and update codepen
+        
         function getPositions(shapes) {
             var pos = [];
 
             if (shapes) {
                 for (var i = 0; i < shapes.length; i++) {
-                    if (shapes[i] instanceof atlas.Shape) {
-                        pos.push(shapes[i].getCoordinates());
-                    } else {
-                        pos.push(atlas.math.getPosition(shapes[i]));
-                    }
+                    pos.push(atlas.math.getPosition(shapes[i]));
                 }
             }
 
@@ -138,7 +134,7 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Display cluster area with Convex Hull</legend>
+        <legend><h1 style="font-size:16px">Display cluster area with Convex Hull</h1></legend>
         This sample shows how to display the area of the points contained within a cluster by calculating a convex hull. 
     </fieldset>
 </body>
