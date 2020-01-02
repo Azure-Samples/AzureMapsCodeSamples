@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Grid Polygon - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Drawing Tools module and display the drawing toolbar on the map." />
+    <meta name="keywords" content="map, gis, API, SDK, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0.1/atlas-drawing.min.js"></script>
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script type='text/javascript'>
+        var map;
+        var lineLayer;
+        var polygonLayer;
+        var ds;
+        var drawingManager;
+        function GetMap() {
+            map = new atlas.Map('myMap', {
+                center: [0, 0],
+                zoom: 1,
+                view: 'Auto',
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+            map.events.add('ready', function () {
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({
+                        buttons: ['draw-polygon'],
+                        containerId: 'drawing',
+                    })
+                });
+                map.events.add('drawingcomplete', drawingManager, function (evt) {
+                    var input = document.querySelector("#distance");
+                    if (evt && input.valueAsNumber !== NaN && drawingManager.getOptions().mode !== 'idle') {
+                        var feature = new atlas.data.Feature(evt.data.geometry);
+                        plotRectangels(input.valueAsNumber, feature);
+                        drawingManager.getSource().clear();
+                    }
+                });
+                ds = new atlas.source.DataSource();
+                map.sources.add(ds);
+                lineLayer = new atlas.layer.LineLayer(ds, null, {
+                    strokeColor: 'black',
+                    strokeWidth: 1
+                });
+                map.layers.add(lineLayer);
+                polygonLayer = new atlas.layer.PolygonLayer(ds, null, {
+                    fillOpacity: 0.5,
+                    fillColor: '#ff0000'
+                });
+                map.layers.add(polygonLayer);
+            });
+            document.querySelector('#clear').addEventListener('click', function () {
+                ds.clear();
+            });
+            var plotRectangels = function (squareSide, feature) {
+                drawingManager.setOptions({ mode: "idle" });
+                var bb = atlas.data.BoundingBox.fromData(feature);
+                var maxLat = bb[3];
+                var minLat = bb[1];
+                var maxLon = bb[2];
+                var minLon = bb[0];
+                var currentLat = maxLat;
+                var currentLon = minLon;
+                var square;
+                while (currentLat <= maxLat && currentLat > minLat) {
+                    while (currentLon >= minLon && currentLon < maxLon) {
+                        var northWestPosition = new atlas.data.Position(currentLon, currentLat);
+                        var northEastPosition = atlas.math.getDestination(northWestPosition, 90, squareSide, 'meters');
+                        northEastPosition[1] = currentLat;
+                        var southEastPosition = atlas.math.getDestination(northEastPosition, 180, squareSide, 'meters');
+                        var southWestPosition = atlas.math.getDestination(northWestPosition, 180, squareSide, 'meters');
+                        southWestPosition[1] = southEastPosition[1];
+                        square = new atlas.data.Polygon([[northWestPosition, northEastPosition, southEastPosition, southWestPosition, northWestPosition]]);
+                        var _feature = new atlas.data.Feature(atlas.math.boundingBoxToPolygon(atlas.data.BoundingBox.fromData(square)));
+                        var intersection = turf.intersect(_feature, feature);
+                        if (intersection) {
+                            ds.add(intersection);
+                        }
+                        currentLon = northEastPosition[0];
+                    }
+                    currentLat = square.coordinates[0][2][1];
+                    currentLon = minLon;
+                    square = undefined;
+                }
+            };
+        }
+
+
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+    <div style=" padding: 1rem; position:absolute;top:1rem;left:1rem;background-color:white;border-radius:0.2rem;padding:10px; box-shadow: hsl(0, 0%, 80%) 0.2em 0.2em 0.2em;">
+        <div><input placeholder="Square distance in meters" type="number" id="distance" style="padding: 0.5rem;" /><span id="drawing" style="float: right;"></span></div>
+        <div style="padding-top: 0.5rem;"><button id="clear">Clear</button></div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Add Polygon with Grids inside</legend>
+        This sample shows how to use the Drawing Tools module and generate squares inside a polygon. It also demostrates how to bind a drawing feature to a HTML-Element, and how to clear drawing managers geometries.
+        <br /><br />
+
+    </fieldset>
+</body>
+</html>

@@ -192,6 +192,7 @@
     <Content Include="Custom Modules\Swipe map module\SwipeMapModule.js" />
     <Content Include="Custom Modules\Spyglass module\Spyglass map visualization.html" />
     <Content Include="Custom Modules\Spyglass module\Spyglass module options.html" />
+    <Content Include="Drawing Tools Module\Grid Polygons.html" />
     <Content Include="Drawing Tools Module\Add drawing toolbar to map.html" />
     <Content Include="Drawing Tools Module\Change drawing rendering style.html" />
     <Content Include="Drawing Tools Module\Create a measuring tool.html" />
@@ -216,6 +217,7 @@
     <Content Include="SiteResources\screenshots\Popup-templates.png" />
     <Content Include="SiteResources\screenshots\Reuse-a-popup-template.png" />
     <Content Include="SiteResources\screenshots\Select-data-in-drawn-polygon-area.png" />
+    <Content Include="SiteResources\screenshots\squares-inside-polygon.png" />
     <Content Include="Symbol Layer\Image sprite fallback expression.html" />
     <Content Include="Experimental\Load missing image into sprite.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
