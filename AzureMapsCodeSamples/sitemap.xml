@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2019-12-12</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-01-02</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -45,6 +45,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Draw%20gridded%20polygon.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Drawing%20manager%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Drawing%20toolbar%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Drawing%20tools%20events.html</loc></url>
@@ -111,7 +112,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Layer%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20masks.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Simple%20MultiPolygon.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Grid%20Polygons.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Accessible%20popups.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Customize%20a%20popup.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20events.html</loc></url>

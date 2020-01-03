@@ -436,6 +436,15 @@ var sampleList = [
 			created:'12/10/2019'
 		},
 		{
+			title:'Draw gridded polygon',
+			desc:'This sample shows how to calculate a gridded pattern within a drawing polygon.',
+			path:'Drawing%20Tools%20Module/Draw%20gridded%20polygon.html',
+			sourcePath:'Drawing%20Tools%20Module/Draw%20gridded%20polygon.html',
+			screenshot:'Draw-gridded-polygon.png',
+			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
+			created:'1/2/2020'
+		},
+		{
 			title:'Drawing manager options',
 			desc:'This sample shows how the different options of the drawing manager change the user experience.',
 			path:'Drawing%20Tools%20Module/Drawing%20manager%20options.html',
@@ -479,17 +488,7 @@ var sampleList = [
 			screenshot:'Select-data-in-drawn-polygon-area.png',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
 			created:'12/10/2019'
-        },
-
-        {
-            title: 'Generate squares inside a polygon',
-            desc: 'This sample shows how to generate squares inside a polygon and bind drawing tool to HTML-element',
-            path: 'Drawing%20Tools%20Module/Grid%20Polygons.html',
-            sourcePath: 'Drawing%20Tools%20Module/Grid%20Polygons.html',
-            screenshot: 'squares-inside-polygon.png',
-            keywords: 'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
-            created: '2/2/2020'
-        },
+		},
 	]
 },
 {
@@ -1739,4 +1738,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 177;
+}];var numberOfSamples = 178;
