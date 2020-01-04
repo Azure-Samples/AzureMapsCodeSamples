@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Popup with DOM element content - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to pass in a DOM-element into a popup as content." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, popup, style" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, popup;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a DOM element to pass into the content of the popup. 
+                var popupContent = document.createElement('div');
+                popupContent.className = 'myPopupStyle';
+
+                var textInput = document.createElement('input');
+                textInput.type = 'text';
+
+                popupContent.appendChild(textInput);
+
+                var button = document.createElement('input');
+                button.type = 'button';
+                button.value = 'Click me!';
+
+                button.addEventListener('click', function () {
+                    alert('You typed: ' + textInput.value);
+                });
+
+                popupContent.appendChild(button);
+
+                //Create a customized popup.
+                popup = new atlas.Popup({
+                    content: popupContent,
+                    position: [0, 0],
+                    fillColor: 'rgba(0,0,0,0.8)',
+                    closeButton: false
+                });
+
+                popup.open(map);
+            });
+        }
+    </script>
+    <style>
+        .myPopupStyle {
+            padding: 10px;
+            color: white;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Popup with DOM element content</h1></legend>
+        This sample shows how to pass in a DOM-element into a popup as content. Most samples use a HTML string due to its simplicity, but DOM elements can also be passed in. 
+        DOM elements also make it easier to data bind events on HTML elements in the popup as well since the a global event callback function isn't needed.
+    </fieldset>
+</body>
+</html>

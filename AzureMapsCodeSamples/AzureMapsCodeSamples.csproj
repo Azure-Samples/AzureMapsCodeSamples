@@ -203,6 +203,7 @@
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Drawing Tools Module\Select data in drawn polygon area.html" />
     <Content Include="Experimental\Dynamic Popup\Dynamicly posisitoned popups.html" />
+    <Content Include="Popups\Popup with DOM element content.html" />
     <Content Include="Popups\Reuse a popup template.html" />
     <Content Include="Popups\Popup templates.html" />
     <Content Include="Map\Map style options.html" />
@@ -215,6 +216,7 @@
     <Content Include="SiteResources\screenshots\Image-sprite-fallback-expression.png" />
     <Content Include="SiteResources\screenshots\Map-style-options.png" />
     <Content Include="SiteResources\screenshots\Popup-templates.png" />
+    <Content Include="SiteResources\screenshots\Popup-with-DOM-element-content.png" />
     <Content Include="SiteResources\screenshots\Reuse-a-popup-template.png" />
     <Content Include="SiteResources\screenshots\Select-data-in-drawn-polygon-area.png" />
     <Content Include="SiteResources\screenshots\Draw-gridded-polygon.png" />

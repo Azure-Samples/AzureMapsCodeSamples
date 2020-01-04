@@ -918,7 +918,7 @@ var atlas;
             if (this._start) {
                 var progress = getProgress(timestamp, this._start, this._options.duration);
                 if (progress >= 1) {
-                    //animationdone. Stop animating. 
+                    //animation done. Stop animating. 
                     this._start = null;
                     if (this._onComplete) {
                         this._onComplete();
@@ -982,13 +982,13 @@ var atlas;
                         var px = null;
                         if (dx > this._totalLength) {
                             heading = this._headings[this._headings.length - 1];
-                            px = atlas.Pixel.getDestination(this._pixels[this._pixels.length - 1], heading, dx - this._totalLength);
+                            px = getPixelDestination(this._pixels[this._pixels.length - 1], heading, dx - this._totalLength);
                             pos = this._positions.slice(0);
                             pos.push((atlas.math.mercatorPixelsToPositions([px], 21)[0]));
                         }
                         else if (dx < 0) {
                             heading = this._headings[0];
-                            px = atlas.Pixel.getDestination(this._pixels[0], heading, dx);
+                            px = getPixelDestination(this._pixels[0], heading, dx);
                             pos = this._positions.slice(0, 1);
                             pos.push(atlas.math.mercatorPixelsToPositions([px], 21)[0]);
                         }
@@ -997,7 +997,7 @@ var atlas;
                             for (var i = 0; i < this._distances.length; i++) {
                                 if (travelled + this._distances[i] >= dx) {
                                     heading = this._headings[i];
-                                    px = atlas.Pixel.getDestination(this._pixels[i], heading, dx - travelled);
+                                    px = getPixelDestination(this._pixels[i], heading, dx - travelled);
                                     pos = this._positions.slice(0, i + 1);
                                     pos.push(atlas.math.mercatorPixelsToPositions([px], 21)[0]);
                                     break;
@@ -1064,7 +1064,7 @@ var atlas;
                     var d = atlas.Pixel.getDistance(this._pixels[i - 1], this._pixels[i]);
                     this._totalLength += d;
                     this._distances.push(d);
-                    var h = atlas.Pixel.getHeading(this._pixels[i - 1], this._pixels[i]);
+                    var h = getPixelHeading(this._pixels[i - 1], this._pixels[i]);
                     this._headings.push(h);
                 }
             }
@@ -1104,6 +1104,17 @@ var atlas;
             }
         }
         return -1;
+    }
+    function getPixelHeading(origin, destination) {
+        var dx = (destination[0] - origin[0]) * Math.PI / 180;
+        var dy = (origin[1] - destination[1]) * Math.PI / 180;
+        return ((5 / 2 * Math.PI) - Math.atan2(dy, dx)) * 180 / Math.PI % 360;
+    }
+    function getPixelDestination(origin, heading, distance) {
+        return [
+            origin[0] + distance * Math.cos((heading + 270) * Math.PI / 180),
+            origin[1] + distance * Math.sin((heading + 270) * Math.PI / 180),
+        ];
     }
 })(atlas || (atlas = {}));
 /*

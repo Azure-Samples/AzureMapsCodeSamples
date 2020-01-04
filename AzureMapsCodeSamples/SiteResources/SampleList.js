@@ -1123,6 +1123,15 @@ var sampleList = [
 			created:'12/6/2019'
 		},
 		{
+			title:'Popup with DOM element content',
+			desc:'This sample shows how to pass in a DOM-element into a popup as content.',
+			path:'Popups/Popup%20with%20DOM%20element%20content.html',
+			sourcePath:'Popups/Popup%20with%20DOM%20element%20content.html',
+			screenshot:'Popup-with-DOM-element-content.png',
+			keywords:'microsoft maps, map, gis, api, sdk, popup, style',
+			created:'1/3/2020'
+		},
+		{
 			title:'Popup with Media Content',
 			desc:'This sample shows popups that contain media content.',
 			path:'Popups/Popup%20with%20Media%20Content.html',
@@ -1738,4 +1747,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 178;
+}];var numberOfSamples = 179;
