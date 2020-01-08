@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-01-03</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-01-08</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -160,6 +160,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Formatted%20text%20field.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Image%20sprite%20fallback%20expression.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Styled%20Symbol%20Layer.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Symbol%20image%20selection%20state.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Symbol%20layer%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Symbol%20Layer%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html</loc></url>

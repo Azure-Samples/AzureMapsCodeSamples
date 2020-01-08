@@ -1477,7 +1477,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html',
 			screenshot:'Custom-Symbol-Image-Icon.png',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
-			created:'9/23/2018'
+			created:'1/8/2020'
 		},
 		{
 			title:'Data-driven symbol icons',
@@ -1541,6 +1541,15 @@ var sampleList = [
 			screenshot:'Styled-Symbol-Layer.png',
 			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
 			created:'9/23/2018'
+		},
+		{
+			title:'Symbol image selection state',
+			desc:'This sample shows how to change the image of a symbol based on its selection state. ',
+			path:'Symbol%20Layer/Symbol%20image%20selection%20state.html',
+			sourcePath:'Symbol%20Layer/Symbol%20image%20selection%20state.html',
+			screenshot:'Symbol-image-selection-state.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
+			created:'1/8/2020'
 		},
 		{
 			title:'Layer events',
@@ -1747,4 +1756,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 179;
+}];var numberOfSamples = 180;

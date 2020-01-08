@@ -98,6 +98,8 @@
     <Content Include="Common\data\US_State_Literacy.tsv" />
     <Content Include="Common\images\icons\gas_station_pin.png" />
     <Content Include="Common\images\icons\grocery_cart_pin.png" />
+    <Content Include="Common\images\icons\purple_pin.png" />
+    <Content Include="Common\images\icons\purple_pin_small.png" />
     <Content Include="Common\images\icons\restaurant_pin.png" />
     <Content Include="Common\images\icons\school_pin.png" />
     <Content Include="Common\images\image-overlays\Chicago_1872_Map.png" />
@@ -203,6 +205,9 @@
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Drawing Tools Module\Select data in drawn polygon area.html" />
     <Content Include="Experimental\Dynamic Popup\Dynamicly posisitoned popups.html" />
+    <Content Include="SiteResources\screenshots\Symbol-image-selection-state.gif" />
+    <Content Include="Symbol Layer\Custom Symbol Image Icon.html" />
+    <Content Include="Symbol Layer\Symbol image selection state.html" />
     <Content Include="Popups\Popup with DOM element content.html" />
     <Content Include="Popups\Reuse a popup template.html" />
     <Content Include="Popups\Popup templates.html" />
@@ -590,7 +595,6 @@
     <Content Include="Spatial Math\Introduction to spatial math.html" />
     <Content Include="Symbol Layer\Create Symbols from Custom JSON.html" />
     <Content Include="HTML Markers\CSS Styled HTML Marker.html" />
-    <Content Include="Symbol Layer\Custom Symbol Image Icon.html" />
     <Content Include="HTML Markers\Draggable HTML Marker.html" />
     <Content Include="Symbol Layer\Draggable Symbols.html" />
     <Content Include="Symbol Layer\Styled Symbol Layer.html" />
@@ -658,7 +662,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50920</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50920/</IISUrl>
+          <IISUrl>http://localhost:50921/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
