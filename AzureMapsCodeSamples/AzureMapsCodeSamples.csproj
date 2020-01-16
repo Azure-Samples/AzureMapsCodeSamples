@@ -94,6 +94,11 @@
     <Content Include="Bubble Layer\Cluster aggregates.html" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
+    <Content Include="Common\data\geojson\route-networks\montreal_roads.json" />
+    <Content Include="Common\data\geojson\route-networks\niagra_roads.json" />
+    <Content Include="Common\data\geojson\route-networks\transit_routes_datasd.geojson" />
+    <Content Include="Common\data\geojson\route-networks\maritime-trade-routes.geojson" />
+    <None Include="Common\data\geojson\route-networks\Ipswich Road Network.geojson" />
     <None Include="Common\data\topojson\neilsen_dma.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
     <Content Include="Common\images\icons\gas_station_pin.png" />
@@ -155,6 +160,7 @@
     <Content Include="Common\scripts\csv2geojson.js" />
     <Content Include="Common\scripts\exif-js-min.js" />
     <Content Include="Common\scripts\FileSaver.js" />
+    <Content Include="Common\scripts\geojson-path-finder.js" />
     <Content Include="Common\scripts\shp.min.js" />
     <Content Include="Controls\Map Style Picker.html" />
     <Content Include="Custom Modules\Animation module\AnimationModule.js" />
@@ -185,6 +191,10 @@
     <Content Include="Demos\Car vs Truck Route.html" />
     <Content Include="Bubble Layer\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Data-Driven Styling.html" />
+    <Content Include="Common\images\icons\endPin.png" />
+    <Content Include="Common\images\icons\startPin.png" />
+    <Content Include="Spatial Math\GeoJSONRouting\Route along GeoJSON network.html" />
+    <Content Include="Spatial Math\GeoJSONRouting\index.js" />
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a Choropleth Map.html" />
     <Content Include="Custom Modules\Map Synchronizer Module\MapSynchronizerModule.js" />
@@ -205,6 +215,7 @@
     <Content Include="Drawing Tools Module\Get drawn shapes from drawing manager.html" />
     <Content Include="Drawing Tools Module\Select data in drawn polygon area.html" />
     <Content Include="Experimental\Dynamic Popup\Dynamicly posisitoned popups.html" />
+    <Content Include="SiteResources\screenshots\Route-along-GeoJSON-network.png" />
     <Content Include="SiteResources\screenshots\Symbol-image-selection-state.gif" />
     <Content Include="Symbol Layer\Custom Symbol Image Icon.html" />
     <Content Include="Symbol Layer\Symbol image selection state.html" />

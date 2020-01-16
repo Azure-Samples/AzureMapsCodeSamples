@@ -1437,6 +1437,15 @@ var sampleList = [
 			keywords:'microsoft maps, map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
 			created:'1/25/2019'
 		},
+		{
+			title:'Route along GeoJSON network',
+			desc:'This sample shows how to calculate the shortest route path between two points on a network of lines stored in a GeoJSON file. ',
+			path:'Spatial%20Math/GeoJSONRouting/Route%20along%20GeoJSON%20network.html',
+			sourcePath:'Spatial%20Math/GeoJSONRouting',
+			screenshot:'Route-along-GeoJSON-network.png',
+			keywords:'microsoft maps, map, gis, api, sdk, shortest path, routing, route, directions, spatial math',
+			created:'1/16/2020'
+		},
 	]
 },
 {
@@ -1756,4 +1765,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 180;
+}];var numberOfSamples = 181;
