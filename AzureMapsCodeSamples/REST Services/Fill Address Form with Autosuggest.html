@@ -29,7 +29,7 @@
         function PageLoaded() {
             //Create a jQuery autocomplete UI widget.
             $("#searchBox").autocomplete({
-                minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
+                minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed. This will reduce costs by not making requests that will likely not have much relevance.
                 source: function (request, response) {
 
                     //Create a URL to the Azure Maps search service to perform the address search.

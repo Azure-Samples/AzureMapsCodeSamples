@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Snap points to logical route path - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to snap points to the road network to form a logical path using the Azure Maps rest directions service." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, snap to roads, snapping" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, routeURL;
+
+        //Sample data set to snap to roads.
+        var gpsTrace = '../Common/data/geojson/GpsTrace.json';
+
+        //GeoJSON point objects of the gpsCoordinates.
+        var points;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Use subscriptionKeyCredential to create a pipeline
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey()));
+
+            //Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer for rendering the route line under the road labels.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeWidth: 5,
+                    lineJoin: 'round',
+                    lineCap: 'round'
+                }), 'labels');
+
+                //Create a layer for rendering the GPS points.
+                map.layers.add(new atlas.layer.BubbleLayer(datasource, null, {
+                    radius: 3,
+                    color: 'red',
+                    strokeWidth: 1,
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                }));
+
+                //Load the GPS trace data into the map, then run the snapping logic.
+                datasource.importDataFromUrl(gpsTrace).then(() => {
+                    snapPointsToRoute();
+                });
+            });
+        }
+
+        function snapPointsToRoute() {
+            //Get all the GPS trace data from the datasource as GeoJSON and create an array.
+            var points = datasource.toJson().features;
+
+            //Extract the Point geometries from the array of features and use them as supporting points in the route request.
+            var supportingPoints = points.map((val) => {
+                return val.geometry;
+            });
+            
+            //When reconstructing a route, the start and end coordinates must be specified in the query.
+            var coordinates = [points[0].geometry.coordinates, points[points.length - 1].geometry.coordinates];
+
+            //Pass all coordinates to reconstruct the route and create a logical path as supporting points in the body of the request.
+            var options = {
+                postBody: {
+                    "supportingPoints": {
+                        "type": "GeometryCollection",
+                        "geometries": supportingPoints
+                    }
+                }
+            };
+
+            //Calculate a route.
+            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), coordinates, options).then((directions) => {
+                //Get the logical route path as GeoJSON and add it to the data source.
+                var data = directions.geojson.getFeatures();
+                datasource.add(data);
+
+                //Update the map view to center over the route.
+                map.setCamera({
+                    bounds: data.bbox,
+                    padding: 30 //Add a padding to account for the pixel size of symbols.
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Snap points to logical route path</h1></legend>
+        This sample shows how to snap points to the road network to form a logical path using the Azure Maps rest directions service. 
+        This is done by passing the coordinates, in this case a GPS trace, as supporting points in a request in the body of a post reques to the route directions service.
+        Zoom in to see the route path generated for the GPS trace. The GPS trace in this sample has 1,793 points in it.
+    </fieldset>
+</body>
+</html>

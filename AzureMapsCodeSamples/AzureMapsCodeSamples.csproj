@@ -99,6 +99,7 @@
     <Content Include="Common\data\geojson\route-networks\transit_routes_datasd.geojson" />
     <Content Include="Common\data\geojson\route-networks\maritime-trade-routes.geojson" />
     <None Include="Common\data\geojson\route-networks\Ipswich Road Network.geojson" />
+    <Content Include="Common\data\geojson\GpsTrace.json" />
     <None Include="Common\data\topojson\neilsen_dma.json" />
     <Content Include="Common\data\US_State_Literacy.tsv" />
     <Content Include="Common\images\icons\gas_station_pin.png" />
@@ -193,6 +194,12 @@
     <Content Include="Demos\Data-Driven Styling.html" />
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
+    <Content Include="Services Module\Snap points to logical route path.html" />
+    <Content Include="SiteResources\screenshots\Basic-snap-to-road-logic.png" />
+    <Content Include="SiteResources\screenshots\Snap-points-to-logical-route-path.png" />
+    <Content Include="Spatial Math\Basic snap to road logic.html" />
+    <Content Include="Services Module\Alternate routes with deviation constraints.html" />
+    <Content Include="SiteResources\screenshots\Alternate-routes-with-deviation-constraints.png" />
     <Content Include="Spatial Math\GeoJSONRouting\Route along GeoJSON network.html" />
     <Content Include="Spatial Math\GeoJSONRouting\index.js" />
     <Content Include="Demos\Large GeoJSON Files.html" />

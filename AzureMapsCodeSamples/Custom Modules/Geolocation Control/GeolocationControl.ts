@@ -142,7 +142,7 @@ class GeolocationControl implements atlas.Control {
         style.innerHTML = css;
         document.body.appendChild(style);
 
-        //Create the traffic toggle button.
+        //Create the button.
         this._container = document.createElement('div');
         this._container.classList.add('azure-maps-control-container');
         this._container.setAttribute('aria-label', this._resource.title);

@@ -1270,6 +1270,15 @@ var sampleList = [
 	desc:'Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control.',
 	samples: [
 		{
+			title:'Alternate routes with deviation constraints',
+			desc:'This sample shows the usage of alternative routes, alternative types and supporting points with minimum deviation time and distance constraints.',
+			path:'Services%20Module/Alternate%20routes%20with%20deviation%20constraints.html',
+			sourcePath:'Services%20Module/Alternate%20routes%20with%20deviation%20constraints.html',
+			screenshot:'Alternate-routes-with-deviation-constraints.png',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions',
+			created:'1/29/2020'
+		},
+		{
 			title:'Calculate a simple route',
 			desc:'This sample shows how to calculate a simple route and display it on the map using the Services module for Azure Maps.',
 			path:'Services%20Module/Calculate%20a%20simple%20route.html',
@@ -1323,12 +1332,30 @@ var sampleList = [
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, search, reverse, geocode, geocoding, address, addresses',
 			created:'9/26/2018'
 		},
+		{
+			title:'Snap points to logical route path',
+			desc:'This sample shows how to snap points to the road network to form a logical path using the Azure Maps rest directions service.',
+			path:'Services%20Module/Snap%20points%20to%20logical%20route%20path.html',
+			sourcePath:'Services%20Module/Snap%20points%20to%20logical%20route%20path.html',
+			screenshot:'Snap-points-to-logical-route-path.png',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping',
+			created:'1/31/2020'
+		},
 	]
 },
 {
 	category:'Spatial Math',
 	desc:'Learn how to use the spatial math library that is built into the Azure Maps Web Control.',
 	samples: [
+		{
+			title:'Basic snap to road logic',
+			desc:'This sample shows how to snap individual points to the rendered roads on the map.',
+			path:'Spatial%20Math/Basic%20snap%20to%20road%20logic.html',
+			sourcePath:'Spatial%20Math/Basic%20snap%20to%20road%20logic.html',
+			screenshot:'Basic-snap-to-road-logic.png',
+			keywords:'microsoft maps, map, gis, api, sdk, snap to roads, snapping, road network',
+			created:'1/31/2020'
+		},
 		{
 			title:'Calculate a convex hull',
 			desc:'This sample shows how to calculate a convex hull from an array of shapes.',
@@ -1765,4 +1792,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 181;
+}];var numberOfSamples = 184;

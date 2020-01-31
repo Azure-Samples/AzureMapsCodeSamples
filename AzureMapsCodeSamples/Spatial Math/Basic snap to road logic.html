@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Basic snap to road logic - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to snap individual points to the rendered roads on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, snap to roads, snapping, road network" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, popup;
+
+        //Name of all road source layers in the maps vector tiles.
+        var roadLayers = [
+            'Connecting road',
+            'Connecting road tunnel',
+            'International road',
+            'International road tunnel',
+            'Local road',
+            'Local road tunnel',
+            'Major local road',
+            'Major local road tunnel',
+            'Major road',
+            'Major road tunnel',
+            'Minor local road',
+            'Minor local road tunnel',
+            'Motorway',
+            'Motorway tunnel',
+            'Secondary road',
+            'Secondary road tunnel',
+            'Toll connecting road',
+            'Toll connecting road tunnel',
+            'Toll international road',
+            'Toll international road tunnel',
+            'Toll local road',
+            'Toll local road tunnel',
+            'Toll major local road',
+            'Toll major local road tunnel',
+            'Toll major road',
+            'Toll major road tunnel',
+            'Toll minor local road',
+            'Toll minor local road tunnel',
+            'Toll motorway',
+            'Toll motorway tunnel',
+            'Toll secondary road',
+            'Toll secondary road tunnel',
+
+            //Parking lot roads. Comment this out if not desired.
+            'Parking road'
+        ];
+
+        //The max distance a coordinate needs to be from a road in meters if it is to snap to it.
+        var maxSnappingDistance = 150;
+
+        //The min distance in meters the coordinate needs to be away from a road from a past snapping calculation, before it is snapped again.
+        var minSnappingDistance = 2;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 15,
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+            
+            //Wait until the map resources are ready.
+            map.events.add('load', function () {
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering data.
+                var layer = new atlas.layer.BubbleLayer(datasource);
+                map.layers.add(layer);
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+
+                //Add a click event to the layer.
+                map.events.add('click', layer, showPopup);
+
+                //Load an initial set of random points.
+                generateRandomPoints();
+
+                //Run snapping logic as the map moves.
+                map.events.add('moveend', snapPoints);
+            });
+
+            //Wait until the map has loaded as we will need the map to be rendered first before we try snapping.
+            map.events.add('load', function () {
+                snapPoints();
+            });
+        }
+
+        function generateRandomPoints() {
+            var points = [];
+            var c = map.getCamera().center;
+
+            //Generate 10 random points near the center of the map.
+            for (var i = 0; i < 10; i++) {
+                var coord = [
+                    c[0] + (Math.random() * 0.01 - 0.005),
+                    c[1] + (Math.random() * 0.01 - 0.005)
+                ];
+
+                //Store the source coordinate as a property of the point feature so that we can update the points coordinate to the snapped coordinate without losing the original coordinate information.
+                points.push(new atlas.data.Feature(new atlas.data.Point(coord), {
+                    _sourceCoord: coord 
+                }));
+            }
+
+            //Overwrite all shapes in the datasource.
+            datasource.setShapes(points);
+
+            snapPoints();
+        }
+
+        function snapPoints() {
+            //Get all shapes from datasource as GeoJSON features for simplicity.
+            var features = datasource.toJson().features;
+           
+            var lines;
+
+            //Loop through each feature and calculate the distance to the closest road. 
+            for (var j = 0; j < features.length; j++) {
+                var point = features[j];
+
+                //Only perform snapping calculation on point if it hasn't been snapped before or if previous snapping distances is larger than the min snapping distance.
+                if (typeof point.properties._distance === 'undefined' || point.properties._distance > minSnappingDistance) {
+
+                    //Only retrieve the line data from the map if a point feature needs to be snapped. This is a simple optimization.
+                    if (!lines) {
+                        //Retrieve all rendered line data from the map.
+                        lines = map.layers.getRenderedShapes(null, null, ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]);
+                    }
+
+                    //Snap to the closest road.
+                    for (var i = 0, len = lines.length; i < len; i++) {
+                        //Ensure the layer has a sourceLayer (indicates its from a vector tile source) and that the source layer is one of the maps base map layers.
+                        if (lines[i].sourceLayer && roadLayers.indexOf(lines[i].sourceLayer) !== -1) {
+                            //Get the closest point on the source layer to the original source coordinate of the point feature.
+                            var cp = atlas.math.getClosestPointOnGeometry(point.properties._sourceCoord, lines[i]);
+
+                            //Ensure that the closest point is closer than the previously calculated snapped coordinates for the point.
+                            if (cp && cp.properties.distance <= maxSnappingDistance &&
+                                (typeof point.properties._distance === 'undefined' || cp.properties.distance < point.properties._distance)) {
+                                point.properties._distance = cp.properties.distance;
+
+                                //Update the point data with the snapped coordinates.
+                                point.geometry.coordinates = cp.geometry.coordinates;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Overwrite all features in the datasource with the snapped features.
+            datasource.setShapes(features);
+        }
+
+        function showPopup(e) {
+            if (e.shapes && e.shapes.length > 0) {
+                var properties = e.shapes[0].getProperties();
+                
+                popup.setOptions({
+                    //Update the content of the popup.
+                    content: `<div style="padding:10px">Snapped distance: ${properties._distance}m</div>`,
+
+                    //Update the position of the popup with the point features coordinate.
+                    position: e.shapes[0].getCoordinates()
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:white;padding:10px;border-radius:10px;">
+        <input type="button" value="Randomize points" onclick="generateRandomPoints()" />
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Basic snap to road logic</h1></legend>
+        This sample shows how to snap individual points to the rendered roads on the map. Click on any point to find out how far it moved in order to snap to the nearest road.
+        This sample calculates the nearest rendered road every time the map moves within certain distance thresholds since only roads in view and at certain zoom levels are rendered.
+        This is a cheap way to snap real-time GPS coordinates to the road network on the map.
+        Similar logic can be used for snapping to other line featurs on the map. 
+        Simply change the names in the source layer to the layers you want to snap to.
+        A full list of source layers available in the base road map vector tiles is documented <a href="https://developer.tomtom.com/maps-api/maps-api-documentation-vector/tile">here</a>
+    </fieldset>
+</body>
+</html>
