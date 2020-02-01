@@ -489,6 +489,15 @@ var sampleList = [
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
 			created:'12/10/2019'
 		},
+		{
+			title:'Snap drawn line to roads',
+			desc:'This sample shows how to snap a line drawn using the draiwng tools to the road network. ',
+			path:'Drawing%20Tools%20Module/Snap%20drawn%20line%20to%20roads.html',
+			sourcePath:'Drawing%20Tools%20Module/Snap%20drawn%20line%20to%20roads.html',
+			screenshot:'Snap-drawn-line-to-roads.png',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
+			created:'1/31/2020'
+		},
 	]
 },
 {
@@ -1338,7 +1347,7 @@ var sampleList = [
 			path:'Services%20Module/Snap%20points%20to%20logical%20route%20path.html',
 			sourcePath:'Services%20Module/Snap%20points%20to%20logical%20route%20path.html',
 			screenshot:'Snap-points-to-logical-route-path.png',
-			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
 			created:'1/31/2020'
 		},
 	]
@@ -1353,7 +1362,7 @@ var sampleList = [
 			path:'Spatial%20Math/Basic%20snap%20to%20road%20logic.html',
 			sourcePath:'Spatial%20Math/Basic%20snap%20to%20road%20logic.html',
 			screenshot:'Basic-snap-to-road-logic.png',
-			keywords:'microsoft maps, map, gis, api, sdk, snap to roads, snapping, road network',
+			keywords:'microsoft maps, map, gis, api, sdk, snap to road, snap to roads, snapping, road network, gps',
 			created:'1/31/2020'
 		},
 		{
@@ -1792,4 +1801,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 184;
+}];var numberOfSamples = 185;
