@@ -195,8 +195,10 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Extruded choropleth map.html" />
     <Content Include="Services Module\Snap points to logical route path.html" />
     <Content Include="SiteResources\screenshots\Basic-snap-to-road-logic.png" />
+    <Content Include="SiteResources\screenshots\Extruded-choropleth-map.png" />
     <Content Include="SiteResources\screenshots\Snap-drawn-line-to-roads.png" />
     <Content Include="SiteResources\screenshots\Snap-points-to-logical-route-path.png" />
     <Content Include="Spatial Math\Basic snap to road logic.html" />
