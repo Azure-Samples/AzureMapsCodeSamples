@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>Data+BalloonStyle</name>
+  <Style id="golf-balloon-style">
+    <BalloonStyle>
+      <text>
+        <![CDATA[
+          This is $[name]
+          This is hole $[holeNumber]
+          The par for this hole is $[holePar]
+          The yardage is $[holeYardage]
+        ]]>
+      </text>
+    </BalloonStyle>
+  </Style>
+  <!-- Shared style sample
+        Two Placemarks use the same balloon template
+  -->
+  <Placemark>
+    <name>Club house</name>
+    <styleUrl>#golf-balloon-style</styleUrl>
+    <ExtendedData>
+      <Data name="holeNumber">
+        <value>1</value>
+      </Data>
+      <Data name="holeYardage">
+        <value>234</value>
+      </Data>
+      <Data name="holePar">
+        <value>4</value>
+      </Data>
+    </ExtendedData>
+    <Point>
+      <coordinates>-111.956,33.5043</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>By the lake</name>
+    <styleUrl>#golf-balloon-style</styleUrl>
+    <ExtendedData>
+      <Data name="holeNumber">
+        <value>5</value>
+      </Data>
+      <Data name="holeYardage">
+        <value>523</value>
+      </Data>
+      <Data name="holePar">
+        <value>5</value>
+      </Data>
+    </ExtendedData>
+    <Point>
+      <coordinates>-111.95,33.5024</coordinates>
+    </Point>
+  </Placemark>
+</Document>
+</kml>

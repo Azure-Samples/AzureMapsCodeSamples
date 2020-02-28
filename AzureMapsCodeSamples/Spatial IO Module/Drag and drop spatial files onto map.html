@@ -1,0 +1,438 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Drag and drop spatial files onto map - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Drag and drop one or more KML, KMZ, GeoRSS, GPX, GML, GeoJSON or CSV files onto the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, KML, KMZ, GeoRSS, GPX, GML, GeoJSON, CSV, ogc, spatial data, spatial io module, geoxml" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, imageLayers = [], layer, dataBounds, statusPanel, dataPanel, imageIcons = [], loadingIcon, fileCount = 0;
+
+        var proxyServiceUrl = window.location.origin + '/Common/CorsEnabledProxyService.ashx?url=';
+
+        function GetMap() {
+            statusPanel = document.getElementById('statusPanel');
+            dataPanel = document.getElementById('dataPanel');
+            loadingIcon = document.getElementById('loadingIcon');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark',
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Create a data source to store the data in.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a simple data layer for rendering the data.
+                layer = new atlas.layer.SimpleDataLayer(datasource);
+                map.layers.add(layer);
+
+                //Setup the drag & drop listeners on the map.
+                var dropZone = document.getElementById('myMap');
+                dropZone.addEventListener('dragover', handleDragOver, false);
+                dropZone.addEventListener('drop', handleFileSelect, false);
+            });
+        }
+
+        function handleDragOver(evt) {
+            //Stop the browser from performing its default behavior when a file is dragged and dropped.
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            evt.dataTransfer.dropEffect = 'copy';
+        }
+
+        function handleFileSelect(evt) {
+            statusPanel.value = 'Reading from Files\r\n\r\n';
+
+            //Stop the browser from performing its default behavior when a file is dragged and dropped.
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            clearMap();
+
+            //The list of files that have been dragged and dropped onto the map.
+            var files = evt.dataTransfer.files;
+
+            //Loop through and attempt to read each file.
+            for (var i = 0; i < files.length; i++) {
+                //Read the data blob.
+                readData(files[i], files[i].name);
+            }
+        }
+
+        function readData(data, fileName) {
+            loadingIcon.style.display = '';
+            fileCount++;
+
+            //Attempt to parse the file and add the shapes to the map.
+            atlas.io.read(data, {
+                proxyService: proxyServiceUrl
+            }).then(
+                //Success
+                function (r) {
+                    //Check to see if there is any icon data. If there is, load them into the map before loading the data.
+                    if (r.icons) {
+                        loadIcons(r.icons).then(function () {
+                            loadData(r, fileName);
+                        });
+                    } else {
+                        loadData(r, fileName);
+                    }
+                },
+
+                //Error
+                function (msg) {
+                    writeStats(fileName, null, msg);
+                    alert(msg);
+                }
+            );
+        }
+
+        function readDataPanel() {
+            statusPanel.value = 'Reading from Data panel\r\n\r\n';
+
+            clearMap();
+            readData(dataPanel.value);
+        }
+
+        function loadData(r, fileName) {
+            //Load all features.
+            if (r.features && r.features.length > 0) {
+                datasource.add(r.features);
+            }
+
+            //Load ground overlays.
+            if (r.groundOverlays && r.groundOverlays.length > 0) {
+                imageLayers = imageLayers.concat(r.groundOverlays);
+                map.layers.add(r.groundOverlays);
+            }
+
+            //If there is a bounding box for the data, set the map to it.
+            if (r.bbox) {
+                if (dataBounds) {
+                    //If there are multiple files being loaded, there merge their bounding boxes together.
+                    dataBounds = atlas.data.BoundingBox.merge(dataBounds, r.bbox);
+                } else {
+                    dataBounds = r.bbox;
+                }
+
+                //Update the map view.
+                map.setCamera({ bounds: dataBounds, padding: 50 });
+            }
+
+            //Write stats.
+            writeStats(fileName, r.stats);
+        }
+
+        //Load icons into the map image sprite.
+        function loadIcons(icons) {
+            return new Promise(function (resolve, reject) {
+                if (!icons) {
+                    resolve();
+                    return;
+                }
+
+                //The keys are the names of each icon image.
+                var keys = Object.keys(icons);
+
+                if (keys.length === 0) {
+                    resolve();
+                    return;
+                }
+
+                //For each icon image, create a promise to add it to the map, then run the promises in parrallel.
+                var imagePromises = [];
+
+                keys.forEach(function (key) {
+                    imagePromises.push(map.imageSprite.add(key, icons[key]));
+                });
+
+                Promise.all(imagePromises).then(function () {
+                    //Remember all the added icon names so we can remove them later when the map is cleared.
+                    imageIcons = imageIcons.concat(keys);
+                    resolve();
+                });
+            });
+        }
+
+        //Remove any custom loaded icons from the map.
+        function removeIcons() {
+            for (var i = 0; i < imageIcons.length; i++) {
+                map.imageSprite.remove(imageIcons[i]);
+            }
+
+            imageIcons = [];
+        }
+
+        function clearMap() {
+            //Remove any existing data from the map.
+            dataBounds = null;
+            map.layers.remove(imageLayers);
+            imageLayers = [];
+            datasource.clear();
+            removeIcons();
+            layer.closePopup();
+        }
+
+        //Writes data as a string an adds to data panel.
+        function writeData() {
+            dataPanel.value = '';
+
+            var fileTypeDD = document.getElementById('fileType');
+            var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].innerText;
+
+            var s = performance.now();
+
+            atlas.io.write(imageLayers.concat(datasource.toJson().features), {
+                format: fileType,
+                indentChars: '    ' //Use 4 spaces instead of \t for indenting as it looks better in the textarea.
+            }).then(function (dataString) {
+                var e = performance.now();
+                statusPanel.value = 'Data written in: ' + (e - s) + 'ms';
+                dataPanel.value = dataString;
+                openTab(null, 'Data');
+            });
+        }
+
+        //Downloads the data as a compressed file (KMZ or ZIP).
+        function downloadZip() {
+            dataPanel.value = '';
+
+            var fileTypeDD = document.getElementById('fileType');
+            var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].innerText;
+
+            atlas.io.writeCompressed(imageLayers.concat(datasource.toJson().features), 'Blob', {
+                format: fileType,
+                indentChars: '    ' //Use 4 spaces instead of \t for indenting as it looks better in the textarea.
+            }).then(function (compressedData) {
+                if (fileType === 'KML') {
+                    saveAs(compressedData, 'MapData.kmz');
+                } else {
+                    saveAs(compressedData, 'MapData.zip');
+                }
+            });
+        }
+
+        //Write reading stats and errors for each file read.
+        function writeStats(fileName, stats, error) {
+            var result = [];
+
+            if (fileName) {
+                result.push('File name: ', fileName);
+            }
+
+            if (error) {
+                result.push('\r\nError: ', error);
+            }
+
+            if (stats) {
+
+                if (stats.numCharecters) {
+                    result.push('\r\nFile size: ', Math.ceil(stats.numCharecters / 1024), ' KB');
+                }
+
+                if (stats.numPoints) {
+                    result.push('\r\n# of Points: ', stats.numPoints);
+                }
+
+                if (stats.numLineStrings) {
+                    result.push('\r\n# of LineStrings: ', stats.numLineStrings);
+                }
+
+                if (stats.numPolygons) {
+                    result.push('\r\n# of Polygons: ', stats.numPolygons);
+                }
+
+                if (stats.numPositions) {
+                    result.push('\r\n# of Positions: ', stats.numPositions);
+                }
+
+                if (stats.numNetworkLinks) {
+                    result.push('\r\n# of Network Links: ', stats.numNetworkLinks);
+                }
+
+                if (stats.numGroundOverlays) {
+                    result.push('\r\n# of Ground Overlays ', stats.numGroundOverlays);
+                }
+
+                result.push('\r\nProcessing time (ms): ', stats.processingTime, '\r\n\r\n');
+            }
+
+            statusPanel.value += result.join('');
+
+            fileCount--;
+
+            if (fileCount === 0) {
+                loadingIcon.style.display = 'none';
+            }
+
+            openTab(null, 'Status');
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+
+            if (!elm) {
+                if (tabName === 'Status') {
+                    elm = document.getElementById('StatusBtn');
+                } else if (tabName === 'Data') {
+                    elm = document.getElementById('DataBtn');
+                }
+            }
+
+            elm.className += " active";
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #Instructions {
+            display: block;
+            height: 490px;
+            width: 306px;
+        }
+
+        #statusPanel {
+            width: 300px;
+            height: 490px;
+            overflow-y: auto;
+        }
+
+        #dataPanel {
+            width: 300px;
+            height: 360px;
+            overflow-y: auto;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend><h1 style="font-size:16px">Drag and drop spatial files onto map</h1></legend>
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'Instructions')">Instructions</button>
+            <button id="StatusBtn" class="tablinks" onclick="openTab(this, 'Status')">Status</button>
+            <button id="DataBtn" class="tablinks" onclick="openTab(this, 'Data')">Data</button>
+        </div>
+
+        <div id="Instructions" class="tabcontent">
+            Drag and drop one or more KML, KMZ, GeoRSS, GPX, GML, GeoJSON or CSV files onto the map.<br /><br />
+
+            <select id="fileType">
+                <option>CSV</option>
+                <option>GeoRSS</option>
+                <option>GeoJSON</option>
+                <option>GML</option>
+                <option>GPX</option>
+                <option selected="selected">KML</option>
+            </select>
+
+            <input type="button" value="Write data" onclick="writeData()" />
+
+            <input type="button" value="Download Zip" onclick="downloadZip()" /><br /><br />
+
+            <input type="button" value="Clear Map" onclick="clearMap();" />
+        </div>
+
+        <div id="Status" class="tabcontent">
+            <textarea id="statusPanel"></textarea>
+        </div>
+
+        <div id="Data" class="tabcontent">
+            <textarea id="dataPanel"></textarea>
+            <br /><br />
+            Add XML, GeoJSON, CSV or an URL that points to a file of these types into the data panel and press the "Read data" button to render the data on the map.
+            <br /><br />
+            <input type="button" value="Read data" onclick="readDataPanel()" />
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+
+    <img id="loadingIcon" src="../Common/images/loadingIcon.gif" style="position:absolute;top:270px;left:calc(50% - 30px);display:none;" />
+</body>
+</html>

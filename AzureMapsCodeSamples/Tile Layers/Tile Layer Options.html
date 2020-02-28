@@ -46,7 +46,7 @@
 
                 //Create a tile layer and add it to the map.
                 tileLayer = new atlas.layer.TileLayer({
-                    tileUrl: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
+                    tileUrl: 'https://azuremapscodesamples.blob.core.windows.net/tiles/katrina/{quadkey}.png',
                     bounds: [-101.065, 14.01, -80.538, 35.176],
                     minSourceZoom: 1,
                     maxSourceZoom: 10,
@@ -68,7 +68,6 @@
             var source = getSourceOptions();
 
             //Update all the options in the tile layer.
-            //Update all the options in the tile layer.
             if (updateSource) {
                 options = Object.assign(options, source);
                 tileLayer.setOptions(options);
@@ -81,8 +80,6 @@
         }
 
         function getSourceOptions() {
-            var sourceOptions = {};
-
             var tileUrl = document.getElementById('TileSourceUrl').value;
             var subdomains = document.getElementById('Subdomains').value;
             var minSourceZoom = parseFloat(document.getElementById('MinSourceZoom').value);
@@ -365,7 +362,7 @@
                 <tr title="A URL to a TileJSON resource or a tile URL template that uses the following URL parameters: {x}, {y}, {z}, {quadkey}, {bbox-epsg-3857}, {subdomain}">
                     <td>Tile Service Url</td>
                     <td>
-                        <input type="text" id="TileSourceUrl" value="https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png" />
+                        <input type="text" id="TileSourceUrl" value="https://azuremapscodesamples.blob.core.windows.net/tiles/katrina/{quadkey}.png" />
                     </td>
                 </tr>
                 <tr title="An array of subdomain values to apply to the tile URL.">

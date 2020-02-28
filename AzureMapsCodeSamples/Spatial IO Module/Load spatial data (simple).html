@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Load spatial data (simple) - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to easily load spatial data using the spatial io module into the map. " />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, KML, KMZ, GeoRSS, GPX, GML, GeoJSON, CSV, ogc, spatial data, spatial io module, geoxml" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, layer;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a simple data layer for rendering the data.
+                layer = new atlas.layer.SimpleDataLayer(datasource);
+                map.layers.add(layer);
+
+                //Read an XML file from a URL or pass in a raw XML string.
+                atlas.io.read(window.location.origin + '/Common/data/Gpx/Route66Attractions.xml').then(r => {
+                    if (r) {
+                        //Add the feature data to the data source.
+                        datasource.add(r);
+
+                        //If bounding box information is known for data, set the map view to it.
+                        if (r.bbox) {
+                            map.setCamera({ bounds: r.bbox, padding: 50 });
+                        }
+                    }
+
+                    //NOTE: KML/KMZ can contain ground overlays which are returned in the "groundOverlay" property of the data set.
+                    //Additionally, any images parsed for use as custom icons when rendering points are in the "icons" property of the data set and should be added to the maps resource before adding the data to the data source.
+                    //See the "Load KML onto map" sample for more complete example for KML/KMZ data sets.
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Load spatial data (simple)</h1></legend>
+        This sample shows how to easily load spatial data using the spatial io module into the map.
+        The <b>atlas.io.read</b> function supports reading KML, KMZ, GPX, GeoRSS, GML, GeoJSON, CSV (with spatial columns).
+        This function can take in a string that contains the raw data or a URL to the data.
+        The data format will be automatically detected and parsed acoordingly.
+        This function returns a SpatialDataSet object that extends from a GeoJSON Feature Collection.
+        Passing this directly into a data source will load all features in the data set.
+        Here is a list of all the properties within a SpatialDataSet object.
+        <ul>
+            <li>bbox - Bounding box of all the data in the data set.</li>
+            <li>features - GeoJSON features within the data set.</li>
+            <li>groundOverlays - An array of image or OGC map layers that represent KML GroundOverlays.</li>
+            <li>properties - Property information provided at the document level of a spatial data set.</li>
+            <li>stats - Statistics about the content and processing time of a spatial data set.</li>
+            <li>icons - A set of icon URL's. Key = icon name, Value = URL.</li>
+            <li>type - The GeoJSON type; "FeatureCollection".</li>
+        </ul>
+        <b>Note:</b> Not all file and mime types are enabled in all servers. If using .NET, it is recommended to add the following to the web.config file in the &lt;system.webServer&gt; section:
+        <br /> <br />
+        &lt;staticContent&gt;<br />
+        &emsp;&lt;remove fileExtension=".json"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".json" mimeType="application/json"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".geojson" mimeType="application/json"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".gpx" mimeType="application/xml"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".georss" mimeType="application/xml"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".kml" mimeType="application/vnd.google-earth.kml+xml"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".kmz" mimeType="application/vnd.google-earth.kmz"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".tab" mimeType="text/plain"/&gt;<br />
+        &emsp;&lt;mimeMap fileExtension=".pipe" mimeType="text/plain"/&gt;<br />
+        &lt;/staticContent&gt;
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,2540 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="EasyGPS 3.06" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.topografix.com/GPX/gpx_overlay/0/3 http://www.topografix.com/GPX/gpx_overlay/0/3/gpx_overlay.xsd http://www.topografix.com/GPX/gpx_modified/0/1 http://www.topografix.com/GPX/gpx_modified/0/1/gpx_modified.xsd http://www.topografix.com/GPX/Private/TopoGrafix/0/4 http://www.topografix.com/GPX/Private/TopoGrafix/0/4/topografix.xsd">
+  <metadata>
+    <name>Route 66 Attractions</name>
+    <desc>This is a pretty comprehensive list of POIs along the famed Mother Road Route 66. I provided descriptions whenever possible. Now go get your kicks on Route 66!</desc>
+    <bounds minlat="34.01138300" minlon="-118.49806700" maxlat="41.87951684" maxlon="-87.62437820"/>
+  </metadata>
+  <wpt lat="41.87951684" lon="-87.62437820">
+    <name>Start of Route 66 in Chicago</name>
+    <cmt>Chicago, IL</cmt>
+    <desc>Start in Chicago at the intersection of Adams Street and Michigan Avenue. Continue on Adams, then turn left on Ogden Avenue. Drive on Ogden to Harlem Avenue. Turn left on Harlem and after about a 1/2-mile right on Joliet Road. Follow Joliet Road to I-55. Exit I-55 at Wilmington.</desc>
+    <sym>Navaid, Green</sym>
+  </wpt>
+  <wpt lat="40.14366543" lon="-89.38259840">
+    <name>Dutch Mill Restaurant</name>
+    <cmt>Lincoln, IL</cmt>
+    <desc>Closed in 1996 but still standing.  "The Mill" is located in Lincoln, Illinois. Take the Woodlawn Road exit off I-55 then turn right on Business Loop 55. Work your way over to First Street. The Mill was famous for schnitzel. Pick-up I-55 again south of town.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="40.36389737" lon="-89.11344945">
+    <name>Funks Grove</name>
+    <cmt>Funks Grove, IL</cmt>
+    <desc>For Pure Maple "Sirup", take the Shirley exit off I-55 and head south on Route 66 and go 5 miles to Funks Grove. The sirup farm is a 1/4-mile past the Funks Grove sign. Check out the old train station while you're in the area.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="39.82910600" lon="-89.63797500">
+    <name>Bill Shea's Filling Station</name>
+    <cmt>
+      2075 N Peoria Rd
+      Springfield, IL
+    </cmt>
+    <desc>Museum and tribute to tribute to gas stations that once lined Route 66.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="39.76277300" lon="-89.64832600">
+    <name>Cozy Dog Drive In</name>
+    <cmt>
+      2935 S 6th St
+      Springfield, IL 62703
+      (217) 525-1992
+      www.cozydogdrivein.com
+    </cmt>
+    <desc>Home of the origional "Cozy Dog" - hot dog on a stick.  The Cozy Dog Drive In is a restaurant located in Springfield, Illinois which claims to be the first place to serve the corn dog. The claim states that the deep fried, battered hot dog on a stick was invented by Ed Waldmire Jr. and his friend, Don Strand while they were stationed at an Amarillo, Texas base in World War II.</desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="39.33100000" lon="-89.64000000">
+    <name>Our Lady of the Highway</name>
+    <cmt>Springfield, IL</cmt>
+    <desc>Traveling Route 66 going south out of Springfield you will pass this famous highway shrine just south of Waggoner. Route 66 has always had a down side in that some stretches could be particularly dangerous with steep hills, blind curves, and narrow bridges. There's no doubt about it; Route 66 could be a very dangerous road sometimes. The Our Lady 0f the Highway Shrine was placed along Route 66 back in 1959 to remind motorists of the potential dangers and provide a place to say a prayer for a safe journey. You certainly wouldn't find something like this along the Interstate today would you? Today the Marten family who just so happens to live next door maintains the site. The shrine is located on the Marten family's farm so it doesn't violate any civil liberties, or separation of church and state, or public expression of faith laws. Yes, our country has changed quite a bit since the days of Route 66 - some for the better and some for the worse.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="41.87799308" lon="-87.64227390">
+    <name>Lou Mitchell's Restaurant</name>
+    <cmt>
+      565 W Jackson Blvd
+      Chicago, IL 60661
+      (312) 939-3111
+      www.loumitchellsrestaurant.com
+    </cmt>
+    <desc>
+      Located near the start of Route 66 and frequented by many people on the start of their journey, earning it the nickname "the first stop on the Mother Road."
+      The restaurant has been here since the days before Route 66. Lou Mitchell’s opened in 1923 and has been serving great meals and super coffee to customers on Route 66 ever since.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.38955961" lon="-88.12618732">
+    <name>Abe Lincoln Nat'l Cemetery</name>
+    <cmt>Joliet, IL</cmt>
+    <desc>If you take the road from Route 66 to the Lincoln National Cemetery you will find a lonely monument, a memorial that reminds one of the supreme price paid by some in the Joliet Arsenal’s single greatest tragedy. One calm morning in 1942 a violent explosion rocked the countryside. This explosion killed more than forty munitions workers. The cause of the explosion is still unknown. The explosion could have been far worse if the Joliet Arsenal had been located nearer to populated areas; still the blast shattered windows in towns many miles away. This memorial to the civilian workers killed in the blast was dedicated in 2001 just outside the hallowed ground of the new Lincoln National Cemetery.</desc>
+    <sym>Cemetery</sym>
+  </wpt>
+  <wpt lat="41.26516257" lon="-88.20989370">
+    <name>Polk-A-Dot Drive In</name>
+    <cmt>
+      222 N Front St
+      Braidwood, IL 60408
+      (815) 458-3377
+      www.polk-a-dot.com
+    </cmt>
+    <desc>
+      The Polk-a-Dot Drive In was founded over 50 years ago. The Drive-In was originally a school bus painted in Rainbow Polk-a-Dots. Lunch was served from a mini-sized kitchen inside the bus.
+      Today, it is a beautiful 50's Style Drive-In that has become one of the most memorable attractions along Illinois Route 66.
+    </desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="41.20559527" lon="-88.28364909">
+    <name>Riviera Roadhouse</name>
+    <cmt>Gardner, IL</cmt>
+    <desc>
+      The Riviera Roadhouse in Gardner has a fascinating history. Jack Rittenhouse mentions it in his guide book as a cafe at the intersection of the road into Gardner and Route 66. The Riviera Restaurant and Tavern was built in 1928. James Girot, a South Wilmington businessman, moved buildings from Gardner and South Wilmington and put them all together to form the Riviera structure as it stands today. The Riviera is a true roadhouse! Once movie legends Gene Kelly and Tom Mix regularly stopped here. This was a favorite haunt of Al Capone and was known as a gangster hangout too. Slot machines and booze were offered to the discrete customer during prohibition. In fact, there's a freezer in the basement with a heavy iron door that was used to hide booze and gambling machines in case of a raid.
+
+      Today the Riviera still serves the traveler a good home cooked meal and a stop at the Riviera is to step back in time to the 1930s and 1940s. Speaking of stepping back, while at the Riviera make sure to step out back and see the old Streetcar Diner. The Streetcar Diner is a preservation project of the Illinois Route 66 Association. The Preservation Committee rescued it from destruction and are in the process of restoring it now.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.09388300" lon="-88.43971700">
+    <name>Ambler's Texaco Station</name>
+    <cmt>Dwight, IL</cmt>
+    <desc>Route 66 is about enjoying the drive. This beautifully restored service station is a fine example of what newly driving America needed on Route 66, a place to fill the gas tank of their new car. This station is from back in the day when attendants pumped your gas, cleaned your windshield, and asked if you wanted your oil level checked. Service stations would vie for your business by offering free car washes or a free set of classes with every fill-up. Service was something you could expect to receive when driving in to one of these beauties.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="41.00179582" lon="-88.52881908">
+    <name>Odell Standard Oil Station</name>
+    <cmt>
+      400 S West St
+      Odell, IL 60460
+    </cmt>
+    <desc>This beautiful old gas station was built in 1932 and served travelers on Route 66 until the mid 1960s when it stopped selling gas. This station then was used as a body shop until it closed its doors in 1975. Years of neglect took their toll on this old Standard station. The station would have disappeared if it had not been for the preservation efforts of the Illinois Route 66 Association and their Preservation Committee. A total of $55,000, from grants, matching funds and donations was raised to restore this station to its former glory - not bad for a grass roots effort.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="38.76055600" lon="-90.17638900">
+    <name>Old Chain of Rocks Bridge</name>
+    <cmt>Illinois-Missouri</cmt>
+    <desc>
+      The Chain of Rocks Bridge spans the Mississippi River on the north edge of St. Louis, Missouri. The eastern end of the bridge is on Chouteau Island, (part of Madison, Illinois), while the western end is on the Missouri shoreline.
+      The Bridge was for a time the route used by U.S. Route 66 to cross over the Mississippi. Its most notable feature is a 22-degree bend occurring at the middle of the crossing, necessary for navigation on the river. Originally a motor route, it now carries walking and biking trails over the river. The bridge was added to the National Register of Historic Places in 2006.
+    </desc>
+    <sym>Bridge</sym>
+  </wpt>
+  <wpt lat="35.52833300" lon="-108.74250000">
+    <name>"Here We are On Route 66" Sign</name>
+    <cmt>Gallup, NM</cmt>
+    <desc>"Here We are On Route 66" was a phrase used on a post card that promoted travel on Route 66. The post card was made famous again recently when Michael Wallis, author of "Route 66: The Mother Road" placed a copy of it on the cover of his book. The variation in this posting adds "Gallup NM" to the phrase. It was designed by another author, Jerry McClanahan, who wrote the "The EZ66 Guide for Travelers". In his book he describes the sign as "depicting a pink '59 Caddy headed into a Route 66 neon sunset." This sign can be seen over the entrance to the Gallup Chamber of Commerce in the middle of town.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.02333300" lon="-110.69805000">
+    <name>"Standin' on the Corner" Park</name>
+    <cmt>Winslow, AZ</cmt>
+    <desc>
+      "Take it Easy" by The Eagles
+      Many of us can sing every word of this song without even thinking. Try it.
+      OK, now think just about the opening lyrics "Well I'm standin' on a corner in Winslow, Arizona, such a fine sight to see; It's a girl, my Lord, in a flatbed Ford slowin' down to take a look at me." The imagery of this line is what you see represented here in this park along Route 66 as you passes through Winslow.
+      If you're driving Route 66 east or west then it's worth a stop as it's less than a block off of either route. The park is sandwiched on the corner of a block between the two one-way strips that are Route 66 flowing through town.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.19138300" lon="-94.29221700">
+    <name>The Crapduster</name>
+    <cmt>Carthage, MO</cmt>
+    <desc>
+      So you're driving down Route 66 when all of a sudden it grabs your eyes. Perched high overlooking the road is a flying contraption. It's a weird looking plane with a weird name, "The Crapduster". Turns out it's a bit of fun by artist Lowell Davis. It's an antique manure spreader to which he added wings, inserted a pilot, and painted with eye-catching colors.
+      It's currently decked out in a "KC Chiefs" theme at a Flyin' W Truck Station.
+      Unique? Yes.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.68738300" lon="-105.93835000">
+    <name>The Plaza</name>
+    <cmt>Santa Fe, NM</cmt>
+    <desc>When Route 66 was first laid out in 1926, it went through Santa Fe, the capital of New Mexico. It followed the Old Santa Fe/Pecos Trail from Santa Rosa to Santa Fe. The Plaza, Santa Fe’s “Central Park,” was the end of Old Santa Fe Trail (1822-1879).</desc>
+    <sym>Park</sym>
+  </wpt>
+  <wpt lat="39.17695000" lon="-89.66666700">
+    <name>"Vic" Suhling's Gas for Less</name>
+    <cmt>Litchfield, IL</cmt>
+    <desc>Vic Shuling's Gas for Less sign is the only thing that remains of this gas station across the street from the Ariston Cafe in Litchfield, IL.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="35.50833300" lon="-97.81305000">
+    <name>"WatchYourCurvesEatMoreBeefSig</name>
+    <cmt>Outside Oklahoma City, OK</cmt>
+    <desc>
+      Not surprisingly, this sign was produced by the Beef Industry Council. It promotes eating more beef in an effort to "Watch Your Curves!" We're not sure what the wide-eyed gawker is looking at but presumably it's beef related. Kastl Farms was established in 1902.
+      Interestingly, if you look behind the words "Beef Industry Council" I think you can see the faded words "Texas Beef Council". If so then it may be a glimpse in to history. Given how old the sign is, the Texas wording must be very old. I wonder how long ago the council changed it's name?!
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.21305000" lon="-109.33055000">
+    <name>1923 Bridge over Rio Puerco</name>
+    <cmt>Sanders, NM</cmt>
+    <desc>
+      This bridge was in operation from 1923 and carried the traffic of Route 66 over the Rio Puerco back in the day.
+      The bridge is not usable but it's mighty fine for viewing. Just head in to Sanders and as you go over the railroad tracks look left. You can drive right up to it.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.51126700" lon="-97.58528300">
+    <name>66 Bowl</name>
+    <cmt>Oklahoma City, OK</cmt>
+    <desc>
+      24 lanes of 10 pin bowling right on the Mother Road.
+      Located in Oklahoma City on NW 39th St.(Route 66)  As mentioned in Jerry McClanahan's EZ66 Guide.
+      As he puts it, WARNING! GIANT BOWLING PIN! Not exactly sure how long it's been around, but the signage looks like it's been around for a good 40-50 years.
+    </desc>
+    <sym>Bowling</sym>
+  </wpt>
+  <wpt lat="40.15768300" lon="-89.38441700">
+    <name>Lincoln on a BIG Covered Wagon</name>
+    <cmt>Lincoln, Illinois</cmt>
+    <desc>
+      This covered wagon has wheels that are 12 feet high. Many covered wagons crossed Illinois as they headed west to the frontier. Abe Lincoln became a great lawyer in Illinois and was the President of the United States during the Civil War. This statue of "Abe", if he stood up, would also be 12 feet high.
+      The photo posted here was taken last fall when it resided several miles south of its current location. It was moved to Lincoln, IL and rededicated in January, 2007.
+      The category managers made me aware of the change of locations and requested that I change the coordinates. The coordinates listed are for the new location according to Mapsource and a Googled map. Be aware that it may be a city block off or more.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.07950000" lon="-106.60061700">
+    <name>Absolutely Neon Shop Sign</name>
+    <cmt>Albuquerque, NM</cmt>
+    <desc>
+      Now this is the Mother of all the neons.  Albuquerque is loaded with them along Rt.66.  The neon signs here are awesome and I know some we seen in the windows and shop are headed out to light up the night skies.
+      You will just have to make this one of your night tours along Rt.66 here in Albuquerque it will be well worth the time.
+      Can't wait to see them on the road.  Words can't describe the way it lights up the night.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="36.16256700" lon="-95.89315000">
+    <name>Admiral Twin Drive-In Theatre </name>
+    <cmt>Tulsa, OK</cmt>
+    <desc>The single-screen Modernaire Drive-In originally built by L. E. Snyder, then sold in 1952 to Alex Blue and H.B. Robb, Jr. They changed the name to Admiral, then added another screen.</desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="35.17180000" lon="-103.71841700">
+    <name>Americana Motel</name>
+    <cmt>
+      406 E Route 66 Blvd
+      Tucumcari, NM USA
+      88401
+    </cmt>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.17141700" lon="-103.71286700">
+    <name>Apache Motel</name>
+    <cmt>
+      1106 E Route 66 Blvd
+      Tucumcari, NM
+    </cmt>
+    <desc>Another motel in Tucumcari, NM.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="39.17750000" lon="-89.66666700">
+    <name>Ariston Cafe</name>
+    <cmt>Litchfield, IL</cmt>
+    <desc>
+      The Ariston Cafe has been in continuous operation since 1924, is located in Litchfield, IL and was placed on the National Registry of Historic Places.
+      The Ariston Cafe has actually moved twice, once due to the shifting path of Route 66. Founded in 1924 in Carlinville, IL it moved to Litchfield in 1929 and then to its current location in 1935. Given this long run of continuous operation it is believed by some that the Ariston Cafe is the oldest restaurant on all of Route 66.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.53056700" lon="-88.08303300">
+    <name>Art at Steelworkers Building</name>
+    <cmt>
+      310 N. Ottawa St
+      Joliet, IL
+    </cmt>
+    <desc>An art Gallery in the former Steel Workers Union building run by Friends of Community Public Art.</desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="39.44390000" lon="-89.64488300">
+    <name>Art's Motel &amp; Restaurant</name>
+    <cmt>
+      101 Main St
+      Farmersville, IL 62533
+    </cmt>
+    <desc>The Interstate Highway hasn't stopped this place. Their old sign has a fresh coat of paint.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.08486700" lon="-94.53010000">
+    <name>Atkinson's Ghost Gas</name>
+    <cmt>
+      RT 66 - 1501 West 7th Street
+      Joplin, Mo 64801
+    </cmt>
+    <desc>Located on the North side of the road on the outskirts of Joplin.  Is the First Ghost Gas Station Heading back East to Springfield and West Towards the Joplin Spook Lights area.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="37.19588300" lon="-94.12986700">
+    <name>Avilla Post Office</name>
+    <cmt>
+      205 Greenfield Street
+      Avilla, Mo 64833
+    </cmt>
+    <desc>
+      Avilla Post Office (1915) in the center of a rich farming district 12 miles east-northeast of Carthage contained a few stores,a hotel, 2 churches a Methodist and Baptist,and a School House.
+      It is one of the neater Old Post Offices I have seen,and it is on Route 66 to beat that.
+      The first merchant was D. C. Holman,who was also the first postmaster. The post-office was established about 1868. The first hotel,the Avilla House,was erected By Justice Hall about 1868.
+    </desc>
+    <sym>Post Office</sym>
+  </wpt>
+  <wpt lat="34.15130000" lon="-118.00590000">
+    <name>Aztec Hotel</name>
+    <cmt>
+      311 W. Foothill Blvd
+      Monrovia, CA 91016
+    </cmt>
+    <desc>The Aztec Hotel has been a Route 66 landmark since its inception and is part of the reason that that Route 66 was re-routed from Huntington to Foothill Boulevard. The building has been listed on the National Register of Historic Places since 1976. The Hotel is in the process of being restored to its full glory. The current owners save a couple of rooms for Roadies and the California Route 66 Association has hosted its annual dinner here.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.51380000" lon="-95.52986700">
+    <name>Beck's Garage</name>
+    <cmt>
+      4217 N. Western
+      Oklahoma City, OK
+    </cmt>
+    <desc>
+      Diagonally across the street from the Will Rogers Theater, is Beck's Garage. Jeff Beck, owner of Beck’s Garage, said he remembers admiring the auto garage at 4217 N. Western. Beck was always fond of the building and jumped on the opportunity to lease it. After weeks of 14-hour cleaning days, Beck opened his new location.
+      Although the garage has a strong interest in hot rods, vintage and custom cars, Beck said the garage handles all services.
+      The transformation the garage has made may be evidence that Beck’s is versatile. From demolition to painting to pressure washing the floors and walls, Beck said the work and nearly $5,000 worth of materials put into the location was well worth the sweat.
+      “The layout of this property is better than our previous location,” Beck said. Beck said the Western location feels like home.
+      “We’ll probably retire out of this place,” he said.
+      Beck said the garage, which can often be identified by the vintage cars parked in the lot, will be different from other auto shops.
+      “We want it to be more of a show place,” he said. “The shop will have a clean, tidy look that shows we take pride in what we do.”
+    </desc>
+    <sym>Car Repair</sym>
+  </wpt>
+  <wpt lat="38.76130000" lon="-90.06846700">
+    <name>Belair Drive In</name>
+    <cmt>Mitchell, IL</cmt>
+    <desc>Historic drive in theater sign along Route 66. The drive in was opened in the 1950's and showed movies until 1987. The drive in theater no long exists and the sign has seen better days. The landmark sign was saved when the land was converted to other uses. Hopefully it will be restored.</desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="41.83263300" lon="-87.77831700">
+    <name>Route 66 Welcome Sign</name>
+    <cmt>Berwyn, IL</cmt>
+    <desc>Illuminated glass block sign near Lombard St on Ogden Ave. welcoming travelers through Berwyn. Also in the background you can just see another light pole sign across the street - there are a number of these along Ogden Ave. in Berwyn.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.52388300" lon="-97.54833300">
+    <name>Beverly's Pancake Corner</name>
+    <cmt>Oklahoma, OK</cmt>
+    <desc>
+      Beverly's is the last remaining restaurant of a chain once famous for its "Chicken in the Rough," the world's first francised chicken dish, and is located in Oklahoma City, OK.
+      Finding the place is easy. With a sign like theirs there's no missing it. Once inside I was transported back in time. I felt like I was in the 1950s. There was a counter with stools and behind it was a grill chef you watched cook everything. Booths with red plastic upholstered seating lined the walls. Memorabilia was everywhere. After ordering I couldn't help but walk around the restaurant and take it all in.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="37.19016700" lon="-93.90228300">
+    <name>Bills - Ghost Gas Station</name>
+    <cmt>Phelps, MO</cmt>
+    <desc>This is another of those Old Ghost business that line the Ghost strip west of Springfield,Missouri from Halltown to Carthage.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="35.17166700" lon="-103.71500000">
+    <name>Blue Swallow Motel</name>
+    <cmt>
+      815 East Route 66 Blvd.
+      Tucumcari, NM 88401
+    </cmt>
+    <desc>
+      The Blue Swallow Motel is an affordable 1939 Route 66 motel with beautiful neon.
+      Time and time again I found people along Route 66 to be friendly and generous. On the basis of their neon signs and their involvement in the Pixar movie "Cars" I stopped by to check it out. Bill and Terri who own and operate the Blue Swallow Motel invited me into their home, spent time telling me stories, showed me a couple of rooms, and invited me to take pictures. They really wanted me to enjoy their treasure and I appreciated it.
+      What you find here is a clean and very reasonably priced motel (half of what I was paying elsewhere in town) with all the basics. There are all sorts of special touches that remain to preserve its authenticity. The rooms I saw, though small, were nicely appointed with such touches as period furniture, dial phones and even little garages! I don't mean to imply you'll leave the creature comforts of this century behind, no, far from it; they now even have wireless Internet available!
+      I didn't have good weather so I didn't see the neon in its full glory. However, with Bill Kinder's permission I'm posting the primary picture from their web site. If you want to see more pictures then go view their photo gallary at the link below. Oh, and if you're going to be in Tucumcari then consider staying at the Blue Swallow Inn.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.17781700" lon="-94.31396700">
+    <name>Boots Motel</name>
+    <cmt>Carthage, MO</cmt>
+    <desc>An historic motel, one worth saving.  It's now closed.  Famed for being a favorite place to stay for Clark Gable (Room #6).</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.17191700" lon="-103.72180000">
+    <name>Boulevard Cleaners &amp;Laundromat</name>
+    <cmt>
+      405 E. Tucumcari Blvd.
+      Tucumcari, NM 88401
+    </cmt>
+    <desc>Laundromat with a great neon sign.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.07420000" lon="-106.55446700">
+    <name>Bow &amp; Arrow Lodge</name>
+    <cmt>
+      8300 Historic Rt 66
+      8300 East Central Avenue
+      Albuquerque, NM 87108
+    </cmt>
+    <desc>This one is One of the Older one's Along Historic Route 66 in Albuquerque.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.06945000" lon="-107.52555000">
+    <name>Budville Trading Company</name>
+    <cmt>
+      HC-77 Box 1A
+      Cubero, NM 87014
+    </cmt>
+    <desc>
+      Budville Trading Company is an old gas station and store built in 1938 alongside Route 66 on a stretch that now parallels the Interstate in eastern New Mexico.
+      Flossie and Bud Rice built this home and service station and general store in 1938 and it appears to still be lived in to this day. As you might guess from the "amazing coincidence", community was named after Bud who had been a long term resident of Cubero where he had established his first service station in 1928.
+      Stretches of Route 66 which parallel the Interstate often have more places remaining to visit. It probably has to do with the fact that these stretches of road provide an alternate route for locals and hence businesses along these roads have a better chance of survival. The further afar a patch of Route 66 found itself after the creation of the Interstate Highway System, the harder it was for businesses on those stretches to survive. Budville Trading Company probably survived these almost-70 years because of being near the Interstate.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.21555000" lon="-101.38361700">
+    <name>Bug Ranch</name>
+    <cmt>Conway, TX</cmt>
+    <desc>
+      The Bug Ranch is a spoof of the famous Cadillac Ranch and it consists of five VW Beetles burried nose down in a row outside of Conway, TX.
+      Making fun of a classic can entertain and the Bug Ranch is just such an attraction.
+      These five VW Beetles burried nose in the ground in Conway make fun of the ten Cadillacs burried nose down outside of Amarillo. Why the Cadillac Ranch is appealing has to do with how ten posh cars could be burried so oddly and lined-up ten in a row. The Bug Ranch seems to take it one step further, almost as if to say "If it's good enough for a Cadillac then it's good enough for a VW Beetle!" In the irony comes the humor.
+      One other thing I liked about the Bug Ranch is its accessibility. This site lies along the side of the road as you're driving Route 66. It's not far off the beaten path and it's not out in the middle of some field. This is good news for spray paint "artists" as it allows them to easily ply their art to these poor defenseless cars. It seems to be what many do!
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.23365000" lon="-100.60723300">
+    <name>Cactus Inn Motel</name>
+    <cmt>McLean, TX</cmt>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.18726700" lon="-101.98686700">
+    <name>Cadillac Ranch</name>
+    <cmt>Amarillo, TX</cmt>
+    <desc>
+      10 Cadillacs nose first into the ground. Tailfins greeting the sun at an angle akin to the pryamids.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.53736700" lon="-117.29436700">
+    <name>California Route 66 Museum</name>
+    <cmt>
+      16825 D St,.
+      P.O. Box 2151
+      Victorville, CA 92393
+    </cmt>
+    <desc>
+      The California Route 66 Museum is located in Victorville, CA, at 16825 D Street, between 5th and 6th Streets on old Route 66.
+      ﻿The museum was originally a Route 66 road house called the Red Rooster Cafe. Parts of the 1980 movie, "The Jazz Singer" starring Neil Diamond were filmed here. In its second incarnation, it was called Les Pyrenees. It's now a museum dedicated to the preservation and display of artifacts related to the history of Route 66.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="38.61260000" lon="-90.35468300">
+    <name>Carl's Drive In</name>
+    <cmt>
+      9033 Manchester Rd. (Old Rte. 66)
+      Brentwood, Mo. United States of America
+      63144
+    </cmt>
+    <desc>
+      Carl's Drive In is along old Rt. 66 on what is now Manchester Rd. in Brentwood, Mo.
+      ﻿Carl's has great burgers and fries, sandwiches, and a bunch of other great things on the menu. My favorites though are the burgers, fries, and chocolate shakes. They are known for their home-brewed rootbeer, made right on the spot. One feature of this place is that there are two entrances for customers, the kithchen is in the middle, and you can't go from one side to the other unless you go back out.
+    </desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="41.85291700" lon="-87.71960000">
+    <name>Castle Car Wash</name>
+    <cmt>
+      3801 W. Ogden Ave.
+      Chicago, IL
+    </cmt>
+    <desc>
+      It dates from 1925 - before Ogden Ave. was Route 66 - and was originally a gas station.
+      The Castle Car Wash was not always known by that name and may not always have been a castle. From an article by Dave Clark, local Rt. 66 enthusiast, he suspects that original owner John J. Murphy, who owned the place for at least 40 years, may have made the alteration in the 1940s. You can see a borderline; maybe this shows two eras of the building. After Murphy's ownership ceased, the building was S&amp;B Standard Service, then Gas City and eventually the Castle Car Wash. It is closed now and preservationists are concerned for its future.
+    </desc>
+    <sym>Car</sym>
+  </wpt>
+  <wpt lat="35.53448300" lon="-98.23525000">
+    <name>Cherokee Trading Post 1</name>
+    <cmt>
+      P.O. Box 6
+      El Reno, Oklahoma 73036
+    </cmt>
+    <desc>
+      This is one of our all time favorite Stops.  It is also a fuel and food stop for us. The Trading Post is awesome if you like Native American trinkets. There is also a Big Indian Out front Greeting passerby.
+      There is also a great Mural. Live Buffalo and a big place to let the kids run.
+      So make this one of your stops as you head down Rt 66 to your next destination.
+    </desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="35.51761700" lon="-98.86835000">
+    <name>Cherokee Trading Post 2</name>
+    <cmt>
+      6101 N.E. Service Road Suite A
+      Interstate 40 &amp; Custer City Exit #71
+      Clinton, OK 73601
+    </cmt>
+    <desc>This is the second Cherokee Trading Post along Rt.66 (I-40) now.  It is one that we also frequent on our many travels to New Mexico.  We always pick up some kind of trinket and fuel nearby.  They also have great food.  Another great stop along Historic Rt. 66.</desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="37.18943300" lon="-93.82996700">
+    <name>Chicken Coop - Closed</name>
+    <cmt>
+      Rt. 66 now 96
+      Albatross, Mo
+    </cmt>
+    <desc>
+      The Chicken Coop is closed,Hammer down get them big trucks rolling. It is not very often you find a weight station closed across Missouri,well here is your chance.
+      If you do not understand the lingo it is CB(Citizen Band) radio talk. My grandpa used to tell me stories about the Weight stations(Chicken Coops) across Missouri.
+      He was one of the Old time truckers that passed this way often through the 1940's to the 1960's.
+      With all the traffic and trucks now going down I-44 this one has no need for service anymore.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="41.84186700" lon="-87.75046700">
+    <name>Cindy Lyn Motel</name>
+    <cmt>
+      5029 Ogden Ave
+      Cicero, IL 60804
+    </cmt>
+    <desc>The Cindy Lyn Motel has been around for decades, and according to hotel review sites it's still a good place to stay.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="36.15971700" lon="-95.95821700">
+    <name>Circle Theater</name>
+    <cmt>
+      10 South Lewis Avenue
+      Tulsa, OK 74104
+    </cmt>
+    <desc>
+      Opened on Sunday, July 15, 1928.  The theater is located in the Chilton Building built by architect/builder William R. Chilton. The building “has a steel foundation, built to carry four additional stories when needed.” Though the Circle Theater was built after the age of the silent movie, it was equipped with a two-manual, four-rank Robert-Morton pipe organ.
+      The building is located in the historic Whittier Square Shopping Center, Tulsa’s first suburban shopping center. Although compatible in style with the other buildings on the block, the theater however, did not meld in entirely with the rest of the late 1920 business district. The theater featured a distinctive, multicolor brick, and although only two-stories like many of the buildings in the center, was unrivaled in height.
+      The setting of the Circle Theater is the most noticeable characteristic that set the theater apart from other buildings in the shopping center. As originally designed, the theater was located conspicuously closer to the street than any other building on the block. This relates directly to the historic function of the building as a movie theater. Selling an intangible, movie theaters relied on an intimate setting between the movie theater and patron to reduce distractions from the broader shopping district.
+      In 1957 the south storefront was incorporated into the theater entrance creating a larger theater lobby. The sloped auditorium was created by digging below grade and the theater remains a large open space with a single screen. Centrally located above the second story windows is a stone name plate which reads “19 Chilton 28.”
+      The nameplate has a decorative surround with stone corners.
+      The Circle Theater is listed with the Oklahoma Historical Preservation office and has applied to be placed on the National Register of Historic Places.
+      Although not the earliest or fanciest movie theater in Tulsa, the Circle Theater is the only pre-1960’s theater still in existence. Constructed in the Commercial Style, the Circle Theater is distinctive from the opulent and frequently exotic styles of big city movie palace architecture of the period. The restrained use of style is probably attributable to two factors: the lack of a professional architect in the design and the placement of the theater in an early suburban shopping center.
+    </desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="36.87671700" lon="-94.87750000">
+    <name>Coleman Theatre</name>
+    <cmt>
+      103 N. Main St.
+      Miami, OK 74354
+    </cmt>
+    <desc>
+      Originally a vaudeville theatre and movie palace, the "Coleman Theatre Beautiful" opened to a full house of 1,600, at $1.00 a seat, on April 18, 1929.
+      Built by George L. Coleman, Sr., local mining magnate, the opulent structure with Louis XV interior design dazzled the audiences of the day.
+      The historic structure was donated to the City of Miami by the Coleman family in 1989. Restoration and renovation of the theatre has become a "labor of love" in the community. Efforts have included returning the "Mighty Wurlitzer" pipe organ to its original home and restoring the magnificent chandelier.
+      Hundreds of volunteers have given countless hours of labor, raised funds and promoted a variety of events for all tastes and ages. They have formed a non-profit organization for the ongoing project and have named themselves the "Friends of the Coleman".
+      Friends of the Coleman: "We don't own anything. We hold it in trust for the next generation."
+    </desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="34.94095000" lon="-104.68890000">
+    <name>Comet Route 66</name>
+    <cmt>
+      217 Historic Rt 66
+      217 Parker Ave
+      Santa Rosa, NM 88435
+    </cmt>
+    <desc>This one is really unique and has many great neon lights around it.  It is also located along Historic Route 66 in Santa Rosa,NM. </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.08506700" lon="-94.51358300">
+    <name>Conner House Restraunt</name>
+    <cmt>Joplin, MO</cmt>
+    <desc>Located along the Historic Route 66 Strip in Downtown Joplin. Another one of the great hideouts for the gangsters while in Joplin. Bonnie and Clyde were in this very area. Know here as the Barrow Gang. I am not sure if the name of this Establishment is the same but the buildings have been here since 1882.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.22666700" lon="-100.24861700">
+    <name>Conoco Tower and U-Drop Inn</name>
+    <cmt>
+      105 E 12th Street
+      Shamrock, TX 79079
+    </cmt>
+    <desc>
+      The conjoined Conoco Tower and U-Drop Inn has been restored to its full glory. It is located in Shamrock, TX where it now serves as the local Chamber of Commerce.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.02746616" lon="-114.30881739">
+    <name>Cool Springs Cabins</name>
+    <cmt>
+      P.O. Box 783
+      Kingman, AZ 86402
+    </cmt>
+    <desc>
+      Cool Spring Cabins is a restored gas station turned souvenier shop along Route 66 on the eastern slopes of the Black Mountains as you ascend toward Oatman, AZ and Needles, CA.
+      As Route 66 heads towards California you approach the Black Mountains. This is probably my favorite stretch of Route 66. Climbing the mountain to Sitgreaves Pass and decending to Oatman is a thrill because the road is very much like it was back in the 1920s. This means narrow, winding, tight switchbacks and sites you can't see anywhere else.
+      The first and only sign of civilization you see on the ascent is Cool Springs Cabins. Long ago it was a gas station serving drivers along this desolate stretch of old Route 66. It fell out of use and was forgotten until Ned Leuchtner came along, saw the site and its potential, and decided to bring it back. That was in 2001 and today it's a lovely little gift shop rebuilt based on original pictures. It's a real throwback and a lovely site to see.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="38.57153300" lon="-90.33535000">
+    <name>Coral Court Motel-CLOSED</name>
+    <cmt>
+      7755 Watson Rd.
+      Village of Marlborough
+      St. Louis, MO 63119
+    </cmt>
+    <desc>
+      Opened in 1942, demolished in 1995. All that remains of the late Art Deco style glazed yellow brick motor court is the stone entrance way and pillars. They are right along Watson Rd. in the Village of Marlborough, MO on the former Route 66 although are not easily visible as they have become partially obscured by trees and shrubs.
+      Coral Court was listed on the National Register of Historic Places in 1989. Despite preservation efforts, this cultural icon and local legend was not able to be saved. The Oak Knoll Manor subdivision is where the motel used to be. There is supposedly a local effort underway to have some sort of marker placed at the location.
+      In 1995, a dedicated group of preservationists disassembled one complete bungalow unit brick-by-brick prior to demolition and transported it to the Museum of Transportation on Barrett Station Rd. It was partially reassembled inside the Earl C. Lindburg Automobile Center in 2000, but there is hope to one day reassemble the entire building unit outside on the museum grounds.
+      Numerous websites tell the story of this icon. It had a somewhat notorious local reputation as a "no-tell motel" due to the private garages with each unit, the ability to rent in 4 and 8 hour blocks of time, and the discreet management.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="41.52773300" lon="-88.08301700">
+    <name>Crossroads of America</name>
+    <cmt>
+      Corner of Ottawa Street and Cass Street
+      Joliet, IL 60432
+    </cmt>
+    <desc>
+      Lincoln Highway and Route 66 intersect.  How cool is that? This is where Route 66 (The Mother Road) crosses the Lincoln Highway (the first coast-to-coast "motor road").
+      At these coordinates, you can see not one but TWO markers for two of the most important roads in the US.
+      Stand at the northwest corner of Ottawa Street and Cass Street. When you look west, you can see the westbound traffic for the Lincoln Highway. When you face south, you can imagine the cars of old travelling to their California destination.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.18878300" lon="-93.84148300">
+    <name>Crossroads Restraunt &amp; Garage</name>
+    <cmt>
+      JCT Hwy 39 &amp; Hwy 66
+      Albatross, Mo
+    </cmt>
+    <desc>
+      Now called the CrossRoads Restraunt it has served thousands of meals and many gallons of gas over the past.
+      Now owned by Kenny and Jeanette Mills. I had a great talk with him about Waymarking and asked permission to place this Business as a Waymark. He is also looking into becoming a Waymarker.
+      Most of the Businesses along this strip from Halltown to Carthage have become in disrepair. I took a short tour today looking for Waymarks but only a few remain.
+      So make sure and stop in on your way down Historic Route 66 while in this part of Missouri they will fill your belly and your tank.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.25000000" lon="-112.18916700">
+    <name>Cruise's Cafe 66</name>
+    <cmt>Williams, AZ</cmt>
+    <desc>
+      While today it's a gift shop and restaurant, it's also been a gas station and it started its life as the telegraph office. Today the cafe is chalk-full of Route 66 memorabilia which makes eating there a delight since as you're waiting for food you can walk around and "take in the sites". When it was a gas station, it went through a variety of brands from Texaco to Marathon to Mobile. Pictures on the wall on the far side of the bar are probably the most historic.
+      On the wall outside of the gift shop is a plaque which documents the telegraph office.
+      This place has a great feel to it and when in Williams it's worth a visit.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.74607145" lon="-87.93904692">
+    <name>Dell Rhea's Chicken Basket</name>
+    <cmt>
+      645 Joliet Rd.
+      Willowbrook, IL
+    </cmt>
+    <desc>
+      The Chicken Basket as it is today opened in the summer of 1946 on Illinois Route 66 and 79th Street in Hinsdale right next door to its original location. Stop in for great chicken and a Rt. 66 root beer!
+      Dell Rhea's Chicken Basket got its humble beginnings sometime in the late 1930's or early 1940's in an old gas station lunch counter. One day two local farm women came in and overheard the owner (Irv Kolarik) talking about selling more food. Having a wonderful recipe for fried chicken they approached him and offered to teach him how to cook fried chicken if he would buy his chickens from them.
+      Because the fried chicken was so good and the highway so busy, the Chicken Basket outgrew its lunch counter and the 2 car repair bays were turned into a dining room. Not long after that, with the restaurant still growing, the adjacent land was purchased and a brand new restaurant was built.
+      The Chicken Basket as it is today opened in the summer of 1946 on Illinois Route 66 and 79th Street in Hinsdale right next door to its original location. Because of the amount of traffic and distance from Chicago the Chicken Basket was the perfect stopping place going to or coming from Chicago. This perfect location also lead to the Chicken Basket becoming a Blue Bird bus stop. People came to the Chicken Basket to purchase bus tickets to travel as far away as Los Angeles or to send packages to loved ones anywhere in between Chicago and LA.
+      The restaurant's many large windows allowed patrons to view the small private planes taking off and landing at the old Hinsdale airport across the street. There was always something going on at the Chicken Basket, whether the roof top ice skaters in the winter months or the live entertainment on the weekends.
+      The restaurant's need for chicken soon outgrew the capability of the 2 local women and another local farmer who was just moving into the area took over. That farmer was none other than Stanley Helma, father and grandfather of today's owners.
+      In the early 1960's, after Illinois Route 66 bypassed the Chicken Basket, it fell on hard times. People who remembered the restaurant couldn't figure out how to get to it and it almost went out of business for lack of customers. In 1963, Dell Rhea and his wife Grace bought the restaurant at a bargain price, Dell being very well known in the area used his reputation to help bring people back to the Chicken Basket.
+      With the resurgence of the popularity of Route 66 throughout the nation the restaurant has become even more popular. Dell Rhea's Chicken Basket was inducted into the Illinois Route 66 hall of Fame in June of 1992, was recently featured in a Japanese travel magazine, and was the background for the cover of Route 66 magazine.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.32673292" lon="-112.87538052">
+    <name>Deluxe Inn Motel</name>
+    <cmt>
+      203 E. Chino Ave.
+      Historic Route 66
+      Seligman, AZ 86337
+    </cmt>
+    <desc>A 1930s western-themed motel in Seligman.  Forgo the bland chain-motels on the interstate and check out the clean, comfortable rooms in this 1930s Mission-style motel. AAA approved and recently added high-speed internet.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="36.14743300" lon="-95.91831700">
+    <name>Desert Hills Motel</name>
+    <cmt>
+      5220 E. 11th St.
+      Tulsa, OK 74112
+    </cmt>
+    <desc>
+      The Desert Hills Motel was built in 1953.  Recently remodeled, the Desert Hills Motel -- conveniently located on Historic Route 66, just five miles from downtown Tulsa -- is one of the best values in the city, offering clean, comfortable rooms and many amenities at budget prices.
+      Proud to serve travelers on the Mother Road. With well-maintained rooms, a classic neon sign and a convenient location on Route 66, within a short drive of Tulsa's many attractions, we offer the perfect mom-and-pop motel experience. If you'd like to step back in history without giving up any modern conveniences, do yourself a favor and stop at the Desert Hills next time you're in town!
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.84951700" lon="-92.06335000">
+    <name>Devil's Elbow Inn</name>
+    <cmt>
+      21050 Teardrop Rd
+      Devil's Elbow, MO 65457
+    </cmt>
+    <desc>
+      Devil's Elbow, MO located along the Big Piney River in the heart of the ozarks.  ﻿The historic Devil's Elbow Inn Bar and Grill dates back to the 1930s when it was the Munger Moss Sandwich Shop. Built by Nelle &amp; Emmett Moss, the business was moved to Lebanon, MO in 1946 when old Route 66 was realigned through Hooker Cut.
+      When Route 66 was realigned in the 1940s through here it bypassed Devil's Elbow. Today, the Elbow Inn continues as a local BBQ joint and biker hangout.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="37.84453300" lon="-92.06838300">
+    <name>Devil's Elbow</name>
+    <cmt>
+      CR-Z640, roadside lookout, W. of Devil's Elbow, MO (Old US-66)
+      Devil's Elbow, MO USA
+    </cmt>
+    <desc>Established in 1870 and named after bad bend in the Big Piney River.  This "Devil of an Elbow" was made famous by Historic Route 66.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.23138300" lon="-100.59721700">
+    <name>Devil's Rope Museum</name>
+    <cmt>McLean, TX</cmt>
+    <desc>
+      What is the devil's rope? It's barbed wire.
+      This building houses the worlds largest museum on barbed wire. Out front you'll notice there are two balls mounted on pedestals. Those are actually balls of barbed wire, much like the balls that people roll with yarn only much more hazardous!
+      If barbed wire isn't enough to motivate you to stop then you should know that in this building is colocated with the Texas Route 66 Museum. As with almost every state that Route 66 goes through, there's a museum dedicated to it. The building is huge, plenty of room for both museums. There is much to see because, even though Texas has one of the shortest stretches of Route 66, it offers a good variety of interesting sites to visit.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="38.47275000" lon="-90.85640000">
+    <name>Diamonds Restaurant</name>
+    <cmt>Villa Ridge, MO</cmt>
+    <desc>
+      The Diamonds Restaurant was originally built in 1927 and claimed to be the "world's largest roadside restaurant".
+      It was built in the shape of a baseball diamond. After a fire in 1948, it was rebuilt, in an Art Deco/Moderne style.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.12138300" lon="-103.96805000">
+    <name>Dirt 66 Underpasses</name>
+    <cmt>Outside of Tucumcari, NM</cmt>
+    <desc>
+      This double underpass connects two pieces of Rout 66 under I-40 and is reminiscent of the pre-paved "Dirt 66".
+      As you approach Santa Rosa, NM and if you're trying hard to stay on Route 66, then at one point you'll come to the underpasses above. Before I passed under I-40 I reflected on how crazy some of us are to doggedly stay on Route 66 when the Interstates are available. The path I was taking was dirty, bumpy, slow, and a bit trecherous while the huge highway above was clean, smooth, fast and safe. So why would anyone take the Interstate? :-)
+      When Route 66 was first patched together there were stretches that weren't paved. These were commonly referred to as "Dirt 66". While this underpass was obviously constructed to allow I-40 to go overhead, it did connect pre-existing segments of Route 66 which I-40 cut through. Since this is a low traffic stretch of road they apparently chose not to pave it and hence driving it gives you a feel of what "Dirt 66" must have felt like. The fact that it goes through two narrow cement arches only adds to the romance.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.24745000" lon="-102.43098300">
+    <name>Dot's Mini Museum</name>
+    <cmt>
+      105 N 12th St
+      Vega, TX
+    </cmt>
+    <desc>
+      Old Route 66 through Vega, TX ends at Dot's Mini Museum.  Dot Levitt came to Vega with her husband, Harold Levitt, in the forties. They bought a building and remodeled a store called Vega Zero Lockers one block north of busy Route 66. This store served the locals and tourists alike on old Route 66. The home folks utilized the freezer storage units called lockers. During the 40's and 50's most families didn't have a home freezer. And the Route 66 travelers bought fresh fruits, vegetables, lunch meat and all sorts of canned goods for there trek down the highway.
+      When the Interstate by-passed Vega the Vega Zero Lockers faded away as so many other businesses did at that time, but thanks to Dot's determination that those times not be forgotten we can all enjoy her museum today. Sadly, Dot is no longer with us. Fortunately her daughter Betty Carpenter decided to keep the Mini Museum open.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="38.61736700" lon="-90.19546700">
+    <name>Eat Rite Diner</name>
+    <cmt>
+      622 Chouteau Ave
+      St. Louis, Missouri 63102
+    </cmt>
+    <desc>
+      Small old style diner just south of the St. Louis downtown area is an historic Route 66 diner located at the next to the former west entrance/exit ramp of the McArthur bridge over the Mississippi River.
+      The Eat Rite Diner has been at this location for more than 60 years with a start in the 1940's. Prior to being a diner it was originally a coffee and donut shop built in about 1908 to serve the railroad workers in the area. The diner is open 24-hours a day 7 days a week with breakfast and burgers are the main fare. If you want good food cheap this is a place to stop. The diner's slogan is "Eat Rite or Don’t Eat At All."
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.45296700" lon="-94.76241700">
+    <name>Ed's Truck Stop</name>
+    <cmt>
+      I-40 Exit 311 (US 64 E)
+      SALLISAW, OK USA
+      74955
+    </cmt>
+    <desc>
+      This was our first stop on the Route 66 trek we just took from Missouri to New Mexico. We stopped had breakfast filled up and hit the road for a grand adventure.
+      They provide all the conveniences for trucks and cars.
+      Their historic collection of mini cars is something to see as well.
+      We also seen Elvis in his Cadillac.
+    </desc>
+    <sym>Truck Stop</sym>
+  </wpt>
+  <wpt lat="37.07515000" lon="-94.70258300">
+    <name>Eisler Bros. Old RivertonStore</name>
+    <cmt>Riverton, KS</cmt>
+    <desc>
+      In continuous operation since before U.S. 66 became the official cross-country highway from Chicago to Los Angeles.
+      Still operating as it did "back then", it serves as a stopping, shopping place for the small community of Riverton, as well as for travelers on Route 66.
+      It was nationally familiar in its early days, because this Southeast corner of Kansas literally tied 66 together, and today it is internationally known as one of the most authentic, still working 75-year-old stores of its kind on all of Route 66.
+      It has groceries, produce, flowers, an old time Deli serving excellent sandwiches; gifts (including area handcrafts), lots of Route 66 memorabilia and the friendliness of Yesterday.
+      It's a gathering, meeting place for those who have grown up on or near Route 66 and travelers from everywhere New York, Utah, Canada, Germany, Japan, France it's a fun place where you can relax with coffee at a table on the Produce Porch, where you can make new friends while you experience and enjoy a glimpse into the past.
+      They're also the headquarters for the Route 66 Association of Kansas.
+    </desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="35.09430000" lon="-106.67733300">
+    <name>El Vado Motel</name>
+    <cmt>
+      2500 Central Avenue SW
+      Albuquerque, NM 87104
+    </cmt>
+    <desc>
+      The historic El Vado Motel is located along Route 66 (known as Central Avenue along this stretch) in Albuquerque, New Mexico.
+      The famous El Vado Motel has seen it all! Route 66 passes right in front of this beautiful motor court and its glorious neon has been beckoning travelers for six decades. The adobe cabins epitomize everything southwestern and capture the spirit of the "Land of Enchantment." Because of the El Vado's unique character it has been placed on the National Historic Register. It truly is one of the best examples of a classic Route 66 motor court to be found along the Mother Road and is an irreplaceable treasure indeed! Imagine all the people that have passed through here over the years.
+      In 2005, this historic motel was threatened with destruction by a developer who had purchased the property for the construction of luxury townhouses. Fortunately, Route 66ers, local preservationists, and city officials were able to keep that from happening. In 2008, the motel was saved as indicated in the following Route 66 News article:
+      Today Mayor Chavez announced that the El Vado Motel has been saved from demolition and the City of Albuquerque has been granted access to the property to begin the preservation of the historic hotel that has been noted by many Route 66 historians as a treasure. “For anybody that understands the history of Route 66, this is one of the great facilities, great structures architecturally in the history of Route 66,” said Mayor Marty Chavez.
+      The City as well as dispatching inspectors to secure the property (fenced and boarded up) since recent vandalism had occurred, advanced a sum of $680,000 by the City of Albuquerque to the District Court Registry for the City’s purchase of the property. Both parties, the City and the property owner, will provide appraisals for the El Vado Motel.
+      “Today we work to protect our future by preserving our past,” stated Mayor Chavez.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.27111700" lon="-102.67278300">
+    <name>Fabulous 40 Motel</name>
+    <cmt>
+      605 Highway 66
+      Adrian, TX 79001
+    </cmt>
+    <desc>
+      We got to the Mid-Point Cafe and we had to have some of that famous "Ugly Crust Pie". Next door is the Fabulous 40 Motel. Looks like it's still in business. I suspect that the aging Fabulous 40 Motel was once the Fabulous 66 Motel before the Interstate was built.
+      At the very least, they got a family of birds living in the "NO" portion of the sign out front.
+      Leona and Harvey Jr. had to run across the street to see the baby goats.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.19553300" lon="-94.12915000">
+    <name>Flo's Tavern</name>
+    <cmt>
+      RT 66
+      Avilla, Mo 64833
+    </cmt>
+    <desc>Known by the Locals as Old Flo's Tavern.</desc>
+    <sym>Bar</sym>
+  </wpt>
+  <wpt lat="34.14386700" lon="-117.99085000">
+    <name>Flying A Service Station</name>
+    <cmt>
+      Shamrock and Walnut St.
+      Monrovia, CA
+    </cmt>
+    <desc>This former Flying A service station has been preserved, although nothing really has been done with it - just sitting empty on the corner of Shamrock and Walnut Streets in Monrovia, California. It must have many stories to tell.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="34.10636700" lon="-117.46966700">
+    <name>Follow the Bouncing Orange</name>
+    <cmt>
+      15395 Foothill Blvd
+      Fontana, CA
+    </cmt>
+    <desc>
+      In the days before the Super-slab and car air conditioning, a refreshment break at one of the juicestands that dotted the major highways in California signified that you were entering the land of milk and honey and citrus groves in Southern California.
+      This particular juice stand was built in 1936 and has had a very mobile past. Its original location was somewhere along Foothill Blvd in Fontana.
+      According to Marion Davies, when Wal-Mart became impatient that it was not being used as the information booth and demanded that it be removed, Joe Bono paid $5,000 of his own money to have it moved to its current location next to his Route 66 delicatessen. It was repainted and label "Bono's Historic Orange".
+      In recent years, Bono's has only been sporadically open, but the Historic Orange still stands guard. Recently, according to the April 2007 issue of Roadsigns, the newsletter of the California Historic Route 66 Association, Bono's is currently being restored to its original 1940s style. Maybe that means that Bono's will re-open. Let's hope so.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.82725000" lon="-92.19218300">
+    <name>Frog Rock</name>
+    <cmt>
+      Old Route 66
+      Waynseville, MO
+    </cmt>
+    <desc>
+      Huge rock painted as a frog (named W.H. Croaker).
+      On the hill on the north side of Route 66 as you travel from St. Robert to Waynesville. Frog Fest is held in W.H. Croaker's honor the first full weekend in May.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="38.48096700" lon="-90.83131700">
+    <name>Gardenway Motel</name>
+    <cmt>
+      2958 Highway 100
+      Villa Ridge, MO
+    </cmt>
+    <desc>
+      Sorry. Nice looking sign, but can't recommend you stay. Turn left at the sign...
+      The folks there gave us the skinny on this place and when we were done eating we checked out and went elsewhere. Let's just say, the Freaks come out at night, and leave it at that. Shame really, it looked like it was a pleasant place to stay once upon a time, but since it no longer can rely on tourists, they now have a few people paying monthly.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.19428300" lon="-93.67978300">
+    <name>Paris Springs Garage</name>
+    <cmt>
+      21118 Old 66
+      Paris Springs, MO
+    </cmt>
+    <desc>
+      Also called Paris Springs this little town was known for it iron rich healing water.
+      According to the web site it was also bottled here.
+      The new proprietor has really been doing a great job getting this place all restored.
+    </desc>
+    <sym>Car Repair</sym>
+  </wpt>
+  <wpt lat="41.31041700" lon="-88.13851700">
+    <name>Gemini Giant</name>
+    <cmt>
+      810 E. Baltimore St
+      Wilmington, IL
+    </cmt>
+    <desc>
+      Seen along historic Rt.66 in Wilmington, Illinois. It is located in the parking lot of the Launching Pad Drive-In.
+      Wilmington, Illinois calls itself home to a little more than 5,000 people, but it's most photographed "citizen" isn't a person at all. Rather it is the Gemini Giant, a large fiberglass "muffler man" of the 1960's era. It was during this time that these colossal men could be found all over America, holding all manner of "tools" in their hands from mufflers, to hot dogs, to axes, and more. In this case, the Gemini Giant sports a rocket ship, a remnant of our fascination with outer space. Most of these very tall men lost their lives as America began to move faster and faster. But here in Wilmington, the large green man hangs tight, along with several other historic icons of the past.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.10721700" lon="-117.66583300">
+    <name>Giant Coffee Cup</name>
+    <cmt>Upland, CA</cmt>
+    <desc>
+      Roadside art of a giant coffee cup along West Foothills Blvd in Upland, CA.
+      Driving Route 66 is a pleasure but if you're a coffee lover like me then most of the time you can feel deprived of espresso drinks. For anyone with my disposition, seeing a giant roadside coffee cup in front of a coffee shop is reassuring. Upland is still far from the center of the Los Angeles metropolitan area but you know you're already in the megalopolis by the time you get here. Thoughts of seeing the Pacific Ocean and visiting the Santa Monica Pier float in your mind as you slog through the LA traffic.
+      Given how long it will still take to reach the terminus of Route 66, seeing this sign should be your clue to pull over for a picture ... and a medium cup of coffee to go!
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.51028300" lon="-98.96500000">
+    <name>Giant Howe Indian</name>
+    <cmt>Clinton, OK</cmt>
+    <desc>
+      A giant Indian with "Howe" written across its belt buckle greets visitors.
+      This giant statue stands in a car sales lot alongside Route 66 (known in town as 4th Street) greeting passersby. It is definitely big and can justly be called a giant. On whether it's politically correct or not...
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.41195000" lon="-99.43721700">
+    <name>Giant Route 66 Neon Sign</name>
+    <cmt>
+      U.S. 66 and Pioneer Road
+      P. O. Box 542
+      Elk City, OK 73648
+    </cmt>
+    <desc>
+      This giant "Route 66" neon sign stands outside the National Route 66 Museum in the Old Town Museum complex in Elk City, OK.
+      There's a lot to see in one place here in Elk City. The Old Town Museum complex houses several museums, including the National Route 66 Museum. Out front on Route 66 is a giant neon sign on an angle in the shape of a highway shield which reads "U.S. Route 66".
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.92083300" lon="-115.06695000">
+    <name>Goffs Schoolhouse</name>
+    <cmt>
+      37198 Lanfair Road -- G15
+      Essex, CA 92332
+    </cmt>
+    <desc>
+      Goffs Schoolhouse operated from 1914 to 1937, was restored in 1998, and was recently added to the National Historic Register.
+      Goffs Schoolhouse served many communities while Route 66 passed through it from 1914 to 1937. When Route 66 was redirected to save eight miles of driving distance, the community of Goffs started to fade. Several caretaker owners kept the schoolhouse in tact over the years until finally an association came along and was able to restore it to what it had been in 1914. It is now open to the public and its grounds have on display many artifacts from the mining and ranching life of the era. Much more can be learned about this site at the link below.
+      Also, note the "Route 66 Roadside Attraction" sign in front of the schoolhouse. That was one of more than 50 signs placed along Route 66 in 2002 when Jim Conkle lead the The Route 66 Caravan from "pier to pier," Santa Monica to Chicago. This initiative had the goal of raising awareness of Route 66 and the need to preserve it for our heritage.
+    </desc>
+    <sym>School</sym>
+  </wpt>
+  <wpt lat="35.25201517" lon="-112.18356371">
+    <name>Goldie's Route 66 Diner</name>
+    <cmt>
+      425 E Route 66
+      Williams, AZ 86046
+    </cmt>
+    <desc>This seemed like your classic diner from back in the day. They had a bar with bench chairs along the length of the diner. The place was covered with Route 66 memorabilia.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.07265000" lon="-106.74141700">
+    <name>Grandview Motel</name>
+    <cmt>
+      9700 Central Avenue SW
+      Albuquerque, NM 87121
+    </cmt>
+    <desc>
+      The old Grandview Motel is located along Route 66 (known as Central Avenue along this stretch) in Albuquerque, New Mexico.
+      ﻿The Grandview Motel is an old auto court that is illuminated with architectural neon, neon tubing used to line eaves along motel rooflines. It also boasts a cool, old neon sign.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.18663300" lon="-93.63070000">
+    <name>Halltown - RT 66 Antique Mall</name>
+    <cmt>
+      Old Rt 66
+      Halltown, Mo 65664
+    </cmt>
+    <desc>There has always been some type of service at this location.  There is still a Gas Station,Service Garage and the Antique Mall.</desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="37.19345000" lon="-93.62800000">
+    <name>Halltown, MO</name>
+    <cmt>Halltown, MO</cmt>
+    <desc>
+      In the 1870's George Hall settled the area and opened a store.
+      In 1879 a new Post Office was built and named after the storekeeper. During the early years of Route 66,Halltown had 3 grocery stores, 1 drugstore, 1 variety store, 1 blacksmith shop and 1 garage.
+      After W.W. II, the town expanded to 15 to 20 businesses to accommodate the traveler.
+      Today Halltown still has a few surviving businesses and has become a wonderful place for the antique hunter.
+      They have all kinds of rare goodies to find in the Store.
+      Make it a stop on your trip down Historic 66 you never know what you might find.
+    </desc>
+    <sym>City (Small)</sym>
+  </wpt>
+  <wpt lat="36.16070000" lon="-95.87615000">
+    <name>Hank's Hamburgers</name>
+    <cmt>
+      8933 East Admiral Place
+      Tulsa, OK
+    </cmt>
+    <desc>
+      Serving Tulsa since 1949.
+      Hank's has been doing what it does for nearly sixty years – frying hamburgers. It is one of countless restaurants in Tulsa and throughout Oklahoma where burgers are taken seriously by the cook and relished by customers. Not to say that they are gourmet fare. On the contrary. They are quintessential hash-house hamburgers, good and greasy and cooked through and through. Other than burgers, the menu includes Frito chili pie and corn dog on a stick as well as onion rings and French fries, malts and a special made-here chocolate-covered peanut butter bon bon.
+      You can get a single, a double, a triple, a "Big Okie" (four patties), or a Hank's Special, which is a single half-pound patty. Each normal patty is a quarter pound, and while I enjoyed the avoirdupois of a Hank's Special, I like the multiple-patty configurations better. The interleaved meat and cheese, especially on the one-pound Big Okie, provide a textural adventure that a large single patty cannot. Unless you say otherwise, each hamburger is dressed with mustard, pickle, grilled onion, raw onion, lettuce and tomatoes.
+      Hank's is a tiny place with just a few booths around the counter, which is high enough that no seat affords a good view of Mr. Felts, chef and owner, orchestrating events at the griddle. We recommend standing up, or going to the walk-up to-go window at the front because watching him create his burgers is a scene of beauty. As is the custom down in El Reno, onions are pressed hard onto the surface of each patty before it hits the hot surface so that as the burger cooks under a heavy iron, the onions caramelize and virtually become one with the hamburger itself. When the iron is lifted and the burger is flipped, Felts sprinkles on some of his secret seasoning, then cheese. If he is creating a double, triple, or quadruple, he applies the bun top on one patty, uses a spatula to lift it onto another, and so forth until the pile is ready to be placed onto the bottom half of the bun, which has been arrayed with all other condiments.
+      Even the largest creation is presented as a tidy package, but I found that by the time I was halfway through, onions and tomatoes were slithering out and patties had gone out of alignment, creating an extremely delicious mess.
+    </desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="37.18860000" lon="-93.79991700">
+    <name>Heatonville Garage</name>
+    <cmt>
+      Rt. 66
+      Heatonville, Mo
+    </cmt>
+    <desc>
+      Abandoned Ghost Garage at Heatonville,Missouri.
+      You can tell by a quick tour that this place has seen it's hay day of the flat tires,hot radiators and the many other things you might experience on a car trip down Old Rt 66. I wonder how many cars were fixed here through the years.
+      With the coming of the new Interstate 44 just south this strip of the Old Route 66 has become what is dubbed the Ghost Strip. You will see why if you ever venture down this part of the Route 66.
+      It does have one thing that is rare to find. An Original RT. 66 sign still hanging over the entrance.
+    </desc>
+    <sym>Car Repair</sym>
+  </wpt>
+  <wpt lat="41.83305000" lon="-87.77471700">
+    <name>Henry's Drive In</name>
+    <cmt>
+      6031 W Ogden Ave
+      Cicero, IL 60804-3742
+    </cmt>
+    <desc>"It's a Meal in itself" is what the say of hot dogs at Henry's Drive In.</desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="34.93523300" lon="-110.13371700">
+    <name>Hilltop Cafe</name>
+    <cmt>
+      2105 Navajo Blvd.
+      Holbrook, AZ 86025
+    </cmt>
+    <desc>
+      A classic diner/cafe on the mother road. Serving Mexican and American cuisine since 1948.
+      ﻿Although the place may appear a bit bleak from the roadway--a vast dusty parking lot fronts the restaurant--the meals are substantial and decent in here. Breakfast also served.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="37.19751700" lon="-94.22361700">
+    <name>Historic RT 66 Airport</name>
+    <cmt>East of Carthage and West of Avilla, MO</cmt>
+    <desc>
+      This was the First sign and any evidence of anything except old houses from Avilla towards Carthage along Historic Rt 66.
+      It appears this strip is for lighter aircraft although you could probably land a bigger one looking at the length of the strip.
+      I am sure it was the only strip here at the time of the Original Route 66.
+      Newer one's have been built up around it so it is just a grass strip still as it was then.
+    </desc>
+    <sym>Airport</sym>
+  </wpt>
+  <wpt lat="34.09063300" lon="-118.31998300">
+    <name>Hollywood Forever Cemetery</name>
+    <cmt>Los Angeles, CA</cmt>
+    <desc>
+      This touristy cemetery is on Santa Monica Blvd, which used to be part of Route 66.
+      ﻿"Diehard old-roads fans will be pleasantly surprised to know that Route 66 across Los Angeles still exists, almost completely intact. Heading east from Santa Monica—and now marked by prominent beige road signs as Historic Route 66 1935–1964—old Route 66 follows Santa Monica Boulevard through the hearts of Beverly Hills (where Will Rogers once was mayor) and West Hollywood. In Hollywood itself, Santa Monica Boulevard runs past the cemetery-cum-theme park Hollywood Forever (daily; free; 323/469-1181) where such luminaries as Rudolf Valentino and Mel Blanc are entombed, overlooked by the water tower of legendary Paramount Studios. It’s a unique experience by day, and even more so on nights when the cemetery is host to “Midnight Movies,” outdoor screenings of its residents’ works."
+    </desc>
+    <sym>Cemetery</sym>
+  </wpt>
+  <wpt lat="40.64108300" lon="-88.79181700">
+    <name>Route 66 Historical Marker</name>
+    <cmt>Lexington, IL</cmt>
+    <desc>
+      Illinois historical marker commemorating Route 66 in Lexington, Illinois.
+      ﻿"In 1926, construction began on a 2,448-mile highway from Chicago to Santa Monica, California. Route 66 reflected the increased use of motorized vehicles. The road, which cut diagonally across Illinois, passed through Lexington. Sleek restaurants, service stations and motels were built specifically to accommodate travelers. The original two-lane, concrete highway - a section of which is located here - was replaced over a span of thirty years by the more modern interstate highway system. In Illinois, Interstate-55 closely parallels old Route 66." ~ text of marker
+      The marker is in Route 66 Park on west side of Lexington, Illinois.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.25008325" lon="-112.18974888">
+    <name>Java Cycle Coffee</name>
+    <cmt>326 W Route 66, Williams, AZ</cmt>
+    <desc>
+      Java Cycle Coffee (formerly Mill's Cafe), a long standing tradition in Williams, AZ.
+      Pictures on the wall from days-gone-by give you a feel for the place back in the 1940s and 1950s. I even found a lady sipping coffee who could speak of its history. She said that 25 years ago when it was Mill's Cafe and she was in high school, she'd hang out with friends. Then she looked around and laughed and said, "I guess things haven't changed!"
+      It's a testiment to the place that customers are loyal for that long a period of time.
+      Oh, and the coffee was good. Recommended.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.52540000" lon="-88.08308300">
+    <name>Joliet Route 66 Welcome Center</name>
+    <cmt>
+      204 N. Ottawa Street
+      Joliet, IL
+    </cmt>
+    <desc>
+      A museum featuring history of Joliet, IL and Route 66.
+      ﻿This is one sweet looking museum. See for yourself. Nice gift shop though.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="35.17141700" lon="-103.71286700">
+    <name>KIX on 66</name>
+    <cmt>
+      1102 E. Route 66 Blvd.
+      Tucumcari, NM
+    </cmt>
+    <desc>
+      America’s Main Street Coffee Shop &amp; Eatery is the newest dining experience focused on home town values with an upscale trend.
+      ﻿Kix on 66 maybe "new" as in "newest name on the sign".  This place started life as a Denny's a generation ago.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.17135000" lon="-103.72470000">
+    <name>La Cita Taco Kid-Neon</name>
+    <cmt>
+      US HIGHWAY 66 &amp; 54
+      STATE HIGHWAY 104 &amp; 18
+      Tucumcari, NM 88401
+    </cmt>
+    <desc>While your traveling through on your journey down Rt. 66 stop and get some Great TACOS.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.20945000" lon="-101.12333300">
+    <name>Largest Cross</name>
+    <cmt>Groom, TX</cmt>
+    <desc>
+      ... in the Western Hemisphere.
+      "Cross of our Lord Jesus Christ Ministries" is located outside Groom, TX.
+      This cross claims to be the largest cross in the western hemisphere, but in my research I sometimes see it referred to as the second largest. Regardless, it's amazingly tall. Built in 1995 by Steve Thomas, it stands 190 feet and weighs 2.5 million pounds. Forming a circle round it's base you can see bronze statues which depict scenes from the bible. It's located on the west side of Groom, TX.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="40.64148300" lon="-88.79250000">
+    <name>Lexington Arrow Sign</name>
+    <cmt>Lexington, IL</cmt>
+    <desc>
+      Historic neon arrow sign pointing to the business district of for Lexington, Illinois.
+      This neon sign was originally erected in the late 1940's on Route 66 and pointed the way east to the central business district of Lexington. The sign has recently been restored and is in original location.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.53693300" lon="-98.58855000">
+    <name>Lucille Hamon's Gas Station </name>
+    <cmt>
+      N. Frontage Rd
+      (old Route 66)
+      Hydro, OK USA
+    </cmt>
+    <desc>
+      This classic old gas station is only one of two out-thrust porch/live over style stations left on Oklahoma's Route 66 today.
+      ﻿Originally built in 1929 by Carl Ditmore.
+      Renamed the Provine Station when W. O. Waldrop bought it in 1939.
+
+      In 1941 Lucille and Carl Hamon became the new owners. Lucille ran the business for 59 years before she died on Route 66 in August, 2000 but visitors are still welcome to stop for a photo.
+    </desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="38.76171700" lon="-90.08883300">
+    <name>Luna Cafe</name>
+    <cmt>
+      201 East Chain of Rocks Road
+      Mitchell, IL
+    </cmt>
+    <desc>
+      The Luna Cafe was built in 1924, two years prior to the establishment of Route 66. The Cafe is rumored to have been frequented by gangsters in the likes of Al Capone and by travelers along Route 66. The Cafe did operate as a cafe on the main floor but as a gambling operation in basement and house of ill repute upstairs. The neon sign out front had a cherry which used ruby glass to enhance its red glow, it is said that if the cherry was lit, the girls were in. At one time, the cafe was a "fine dining establishment" and so expensive that most law-abiding citizens could not afford to eat there. The Luna is now a working man bar with mostly locals.
+      There is an on-going effort to have the neon sign restored to its former glory.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.26488300" lon="-88.21193300">
+    <name>M&amp;R Tire &amp; Auto</name>
+    <cmt>
+      100 N Washington St
+      Braidwood, IL USA
+    </cmt>
+    <desc>
+      A restoration project waiting to happen...
+      Lucenta Tire is no more. This place is now M&amp;R Tire &amp; Auto.
+      And perhaps inspiration for Luigi's Casa Della Tires?
+      This is an old Art Deco service station veneered in white ceramic tile. Lucenta Tire has been in business now for over fifty years.
+    </desc>
+    <sym>Car Repair</sym>
+  </wpt>
+  <wpt lat="35.21540000" lon="-100.24786700">
+    <name>MagnoliaServiceStationShamrock</name>
+    <cmt>Shamrock, TX</cmt>
+    <desc>
+      There isn’t much to see in Shamrock, TX, but it did have this beautifully restored Magnolia service station. Magnolia was a Mobil company when Mobil still marketed through autonomous subsidiaries.
+    </desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="35.24673300" lon="-102.42833300">
+    <name>Magnolia Service Station-Vega</name>
+    <cmt>Vega, TX</cmt>
+    <desc>The Hi-Way Service Station was originally a Magnolia Service Station built in the early 1920s. It was built on the Ozark Trail which preceded this part of Route 66. It was restored around 2005 and is now used as a museum.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="34.90271700" lon="-110.16595000">
+    <name>Map of the Mother Road</name>
+    <cmt>
+      609 W. Hopi Drive
+      Holbrook, AZ 86025
+    </cmt>
+    <desc>
+      Map of Route 66, Mother Road, on the wall of a motel on Historic Route 66 in Holbrook, Arizona.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.14011700" lon="-118.00925000">
+    <name>McDiner</name>
+    <cmt>
+      480 W. Huntington Dr.
+      Monrovia, CA 91016
+    </cmt>
+    <desc>
+      Dick &amp; Mac McDonald opened their first hot dog stand, the Airdrome, at the Monrovia Airport in 1937. Huntington Dr. &amp; Mayflower was the northewest corner of the airport which is where this McDiner is located on old Route 66 in Monrovia, CA.
+      Apparently the McDiner's were first tested in 2002 in Kokomo, Indiana. They featured an expanded menu similar to a family restaurant. It is not clear how many of these actually opened or how they fared, but most seem to have reverted to the standard McDonald's menu.
+    </desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="37.56685000" lon="-92.77633300">
+    <name>Meramec Barn</name>
+    <cmt>Phillipsburg, MO</cmt>
+    <desc>During the heyday of Route 66, through out the Missouri area one could find old barns and buildings with hand stenciled advertising about the Meramec Caverns, the world’s largest single cave formation, stretching for twenty six miles of underground passage ways and caverns. The cave reaches seven stories high and is one of the most outstanding cave experiences in the world.  Nowadays they are few and far between.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="38.24145000" lon="-91.09191700">
+    <name>Meramec Caverns</name>
+    <cmt>Stanton, MO</cmt>
+    <desc>
+      Meramec Caverns is a 26 mile cavern system in the Ozarks of Missouri, USA. It was formed from large limestone deposits over millions of years. Pre-Columbian Native American artifacts have been found in the caverns. Currently the caverns are a tourist attraction, with about 51 billboards along Interstate 44. It is considered one of the primary attractions along former U.S. Highway 66.
+      ﻿The Caverns have existed from the past 400 million years, slowly forming through deposits of limestone. Centuries ago, Native Americans used the cavern system for shelter.
+      During the 1700's, the cave was used for extracting saltpeter for the manufacture of gunpowder. In the Civil War era, the Union Army used the caves as a saltpeter plant, but was destroyed by Confederate soldiers, namely Jesse James. Reportedly, James and his brother and partner in crime Frank later used the caves as a hideout. One legend claims that the sheriff sat in front of the cave, waiting for Jesse and his pals to emerge, however, they had found another exit.
+      In 1933, Lester B. Dill, noted caveologist, discovered the seven upper levels of the Caverns. Further exploration revealed 26 miles of underground passages. Meramec Caverns was opened to the public in 1935 as a tourist attraction.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.58990969" lon="-115.45282781">
+    <name>MojaveDesertRoute66RoadsiExhib</name>
+    <cmt>BFE, Mojave Desert, CA</cmt>
+    <desc>
+      A roadside exhibit along Route 66 in the Mojave Desert which commemorates aspects of the road through the desert.
+      --------------------------------------------------------------
+      The Story of Route 66
+      Commissioned in 1926 and soon dubbed "The Mother Road," Route 66 was a great asphalt river linking Chicago and Los Angeles - a highway of hope that led thousands of people to a new life.
+      You're standing on the site of one of the original Route 66 rest stops. Four covered picinic tables were located at this stop back in the 1950s. You can still see some of the concrete posts where they were anchored into the ground.
+      Stop a moment. Listen to the quiet. Experience the spirit of Route 66 that lives on in travelers of today.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.68635000" lon="-92.63976700">
+    <name>Munger Moss Motel</name>
+    <cmt>
+      1336 East Route 66
+      Lebanon, MO 65536
+    </cmt>
+    <desc>
+      Bob and Ramona Lehman have owned and operated the Munger Moss Motel for over thirty years.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.02480000" lon="-94.73505000">
+    <name>Murphey's Restaurant</name>
+    <cmt>
+      2800 Military Avenue
+      Baxter Springs, KS 66713
+    </cmt>
+    <desc>
+      Murphey's Restaurant is currently up for sale. Originally owned by Bill and Wanda Murphey. It was sold in 1976 to Alice Hampton.
+      Bill Murphey's Restaurant is now located in what used to be the Baxter National Bank and the bank was allegedly robbed in 1914 by the infamous Henry Starr.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.41191700" lon="-99.43708300">
+    <name>MYRTLE - RT 66 Kachina</name>
+    <cmt>
+      P.O.Box 5
+      Historic Rt. 66
+      Elk City, OK 73648
+    </cmt>
+    <desc>
+      Kachina Icons they represent the Native American Art and cultures that thrived prior to the Historic Rt. 66.
+      This was one of many of their trails.  You will pass several on a trip through the Southwest.
+      This Kachina will give you the first clue as to which Nation you are in and the art behind the culture.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.08045000" lon="-106.70856700">
+    <name>Neons Across Route 66</name>
+    <cmt>
+      Historic Rt 66
+      West Central
+      Albuquerque, NM 87101
+    </cmt>
+    <desc>The Neons over Historic Rt. 66 Albuquerque.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="36.14808300" lon="-95.87318300">
+    <name>Oasis Motel</name>
+    <cmt>
+      9303 E 11th St
+      Tulsa, OK 74112
+    </cmt>
+    <desc>
+      Another motel along Route 66 in Tulsa.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.17816700" lon="-103.72613300">
+    <name>Odeon Theatre</name>
+    <cmt>
+      123 South 2nd Street
+      Tucumcari, NM 88401
+    </cmt>
+    <desc>Built in 1936.  This is one of six theaters throughout the state to be considered for the State Register of Cultural Properties and the National Register of Historic Places. It's still up and running.</desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="35.66188300" lon="-97.29290000">
+    <name>John Hargrove's Place</name>
+    <cmt>
+      Route 66
+      Arcadia, OK
+    </cmt>
+    <desc>
+      2nd piece of evidence Radiator Springs exists!
+      John Hargrove retired a few years back but that hasn't slowed him down any. In fact he even ran last year in the Mother Road 100, a 100 mile foot race from Arcadia to Sapulpa in 26 hours and 56 seconds.
+      When he's not running half-way across Oklahoma, he keeps busy building Route 66 icons on his property. He's currently working on a 1/3 scale Catoosa Blue Whale, which when done will be on the pond on his 8 acre lot.
+      John's great guy. Oh, and proof of Radiator Springs? He's got Filmore in the garage.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="34.56215000" lon="-115.54436700">
+    <name>Old Route 66 Marker</name>
+    <cmt>Chambless, CA</cmt>
+    <desc>
+      This Route 66 Marker is also an E Clampus Vitus plaque in the ghost town of Chambless.
+      The plaque reads:
+      "Old Route 66
+      Perhaps no other highway in the U.S. is as fabled as Old Route 66. It has been immortalized in song, literature, and even a T.V. Series as the Main Street of America. Autumobiles came early to the desert, following the railroad with its reliable water sources. in the early 1900's the route was known as the National Old Trails Road. In 1926 it became U.S. Highway 66, and within a decade was paved all the way from L.A. to Chicago. Heavy travel by dustbowl emigrants led John Steinbeck to label it The Mother Road. Chambless, where you now stand, was a typical roadside stop. It was bypassed by Interstate 40 in 1973, and the Route 66 designation was officially dropped in 1985.
+      Billy Holcomb Chapter
+      The Ancient and Honorable Order
+      E Clampus Vitus
+      May 3, 1992"
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.06700000" lon="-94.72633300">
+    <name>Old Rte. 66 Park</name>
+    <cmt>Near Baxter Springs, KS</cmt>
+    <desc>
+      Roadside rest area 'Mother Road' style.  Turnout 2 miles north of Baxter Springs used by travelers along Route 66.
+      In sharp contrast to today's mega rest areas along Interstate Highways, this road side park is quiet and peaceful, with lots of room to roam, take a walk to stretch your legs, use the comfort station, have a picnic lunch, and let the dog have a run.
+    </desc>
+    <sym>Park</sym>
+  </wpt>
+  <wpt lat="35.17816700" lon="-103.72613300">
+    <name>Old West Mural</name>
+    <cmt>Tucumcari, NM</cmt>
+    <desc>Just around the corner from the Odeon Theater (where these coordinates were taken), is this mural that wraps around a couple walls in a parking lot. It's a depiction the Old West by Doug and Sharon Quarles. It looks like you could walk right into it. Also there's an abstract piece of art. It looks like Q-Bert's Condo.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="36.10455000" lon="-96.02296700">
+    <name>Ollie's Station</name>
+    <cmt>
+      4070 Southwest Blvd
+      (Old Route 66)
+      Tulsa, OK
+    </cmt>
+    <desc>
+      Come on in and see all the railroad paraphenalia.
+      Engines, boxcars, signals, mostly scale models. They even have several running a loop overhead around the place.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="34.01513300" lon="-118.48653300">
+    <name>Olympic and Lincoln Terminus</name>
+    <cmt>Santa Monica, CA</cmt>
+    <desc>
+      Over the years from 1926 to 1984, Route 66 had various termination points but for most of its existence it ended in Santa Monica. I've concluded that in Santa Monica there are three different end points: technical (where the road physically ended), ceremonial (where the Will Rogers Hwy dedication took place), and popular (where people talk about it ending).
+      The intersection of Olympic and Lincoln is what I call the technical terminus. It's an odd site really. Given the layout of the roads today, it doesn't feel like the end of anything, let alone of an historic highway. Worse, as you walk around there is absolutely no indication that this intersection is anything other than just the crossing of two roads. Nothing exists that commemorates the importance of this site. However, from many sources I'm convinced that for much of the history of Route 66 this intersection is where the road ended.
+      It would be wonderful if a plaque or sign were put in place to mark this spot.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.99366700" lon="-96.13616700">
+    <name>Rock Creek Bridge-Ozark Trail</name>
+    <cmt>Sapulpa, OK</cmt>
+    <desc>Ozark Trail section crosses a 1925 iron bridge (with brick deck) over Rock Creek, passes a defunct drive-in, and curves thru a narrow RR subway</desc>
+    <sym>Bridge</sym>
+  </wpt>
+  <wpt lat="37.08600000" lon="-94.61685000">
+    <name>Paddoc Gas and Liquor</name>
+    <cmt>Galena, MO</cmt>
+    <desc>
+      Paddoc Gas and Liquor on the Kansas Missouri Line Rt. 66.
+      Look for the Gas Pumps.  It also has a convenience store with a drive thru.
+      This side of the line also had Liquor and Kansas was a dry State.  There is lots of history, feuds and legislation on that history around here as well.
+    </desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="40.26061700" lon="-89.23150000">
+    <name>Palm Grill Cafe</name>
+    <cmt>
+      110-112 Southwest Arch St.
+      Atlanta, Illinois
+    </cmt>
+    <desc>
+      Historic cafe along Route 66 in Atlanta, Illinois.
+      Palm Grill Cafe was originally built in 1867. The building went into service as a restaurant in 1934 and continued in that capacity until the late 1960's, serving the locals along with the steady stream of people traveling along Route 66. It also served as the Greyhound bus stop during this period. The building has been vacant for many years but is currently being renovated to house a museum and a functioning cafe again. The Atlanta Public Library District &amp; Museum Board has plans to restore the exterior and interior of the cafe to its 1940s appearance. Included in the restoration of the classic neon sign over the door. The restoration is partially being funded by matching funds from the National Park Service in its Route 66 Corridor Preservation Program.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.25083300" lon="-112.18695000">
+    <name>Pete's Gas Station Museum</name>
+    <cmt>Williams, AZ</cmt>
+    <desc>
+      Pete's Route 66 Gas Station Museum is an homage to old time gas stations, part museum and part gift shop, specializing in vintage signs and equipment.
+      ﻿Just outside the historic district of Williams is where you can find this museum. It's owned, operated and is being restored by Pete's son. It's been a station for a very long time but the current building was built in 1949. It operated as a gas station till 1989 when it ceased operation and the tanks were removed from the ground. It sat idle for several years but is now being slowly whipped back into presentable shape. Half of the garage is a museum and the other half is a gift shop.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="37.19018300" lon="-93.90543300">
+    <name>Ghost School House</name>
+    <cmt>
+      Rt. 66 Now 96
+      Phelps, Mo
+    </cmt>
+    <desc>
+      It pre-dates 1900. All of the Desks,chalk boards and regular school objects are still in place. It really needs some help though it is vastly deteriorating. The Belfry has started falling in and there is rotting all the way around the structure this date.
+      I wonder how many cars have passed in front of this one?
+    </desc>
+    <sym>School</sym>
+  </wpt>
+  <wpt lat="38.06271700" lon="-91.40373300">
+    <name>Phillips 66</name>
+    <cmt>Cuba, MO</cmt>
+    <desc>﻿This classic Phillips 66 service station has been around since at least the 30's. It looks as good as new now.</desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="35.07511700" lon="-106.56286700">
+    <name>Pioneer Motel</name>
+    <cmt>
+      7600 Historic Rt. 66
+      7600 East Central Avenue
+      Albuquerque, NM 87108
+    </cmt>
+    <desc>This is another of the Old Motels along the 18 mile Rt.66 Strip of Central Street.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.54528300" lon="-98.31555000">
+    <name>Pony Bridge</name>
+    <cmt>Bridgeport, OK</cmt>
+    <desc>
+      As you approach Bridgeport on the post-1933 route of Route 66, you come across a broad and shallow river bed. This is the South Canadian River and a 38-arch bridge spans it. Arches are also known as "ponies" and this bridge is made up of 38 low-rise truss arches, 19 on each side. They're painted yellow and can be seen from quite a distance. This bridge is also a gateway to one of the most pleasant drives in all of Route 66.
+    </desc>
+    <sym>Bridge</sym>
+  </wpt>
+  <wpt lat="35.65855154" lon="-97.33571291">
+    <name>Pops</name>
+    <cmt>
+      660 W Highway 66
+      Arcadia, OK
+    </cmt>
+    <desc>
+      ﻿It’s futuristic vision rising from the pastoral Arcadian valley itself, with its native Oklahoma red rock base and steel trusses like giant tree branches.
+      The huge canopy cantilevers, unsupported, 100 feet to shelter vehicles and their occupants from sun, rain and snow. So big, it creates an “outdoor room,” it’s an unexpected sensation we bet you’ve never experienced -- with wildflowers and trees all around you.
+      Ultramodern fuel pumps and other cutting-edge amenities distinguish POPS from any other gas station on earth.
+      Giant Alert: This sculptural take on a soda bottle and straw soars 66 ft. into the sky. Like a rocketship from another realm, it’s THE must-see Route 66 landmark, standing next to the space station with which it arrived.
+    </desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="40.14713300" lon="-89.37990000">
+    <name>Postville Courthouse Site</name>
+    <cmt>Lincoln, IL</cmt>
+    <desc>
+      Located along Route 66 in Lincoln, Illinois. Go in and take the tour and enjoy the short video. It's free!
+      From 1839 to 1848 the seat of Logan County was Postville, which centered on the courthouse located on this site. In this structure Abraham Lincoln, a member of the traveling bar of the Eighth Judicial Circuit, attended twice a year.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.17716700" lon="-94.33460000">
+    <name>Powers History Museum</name>
+    <cmt>
+      1617 West Oak
+      P.O. Box 593
+      Carthage, MO 64836
+    </cmt>
+    <desc>
+      ﻿Since opening in June 1988, the museum has presented more than four dozen main gallery exhibits and approximately three dozen traveling exhibits and temporary displays. More than 95,000 visitors have participated in the museum's exhibits, special events and programs.
+      These events and programs have included lectures, craft workshops, antique identification sessions, music festivals and chautauqua presentations. In addition, the Powers Museum supports participation in the National History Day Contest and judges at Missouri's Region 6 competition held at Missouri Southern State University. Currently the museum is involved in several special projects including two Teaching American History Grants, the Carthage Civil War Sesquicentennial Commission, and two on-going, multi-institutional research projects devoted to Highway 66 (in Missouri) and the Jefferson Highway (national route from Canada to New Orleans).
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="37.07330969" lon="-94.74100828">
+    <name>Rainbow Bridge</name>
+    <cmt>between Riverton and Baxter Springs, KS</cmt>
+    <desc>
+      ﻿Rainbow Curve Bridge was constructed in 1923 over the Brush Creek.
+      A few miles west of Riverton on the way to Baxter Springs, Kansas you will find this classy historic Marsh Arch "Rainbow Bridge" on the old alignment of Route 66. This is one beautiful old bridge, though much smaller than the old Spring River Bridge, that did survive the "new is better" philosophy so evidentt in our society during the 1970s and 1980s. Through the efforts of the Kansas Historic Route 66 Association this historic bridge was saved and restored in 1992. Not only does this bridge make great photo opportunities, but you can still drive over it!
+      It is the only remaining Marsh Rainbow Arch Bridge on Route 66.
+    </desc>
+    <sym>Bridge</sym>
+  </wpt>
+  <wpt lat="37.21350000" lon="-93.45161700">
+    <name>Ghost Wrecker Service</name>
+    <cmt>
+      Historic Rt 66
+      Springfield/Halltown, MO
+    </cmt>
+    <desc>This Old Service Station and Garage has had the Old pumps removed and it appears to have been taken over by Rainey.  The sign on the side says Rainey Towing Service.  But the only one listed is now in Springfield.</desc>
+    <sym>Car Repair</sym>
+  </wpt>
+  <wpt lat="37.23971700" lon="-93.25610000">
+    <name>Rest Haven Court</name>
+    <cmt>
+      2000 E Kearney St
+      Springfield, MO 65803
+      (417) 869-9114
+    </cmt>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.03351700" lon="-106.94198300">
+    <name>Rio Puerco Bridge</name>
+    <cmt>
+      Rio Puerco I-40 Exit 140
+      19 miles west of Albuquerque
+      Albuquerque, NM 87121
+    </cmt>
+    <desc>
+      This bridge (NMSHTD #2530) on historic Route 66 is no longer in use but is being preserved.
+      ﻿This Parker Through Truss located on historic Route 66 was built in 1933. It was fabricated by the Kansas City Structural Steel Company and erected by F.D. Shufflebarger of Albuquerque. Its 250 length is one of the longest in New Mexico. Repairs and remodeling were completed in 1957. This structure was replaced in 1999 and is being preserved by the New Mexico State Highway and Transportation Department.
+    </desc>
+    <sym>Bridge</sym>
+  </wpt>
+  <wpt lat="41.83256719" lon="-87.77692080">
+    <name>Robin Hood Muffler Shop</name>
+    <cmt>
+      6131 Ogden Avenue
+      Cicero, IL 60804
+    </cmt>
+    <desc>
+      The Robin Hood Muffler Shop is still open, fixing the muffler woes of travelers along Ogden Avenue, once route 66.
+      The building has been replaced with a newer one, it looks like, but the sign is still a great nostalgia piece.
+    </desc>
+    <sym>Car Repair</sym>
+  </wpt>
+  <wpt lat="34.40820000" lon="-117.39323300">
+    <name>Rolar's Gas Station</name>
+    <cmt>Hesperia, CA</cmt>
+    <desc>
+      Unfortunately the only thing left of Rolar's Route 66 Gas Station are some trees, and lots of metal remnants scattered about.
+      ﻿The plaque reads:
+      "This was as close as Hesperia got to Route 66. In 1940, Leroy and Della Rolar opened a service station cafe on this property to help service increasing motorists needs along Route 66. State Hwy 31-C became US Route 66 in 1928. Actually nothing changed then, only the roadway name. The station lasted until 1949 when it was closed."
+    </desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="35.08748300" lon="-106.68225000">
+    <name>Rollin On The River 66-Neons</name>
+    <cmt>
+      Historic Rt 66
+      West Central at Rio Grande River
+      Albuquerque, NM 87101
+    </cmt>
+    <desc>A cool set od neons as you cross the Rio Grande River.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="36.14831700" lon="-95.89435000">
+    <name>Rose Bowl</name>
+    <cmt>
+      7419 E 11th St
+      Tulsa, OK
+    </cmt>
+    <desc>
+      ﻿Built in 1962, the Rose Bowl has become a Tulsa icon and a Route 66 landmark.  Chris Whinery and his uncle recently purchased the Rose Bowl, a 30,000+ sq. ft. double parabolic dome structure, maybe triple. It's freaking huge!
+      They are unfortunately deed restricted from opening it back up as a bowling alley, so they're thinking night club.
+    </desc>
+    <sym>Bowling</sym>
+  </wpt>
+  <wpt lat="35.00658300" lon="-106.05568300">
+    <name>Moriartys UFO Roto-SphereNeon</name>
+    <cmt>
+      1009 West Highway 66
+      Moriarty, NM 87035
+    </cmt>
+    <desc>It is located on the El Comedor Restaurant in Moriarty.  El Comedor roto-sphere is believed to be the only operational roto-sphere along the length of Historic Route 66.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="40.88088300" lon="-88.62890000">
+    <name>Route 66 Hall of Fame Museum</name>
+    <cmt>
+      110 W. Howard St.
+      Pontiac, IL 61764
+    </cmt>
+    <desc>See Route 66 memorabilia from Hall of Fame members! Travel the highway by visiting Route 66 towns on our flip-rack library! See the Route 66 State Farm Arch! See the PRISUM Solar Car and much more! Open Monday - Saturday.</desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="34.90511700" lon="-117.02506700">
+    <name>Route 66 "Mother Road" Museum</name>
+    <cmt>
+      681 N. First Avenue
+      Barstow, CA
+    </cmt>
+    <desc>
+      ﻿"The Route 66 "Mother Road" Museum was dedicated on July 4, 2000 in the historic Casa del Desierto, Harvey House, in Barstow, California. The Museum displays a collection of historic photographs and artifacts related to Route 66 and the Mojave Desert Communities. Displays include development of the United States Route 66 from early pioneer trails, railroads, automotive history, businesses and sites."
+      The museum hours:
+      Friday - Sunday 10:00am - 4:00pm
+      Admission: Free
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="34.13940000" lon="-118.02848300">
+    <name>Route 66 Art Deco Store</name>
+    <cmt>
+      21 South First Ave.
+      Arcadia, CA 91007
+    </cmt>
+    <desc>This historic art deco store has been preserved along the old Route 66 through Arcadia, California.</desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="35.66666700" lon="-97.29965000">
+    <name>RT 66 AuthorJim Ross'Residence</name>
+    <desc>Custom built to look like an old Phillips 66 Service Station.  This is the home of Jim Ross. He is a writer, researcher, and avid Route 66 enthusiast who has devoted years to photographing, charting, and exploring the Mother Road and its web of intricate routings. His articles and images have appeared in a wide range of publications. Some of the books written or co-written include: Legendary Route 66: A Journey Through Time Along America's Mother Road, Oklahoma Route 66, &amp; Oklahoma Route 66: The cruiser's companion.  This is his private residence, so please respect the man's privacy.Stop, take a picture or two, and skidaddle.  No address will be listed. You ain't got a GPS, you ain't waymarking.</desc>
+    <sym>Residence</sym>
+  </wpt>
+  <wpt lat="34.94666700" lon="-104.65471700">
+    <name>Route 66 Auto Museum</name>
+    <cmt>
+      2866 Will Rogers Avenue
+      Santa Rosa, NM 88435
+    </cmt>
+    <desc>
+      A wonderful little car museum run by a passionate auto fan in Santa Rosa, NM.
+      The beautiful yellow car up high in the air is certainly what caught my eye! On a lark I pulled in to check it out. I'm not a big car fan but as evidenced by my passion for Route 66, I do like 20th century American culture and classic cars of Detroit certainly can qualify as Americana. I was NOT disappointed!
+      The Route 66 Auto Museum was started by Bozo Cordova who owns an auto body shop near by. He told me it was started much the same way I decided to visit, on a lark. His passion for cars led him to his profession and his profession restoring cars led him to collecting. He and a buddy found the space and over time have filled it up with over 30 cars. There is turn over as he sells some and buys others so the collection changes and it's all in his pursuit of enjoying cars. I admire that.
+      Visiting is fun for more than just seeing his cars. It's also a pleasure to hear him tell his stories. When Bozo bought the car mounted out front it was little more than a rusted shell which he brought back to life. To get the car mounted they needed to build a small dirt hill next to the pole just to get elevation. Other stories involve projects you can see on display such as converting one car's tail end in to a sofa and crafting all new external woodwork for the Woody. This man loves his cars and hearing him talk about it is entertaining.
+      On the museum floor itself were lots of cars that I recognized and in excellent condition. I snapped lots of pictures which Bozo encourages. There are people a generation older than me who I knew would enjoy seeing them. Two cars my father had owned and one car my wife's mother had owned. There was a Chrysler Bel Air, an AMC Pacer, a Thunderbird Convertable, etc. Even though I'm not an auto buff it was easy to get caught up in these cars.
+      If you're ever in the neighborhood then stop by, it's easily worth the $5 entrance fee.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="41.60820000" lon="-88.20218300">
+    <name>Route 66 beds with Mr. Lincoln</name>
+    <cmt>Plainfield, IL</cmt>
+    <desc>
+      A roadbed, that is. This is the crossing of the Route 66 (post 1940) and the Lincoln Highway. These historic highways join for 3 blocks just east of downtown Plainfield.
+      ﻿Route 66 was realigned in 1940 to bypass Joliet on what is now Illinois 59. The Lincoln Highway Association was created in 1913 and created a highway between New York and San Francisco, paving the way for the numbered U.S. Routes in the 1920s. This section of the Lincoln Highway is now U.S. 30.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="41.87916700" lon="-87.62500000">
+    <name>Route 66 Begins</name>
+    <cmt>Chicago, IL</cmt>
+    <desc>
+      The current site near the shores of Lake Michigan in Chicago where Route 66 begins for west-bound travelers (and ends one block south for east-bound travelers).
+      Near the intersection of East Adams Street and South Michigan Ave in Chicago can be found the sign which marks the current beginning of Route 66. This terminus of the Route has been much less affected by history. East Adams Street and East Jackson Blvd have changed to one-way which separated the Begin and End of the Route. There was a time when Route 66 started at Lake Shore Drive too. However, all these spots are within close proximity of one another. All in all, a pretty clean beginning.
+      I also was interested in capturing the intersection of Lake Shore Drive and East Jackson Blvd because it's right on the shores of Lake Michigan. There is a romantic notion of how Route 66 runs from one huge body of water (Lake Michigan) to another (the Pacific Ocean). It makes me think of Route 66 as being "an American anthem" of sorts, as in "sea to shining sea" but on a smaller scale. Silly it may sound, I still had to capture and share it below.
+    </desc>
+    <sym>Navaid, Green</sym>
+  </wpt>
+  <wpt lat="37.08491700" lon="-94.56180000">
+    <name>Route 66 Carousel Park</name>
+    <cmt>
+      3834 W 7th Street
+      Joplin, MO 54801
+    </cmt>
+    <desc>
+      This park was closed when we went past. The park information is available on their website listed here. The information is quite variable depending on the time of year and what you would like to participate in, so it would be best to check with them directly.  The history section hasn't been completed yet, so the history of this is unknown. Looks like a nice place to stop and take the kids while out for a nice family drive.
+      List of Rides &amp; Entertainment
+      6 Story Ferris Wheel
+      Bumper Cars
+      Turbo Slide
+      Train
+      Elephants
+      Go-Gator roller Coaster
+      Merry-Go-Round
+      Mermaid Tubs of Fun
+      Mini Ferris Wheel
+      Lolli Swings
+      Bird Tower
+      Tilt-a-Whirll
+      Sea Dragon
+      Tiger Terror Roller Coaster
+      Water Wars Available
+      Horse shoes
+      Air Conditioned Arcade
+      Unlimited Mini-Golf (2-18 hole courses)
+      Unlimited Amusement rides (15 rides)
+      Unlimited Batting Cages
+      GO-KARTS Rides
+      2 Shelters (Seat 100-150)
+      Gazebos &amp; Picnic tables
+      Inside seating
+      Small playground area
+    </desc>
+    <sym>Amusement Park</sym>
+  </wpt>
+  <wpt lat="35.08203300" lon="-106.63083300">
+    <name>Route 66 Diner</name>
+    <cmt>
+      1405 Central Avenue NE
+      Albuquerque, NM 87106
+    </cmt>
+    <desc>
+      The rebuilt 66 Diner along historic Route 66 (now known as Central Avenue here) in Albuquerque, New Mexico.
+      The 66 Diner is dedicated to preserving the spirit of the roadside diner along Route 66. Our recipes come from Mom and Dad, brothers, sisters, friends and neighbors (except for Ernie's liver and onion recipe...which he forced on us). Our food is always fresh and always the absolute best we can offer. If you have a tastier recipe, bring it in and let us try it! If we decide that we like yours better, we'll put it on the menu (we're not proud) and we'll treat you and three of your friends to dinner. Our food, service and decor are all a very special part of the homeage we pay to a vanishing part of America's history.... Route 66.
+      In 1987, the former Phillips 66 gas station located on this site was converted into a diner. In 1995, the original diner burned to the ground, and only portions of the foundation were saved. The owners rebuilt the diner to retain the nostalgic look and atmosphere of the original.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.09445000" lon="-88.44028300">
+    <name>Route 66 Java Stop</name>
+    <cmt>
+      502 West Mazon Avenue
+      Dwight, IL 60420
+    </cmt>
+    <desc>
+      A superb drive-through coffee shop built of two freight containers, one atop another, in Dwight, IL.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.05111700" lon="-109.80536700">
+    <name>Route 66 Memorial</name>
+    <cmt>
+      Petrified Forest National Park
+      PO Box 2217
+      Petrified Forest, AZ 86028
+    </cmt>
+    <desc>
+      Car Wreck turned into a memorial located in Petrified Forest NP.  An old car wreck right next to the bridge crossing historic Route 66, turned into a little memorial.
+      Most things in this Park are 225 mil. years old. This one isn't that old yet and it is also not yet petrified. However, it must have been here long enough for souvenier hunters to strip it it off any possible mean of identification.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.27111700" lon="-102.67278300">
+    <name>Route 66 Midpoint</name>
+    <cmt>Adrian, TX</cmt>
+    <desc>The "midpoint" along the 2,278 mile path of Route 66 outside the Midpoint Cafe in Adrian, TX.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.17138300" lon="-103.74278300">
+    <name>Route 66 Sculpture</name>
+    <cmt>Tucumcari, NM</cmt>
+    <desc>
+      A Route 66 sculpture at the Convention Center in Tucumcari, NM.
+      ﻿On the way west out of town on Route 66 as you pass the Convention Center, on your left you can see the sculpture pictured above. It was created by Thomas Coffin for the Cultural Corridor's "Public Art on Scenic Highways" project and was dedicated May 17, 1997. It's simple, it's stylized, and it's pretty appealing ... as is much of Tucumcari, for that matter.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="38.50583300" lon="-90.59058300">
+    <name>Route 66 State Park</name>
+    <cmt>
+      97 North Outer Road, Suite 1
+      Eureka, MO 63025
+    </cmt>
+    <desc>
+      A Missouri State Park located along the historic Route 66 corridor. A roadhouse built in 1935 serves as the visitor center and features a historical display area containing Route 66 memorabilia.
+    </desc>
+    <sym>Park</sym>
+  </wpt>
+  <wpt lat="40.31060000" lon="-89.16725000">
+    <name>Dixie Truckers Home</name>
+    <cmt>
+      I-55 &amp; Route 66
+      McLean, Illinois
+    </cmt>
+    <desc>
+      The truck stop began as a mechanic’s garage, that also sold sandwiches to passing motorists by J.P. Walters and John Geske almost 80 years ago. Starting with little more than a counter and six stools, it quickly gained popularity and by the mid 1930's had developed into a full-fledged restaurant complete with cabins in the back.
+      The Dixie Truck Stop in McLean, Illinois has been operating since 1928, September, 2004, Kathy Weiser. Not only popular to travelers, Dixie’s also brought in hundreds of area locals who enjoyed the live entertainment and music on the weekends. However, when World War II began, the festive weekends came to a screeching halt.
+      However, the restaurant and gas station continued to serve travelers by four generations of the Geske family until June of 2003. Open 24 hours a day, 365 days per year, it never closed except one day when it suffered a fire in 1965.
+      The Dixie Truckers Home has since changed hands and has an updated look, but still continues to stand along Route 66 serving the truckers and travelers of the Mother Road.
+    </desc>
+    <sym>Truck Stop</sym>
+  </wpt>
+  <wpt lat="34.55861700" lon="-115.74333300">
+    <name>Roy's Motel &amp; Cafe</name>
+    <cmt>Amboy, CA</cmt>
+    <desc>
+      Once (and soon to be again) an oasis in California's Mojave desert along Route 66, Roy's provided food, drink, gas, service, and lodging to weary travelers passing through Amboy, CA.
+      How great that dead businesses along Route 66 can be resurrected!
+      When going from east to west along Route 66 in the Mojave desert, there's not much to see. There are a few ghost restaurants and gas stations, but very little that's in active use. You'll pass roadside "art" and a plaque or two but that's about it. Understandable! This is a very arid place with very little to sustain life or business. Roy's was for many years an oasis that provided travelers with a respite.
+      Roy's had it all. It started when Route 66 was established and lasted till when I-40 rerouted traffic around Amboy. At its peak it was restaurant, a service station, and a motel with a series of cute little white cabins in which guests could stay. Keeping this running couldn't have been easy. There's no water. All water had to be brought in from 50 miles away. The challenges must have been great and then, with the bypass, Amboy became a ghost town.
+      Thankfully for Route 66 there are preservationists. Albert Okura, who owns the Juan Pollo restaurant chain, is such a person. He purchased much of Amboy and with a commitment to retaining the town's 1950s character he's in the process of restoring parts of the town. Evidence of this can already be seen at Roy's. The sign has been restored, the gas stations appears to be a small gift shop (though it wasn't open when I was there) and there seems to be construction going on in the chained-off area which is the cabins compound. At the Barstow Route 66 museum I was told that Roy's is expected to open again in 2007 though offering what services I do not know.
+      Wouldn't it be great if more of this rebirthing were to happen along the Route?
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.17320000" lon="-94.36891700">
+    <name>RT 66 Drive Inn</name>
+    <cmt>
+      17231 Old 66 Blvd.
+      Carthage, Mo 64836
+    </cmt>
+    <desc>Old drive in theatre still in operation today!</desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="35.27128300" lon="-102.67283300">
+    <name>Rt 66 Mid Point Mile Post</name>
+    <cmt>
+      Historic Rt 66
+      Adrian, TX 79001
+    </cmt>
+    <desc>
+      The Mile Marker Post at the Location.
+      This is the Mile Marker Post that is at the Midpoint of the Historic Route 66.  It is just west of the big sign on the north side of the Highway across from the Mid-Point Restraunt.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.08443300" lon="-94.55808300">
+    <name>RT 66 Motor Speedway</name>
+    <cmt>
+      3406 West 7th Rt 66
+      Joplin, Mo 64801
+    </cmt>
+    <desc>Short Track Racing on Route 66!!!</desc>
+    <sym>Car</sym>
+  </wpt>
+  <wpt lat="35.19993300" lon="-101.10328300">
+    <name>Rt. 66 Steakhouse</name>
+    <cmt>
+      Historic Rt 66
+      407 Front St
+      Groom, TX 79039
+    </cmt>
+    <desc>
+      Here ya go Rt.66 Lovers a Business for sale along Historic 66.
+      The Texas Steaks used to be awesome.  There is a Neon Sign here as well but it has been covered by plywood and hard to get to.  If you have time and lot's of money this one would be a good fixer upper.  It appears to still be operable.  Maybe someone will fix it up someday.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="37.02456700" lon="-94.73545000">
+    <name>Cafe on the Route</name>
+    <cmt>
+      1101 Military Avenue
+      Baxter Springs, KS 66713
+    </cmt>
+    <desc>
+      Built around 1870 this cafe was formerly the Crowell Bank,which was robbed bt Jesse James in 1876.
+      It is currently a Restraunt bed and breakfast.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.17165000" lon="-103.71795000">
+    <name>Safari Motel</name>
+    <cmt>
+      722 E Route 66 Blvd
+      Tucumcari, NM 88401
+    </cmt>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="34.14596700" lon="-118.11676700">
+    <name>Saga Moter Hotel</name>
+    <cmt>
+      1633 E Colorado Blvd
+      Pasadena, CA 91106
+    </cmt>
+    <desc>
+      The Saga Motor Hotel was built in 1957 before the term "motel" was coined and this was still historic U.S. Route 66, now Colorado Blvd. in Pasadena, California. It bears elements of both art deco and googie architectural styles.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.21371700" lon="-99.86676700">
+    <name>Sandhills Curiosity Shop</name>
+    <cmt>
+      201 S Sheb Wooley Ave.
+      Erick, OK 73645
+    </cmt>
+    <desc>
+      Home of Harley and Annabelle, the Mediocre Music Makers and quite possibly the 4th piece of evidence Radiator Springs exists!!!!  This place looks like it could have been an inspiration for Lizzie's Place in "Cars".
+    </desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="34.13988300" lon="-118.03806700">
+    <name>Santa Anita Park</name>
+    <cmt>
+      285 W Huntington Drive
+      Arcadia, CA 91007
+    </cmt>
+    <desc>Santa Anita Park is a world class thoroughbred racing facility and the oldest in California, featuring a classic art deco grandstand. The Santa Anita Derby and Handicap races are held here. It is located on the old Route 66 in Arcadia, California.</desc>
+    <sym>Flag, Green</sym>
+  </wpt>
+  <wpt lat="34.01138300" lon="-118.49500000">
+    <name>Santa Monica Pier</name>
+    <cmt>Santa Monica, CA</cmt>
+    <desc>
+      Over the years from 1926 to 1984, Route 66 had various termination points but for most of its existence it ended in Santa Monica. I've concluded that in Santa Monica there are three different end points: technical (where the road physically ended), ceremonial (where the Will Rogers Hwy dedication took place), and popular (where people talk about it ending).
+      The Santa Monica Pier is what I call the popular terminus. It's actually two blocks south of the Will Rogers Hwy dedication and six blocks west of Lincoln and Olympic, so it's definitely not a legitimate end point. However, it's so close and it's so much fun and it's so photogenic and it's so recognized that it's a convenient reference point. Furthermore, it's a great place to take pictures since there is nothing much to photograph at the other end points and the Pier has this wonderful neon sign. At night it glows beautifully.
+    </desc>
+    <sym>Amusement Park</sym>
+  </wpt>
+  <wpt lat="39.82888300" lon="-89.63833300">
+    <name>Shea's Petroliana Museum</name>
+    <cmt>
+      2075 Peoria Road
+      Springfield, IL
+    </cmt>
+    <desc>
+      Over the course of 50 years, the Sheas put together an amazing little museum.  The site is an old gas station that lay along Route 66, originally as a Texaco and later as a Marathon. To make things really interesting they bought and then colocated the oldest station along the entire length of Route 66 in Illinois, the 1925 Mahan Filling Station. Between these two service stations and the Shea's decades of collecting, they have put together an amazing collection of service station memorabilia. There's so much to see and it's so tightly packed, it's really fun to visit.
+      To this day, Bill and Helen Shea are still curators of this museum.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="35.50763300" lon="-97.74203300">
+    <name>Sid's Diner</name>
+    <cmt>
+      4 E Main St
+      Yukon, OK 73099
+    </cmt>
+    <desc>If you like onion burgers and Elvis you will like Sid's Diner.  They have really good onion burgers and onion rings. The man that owns it now is also an Elvis impersonator.They also have a pull-up speaker where you can order and they will bring it out to go.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="41.30796700" lon="-88.14515000">
+    <name>Sinclair Dinosaur</name>
+    <cmt>
+      Baltimore &amp; Main
+      Wilmington, IL
+    </cmt>
+    <desc>An old Sinclair Dinosaur at a service station along the route.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="41.79960000" lon="-87.83100000">
+    <name>Snuffy's 24 HR Grill</name>
+    <cmt>
+      8408 Joliet Road
+      McCook, IL
+    </cmt>
+    <desc>
+      They don’t make places like Snuffy’s anymore. The original owner ran Snuffy’s from 1930 until 1969. Snuffy’s is a longstanding Route 66 institution that truly deserves Route 66 legendary status.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="37.18395000" lon="-93.70126700">
+    <name>Spencer Bridge</name>
+    <cmt>
+      Old Rt 66
+      Spencer, MO
+    </cmt>
+    <desc>
+      Rt.66 takes a jog off of State Road 96 onto County Road N to take you through the long gone town of Spencer, Missouri.
+
+      Here, you will begin to travel on a very Historic part of the original concrete road, passing a historic 1926 steel-truss bridge before you reach the remains of Spencer.  There stands a row of old business buildings sitting silent and lonely along these forgotten hills of southwest Missouri.
+    </desc>
+    <sym>Bridge</sym>
+  </wpt>
+  <wpt lat="37.18458300" lon="-93.70305000">
+    <name>Spencer, MO (Ghost Town)</name>
+    <cmt>Spencer, MO</cmt>
+    <desc>
+      Here stands a row of old business buildings sitting silently along these forgotten hills of the southwest Ghost strip of Historic Rt. 66 in Missouri.
+      I guess all things have their day's in the Sun.
+      It is sad to see these old buildings just slowly dissapear into History.  I guess that is life though.
+    </desc>
+    <sym>City (Small)</sym>
+  </wpt>
+  <wpt lat="38.57895000" lon="-90.40655000">
+    <name>Spencer's Grill</name>
+    <cmt>
+      223 S. Kirkwood Rd.
+      Kirkwood, MO 63122
+    </cmt>
+    <desc>Spencer's Grill has been operating at its current location on Kirkwood Road (U.S. 66) since 1947, serving locals and roadies alike quality food that keeps them all coming back for more.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="34.94130000" lon="-104.68811700">
+    <name>Sun and Sand Motel</name>
+    <cmt>
+      1124 Historic Route 66
+      Santa Rosa, NM 88435
+    </cmt>
+    <desc>A very cool neon sign.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="40.26076700" lon="-89.23156700">
+    <name>Tall Paul</name>
+    <cmt>Atlanta, IL</cmt>
+    <desc>
+      This is one of the "Muffler Man" fiberglass statues that has seen a few different locations and looks.
+      Tall Paul was located in Cicero, Illinois along Ogden Ave. for many years in front of Bunyon's. When Bunyon's closed the owners were offered as much as $10,000 but decided to "permanently loan" it to the City of Atlana to display in their Rt.66 Heritage Exhibit. Tall Paul is accessible 24 hours a day.
+      While in Atalnta, take the time to visit the museum just a block to the south and also check out the murals around the corner.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="36.14751700" lon="-95.92315000">
+    <name>Tally's Good Food Cafe</name>
+    <cmt>
+      1102 S Yale Ave
+      Tulsa, OK
+    </cmt>
+    <desc>Nice place to eat when you're in Tulsa,OK.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="38.58943300" lon="-90.30761700">
+    <name>Ted Drewes Frozen Custard</name>
+    <cmt>
+      6726 Chippewa
+      St. Louis, MO 63109
+    </cmt>
+    <desc>No visit to St. Louis would be complete without a stop at Ted Drews Frozen Custard. Ted Drewes Chippewa location opened in 1941 and is typically crowded on summer evenings. Drewes is best known for a specialty called a "concrete", which is frozen custard blended with any of dozens of ingredients, and served in a large yellow cup with a spoon and straw. Concretes are blended so thick that they and their spoon do not fall out when their cup is turned upside-down; servers often demonstrate this before handing customers their order.</desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="35.17166700" lon="-103.71500000">
+    <name>TeePee Curios</name>
+    <cmt>
+      924 E. Rt 66
+      Tucumcari, NM
+    </cmt>
+    <desc>
+      TeePee Curios is a curiously excentric souvenir shop with a great history and beautiful neon in Tucumcari, NM.
+      Mike and Betty Callens currently own and operate TeePee Curios and if I remember correctly they've been running it since they bought it back in 1985 from his uncle. Mike was born in Tucumcari but grew up in Southern California though his family would return every summer along Route 66 to visit so he has many memories to share. I mention this because while TeePee Curios is a family-owned souvenir shop with distinctive style and amazing neon, it's also had a recent impact on american culture.
+      Pixar Studios' "Cars": When Pixar executives were traveling Route 66 with Michael Wallis, they visited with many businesses and personalities along the way. The idea was to gain experience and develop the story for Cars. Businesses such as the Blue Swallow Motel, TeePee Curios, and the WigWam Motel along with stories from people such as Mike Callens were woven into the fabric of the movie. An example of how Mike's history showed up in the movie is when Doc Hudson (the 1951 Hornet voiced by Paul Newman) was teaching Lightning McQueen (the star race car voiced by Owen Wilson) a thing or two about racing on back country roads. Mike's parents would drive back and forth from California in a '51 Hornet and his father would perform similar moves as Doc Hudson's to thrill his kids in the back seat.
+    </desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="35.99495000" lon="-96.14031700">
+    <name>TeePee Drive-In</name>
+    <cmt>
+      W Ozark Trail
+      Sapulpa, OK
+    </cmt>
+    <desc>Closed, maybe for good this time.  Originally opened in 1950 it was reopened in 1999, but it's looking in rough shape these days.</desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="35.07751700" lon="-106.58226700">
+    <name>TEWA Lodge</name>
+    <cmt>
+      5715 Historic Rt. 66
+      5715 East Central Avenue
+      Albuquerque, NM 87108
+    </cmt>
+    <desc>
+      Another of those Old Post Card Memories along Historic Rt.66 New Mexico.
+      This neon has a really neat blue/green color.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="37.21388300" lon="-93.47750000">
+    <name>Texaco Sign and Pumps</name>
+    <cmt>Springfield, MO</cmt>
+    <desc>
+      Old, rusted and purely for show, this Texaco sign and pumps are roadside art that stand out in a setting of farms and fields a few miles west of Springfield, MO.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.96805000" lon="-110.43083300">
+    <name>The "Here It Is" Jackrabbit</name>
+    <cmt>Joseph City, AZ</cmt>
+    <desc>
+      Some things are simply curious and worth seeing. On the surface, why should anyone go out of their way to visit a ten foot tall jackrabbit with a saddle on its back? Well, to take a picture of themselves of course!
+      There's nothing else to do here on the side of I-40 in the middle of the desert, other than visit the trading post.
+      What I also find interesting is how the Jack Rabbit Trading Post managed to get its own on and off ramps for I-40. Remember, this is the middle of nowhere and there's nothing else around. Well, it seems that Glenn Blansett bought the Trading Post in 1967 just as he was retiring from the Senate where he had been influencial at having the I-40 ramps put in place. Since Senator Blansett purchased it, the Jack Rabbit Trading Post has remained in the family and is now operated by his grand daughter Cindy.
+      The last bit of trivia worth recounting is how in the highly competitive industry of Route 66 roadside trading posts, the original owner promoted his business. In conjunction with another Route 66 business in Winslow, they traveled 1,000 miles to Springfield, MO and on their return trip cluttered the roadside with billboards for their businesses. The net effect was that by the time you arrived at Joseph City traveling west your curiousity was so piqued that you couldn't help but stop. Good for them! They brought traffic and sales to their stores ... in the middle of nowhere.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.27093300" lon="-102.66788300">
+    <name>The Bent Door</name>
+    <cmt>Adrian, TX</cmt>
+    <desc>
+      Robert Harris built the Bent Door in 1947, and in 1995 saved it from demolition. Mr. Harris passed a few years ago, before he could restore the property.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.26681700" lon="-117.45943300">
+    <name>Blue Cut Rest Area</name>
+    <cmt>Cajon Pass, CA</cmt>
+    <desc>Just a little farther down the road past the Swarthout Canyon Road there is a field stone wall on your right separating the road from Cajon Creek. This is the site of the Blue Cut Rest Area, a once popular stop on Route 66, there is a historical marker located here. I found the Blue Cut area of Route 66 to be one of the most scenic sections of the Mother Road. Rest for awhile and watch the Santa Fe trains roll by. The photo opportunities are great because the railroad tracks are so close.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="34.55916700" lon="-115.68305000">
+    <name>The Bra Tree</name>
+    <cmt>Mojave Desert, CA</cmt>
+    <desc>This is one of very few attractions along Route 66 in the Mojave Desert. Small shrubs and low lying bushes punctuate the landscape. Only where the road passes over washes do a few trees appear. To celebrate their existence people have done some odd things. The Bra Tree is perhaps the oddest.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="36.19333300" lon="-95.73278300">
+    <name>The Catoosa Blue Whale</name>
+    <cmt>Catoosa, OK</cmt>
+    <desc>
+      Back before there was air conditioning and back before there were outdoor swimming pools there were swimming holes. If you were driving down Route 66 in the summer's heat and really needed to get out of the car, cool off, and have some fun then the Blue Whale was a great stop! Imagine the fun kids must have had climbing onto the whale and sliding into the cool water. This swimming hole is a tremendous throwback to a lost era.
+      Thankfully it's not a dilapidated attraction. Matter of fact, I was shocked to see what good condition the swimming hole was in. The paint on the whale looked fresh. The park fixtures looked to be in good condition. The banks of the pond were well maintained. I was impressed. I wanted to learn how this was possible.
+      The answer lies in the efforts of "The Route 66 Caravan" in 2002. This road trip was sponsored by the California Route 66 Preservation Foundation. It spent 66 days driving from Santa Monica to Chicago while along the way planting "Featured Attraction" signs and performing restorations. The Blue Whale was one of their projects.
+      There are few Route 66 images from my childhood that stand out as much as the Blue Whale of Catoosa. While it may sound funny for a grown man to admit it, I was thrilled to actually see it, and in such fine condition! There are places along Route 66 that can transport you back in time and this is one of the best. Very much worth visiting.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.51554827" lon="-98.96254778">
+    <name>The Glancy Motor Hotel</name>
+    <cmt>
+      217 E Gary Blvd
+      Clinton, OK 73601
+    </cmt>
+    <desc>
+      A Route 66 motel treasure, The Glancy Motor Hotel in Clinton, OK still features its huge marquee.
+      Unfortunately, the feeling from the owner is that business has been tight. With the loss of the Pop Hicks Restaurant next door (Pop Hicks Restaurant was built in 1936. Sadly, what became a landmark icon as the longest running restaurant on Route 66 burned down in 1999.)
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.17266700" lon="-103.72623300">
+    <name>The Legendary Road Mural</name>
+    <cmt>
+      Route 66 and 2nd Streets
+      Tucumcari, NM
+    </cmt>
+    <desc>This mural features local details and life size and larger-than-life size people, animals and scenes from the town's past and present. Divided in three sections by Buffalo Skulls, it covers signage along route 66, modes of transportation, and businesses, homes and landscape of the mesa/plains country.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="39.04183300" lon="-89.80448300">
+    <name>The Muppet Bus</name>
+    <cmt>Staunton, IL</cmt>
+    <desc>The actual bus from 2 of the Muppet movies...what the hell is it doing out here?</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.21386700" lon="-111.59941700">
+    <name>The Museum Club</name>
+    <cmt>
+      3404 E. US 66
+      Flagstaff, AZ 86004
+    </cmt>
+    <desc>
+      In 1931, hunter and collector Dean Eldredge began construction on a museum to house an amazing assortment of wild animals he had preserved through taxidermy. Converted to a nightclub in 1936, the club's wildest exhibits were then the people who came to dance the night away in what has been called the world's largest log cabin. Today, party animals head to the Museum (affectionately dubbed The Zoo) for drinks, live music, and unusually up-tempo atmosphere. The after-hours extravaganza on weekends is a night owl's favorite perch.
+      Stories are told of some of the greats of country music stopping here on their way to California and playing. What an amazing place this must have been at the time.
+      The Museum club is on the National Historic Register.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.50389348" lon="-98.98786247">
+    <name>Oklahoma Route 66 Museum</name>
+    <cmt>
+      2229 West Gary Blvd
+      Clinton, OK 73601
+    </cmt>
+    <desc>
+      The Oklahoma Route 66 Museum is operated by The Oklahoma Historical Society, a state agency. The museum was originally opened to the public in 1968 as the Museum of the Western Trails, operated by the Oklahoma Industrial Trust and Recreation Department (which later became the Oklahoma Department of Tourism and Recreation). In 1991 the museum was transferred to OHS. In 1993 plans began for a redevelopment of the museum in order to focus on transportation and Route 66. The project was funded with federal, state and private funds, with the citizens of Clinton (population approximately 10,000) raising over $200,000.00.
+      The museum officially opened on September 23, 1995, as the Oklahoma Route 66 Museum with a grand opening celebration in Clinton including car shows, free live entertainment, a rock’n roll dance and many other activities.
+      Exhibits begin with “The World’s Largest Curio Cabinet,” home of special treasures collected from along the route. An audio tour written and narrated by Michael Wallis, author of Route 66: The Mother Road, will guide visitors through six decades of Route 66 history. Along the way visitors see vehicles and listen to music while they experience the history and culture of each decade concerning road construction, transportation, lodging, restaurants, garages, curio shops, attractions, and other artifacts, graphics, and videos. At the end of their trip down the “Main Street of America,” visitors catch their breath in the drive-in theater, before stopping in the “Curio” gift shop with its wide selection of signs, books, videos, clothing, toys, games and numerous other mementos, of Route 66 and the Museum.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="34.12550000" lon="-117.29441700">
+    <name>The Original McDonald's</name>
+    <cmt>
+      1398 North E Street,
+      San Bernardino, CA
+    </cmt>
+    <desc>
+      This is the spot of the original McDonald's restaurant, opened in 1948 by Dick and Maurice McDonald. The restaurant is no longer operational but houses a Route 66 museum with much McDonald's memorabilia.
+      ﻿On May 15th, 1940, Richard and Maurice McDonald open their McDonald's Barbeque Restaurant, complete with carhops and a menu that included barbeque ribs and beef and pork sandwiches. Located on Route 66, their restaurant becomes the # 1 teen hangout in the San Bernardino area.
+      Eventually, the brothers realized that their hamburgers were making them far more money than all the other food items on the menu, so in October 1948, they shut down their restaurant, so they could retool it for more of an "assembly line" approach to making hamburgers.
+      On December 12, 1948, the restaurant reopened. Hamburgers were 15¢ and French fries were 10¢. In 1953, the original building was replaced with one that had a double set of golden arches.
+      The following year, Ray Kroc visited the brothers and convinced them to allow him to franchise the restaurants. Kroc was extremely successful with this venture and by 1961 was able to buy out the McDonald brothers to the tune of $2.7 million dollars. The brothers kept their original restaurant, but had to change the name to The Big M restaurant.
+      The following year, Ray Kroc opened a McDonald's just one block north of the Big M restaurant, which eventually forced the Big M out of business. The McDonald brothers sold the Big M property to Bakers Restaurant chain in 1968. The building was demolished in 1972 and rebuilt in 1974. Today, the building no longer serves hamburgers, but houses a Route 66 museum and contains many items of interest concerning the McDonald's restaurant chain.
+      The museum is open daily from 10 to 5 with no admission charge.
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="39.83111700" lon="-89.64000000">
+    <name>The Rail Splitter</name>
+    <cmt>Springfield, IL</cmt>
+    <desc>
+      This 30-foot statue of a young beardless Lincoln with axe in-hand is found inside the State Fair Grounds in Springfield, IL.
+      It's hyperbole to say that everything in Springfield is about Abraham Lincoln but sometimes it feels like it. They have every reason to feel proud that our 16th President came from Springfield but WOW there's a lot to see of Lincoln. In this case it's 30-feet of him.
+      This statue was built by Carl W. Rinnus in 1967 and is entitled "Thee Rail Splitter". He can be found in front of the Illinois Exhibits building on the left as you enter Gate 1 of the State Fair Grounds. He stands with an axe in hand, looking young and tall, and ready to chop!
+      What struck me about this statue was how different it was from the way most of us think of Abraham Lincoln. No, he didn't stand 30-feet tall but that's obviously not what I mean. We envision Lincoln older, with a beard, in a suit, and rarely smiling. This is a different Lincoln, by design, and its effective at conveying another side of one of our most revered Presidents.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="41.52680000" lon="-88.08160000">
+    <name>Rialto Square Theatre</name>
+    <cmt>
+      15 E. Van Buren St.
+      Joliet, IL 60432
+    </cmt>
+    <desc>
+      The Jewel of Joliet as it's known, the Rialto Square Theatre is a former Vaudeville movie palace built during the "Golden Age" of movies.
+      Debuting on May 24, 1926, the Rialto was two years in the making at an approximate cost of one and a half million dollars. Originally conceived as a Palace For The People by the Rubens Brothers, the Rialto is now considered one of the most beautiful theatres in the nation. The building reflects Italian Renaissance, Byzantine,
+      Roman, Greek, Rococo, Venetian and Baroque architecture.
+      The Esplanade, or inner lobby, is designed after the Hall of Mirrors in the Palace of Versailles, France. The arch between the Esplanade and the Rotunda area has been carefully copied from the Arc de Triomphe in Paris. The elegant rotunda is surrounded by eighteen Corinthian-style columns and surmounted by a dome quite similar to the Pantheon in Rome.
+      There are over one hundred crystal chandeliers and light fixtures throughout the Rialto. All are Czechoslovakian crystal. Steuben glass, copper and bronze. Each piece of crystal was crafted by the Victor S. Perlman Company, in Chicago. The magnificent chandelier in the center of the Rotunda is called "The Duchess". It is one of the largest crystal chandeliers in the United States. It weighs over two and one half tons, is nearly twenty-two feet long and has approximately two hundred fifty lights.
+    </desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="35.74893300" lon="-96.65436700">
+    <name>Rock Cafe</name>
+    <cmt>
+      114 West Main Street
+      Stroud, OK 74079
+    </cmt>
+    <desc>
+      So you want proof Radiator Springs exists?!!
+      UPDATE: THE ROCK CAFE WAS BURNED TO THE GROUND ON MAY 20TH, 2008.
+      Only the restaurant’s stone walls were still standing. This news hit us like a sucker punch. The good news is Dawn and her family plan to rebuild. There is a website for a fund for what's not covered by insurance. Link
+      The Rock Cafe is owned and operated by Dawn Welch and her family. Dawn is the inspiration for the character "Sally Carrera" in the movie "Cars" put out by Pixar in 2006.
+      Dawn was a cruise director about to move to Costa Rica, when she learned she inherited land from her grandmother in Oklahoma. She went to check out the parcel and decided to stay.
+      The Rock Cafe is a MUST STOP on a trip down Route 66.  Dawn's hospitality is second to none.
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.32666700" lon="-112.87471700">
+    <name>The Rusty Bolt</name>
+    <cmt>
+      119 E Chino
+      Seligman, AZ
+    </cmt>
+    <desc>
+      The Rusty Bolt is a biker store and Route 66 gift shop with a most outrageous exterior.
+      ﻿You can't go by this place and not notice it!
+      The three straight-on pictures in the gallery are the three parts of the store. While most of it is a gift shop focused on Route 66 and American memorabilia, one third is dedicated to biking accessories like leather jackets and boots. Outside are classic old cars, outrageously dressed mannequins, and weird little signs galore. It's quite a site!
+      Much of Seligman has wasted away but this place is still hopping. Bus loads of european tourists, caravans of bikers, and auto club cruising groups all stop here along the way. While many of Route 66 gift shops carry the same stuff, this one has such an extensive inventory that you can find distinct items. Since it caters to europeans, you'll also find many great examples of 20th century American memorabilia.
+      Since you can't drive by without being drawn-in you might as well give-in, park, and shop.
+    </desc>
+    <sym>Department Store</sym>
+  </wpt>
+  <wpt lat="34.55916700" lon="-115.68583300">
+    <name>The Shoe Tree</name>
+    <cmt>Mojave Desert, CA</cmt>
+    <desc>
+      The Shoe Tree sits aside Route 66 in the Mojave Desert.
+      ﻿This is another of very few attractions along Route 66 in the Mojave Desert (also see the Bra Tree). Small shrubs and low lying bushes punctuate the landscape. Only where the road passes over washes do a few trees appear. To celebrate their existence people have done some odd things. The Shoe Tree is one of the oldest.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.74908300" lon="-96.66171700">
+    <name>The Skyliner Motel</name>
+    <cmt>
+      717 W Main St
+      Stroud, OK 74079
+    </cmt>
+    <desc>
+      We highly recommend staying at the Skyliner if you're in the area.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.68778300" lon="-105.93888300">
+    <name>The Spitz Clock</name>
+    <cmt>Santa Fe, NM</cmt>
+    <desc>
+      The Spitz Clock is located in Santa Fe, NM on the northwest corner of town Plaza.
+      The Spitz Jewelry Store was established on the Plaza in 1881, and a clock, without works, was placed in front of the store to advertise the wares offered. Near the turn of the century, this "clock" was replaced by a functioning sidewalk clock which stood until 1915 when it was knocked down by one of the first motor trucks in Santa Fe. The third Spitz Clock, standing here, was purchased second-hand by Salamon Spitz in 1916 and was brought to Santa Fe from Kansas City. It stood in front of the Spitz Jewelry Story until the Plaza's south portal was built in 1967. The clock was donated to the citizens of Santa Fe by Bernard Spitz, and was erected on this site in June of 1974.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.17186700" lon="-103.73391700">
+    <name>Thunderbird Resturaunt</name>
+    <cmt>
+      Historic Rt 66
+      Tucumcari, NM 88401
+    </cmt>
+    <desc>If you like Buffets this is the place to visit while in Tucumcari.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="35.36695000" lon="-108.05111700">
+    <name>Tomahawk Bar</name>
+    <cmt>
+      1/2 MI. W. OF PREWITT EXIT 63
+      PREWITT, NM 87045
+    </cmt>
+    <desc>
+      Along Route 66 east of Gallup, New Mexico, the Tomahawk Bar is an operating roadside bar located in a loud-pink quonset hut.
+      It's loud-pink. You can't miss it. To some it immediately brings to mind Pepto-Bismol.
+      Aside from being a bar in a quonset hut (a building made of corrogated sheet metal which has a semicircular cross section) with a facade, it's also a trading post. However, it doesn't seem to be a general trading post. Instead it's one that specializes in "quality castings and molds". In the middle of nowhere I can't imagine there a lot of demand for this!
+    </desc>
+    <sym>Bar</sym>
+  </wpt>
+  <wpt lat="37.08036294" lon="-94.63889122">
+    <name>Tow Tater (Mater!)</name>
+    <cmt>
+      corner of North Main Street and Front Street (both on Route 66)
+      Galena, KS
+    </cmt>
+    <desc>
+      1st piece of evidence that Radiator Springs exists!
+      ﻿On our quest to find Radiator Springs, we found quite a few examples.
+      When the folks at Pixar were doing their research for "Cars the Movie" they found this old tow truck in Galena, KS. It is of course the inspiration for the character "Mater".
+      For copyright reasons Galena named it Tater.
+      Now, Tater is no longer rusting somewhere in a field. He's rusting in this historic old Kan-O-Tex service station. Melba Rigg and the rest of her crew plan on leaving him just as he is. The service station is being refurbished. Can't wait to see it again all shiny and new.
+      UPDATE: 08/21/07
+      Vintage Kan-O-Tex Gasoline Pumps are now in place.
+      Grand Reopening tentatively Spring 2008
+      ...and have they got a few more surprises in store
+    </desc>
+    <sym>Museum</sym>
+  </wpt>
+  <wpt lat="35.13317627" lon="-103.69926453">
+    <name>Tucumcari Mountain</name>
+    <cmt>Tucumcari, NM</cmt>
+    <desc>
+      3rd piece of evidence Radiator Springs exists!!!
+      Tucumcari Mountain looks like it was the inspiration for the mesa seen in "Cars" the movie.
+    </desc>
+    <sym>Summit</sym>
+  </wpt>
+  <wpt lat="36.20971700" lon="-95.72445000">
+    <name>Twin Bridges</name>
+    <cmt>north of Catoosa, OK</cmt>
+    <desc>
+      Twin Bridges over Verdigris River north of Catoosa, OK.
+      What's interesting about these twin bridges is that they're identical ... almost. Just as in real life, these identical twins are slightly different. The earlier bridge was built in 1934 when Route 66 was a two-lane road; it is 24 feet wide. It's "twin" was built when Route 66 was expanded to four-lanes in 1957; it's 28 feet wide. Otherwise, they're built to be identical.
+      From one vantage point, it appears there's another sibling near by. You can see it in the background of the default picture above. That one arch bridge is built for trains and not cars so at best we could consider it a fraternal triplet.
+    </desc>
+    <sym>Bridge</sym>
+  </wpt>
+  <wpt lat="38.06460000" lon="-91.39660000">
+    <name>Wagon Wheel Motel</name>
+    <cmt>
+      901-905 E. Washington St.
+      Cuba, MO
+    </cmt>
+    <desc>
+      Historic Route 66 motel and travel court in Cuba, Missouri and listed on the National Register of Historic Places.
+      "The Wagon Wheel Motel Historic District in Cuba, Missouri is significant under Criteria A and C. In the area of COMMERCE, the district is significant as a highly intact tourist court on Route 66. The Wagon Wheel Cafe and Gas Station opened in 1936, and the Wagon Wheel Motel, known originally as the Wagon Wheel Cabins, was accommodating nightly travelers by 1938. The Wagon Wheel Motel has been in operation ever since. The motel complex was one of the many tourist courts constructed in response to the surge in automobile travel and tourism during the first half of the twentieth century. Most, like the Wagon Wheel were built by local craftsmen and were locally owned and operated. However, few are still in operation today. Not only does the Wagon Wheel Motel still accommodate nightly travelers, but also it is still locally owned and operated. It is also the earliest tourist court on Route 66 in Missouri still in operation as a lodging facility.
+      The Wagon Wheel Motel Historic District is also significant under Criterion C in the area of ARCHITECTURE. It is a rare early example of the transition in roadside lodging from individual tourist cottages to buildings with multiple units. In addition, the high degree of formal styling in the design of the motel buildings in the Wagon Wheel Historic District is rare along Route 66 in Missouri. While the use of stone as a building material for tourist courts on Route 66 was fairly common, most are unstyled vernacular buildings. In contrast, the Wagon Wheel Motel buildings have distinctive Tudor Revival features. Furthermore, the buildings in the Wagon Wheel Motel Historic District have additional local significance because they were designed and constructed by Leo Friesenhan, a mason who is well known locally as well as in the St. Louis area.
+      The period of significance for the Wagon Wheel Motel Historic District runs from 1936, the year the Wagon Wheel Cafe and Gas Station opened for business to 1969, the year the Interstate 44 bypass at Cuba was completed.  The extension of the period of significance past the arbitrary fifty-year cut-off acknowledges the continuing importance of Route 66 in Missouri and in Cuba until the highway was decommissioned in the Cuba area in the late 1960s." ~ National Register Nomination Form.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="36.88621700" lon="-94.87771700">
+    <name>Waylan's KuKu Burger</name>
+    <cmt>
+      915 North Main
+      Miami, OK 74354
+    </cmt>
+    <desc>
+      Eugene E Waylan's world famous burger joint.
+      You can't miss this place! It's a giant Cuckoo Clock!
+    </desc>
+    <sym>Fast Food</sym>
+  </wpt>
+  <wpt lat="35.52500000" lon="-98.71415000">
+    <name>Weatherford Wind Energy Center</name>
+    <cmt>
+      522 W. Rainey
+      Weatherford, OK
+    </cmt>
+    <desc>
+      Ranked eighth in the nation for its wind resources.
+      Located on more than 5,000 acres near Weatherford in Custer and Washita Counties,Oklahoma, the 98 wind turbines produce up to 147 megawatts of electricity. That’s enough electricity for more than 44,000 homes.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.30888300" lon="-99.63635000">
+    <name>Western Motel</name>
+    <cmt>
+      315 Ne Highway 66
+      Sayre, OK 73662
+    </cmt>
+    <desc>﻿This motel's sign has seen better days.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="41.87823300" lon="-87.62440000">
+    <name>The End is The Beginning!</name>
+    <cmt>
+      near corner of E. Jackson Blvd. &amp; S. Michigan Ave.
+      Chicago, IL 60603
+    </cmt>
+    <desc>
+      The commemorative sign marking the end of Rt. 66 in downtown Chicago, IL.
+      ﻿Originally, Rt 66 followed E. Jackson Blvd., which was a 2 way street. When it was converted to one way east bound, along with Adams St. just to the north being converted to one way west bound, the powers-that-be decided to call this spot the "end" and Adams the "beginning". I guess there must be a similar point in California called - the "middle" :-)
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="41.67550000" lon="-88.05816700">
+    <name>White Fence Farm</name>
+    <cmt>
+      1376 Joliet Road
+      Romeoville, IL 60446
+    </cmt>
+    <desc>
+      Yummy chicken dinner! Located on Joliet Road on what became the Alternate 66 after 1940. A farm close to the city to draw in the city folks. The fact that they have a petting zoo and museum just seals the sense of nostalgia.
+      Since its beginning in the early 1920's, White Fence Farm, located near Romeoville, Illinois, has been recognized throughout the mid-west for its outstanding chicken dinners. "The World's Greatest Chicken" is certainly a statement that has stood the test of time. White Fence Farm has earned a reputation over the years among diners as a truly unique, friendly, and courteous place to have dinner.
+      In the early 1920s, Stuyvesant Peabody, one of Chicagoland's foremost citizens who was a multimillionaire coal executive, had a theory that people would enjoy a simple menu of superior food when served in an attractive atmosphere on a good-looking farm.
+      He erected the present building on twelve acres of a four hundred fifty acre farm. It was evident that his theory worked out, for more than 40,000 came the first four months.
+      The original rooms are those with the hand-hewn hardwood beams. The Currier and Ives collection displayed is from Mr. Peabody's private collection.
+      Robert and Doris Hastert purchased the Farm in the spring of nineteen fifty-four. September twenty-nineth of the same year, after extensive remodeling that included an entirely new kitchen, they reopened the restaurant. Each year has brought many new additions, and each year the food excels in quality.
+      Hours
+      Sunday 12 - 8 pm
+      Monday Closed
+      Tuesday - Friday 5 - 9 pm
+      Saturday 4 - 9 pm
+    </desc>
+    <sym>Restaurant</sym>
+  </wpt>
+  <wpt lat="34.90268300" lon="-110.16840000">
+    <name>Wigwam Motel</name>
+    <cmt>
+      811 West Hopi Drive
+      Holbrook, AZ 86025
+    </cmt>
+    <desc>
+      The Wigwam Motel, famous for its teepee-shaped sleeping rooms.
+      Frank Redford was enamored with the teepee. In 1933, with a restaurant and gas station in the shape of a teepee surrounded by 15 teepee cabins, he established Wigwam Village #1. He eventually was responsible for seven villages being built, of which three still exist. Two of the remaining Wigwam Motels lie along Route 66.
+      This teepee village is in Holbrook, AZ and was built in 1950 by Chester E. Lewis. He operated it under license from Frank Redford from 1950 till 1974 when he closed it after the Interstate rerouted most traffic away from his motel. After his death, his son renovated and reopened the motel in 1986. This Wigwam Motel has 15 teepee rooms numbered 1 through 16 (there is no #13) and it continues to be operated by the original family.
+      My visit didn't coincide with the office being open so all I could do was look around (it was off season). The place has character though it seems a bit weathered now. Several vintage automobiles are parked in front of teepees to give an authentic feel to the place. The room I looked in was in good shape with a TV and a window air conditioner but no phone. A concrete path runs in front of and connects all teepees but the lot is not paved, which would normally be fine since Holbrook is in the desert.
+      I loved how under the motel name it read, "Have you slept in a wigwam lately?"
+      If these teepee cabins look familiar but you're not sure why then it might be because you've seen the Pixar movie "Cars" recently. As with many things in that movie, parts were adapted from real life along Route 66. In this case, the motel rooms in the movie were orange traffic cones instead of teepees but the motel was largely the same set-up as at the Wigwam Motels. Cool, don't you think!
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="34.01416700" lon="-118.49806700">
+    <name>Will Rogers Highway Dedication</name>
+    <cmt>Santa Monica, CA</cmt>
+    <desc>
+      The Will Rogers Highway dedication plaque is one of several western end-points to Route 66.
+      Over the years from 1926 to 1984, Route 66 had various termination points but for most of its existence it ended in Santa Monica. I've concluded that in Santa Monica there are three different end points: technical (where the road physically ended), ceremonial (where the Will Rogers Hwy dedication took place), and popular (where people talk about it ending).
+      The Will Rogers Highway dedication plaque is what I call the ceremonial terminus. In 1952 the Highway 66 Associations, Warner Brothers Studios, and the Ford Motor Company organized a marketing effort to draw attention to Route 66 and to the release of the movie "The Will Rogers Story". A caravan of celebrities drove from St. Louis to Santa Monica making stops along the way at each state line to perform dedication ceremonies. Each ceremony was commemorated with a plaque, the last of which was at the terminus of Route 66 which they chose to be where Santa Monica Boulevard comes to an end at Palisades Park, just above Santa Monica State Beach and the Pacific Ocean.
+      Sadly, as you can see in the picture above, the plaque currently isn't there to be seen. When I was looking for it recently, a police officer explained that a drunk college football player had crashed in to it killing himself and destroying the plaque. All that remains is the cement block on which it was mounted. Hopefully Santa Monica will restore it.
+      Though I didn't see it, I'm told that it read: "Will Rogers Highway, dedicated 1952 to Will Rogers, Humorist, World Traveler, Good Neighbor. This Main Street of America, Highway 66 was the first road he traveled in a career that led him straight to the hearts of his countrymen."
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.68465000" lon="-92.64270000">
+    <name>Will Rogers Theater</name>
+    <cmt>
+      135 Wrinkle Ave
+      Lebanon, MO
+    </cmt>
+    <desc>
+      Just down the street from the Munger Moss Motel is Wrink’s Food Market.
+    </desc>
+    <sym>Movie Theater</sym>
+  </wpt>
+  <wpt lat="38.45076700" lon="-90.90348300">
+    <name>Zephyr Gas &amp; Cafe</name>
+    <cmt>
+      Route 66
+      Villa Ridge, MO
+    </cmt>
+    <desc>
+      An old service station on the Mother Road.
+    </desc>
+    <sym>Gas Station</sym>
+  </wpt>
+  <wpt lat="35.17180000" lon="-103.74065000">
+    <name>Buckaroo Motel</name>
+    <cmt>Tucumcari, NM</cmt>
+    <desc>
+      An old motel sign in Historic Tucumcari, NM.
+      ﻿Tucumcari still has a lot of neon from it's heyday.
+      People come from all over the world to stay in one of the many old motels. The Buckaroo is just one of them.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="34.71751900" lon="-114.48213100">
+    <name>I-40Exit1EastboundRt66toOatman</name>
+    <cmt>CA/AZ Border </cmt>
+    <desc>
+      Eastbound turnoff from interstate back onto regular roads, winds up to the small living ghost town of Oatman, AZ.
+    </desc>
+    <sym>Flag, Green</sym>
+  </wpt>
+  <wpt lat="35.02632400" lon="-114.38357600">
+    <name>Oatman, AZ</name>
+    <cmt>Oatman, AZ</cmt>
+    <desc>
+      Oatman began 0ver 100 years ago as a mining tent camp and quickly became a flourishing gold-mining center. In 1915, two miners struck a $10 million gold find, and within a year, the town's population grew to more than 3,500.
+      Oatman was named in honor of Olive Oatman, who was kidnapped as a young girl by Mojave Indians and later rescued in 1857 near the current site of the town. Oatman was served by a narrow gauge rail line between 1903 and 1905 that ran 17 miles to the Colorado river near Needles, California.
+      But both the population and mining booms were short-lived. In 1921, a fire burned down many of the smaller shacks in town, and three years later, the main mining company, United Eastern Mines, shut down operations for good. Oatman survived by catering to travelers on old U.S. Route 66. But in the 1960s, when the route became what is now Interstate 40, Oatman almost died.
+      Oatman is a fun place to visit -- an authentic old western town with burros roaming the streets and gunfights staged on weekends. The burros are tame and can be hand fed. When my wife and I visited in January of this year, I was surprised to see five old Model T Fords out for a Sunday drive down the main street of Oatman. The cars fit right in with the romantic image of this old town, taking us back to the 1915 era old west.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.19071900" lon="-114.03392300">
+    <name>Quality Inn-Kingman</name>
+    <cmt>
+      1400 E Andy Devine Ave
+      Kingman, AZ 86401
+      (928) 753-4747
+    </cmt>
+    <desc>The Quality Inn in Kingman is dedicated to Rt. 66. Don't miss it, it's quite a place. It has more memorabilia than the Route 66 Hall of Fame in Illinois.</desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.38668800" lon="-113.65918600">
+    <name>Valentine, AZ</name>
+    <cmt>Valentine, AZ</cmt>
+    <desc>
+      Established in 1898, Valentine is home of the Truxton Canon Agency Bureau of Indian Affairs, U.S. Department of the Interior.
+      In May of 1900, 600 acres of land were set aside and an Indian School was built.  The school opened in 1917 and closed about 1937.  It was reopened later and used until 1969.  The building still stands today.  Beyond the railroad tracks, the remains of "The Little Red Schoolhouse" are visible.  Built in 1924, it was used by the non-Indian students who lived in the area.
+    </desc>
+    <sym>City (Small)</sym>
+  </wpt>
+  <wpt lat="35.37492700" lon="-113.72296900">
+    <name>Hackberry, AZ</name>
+    <cmt>
+      11255 E Highway 66
+      Peach Springs, AZ
+      (928) 769-2605
+    </cmt>
+    <desc>
+      Present day Hackberry is across Truxton Wash.  A portion of the Old Trails Highway goes through the settlement.  Hackberry Elementary School, painted red and white, can be seen on the edge of town.  Built in 1917, it was in use until early 1994.
+      The old Hackberry General Store now owned by John and Kerry Pritchard is open as a Visitor Center, gift shop, picnic area and rest stop.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.48475000" lon="-113.56327100">
+    <name>Truxton, AZ</name>
+    <cmt>Truxton, AZ</cmt>
+    <desc>
+      Encircled by colorful and scenic terrain, this small community's roots stretch back to the Beale Wagon Trail.  Years later, in 1883, the railroad followed with a water stop for its engines that became known as Truxton Station.
+      Around 1950, plans were underway to build a new dam in the lower Colorado River, with the junction near Truxton.  In anticipation of the traffic, Donald Dilts opened the Truxton Cafe and Clyde McCune built a service station across the street.  This was the official beginning of the town of Truxton.  However, plans for the dam were abandoned and the town maintained itself from travelers passing through on Route 66.
+      In 1957, the Truxton Cafe and adjacent Motel were purchased by Ray and Mildred Barker.  The Cafe is a favorite stopping place for many regular travelers of this section of Route 66.  Mildred Barker still operates this friendly cafe and motel, offering some of the best food to be found on the Route, (including homemade pie,) and a helping of stories about life along the Main Street of America.
+      Services Available:
+      Service station
+      Grocery store
+      Bar and Cafe
+    </desc>
+    <sym>City (Small)</sym>
+  </wpt>
+  <wpt lat="35.46029400" lon="-113.61387800">
+    <name>Frontier Motel &amp; Cafe</name>
+    <cmt>
+      16118 Rte 66
+      Peach Springs, AZ 86434
+    </cmt>
+    <desc>
+      The Frontier Motel and Restaurant in Truxton has seen a lot of action over the years. Until recently the old neon sign and artwork was in need of repair. Using matching funds from the Route 66 Corridor Preservation Act administered by the National Park Service it has been repaired and painted and is a fine example of vintage Route 66 road art.
+    </desc>
+    <sym>Lodging</sym>
+  </wpt>
+  <wpt lat="35.52911800" lon="-113.42551200">
+    <name>Peach Springs, AZ</name>
+    <cmt>Peach Springs, AZ</cmt>
+    <desc>
+      Route 66 crosses the southern boundary of the Hualapai Indian Reservation, and Peach Springs is the headquarters of the tribe.
+      Peach Springs was at one time a western terminal  of the Santa Fe Railroad, with a road house, shops, a Harvey House restaurant, and a stage coach line.  The Shell station in Peach Springs dates back to the 1920's and is one of the continuously operated stations to be found on all of Route 66.  Other buildings of interest are the Hualapai Wildlife Office and the new Hualapai Lodge, which houses a great restaurant and small gift shop.
+      Twenty-one miles north of Peach Springs, on unpaved Diamond Creek Road, is the Colorado River, where primitive camping is available (Tribal permits are required from the Hualapai River Runners, and may be purchased at the Hualapai Lodge.)  Also, from May to September, river trips down the mighty Colorado are offered. Another special attraction is Havasupai Falls.
+      Three miles east of Peach Springs, turn north and travel 63 miles on the paved road. At the end is "Hilltop," where a hiking trail leads down to beautiful Havasupai Falls on Havasupai Tribal Land.  The hike is nearly nine miles to the bottom of the canyon, and the village of Supai.  Reservations are required for camping on the Havasupai Reservation.
+      Services Available:
+      Lodging, food and gas
+    </desc>
+    <sym>City (Small)</sym>
+  </wpt>
+  <wpt lat="35.04503500" lon="-114.36016600">
+    <ele>1083.869</ele>
+    <name>Sitgreaves Pass</name>
+    <cmt>Arizona</cmt>
+    <desc>The summit of Sitgreaves Pass, at an elevation of 3556 ft, affords quite a view of the surrounding country. From here you can see four states, California, Nevada, Utah and of course Arizona. Right at the top of the pass there is a pull off that you can stop at to really enjoy the view. On the right-hand side of the road (going west) just before the summit on the Cool Springs side of the pass you can see the foundations of a building - all that is left of an old gas station and ice cream parlor that once serviced the weary traveler on this portion of Route 66. From this spot if you look down the canyon back the way you just came you might be able to make out a faint trail hugging the left hillside. That faint trace is all that is left of the Old Beale Wagon Road. Imagine the history that passed this way!</desc>
+    <sym>Summit</sym>
+  </wpt>
+  <wpt lat="35.03382700" lon="-114.32660600">
+    <name>Ed's Camp</name>
+    <cmt>Arizona</cmt>
+    <desc>
+      Ed's Camp is another roadside attraction that harkens back to the early days of Route 66. Ed originally came to the area as a miner in 1917 and it didn't take him long to realize that the real gold could be found servicing the Route 66 traveler. He established his camp around 1919 and business was so good he never got around to building a proper building, he just threw up a roof to provide some measure of protection from the hot desert sun and Ed's Camp was born. Today the camp is deserted, but the odd buildings survive to temp the artistic talents of modern photographers ~ from the road that is (see note below).
+      NOTE: Ed's Camp is private property and not open to the public. Please respect the rights of the property owner.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.52888900" lon="-113.23166700">
+    <name>Grand Canyon Caverns</name>
+    <cmt>Peach Springs, AZ</cmt>
+    <desc>
+      A grinning green dinosaur welcomes visitors to this long-familiar tourist attraction.
+      What is now one of the largest registered dry caverns in the United States was once the bottom of an ancient ocean that covered the southwest.
+      Discovered in 1927, the caverns offer a forty-five minute underground guided tour.  You will drop twenty-one stories (3/4 of a mile,) by elevator and walk through a string of caverns, some the size of football fields, with stalagmites, onyx, flowstone formations and the largest deposit of Selenite crystals, including helictites.
+      Services Available:
+      Privately owned atttraction offers a small museum of  mining and ranching;
+      Restaurant, Motel, Gift Shop and Campground. Gas service available.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="35.17875400" lon="-103.04227400">
+    <name>Glenrio (Ghost Town)</name>
+    <cmt>NM/TX Border</cmt>
+    <desc>
+      Straddling the border between Texas and New Mexico is the forgotten ghost town of Glenrio. Once a monument along the boom and bust highway of Route 66, it now remains home to only the critters and the blowing tumble weeds of the vast prairie.
+      Though Glenrio’s permanent population never rose over about thirty people, the town survived with its tourist based businesses catering to the many travelers along Route 66. In 1955, the small town suffered a severe blow when the Rock Island Depot was closed. But, the town was doomed to extinction when Interstate 40 was built, bypassing the small community.
+      Today, the town is only visited by those travelers wishing to relive the history of old Route 66.
+      From the movie "CARS", one of the closed businesses seen in Radiator Springs bears the name “Glenrio.” This refers to the ghost town of Glenrio, which is on old Route 66 at the Texas-New Mexico border off Exit 0 on Interstate 40. One of the Radiator Springs businesses is nearly identical to the long-closed Little Juarez restaurant in Glenrio.
+    </desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+  <wpt lat="37.17806500" lon="-93.26306800">
+    <time>2010-07-27T23:48:21.875Z</time>
+    <name>Aunt Marthas Pancake House</name>
+    <cmt>
+      1700 East Cherokee Street
+      Springfield, MO 65804-2313
+      (417) 881-3505
+    </cmt>
+    <desc>This breakfast and lunch spot is still serving up great home-cooked food after 50 years in operation. Try the cornmeal pancakes with a side of top-notch sausage.</desc>
+    <sym>Restaurant</sym>
+  </wpt>
+</gpx>

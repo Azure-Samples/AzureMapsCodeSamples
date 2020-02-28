@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding="iso-8859-1" ?>
+<wfs:FeatureCollection
+   xmlns:ms="http://mapserver.gis.umn.edu/mapserver"
+   xmlns:gml="http://www.opengis.net/gml"
+   xmlns:wfs="http://www.opengis.net/wfs"
+   xmlns:ogc="http://www.opengis.net/ogc"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://mapserver.gis.umn.edu/mapserver https://mrdata.usgs.gov/wfs/akages-geo?SERVICE=WFS&amp;VERSION=1.1.0&amp;REQUEST=DescribeFeatureType&amp;TYPENAME=akages&amp;OUTPUTFORMAT=text/xml;%20subtype=gml/3.1.1  http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
+  <gml:boundedBy>
+    <gml:Envelope srsName="EPSG:4326">
+      <gml:lowerCorner>55.086331 -164.298255</gml:lowerCorner>
+      <gml:upperCorner>70.274370 -130.748360</gml:upperCorner>
+    </gml:Envelope>
+  </gml:boundedBy>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.3299">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>61.968058 -136.226994</gml:lowerCorner>
+          <gml:upperCorner>61.968058 -136.226994</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>61.968058 -136.226994</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>3323</ms:idnum>
+      <ms:quad>Yukon Terr.</ms:quad>
+      <ms:sample>15-1e</ms:sample>
+      <ms:rock>andesite</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>whole rock</ms:mineral>
+      <ms:comment>Carmacks Group</ms:comment>
+      <ms:reference>Grond et al, 1984</ms:reference>
+      <ms:latitude>61.968334</ms:latitude>
+      <ms:longitude>-136.225006</ms:longitude>
+      <ms:age_my>67.9</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.255">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>67.649399 -160.156222</gml:lowerCorner>
+          <gml:upperCorner>67.649399 -160.156222</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>67.649399 -160.156222</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>258</ms:idnum>
+      <ms:quad>Baird Mountains</ms:quad>
+      <ms:sample>74AF145-1</ms:sample>
+      <ms:rock>schist</ms:rock>
+      <ms:method>Rb-Sr</ms:method>
+      <ms:mineral>other</ms:mineral>
+      <ms:comment>Whole rock-muscovite pair</ms:comment>
+      <ms:reference>Armstrong et al, 1986</ms:reference>
+      <ms:latitude>67.650002</ms:latitude>
+      <ms:longitude>-160.153336</ms:longitude>
+      <ms:age_my>1026</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.780">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>60.701137 -146.123674</gml:lowerCorner>
+          <gml:upperCorner>60.701137 -146.123674</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>60.701137 -146.123674</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>783</ms:idnum>
+      <ms:quad>Cordova</ms:quad>
+      <ms:sample>71APr22c</ms:sample>
+      <ms:rock>granitoid</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>biotite</ms:mineral>
+      <ms:comment></ms:comment>
+      <ms:reference>Winkler et al, 1981</ms:reference>
+      <ms:latitude>60.701668</ms:latitude>
+      <ms:longitude>-146.121674</ms:longitude>
+      <ms:age_my>53.2</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.861">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>64.866336 -142.502333</gml:lowerCorner>
+          <gml:upperCorner>64.866336 -142.502333</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>64.866336 -142.502333</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>864</ms:idnum>
+      <ms:quad>Eagle</ms:quad>
+      <ms:sample>71AFr2025</ms:sample>
+      <ms:rock>granodiorite</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>hornblende</ms:mineral>
+      <ms:comment></ms:comment>
+      <ms:reference>Foster, 1976</ms:reference>
+      <ms:latitude>64.866669</ms:latitude>
+      <ms:longitude>-142.5</ms:longitude>
+      <ms:age_my>89</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.987">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>63.144553 -147.218918</gml:lowerCorner>
+          <gml:upperCorner>63.144553 -147.218918</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>63.144553 -147.218918</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>990</ms:idnum>
+      <ms:quad>Healy</ms:quad>
+      <ms:sample>78ACy-207</ms:sample>
+      <ms:rock>andesite</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>hornblende</ms:mineral>
+      <ms:comment></ms:comment>
+      <ms:reference>Csejtey et al, 1992</ms:reference>
+      <ms:latitude>63.145</ms:latitude>
+      <ms:longitude>-147.21666</ms:longitude>
+      <ms:age_my>97.3</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.1069">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>62.749300 -159.085716</gml:lowerCorner>
+          <gml:upperCorner>62.749300 -159.085716</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>62.749300 -159.085716</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>1072</ms:idnum>
+      <ms:quad>Holy Cross</ms:quad>
+      <ms:sample>62AHr77</ms:sample>
+      <ms:rock>rhyolite</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>sanidine</ms:mineral>
+      <ms:comment></ms:comment>
+      <ms:reference>Marvin and Cole, 1978</ms:reference>
+      <ms:latitude>62.75</ms:latitude>
+      <ms:longitude>-159.083328</ms:longitude>
+      <ms:age_my>64.7</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.1289">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>55.086331 -130.748360</gml:lowerCorner>
+          <gml:upperCorner>55.086331 -130.748360</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>55.086331 -130.748360</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>1292</ms:idnum>
+      <ms:quad>Ketchikan</ms:quad>
+      <ms:sample>77SJ665</ms:sample>
+      <ms:rock>quartz diorite</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>biotite</ms:mineral>
+      <ms:comment></ms:comment>
+      <ms:reference>Smith and Diggles, 1981</ms:reference>
+      <ms:latitude>55.086666</ms:latitude>
+      <ms:longitude>-130.746674</ms:longitude>
+      <ms:age_my>46.9</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.1726">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>63.241289 -144.107246</gml:lowerCorner>
+          <gml:upperCorner>63.241289 -144.107246</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>63.241289 -144.107246</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>1731</ms:idnum>
+      <ms:quad>Mt. Hayes</ms:quad>
+      <ms:sample>78</ms:sample>
+      <ms:rock>diorite</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>amphibole</ms:mineral>
+      <ms:comment>Alkali diorote dike</ms:comment>
+      <ms:reference>Foley, 1984, Nokleberg et al, 1992</ms:reference>
+      <ms:latitude>63.241665</ms:latitude>
+      <ms:longitude>-144.104996</ms:longitude>
+      <ms:age_my>107.6</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.1800">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>63.694595 -145.888964</gml:lowerCorner>
+          <gml:upperCorner>63.694595 -145.888964</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>63.694595 -145.888964</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>1815</ms:idnum>
+      <ms:quad>Mt. Hayes</ms:quad>
+      <ms:sample>85ANK134A</ms:sample>
+      <ms:rock>rhyolite</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>muscovite</ms:mineral>
+      <ms:comment>Metarhyolite</ms:comment>
+      <ms:reference>Nokleberg et al, 1992</ms:reference>
+      <ms:latitude>63.695</ms:latitude>
+      <ms:longitude>-145.886673</ms:longitude>
+      <ms:age_my>106.5</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+  <gml:featureMember>
+    <ms:akages gml:id="akages.2183">
+      <gml:boundedBy>
+        <gml:Envelope srsName="EPSG:4326">
+          <gml:lowerCorner>70.274370 -164.298255</gml:lowerCorner>
+          <gml:upperCorner>70.274370 -164.298255</gml:upperCorner>
+        </gml:Envelope>
+      </gml:boundedBy>
+      <ms:geometry>
+        <gml:Point srsName="EPSG:4326">
+          <gml:pos>70.274370 -164.298255</gml:pos>
+        </gml:Point>
+      </ms:geometry>
+      <ms:idnum>2207</ms:idnum>
+      <ms:quad>Offshore</ms:quad>
+      <ms:sample>T30</ms:sample>
+      <ms:rock>other</ms:rock>
+      <ms:method>K-Ar</ms:method>
+      <ms:mineral>biotite</ms:mineral>
+      <ms:comment>Core 67, tope 30cm vitric tephra</ms:comment>
+      <ms:reference>Phillips et al, 1988</ms:reference>
+      <ms:latitude>70.275002</ms:latitude>
+      <ms:longitude>-164.294998</ms:longitude>
+      <ms:age_my>92.1</ms:age_my>
+    </ms:akages>
+  </gml:featureMember>
+</wfs:FeatureCollection>
+

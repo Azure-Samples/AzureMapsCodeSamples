@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="ISO-8859-2"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" 
+	 version="1.1" creator="GPS Data Team ( http://www.gps-data-team.com )">
+  <metadata>
+    <name>UK Tourist Attractions</name>
+    <desc>Various tourist attractions from around the UK</desc>
+    <bounds maxlat="56.112946" minlon="-6.764900" minlat="50.306754" maxlon="2.60606" />
+  </metadata>
+  <wpt lat="51.503244" lon="-0.127644">
+    <name>10 Downing Street</name>
+  </wpt>
+  <wpt lat="53.1925" lon="-2.891661">
+    <name>Abbey Chester</name>
+  </wpt>
+  <wpt lat="51.826736" lon="-1.743915">
+    <name>Abbey Church Sherborne</name>
+  </wpt>
+  <wpt lat="51.502199" lon="-0.177593">
+    <name>Albert Memorial</name>
+  </wpt>
+  <wpt lat="52.652381" lon="-0.481028">
+    <name>All Saints Church Stamford</name>
+  </wpt>
+  <wpt lat="52.976158" lon="-1.89368">
+    <name>Alton Lime Kiln Lane</name>
+  </wpt>
+  <wpt lat="52.988334" lon="-1.888674">
+    <name>Alton Towers  +0870 520 4060</name>
+  </wpt>
+  <wpt lat="52.964248" lon="-1.294263">
+    <name>American Adventure World  +01773 531521</name>
+  </wpt>
+  <wpt lat="50.874513" lon="0.019226">
+    <name>Anne of Cleves House Lewes</name>
+  </wpt>
+  <wpt lat="53.353593" lon="-1.203714">
+    <name>Anston Woodsetts Rd</name>
+  </wpt>
+  <wpt lat="50.8557845" lon="-0.5535989">
+    <name>Arundel Castle Arundel</name>
+  </wpt>
+  <wpt lat="51.75528" lon="-1.25967">
+    <name>Ashmolean Museum Oxford</name>
+  </wpt>
+  <wpt lat="51.754127" lon="-1.258824">
+    <name>Balliol College Oxford</name>
+  </wpt>
+  <wpt lat="52.060145" lon="-1.34028">
+    <name>Banbury Cross Banbury</name>
+  </wpt>
+  <wpt lat="51.503891" lon="-0.125859">
+    <name>Banqueting House (Inigo Jones)</name>
+  </wpt>
+  <wpt lat="51.381333" lon="-2.358975">
+    <name>Bath Abbey Bath</name>
+  </wpt>
+  <wpt lat="50.845189" lon="0.477991">
+    <name>Battle Abbey Willem de Veroveraar</name>
+  </wpt>
+  <wpt lat="53.263" lon="-4.092501">
+    <name>Beaumaris Castle Beaumaris</name>
+  </wpt>
+  <wpt lat="51.500631" lon="-0.12456">
+    <name>Big Ben</name>
+  </wpt>
+  <wpt lat="51.500867" lon="-0.123726">
+    <name>Big Ben</name>
+  </wpt>
+  <wpt lat="51.84281" lon="-1.364002">
+    <name>Blenheim Castle Winston Churchill Woodstock</name>
+  </wpt>
+  <wpt lat="53.98163" lon="-1.891321">
+    <name>Bolton Abbey Skipton</name>
+  </wpt>
+  <wpt lat="54.309691" lon="-1.823212">
+    <name>Bolton Castle Leyburn</name>
+  </wpt>
+  <wpt lat="55.878269" lon="-4.289476">
+    <name>Botanic Gardens</name>
+  </wpt>
+  <wpt lat="51.282874" lon="-3.01243">
+    <name>Brean Leisure Park  +01278 751595</name>
+  </wpt>
+  <wpt lat="51.755043" lon="-1.253344">
+    <name>Bridge of Sighs Oxford</name>
+  </wpt>
+  <wpt lat="51.518602" lon="-0.126325">
+    <name>British Museum</name>
+  </wpt>
+  <wpt lat="51.497097" lon="-0.168632">
+    <name>Brompton Oratory (Kerk)</name>
+  </wpt>
+  <wpt lat="51.497852" lon="-0.168566">
+    <name>Brompton Square</name>
+  </wpt>
+  <wpt lat="52.20802" lon="0.115757">
+    <name>Brug der Zuchten Cambridge</name>
+  </wpt>
+  <wpt lat="51.499376" lon="-0.143042">
+    <name>Buckingham Palace</name>
+  </wpt>
+  <wpt lat="51.501615" lon="-0.141132">
+    <name>Buckingham Palace</name>
+  </wpt>
+  <wpt lat="51.508411" lon="-0.13975">
+    <name>Burlington Arcade (Gallery met winkels)</name>
+  </wpt>
+  <wpt lat="55.829965" lon="-4.302881">
+    <name>Burrell Collection</name>
+  </wpt>
+  <wpt lat="50.042649" lon="-5.652283">
+    <name>C W telecommunications museum</name>
+  </wpt>
+  <wpt lat="51.50219" lon="-0.129154">
+    <name>Cabinet War Rooms</name>
+  </wpt>
+  <wpt lat="52.427901" lon="-1.935677">
+    <name>Cadbury world</name>
+  </wpt>
+  <wpt lat="53.139676" lon="-4.275555">
+    <name>Caernarforn Castle Caernarforn</name>
+  </wpt>
+  <wpt lat="55.955153" lon="-3.183043">
+    <name>Calton Hill Edinburgh</name>
+  </wpt>
+  <wpt lat="53.634631" lon="-2.69494">
+    <name>Camelot Theme Park  +01257 453044</name>
+  </wpt>
+  <wpt lat="51.481142" lon="-3.182098">
+    <name>CardiftCastle Cardiff</name>
+  </wpt>
+  <wpt lat="51.889771" lon="0.902839">
+    <name>Castle Museum Colchester</name>
+  </wpt>
+  <wpt lat="54.968573" lon="-1.610301">
+    <name>Castle Newcastle</name>
+  </wpt>
+  <wpt lat="51.452398" lon="-2.598337">
+    <name>Cathedral Bristol</name>
+  </wpt>
+  <wpt lat="53.191554" lon="-2.889531">
+    <name>Cathedral Chester</name>
+  </wpt>
+  <wpt lat="50.722463" lon="-3.527847">
+    <name>Cathedral Church of St Peter Exeter</name>
+  </wpt>
+  <wpt lat="52.399166" lon="0.260055">
+    <name>Cathedral Ely</name>
+  </wpt>
+  <wpt lat="55.862411" lon="-4.236648">
+    <name>Cathedral Glasgow</name>
+  </wpt>
+  <wpt lat="55.849106" lon="-4.206789">
+    <name>Celtic Football Club Glasgow</name>
+  </wpt>
+  <wpt lat="51.347344" lon="-0.315049">
+    <name>Chessington World Of Adventures  +0870 444 7777</name>
+  </wpt>
+  <wpt lat="53.190603" lon="-2.8917">
+    <name>Chester Rows Chester</name>
+  </wpt>
+  <wpt lat="51.750788" lon="-1.256711">
+    <name>Christ Church Oxford</name>
+  </wpt>
+  <wpt lat="52.059399" lon="1.157788">
+    <name>Christchurch Mansion Ipswich</name>
+  </wpt>
+  <wpt lat="51.930821" lon="-1.723112">
+    <name>Church of St John Baptist Cirencester</name>
+  </wpt>
+  <wpt lat="52.209664" lon="0.117267">
+    <name>Church of the Holy Sepulchre Cambridge</name>
+  </wpt>
+  <wpt lat="55.947863" lon="-3.208003">
+    <name>City Edinburgh</name>
+  </wpt>
+  <wpt lat="55.851741" lon="-4.259949">
+    <name>City Glasgow</name>
+  </wpt>
+  <wpt lat="51.508145" lon="-0.1209">
+    <name>Cleopatras Needle</name>
+  </wpt>
+  <wpt lat="53.956258" lon="-1.080272">
+    <name>Clifford s Tower York</name>
+  </wpt>
+  <wpt lat="53.280393" lon="-3.826142">
+    <name>Conwy Castle Conwy</name>
+  </wpt>
+  <wpt lat="50.489736" lon="-4.929352">
+    <name>Cornwalls Crealy Adventure Park  +01841 540276</name>
+  </wpt>
+  <wpt lat="51.751048" lon="-1.253409">
+    <name>Corpus christi College Oxford</name>
+  </wpt>
+  <wpt lat="51.661568" lon="-1.964024">
+    <name>Cotswold Water Park  +01285 861816</name>
+  </wpt>
+  <wpt lat="51.515303" lon="-0.126886">
+    <name>Covent Garden</name>
+  </wpt>
+  <wpt lat="51.51194" lon="-0.122681">
+    <name>Covent Garden London</name>
+  </wpt>
+  <wpt lat="50.707524" lon="-3.417188">
+    <name>Crealy Park  +01395 233200</name>
+  </wpt>
+  <wpt lat="51.503075" lon="-0.072593">
+    <name>Design Museum</name>
+  </wpt>
+  <wpt lat="50.877641" lon="-3.378994">
+    <name>Diggerland  +0870 034 4437</name>
+  </wpt>
+  <wpt lat="51.38584" lon="1.37932">
+    <name>Dreamland Leisure Ltd  +01843 227011</name>
+  </wpt>
+  <wpt lat="55.954231" lon="-3.185872">
+    <name>Duncan s Monument Edinburgh</name>
+  </wpt>
+  <wpt lat="53.49018" lon="-1.235111">
+    <name>Earth Centre  +01709 513933</name>
+  </wpt>
+  <wpt lat="50.358766" lon="-4.747211">
+    <name>Eden Project</name>
+  </wpt>
+  <wpt lat="55.948714" lon="-3.198334">
+    <name>Edinburgh Castle Edinburgh</name>
+  </wpt>
+  <wpt lat="55.949119" lon="-3.194275">
+    <name>Edinburgh Castle Edinburgh</name>
+  </wpt>
+  <wpt lat="55.951029" lon="-3.191074">
+    <name>Edinburgh Dungeon Edinburgh</name>
+  </wpt>
+  <wpt lat="51.474058" lon="-0.167612">
+    <name>Epic World Leisure Ltd  +020 7640 9503</name>
+  </wpt>
+  <wpt lat="51.509894" lon="-0.134811">
+    <name>Eros statue</name>
+  </wpt>
+  <wpt lat="51.86096" lon="-1.615098">
+    <name>Fettiplace monuments Swinbrook</name>
+  </wpt>
+  <wpt lat="55.880931" lon="-4.269393">
+    <name>Firhill Park Patrick Thistle FC</name>
+  </wpt>
+  <wpt lat="50.09114" lon="-5.259683">
+    <name>Flambards Experience  +01326 573404</name>
+  </wpt>
+  <wpt lat="51.743344" lon="-4.730295">
+    <name>Folly Farm  +01834 812731</name>
+  </wpt>
+  <wpt lat="51.508218" lon="-0.13833">
+    <name>Fortnum   Mason (1707)</name>
+  </wpt>
+  <wpt lat="53.263261" lon="-4.095595">
+    <name>Gaol Beaumaris</name>
+  </wpt>
+  <wpt lat="55.860989" lon="-4.250985">
+    <name>George Square Glasgow</name>
+  </wpt>
+  <wpt lat="51.458587" lon="-2.580974">
+    <name>Georgian House Bristol</name>
+  </wpt>
+  <wpt lat="55.86163" lon="-4.235546">
+    <name>Glasgow Cathedral Glasgow</name>
+  </wpt>
+  <wpt lat="50.238238" lon="-5.392718">
+    <name>Godrevy beach</name>
+  </wpt>
+  <wpt lat="52.206173" lon="0.118021">
+    <name>Gonville and Caius Cambridge</name>
+  </wpt>
+  <wpt lat="50.048851" lon="-5.179903">
+    <name>Goonhilly Earth Station</name>
+  </wpt>
+  <wpt lat="55.947288" lon="-3.196432">
+    <name>Grassmarket Edinburgh</name>
+  </wpt>
+  <wpt lat="52.05121" lon="-1.779605">
+    <name>Grevel House Chipping Campden</name>
+  </wpt>
+  <wpt lat="51.831488" lon="-4.532778">
+    <name>Groveland  +01994 231181</name>
+  </wpt>
+  <wpt lat="51.069439" lon="-1.796711">
+    <name>Guildhall Market Place Salisbury</name>
+  </wpt>
+  <wpt lat="52.051241" lon="-0.730206">
+    <name>Gullivers Land  +01908 609001</name>
+  </wpt>
+  <wpt lat="53.405676" lon="-2.617825">
+    <name>Gullivers World  +01925 230088</name>
+  </wpt>
+  <wpt lat="52.188755" lon="-1.708753">
+    <name>Hall s Croft Stratford</name>
+  </wpt>
+  <wpt lat="51.403131" lon="-0.342594">
+    <name>Hampton Court</name>
+  </wpt>
+  <wpt lat="52.861225" lon="-4.110461">
+    <name>Harlech Castle Harlech</name>
+  </wpt>
+  <wpt lat="54.245329" lon="-1.061932">
+    <name>Helmsley Castle Helmsley</name>
+  </wpt>
+  <wpt lat="51.504578" lon="-0.205501">
+    <name>Holland Park London</name>
+  </wpt>
+  <wpt lat="52.186588" lon="-1.707708">
+    <name>Holy Trinity Church (Shakespear s Grave) Stratford</name>
+  </wpt>
+  <wpt lat="53.961619" lon="-1.079866">
+    <name>Holy Trinity Church York</name>
+  </wpt>
+  <wpt lat="51.504429" lon="-0.126629">
+    <name>Horse Guards</name>
+  </wpt>
+  <wpt lat="51.500623" lon="-0.126103">
+    <name>Houses of Parliament</name>
+  </wpt>
+  <wpt lat="51.499901" lon="-0.124535">
+    <name>Houses of Parliament</name>
+  </wpt>
+  <wpt lat="51.505374" lon="-0.152463">
+    <name>Hyde Park</name>
+  </wpt>
+  <wpt lat="51.504795" lon="-0.180023">
+    <name>Hyde Park and Kensington Gardens</name>
+  </wpt>
+  <wpt lat="50.823711" lon="-0.138492">
+    <name>In the Dome Brighton</name>
+  </wpt>
+  <wpt lat="50.695676" lon="-1.302972">
+    <name>Isle of Wight Carisbrooke Castle</name>
+  </wpt>
+  <wpt lat="51.503648" lon="-0.189413">
+    <name>Kensington Palace</name>
+  </wpt>
+  <wpt lat="51.482938" lon="-0.287622">
+    <name>Kew Gardens London</name>
+  </wpt>
+  <wpt lat="50.912058" lon="-4.472452">
+    <name>Killarney Springs  +01288 331475</name>
+  </wpt>
+  <wpt lat="52.204082" lon="0.116615">
+    <name>King s College Cambridge</name>
+  </wpt>
+  <wpt lat="50.866567" lon="0.235127">
+    <name>Knockhatch Adventure Park  +01323 442051</name>
+  </wpt>
+  <wpt lat="50.952982" lon="0.735217">
+    <name>Land gate (Stadspoort) Rye</name>
+  </wpt>
+  <wpt lat="50.066284" lon="-5.707109">
+    <name>Land s End</name>
+  </wpt>
+  <wpt lat="50.066239" lon="-5.710415">
+    <name>Lands End</name>
+  </wpt>
+  <wpt lat="52.107612" lon="0.795409">
+    <name>Lavenham 300 monuments</name>
+  </wpt>
+  <wpt lat="51.465781" lon="-0.652696">
+    <name>Legoland Windsor  +01753 626111</name>
+  </wpt>
+  <wpt lat="54.185445" lon="-1.56194">
+    <name>Lightwater Valley  +0870 458 0040</name>
+  </wpt>
+  <wpt lat="53.234613" lon="-0.539924">
+    <name>Lincoln Castle Lincoln</name>
+  </wpt>
+  <wpt lat="53.234307" lon="-0.535846">
+    <name>Lincoln Cathedral Lincoln</name>
+  </wpt>
+  <wpt lat="52.240938" lon="-3.377488">
+    <name>Llandrindod Wells Victorian Festival  +01597 823441</name>
+  </wpt>
+  <wpt lat="53.280696" lon="-3.830597">
+    <name>Llyweln Statue Conwy</name>
+  </wpt>
+  <wpt lat="51.505745" lon="-0.085842">
+    <name>London Dungeon</name>
+  </wpt>
+  <wpt lat="51.503402" lon="-0.117461">
+    <name>London Eye</name>
+  </wpt>
+  <wpt lat="55.611542" lon="-4.373701">
+    <name>Loudoun Castle Theme Park  +01563 822296</name>
+  </wpt>
+  <wpt lat="54.34755" lon="-0.966525">
+    <name>Low Mill</name>
+  </wpt>
+  <wpt lat="50.871137" lon="-4.42536">
+    <name>Lower Tamar (Bird Watching Centre)</name>
+  </wpt>
+  <wpt lat="52.367542" lon="-2.721317">
+    <name>Ludlow Castle Ludlow</name>
+  </wpt>
+  <wpt lat="55.799868" lon="-4.039836">
+    <name>M   D Leisure Ltd  +01698 333777</name>
+  </wpt>
+  <wpt lat="51.522704" lon="-0.154829">
+    <name>Madame Tussaud s Museum</name>
+  </wpt>
+  <wpt lat="52.210014" lon="0.116383">
+    <name>Magdalene Bridge Cambridge</name>
+  </wpt>
+  <wpt lat="51.755182" lon="-1.259179">
+    <name>Martyr s Memorial Oxford</name>
+  </wpt>
+  <wpt lat="52.201846" lon="0.11527">
+    <name>Mathematical Bridge Cambridge</name>
+  </wpt>
+  <wpt lat="50.956741" lon="-4.303378">
+    <name>Melbury (Fishing)</name>
+  </wpt>
+  <wpt lat="51.500261" lon="-0.177276">
+    <name>Memorial to the Great Exhibition</name>
+  </wpt>
+  <wpt lat="50.949882" lon="0.731263">
+    <name>Mermaid Street Rye</name>
+  </wpt>
+  <wpt lat="51.512971" lon="-0.111297">
+    <name>Middle Temple Lane</name>
+  </wpt>
+  <wpt lat="55.948737" lon="-3.197247">
+    <name>Military Tattoo Edinburgh</name>
+  </wpt>
+  <wpt lat="50.978756" lon="-4.385518">
+    <name>Milky Way The  +01237 431255</name>
+  </wpt>
+  <wpt lat="53.962295" lon="-1.078997">
+    <name>Monk Bar York</name>
+  </wpt>
+  <wpt lat="52.245292" lon="0.711874">
+    <name>Moyse s Hall Bury St Edumds</name>
+  </wpt>
+  <wpt lat="53.643449" lon="-1.620551">
+    <name>National Coal Mining Museum</name>
+  </wpt>
+  <wpt lat="51.508476" lon="-0.128416">
+    <name>National Gallery</name>
+  </wpt>
+  <wpt lat="51.507624" lon="-0.127815">
+    <name>National Gallery Museum</name>
+  </wpt>
+  <wpt lat="51.481942" lon="-0.00579">
+    <name>National Maritime Museum</name>
+  </wpt>
+  <wpt lat="51.495768" lon="-0.175218">
+    <name>Natural History Museum</name>
+  </wpt>
+  <wpt lat="51.513667" lon="-0.124789">
+    <name>Neal Street Speciaalzaken</name>
+  </wpt>
+  <wpt lat="51.508426" lon="-0.128414">
+    <name>Nelson s Statue</name>
+  </wpt>
+  <wpt lat="51.849733" lon="1.272559">
+    <name>New Walton Pier Co Ltd  +01255 672288</name>
+  </wpt>
+  <wpt lat="53.237139" lon="-0.538178">
+    <name>Newport Arch (2nd Century) Lincoln</name>
+  </wpt>
+  <wpt lat="52.95016" lon="-1.156341">
+    <name>Nottingham Castle Nottingham</name>
+  </wpt>
+  <wpt lat="55.845698" lon="-4.431135">
+    <name>Obsavatorium at Oakshaw Street West</name>
+  </wpt>
+  <wpt lat="50.734522" lon="-4.004853">
+    <name>Okehampton Castle</name>
+  </wpt>
+  <wpt lat="51.173143" lon="-4.171241">
+    <name>Once Upon A Time Childrens Theme Park  +01271 870999</name>
+  </wpt>
+  <wpt lat="51.422757" lon="-0.186446">
+    <name>Orlando Ticket Deals  +0845 068 1682</name>
+  </wpt>
+  <wpt lat="51.515252" lon="-0.141907">
+    <name>Oxford Street</name>
+  </wpt>
+  <wpt lat="50.177768" lon="-5.426085">
+    <name>Paridise Park</name>
+  </wpt>
+  <wpt lat="55.949144" lon="-3.190794">
+    <name>Parliament House Edinburgh</name>
+  </wpt>
+  <wpt lat="50.947907" lon="-1.54743">
+    <name>Paultons Park Ltd  +023 8081 4442</name>
+  </wpt>
+  <wpt lat="53.386635" lon="-2.919957">
+    <name>Penny Lane Liverpool</name>
+  </wpt>
+  <wpt lat="54.660049" lon="-2.758417">
+    <name>Penrith Castle Penrith</name>
+  </wpt>
+  <wpt lat="51.50777" lon="-0.140421">
+    <name>Piccadilly</name>
+  </wpt>
+  <wpt lat="51.51589" lon="-0.136648">
+    <name>Plaza</name>
+  </wpt>
+  <wpt lat="53.537976" lon="-0.00528">
+    <name>Pleasure Island  +01472 211511</name>
+  </wpt>
+  <wpt lat="52.506987" lon="1.743607">
+    <name>Pleasurewood Hills  +01502 586000</name>
+  </wpt>
+  <wpt lat="50.138902" lon="-5.24332">
+    <name>Poldark tin mines</name>
+  </wpt>
+  <wpt lat="55.828229" lon="-4.309867">
+    <name>Pollok House</name>
+  </wpt>
+  <wpt lat="52.917704" lon="-4.092906">
+    <name>Portmeirion (Italy inspired village)</name>
+  </wpt>
+  <wpt lat="53.233259" lon="-0.532804">
+    <name>Pottergate (14th Century) Lincoln</name>
+  </wpt>
+  <wpt lat="55.951095" lon="-3.202019">
+    <name>Princes Street Gardens Edinburgh</name>
+  </wpt>
+  <wpt lat="51.38315" lon="-2.35761">
+    <name>Pulteney Bridge Bath</name>
+  </wpt>
+  <wpt lat="51.505041" lon="-0.137119">
+    <name>Queen s Chapel</name>
+  </wpt>
+  <wpt lat="51.753433" lon="-1.253977">
+    <name>Radcliffe Camera Oxford</name>
+  </wpt>
+  <wpt lat="55.852738" lon="-4.31079">
+    <name>Rangers Football Club Glasgow</name>
+  </wpt>
+  <wpt lat="51.527657" lon="-0.153425">
+    <name>Regent s Park</name>
+  </wpt>
+  <wpt lat="51.499793" lon="-0.125783">
+    <name>Richard I Statue</name>
+  </wpt>
+  <wpt lat="54.402531" lon="-1.737139">
+    <name>Richmond Castle Richmond</name>
+  </wpt>
+  <wpt lat="50.686598" lon="-4.232922">
+    <name>Roadford Lake Visitor Centre</name>
+  </wpt>
+  <wpt lat="51.390984" lon="0.501156">
+    <name>Rochester Castle</name>
+  </wpt>
+  <wpt lat="51.381329" lon="-2.359801">
+    <name>Roman Baths Bath</name>
+  </wpt>
+  <wpt lat="51.509274" lon="-0.139324">
+    <name>Royal Academy</name>
+  </wpt>
+  <wpt lat="51.501034" lon="-0.177455">
+    <name>Royal Albert Hall</name>
+  </wpt>
+  <wpt lat="51.499615" lon="-0.177052">
+    <name>Royal College of Music</name>
+  </wpt>
+  <wpt lat="51.38726" lon="-2.368148">
+    <name>Royal Crescent Bath</name>
+  </wpt>
+  <wpt lat="55.949389" lon="-3.193422">
+    <name>Royal Mile Edinburgh</name>
+  </wpt>
+  <wpt lat="55.947374" lon="-3.189691">
+    <name>Royal Museum of Scotland Edinburgh</name>
+  </wpt>
+  <wpt lat="51.507686" lon="-0.131516">
+    <name>Royal Opera Arcade</name>
+  </wpt>
+  <wpt lat="50.822601" lon="-0.138541">
+    <name>Royal Pavilion Brighton</name>
+  </wpt>
+  <wpt lat="51.449033" lon="-2.607116">
+    <name>S.S. Great Brittain Bristol</name>
+  </wpt>
+  <wpt lat="51.380654" lon="-2.357825">
+    <name>Sally s Lunn s House (1482) Bath</name>
+  </wpt>
+  <wpt lat="51.496986" lon="-0.174205">
+    <name>Science Museum</name>
+  </wpt>
+  <wpt lat="55.952941" lon="-3.192659">
+    <name>Scottish Tartan Museum Edinburgh</name>
+  </wpt>
+  <wpt lat="51.513804" lon="-0.127037">
+    <name>Seven Dials London</name>
+  </wpt>
+  <wpt lat="52.193775" lon="-1.707826">
+    <name>Shakespear s Birthplace Stratford</name>
+  </wpt>
+  <wpt lat="51.520909" lon="-0.156887">
+    <name>Sherlock Holmes Museum</name>
+  </wpt>
+  <wpt lat="51.420524" lon="-1.854732">
+    <name>Silbury Hill</name>
+  </wpt>
+  <wpt lat="53.282599" lon="-3.828982">
+    <name>Smallest house of the U.K. Conwy</name>
+  </wpt>
+  <wpt lat="51.511651" lon="-0.132718">
+    <name>Soho-Chinatown</name>
+  </wpt>
+  <wpt lat="51.505369" lon="-0.14012">
+    <name>Spencer House (paleis van voorouder Diana)</name>
+  </wpt>
+  <wpt lat="51.750022" lon="-0.341485">
+    <name>St Albans Cathedral St Alban</name>
+  </wpt>
+  <wpt lat="51.518428" lon="-0.102038">
+    <name>St Bartholomew the Great</name>
+  </wpt>
+  <wpt lat="51.881291" lon="-5.265918">
+    <name>St David S (smallest city of the U.K.)</name>
+  </wpt>
+  <wpt lat="55.949585" lon="-3.191011">
+    <name>St Giles Cathedral Edinburgh</name>
+  </wpt>
+  <wpt lat="51.507318" lon="-0.135293">
+    <name>St James S Square</name>
+  </wpt>
+  <wpt lat="52.208516" lon="0.117144">
+    <name>St John s college Cambridge</name>
+  </wpt>
+  <wpt lat="51.755624" lon="-1.258954">
+    <name>St John s College Oxford</name>
+  </wpt>
+  <wpt lat="52.058802" lon="1.158378">
+    <name>St Margaret S Church Ipswich</name>
+  </wpt>
+  <wpt lat="51.513977" lon="-0.093841">
+    <name>St Mary le Bow</name>
+  </wpt>
+  <wpt lat="53.961899" lon="-1.086309">
+    <name>St Mary s Abbey York</name>
+  </wpt>
+  <wpt lat="52.205559" lon="0.117977">
+    <name>St Mary S Church Cambridge</name>
+  </wpt>
+  <wpt lat="50.94999" lon="0.734152">
+    <name>St Mary s Church Rye</name>
+  </wpt>
+  <wpt lat="50.126674" lon="-5.479343">
+    <name>St Michael s Mount</name>
+  </wpt>
+  <wpt lat="51.513744" lon="-0.100325">
+    <name>St Paul S Cathedral</name>
+  </wpt>
+  <wpt lat="51.513419" lon="-0.09954">
+    <name>St Paul s Cathedral</name>
+  </wpt>
+  <wpt lat="51.51248" lon="-0.090212">
+    <name>St Stephen Walbrook</name>
+  </wpt>
+  <wpt lat="55.953655" lon="-3.193753">
+    <name>St. Andrew Square Edinburgh</name>
+  </wpt>
+  <wpt lat="55.949754" lon="-3.190776">
+    <name>St. Giles Cathedral Edinburgh</name>
+  </wpt>
+  <wpt lat="51.508628" lon="-0.136489">
+    <name>St. James s Church</name>
+  </wpt>
+  <wpt lat="51.504804" lon="-0.137485">
+    <name>St. James s Palace</name>
+  </wpt>
+  <wpt lat="51.500163" lon="-0.126639">
+    <name>St. Margaret s Church</name>
+  </wpt>
+  <wpt lat="51.511602" lon="-0.123574">
+    <name>St. Paul s Church (Inigo Jones)</name>
+  </wpt>
+  <wpt lat="53.23284" lon="-0.538438">
+    <name>Steep Hill (Several monuments) Lincoln</name>
+  </wpt>
+  <wpt lat="51.178006" lon="-1.827901">
+    <name>Stonehenge</name>
+  </wpt>
+  <wpt lat="51.103645" lon="-2.326948">
+    <name>Stourhead Stournton</name>
+  </wpt>
+  <wpt lat="53.301654" lon="-0.80972">
+    <name>Sundown Kiddies Adventureland  +01777 248274</name>
+  </wpt>
+  <wpt lat="51.507417" lon="-0.101331">
+    <name>Tate Modern Museum</name>
+  </wpt>
+  <wpt lat="51.512792" lon="-0.091541">
+    <name>Temple of Mithras</name>
+  </wpt>
+  <wpt lat="52.203889" lon="0.115117">
+    <name>The Backs Cambridge</name>
+  </wpt>
+  <wpt lat="51.502683" lon="-0.126269">
+    <name>The Cenotaph war monument</name>
+  </wpt>
+  <wpt lat="51.385934" lon="-2.364056">
+    <name>The Circus Bath</name>
+  </wpt>
+  <wpt lat="51.511676" lon="-0.126083">
+    <name>The lamb and Flag (oude pub) Floral Street</name>
+  </wpt>
+  <wpt lat="50.821646" lon="-0.140306">
+    <name>The Lanes Old Brighthelmstone Brighton</name>
+  </wpt>
+  <wpt lat="51.513031" lon="-0.089715">
+    <name>The Mansion House</name>
+  </wpt>
+  <wpt lat="51.407644" lon="-0.508092">
+    <name>Thorpe Park  +0870 444 4466</name>
+  </wpt>
+  <wpt lat="51.807535" lon="-1.636981">
+    <name>Tolsey Hall Burford</name>
+  </wpt>
+  <wpt lat="55.845361" lon="-4.421848">
+    <name>Tonw Hall at Paisley Gauze Street</name>
+  </wpt>
+  <wpt lat="51.505488" lon="-0.075369">
+    <name>Tower Bridge</name>
+  </wpt>
+  <wpt lat="51.505605" lon="-0.075364">
+    <name>Tower Bridge</name>
+  </wpt>
+  <wpt lat="51.508123" lon="-0.07595">
+    <name>Tower of London</name>
+  </wpt>
+  <wpt lat="51.509734" lon="-0.075104">
+    <name>Tower of London</name>
+  </wpt>
+  <wpt lat="53.48074" lon="-2.244738">
+    <name>Town Hall Manchester</name>
+  </wpt>
+  <wpt lat="52.206606" lon="0.114877">
+    <name>Trinity Avenue Bridge Cambridge</name>
+  </wpt>
+  <wpt lat="52.207129" lon="0.116256">
+    <name>Trinity College Cambridge</name>
+  </wpt>
+  <wpt lat="53.305003" lon="-4.24176">
+    <name>Ty Newydd Leisure Park  +01248 450677</name>
+  </wpt>
+  <wpt lat="50.879389" lon="-4.433914">
+    <name>Upper Tamar (Visitor Centre Camping Fishing Watersports)</name>
+  </wpt>
+  <wpt lat="51.495949" lon="-0.173179">
+    <name>Victoria and Albert Museum</name>
+  </wpt>
+  <wpt lat="52.47989" lon="-1.90371">
+    <name>Victoria Square Birmingham</name>
+  </wpt>
+  <wpt lat="52.27949" lon="-1.587381">
+    <name>Warwick Castle Warwick</name>
+  </wpt>
+  <wpt lat="51.514343" lon="-0.149185">
+    <name>West One Shopping Centre</name>
+  </wpt>
+  <wpt lat="51.49978" lon="-0.128661">
+    <name>Westminster Abbey</name>
+  </wpt>
+  <wpt lat="51.499496" lon="-0.128638">
+    <name>Westminster Abbey</name>
+  </wpt>
+  <wpt lat="51.495939" lon="-0.139074">
+    <name>Westminster Cathedral</name>
+  </wpt>
+  <wpt lat="51.068838" lon="-3.475431">
+    <name>Wimbleball (Fishing)</name>
+  </wpt>
+  <wpt lat="51.066464" lon="-3.476832">
+    <name>Wimbleball (Sailing)</name>
+  </wpt>
+  <wpt lat="51.067" lon="-3.478515">
+    <name>Wimbleball (Visitor Centre   Camping)</name>
+  </wpt>
+  <wpt lat="51.483313" lon="-0.599827">
+    <name>Windsor Castle Windsor</name>
+  </wpt>
+  <wpt lat="50.357965" lon="-3.674965">
+    <name>Woodlands Leisure Park  +01803 712598</name>
+  </wpt>
+  <wpt lat="51.749027" lon="-0.346827">
+    <name>Ye Olde Fighting Cocks oudste pub van Engeland St Alban</name>
+  </wpt>
+  <wpt lat="53.956478" lon="-1.079311">
+    <name>York Castle Museum York</name>
+  </wpt>
+  <wpt lat="53.9621" lon="-1.081455">
+    <name>York Minster York</name>
+  </wpt>
+  <wpt lat="50.949701" lon="0.735612">
+    <name>Ypres Tower Rye</name>
+  </wpt>
+</gpx>

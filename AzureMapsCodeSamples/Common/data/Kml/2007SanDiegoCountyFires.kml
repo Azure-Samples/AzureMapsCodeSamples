@@ -1,0 +1,730 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+  <Document>
+    <Style id="style64">
+      <IconStyle>
+        <Icon>
+          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/campfire.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="style37">
+      <IconStyle>
+        <Icon>
+          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="style5">
+      <IconStyle />
+      <LineStyle>
+        <width>1</width>
+        <color>FF0000FF</color>
+      </LineStyle>
+    </Style>
+    <Style id="style25">
+      <IconStyle />
+      <LineStyle>
+        <width>1</width>
+        <color>FF000000</color>
+      </LineStyle>
+    </Style>
+    <Style id="style7">
+      <IconStyle />
+      <LineStyle>
+        <width>20</width>
+        <color>BF0000FF</color>
+      </LineStyle>
+    </Style>
+    <Style id="style6">
+      <IconStyle />
+      <LineStyle>
+        <width>1</width>
+        <color>660000FF</color>
+      </LineStyle>
+    </Style>
+    <Style id="style36">
+      <IconStyle>
+        <Icon>
+          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="style80">
+      <IconStyle />
+      <LineStyle>
+        <width>10</width>
+        <color>4D000066</color>
+      </LineStyle>
+      <PolyStyle>
+        <color>73000033</color>
+      </PolyStyle>
+    </Style>
+    <Style id="style49">
+      <IconStyle>
+        <Icon>
+          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="style29">
+      <IconStyle>
+        <Icon>
+          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/campfire.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="style45">
+    </Style>
+    <Style id="style47">
+      <IconStyle />
+      <LineStyle>
+        <width>10</width>
+        <color>4D000066</color>
+      </LineStyle>
+      <PolyStyle>
+        <color>80000066</color>
+      </PolyStyle>
+    </Style>
+    <Style id="style41">
+      <IconStyle />
+      <LineStyle>
+        <width>1</width>
+        <color>FF000000</color>
+      </LineStyle>
+      <PolyStyle>
+        <color>FF000000</color>
+      </PolyStyle>
+    </Style>
+    <Style id="style53">
+      <IconStyle />
+      <LineStyle>
+        <width>5</width>
+        <color>73FF3333</color>
+      </LineStyle>
+    </Style>
+    <Style id="style73">
+      <IconStyle>
+        <Icon>
+          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/homegardenbusiness.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="style56">
+      <IconStyle />
+      <LineStyle>
+        <width>5</width>
+        <color>73FF0000</color>
+      </LineStyle>
+    </Style>
+    <Style id="style69">
+      <IconStyle>
+        <Icon>
+          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/hospitals.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Placemark>
+      <name>Harris Fire</name>
+      <description><![CDATA[The Harris Fire is 90,440 acres and 100% contained on October 31st at 6 am, and full control is expected on November 3rd at 7 am.   There are 1,428 firefighters assigned. Cost to date $16.8 million. There have been 40 injuries to firefighters.<br>11/01 10 a.m. <br>--<br><br>The Harris Fire is 90,440 acres and 100% contained on October 31st at 6 am, and full control is expected on November 3rd at 8 am. There are 2,214 firefighters assigned. Cost to date $15.6 million. There have been 36 injuries to firefighters.<br>10/31 8:30 a.m.<br>]]></description>
+      <styleUrl>style64</styleUrl>
+      <Point>
+        <coordinates>-116.75858,32.62665,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Witch Creek Fire</name>
+      <description><![CDATA[The Witch Fire is 197,990 acres and 100% contained as of 6 pm. Full<br>control is expected on November 5th at 6 pm.&nbsp; There are 1,271<br>firefighters assigned. Cost to date $16 million.&nbsp; There have been 40<br>injuries to firefighters.<br>11/01 10 a.m.<br>-- <br><br>The Witch Fire is 197,990 acres and 99% contained. Full containment is expected on October 31st and full control on November 5th. There are 1,759 firefighters assigned. Cost to date $15.2 million. There have been 40 injuries to firefighters.<br>10/31 8:30 a.m.<br>--<br><br>The Witch Fire is 197,990 acres and 95% contained. Full containment is expected on October 30th and full control on November 3rd.&nbsp;&nbsp; There are 2,340 firefighters assigned. <br>10/29 8:39 a.m.<br>]]></description>
+      <styleUrl>style64</styleUrl>
+      <Point>
+        <coordinates>-116.85951,33.09384,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Escondido</name>
+      <description>All areas within the City of Escondido previously evacuated have been re-opened to residents. 10/15, 10:37 a.m.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.08302,33.1226,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Rice Fire: 100% Contained</name>
+      <description><![CDATA[The Rice&nbsp;Fire is 9,000 acres and 100% contained. Full containment was obtained on October 28th at 7 am., and full control on November 5th.&nbsp;&nbsp; There are 850 firefighters assigned. Cost to date $4.9 million.&nbsp;&nbsp;There have been 5 injuries to firefighters. <br>- 10/28 8:23 a.m.<br>]]></description>
+      <styleUrl>style64</styleUrl>
+      <Point>
+        <coordinates>-117.17468,33.37527,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Dehesa &amp; Harbison Canyon</name>
+      <description><![CDATA[10/26 2:30pm The following areas of the Dehesa-Harbison area are open for reentry:<br><br>    * All areas north of Willow Glen Drive<br>    * All areas east of El Cajon<br>    * All areas west of South Grade Road and Tavern Road<br>    * All areas south of Interstate 8 ]]></description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-116.84166,32.78843,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Solana Beach</name>
+      <description>The City of Solana Beach has lifted all evacuation notices within the city. Residents who evacuated are allowed to return to their homes. 10/23, 4:50 p.m.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.27047,32.9839,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Chula Vista</name>
+      <description><![CDATA[Residents of Chula Vista that were previously evacuated may now return.<br>10/23, 4:50 p.m.]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-116.97762,32.64053,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Witch Creek Fire</name>
+      <description>Fire perimeter updated 10/25/07 3:00PM</description>
+      <styleUrl>style80</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-116.71085,33.12317,0 -116.716,33.12288,0 -116.71772,33.11771,0 -116.72252,33.1226,0 -116.71978,33.12892,0 -116.72321,33.13525,0 -116.73076,33.13726,0 -116.7342,33.13668,0 -116.73746,33.1397,0 -116.7378,33.14215,0 -116.73625,33.14488,0 -116.739,33.15307,0 -116.73934,33.16241,0 -116.7414,33.16687,0 -116.74398,33.17074,0 -116.74758,33.1706,0 -116.75136,33.1683,0 -116.75514,33.16284,0 -116.76887,33.17175,0 -116.77608,33.17089,0 -116.78226,33.17218,0 -116.78604,33.1752,0 -116.78896,33.17994,0 -116.79445,33.18138,0 -116.80286,33.18396,0 -116.80852,33.18741,0 -116.81127,33.19546,0 -116.81402,33.2058,0 -116.81779,33.21068,0 -116.8214,33.2147,0 -116.82329,33.21757,0 -116.82466,33.22246,0 -116.82809,33.22404,0 -116.83393,33.22519,0 -116.83994,33.22619,0 -116.84303,33.2249,0 -116.84938,33.22045,0 -116.85813,33.21571,0 -116.86552,33.21585,0 -116.86843,33.21643,0 -116.86912,33.21398,0 -116.8674,33.20853,0 -116.86414,33.20551,0 -116.86414,33.20192,0 -116.86809,33.19862,0 -116.87152,33.19388,0 -116.87788,33.1923,0 -116.88217,33.19244,0 -116.88217,33.18842,0 -116.882,33.18339,0 -116.89041,33.18368,0 -116.89693,33.18411,0 -116.89161,33.18741,0 -116.89161,33.19072,0 -116.89315,33.19488,0 -116.8923,33.2035,0 -116.89779,33.20407,0 -116.8947,33.20968,0 -116.89727,33.21398,0 -116.89762,33.21657,0 -116.89298,33.2216,0 -116.89899,33.22203,0 -116.90225,33.22475,0 -116.90122,33.22748,0 -116.89024,33.23079,0 -116.88938,33.23739,0 -116.87633,33.23337,0 -116.86964,33.23481,0 -116.87152,33.24069,0 -116.8662,33.24342,0 -116.86071,33.245,0 -116.86037,33.2529,0 -116.86208,33.25663,0 -116.85951,33.25892,0 -116.86071,33.26208,0 -116.85805,33.26459,0 -116.85865,33.26797,0 -116.85736,33.27026,0 -116.8571,33.27357,0 -116.85736,33.27679,0 -116.85444,33.27694,0 -116.85161,33.27529,0 -116.84698,33.27191,0 -116.84483,33.27184,0 -116.84294,33.27342,0 -116.84157,33.27679,0 -116.84251,33.28024,0 -116.84208,33.28347,0 -116.84045,33.28691,0 -116.83676,33.28806,0 -116.83479,33.28957,0 -116.83196,33.29129,0 -116.83084,33.28827,0 -116.8293,33.28519,0 -116.82689,33.28246,0 -116.82209,33.2834,0 -116.81942,33.28361,0 -116.81805,33.28167,0 -116.81573,33.28096,0 -116.81359,33.2839,0 -116.8147,33.28691,0 -116.81865,33.28978,0 -116.82131,33.29057,0 -116.82526,33.29086,0 -116.82801,33.29157,0 -116.83204,33.29409,0 -116.8341,33.29401,0 -116.83565,33.29566,0 -116.83608,33.2981,0 -116.83779,33.29853,0 -116.83968,33.29753,0 -116.84123,33.29904,0 -116.84277,33.30191,0 -116.84552,33.30262,0 -116.85041,33.30463,0 -116.85522,33.30642,0 -116.85633,33.30843,0 -116.85779,33.30879,0 -116.85951,33.31145,0 -116.86062,33.31367,0 -116.86303,33.31388,0 -116.86603,33.31353,0 -116.86998,33.31632,0 -116.87273,33.3179,0 -116.87839,33.31891,0 -116.88345,33.31819,0 -116.88921,33.31977,0 -116.89178,33.32106,0 -116.8929,33.32421,0 -116.8941,33.32615,0 -116.89856,33.32837,0 -116.90302,33.33103,0 -116.90508,33.33253,0 -116.90388,33.33518,0 -116.90517,33.33748,0 -116.90646,33.33992,0 -116.90886,33.34178,0 -116.91135,33.34307,0 -116.91341,33.34357,0 -116.91624,33.34616,0 -116.91873,33.34702,0 -116.91762,33.35239,0 -116.92071,33.35748,0 -116.92199,33.36114,0 -116.92431,33.36186,0 -116.92551,33.36164,0 -116.9268,33.36257,0 -116.92997,33.36458,0 -116.93152,33.36537,0 -116.93332,33.36738,0 -116.93547,33.3701,0 -116.9389,33.37404,0 -116.94294,33.37254,0 -116.94577,33.37204,0 -116.94731,33.3739,0 -116.9474,33.37641,0 -116.94972,33.37913,0 -116.9474,33.3825,0 -116.95006,33.38673,0 -116.95392,33.38694,0 -116.95555,33.38845,0 -116.95778,33.38816,0 -116.96087,33.38795,0 -116.96293,33.38666,0 -116.96456,33.38651,0 -116.96602,33.38444,0 -116.96817,33.38264,0 -116.96946,33.38479,0 -116.97152,33.38515,0 -116.97323,33.38408,0 -116.97504,33.3858,0 -116.97864,33.38616,0 -116.97881,33.38823,0 -116.98113,33.38895,0 -116.98628,33.38544,0 -116.98877,33.38121,0 -116.99117,33.3797,0 -116.99443,33.37698,0 -116.99632,33.37555,0 -116.99572,33.37325,0 -116.99598,33.37132,0 -116.99546,33.36946,0 -116.99735,33.36745,0 -116.99649,33.36429,0 -116.99907,33.36265,0 -116.9995,33.36078,0 -116.9977,33.35877,0 -116.99426,33.35713,0 -116.99375,33.35419,0 -116.99066,33.3516,0 -116.98671,33.35096,0 -116.98542,33.34881,0 -116.98534,33.34644,0 -116.98765,33.34458,0 -116.98697,33.3435,0 -116.98482,33.34271,0 -116.98697,33.34028,0 -116.98585,33.33863,0 -116.97658,33.33791,0 -116.97358,33.33612,0 -116.97203,33.33103,0 -116.96808,33.3278,0 -116.96285,33.32601,0 -116.9589,33.32335,0 -116.94912,33.32292,0 -116.94989,33.31912,0 -116.94946,33.31718,0 -116.94817,33.31532,0 -116.94611,33.31589,0 -116.94457,33.31424,0 -116.94577,33.31252,0 -116.94448,33.31102,0 -116.93555,33.31109,0 -116.93967,33.30298,0 -116.94122,33.29983,0 -116.94877,33.29488,0 -116.94997,33.29251,0 -116.95349,33.2915,0 -116.95718,33.28756,0 -116.96044,33.28548,0 -116.96929,33.28576,0 -116.971,33.28519,0 -116.97177,33.28368,0 -116.97169,33.27974,0 -116.97109,33.27658,0 -116.97057,33.27529,0 -116.97401,33.2727,0 -116.98122,33.26689,0 -116.98336,33.26438,0 -116.98319,33.24895,0 -116.98465,33.23624,0 -116.98276,33.23265,0 -116.9783,33.22827,0 -116.97315,33.22016,0 -116.96783,33.21887,0 -116.96113,33.22188,0 -116.95924,33.22504,0 -116.95461,33.22648,0 -116.95152,33.22806,0 -116.94826,33.22576,0 -116.95135,33.2249,0 -116.95323,33.22303,0 -116.95169,33.2216,0 -116.94637,33.22332,0 -116.94414,33.22073,0 -116.94139,33.21858,0 -116.94105,33.21614,0 -116.93779,33.21858,0 -116.9371,33.22145,0 -116.93504,33.21398,0 -116.93298,33.21398,0 -116.93161,33.21126,0 -116.92955,33.21442,0 -116.92319,33.21542,0 -116.92113,33.22045,0 -116.91701,33.22375,0 -116.91169,33.22332,0 -116.90277,33.20766,0 -116.90586,33.19474,0 -116.9268,33.18669,0 -116.92749,33.17807,0 -116.93126,33.17405,0 -116.94156,33.16198,0 -116.95907,33.16543,0 -116.96662,33.16342,0 -116.95667,33.15422,0 -116.97898,33.15853,0 -117.01126,33.15652,0 -117.02842,33.15594,0 -117.0346,33.14387,0 -117.0322,33.13467,0 -117.02636,33.12518,0 -117.04662,33.08147,0 -117.06344,33.07485,0 -117.07786,33.08406,0 -117.09709,33.09786,0 -117.12799,33.09729,0 -117.13726,33.10362,0 -117.14309,33.1226,0 -117.15477,33.12892,0 -117.16713,33.12863,0 -117.17571,33.11828,0 -117.17468,33.10534,0 -117.1685,33.09988,0 -117.14859,33.097,0 -117.14172,33.09585,0 -117.14412,33.08636,0 -117.14447,33.07715,0 -117.14275,33.06191,0 -117.14481,33.05299,0 -117.15614,33.05586,0 -117.16507,33.06967,0 -117.17811,33.06881,0 -117.18772,33.06708,0 -117.19596,33.05932,0 -117.19665,33.04522,0 -117.19596,33.03485,0 -117.18772,33.0242,0 -117.20008,33.01758,0 -117.18395,32.99772,0 -117.17399,32.99829,0 -117.16026,32.99541,0 -117.14824,33.00808,0 -117.12455,33.02507,0 -117.09949,33.02708,0 -117.0782,33.03399,0 -117.06859,33.04349,0 -117.05864,33.04378,0 -117.04868,33.04205,0 -117.04216,33.03255,0 -117.04044,33.00952,0 -117.03357,32.99599,0 -117.02499,32.98332,0 -117.02327,32.97151,0 -117.01572,32.96575,0 -117.00199,32.96805,0 -116.99615,32.9767,0 -116.99203,32.9839,0 -116.98619,32.9839,0 -116.96079,33.00002,0 -116.94568,33.02017,0 -116.93676,33.04119,0 -116.92577,33.04665,0 -116.90448,33.0455,0 -116.86637,33.05241,0 -116.85401,33.0527,0 -116.84543,33.04694,0 -116.84474,33.03687,0 -116.86328,33.03025,0 -116.86157,33.0173,0 -116.85539,33.00204,0 -116.84577,33.00319,0 -116.8087,33.03054,0 -116.83582,32.98303,0 -116.83616,32.96921,0 -116.84028,32.95567,0 -116.85796,32.94674,0 -116.86037,32.94025,0 -116.8626,32.93031,0 -116.85642,32.9257,0 -116.8396,32.93031,0 -116.82586,32.93723,0 -116.81814,32.92282,0 -116.81659,32.90841,0 -116.83033,32.89919,0 -116.82861,32.89112,0 -116.82827,32.88304,0 -116.81797,32.88275,0 -116.80835,32.88564,0 -116.80217,32.88391,0 -116.79428,32.88996,0 -116.78947,32.89256,0 -116.78226,32.89515,0 -116.77471,32.89919,0 -116.76492,32.8989,0 -116.7675,32.91994,0 -116.75376,32.92455,0 -116.74518,32.93809,0 -116.72561,32.9355,0 -116.71497,32.94386,0 -116.70227,32.94616,0 -116.69506,32.95192,0 -116.7057,32.95855,0 -116.71119,32.96402,0 -116.70536,32.96604,0 -116.69952,32.96921,0 -116.69197,32.96921,0 -116.68613,32.97353,0 -116.68029,32.97468,0 -116.68064,32.98102,0 -116.68613,32.98764,0 -116.67514,32.98966,0 -116.66999,32.99052,0 -116.66484,32.99455,0 -116.66072,33.00089,0 -116.65626,33.00089,0 -116.6566,33.00837,0 -116.65283,33.00981,0 -116.64493,33.00549,0 -116.63806,33.00751,0 -116.64081,33.01269,0 -116.64459,33.01758,0 -116.64493,33.02277,0 -116.64836,33.03198,0 -116.64665,33.03658,0 -116.64699,33.04263,0 -116.65489,33.04378,0 -116.66038,33.04291,0 -116.66725,33.0455,0 -116.67411,33.05701,0 -116.67377,33.0527,0 -116.66313,33.05845,0 -116.6621,33.06191,0 -116.65489,33.06881,0 -116.65798,33.07284,0 -116.66175,33.07629,0 -116.66931,33.07859,0 -116.66381,33.08693,0 -116.66862,33.09039,0 -116.67377,33.09326,0 -116.67961,33.09384,0 -116.68579,33.10103,0 -116.69677,33.11483,0 -116.70261,33.11598,0 -116.7081,33.11742,0 -116.71085,33.12317,0 -116.71085,33.12317,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Harris Fire</name>
+      <description>Estimated burn area</description>
+      <styleUrl>style80</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-116.58708,32.57893,0 -116.58622,32.57285,0 -116.57918,32.573,0 -116.57472,32.57112,0 -116.56065,32.57112,0 -116.55309,32.5743,0 -116.54794,32.57979,0 -116.55035,32.58457,0 -116.55223,32.58934,0 -116.55653,32.59657,0 -116.56253,32.60525,0 -116.56271,32.62087,0 -116.57266,32.62867,0 -116.59635,32.63113,0 -116.60957,32.63243,0 -116.61077,32.6398,0 -116.61386,32.64443,0 -116.61472,32.65064,0 -116.62296,32.66568,0 -116.61575,32.66972,0 -116.62056,32.67492,0 -116.62193,32.67911,0 -116.62588,32.67969,0 -116.62845,32.67897,0 -116.63085,32.67579,0 -116.63412,32.67666,0 -116.63635,32.68128,0 -116.64115,32.68143,0 -116.64699,32.68041,0 -116.65283,32.68301,0 -116.65248,32.68634,0 -116.65858,32.6867,0 -116.66304,32.68757,0 -116.66828,32.68995,0 -116.66974,32.68728,0 -116.66622,32.68215,0 -116.66982,32.67807,0 -116.67326,32.68085,0 -116.67772,32.68735,0 -116.67566,32.69486,0 -116.68819,32.70295,0 -116.69866,32.69891,0 -116.70604,32.70006,0 -116.71325,32.70281,0 -116.71995,32.70685,0 -116.73042,32.7122,0 -116.74261,32.71422,0 -116.75909,32.71682,0 -116.77574,32.72028,0 -116.7984,32.72548,0 -116.80681,32.72462,0 -116.81608,32.72418,0 -116.83685,32.71292,0 -116.84011,32.71653,0 -116.84577,32.71985,0 -116.85247,32.71869,0 -116.85556,32.71523,0 -116.85522,32.71104,0 -116.86088,32.70353,0 -116.87599,32.70757,0 -116.89092,32.70714,0 -116.90019,32.7148,0 -116.9026,32.71856,0 -116.90501,32.72289,0 -116.90947,32.72267,0 -116.91178,32.72029,0 -116.92483,32.72137,0 -116.93882,32.7262,0 -116.94706,32.72577,0 -116.95152,32.72404,0 -116.95941,32.72303,0 -116.96199,32.72173,0 -116.96147,32.71783,0 -116.96233,32.71638,0 -116.96153,32.71289,0 -116.96346,32.71148,0 -116.96475,32.70946,0 -116.96526,32.70585,0 -116.96384,32.70382,0 -116.97049,32.70097,0 -116.97685,32.70173,0 -116.98354,32.70122,0 -116.9868,32.6974,0 -116.98731,32.69353,0 -116.98809,32.68981,0 -116.99135,32.68028,0 -116.99109,32.67868,0 -116.9874,32.67709,0 -116.98414,32.67767,0 -116.98019,32.67854,0 -116.97848,32.6758,0 -116.97843,32.67247,0 -116.97564,32.67056,0 -116.97389,32.6703,0 -116.97238,32.66919,0 -116.97088,32.66922,0 -116.97028,32.66731,0 -116.968,32.66654,0 -116.9601,32.66423,0 -116.95263,32.66307,0 -116.94122,32.65831,0 -116.93607,32.65513,0 -116.93367,32.65065,0 -116.92955,32.65051,0 -116.91976,32.65253,0 -116.9195,32.64457,0 -116.91135,32.63879,0 -116.9038,32.63099,0 -116.90105,32.61826,0 -116.90002,32.6012,0 -116.89418,32.59281,0 -116.88354,32.58587,0 -116.86981,32.5931,0 -116.86672,32.60409,0 -116.85813,32.60814,0 -116.8547,32.59773,0 -116.84783,32.5931,0 -116.83925,32.58934,0 -116.83376,32.59397,0 -116.82689,32.59715,0 -116.81797,32.59903,0 -116.80681,32.60004,0 -116.79513,32.59874,0 -116.79771,32.5957,0 -116.8111,32.59252,0 -116.81968,32.57719,0 -116.81436,32.5552,0 -116.82466,32.54797,0 -116.83273,32.5416,0 -116.83754,32.53755,0 -116.83754,32.53161,0 -116.83651,32.52698,0 -116.83256,32.51757,0 -116.82226,32.51424,0 -116.80938,32.51193,0 -116.79754,32.51569,0 -116.79016,32.52221,0 -116.79393,32.53755,0 -116.79599,32.5471,0 -116.76303,32.55318,0 -116.74999,32.55477,0 -116.73643,32.55477,0 -116.7402,32.54334,0 -116.74072,32.53494,0 -116.73471,32.52177,0 -116.73008,32.51917,0 -116.72321,32.51772,0 -116.73076,32.51265,0 -116.73351,32.5057,0 -116.72407,32.50295,0 -116.71257,32.50628,0 -116.70621,32.51323,0 -116.69986,32.50845,0 -116.69368,32.50816,0 -116.68836,32.51135,0 -116.68201,32.5154,0 -116.68029,32.52452,0 -116.67652,32.52626,0 -116.67223,32.53711,0 -116.67308,32.5552,0 -116.66347,32.57256,0 -116.58708,32.57893,0 -116.58708,32.57893,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Rice Fire</name>
+      <description>Estimated fire perimeter -- 11:00 p.m. Oct. 23</description>
+      <styleUrl>style80</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-117.18601,33.33827,0 -117.16953,33.33741,0 -117.15614,33.33942,0 -117.15546,33.35806,0 -117.13966,33.35003,0 -117.1431,33.36036,0 -117.14001,33.3638,0 -117.14516,33.3681,0 -117.14825,33.37928,0 -117.15923,33.38014,0 -117.15752,33.39189,0 -117.14447,33.39877,0 -117.14859,33.40393,0 -117.15168,33.40422,0 -117.16988,33.40508,0 -117.17571,33.41797,0 -117.18052,33.42657,0 -117.18739,33.42944,0 -117.19563,33.42886,0 -117.1994,33.42514,0 -117.20696,33.41711,0 -117.21657,33.41683,0 -117.22309,33.41282,0 -117.22996,33.40766,0 -117.22481,33.4002,0 -117.21897,33.40622,0 -117.21245,33.40537,0 -117.2049,33.40565,0 -117.19837,33.39046,0 -117.20833,33.37957,0 -117.18773,33.37268,0 -117.18533,33.3658,0 -117.19528,33.35978,0 -117.19288,33.34716,0 -117.18807,33.34401,0 -117.18601,33.34028,0 -117.18601,33.33827,0 -117.18601,33.33827,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: De Luz: Mandatory Evacuation: Del Luz area</name>
+      <description>10/26 2:55pm Residents from the De Luz area and the Oak Crest Estates Mobile Home Park can now return to their homes.</description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-117.32385,33.44362,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Poomacha Fire</name>
+      <description><![CDATA[100% contained - 49,410 acres <br>11/09<br>--<br>The Poomacha Fire is 50,156 acres and 85% contained. Full containment is<br>expected on November 3rd no control date has been given.   There are 2,305 firefighters assigned. There have been 13 injuries to firefighters. Cost to date $11.4 million.<br>11/01 10 a.m.<br>--<br><br>The Poomacha Fire is 50,156 acres and 70% contained. Full containment is expected on November 6th. There are 2,312 firefighters assigned. There have been 13 injuries to firefighters (injuries were reduced by 8 due to an error on the first report). Cost to date $10.5 million. <br>10/31 8:30 a.m.<br>]]></description>
+      <styleUrl>style64</styleUrl>
+      <Point>
+        <coordinates>-116.91376,33.28233,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Valley Center</name>
+      <description><![CDATA[10/25 7:30pm Evacuation is lifted for partial areas of Palomar Mountain and Valley Center. The following areas will remain closed: Paradise Mountain/Skyline Ranch; Palomar Mountain; the Highway 76 corridor from the Pala area to Highway 79; the Rincon, Pala, La Jolla, Pauma and San Pasqual Reservations; the Lake Wohlford area.<br>---<br>Evacuation of Palomar Mountain and Valley Center. Reverse 9-1-1 is being used to issue evacuation orders to 924 Palomar Mountain and Valley Center households. <br><br>Residents are advised to take shelter at the Palomar Observatory, 35899 Canfield Road, Palomar Mountain 92060.Valley Center. 10/23 12:02 p.m.]]></description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-117.03873,33.22835,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation LIfted: Del Mar Heights</name>
+      <description><![CDATA[Residents will be allowed to move back into Del Mar Heights south of Via de la Valle, west of I-5 and north of Torrey Pines State Beach. <br>10/23 12:52 p.m.]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.25777,32.94703,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Scripps Ranch</name>
+      <description><![CDATA[Some areas of Scripps Ranch are now safe to return to: south of Dealer Canyon Road, west of Sycamore, east of I-15 and north of MCAS Miramar. 10/23 12:36 p.m.<br>]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.09641,32.95222,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Poway</name>
+      <description><![CDATA[Authorities discovered two bodies near Poway. Medical examiners are trying to establish their identities.<br>10/25, 9:07 a.m.<br>-----<br>High Valley Road and Crocker road are the only regions of the city of Poway still under mandatory evacuation.<br>10/24 10:36 a.m. <br>]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.04216,32.97296,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Julian</name>
+      <description><![CDATA[Evacuation order lifted 10/26 6:10 p.m.<br><br>]]></description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-116.58623,33.07026,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Coronado Hills Fire: Contained</name>
+      <description><![CDATA[The Roca fire in East Temecula and the Coronado Hills Fire (South of Cal State San Marcos) have been 100 percent contained.<br>10-23, 3:35 p.m.]]></description>
+      <styleUrl>style29</styleUrl>
+      <Point>
+        <coordinates>-117.14859,33.11685,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Cuyamaca</name>
+      <description>Evacuation lifted for Cuyamaca 10-26-07 6:10 p.m.</description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-116.55087,33.0173,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Horno Fire</name>
+      <description><![CDATA[Horno/Ammo Fire – 21,004 acres – 100% contained.<br>11/01 10 a.m.<br>--<br><br>21,084 acres – 95% contained. Sat. 10/27 10 p.m.<br><br>-Camp Pendleton information hotline: (866) 430-2764<br>-Camp Pendleton TV (KPEN): Channel 18]]></description>
+      <styleUrl>style64</styleUrl>
+      <Point>
+        <coordinates>-117.46307,33.342,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Rancho Bernardo:</name>
+      <description>NE Rancho Bernardo is safe for return if you live south of Paseo de Verano North, east of Pomerado, north of Espola Rd and west of Poway. 10-24 10:28 a.m.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.08336,33.04349,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Carlsbad</name>
+      <description>Voluntary evacuation has been lifted from Carlsbad. 10/24 10:56 a.m.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.33673,33.18239,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Encinitas</name>
+      <description>The area of Olivenhain is safe for return. Officials will be checking IDs to make sure you live in the area. 10/24 11:00 a.m.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.29038,33.05357,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Horno Fire</name>
+      <description>Estimated burn area.</description>
+      <styleUrl>style80</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-117.56057,33.383,0 -117.56229,33.38071,0 -117.55851,33.37841,0 -117.55268,33.37354,0 -117.53997,33.3658,0 -117.52212,33.35519,0 -117.50839,33.34487,0 -117.50324,33.34028,0 -117.49757,33.33626,0 -117.49465,33.33382,0 -117.49174,33.33124,0 -117.48539,33.32665,0 -117.47989,33.32393,0 -117.47526,33.31532,0 -117.46564,33.31317,0 -117.45603,33.31532,0 -117.44899,33.32163,0 -117.4514,33.32823,0 -117.44625,33.33081,0 -117.43183,33.33282,0 -117.4308,33.32048,0 -117.43595,33.31417,0 -117.43801,33.30442,0 -117.42393,33.30069,0 -117.41466,33.30929,0 -117.40505,33.31934,0 -117.40951,33.34056,0 -117.42118,33.34372,0 -117.42977,33.34257,0 -117.43492,33.35132,0 -117.42771,33.35949,0 -117.41706,33.36723,0 -117.40659,33.36666,0 -117.39303,33.3701,0 -117.40093,33.37956,0 -117.40814,33.37913,0 -117.41569,33.37698,0 -117.42445,33.38171,0 -117.43681,33.38458,0 -117.44865,33.38501,0 -117.4562,33.38458,0 -117.46547,33.38085,0 -117.47766,33.38272,0 -117.48487,33.38487,0 -117.49362,33.38358,0 -117.50324,33.38444,0 -117.50461,33.39418,0 -117.51113,33.3959,0 -117.51972,33.39131,0 -117.52864,33.3896,0 -117.53345,33.39963,0 -117.53894,33.4002,0 -117.54581,33.39905,0 -117.55439,33.39561,0 -117.55594,33.38487,0 -117.56057,33.383,0 -117.56057,33.383,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Rancho Penasquitos</name>
+      <description>Partial repopulation in Rancho Penasquitos: Area north of SR-56, south of Rancho Bernardo Rd, west of I-15 and east Rancho Santa Fe Farms. 10/24 2:01 p.m.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.11563,32.96518,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: West Rancho Bernardo </name>
+      <description><![CDATA[The following areas are safe for repopulation: West Rancho Bernardo: N of 56, W of 15, E of Rancho Santa Fe Farms, South of Rancho Bernardo Rd.<br>10/24 2:06 p.m.]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.08233,33.02853,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: San Marcos </name>
+      <description>The City of San Marcos is safe for repopulation. 10/24 2:16 p.m.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.15958,33.16198,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Tierra Bonita &amp; Twin Peaks safe for return</name>
+      <description><![CDATA[Tierra Bonita and Twin Peaks area are safe for repopulation.<br>10/24 2:37 p.m.]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.02705,32.97382,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Wilcox Fire</name>
+      <description>This 200 acre fire on Camp Pendleton is now 100% contained. Wilcox Fire Information Line (866) 430-2764.</description>
+      <styleUrl>style80</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-117.39338,33.31877,0 -117.39716,33.31332,0 -117.39819,33.30528,0 -117.39647,33.29639,0 -117.3769,33.28921,0 -117.36522,33.29294,0 -117.35973,33.29696,0 -117.36454,33.30126,0 -117.38068,33.30327,0 -117.38205,33.31647,0 -117.38789,33.31963,0 -117.39063,33.32135,0 -117.39338,33.31877,0 -117.39338,33.31877,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Fire (no name)</name>
+      <description><![CDATA[The five-acre fire near the Commissary (the Base's largest grocery store) in<br>the 21 Area is also 100 percent contained.]]></description>
+      <styleUrl>style80</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-117.3975,33.24357,0 -117.40093,33.24041,0 -117.4054,33.23926,0 -117.39749,33.23265,0 -117.38754,33.2272,0 -117.38274,33.23668,0 -117.38651,33.24012,0 -117.39029,33.24184,0 -117.3975,33.24357,0 -117.3975,33.24357,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: San Onofre Housing</name>
+      <description><![CDATA[Camp Pendleton officials have announced the Horno Fire is no longer a threat to San Onofre Housing, and residents can return<br>to their homes.]]></description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-117.5817,33.39075,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Sera Mesa Housing </name>
+      <description>Camp Pendleton officials say the San Luis Rey fire is no longer a threat to the southeastern region of Camp Pendleton, and Serra Mesa residents can return to their homes.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.33261,33.27429,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Hidden Meadows</name>
+      <description>Hidden Meadows evacuation notice lifted. Evacuation notice for the community of Hidden Meadows has been lifted. Residents who have evacuated the area are allowed to return to their homes.</description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-117.09915,33.22031,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Previous Burned Area</name>
+      <description><![CDATA[NOT A CURRENT ACTIVE FIRE!!<br><br>Perimeter of burned are updated 10/24/07  20:00hrs]]></description>
+      <styleUrl>style47</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-117.02465,32.56475,0 -117.02431,32.55955,0 -117.02705,32.55434,0 -117.02843,32.55058,0 -117.02499,32.54334,0 -117.01504,32.54594,0 -117.00748,32.5526,0 -117.01057,32.56562,0 -117.01916,32.56707,0 -117.02465,32.56475,0 -117.02465,32.56475,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Rosa Fire</name>
+      <description>Estimated Fire Perimeter</description>
+      <styleUrl>style80</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-117.16163,33.485,0 -117.16661,33.49187,0 -117.1812,33.48342,0 -117.18961,33.49058,0 -117.19648,33.485,0 -117.19493,33.47784,0 -117.19991,33.47412,0 -117.21313,33.47555,0 -117.21021,33.46553,0 -117.19923,33.46868,0 -117.19373,33.46639,0 -117.18549,33.45507,0 -117.17451,33.46152,0 -117.16524,33.46868,0 -117.15957,33.47383,0 -117.16163,33.485,0 -117.16163,33.485,0 </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted for Rancho Pasqual</name>
+      <description>Escondido officials are now allowing residents to re-enter the Rancho San Pasqual and Rancho Vista Monte neighborhoods.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.06551,33.06853,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Carmel Valley and Del Mar Heights</name>
+      <description><![CDATA[Del Mar Heights and Carmel Valley can be re-populated: west of Rancho Santa Fe Farms, east of Interstate 5, north of Highway 56. <br>10/24, 8:30 a.m.]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.21536,32.96489,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Otay Mesa</name>
+      <description>Voluntary Evacuation is lifted for Otay Mesa area north of the U.S. Border, west of Alta Road, south of Main Street, and east of Interstate 805</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.02225,32.58183,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Paradise Hills area</name>
+      <description>The voluntary evacuation in Paradise Hills is lifted north of Highway 54, west of Highway 125, south of Imperial Avenue/Lemon Grove Avenue, and east of Valencia Parkway.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.0504,32.68028,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SR-94</name>
+      <description><![CDATA[SR 94 W/B closed to commercial trucking from SR 188<br>10/31 1 p.m.<br>--<br><br>10/25 11pm - Highway 94 still remains closed.<br>SR-94 CLOSED FROM STEELE CANYON TO FOREST GATE]]></description>
+      <styleUrl>style53</styleUrl>
+      <LineString>
+        <coordinates>-116.47465,32.60844,0 -116.48091,32.60619,0 -116.48898,32.60215,0 -116.50082,32.5986,0 -116.50546,32.59781,0 -116.5088,32.59491,0 -116.51224,32.59108,0 -116.51945,32.58891,0 -116.52348,32.59086,0 -116.527,32.5913,0 -116.52847,32.59499,0 -116.53799,32.59592,0 -116.54632,32.59607,0 -116.56657,32.59925,0 -116.58666,32.60012,0 -116.60271,32.602,0 -116.63034,32.60872,0 -116.63369,32.60135,0 -116.64211,32.60084,0 -116.64417,32.59759,0 -116.6518,32.59614,0 -116.65772,32.59679,0 -116.66554,32.5934,0 -116.6736,32.59542,0 -116.69549,32.6046,0 -116.70896,32.61241,0 -116.72021,32.61588,0 -116.72802,32.61805,0 -116.73592,32.61704,0 -116.75197,32.62441,0 -116.75815,32.62174,0 -116.76476,32.62174,0 -116.76544,32.63511,0 -116.76699,32.63865,0 -116.77454,32.64234,0 -116.78493,32.64581,0 -116.78922,32.65188,0 -116.79437,32.65426,0 -116.80003,32.65245,0 -116.80578,32.65441,0 -116.81445,32.6638,0 -116.82037,32.66438,0 -116.82629,32.67045,0 -116.83437,32.67211,0 -116.84174,32.68302,0 -116.85179,32.68764,0 -116.86002,32.69617,0 -116.87102,32.70729,0 -116.87213,32.71617,0 -116.87668,32.71704,0 -116.87951,32.71986,0 -116.88921,32.72267,0 -116.89256,32.72383,0 -116.89471,32.72787,0 -116.89771,32.72953,0 -116.90208,32.72837,0 -116.90921,32.72809,0 </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Fallbrook</name>
+      <description><![CDATA[EVACUATION UPDATE 8:04 p.m. 7/25/07:Although Fallbrook residents were evacuated via Camp Pendleton, they cannot return via Camp Pendleton.<br><br>Fallbrook residents within the following boundaries will be allowed to return home as of 7pm today:<br><ul><li>West of Gird Road between Highway 76 and Reche Road 
+</li></li><li>West of Reche Road from Gird to Live Oak Park. 
+</li></li><li>West of Reche Road 
+</li></li><li>North on Live Oak Park from Reche Road to Alavarado 
+</li></li><li>West of Live Oak Park on Alvarado to Stage Coach 
+</li></li><li>North on Stage Coach to East Mission Road 
+</li></li><li>West on East Mission to the western boundary of Fallbrook 
+</li></li></ul>Evacuation Notice Lifted for Olive Hill Area of Fallbrook.<br>10/24, 8:30 a.m. ]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.24592,33.32594,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Local Assistance Center: Fallbrook Community Center </name>
+      <description><![CDATA[This LAC is for Fallbrook residents.<br><br>Local Assistance Centers provide disaster victims with one-stop assistance from a variety of government agencies, businesses, and charities. <br>10/25, 10:11 a.m.<br><br>Call 1-800-621-FEMA or go to fema.gov to find out if you qualify for federal assistance. 10/25 12:30 p.m.<br>******<br>]]></description>
+      <styleUrl>style73</styleUrl>
+      <Point>
+        <coordinates>-117.2355,33.37777,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Local Assistance Center: Ramona Community School </name>
+      <description><![CDATA[10/25/07 7:29 p.m. -- Ramona is open for repopulation<br>------<br>This LAC is for Romona residents.<br><br>Local Assistance Centers provide disaster victims with one-stop assistance from a variety of government agencies, businesses, and charities.  <br>10/25, 10:13 a.m.<br><br>Call 1-800-621-FEMA or go to fema.gov to find out if you qualify for federal assistance. 10/25 12:31 p.m.]]></description>
+      <styleUrl>style73</styleUrl>
+      <Point>
+        <coordinates>-116.88333,33.04062,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Local Assistance Center:   Cuyamaca College </name>
+      <description><![CDATA[This LAC is for Rancho San Diego residents.<br><br>Local Assistance Centers provide disaster victims with one-stop assistance from a variety of government agencies, businesses, and charities.  <br>10/25, 10:15 a.m.<br><br>Call 1-800-621-FEMA or go to fema.gov to find out if you qualify for federal assistance. 10/25 12:31 p.m.]]></description>
+      <styleUrl>style73</styleUrl>
+      <Point>
+        <coordinates>-116.94022,32.7461,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Local Assistance Center: Rancho Bernardo-Glassman Recreation Center  </name>
+      <description><![CDATA[This LAC is for Rancho Bernarado residents.<br><br>Local Assistance Centers provide disaster victims with one-stop assistance from a variety of government agencies, businesses, and charities.<br>10/25, 10:17 a.m.<br><br>Call 1-800-621-FEMA or go to fema.gov to find out if you qualify for federal assistance. 10/25 12:30 p.m.]]></description>
+      <styleUrl>style73</styleUrl>
+      <Point>
+        <coordinates>-117.07366,33.0466,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>4S Ranch: Repopulation</name>
+      <description><![CDATA[The County of San Diego has lifted the evacuation order its portion of 4S Ranch. All of 4S Ranch is now re-opened to residents.<br>10/25, 10:35 a.m.]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.11563,33.02277,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Potrero/Tecate border</name>
+      <description><![CDATA[Potrero residents will be allowed to reenter today at 12:00 pm. <br>10/25, 11:22 a.m.<br><br>Tecate border crossing will open at 5 a.m. on Friday, Oct. 26. Highwat 94 still closed west of Potrero.<br>10/25 12:50 p.m.]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-116.59893,32.60526,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Rancho Santa Fe</name>
+      <description><![CDATA[<p></p></p><p>Residents of Rancho Santa Fe can reenter their homes with the <b>exception</b> of the following:
+Del Dios Highway, <br>Community of Del Dios. 
+</p></p><p></p></p><p>Reentry access will be limited to residents only on the following streets: Las Colinas, El Mirador, La Valle, Plateada, El Vuelo, Zumaque, El Sicomoro Street. 10/25 12:09 p.m.<br> 
+ 
+
+</p></p><p></p></p>]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.20352,33.0245,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> This fire has burned 411 acres and is 100 percent contained. Two outbuildings were destroyed by this fire. Evacuations have been lifted and residents are alEvacuation Lifted: Colverdale and Rockwood area</name>
+      <description>10/25/07 6:25: Open for repopulation</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.01736,33.11441,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted</name>
+      <description>The Emergency Alert System (EAS) has been activated. Mandatory evacuation of Lake Henshaw, Mesa Grande, and La Jolla Indian Reservation</description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-116.7627,33.20537,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Spring Valley</name>
+      <description>10-26-07 3:17 p.m. All of Spring Valley and Jamacha are open for reentry.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-116.97487,32.73097,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Ramona</name>
+      <description><![CDATA[Ramona: returning residents may enter only under the premise that will not run any municipal water, nor drink any water<br><br>Corridor from Ramona to Lakeside open for repopulation.<br><br>Ramona residents will be allowed to return to their homes as of 7:15 p.m. today, via the following routes of reentry only:<br><br>    * Highway 67 from Poway<br>    * Highway 78 from Julian ]]></description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-116.87359,33.02795,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Attebury &amp; Deadwood</name>
+      <description>Attebury &amp; Deadwood/San Marcos is open for repopulation.</description>
+      <styleUrl>style37</styleUrl>
+      <Point>
+        <coordinates>-117.16687,33.10653,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Lawson Valley region</name>
+      <description><![CDATA[All Evacuation Orders Lifted for Harris Fire&nbsp; Sat. 10/27 3:20 p.m.<br><a href="http://www.sdcountyemergency.com/newsreleases/102707_1548CountywideFireUpdate167.pdf" target="_blank"><br>
+Details from County Office of Emergency Services (PDF)</a><a href="http://www.sdcountyemergency.com/newsreleases/102707_1548CountywideFireUpdate167.pdf" target="_blank"><br>
+</a>]]></description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-116.76012,32.74902,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Carveacres</name>
+      <description><![CDATA[All Evacuation Orders Lifted for Harris Fire&nbsp; Sat. 10/27 3:20 p.m.<br><a href="http://www.sdcountyemergency.com/newsreleases/102707_1548CountywideFireUpdate167.pdf" target="_blank"><br>Details from County Office of Emergency Services (PDF)<br></a>]]></description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-116.70467,32.75711,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Road Closure</name>
+      <description><![CDATA[<font face="Arial" size="2">State Route 78
+          closed from Bear Valley Parkway to State Route 79<br></font>]]></description>
+      <styleUrl>style53</styleUrl>
+      <LineString>
+        <coordinates>-116.67497,33.10909,0 -116.69283,33.10506,0 -116.71481,33.08176,0 -116.72372,33.06666,0 -116.7572,33.06565,0 -116.79291,33.0855,0 -116.81951,33.055,0 -116.82089,33.04968,0 -116.83239,33.0468,0 -116.8396,33.05083,0 -116.85402,33.05083,0 -116.86861,33.04205,0 -116.87187,33.04796,0 -116.8729,33.06508,0 -116.90225,33.07342,0 -116.90466,33.08737,0 -116.91942,33.08262,0 -116.92749,33.08694,0 -116.93607,33.0868,0 -116.9426,33.09111,0 -116.95272,33.09082,0 -116.95993,33.09485,0 -116.98998,33.08622,0 -116.99513,33.09197,0 -117.0183,33.09959,0 -117.02396,33.09701,0 -117.04971,33.10995,0 </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Jamul</name>
+      <description>10/26 -10am Evacuation order for West Jamul is lifted and residents can return via route 94.</description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-116.922,32.7278,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: South of Barona Reservation</name>
+      <description>Areas in and around Wildcat Canyon Road south of the Barona Reservation are now open for repopulation.</description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-116.836,32.99502,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Road Closure</name>
+      <description><![CDATA[Road Closure on the 79 freeway from the 78 freeway to the 76 freeway.<br>]]></description>
+      <styleUrl>style56</styleUrl>
+      <LineString>
+        <coordinates>-116.71051,33.20078,0 -116.70845,33.19503,0 -116.68442,33.17176,0 -116.67378,33.15825,0 -116.67996,33.1364,0 -116.67481,33.10937,0 </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Some of Bonita and Sunnyside may return home</name>
+      <description><![CDATA[10-26-07 3:17 p.m. Evacuation notices partially lifted for Bonita and Sunnyside. The following areas of Bonita-Sunnyside are open for reentry:<br><ul><li>Areas north of Chula Vista</li></li><li>Areas east of Chula Vista and San Diego</li></li><li>Areas west of Hwy 125</li></li><li>Areas south of Jamacha Blvd</li></li></ul><br>]]></description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-117.01057,32.67637,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Some of San Vincente open for return</name>
+      <description><![CDATA[10-26-07 3:17 p.m. San Vincente is partially open for reentry specified by a box created by:<br><ul><li>Areas north of Interstate 8</li></li><li>Areas east of Poway</li></li><li>Areas west of San Diego Country Estates</li></li><li>Areas south of Highway 67</li></li></ul>]]></description>
+      <styleUrl>style36</styleUrl>
+      <Point>
+        <coordinates>-116.91582,32.95366,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Rainbow</name>
+      <description><![CDATA[Rainbow area now opened.<br>The following area is now to open to residents and the general public alike. The area is specified by a box created by:<br>I-15 to the west, Valley Center to the east, Old Castle Road to the south, Riverside County to the north.]]></description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-117.1431,33.41955,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Japatul</name>
+      <description><![CDATA[The evacuation order for Japatul has been lifted for residents to return home.  <br><br>All Evacuation Orders Lifted for Harris Fire Sat. 10/27 3:20 p.m.<br><a href="http://www.sdcountyemergency.com/newsreleases/102707_1548CountywideFireUpdate167.pdf" target="_blank"><br>
+Details from County Office of Emergency Services (PDF)</a><br>]]></description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-116.70399,32.78814,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Order Lifted</name>
+      <description>All Del Dios residents may return to their homes. This includes all areas including Del Dios Highway and the community of Del Dios.</description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-117.12593,33.06709,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Lifted: Deerhorn Valley</name>
+      <description><![CDATA[The community of Deerhorn Valley has been reopened to residents only. Residents must enter from the west side of Hwy. 94 <br><br>All Evacuation Orders Lifted for Harris Fire Sat. 10/27 3:20 p.m.<a href="http://www.sdcountyemergency.com/newsreleases/102707_1548CountywideFireUpdate167.pdf" target="_blank"><br>
+Details from County Office of Emergency Services (PDF)<br></a><a href="http://www.sdcountyemergency.com/newsreleases/102707_1548CountywideFireUpdate167.pdf" target="_blank">
+</a><br>]]></description>
+      <styleUrl>style49</styleUrl>
+      <Point>
+        <coordinates>-116.70863,32.65889,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Shelter</name>
+      <description><![CDATA[St Peters Catholic Church<br>450 S Stagecoach Ln <br>Fallbrook, CA 92028<br><br>]]></description>
+      <styleUrl>style69</styleUrl>
+      <Point>
+        <coordinates>-117.2279,33.3734,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Center</name>
+      <description><![CDATA[Faith Chapel<br>9400 Campo Road<br>Spring Valley, CA 91977<br>(619) 461-7451]]></description>
+      <styleUrl>style69</styleUrl>
+      <Point>
+        <coordinates>-116.99371,32.74852,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Evacuation Center</name>
+      <description><![CDATA[Valley Center High School  <br>31322 Cole Grade Rd.<br>Valley Center, CA<br>(760) 751-5500]]></description>
+      <styleUrl>style69</styleUrl>
+      <Point>
+        <coordinates>-117.02362,33.28103,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Rosa Fire</name>
+      <description><![CDATA[This fire has burned 411 acres and is 100 percent contained. <br>Two outbuildings were destroyed by this fire. Evacuations have been lifted and residents are allowed to return to their homes. All roads are open. 223 firefighters are assigned to this incident under CAL FIRE command. <br>The cause of this fire is arson. Rosa Fire Information Line (951) 940-6985.]]></description>
+      <styleUrl>style64</styleUrl>
+      <Point>
+        <coordinates>-117.18155,33.47155,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

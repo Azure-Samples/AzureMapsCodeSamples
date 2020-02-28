@@ -437,7 +437,7 @@ var sampleList = [
 		},
 		{
 			title:'Draw gridded polygon',
-			desc:'This sample shows how to calculate a gridded pattern within a drawing polygon.',
+			desc:'This sample shows how to calculate a gridded pattern within a drawn polygon.',
 			path:'Drawing%20Tools%20Module/Draw%20gridded%20polygon.html',
 			sourcePath:'Drawing%20Tools%20Module/Draw%20gridded%20polygon.html',
 			screenshot:'Draw-gridded-polygon.png',
@@ -502,17 +502,8 @@ var sampleList = [
 },
 {
 	category:'Geospatial Files',
-	desc:'Examples of how to import and export common geospatial file formats with Azure Maps.',
+	desc:'Examples of how to import and export common geospatial file formats with Azure Maps. See also the <a href="#Spatial-IO-Module">Spatial IO module samples</a>.',
 	samples: [
-		{
-			title:'Add a delimited file (CSV) to the map',
-			desc:'This sample shows how to add a delimited file (CSV, TSV) to the map by converting it into GeoJSON.',
-			path:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
-			sourcePath:'Geospatial%20Files/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
-			screenshot:'Add-a-delimited-file-(CSV)-to-the-map.png',
-			keywords:'microsoft maps, map, gis, api, sdk, csv, tsv, delimited file',
-			created:'1/14/2019'
-		},
 		{
 			title:'Add TopoJSON data to the map',
 			desc:'This sample shows how to add TopoJSON data to the map, by converting it into GeoJSON in a Web Worker so that map can easily render it.',
@@ -1333,6 +1324,15 @@ var sampleList = [
 			created:'4/26/2019'
 		},
 		{
+			title:'Methods for geocoding multiple addresses',
+			desc:'This sample shows two different methods for geocoding a bunch of addresses quickly from within a web app.',
+			path:'Services%20Module/Methods%20for%20geocoding%20multiple%20addresses.html',
+			sourcePath:'Services%20Module/Methods%20for%20geocoding%20multiple%20addresses.html',
+			screenshot:'Methods-for-geocoding-multiple-addresses.png',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places, batch, batch geocode',
+			created:'2/27/2020'
+		},
+		{
 			title:'Page through POI results',
 			desc:'This sample shows how to step through all the results available for a POI query. This sample also creates a list of the results and cross references the list items to the shapes on the map.',
 			path:'Services%20Module/Page%20through%20POI%20results.html',
@@ -1358,6 +1358,147 @@ var sampleList = [
 			screenshot:'Snap-points-to-logical-route-path.png',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
 			created:'1/31/2020'
+		},
+	]
+},
+{
+	category:'Spatial IO Module',
+	desc:'Learn how to use the Spatial IO module to easily import and export spatial data and connect to OGC services.',
+	samples: [
+		{
+			title:'Add a delimited file (CSV) to the map',
+			desc:'This sample shows how to add a delimited file (CSV, TSV, PIPE) to the map by converting it into GeoJSON.',
+			path:'Spatial%20IO%20Module/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
+			sourcePath:'Spatial%20IO%20Module/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
+			screenshot:'Add-a-delimited-file-(CSV)-to-the-map.png',
+			keywords:'microsoft maps, map, gis, api, sdk, csv, tsv, delimited file',
+			created:'2/27/2020'
+		},
+		{
+			title:'Drag and drop spatial files onto map',
+			desc:'Drag and drop one or more KML, KMZ, GeoRSS, GPX, GML, GeoJSON or CSV files onto the map.',
+			path:'Spatial%20IO%20Module/Drag%20and%20drop%20spatial%20files%20onto%20map.html',
+			sourcePath:'Spatial%20IO%20Module/Drag%20and%20drop%20spatial%20files%20onto%20map.html',
+			screenshot:'Drag-and-drop-spatial-files-onto-map.png',
+			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml',
+			created:'2/23/2020'
+		},
+		{
+			title:'Load KML onto map',
+			desc:'This sample shows how to load KML or KMZ files onto the map.',
+			path:'Spatial%20IO%20Module/Load%20KML%20onto%20map.html',
+			sourcePath:'Spatial%20IO%20Module/Load%20KML%20onto%20map.html',
+			screenshot:'Load-KML-onto-map.png',
+			keywords:'map, gis, api, sdk, kml, kmz, ogc, spatial data, spatial io module, geoxml',
+			created:'2/23/2020'
+		},
+		{
+			title:'Load spatial data (simple)',
+			desc:'This sample shows how to easily load spatial data using the spatial io module into the map. ',
+			path:'Spatial%20IO%20Module/Load%20spatial%20data%20(simple).html',
+			sourcePath:'Spatial%20IO%20Module/Load%20spatial%20data%20(simple).html',
+			screenshot:'Load-spatial-data-(simple).png',
+			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml',
+			created:'2/23/2020'
+		},
+		{
+			title:'OGC map layer example',
+			desc:'This sample shows how to overlay a Web Mapping Service (WMS) or Web Mapping Tile Service (WMTS) on top of the map using the OGC map layer.',
+			path:'Spatial%20IO%20Module/OGC%20map%20layer%20example.html',
+			sourcePath:'Spatial%20IO%20Module/OGC%20map%20layer%20example.html',
+			screenshot:'OGC-map-layer-example.png',
+			keywords:'microsoft maps, map, gis, api, sdk, web mapping service, web mapping tile service, wmts, wms, ogc, spatial io module',
+			created:'2/27/2020'
+		},
+		{
+			title:'OGC map layer options',
+			desc:'This sample shows how the different options of the OGC map layer affect rendering.',
+			path:'Spatial%20IO%20Module/OGC%20map%20layer%20options.html',
+			sourcePath:'Spatial%20IO%20Module/OGC%20map%20layer%20options.html',
+			screenshot:'OGC-map-layer-options.png',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer',
+			created:'2/27/2020'
+		},
+		{
+			title:'OGC Web Map Service explorer',
+			desc:'This is a simple tool for exploring Web Map Services (WMS) and Web Map Tile Services (WMTS) as layers on the map.',
+			path:'Spatial%20IO%20Module/OGC%20Web%20Map%20Service%20explorer.html',
+			sourcePath:'Spatial%20IO%20Module/OGC%20Web%20Map%20Service%20explorer.html',
+			screenshot:'OGC-Web-Map-Service-explorer.png',
+			keywords:'microsoft maps, map, gis, api, sdk, web mapping service, web mapping tile service, wmts, wms, ogc, spatial io module',
+			created:'2/27/2020'
+		},
+		{
+			title:'Read and write Well Known Text',
+			desc:'This sample shows how to read and write Well Known Text (WKT) strings as GeoJSON.',
+			path:'Spatial%20IO%20Module/Read%20and%20write%20Well%20Known%20Text.html',
+			sourcePath:'Spatial%20IO%20Module/Read%20and%20write%20Well%20Known%20Text.html',
+			screenshot:'Read-and-write-Well-Known-Text.png',
+			keywords:'microsoft maps, map, gis, api, sdk, well known text, wkt, ogc, spatial io module',
+			created:'2/23/2020'
+		},
+		{
+			title:'Read Well Known Text',
+			desc:'This sample shows how to easily read Well Known text as GeoJSON.',
+			path:'Spatial%20IO%20Module/Read%20Well%20Known%20Text.html',
+			sourcePath:'Spatial%20IO%20Module/Read%20Well%20Known%20Text.html',
+			screenshot:'Read-Well-Known-Text.png',
+			keywords:'microsoft maps, map, gis, api, sdk, well known text, wkt, ogc, spatial io module',
+			created:'2/23/2020'
+		},
+		{
+			title:'Simple data layer options',
+			desc:'This sample shows how the different options of the simple data layer affect rendering.',
+			path:'Spatial%20IO%20Module/Simple%20data%20layer%20options.html',
+			sourcePath:'Spatial%20IO%20Module/Simple%20data%20layer%20options.html',
+			screenshot:'Simple-data-layer-options.png',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, linelayer, symbols, markers, pins, pushpins, spatial data, spatial io module',
+			created:'2/27/2020'
+		},
+		{
+			title:'Simple WFS example',
+			desc:'This sample shows how to easily query a Web Feature Service (WFS) and overlay the results on a map.',
+			path:'Spatial%20IO%20Module/Simple%20WFS%20example.html',
+			sourcePath:'Spatial%20IO%20Module/Simple%20WFS%20example.html',
+			screenshot:'Simple-WFS-example.png',
+			keywords:'microsoft maps, map, gis, api, sdk, wfs, web feature service, ogc, spatial data, spatial io module',
+			created:'2/27/2020'
+		},
+		{
+			title:'Spatial data gallery',
+			desc:'This sample shows all the different types of spatial data files that can be read with the spatial IO module.',
+			path:'Spatial%20IO%20Module/Spatial%20data%20gallery.html',
+			sourcePath:'Spatial%20IO%20Module/Spatial%20data%20gallery.html',
+			screenshot:'Spatial-data-gallery.png',
+			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml',
+			created:'2/27/2020'
+		},
+		{
+			title:'Spatial data write options',
+			desc:'This sample shows the different write options for the atlas.io.write function.',
+			path:'Spatial%20IO%20Module/Spatial%20data%20write%20options.html',
+			sourcePath:'Spatial%20IO%20Module/Spatial%20data%20write%20options.html',
+			screenshot:'Spatial-data-write-options.png',
+			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml',
+			created:'2/28/2020'
+		},
+		{
+			title:'WFS filter example',
+			desc:'This is a simple tool for exploring WFS services on Azure Maps.',
+			path:'Spatial%20IO%20Module/WFS%20filter%20examples.html',
+			sourcePath:'Spatial%20IO%20Module/WFS%20filter%20examples.html',
+			screenshot:'WFS-filter-example.png',
+			keywords:'microsoft maps, map, gis, api, sdk, wfs, web feature service, ogc, spatial data, spatial io module',
+			created:'2/27/2020'
+		},
+		{
+			title:'WFS service explorer',
+			desc:'This is a simple tool for exploring WFS services on Azure Maps.',
+			path:'Spatial%20IO%20Module/WFS%20service%20explorer.html',
+			sourcePath:'Spatial%20IO%20Module/WFS%20service%20explorer.html',
+			screenshot:'WFS-service-explorer.png',
+			keywords:'microsoft maps, map, gis, api, sdk, wfs, web feature service, ogc, spatial data, spatial io module',
+			created:'2/27/2020'
 		},
 	]
 },
@@ -1810,4 +1951,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 186;
+}];var numberOfSamples = 201;

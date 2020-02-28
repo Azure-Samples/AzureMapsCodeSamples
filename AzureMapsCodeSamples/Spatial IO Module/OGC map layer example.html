@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>OGC map layer example - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to overlay a Web Mapping Service (WMS) or Web Mapping Tile Service (WMTS) on top of the map using the OGC map layer." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, web mapping service, web mapping tile service, wmts, wms, OGC, spatial io module" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, layer, popup;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                popup = new atlas.Popup();
+
+                //Create an instance of the OGC map layer and add it to the map. In this case below the transit data (roads). 
+                layer = new atlas.layer.OgcMapLayer({
+                    url: 'https://mrdata.usgs.gov/mapcache/wmts/',
+                    activeLayers: ['airborne'],    //Optionally specify the layer to render. If not specified, first layer listed in capabilities will be rendered.
+                    bringIntoView: true,           //Optionally have the focus the map over where the layer is available.
+                    debug: true                    //Optionally have the layer report details to assit with debugging into the console. 
+                });
+                map.layers.add(layer, 'transit');
+
+                //Add a click event to the map.
+                map.events.add('click', mapClick);
+            });
+        }
+
+        function mapClick(e) {
+            //Get the feature info for where the user clicked on the map.
+            layer.getFeatureInfo(e.position).then(result => {
+                //Show a popup for the first feature that is returned.
+                if (result && result.features && result.features.length > 0) {
+                    popup.setOptions({
+                        content: atlas.PopupTemplate.applyTemplate(result.features[0].properties),
+                        position: e.position
+                    });
+
+                    popup.open(map);
+                }
+            }, error => {
+                alert(error);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">OGC map layer example</h1></legend>
+        This sample shows how to overlay a Web Mapping Service (WMS) or Web Mapping Tile Service (WMTS) on top of the map using the OGC map layer.
+        <br /><br />
+        The WMTS service that is overlaid on the map comes from the USGS and represents <a href="https://mrdata.usgs.gov/airborne/">Airborne geophysical surveys</a>.
+    </fieldset>
+</body>
+</html>

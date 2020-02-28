@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WFS service explorer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This is a simple tool for exploring WFS services on Azure Maps." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, WFS, web feature service, ogc, spatial data, spatial io module" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, client, layer, currentServiceUrl;
+
+        var proxyServiceUrl = window.location.origin + '/Common/CorsEnabledProxyService.ashx?url=';
+
+        //Sample WFS services to let users test with.
+        var services = [
+            { name: 'NOAA Climate outlook', url: 'https://idpgis.ncep.noaa.gov/arcgis/services/NWS_Climate_Outlooks/cpc_mthly_precip_outlk/MapServer/WFSServer?request=GetCapabilities&service=WFS' },
+            { name: 'EPA - Snowfall indicators', url: 'https://gispub4.epa.gov/arcgis/services/OAR_OAP/Snowfall_Indicators/MapServer/WFSServer?' },
+            { name: 'Massachusetts GIS', url: 'https://giswebservices.massgis.state.ma.us/geoserver/wfs?request=GetCapabilities&service=WFS' },
+            { name: 'NZ GNS Science', url: 'https://data.gns.cri.nz/webmaps/geology/wfs' },
+            { name: 'CIESIN, Columbia University', url: 'https://sedac.ciesin.columbia.edu/geoserver/grump-v1/ows?request=getcapabilities&service=wfs' },
+            { name: 'BC Recreation Polygons', url: 'https://openmaps.gov.bc.ca/geo/pub/WHSE_FOREST_TENURE.FTEN_RECREATION_POLY_SVW/wfs' },            
+            { name: 'Aerogravity/magnetic 3d surveys', url: 'https://data.geus.dk/geusmap/ows/4258.jsp' },
+            { name: 'NSW Villages', url: 'https://openapi.aurin.org.au//public/wfs' },
+            { name: 'US Active mines (USGS)', url: 'https://mrdata.usgs.gov/wfs/active-mines' },
+            { name: 'Geology of Hawaii (USGS)', url: 'https://mrdata.usgs.gov/wfs/hi?request=getcapabilities&service=WFS&version=1.1.0&' }
+        ];
+
+        function GetMap() {
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a simple data layer for rendering the data.
+                layer = new atlas.layer.SimpleDataLayer(datasource);
+                map.layers.add(layer);
+
+                //Generate a selection list of some predefined WFS services.
+                var html = ['<option value="-1"></option>'];
+
+                for (var i = 0; i < services.length; i++) {
+                    html.push('<option value="', i, '">', services[i].name, '</option>');
+                }
+
+                document.getElementById('servicesDD').innerHTML = html.join('');
+            });
+        }
+
+        function loadClient(url) {
+            currentTypeName = null;
+            currentServiceUrl = url;
+
+            document.getElementById('loadingIcon').style.display = '';
+            document.getElementById('typeNames').innerHTML = '';
+
+            datasource.clear();
+
+            //Create the WFS client to access the service. 
+            client = new atlas.io.ogc.WfsClient({
+                url: url,
+                proxyService: (document.getElementById('useProxyService').checked) ? proxyServiceUrl : null
+            });
+
+            //Check the capabilities of the service.
+            client.getCapabilities().then(cap => {
+                currentTypeName = cap.featureTypes[0].name;
+
+                //Create a list of feature type sets to choose from.
+                var html = [];
+
+                for (var i = 0; i < cap.featureTypes.length; i++) {
+                    html.push('<option value="', cap.featureTypes[i].name, '"');
+
+                    if (i === 0) {
+                        html.push(' selected="selected"');
+                    }
+                    html.push('>', cap.featureTypes[i].name, '</option>');
+                }
+
+                document.getElementById('typeNames').innerHTML = html.join('');
+
+                processQuery();
+            });
+        }
+
+        function loadSelectInput() {
+            var serviceIdx = getSelectValue('servicesDD');
+
+            if (serviceIdx >= 0) {
+                currentServiceUrl = services[serviceIdx].url;
+                loadClient(currentServiceUrl);
+            } else {
+                currentServiceUrl = null;
+                datasource.clear();
+            }
+        }
+
+        function loadUserInput() {
+            document.getElementById('servicesDD').selectedIndex = 0;
+
+            var url = document.getElementById('inputTbx').value;
+
+            if (url) {
+                loadClient(url);
+            }
+        }
+
+        function proxyOptionChanged() {
+            if (currentServiceUrl) {
+                loadClient(currentServiceUrl);
+            }
+        }
+
+        function processQuery() {
+            document.getElementById('status').innerText = '';
+
+            if (currentTypeName) {
+                //Create the request for the WFS service.
+                var request = {
+                    typeNames: getSelectValue('typeNames')
+                };
+
+                var mf = getSelectValue('maxFeatures');
+
+                if (mf !== 'Max') {
+                    request.count = parseInt(mf);
+                }
+
+                //Make a request to get features from the WFS service.
+                client.getFeatures(request).then(fc => {
+                    if (fc) {
+                        //IF there is bounding box information, use it to update the map view.
+                        if (fc.bbox) {
+                            map.setCamera({ bounds: fc.bbox, padding: 50 });
+                        }
+
+                        //Update the shapes in the data source with the results from the request.
+                        datasource.setShapes(fc);
+
+                        document.getElementById('status').innerText = `${fc.features.length} features loaded.`;
+                        document.getElementById('loadingIcon').style.display = 'none';
+                    }
+                }, error => {
+                    document.getElementById('status').innerText = error;
+                    document.getElementById('loadingIcon').style.display = 'none';
+                });
+            }
+        }
+
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #loadingIcon {
+            position: absolute;
+            top: 250px;
+            left: 120px;
+        }
+
+        select {
+            max-width: 320px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend><h1 style="font-size:16px">WFS service explorer</h1></legend>
+        This is a simple tool for exploring WFS services on Azure Maps.
+        <br /><br />
+
+        WFS Service:<br /><select id="servicesDD" onchange="loadSelectInput()"></select><br /><br />
+
+        <center>or</center><br />
+
+        Service URL: <input type="text" id="inputTbx" /><input type="button" value="Load" onclick="loadUserInput()" /><br /><br />
+
+        <input id="useProxyService" type="checkbox" onclick="proxyOptionChanged()" /> Use Proxy Service
+        <br /><br />
+
+        <b>Max features:</b>
+        <select id="maxFeatures" onchange="processQuery()">
+            <option value="100">100</option>
+            <option value="250">250</option>
+            <option value="500" selected="selected">500</option>
+            <option value="1000">1000</option>
+            <option value="5000">5000</option>
+            <option value="Max">Max</option>
+        </select>
+        <br /><br />
+
+        <b>Property types:</b><br /><br />
+
+        <select id="typeNames" onchange="processQuery()"></select>
+
+        <br /><br />
+
+        <b>Status: </b><span id="status"></span>
+    </fieldset>
+
+    <div id="myMap"></div>
+
+    <img id="loadingIcon" style="display:none;" src="../Common/images/loadingIcon.gif" />
+</body>
+</html>

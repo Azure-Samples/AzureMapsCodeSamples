@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>LiquidZimbabwe4.kml</name>
+	<Style id="sn_red-blank_maps7">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ffff0080</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<StyleMap id="sn_red-blank_maps6">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_red-blank_maps60</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sn_red-blank_maps61</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="sn_red-blank_maps5">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff008000</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<StyleMap id="sn_red-blank_maps1">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_red-blank_maps10</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sn_red-blank_maps11</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="sn_red-blank_maps10">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<StyleMap id="sn_red-blank_maps4">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_red-blank_maps41</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sn_red-blank_maps40</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="sn_red-blank_maps">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_red-blank_maps2</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sn_red-blank_maps0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="sn_red-blank_maps50">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_red-blank_maps5</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sn_red-blank_maps51</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="sn_red-blank_maps0">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps60">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff008000</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps11">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps40">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps70">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ffff0080</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps51">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff008000</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps61">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff008000</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps41">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="sn_red-blank_maps2">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<BalloonStyle>
+			<text>$[description]</text>
+		</BalloonStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<StyleMap id="sn_red-blank_maps71">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_red-blank_maps7</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sn_red-blank_maps70</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Folder id="Fusiontables">
+		<name>LiquidTelecoms</name>
+		<open>1</open>
+		<description>Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  true
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</description>
+		<Style id="BasicStyle000010">
+			<IconStyle>
+				<color>ffffffff</color>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				</Icon>
+				<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+			</IconStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+				<textColor>ff000000</textColor>
+				<displayMode>default</displayMode>
+			</BalloonStyle>
+		</Style>
+		<Placemark>
+			<name>Harare-Mutare via Masvingo</name>
+			<description>Phase Name: Operational
+Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  false
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</description>
+			<styleUrl>#sn_red-blank_maps4</styleUrl>
+			<ExtendedData>
+				<Data name="Name">
+					<value>Harare-Mutare via Masvingo</value>
+				</Data>
+			</ExtendedData>
+			<LineString>
+				<coordinates>
+					32.659034,-18.978531,0 32.574221,-18.927109,0 32.444503,-18.935023,0 32.265221,-18.860504,0 32.167924,-18.707996,0 32.130302,-18.52255,0 32.12053,-18.320361,0 32.03755,-18.265593,0 31.907532,-18.155757,0 31.759247,-18.177991,0 31.501333,-18.173543,0 31.350084,-18.085169,0 31.281529,-17.915511,0 31.052022,-17.833828,0 30.961359,-18.016616,0 30.859715,-18.211752,0 30.896461,-18.462473,0 30.892356,-18.700216,0 30.903899,-19.024219,0 30.725905,-19.100167,0 30.629101,-19.170504,0 30.522272,-19.299253,0 30.623009,-19.449083,0 30.723844,-19.534934,0 30.771199,-19.645268,0 30.72392899999999,-19.815925,0 30.772499,-19.965836,0 30.834998,-20.071369,0 30.799536,-20.129239,0 30.722656,-20.190553,0 30.690284,-20.309018,0 30.690203,-20.411636,0 30.690088,-20.58534,0 30.817811,-20.761609,0 30.773688,-20.835896,0 30.757401,-20.994926,0 30.745267,-21.101491,0 30.732985,-21.313173,0 30.71703,-21.389332,0 30.604067,-21.564227,0 30.470366,-21.760518,0 30.303418,-21.901118,0 30.16295,-22.029404,0 30.055534,-22.145758,0 29.988596,-22.176192,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Harare-Beitbridge via Bulawayo</name>
+			<description>Phase Name: Operational
+Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  true
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</description>
+			<styleUrl>#sn_red-blank_maps6</styleUrl>
+			<ExtendedData>
+				<Data name="Name">
+					<value>Harare-Beitbridge via Bulawayo</value>
+				</Data>
+			</ExtendedData>
+			<LineString>
+				<coordinates>
+					31.057867,-17.828697,0 30.875214,-17.819268,0 30.710192,-17.890456,0 30.578437,-17.99787,0 30.41155699999999,-18.076401,0 30.203981,-18.124788,0 30.158325,-18.128225,0 29.946997,-18.306392,0 29.84537,-18.388656,0 29.823097,-18.621438,0 29.803082,-18.715672,0 29.805887,-18.854808,0 29.813403,-18.997617,0 29.816463,-19.054297,0 29.79383,-19.124006,0 29.805421,-19.228155,0 29.782196,-19.300595,0 29.815849,-19.382612,0 29.818571,-19.452413,0 29.764584,-19.557814,0 29.644064,-19.646061,0 29.508282,-19.714961,0 29.407206,-19.756828,0 29.311821,-19.775899,0 29.193832,-19.782043,0 29.081102,-19.845418,0 29.034269,-19.917982,0 28.948946,-19.995566,0 28.844834,-20.045041,0 28.706907,-20.100822,0 28.587184,-20.171922,0 28.803422,-20.253237,0 28.932527,-20.302594,0 29.043743,-20.450838,0 29.015407,-20.774563,0 29.016263,-20.934866,0 29.06513,-20.998335,0 29.27105,-21.01269,0 29.349693,-21.070483,0 29.542532,-21.236579,0 29.734099,-21.462704,0 29.864661,-21.691704,0 29.864055,-21.785629,0 29.922774,-21.934673,0 29.969392,-22.082848,0 29.991883,-22.251879,0 30.028049,-22.337183,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Phase Name: Operational
+Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  false
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</name>
+			<description>Phase Name: Operational
+Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  false
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</description>
+			<styleUrl>#sn_red-blank_maps</styleUrl>
+			<ExtendedData>
+				<Data name="Name">
+					<value>Bulawayo-Livingstone</value>
+				</Data>
+			</ExtendedData>
+			<LineString>
+				<coordinates>
+					28.586017,-20.163914,0 28.478612,-19.816757,0 28.366138,-19.565779,0 28.311525,-19.464627,0 28.088142,-19.270362,0 28.072716,-19.219531,0 27.96411,-19.116116,0 27.825843,-19.006001,0 27.769216,-18.936802,0 27.584545,-18.784864,0 27.400692,-18.74666,0 27.237665,-18.633941,0 27.112378,-18.62528,0 26.948603,-18.517394,0 26.819916,-18.421123,0 26.575874,-18.355841,0 26.287978,-18.328458,0 26.100408,-18.260166,0 26.018816,-18.217685,0 25.944279,-18.146661,0 25.845352,-18.086116,0 25.826093,-17.969787,0 25.860769,-17.848942,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Bulawayo-towards-Francistown</name>
+			<description>Phase Name: Operational
+Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  false
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</description>
+			<styleUrl>#sn_red-blank_maps1</styleUrl>
+			<ExtendedData>
+				<Data name="Name">
+					<value>Bulawayo-towards-Francistown</value>
+				</Data>
+			</ExtendedData>
+			<LineString>
+				<coordinates>
+					28.588367,-20.167419,0 28.429538,-20.304428,0 28.254137,-20.422824,0 28.131865,-20.449511,0 27.996911,-20.498615,0 27.877127,-20.473444,0 27.8293377775503,-20.48090231308333,0 27.80350683639642,-20.49122110306259,0 27.77109325436934,-20.51261505151077,0 27.75926712235073,-20.53485870175928,0 27.73998598265801,-20.53923373906535,0 27.72993593517392,-20.54461371507935,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Harare-towards-Lusaka</name>
+			<description>Phase Name: Operational
+Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  true
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</description>
+			<styleUrl>#sn_red-blank_maps50</styleUrl>
+			<ExtendedData>
+				<Data name="Name">
+					<value>Harare-towards-Lusaka</value>
+				</Data>
+			</ExtendedData>
+			<LineString>
+				<coordinates>
+					31.049978,-17.829107,0 30.821636,-17.676993,0 30.725868,-17.648569,0 30.46906600000001,-17.428745,0 30.417698,-17.416775,0 30.301095,-17.369888,0 30.197633,-17.362841,0 30.118308,-17.346115,0 29.999458,-17.240607,0 29.85785,-17.026877,0 29.704026,-16.839145,0 29.616311,-16.770647,0 29.596355,-16.58938,0 29.494101,-16.493668,0 29.307799,-16.338845,0 29.204223,-16.287785,0 29.148686,-16.183396,0 28.997134,-16.091408,0 28.876664,-16.0361,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>Harare-towards-Mozambique</name>
+			<description>Phase Name: Leased
+Name:  LiquidTelecoms
+Cable type: 
+ISO2:zw
+Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Notes: 
+Contributor:  Steve Song
+Contributor Email:  stephen.song@gmail.com
+Source: 
+Last update: 2011
+Go live date:  
+Capacity:  
+Access Model: 
+Owner: Liquid Telecoms
+Operator: 
+Live:  true
+Sharing: 
+Validated by Operator:  False
+Accuracy Confidence: 2</description>
+			<styleUrl>#sn_red-blank_maps71</styleUrl>
+			<ExtendedData>
+				<Data name="Name">
+					<value>Harare-towards-Mozambique</value>
+				</Data>
+			</ExtendedData>
+			<LineString>
+				<coordinates>
+					31.050276,-17.816933,0 31.195038,-17.738081,0 31.336487,-17.731181,0 31.50503,-17.684914,0 31.687616,-17.667758,0 31.763384,-17.673938,0 31.842116,-17.627875,0 31.955179,-17.578355,0 32.061363,-17.518915,0 32.122822,-17.453072,0 32.184662,-17.442881,0 32.311483,-17.369942,0 32.383252,-17.25772,0 32.403414,-17.158734,0 32.44461,-17.122127,0 32.551364,-17.068386,0 32.68957,-16.994145,0 32.800233,-16.959878,0 32.866161,-16.969098,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>

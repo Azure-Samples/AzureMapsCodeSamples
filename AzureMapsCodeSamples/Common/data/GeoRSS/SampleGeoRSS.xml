@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml">
+  <channel>
+    <title>Mount Saint Helens - Mount Margaret Trail</title>
+    <link></link>
+    <description>Trailheads and campsites in the Mount Margaret area of Mount Saint Helens, WA</description>
+    <item>
+      <title>Coldwater Lake</title>
+      <description>Formed by the 1980 eruption of Mount St. Helens.</description>
+      <georss:polygon>46.31409 -122.22616 46.31113 -122.22968 46.31083 -122.23320 46.29802 -122.25877 46.29245 -122.26641 46.29286 -122.26392 46.28746 -122.26744 46.28741 -122.26006 46.29049 -122.25955 46.29120 -122.25620 46.28924 -122.255430 46.30271 -122.23251 46.31284 -122.22315 46.31409 -122.22616</georss:polygon>
+    </item>
+    <item>
+      <title>Lakes Trailhead</title>
+      <description>This is where we started our hike, just down the road from the visitor center. You could also start at the visitor center.</description>
+      <geo:lat>46.2913246</geo:lat>
+      <geo:long>-122.2658157</geo:long>
+      <icon>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/Icon_hiking_32x32.png</icon>
+    </item>
+    <item>
+      <title>Snow Lake Camp</title>
+      <description>Our first night. Small, clear lake. Cold and without much sun, but a lovely spot!</description>
+      <geo:lat>46.3321785</geo:lat>
+      <geo:long>-122.15183258</geo:long>
+      <icon>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/Icon_hiking_32x32.png</icon>
+    </item>
+    <item>
+      <title>Shovel Lake Camp</title>
+      <description>A nice spot for lunch and quick dip (brrrr!).</description>
+      <geo:lat>46.3316395</geo:lat>
+      <geo:long>-122.133036</geo:long>
+      <icon>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/Icon_hiking_32x32.png</icon>
+    </item>
+    <item>
+      <title>Panhandle Lake Camp</title>
+      <description>We stayed here night #2. It's not far from our first night, but allowed us time to explore the Whittier Ridge trail and swim in the lake.</description>
+      <geo:lat>46.3323506</geo:lat>
+      <geo:long>-122.11964607</geo:long>
+    </item>
+    <item>
+      <title>Obscurity Lake</title>
+      <description>My favorite part of the trail was in this area. Great views and the sound of coyotes off in the distance.</description>
+      <geo:lat>46.333298856</geo:lat>
+      <geo:long>-122.11295128</geo:long>
+    </item>
+    <item>
+      <title>Bear Camp</title>
+      <description>Our third night, after a long hike. Incredible views of Spirit Lake and The Dome. From the pass to the east, you can see Mount Rainier, Mount Adams, Mount Hood, and Mount St. Helens: 4 volcanoes in one view!</description>
+      <geo:lat>46.3180069</geo:lat>
+      <geo:long>-122.1198177</geo:long>
+    </item>
+    <item>
+      <title>Ridge Camp</title>
+      <description>We were supposed to stay here our fourth night, but the camp was really rather depressing, hot, and we still had a good part of the day ahead of us, so we hiked on.</description>
+      <geo:lat>46.309618</geo:lat>
+      <geo:long>-122.20461845</geo:long>
+    </item>
+    <item>
+      <title>South Coldwater Trailhead</title>
+      <description>The end of our hike. We had to get from here back to our car, and it's amazing how few people (none, in fact) stop to pick up a hiker in a National Park.</description>
+      <geo:lat>46.285927348</geo:lat>
+      <geo:long>-122.25377798</geo:long>
+    </item>
+    <item>
+      <title>Walk back to the car.</title>
+      <description>A long walk back to our car.</description>
+      <georss:line>46.28548 -122.25302 46.28489 -122.25492 46.28322 -122.25774 46.28298 -122.25908 46.28337 -122.26040 46.28524 -122.26272 46.285882 -122.26596 46.28652 -122.26736 46.28662 -122.26912 46.28847 -122.27216 46.28963 -122.27268 46.28915 -122.27066 46.28975 -122.26916 46.29141 -122.267146</georss:line>
+    </item>
+    <item>
+      <title>Hazard</title>
+      <georss:circle>46.3 -122.2 500</georss:circle>
+    </item>
+  </channel>
+</rss>

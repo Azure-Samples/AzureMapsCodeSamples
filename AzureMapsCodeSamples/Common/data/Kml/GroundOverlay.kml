@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+  <GroundOverlay>
+    <name>Map of Chartres cathedral</name>
+    <Icon>
+      <href>https://azuremapscodesamples.azurewebsites.net/Common/images/image-overlays/1600px-Chartres.svg.png</href>
+      <viewBoundScale>0.75</viewBoundScale>
+    </Icon>
+    <LatLonBox>
+      <north>48.44820923628113</north>
+      <south>48.44737203258976</south>
+      <east>1.488833825534365</east>
+      <west>1.486788581643038</west>
+      <rotation>46.44067597839695</rotation>
+    </LatLonBox>
+  </GroundOverlay>
+</kml>

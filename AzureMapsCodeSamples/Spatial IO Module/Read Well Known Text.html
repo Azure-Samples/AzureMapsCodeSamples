@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Read Well Known Text - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to easily read Well Known text as GeoJSON." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, well known text, wkt, OGC, spatial io module" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.34009, 47.60995],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer to render the data
+                map.layers.add(new atlas.layer.BubbleLayer(datasource));
+
+                //Parse a well known text string.
+                var point = atlas.io.ogc.WKT.read('POINT(-122.34009 47.60995)');
+
+                //Add the parsed data to the data source.
+                datasource.add(point);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:350px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:350px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Read Well Known Text</h1></legend>
+        This sample shows how to easily read Well Known Text (WKT) as GeoJSON. 
+        This sample reads <b>POINT(-122.34009 47.60995)</b> as GeoJSON and renders it on the map using a bubble layer.
+    </fieldset>
+</body>
+</html>

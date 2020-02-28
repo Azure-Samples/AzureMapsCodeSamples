@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Methods for geocoding multiple addresses - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows two different methods for geocoding a bunch of addresses quickly from within a web app." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, searchURL;
+        var start, end, isBusy = false;
+               
+        var resultsProcessed = 0;
+        var results = [];
+
+        var searchOptions = {
+            view: 'Auto',
+            limit: 1    //Only need one result per address.
+        };
+
+        //Set of addresses to geocode.
+        var addresses = [
+            '7014 E Camelback Rd, Scottsdale, AZ, US',
+            '1640 Redwood Highway, Corte Madera, CA, US',
+            '3333 Bristol Street, Costa Mesa, CA, US',
+            '100 West Broadway, Glendale, CA, US',
+            '10250 Santa Monica Blvd., Los Angeles, CA, US',
+            '28032 Marguerite Pkwy, Mission Viejo, CA, US',
+            '186A Stanford Shopping Center, Palo Alto, CA, US',
+            '7007 Friars Rd, San Diego, CA, US',
+            '845 Market St, San Francisco, CA, US',
+            '865 Market Street, San Francisco, CA, US',
+            '2855 Stevens Creek Blvd., Santa Clara, CA, US',
+            '3000 East 1st Avenue, Denver, CO, US',
+            '8505 Park Meadows Center Dr, Lone Tree, CO, US',
+            '7 Backus Avenue, Danbury, CT, US',
+            '500 Westfarms Mall, Farmington, CT, US',
+            '137 Christiana Mall, Newark, DE, US',
+            '19501 Biscayne Boulevard, Aventura, FL, US',
+            '7535 Dadeland Mall, Miami, FL, US',
+            '8001 South Orange Blossom Trail, Orlando, FL, US',
+            '3393 Peachtree Road NE, Atlanta, GA, US',
+            '4400 Ashford Dunwoody Road, Atlanta, GA, US',
+            '1450 Ala Moana Blvd 2238, Honolulu, HI, US',
+            '520 N Michigan Ave, Chicago, IL, US',
+            '49 Oakbrook Center, Oak Brook, IL, US',
+            'J-106 Woodfield Mall, Schaumburg, IL, US',
+            '8702 Keystone Crossing, Indianapolis, IN, US',
+            '11467 West 95th Street, Overland Park, KS, US',
+            '7101 Democracy Boulevard, Bethesda, MD, US',
+            '10300 Little Patuxent Parkway, Columbia, MD, US',
+            '800 Boylston Street, Boston, MA, US',
+            '250 Granite St, Braintree, MA, US',
+            '1245 Worcester Street, Natick, MA, US',
+            '2800 West Big Beaver Road, Troy, MI, US',
+            '162 South Ave, Bloomington, MN, US',
+            '1155 Saint Louis Galleria, St. Louis, MO, US',
+            '2417 St Louis Galleria, St. Louis, MO, US',
+            '3200 Las Vegas Blvd S, Las Vegas, NV, US',
+            '99 Rockingham Park Blvd, Salem, NH, US',
+            '400 Commons Way, Bridgewater, NJ, US',
+            '3710 Route 9 South, Freehold, NJ, US',
+            'One Garden State Plaza Way, Paramus, NJ, US',
+            '630 Old Country Rd, Garden City, NY, US',
+            '160 Walt Whitman Road, Huntington Station, NY, US',
+            '10 Columbus Circle, New York, NY, US',
+            '125 Westchester Avenue, White Plains, NY, US',
+            '4400 Sharon Road, Charlotte, NC, US',
+            '6910 Fayetteville Road, Durham, NC, US',
+            '26300 Cedar Rd, Beachwood, OH, US',
+            '7875 Montgomery Rd, Cincinnati, OH, US',
+            '1901 Nw Expressway, Oklahoma City, OK, US',
+            '7021 S Memorial Dr, Tulsa, OK, US',
+            '330 SW Yamhill Street, Portland, OR, US',
+            '9585 SW Washington Square Rd, Portland, OR, US',
+            '2126 Abbott Martin Road, Nashville, TN, US',
+            '3309 Esperanza Crossing, Austin, TX, US',
+            '2601 Preston Road, Frisco, TX, US',
+            '5015 Westheimer Road, Houston, TX, US',
+            '7400 San Pedro San Antonio, San Antonio, TX, US',
+            '15900 La Cantera Parkway, San Antonio, TX, US',
+            '1201 Lake Woodlands Dr, The Woodlands, TX, US',
+            '51 South Main Street, Salt Lake City, UT, US',
+            '1100 S Hayes Street, Arlington, VA, US',
+            '1961 Chain Bridge Road, Tysons Corner, VA, US',
+            '116 Bellevue Square, Bellevue, WA, US',
+            '2624 NE University Village Street, Seattle, WA, US',
+            '6455 Macleod Trail SW, Calgary, AB, CA',
+            '8882 170 Street Northwest, Edmonton, AB, CA',
+            '4700 Kingsway, Burnaby, BC, CA',
+            '701 West Georgia Street , Vancouver, BC, CA',
+            '220 Yonge Street, Toronto, ON, CA',
+            '3401 Dufferin Street, Toronto, ON, CA',
+            '100 City Centre Drive, Mississauga, ON, CA',
+            '525 FD Roosevelt Avenue, San Juan, PR',
+            '253-259 Regent Street, London, GB',
+            'Cnr Pitt St Mall and Market St, Sydney, NSW, AU'
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Use subscription key credential to create a pipeline.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey()), {
+                retryOptions: { maxTries: 4 } // Retry options
+            });
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering data.
+                map.layers.add(new atlas.layer.BubbleLayer(datasource));
+            });
+        }
+
+        var searchMethod;
+
+        function startSearch(method) {
+            if (!isBusy) {
+                isBusy = true;
+                searchMethod = method;
+
+                datasource.clear();
+                results = [];
+                resultsProcessed = 0;
+
+                start = window.performance.now();
+
+                switch (method) {
+                    case 'parallel':
+                        parallelGeocode();
+                        break;
+                    case 'batchSync':
+                        syncBatchGeocode();
+                        break;
+                }
+            }
+        }
+
+        /**
+         * This method will iterate through all the locations and make multiple parallel requests.
+         * The browser will limit the number of concurrent requests to the same domain.
+         */
+        function parallelGeocode() {
+            
+            for (var i = 0; i < addresses.length; i++) {
+                searchURL.searchAddress(atlas.service.Aborter.timeout(10000), addresses[i], searchOptions).then(r => {
+                    var fc = r.geojson.getFeatures();  
+                    if (fc.features.length > 0) {
+                        results.push(fc.features[0]);
+                    }
+
+                    //Optional code to render addresses in batches as they are geocoded.
+                    if (i % 10) {
+                        datasource.setShapes(results);
+                    }
+
+                    resultsProcessed++;
+
+                    if (resultsProcessed >= addresses.length) {
+                        //Done.
+                        endSearch();
+                    }
+                });
+            }
+        }
+
+        function syncBatchGeocode() {
+            //Batch service documentation: https://docs.microsoft.com/en-us/rest/api/maps/search/postsearchaddressbatch
+
+            var opts = getSearchOptionsQueryParams();
+            var batchItems = [];
+
+            //Create an array of address geocode requests.
+            for (var i = 0; i < addresses.length; i++) {
+                batchItems.push({ query: '?query=' + encodeURIComponent(addresses[i]) + '&' + opts });
+            }
+
+            //Make a synchronous batch geocode request which allows up to 100 items per batch.
+            //Note: There is an asynchronous version of this service that allows up to 10,000 items per batch but requires accessing response headers which is blocked by JavaScript at this time.
+            fetch('https://atlas.microsoft.com/search/address/batch/sync/json?api-version=1.0&subscription-key=' + atlas.getSubscriptionKey(), {
+                method: 'POST',
+                body: JSON.stringify({ batchItems: batchItems }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json()).then(r => {
+
+                //Convert the response into GeoJSON objects.
+                for (var i = 0; i < r.batchItems.length; i++) {
+                    for (var j = 0; j < r.batchItems[i].response.results.length; j++) {
+                        var l = r.batchItems[i].response.results[j];
+
+                        results.push(new atlas.data.Feature(new atlas.data.Point([
+                            l.position.lon,
+                            l.position.lat
+                        ]), l));
+                    }
+                }
+
+                //Done.
+                endSearch();
+            }).catch(err => {                    
+                console.error('Error: ', err);
+            });
+        }
+
+
+        function endSearch() {
+            end = window.performance.now();
+            
+            var t = end - start;
+            var addPerSec = Math.round(addresses.length / t * 1000);
+
+            var qps = (searchMethod === 'batchSync') ? 1 : addPerSec;
+
+            document.getElementById('status').innerHTML = `<b>Status:</b><br/><ul><li>Processing time: ${Math.round(t)}ms</li><li>QPS: ${qps}</li><li>Addresses per second: ${addPerSec}</li></ul>`;
+
+            datasource.setShapes(results);
+
+            //Set the camera to the bounds of the results.
+            map.setCamera({
+                bounds: atlas.data.BoundingBox.fromData(results),
+                padding: 40
+            });
+
+            isBusy = false;
+        }
+
+        function getSearchOptionsQueryParams() {
+            return Object.keys(searchOptions).map(function (key) {
+                return key + '=' + encodeURIComponent(searchOptions[key]);
+            }).join('&');
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: 100%;
+            min-width: 290px;
+            height: 600px;
+        }
+
+        .sidePanel {
+            position:absolute;
+            top: 10px;
+            left:10px;
+            border-radius:10px;
+            background-color: white;
+            padding:10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+
+    <div class="sidePanel">
+        Geocode method: 
+        <br /><br />
+        <input type="button" value="Batch" onclick="startSearch('batchSync')" /> 
+        <input type="button" value="Parallel" onclick="startSearch('parallel')" />
+        <br /><br />
+        <div id="status"></div>
+    </div>
+
+    <fieldset>
+        <legend><h1 style="font-size:16px">Methods for geocoding multiple addresses</h1></legend>
+        This sample shows two different methods for geocoding a bunch of addresses quickly from within a web app. 
+        The first method makes multiple parallel requests to the address search service while the second method uses the synchronous version of the batch address search service. 
+        The synchronous batch service can process up to 100 addresses and is a great way to reduce QPS. 
+        There is an asynchronous batch service that can process up to 10,000 addresses, is not accessible from client web apps at the moment. A backend service would be needed to use this service with a web app.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <NetworkLinkControl>
+    <minRefreshPeriod>120</minRefreshPeriod>
+    <expires>Thu Oct 31 00:55:16 UTC 2019</expires>
+  </NetworkLinkControl>
+  <Document id="active">
+    <name>Active Tropical Cyclones</name>
+    <description>
+      <![CDATA[<TABLE>
+      <TR><TD><B>Last Update:</B> Wed Oct 30 22:55:16 UTC 2019</TD></TR>
+      <TR><TD><B>Created By:</B> NOAA/NWS National Hurricane Center</TD></TR>
+      <TR><TD><B>Disclaimer:</B> The NHC Active KML format is an experimental product.</TD></TR>
+      <TR><TD><B>For More Information: </B><a href="https://www.nhc.noaa.gov">https://www.nhc.noaa.gov</a></TD></TR></TABLE>]]>
+    </description>
+    <ScreenOverlay id="activeLegend">
+      <name>Legend</name>
+      <drawOrder>100</drawOrder>
+      <Icon>
+        <href>https://www.nhc.noaa.gov/images/interactive_cone_legend.jpg</href>
+      </Icon>
+      <overlayXY x="0" y="0" xunits="fraction" yunits="fraction" />
+      <screenXY x="0" y="0" xunits="fraction" yunits="fraction" />
+      <rotationXY x="0.5" y="0.5" xunits="fraction" yunits="fraction" />
+      <size x="-1" y="-1" xunits="pixels" yunits="pixels" />
+      <visibility>0</visibility>
+    </ScreenOverlay>
+    <Folder id="wsp">
+      <name>Wind Speed Probabilities (120 hours)</name>
+      <visibility>1</visibility>
+      <open>1</open>
+      <Folder id="wspValues">
+        <name>Values</name>
+        <visibility>1</visibility>
+        <open>1</open>
+        <Style>
+          <ListStyle>
+            <listItemType>radioFolder</listItemType>
+          </ListStyle>
+        </Style>
+        <NetworkLink id="wsp34">
+          <name>Probability of Tropical-Storm-force winds (34-kt)</name>
+          <visibility>1</visibility>
+          <open>0</open>
+          <Link>
+            <href>https://www.nhc.noaa.gov/gis/forecast/archive/2019103018_wsp34knt120hr_5km.kmz</href>
+          </Link>
+        </NetworkLink>
+        <NetworkLink id="wsp50">
+          <name>Probability of 50 knot winds</name>
+          <visibility>0</visibility>
+          <open>0</open>
+          <Link>
+            <href>https://www.nhc.noaa.gov/gis/forecast/archive/2019103018_wsp50knt120hr_5km.kmz</href>
+          </Link>
+        </NetworkLink>
+        <NetworkLink id="wsp64">
+          <name>Probability of Hurricane-force winds (64-kt)</name>
+          <visibility>0</visibility>
+          <open>0</open>
+          <Link>
+            <href>https://www.nhc.noaa.gov/gis/forecast/archive/2019103018_wsp64knt120hr_5km.kmz</href>
+          </Link>
+        </NetworkLink>
+      </Folder>
+    </Folder>
+    <Folder id="at4">
+      <name>Subtropical Storm Rebekah</name>
+      <visibility>1</visibility>
+      <open>1</open>
+      <ExtendedData>
+        <Data name="tcType">
+          <value>Subtropical Storm</value>
+        </Data>
+        <Data name="tcName">
+          <value>Rebekah</value>
+        </Data>
+        <Data name="wallet">
+          <value>AT4</value>
+        </Data>
+        <Data name="atcfID">
+          <value>AL192019</value>
+        </Data>
+        <Data name="centerLat">
+          <value>38.3</value>
+        </Data>
+        <Data name="centerLon">
+          <value>-40.7</value>
+        </Data>
+        <Data name="dateTime">
+          <value>5:00 PM AST Wed Oct 30</value>
+        </Data>
+        <Data name="movement">
+          <value>E at 13 mph</value>
+        </Data>
+        <Data name="minimumPressure">
+          <value>987 mb</value>
+        </Data>
+        <Data name="maxSustainedWind">
+          <value>45 mph</value>
+        </Data>
+        <Data name="headline">
+          <value> ...SUBTROPICAL STORM REBEKAH FORMS OVER THE NORTH ATLANTIC...</value>
+        </Data>
+      </ExtendedData>
+      <ExtendedData xmlns:tc="https://www.nhc.noaa.gov/cyclones">
+        <tc:type>Subtropical Storm</tc:type>
+        <tc:name>Rebekah</tc:name>
+        <tc:wallet>AT4</tc:wallet>
+        <tc:atcfID>AL192019</tc:atcfID>
+        <tc:centerLat>38.3</tc:centerLat>
+        <tc:centerLon>-40.7</tc:centerLon>
+        <tc:dateTime>5:00 PM AST Wed Oct 30</tc:dateTime>
+        <tc:movement>E at 13 mph</tc:movement>
+        <tc:minimumPressure>987 mb</tc:minimumPressure>
+        <tc:maxSustainedWind>45 mph</tc:maxSustainedWind>
+        <tc:headline> ...SUBTROPICAL STORM REBEKAH FORMS OVER THE NORTH ATLANTIC...</tc:headline>
+      </ExtendedData>
+      <NetworkLink id="pasttrack">
+        <name>Past Track</name>
+        <visibility>1</visibility>
+        <open>0</open>
+        <Link>
+          <href>https://www.nhc.noaa.gov/gis/best_track/al192019_best_track.kmz</href>
+        </Link>
+      </NetworkLink>
+      <NetworkLink id="cone">
+        <name>Cone of Uncertainty</name>
+        <visibility>1</visibility>
+        <open>0</open>
+        <Link>
+          <href>https://www.nhc.noaa.gov/storm_graphics/api/AL192019_001adv_CONE.kmz</href>
+        </Link>
+      </NetworkLink>
+      <NetworkLink id="track">
+        <name>Track Forecast</name>
+        <visibility>1</visibility>
+        <open>0</open>
+        <Link>
+          <href>https://www.nhc.noaa.gov/storm_graphics/api/AL192019_001adv_TRACK.kmz</href>
+        </Link>
+      </NetworkLink>
+      <NetworkLink id="initialwindfield">
+        <name>Initial Extent of Winds</name>
+        <visibility>1</visibility>
+        <open>0</open>
+        <Link>
+          <href>https://www.nhc.noaa.gov/storm_graphics/api/AL192019_initialradii_001adv.kmz</href>
+        </Link>
+      </NetworkLink>
+    </Folder>
+  </Document>
+</kml>

@@ -1,0 +1,159 @@
+<?xml version="1.0" standalone="yes"?>
+<gpx
+  xmlns="http://www.topografix.com/GPX/1/0"
+  version="1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+  <name>Austin Control Point Monuments</name>
+  <desc>These are a set of control point monuments for Austin TX.</desc>
+  <author>Unknown</author>
+  <email>unknown@hotmail.com</email>
+  <url>http://unknown.com</url>
+  <urlname>Unknown</urlname>
+  <time>2003-12-09T02:43:32Z</time>
+  <keywords>Austin Control Point Monuments</keywords>
+  <wpt lat="30.3050490359459" lon="-97.6980708376808">
+    <ele>595.30</ele>
+    <name>CB22</name>
+    <cmt>Cross Street is GREEENBROOK PKWY</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named CB22 is located at cross street BERKMAN DRIVE</desc>
+  </wpt>
+  <wpt lat="30.2963590870264" lon="-97.6877878132789">
+    <ele>554.84</ele>
+    <name>CB25</name>
+    <cmt>Cross Street is CREEKWOOD ROAD</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named CB25 is located at cross street MANOR ROAD</desc>
+  </wpt>
+  <wpt lat="30.3116541467477" lon="-97.6939134831474">
+    <ele>609.93</ele>
+    <name>CB21</name>
+    <cmt>Cross Street is NORTHRIDGE DRIVE</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named CB21 is located at cross street BERKMAN DRIVE</desc>
+  </wpt>
+  <wpt lat="30.2911184644927" lon="-97.679319450491">
+    <ele>527.87</ele>
+    <name>CB26</name>
+    <cmt>Cross Street is PECAN SPRINGS ROAD</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named CB26 is located at cross street SPRINGDALE ROAD</desc>
+  </wpt>
+  <wpt lat="30.2991749567645" lon="-97.6777691731691">
+    <ele>582.61</ele>
+    <name>M-25-4002</name>
+    <cmt>Cross Street is PENDLETON LANE</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named M-25-4002 is located at cross street TIPTON DRIVE</desc>
+  </wpt>
+  <wpt lat="30.2982436284604" lon="-97.6796352690245">
+    <ele>565.06</ele>
+    <name>M-25-4003</name>
+    <cmt>Cross Street is NORWOOD HILL ROAD</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named M-25-4003 is located at cross street MEDFORD DRIVE</desc>
+  </wpt>
+  <wpt lat="30.3005399176698" lon="-97.6854905342584">
+    <ele>566.91</ele>
+    <name>CB23</name>
+    <cmt>Cross Street is </cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named CB23 is located at cross street DESTROYED</desc>
+  </wpt>
+  <wpt lat="30.313835324959" lon="-97.6757365218111">
+    <ele>542.92</ele>
+    <name>M-26-3001</name>
+    <cmt>Cross Street is </cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named M-26-3001 is located at cross street AUBURNHILL DRIVE</desc>
+  </wpt>
+  <wpt lat="30.3135544480705" lon="-97.6752957563268">
+    <ele>545.09</ele>
+    <name>M-26-3002</name>
+    <cmt>Cross Street is </cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named M-26-3002 is located at cross street AUBURNHILL DRIVE</desc>
+  </wpt>
+  <wpt lat="30.3137738835303" lon="-97.6756490714832">
+    <ele>543.01</ele>
+    <name>M-26-3003</name>
+    <cmt>Cross Street is </cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named M-26-3003 is located at cross street AUBURNHILL DRIVE</desc>
+  </wpt>
+  <wpt lat="30.3133382693001" lon="-97.6751605482993">
+    <ele>544.38</ele>
+    <name>M-26-3004</name>
+    <cmt>Cross Street is </cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named M-26-3004 is located at cross street AUBURNHILL DRIVE</desc>
+  </wpt>
+  <wpt lat="30.2933980072791" lon="-97.7079956198969">
+    <ele>586.07</ele>
+    <name>L-24-1002</name>
+    <cmt>Cross Street is SCHIEFFER AVE.</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named L-24-1002 is located at cross street AIRPORT BLVD.</desc>
+  </wpt>
+  <wpt lat="30.2953919124519" lon="-97.7082614652738">
+    <ele>599.08</ele>
+    <name>L-24-1001</name>
+    <cmt>Cross Street is SCHIEFFER AVE.</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named L-24-1001 is located at cross street AIRPORT BLVD.</desc>
+  </wpt>
+  <wpt lat="30.2891750393722" lon="-97.6981724823356">
+    <ele>590.29</ele>
+    <name>L-24-3001</name>
+    <cmt>Cross Street is E. M. FRANKLIN</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named L-24-3001 is located at cross street MANOR RD.</desc>
+  </wpt>
+  <wpt lat="30.290074462363" lon="-97.6951349534262">
+    <ele>583.93</ele>
+    <name>L-24-3002</name>
+    <cmt>Cross Street is E. M. FRANKLIN</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named L-24-3002 is located at cross street MANOR RD.</desc>
+  </wpt>
+  <wpt lat="30.3060699310819" lon="-97.7032269847679">
+    <ele>621.77</ele>
+    <name>L-25-1001</name>
+    <cmt>Cross Street is BERKMAN DR.</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named L-25-1001 is located at cross street EAST 51ST ST.</desc>
+  </wpt>
+  <wpt lat="30.3032781640973" lon="-97.6978346172105">
+    <ele>603.68</ele>
+    <name>L-25-3001</name>
+    <cmt>Cross Street is BERKMAN DR.</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named L-25-3001 is located at cross street EAST 51ST ST.</desc>
+  </wpt>
+  <wpt lat="30.308420370191" lon="-97.7102778415234">
+    <ele>644.01</ele>
+    <name>K-25-2002</name>
+    <cmt>Cross Street is EAST 51ST ST</cmt>
+    <type>Control Point Monument</type>
+    <sym>MONUMENT</sym>
+    <desc>Monument named K-25-2002 is located at cross street INTERSTATE 35</desc>
+  </wpt>
+</gpx>

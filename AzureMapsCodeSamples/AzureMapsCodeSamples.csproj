@@ -81,6 +81,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
@@ -92,20 +93,64 @@
     <Content Include="Animations\Simple Symbol Animation.html" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Bubble Layer\Cluster aggregates.html" />
+    <None Include="Common\data\SpatialCSV\Airports.pipe" />
+    <None Include="Common\data\SpatialCSV\WAEcologicalSites.tab" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
     <Content Include="Common\data\geojson\route-networks\montreal_roads.json" />
     <Content Include="Common\data\geojson\route-networks\niagra_roads.json" />
     <Content Include="Common\data\geojson\route-networks\transit_routes_datasd.geojson" />
     <Content Include="Common\data\geojson\route-networks\maritime-trade-routes.geojson" />
+    <Content Include="Common\data\SpatialCSV\Chicago Narcotics.csv" />
+    <Content Include="Common\CorsEnabledProxyService.ashx" />
     <None Include="Common\data\geojson\route-networks\Ipswich Road Network.geojson" />
     <Content Include="Common\data\geojson\GpsTrace.json" />
+    <Content Include="Common\data\Gpx\kuhkopfsteig-fv.gpx" />
+    <Content Include="Common\data\Kml\2007SanDiegoCountyFires.kml" />
+    <Content Include="Common\data\Kml\AWOIS_Wrecks.kml" />
+    <Content Include="Common\data\Kml\BalloonStyle.kml" />
+    <Content Include="Common\data\Kml\BalloonStyle2.kml" />
+    <Content Include="Common\data\Kml\GroundOverlay.kml" />
+    <Content Include="Common\data\Kml\internet_users_2005_choropleth.kml" />
+    <Content Include="Common\data\Kml\internet_users_2005_choropleth_3D.kml" />
+    <Content Include="Common\data\Kml\LiquidTelcom.kml" />
+    <Content Include="Common\data\Kml\London stations.kml" />
+    <Content Include="Common\data\Kml\London Tube Lines.kml" />
+    <Content Include="Common\data\Kml\nhc_active.kml" />
+    <Content Include="Common\data\Kml\Pentagon.kml" />
+    <Content Include="Common\data\Kml\PhotoPins.kml" />
+    <Content Include="Common\data\Kml\WMSGroundOverlay.kml" />
+    <Content Include="Common\data\Kmz\CivilWarSites.kmz" />
+    <Content Include="Common\data\Kmz\Hurricane_Evacuation_Routes.kmz" />
+    <Content Include="Common\data\Kmz\internet_users_2005_bars.kmz" />
+    <Content Include="Common\data\Kmz\qfaults.kmz" />
+    <Content Include="Common\data\Kmz\QPF24hr_Day3_latest.kmz" />
+    <Content Include="Common\data\Kmz\RecreationSitePoint.kmz" />
+    <Content Include="Common\data\Kmz\shuckstack-fire-tower.kmz" />
+    <Content Include="Common\data\Kml\SimpleNetworkLink.kml" />
     <None Include="Common\data\topojson\neilsen_dma.json" />
-    <Content Include="Common\data\US_State_Literacy.tsv" />
+    <Content Include="Common\data\GeoRSS\eqs7day-M2.5.xml" />
+    <Content Include="Common\data\GeoRSS\SampleGeoRSS.xml" />
+    <Content Include="Common\data\GeoRSS\WifiLocations.xml" />
+    <Content Include="Common\data\GML\FEMA_Hazard_WFS_2.0.0.xml" />
+    <Content Include="Common\data\GML\USGS_FC_WFS_GML.xml" />
+    <Content Include="Common\data\Gpx\BikeRoute.xml" />
+    <Content Include="Common\data\Gpx\gps_points.xml" />
+    <Content Include="Common\data\Gpx\Route66Attractions.xml" />
+    <Content Include="Common\data\Gpx\Tourist_locations_UK-England.xml" />
+    <Content Include="Common\data\Kml\esfr-trip-track-20080407.xml" />
+    <Content Include="Common\images\icons\campfire.png" />
+    <Content Include="Common\images\icons\campground.png" />
     <Content Include="Common\images\icons\gas_station_pin.png" />
     <Content Include="Common\images\icons\grocery_cart_pin.png" />
+    <Content Include="Common\images\icons\homegardenbusiness.png" />
+    <Content Include="Common\images\icons\hospitals.png" />
+    <Content Include="Common\images\icons\Icon_hiking_32x32.png" />
+    <Content Include="Common\images\icons\placemark_circle.png" />
+    <Content Include="Common\images\icons\placemark_circle_highlight.png" />
     <Content Include="Common\images\icons\purple_pin.png" />
     <Content Include="Common\images\icons\purple_pin_small.png" />
+    <Content Include="Common\images\icons\ranger_station.png" />
     <Content Include="Common\images\icons\restaurant_pin.png" />
     <Content Include="Common\images\icons\school_pin.png" />
     <Content Include="Common\images\image-overlays\Chicago_1872_Map.png" />
@@ -195,7 +240,37 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
+    <Content Include="SiteResources\screenshots\Drag-and-drop-spatial-files-onto-map.png" />
+    <Content Include="SiteResources\screenshots\Load-KML-onto-map.png" />
+    <Content Include="SiteResources\screenshots\Load-spatial-data-%28simple%29.png" />
+    <Content Include="SiteResources\screenshots\Methods-for-geocoding-multiple-addresses.png" />
+    <Content Include="SiteResources\screenshots\OGC-map-layer-example.png" />
+    <Content Include="SiteResources\screenshots\OGC-map-layer-options.png" />
+    <Content Include="SiteResources\screenshots\OGC-Web-Map-Service-explorer.png" />
+    <Content Include="SiteResources\screenshots\Read-and-write-Well-Known-Text.png" />
+    <Content Include="SiteResources\screenshots\Read-Well-Known-Text.png" />
+    <Content Include="SiteResources\screenshots\Simple-data-layer-options.png" />
+    <Content Include="SiteResources\screenshots\Simple-WFS-example.png" />
+    <Content Include="SiteResources\screenshots\Spatial-data-gallery.png" />
+    <Content Include="SiteResources\screenshots\Spatial-data-write-options.png" />
+    <Content Include="SiteResources\screenshots\WFS-filter-example.png" />
+    <Content Include="SiteResources\screenshots\WFS-service-explorer.png" />
+    <Content Include="Spatial IO Module\OGC map layer options.html" />
+    <Content Include="Services Module\Methods for geocoding multiple addresses.html" />
+    <Content Include="Spatial IO Module\OGC map layer example.html" />
+    <Content Include="Spatial IO Module\Simple WFS example.html" />
+    <Content Include="Spatial IO Module\Spatial data write options.html" />
+    <Content Include="Spatial IO Module\Spatial data gallery.html" />
+    <Content Include="Spatial IO Module\WFS filter examples.html" />
+    <Content Include="Spatial IO Module\WFS service explorer.html" />
+    <Content Include="Spatial IO Module\Drag and drop spatial files onto map.html" />
+    <Content Include="Spatial IO Module\OGC Web Map Service explorer.html" />
+    <Content Include="Spatial IO Module\Read and write Well Known Text.html" />
+    <Content Include="Spatial IO Module\Read Well Known Text.html" />
+    <Content Include="Spatial IO Module\Load spatial data %28simple%29.html" />
+    <Content Include="Spatial IO Module\Simple data layer options.html" />
     <Content Include="Polygon and Polygon Extrusion Layers\Extruded choropleth map.html" />
+    <Content Include="Spatial IO Module\Load KML onto map.html" />
     <Content Include="Services Module\Snap points to logical route path.html" />
     <Content Include="SiteResources\screenshots\Basic-snap-to-road-logic.png" />
     <Content Include="SiteResources\screenshots\Extruded-choropleth-map.png" />
@@ -349,7 +424,7 @@
     <Content Include="Heat Map Layer\Cluster weighted Heat Map.html" />
     <Content Include="Map\Export Map as Image\Export Map as Image.html" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js" />
-    <Content Include="Geospatial Files\Add a delimited file %28CSV%29 to the map.html" />
+    <Content Include="Spatial IO Module\Add a delimited file %28CSV%29 to the map.html" />
     <Content Include="Geospatial Files\Extract and display photo location.html" />
     <Content Include="HTML Markers\HtmlMarkerLayer\HTML Marker Layer.html" />
     <Content Include="Custom Modules\Fullscreen Control\Fullscreen Control.html" />
@@ -504,7 +579,6 @@
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js.map" />
     <Content Include="Experimental\Solar Terminator Module\SolarTerminatorModule.js.map" />
     <Content Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.js.map" />
-    <Content Include="Common\data\earthquakes_gt7_alltime.csv" />
     <Content Include="Map\Export Map as Image\MapImageExporter.js.map" />
     <Content Include="Common\data\shp\cities.dbf" />
     <Content Include="Common\data\shp\cities.shp" />
@@ -633,6 +707,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CorsEnabledProxyService.ashx.cs">
+      <DependentUpon>CorsEnabledProxyService.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

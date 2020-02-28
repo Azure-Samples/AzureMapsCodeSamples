@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple data layer options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the simple data layer affect rendering." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, line, linestring, polyline, layer, linelayer, symbols, markers, pins, pushpins, spatial data, spatial io module" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script src="../Common/scripts/clipboard.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, layer, defaultOptions, removeDefaults;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-90, 40],
+                zoom: 2,
+                pitch: 20,
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a style control and add it to the map.
+                map.controls.add([
+                    new atlas.control.StyleControl({
+                        style: 'dark',
+                        mapStyles: 'all'
+                    }),
+                    new atlas.control.PitchControl({
+                        style: 'dark'
+                    })
+                ], {
+                    position: 'top-right'
+                });
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a simple data layer for rendering the data.
+                layer = new atlas.layer.SimpleDataLayer(datasource);
+                map.layers.add(layer);
+
+                //Load an initial data set.
+                loadDataSet('../Common/data/KML/internet_users_2005_choropleth_3D.kml');
+
+                defaultOptions = layer.getOptions();
+
+                //Update the layer with the options in the input fields.
+                updateLayer();
+            });
+
+            new ClipboardJS('.copyBtn');
+        }
+
+        function loadDataSet(url) {
+            //Read the spatial data and add it to the map.
+            atlas.io.read(url).then(r => {
+                if (r) {
+                    //Update the features in the data source.
+                    datasource.setShapes(r);
+
+                    //If bounding box information is known for data, set the map view to it.
+                    if (r.bbox) {
+                        map.setCamera({ bounds: r.bbox, padding: 50 });
+                    }
+                }
+            });
+        }
+
+        function updateLayer() {
+            var options = getInputOptions();
+
+            //Update all the options in the layer.
+            layer.setOptions(options);
+
+            document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
+        }
+
+        function getInputOptions() {
+            removeDefaults = document.getElementById('RemoveDefaults').checked;
+
+            layer.closePopup();
+
+            return {
+                allowExtrusions: getPropertyValue('allowExtrusions', document.getElementById('allowExtrusions').checked),
+                enablePopups: getPropertyValue('enablePopups', document.getElementById('enablePopups').checked),
+                showPointTitles: getPropertyValue('showPointTitles', document.getElementById('showPointTitles').checked),
+                visible: getPropertyValue('visible', document.getElementById('visible').checked)
+            };
+        }
+
+        function getPropertyValue(propertyName, value) {
+            if (removeDefaults && defaultOptions[propertyName] === value) {
+                return undefined;
+            }
+
+            return value;
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #CodeOutput {
+            width: 290px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .copyBtn {
+            float: right;
+        }
+
+        table td:nth-of-type(1) {
+            width: 130px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend><h1 style="font-size:16px">Simple data layer options</h1></legend>
+        This sample shows how the different options of the simple data layer affect rendering.
+        <br /><br />
+        Data set:<br />
+        <input type="button" value="Extruded KML polygons" onclick="loadDataSet('../Common/data/KML/internet_users_2005_choropleth_3D.kml')" />
+        <input type="button" value="Sample GeoRSS" onclick="loadDataSet('../Common/data/GeoRSS/SampleGeoRSS.xml')" />
+        <br /><br />
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'SimpleDataLayerOptions')">Layer Options</button>
+            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+        </div>
+
+        <div id="SimpleDataLayerOptions" class="tabcontent" style="display:block;">
+            <table>
+                <tr title="Specifies if polygons that have a height property should be rendered as extruded polygons. Default: true">
+                    <td>Allow extrusions:</td>
+                    <td><input id="allowExtrusions" type="checkbox" onclick="updateLayer()" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if popups should appear when shapes are clicked. Default: true">
+                    <td>Enable popups:</td>
+                    <td><input id="enablePopups" type="checkbox" onclick="updateLayer()" checked="checked" /></td>
+                </tr>
+                <tr title="If a point feature has a title or name property, this option specifies if it should be displayed on the map under the marker. Default: false">
+                    <td>Show point titles:</td>
+                    <td><input id="showPointTitles" type="checkbox" onclick="updateLayer()" /></td>
+                </tr>
+                <tr title="Specifies if the layer is visible or not.">
+                    <td>Visible:</td>
+                    <td><input id="visible" type="checkbox" onclick="updateLayer()" checked="checked" /></td>
+                </tr>
+            </table>
+
+            <p>
+                In addition to the options in this tool, the simple data layer also has options for;
+                <ul>
+                    <li>popupTemplate - used to customize the layout of content in the popups.</li>
+                </ul>
+                Note that the simple data layer uses style information stored in the properties of individual features to customize how each feature is rendered. The getLayer() function can be used to override this behaviour in the sub-layers.
+            </p>
+        </div>
+
+        <div id="Code" class="tabcontent">
+            <textarea id="CodeOutput"></textarea><br /><br />
+            <input id="RemoveDefaults" type="checkbox" onclick="updateLayer()" checked="checked" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+</body>
+</html>

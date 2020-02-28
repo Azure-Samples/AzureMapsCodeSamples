@@ -38,7 +38,7 @@ namespace SampleListBuilder
             { "Demos", "These samples demonstrate real-life scenarios or highlight key topics." },
             { "Device Sensors", "See how to access sensors from a devices browser and use them with Azure Maps." },
             { "Drawing Tools Module", "Add mouse and touch based drawing capabilities to the map." },
-            { "Geospatial Files", "Examples of how to import and export common geospatial file formats with Azure Maps." },
+            { "Geospatial Files", "Examples of how to import and export common geospatial file formats with Azure Maps. See also the <a href=\"#Spatial-IO-Module\">Spatial IO module samples</a>." },
             { "Heat Map Layer", "Heat maps are a type of data visualization used to represent the density of data using a range of colors. They're often used to show the data \"hot spots\" on a map and are a great way to render large point data sets." },
             { "HTML Markers", "Use traditional HTML and CSS to represent point based data on the map as markers." },
             { "Image Layer", "See how to overlay images on the map as a layer." },
@@ -49,6 +49,7 @@ namespace SampleListBuilder
             { "Popups", "See how to display information in a popup on the map." },
             { "REST Services", "Learn how to directly access the Azure Maps REST services from JavaScript." },
             { "Services Module", "Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control." },
+            { "Spatial IO Module", "Learn how to use the Spatial IO module to easily read and write spatial data and connect to OGC services." },
             { "Spatial Math", "Learn how to use the spatial math library that is built into the Azure Maps Web Control." },
             { "Symbol Layer", "Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling." },
             { "Third Party Map Controls", "As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these." },
@@ -126,7 +127,12 @@ namespace SampleListBuilder
                     new ExternalSample()
                     {
                         Title = "A PowerApps PCF control that displays a dataset as pins on Azure Map",
-                        Href = "https://github.com/Azure-Samples/azure-maps-dotnet-webgl-uwp-iot-remote-control"
+                        Href = "https://github.com/jenschristianschroder/pcfAzureMaps"
+                    },
+                    new ExternalSample()
+                    {
+                        Title = "PowerApps/Dynamics 365 PCF control for showing Latitude Longitude View data on an Azure Map Cluster Spider control",
+                        Href = "https://github.com/alano444/PCFAzureMapCluststerSpider"
                     }
                  }
             },
