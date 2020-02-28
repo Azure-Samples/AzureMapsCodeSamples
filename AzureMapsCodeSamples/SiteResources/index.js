@@ -28,7 +28,7 @@ window.onload = function () {
     var hash = window.location.hash;
     if (hash && hash.length > 1) {
         hash = hash.replace('#', '');
-        window.location.hash = null;
+        window.history.replaceState(null, null, ' ');
 
         //File name redirects. Use this if you rename a sample file name and you want links to the old name to still work.
         var sampleRedirects = {

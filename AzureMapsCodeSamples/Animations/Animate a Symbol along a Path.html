@@ -15,8 +15,8 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <script type='text/javascript'>
-        var map, pin, datasource;
-        var animationTime = 5000;
+        var map, pin, lineSource, pinSource;
+        var animationTime = 15000;
         var animation;
 
         //Create an array of points to define a path to animate along.
@@ -47,21 +47,22 @@
                 //Load a custom image icon into the map resources.
                 map.imageSprite.add('arrow-icon', '../Common/images/icons/gpsArrowIcon.png').then(function () {
 
-                    //Create a data source and add it to the map.
-                    datasource = new atlas.source.DataSource();
-                    map.sources.add(datasource);
+                    //Create data sources and add them to the map.
+                    lineSource = new atlas.source.DataSource();
+                    pinSource = new atlas.source.DataSource();
+                    map.sources.add([lineSource, pinSource]);
 
                     //Create a layer to render the path.
-                    map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    map.layers.add(new atlas.layer.LineLayer(lineSource, null, {
                         strokeColor: 'DodgerBlue',
                         strokeWidth: 3
                     }));
 
                     //Create a line for the path and add it to the data source.
-                    datasource.add(new atlas.data.LineString(path));
+                    lineSource.add(new atlas.data.LineString(path));
 
                     //Create a layer to render a symbol which we will animate.
-                    map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    map.layers.add(new atlas.layer.SymbolLayer(pinSource, null, {
                         iconOptions: {
                             //Pass in the id of the custom icon that was loaded into the map resources.
                             image: 'arrow-icon',
@@ -79,25 +80,22 @@
                             ignorePlacement: true,
 
                             //For smoother animation, allow symbol to overlap all other symbols on the map.
-                            allowOverlap: true    
+                            allowOverlap: true
                         },
                         textOptions: {
                             //For smoother animation, ignore the placement of the text. This skips the label collision calculations and allows the text to overlap map labels.
                             ignorePlacement: true,
 
                             //For smoother animation, allow text to overlap all other symbols on the map.
-                            allowOverlap: true  
-                        },
-
-                        //Only render Point or MultiPoints in this layer.    
-                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] 
+                            allowOverlap: true
+                        }
                     }));
 
                     //Create a pin and wrap with the shape class and add to data source.
                     pin = new atlas.Shape(new atlas.data.Feature(new atlas.data.Point(path[0]), {
                         rotation: 180
                     }));
-                    datasource.add(pin);
+                    pinSource.add(pin);
 
                     animation = new animations.PathAnimation(path, function (position, heading, progress) {
                         //Update the rotation of the symbol. 
@@ -113,7 +111,9 @@
                                 center: position,
                                 bearing: heading,
                                 pitch: 45,
-                                zoom: 15
+                                zoom: 15,
+                                type: "fly",
+                                duration: 100
                             });
                         }
                     }, animationTime);
@@ -235,19 +235,25 @@
                         _isPaused = false;
 
                         if (!_timerId) {
-                            _timerId = setInterval(function () {
+                            let _startTime = performance.now() - frameIdx * _delay;
+
+                            const callback = function (timestamp) {
                                 if (!_isPaused) {
-                                    var progress = (frameIdx * _delay) / duration;
+                                    var progress = (timestamp - _startTime) / duration;
+                                    frameIdx = Math.max(0, Math.round((timestamp - _startTime) / _delay));
 
                                     renderFrameCallback(progress, frameIdx);
-
                                     if (progress >= 1) {
                                         reset();
                                     }
 
-                                    frameIdx++;
+                                    _timerId = requestAnimationFrame(callback);
+                                } else {
+                                    _timerId = null;
                                 }
-                            }, _delay);
+                            }
+
+                            _timerId = requestAnimationFrame(callback);
                         }
                     }
                 };
