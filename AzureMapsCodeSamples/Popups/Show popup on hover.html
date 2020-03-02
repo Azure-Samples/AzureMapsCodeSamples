@@ -87,12 +87,13 @@
         function symbolHovered(e) {
             //Make sure the event occurred on a shape feature.
             if (e.shapes && e.shapes.length > 0) {
+                var properties = e.shapes[0].getProperties();
 
                 //Update the content and position of the popup.
                 popup.setOptions({
                     //Create the content of the popup.
                     content: `<div style="padding:10px;"><b>${properties.name}</b><br/>${properties.description}</div>`,
-                    position: e.shapes[0].getProperties(),
+                    position: e.shapes[0].getCoordinates(),
                     pixelOffset: [0, -18]
                 });
 

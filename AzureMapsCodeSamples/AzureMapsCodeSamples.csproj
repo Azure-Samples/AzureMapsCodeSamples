@@ -240,6 +240,8 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
+    <Content Include="Experimental\Display route sections.html" />
+    <Content Include="Services Module\Show traffic along route.html" />
     <Content Include="SiteResources\screenshots\Drag-and-drop-spatial-files-onto-map.png" />
     <Content Include="SiteResources\screenshots\Load-KML-onto-map.png" />
     <Content Include="SiteResources\screenshots\Load-spatial-data-%28simple%29.png" />
@@ -249,6 +251,7 @@
     <Content Include="SiteResources\screenshots\OGC-Web-Map-Service-explorer.png" />
     <Content Include="SiteResources\screenshots\Read-and-write-Well-Known-Text.png" />
     <Content Include="SiteResources\screenshots\Read-Well-Known-Text.png" />
+    <Content Include="SiteResources\screenshots\Show-traffic-along-route.png" />
     <Content Include="SiteResources\screenshots\Simple-data-layer-options.png" />
     <Content Include="SiteResources\screenshots\Simple-WFS-example.png" />
     <Content Include="SiteResources\screenshots\Spatial-data-gallery.png" />

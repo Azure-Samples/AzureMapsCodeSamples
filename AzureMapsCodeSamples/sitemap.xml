@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-02-28</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-03-02</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -140,6 +140,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Methods%20for%20geocoding%20multiple%20addresses.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Page%20through%20POI%20results.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Show%20traffic%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Snap%20points%20to%20logical%20route%20path.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20IO%20Module/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20IO%20Module/Drag%20and%20drop%20spatial%20files%20onto%20map.html</loc></url>

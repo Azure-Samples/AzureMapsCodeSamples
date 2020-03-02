@@ -1351,6 +1351,15 @@ var sampleList = [
 			created:'9/26/2018'
 		},
 		{
+			title:'Show traffic along route',
+			desc:'This sample shows how to retrieve traffic information along a route using the <b>sectionType</b> option, and color the sections on the map. ',
+			path:'Services%20Module/Show%20traffic%20along%20route.html',
+			sourcePath:'Services%20Module/Show%20traffic%20along%20route.html',
+			screenshot:'Show-traffic-along-route.png',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, route sections, traffic',
+			created:'3/2/2020'
+		},
+		{
 			title:'Snap points to logical route path',
 			desc:'This sample shows how to snap points to the road network to form a logical path using the Azure Maps rest directions service.',
 			path:'Services%20Module/Snap%20points%20to%20logical%20route%20path.html',
@@ -1363,7 +1372,7 @@ var sampleList = [
 },
 {
 	category:'Spatial IO Module',
-	desc:'Learn how to use the Spatial IO module to easily import and export spatial data and connect to OGC services.',
+	desc:'Learn how to use the Spatial IO module to easily read and write spatial data and connect to OGC services.',
 	samples: [
 		{
 			title:'Add a delimited file (CSV) to the map',
@@ -1951,4 +1960,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 201;
+}];var numberOfSamples = 202;
