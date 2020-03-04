@@ -82,11 +82,11 @@
 
                 //Add mouse events to change the mouse cursor when hovering over a cluster.
                 map.events.add('mouseenter', clusterBubbleLayer, function () {
-                    map.getCanvas().style.cursor = 'pointer';
+                    map.getCanvasContainer().style.cursor = 'pointer';
                 });
 
                 map.events.add('mouseleave', clusterBubbleLayer, function () {
-                    map.getCanvas().style.cursor = '';
+                    map.getCanvasContainer().style.cursor = 'grab';
                 });
 
                 //Add the clusterBubbleLayer and two additional layers to the map.

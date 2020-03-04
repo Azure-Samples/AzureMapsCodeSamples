@@ -6,7 +6,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -32,7 +32,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -58,7 +58,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -104,7 +104,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -120,7 +120,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -136,7 +136,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -152,7 +152,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -168,7 +168,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -184,7 +184,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -200,7 +200,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -216,7 +216,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -232,7 +232,7 @@
 		<IconStyle>
 			<scale>1.1</scale>
 			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+				<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 			</Icon>
 			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -260,7 +260,7 @@
 		<description>Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com
@@ -280,7 +280,7 @@ Accuracy Confidence: 2</description>
 				<color>ffffffff</color>
 				<scale>1.1</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
+					<href>https://maps.google.com/mapfiles/kml/paddle/red-blank_maps.png</href>
 				</Icon>
 				<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
 			</IconStyle>
@@ -296,7 +296,7 @@ Accuracy Confidence: 2</description>
 Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com
@@ -329,7 +329,7 @@ Accuracy Confidence: 2</description>
 Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com
@@ -361,7 +361,7 @@ Accuracy Confidence: 2</description>
 Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com
@@ -380,7 +380,7 @@ Accuracy Confidence: 2</name>
 Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com
@@ -413,7 +413,7 @@ Accuracy Confidence: 2</description>
 Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com
@@ -446,7 +446,7 @@ Accuracy Confidence: 2</description>
 Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com
@@ -479,7 +479,7 @@ Accuracy Confidence: 2</description>
 Name:  LiquidTelecoms
 Cable type: 
 ISO2:zw
-Source URL: http://www.flickr.com/photos/ssong/5937366085/
+Source URL: https://www.flickr.com/photos/ssong/5937366085/
 Notes: 
 Contributor:  Steve Song
 Contributor Email:  stephen.song@gmail.com

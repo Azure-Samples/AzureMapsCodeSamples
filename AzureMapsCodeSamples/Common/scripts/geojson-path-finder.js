@@ -4,13 +4,13 @@
 var invariant = require('@turf/invariant');
 var helpers = require('@turf/helpers');
 
-//http://en.wikipedia.org/wiki/Haversine_formula
+//https://en.wikipedia.org/wiki/Haversine_formula
 //http://www.movable-type.co.uk/scripts/latlong.html
 
 /**
  * Calculates the distance between two {@link Point|points} in degrees, radians,
  * miles, or kilometers. This uses the
- * [Haversine formula](http://en.wikipedia.org/wiki/Haversine_formula)
+ * [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula)
  * to account for global curvature.
  *
  * @name distance

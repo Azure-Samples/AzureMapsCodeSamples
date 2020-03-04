@@ -100,7 +100,10 @@
                         offset: [0, 1.2]
                     },
                     filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
-                }));                
+                }));     
+
+                //Calculate the initial route.
+                calculateRoute();
             });
         }
 
@@ -225,7 +228,7 @@
             </tr>
             <tr>
                 <td>End: </td>
-                <td><input type="text" id="endTbx" value="Redmond" /></td>
+                <td><input type="text" id="endTbx" value="San Diego" /></td>
             </tr>
             <tr>
                 <td></td>

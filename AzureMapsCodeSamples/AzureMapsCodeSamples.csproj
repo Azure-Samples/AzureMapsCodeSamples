@@ -241,6 +241,7 @@
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
     <Content Include="Experimental\Display route sections.html" />
+    <Content Include="Experimental\Draggable route line.html" />
     <Content Include="Services Module\Show traffic along route.html" />
     <Content Include="SiteResources\screenshots\Drag-and-drop-spatial-files-onto-map.png" />
     <Content Include="SiteResources\screenshots\Load-KML-onto-map.png" />

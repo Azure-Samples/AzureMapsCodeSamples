@@ -152,7 +152,7 @@ class SolarTerminatorSource extends atlas.source.DataSource {
     }
 
     private getSunEclipticPosition(julianDay: number): EclipticPosition {
-        //Compute the position of the Sun in ecliptic coordinates at julianDay. Following http://en.wikipedia.org/wiki/Position_of_the_Sun
+        //Compute the position of the Sun in ecliptic coordinates at julianDay. Following https://en.wikipedia.org/wiki/Position_of_the_Sun
 
         // Days since start of J2000.0
         var n = julianDay - 2451545.0;
@@ -173,7 +173,7 @@ class SolarTerminatorSource extends atlas.source.DataSource {
     }
 
     private getEclipticObliquity(julianDay: number): number {
-        // Following the short term expression in http://en.wikipedia.org/wiki/Axial_tilt#Obliquity_of_the_ecliptic_.28Earth.27s_axial_tilt.29
+        // Following the short term expression in https://en.wikipedia.org/wiki/Axial_tilt#Obliquity_of_the_ecliptic_.28Earth.27s_axial_tilt.29
 
         // Julian centuries since J2000.0
         var n = julianDay - 2451545.0;

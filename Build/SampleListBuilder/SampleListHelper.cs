@@ -95,7 +95,7 @@ namespace SampleListBuilder
                     new ExternalSample()
                     {
                         Title = "Azure IoT Real-time asset tracking workshop",
-                        Href = "http://aka.ms/iot-workshop/asset-tracking"
+                        Href = "https://aka.ms/iot-workshop/asset-tracking"
                     },
                     new ExternalSample()
                     {
