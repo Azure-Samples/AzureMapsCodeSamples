@@ -77,6 +77,10 @@
         function updateFreehandInterval(elm) {
             drawingManager.setOptions({ freehandInterval: parseInt(elm.options[elm.selectedIndex].value) });
         }
+
+        function updateShapeDragging(elm) {
+            drawingManager.setOptions({ shapeDraggingEnabled: elm.checked });
+        }
     </script>
     <style>
         .sidePanel {
@@ -146,6 +150,10 @@
                         <option>50</option>
                     </select>
                 </td>
+            </tr>
+            <tr title="Specifies if shapes should be draggable when editting.">
+                <td>Shape Dragging Enabled:</td>
+                <td><input type="checkbox" onclick="updateShapeDragging(this)" checked="checked" /></td>
             </tr>
         </table>
     </div>

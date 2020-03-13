@@ -65,11 +65,8 @@
         }
 
         function drawingComplete(shape) {
-            //TODO: Work around: unwrap timeout once race condition bug is fixed.
-            setTimeout(function () {
-                //Exit drawing mode.
-                drawingManager.setOptions({ mode: 'idle' });
-            }, 1);
+            //Exit drawing mode.
+            drawingManager.setOptions({ mode: 'idle' });
 
             measureShape(shape);
         }
@@ -86,17 +83,29 @@
                 msg = `Radius: ${r} mi<br/>Area: ${a} sq mi<br/>Perimeter: ${p} mi`;
             } else {
                 var g = shape.toJson().geometry;
+                var polygon;
 
                 switch (shape.getType()) {
                     case 'LineString':
                         var l = Math.round(atlas.math.getLengthOfPath(g.coordinates, 'miles') * 100) / 100;
-                        msg = `Length: ${l} mi`;
+                        msg += `Length: ${l} mi`;
+
+                        //Polygon's are rendered as lines when initially being drawn. 
+                        if (drawingManager.getOptions().mode === 'draw-polygon') {
+                            polygon = new atlas.data.Polygon(g.coordinates);
+                        }
                         break;
                     case 'Polygon':
+                        polygon = g;
+
                         var p = Math.round(atlas.math.getLengthOfPath(g.coordinates[0], 'miles') * 100) / 100;
-                        msg = `Area: ${atlas.math.getArea(g, 'squareMiles', 2)} sq mi<br/>Perimeter: ${p} mi`;
+                        msg = `Perimeter: ${p} mi`;
                         break;
-                }              
+                }   
+
+                if (polygon) {
+                    msg += `<br/>Area: ${atlas.math.getArea(polygon, 'squareMiles', 2)} sq mi`;
+                }
             }
 
             document.getElementById('measurementInfo').innerHTML = msg;

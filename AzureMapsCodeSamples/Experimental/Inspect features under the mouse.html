@@ -37,9 +37,14 @@
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
                 //Add the Style Control to the map.
-                map.controls.add(new atlas.control.StyleControl(), {
-                    position: "top-right"
-                });  
+                map.controls.add([
+                    new atlas.control.ZoomControl(),
+                    new atlas.control.PitchControl(),
+                    new atlas.control.CompassControl(),
+                    new atlas.control.StyleControl({ mapStyles: 'all' })
+                ], {
+                    position: 'top-right'
+                }); 
 
                 //Create a data source to load what should he highlighted.
                 datasource = new atlas.source.DataSource();

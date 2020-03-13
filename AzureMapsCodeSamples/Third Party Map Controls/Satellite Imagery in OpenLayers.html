@@ -28,10 +28,8 @@
                 layers: [
                     new ol.layer.Tile({
                         source: new ol.source.XYZ({
-                            url: 'https://atlas.microsoft.com/map/imagery/png?api-version=1&style=satellite&tileSize=256&view=Auto&zoom={z}&x={x}&y={y}' +
-                                '&subscription-key=' + subscriptionKey,
-                            attributions: `© ${new Date().getFullYear()} DigitalGlobe, Microsoft`,
-                            tileSize: 256
+                            url: `https://atlas.microsoft.com/map/imagery/png?api-version=1&style=satellite&tileSize=256&view=Auto&zoom={z}&x={x}&y={y}&subscription-key=${subscriptionKey}`,
+                            attributions: `© ${new Date().getFullYear()} DigitalGlobe, Microsoft`
                         })
                     })
                 ],

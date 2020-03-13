@@ -17,6 +17,25 @@
         //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
         var subscriptionKey = '<Your Azure Maps Key>';
 
+        /*
+            Tileset ID specifies which data layers to render in the tiles. Can be:
+                         
+            'microsoft.base.road',  
+            'microsoft.base.darkgrey',
+            'microsoft.imagery', 
+            'microsoft.weather.infrared.main', 
+            'microsoft.weather.radar.main', 
+            'microsoft.base.hybrid.road',
+            'microsoft.base.labels.road '
+        */
+        var tilesetId = 'microsoft.base.road';
+
+        //The language of labels. Supported languages: https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages
+        var language = 'en-US';
+
+        //The regional view of the map. Supported views: https://aka.ms/AzureMapsLocalizationViews
+        var view = 'Auto';
+
         require(["esri/config", "esri/layers/WebTileLayer", "esri/Map", "esri/views/MapView", "dojo/dom", "dojo/domReady!"],
             function (esriConfig, WebTileLayer, Map, MapView, dom) {
 
@@ -25,36 +44,15 @@
 
                 var map = new Map();
 
-                var view = new MapView({
+                var mapView = new MapView({
                     container: "myMap",
                     map: map
                 });
 
-                //Calculate the level of detail information. Each level has a resolution and scale that is half that of the previous level.
-                var lods = [
-                    { level: -1, resolution: 156543.033928, scale: 591657527.591555 }
-                ];
-
-                for (var i = 0; i <= 22; i++) {                    
-                    lods.push({ level: i, resolution: lods[i].resolution * 0.5, scale: lods[i].scale * 0.5 });
-                }
-
                 //Create a tile layer that points to the Azure Maps tiles.
-                //https://docs.microsoft.com/rest/api/location-based-services/render/getmaptile
                 var tiledLayer = new WebTileLayer({
-                    urlTemplate: "https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=512&view=Auto&zoom={level}&x={col}&y={row}&subscription-key=" + subscriptionKey,
-                    copyright: `© ${new Date().getFullYear()} TomTom, Microsoft`,
-                    tileInfo: {
-                        spatialReference: {
-                            wkid: 3857
-                        },
-                        size: 512,
-                        origin: {
-                            x: -20037508.34,
-                            y: 20037508.34
-                        },
-                        lods: lods
-                    }
+                    urlTemplate: `https://atlas.microsoft.com/map/tile?subscription-key=${subscriptionKey}&api-version=2.0&tilesetId=${tilesetId}&zoom={level}&x={col}&y={row}&tileSize=256&language=${language}&view=${view}`,
+                    copyright: `© ${new Date().getFullYear()} TomTom, Microsoft`
                 });
 
                 map.add(tiledLayer);

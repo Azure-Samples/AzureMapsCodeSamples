@@ -26,15 +26,31 @@
             map = L.map('myMap').setView([0, 0], 2);
 
             //Create a tile layer that points to the Azure Maps tiles.
-            L.tileLayer('https://atlas.microsoft.com/map/tile/png?api-version=1&layer=basic&style=main&tileSize=512&view=Auto&zoom={z}&x={x}&y={y}&subscription-key={subscriptionKey}', {
+            L.tileLayer('https://atlas.microsoft.com/map/tile?subscription-key={subscriptionKey}&api-version=2.0&tilesetId={tilesetId}&zoom={z}&x={x}&y={y}&tileSize=256&language={language}&view={view}', {
                 attribution: `© ${new Date().getFullYear()} TomTom, Microsoft`,
-                maxZoom: 22,
-                tileSize: 512,
-                zoomOffset: -1,
-                id: 'azuremaps.road',
-                crossOrigin: true,
-                subscriptionKey: '<Your Azure Maps Key>'
-				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                    
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                subscriptionKey: '<Your Azure Maps Key>',
+
+                /*
+                    Tileset ID specifies which data layers to render in the tiles. Can be:
+                                         
+                    'microsoft.base.road',  
+                    'microsoft.base.darkgrey',
+                    'microsoft.imagery', 
+                    'microsoft.weather.infrared.main', 
+                    'microsoft.weather.radar.main', 
+                    'microsoft.base.hybrid.road',
+                    'microsoft.base.labels.road '
+                */
+                tilesetId: 'microsoft.base.road',
+
+                //The language of labels. Supported languages: https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages
+                language: 'en-US',
+
+                //The regional view of the map. Supported views: https://aka.ms/AzureMapsLocalizationViews
+                view: 'Auto'
+
             }).addTo(map);
         }
     </script>
@@ -44,8 +60,7 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">Raster Tiles in Leaflet JS</h1></legend>
-        This sample shows how to render Azure Maps Raster Tiles in the <a href="http://leafletjs.com/">Leaflet JS map control</a>. <br/>
-        Tip: Use 512 tiles instead of 256 tiles as it generates 1/4th the tile requests.
+        This sample shows how to render Azure Maps Raster Tiles in the <a href="http://leafletjs.com/">Leaflet JS map control</a>. 
     </fieldset>
 </body>
 </html>

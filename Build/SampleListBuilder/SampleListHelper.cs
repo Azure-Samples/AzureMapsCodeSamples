@@ -160,6 +160,18 @@ namespace SampleListBuilder
             },
             new ExternalSampleCategory()
             {
+                Title = "React",
+                Samples = new List<ExternalSample>()
+                {
+                    new ExternalSample()
+                    {
+                        Title = "Azure Maps React Component - A react wrapper for the Azure Maps control.",
+                        Href = "https://github.com/WiredSolutions/react-azure-maps"
+                    }
+                }
+            },
+            new ExternalSampleCategory()
+            {
                 Title = "Vue.js",
                 Samples = new List<ExternalSample>()
                 {

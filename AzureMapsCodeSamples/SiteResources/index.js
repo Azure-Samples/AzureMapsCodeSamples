@@ -1,6 +1,9 @@
 ﻿var specialCharRx = /[-,]*/;
 
 window.onload = function () {
+    const observer = lozad();
+    observer.observe();
+
     //Ensure that user is on https endpoint, if not redirect them. Ignore if on localhost or file path.
     if (location.protocol !== 'https:' && location.href.indexOf('//localhost') === -1 && location.href.indexOf('file:///' === -1)) {
         location.href = 'https:' + window.location.href.substring(window.location.protocol.length);

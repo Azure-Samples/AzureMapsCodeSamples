@@ -107,6 +107,11 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
         }
         super.setOptions(newBaseOptions);
     }
+    /** Force the layer to refresh and update. */
+    update() {
+        this.clearCache(true);
+        this.updateMarkers();
+    }
     /***************************
      * Public override methods
      ***************************/
@@ -264,5 +269,6 @@ class HtmlMarkerLayer extends atlas.layer.BubbleLayer {
  * //TODO: Future improvements
  *  - Add support for layer level events
  *  - Add support for points in shapes (i.e. polygons), similar to how symbol layer works.
+ *  - Investigate zoom level 0 issues.
  */ 
 //# sourceMappingURL=HtmlMarkerLayer.js.map

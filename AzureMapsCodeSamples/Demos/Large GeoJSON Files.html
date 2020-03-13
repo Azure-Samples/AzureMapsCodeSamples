@@ -17,9 +17,9 @@
     <script type='text/javascript'>
         var map, datasource, infopane, completed = 0, featureCnt = 0, totalFileSize = 0;
         var geoJsonData = [
-            { name: 'Parcel Boundaries', url: '../Common/data/geojson/parcels.json', fileSizeMB: 80 },
-            { name: 'Streets', url: '../Common/data/geojson/streets.json', fileSizeMB: 16 },
-            { name: 'Addresses', url: '../Common/data/geojson/address.json', fileSizeMB: 40 }
+            { name: 'Parcel Boundaries', url: '../Common/data/geojson/parcels.json', fileSizeMB: 80, geomType: 'polygons' },
+            { name: 'Streets', url: '../Common/data/geojson/streets.json', fileSizeMB: 16, geomType: 'lines' },
+            { name: 'Addresses', url: '../Common/data/geojson/address.json', fileSizeMB: 41, geomType: 'points' }
         ];
 
         function GetMap() {
@@ -92,15 +92,18 @@
             //Download the GeoJSON feed.
             //Load the earthquake data.
             datasource.importDataFromUrl(geoJsonFeed.url).then(function () {
-                infopane.innerHTML += 'Retrieved ' + features.length.toLocaleString() + ' ' + features[0].geometry.type + 's (' + geoJsonFeed.fileSizeMB + 'MB)<br/>';
 
-                featureCnt += features.length;
+                var numFeatures = datasource.getShapes().length;
+
+                infopane.innerHTML += `Retrieved ${(numFeatures - featureCnt).toLocaleString()} ${geoJsonFeed.geomType} (${geoJsonFeed.fileSizeMB} MB)<br/>`;
+
+                featureCnt = numFeatures;
                 totalFileSize += geoJsonFeed.fileSizeMB;
 
                 completed++;
 
                 if (completed === geoJsonData.length) {
-                    infopane.innerHTML += 'Rendering ' + featureCnt.toLocaleString() + ' features (' + totalFileSize + 'MB)...';
+                    infopane.innerHTML += `Rendering ${featureCnt.toLocaleString()} features (${totalFileSize} MB)...`;
                 }
             });
         }

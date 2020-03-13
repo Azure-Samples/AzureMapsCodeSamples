@@ -102,11 +102,8 @@
         }
 
         function searchPolygon(searchArea) {
-            //TODO: Work around: unwrap timeout once race condition bug is fixed.
-            setTimeout(function () {
-                //Exit drawing mode.
-                drawingManager.setOptions({ mode: 'idle' });
-            }, 1);
+            //Exit drawing mode.
+            drawingManager.setOptions({ mode: 'idle' });
 
             var selectedPoints = [];
             var poly = searchArea.toJson();

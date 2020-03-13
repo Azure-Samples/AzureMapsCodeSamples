@@ -3,13 +3,16 @@
 
 var snappingTolerance = 1000; //Max distance from a line in meters in which a point will snap to.
 
+//A flag indicating if paths should cross anti-meridian if it is shorter. If true, will calculate a mid-point between the coordinates that crosses the anti-meridian.
+var crossAntiMeridian = true;
+
 var geoJsonFiles = {
     '':'',
-    'Ipswich (10.7MB)': '/Common/data/geojson/route-networks/Ipswich Road Network.geojson',
-    'Montreal (32.5MB)': '/Common/data/geojson/route-networks/montreal_roads.json',
-    'Niagra Region (18MB)': '/Common/data/geojson/route-networks/niagra_roads.json',
-    'San Diego Transit (3.7MB)': '/Common/data/geojson/route-networks/transit_routes_datasd.geojson',
-    'Martime trade routes (600kb)': '/Common/data/geojson/route-networks/maritime-trade-routes.geojson'
+    'Ipswich (5.9MB)': '/Common/data/geojson/route-networks/Ipswich-Road-Network.json',
+    'Montreal (19.4MB)': '/Common/data/geojson/route-networks/montreal_roads.json',
+    'Niagra Region (10.7MB)': '/Common/data/geojson/route-networks/niagra_roads.json',
+    'San Diego Transit (3MB)': '/Common/data/geojson/route-networks/transit_routes_datasd.geojson',
+    'Martime trade routes (2.2MB)': '/Common/data/geojson/route-networks/maritime-trade-routes.geojson'
 };
 
 function GetMap() {
@@ -187,7 +190,7 @@ function loadGeoJSON() {
 
 //Calculates a route between the from/to positions.
 function calculateRoute() {
-    if (routeLine) {
+    if (routeLine && routeDataSource.getShapeById(routeLine.getId())) {
         routeDataSource.remove(routeLine);
         routeLine = null;
     }
@@ -227,17 +230,99 @@ function calculateRoute() {
     document.getElementById('fromTbx').value = positionToString(fromPos);
     document.getElementById('toTbx').value = positionToString(toPos);
 
+    var path;
+
+    //Check to see if path should cross anti-meridian.
+    if (crossAntiMeridian && Math.abs(fromPos[0] - toPos[0]) > 180) {
+        var l1, l2;
+
+        var rightMostPos = toPos;
+        var leftMostPos = fromPos;
+        var rightVertice = toVertice;
+        var leftVertice = fromVertice;
+
+        if (fromPos[0] > toPos[0]) {
+            rightMostPos = fromPos;
+            leftMostPos = toPos;
+            rightVertice = fromVertice;
+            leftVertice = toVertice;
+        }
+
+        //Wrap the left most coordinate to a value between 180 and 540, then split on anti-meridian.
+        var fc = turf.lineSplit(
+            //Line to split.
+            turf.lineString([rightMostPos, [leftMostPos[0] + 360, leftMostPos[1]]]),
+
+            //Line to split with.
+            turf.lineString([[180, 90], [180, -90]]));
+
+        //Handle right most part of path.
+        var midPos = fc.features[0].geometry.coordinates[1];
+        
+        var midVertice1 = snapToNearestMeridianVertice(midPos);
+
+        midPos[0] = -180;
+
+        var midVertice2 = snapToNearestMeridianVertice(midPos);
+
+        //Get the vertice closest to the anti-meridian.
+        var midVertice = midVertice1;
+
+        if (!midVertice1 && !midVertice2) {
+            //Unable to calculate mid point vertice, fallback to standard calculation. 
+            calculateSimplePath(fromVertice, toVertice, fromPos, toPos);
+            return;
+        }
+
+        path = pathFinder.findPath(rightVertice, midVertice1);
+
+        if (path) {
+            l1 = createRouteLine(path.path, rightMostPos, midPos, false, true);
+        }
+
+        path = pathFinder.findPath(midVertice2, leftVertice);
+
+        if (path) {
+            l2 = createRouteLine(path.path, midPos, leftMostPos, true, false);
+        }
+
+        if (l1 && l2) {
+            var path1 = l1.getCoordinates();    //Ends with longitude of 180.
+            var path2 = l2.getCoordinates();    //Starts with longitude of -180.
+
+            //Ensure the ends of the lines meet at an average latitude on the anti-meridian.
+            var avgLat = (path1[path1.length - 1][1] + path2[0][1]) / 2;
+            
+            path1.push([180, avgLat]);
+            path2.unshift([-180, avgLat]);
+            
+            //Create a multi-linestring from the two lines.
+            routeLine = new atlas.Shape(new atlas.data.MultiLineString([
+                path1, path2
+            ]));
+
+            routeDataSource.add(routeLine);
+        } else {
+            //Unable to calculate path, fallback to standard calculation. 
+            calculateSimplePath(fromVertice, toVertice, fromPos, toPos);
+        }
+    } else {
+        calculateSimplePath(fromVertice, toVertice, fromPos, toPos);
+    }
+}
+
+//Calculate a path, ignore anti-meridian.
+function calculateSimplePath(fromVertice, toVertice, fromPos, toPos) {
     var path = pathFinder.findPath(fromVertice, toVertice);
 
     if (path) {
-        routeDataSource.add(createRouteLine(path.path, fromVertice, toVertice, fromPos, toPos));
+        routeDataSource.add(createRouteLine(path.path, fromPos, toPos));
     }
 }
 
 //Snaps a position to the route network. 
 //Tolerance is a min distance in meters that point needs to be away from a line in order for it to be allowed to snap.
 function snapToRouteNetwork(position, tolerance) {
-    var nearestPoint = null;
     tolerance = tolerance || snappingTolerance;
 
     if (geojson) {
@@ -275,12 +360,44 @@ function snapToVertice(position) {
     if (vertices) {
         return turf.nearestPoint(new atlas.data.Point(position), vertices);
     }
+
+    return null;
+}
+
+//Finds the closest vertice in the route network to a position, but on the correct side of the anti-meridian.
+function snapToNearestMeridianVertice(position) {
+    if (vertices) {
+        var minDis = Number.MAX_VALUE, d, closestVertice = null, p;
+
+        var isNeg = position[0] < 0;
+
+        for (var i = 0, len = vertices.features.length; i < len; i++) {
+            p = vertices.features[i].geometry.coordinates;
+
+            //Only look at positions that are on the same longitudinal hemisphere (positive or negative).
+            if ((isNeg && p[0] < -179.9) || (!isNeg && p[0] >= 179.9)) {
+                d = atlas.math.getDistanceTo(position, p);
+
+                if (d < minDis) {
+                    closestVertice = vertices.features[i];
+                    minDis = d;
+                }
+            }
+        }
+
+        if (!closestVertice) {
+            return snapToVertice(position);
+        }
+        
+        return closestVertice;
+    }
+
+    return null;
 }
 
 //Creates a route line from the path information. 
 //Tries to clip / extend the line such that it aligns with the from / to positions. 
-function createRouteLine(path, fromVertice, toVertice, fromPoint, toPoint) {
-    var pos;
+function createRouteLine(path, fromPoint, toPoint, skipFromSnapping, skipToSnapping) {
 
     if (path.length === 0) {
         return new atlas.data.LineString([fromPoint, toPoint]);
@@ -299,7 +416,7 @@ function createRouteLine(path, fromVertice, toVertice, fromPoint, toPoint) {
     var buffer = turf.buffer(line, 1, { units: 'meters' });
     var d1, d2;
 
-    if (turf.pointsWithinPolygon([fromPoint], buffer).features.length === 0) {
+    if (!skipFromSnapping && turf.pointsWithinPolygon([fromPoint], buffer).features.length === 0) {
         d1 = turf.distance(fromPoint, path[0]);
         d2 = turf.distance(fromPoint, path[path.length - 1]);
 
@@ -312,7 +429,7 @@ function createRouteLine(path, fromVertice, toVertice, fromPoint, toPoint) {
         }
     }
 
-    if (turf.pointsWithinPolygon([toPoint], buffer).features.length === 0) {
+    if (!skipToSnapping && turf.pointsWithinPolygon([toPoint], buffer).features.length === 0) {
         d1 = turf.distance(toPoint, path[0]);
         d2 = turf.distance(toPoint, path[path.length - 1]);
 

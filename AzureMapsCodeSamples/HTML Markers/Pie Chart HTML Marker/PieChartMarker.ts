@@ -70,6 +70,10 @@ class PieChartMarker extends atlas.HtmlMarker {
     private tooltip: HTMLElement;
     private tooltipCallback: (marker: PieChartMarker, sliceIdx: number) => string;
 
+    private static _cssStylesLoaded = false;
+    private static _pieChartTooltipCss = '{background: white;color:black;border: 1px solid black;border-radius: 5px;padding: 5px;}';
+    private static _pieChartTextCss = '{ font-size:16px;font-family:arial;fill:#00000;font-weight:bold; }';
+
     /********************
     * Constructor
     ********************/
@@ -87,9 +91,8 @@ class PieChartMarker extends atlas.HtmlMarker {
         });
 
         this.tooltipCallback = tooltipCallback;
-        
-        this.addCssClassIfDoesntExist('pieChartTooltip', '{background: white;border: 1px solid black;border-radius: 5px;padding: 5px;}');
-        this.addCssClassIfDoesntExist('pieChartText', '{font-size:16px;font-family:arial;fill:#00000;font-weight:bold;}');
+
+        this.loadCssStyles();
 
         this.tooltip = document.getElementById('pieChartTooltip');
 
@@ -317,11 +320,20 @@ class PieChartMarker extends atlas.HtmlMarker {
         return obj3;
     }
 
-    private addCssClassIfDoesntExist(className: string, style: string) {
-        if (!document.getElementsByClassName(className).length) {
+    /**
+     * Add css classes for the pie chart tooltips if they aren't already added to the page.
+     */
+    private loadCssStyles() {
+        if (!PieChartMarker._cssStylesLoaded) {
             var cssClass = document.createElement('style');
-            cssClass.innerHTML = '.' + className + style;
+            cssClass.innerHTML = '.pieChartTooltip' + PieChartMarker._pieChartTooltipCss;
             document.body.appendChild(cssClass);
+
+            cssClass = document.createElement('style');
+            cssClass.innerHTML = '.pieChartText' + PieChartMarker._pieChartTextCss;
+            document.body.appendChild(cssClass);
+
+            PieChartMarker._cssStylesLoaded = true;
         }
     }
 

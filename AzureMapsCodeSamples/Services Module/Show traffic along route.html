@@ -70,7 +70,19 @@
                         ['get', 'magnitudeOfDelay'],                        
                         3, 'red',
                         2, 'orange',
-                        'GreenYellow'
+                                                
+                        [
+                            'match',
+                            ['get', 'simpleCategory'],
+
+                            //If the category of the section is a Jam, make it orange.
+                            'JAM', 'orange',
+
+                            //If the category of the section is a road closure, make it black.
+                            'ROAD_CLOSURE', 'black',
+
+                            'GreenYellow'
+                        ]
                     ],
                     strokeWidth: 7,
                     lineJoin: 'round',

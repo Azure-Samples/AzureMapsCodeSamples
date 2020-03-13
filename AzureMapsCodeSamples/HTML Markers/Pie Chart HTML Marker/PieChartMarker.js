@@ -61,8 +61,7 @@ class PieChartMarker extends atlas.HtmlMarker {
             pixelOffset: [0, 0]
         });
         this.tooltipCallback = tooltipCallback;
-        this.addCssClassIfDoesntExist('pieChartTooltip', '{background: white;border: 1px solid black;border-radius: 5px;padding: 5px;}');
-        this.addCssClassIfDoesntExist('pieChartText', '{font-size:16px;font-family:arial;fill:#00000;font-weight:bold;}');
+        this.loadCssStyles();
         this.tooltip = document.getElementById('pieChartTooltip');
         if (!this.tooltip) {
             this.tooltip = document.createElement('div');
@@ -247,11 +246,18 @@ class PieChartMarker extends atlas.HtmlMarker {
         }
         return obj3;
     }
-    addCssClassIfDoesntExist(className, style) {
-        if (!document.getElementsByClassName(className).length) {
+    /**
+     * Add css classes for the pie chart tooltips if they aren't already added to the page.
+     */
+    loadCssStyles() {
+        if (!PieChartMarker._cssStylesLoaded) {
             var cssClass = document.createElement('style');
-            cssClass.innerHTML = '.' + className + style;
+            cssClass.innerHTML = '.pieChartTooltip' + PieChartMarker._pieChartTooltipCss;
             document.body.appendChild(cssClass);
+            cssClass = document.createElement('style');
+            cssClass.innerHTML = '.pieChartText' + PieChartMarker._pieChartTextCss;
+            document.body.appendChild(cssClass);
+            PieChartMarker._cssStylesLoaded = true;
         }
     }
     static __showTooltip(evt, text) {
@@ -276,6 +282,9 @@ class PieChartMarker extends atlas.HtmlMarker {
         PieChartMarker.__timeoutHandler = 0;
     }
 }
+PieChartMarker._cssStylesLoaded = false;
+PieChartMarker._pieChartTooltipCss = '{background: white;color:black;border: 1px solid black;border-radius: 5px;padding: 5px;}';
+PieChartMarker._pieChartTextCss = '{ font-size:16px;font-family:arial;fill:#00000;font-weight:bold; }';
 /********************
  * Static Methods
  ********************/

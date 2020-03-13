@@ -21,23 +21,34 @@
             map = new Cesium.Viewer('myMap', {
                 imageryProvider: new Cesium.UrlTemplateImageryProvider({
                     url: new Cesium.Resource({
-                        url: 'https://atlas.microsoft.com/map/tile/png?zoom={z}&x={x}&y={y}',
+                        url: 'https://atlas.microsoft.com/map/tile?api-version=2.0&zoom={z}&x={x}&y={y}&tileSize=256',
                         queryParameters: {
-                            'api-version': '1.0',
-                            tileSize: 512,  //can be 256 or 512.
-                            layer: 'basic', //Can be 'basic', 'hybrid' or 'labels'.
-                            style: 'main',
+
+                            /*
+                                Tileset ID specifies which data layers to render in the tiles. Can be:
+                                                     
+                                'microsoft.base.road',  
+                                'microsoft.base.darkgrey',
+                                'microsoft.imagery', 
+                                'microsoft.weather.infrared.main', 
+                                'microsoft.weather.radar.main', 
+                                'microsoft.base.hybrid.road',
+                                'microsoft.base.labels.road '
+                            */
+                            tilesetId: 'microsoft.base.road',
+
+                            //The language of labels. Supported languages: https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages
                             language: 'en-US',
-							view: 'Auto',
+
+                            //The regional view of the map. Supported views: https://aka.ms/AzureMapsLocalizationViews
+                            view: 'Auto',
 							
 							//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
                             'subscription-key': '<Your Azure Maps Key>' 				
                         }
                     }),
                     credit: new Cesium.Credit(`© ${new Date().getFullYear()} TomTom, Microsoft`, true),
-                    maximumLevel: 22,
-                    tileWidth: 512,
-                    tileHeight: 512,
+                    maximumLevel: 18,
                     enablePickFeatures: false
                 }),
                 baseLayerPicker: false

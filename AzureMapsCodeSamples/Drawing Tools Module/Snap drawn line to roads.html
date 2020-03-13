@@ -83,11 +83,8 @@
         }
 
         function snapLineToRoute(line) {
-            //TODO: Work around: unwrap timeout once race condition bug is fixed.
-            setTimeout(function () {
-                //Exit drawing mode.
-                drawingManager.setOptions({ mode: 'idle' });
-            }, 1);
+            //Exit drawing mode.
+            drawingManager.setOptions({ mode: 'idle' });
 
             //Get the coordinates from the drawn line.
             var lineCoords = line.getCoordinates();

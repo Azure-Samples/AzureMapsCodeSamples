@@ -87,7 +87,7 @@
         }
 
         function drawingModeChanged(mode) {
-            //Clear the map and drawing canvas when the user enters into a drawing mode.
+            //Clear the drawing canvas when the user enters into a drawing mode.
             if (mode.startsWith('draw')) {
                 popup.close();
                 datasource.clear();
@@ -96,11 +96,8 @@
         }
 
         function searchPolygon(searchArea) {
-            //TODO: Work around: unwrap timeout once race condition bug is fixed.
-            setTimeout(function () {
-                //Exit drawing mode.
-                drawingManager.setOptions({ mode: 'idle' });
-            }, 1);
+            //Exit drawing mode.
+            drawingManager.setOptions({ mode: 'idle' });
 
             //Get the POI query value. 
             var query = document.getElementById('queryTbx').value;
