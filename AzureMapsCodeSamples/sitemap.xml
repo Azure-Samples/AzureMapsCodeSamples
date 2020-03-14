@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-03-10</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-03-14</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -96,6 +96,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20Events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20Localization.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20style%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20user%20interaction%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20Overview%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps%20in%20Different%20Lanaguages.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps.html</loc></url>
@@ -140,6 +141,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Methods%20for%20geocoding%20multiple%20addresses.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Page%20through%20POI%20results.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Search%20for%20boundaries.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Show%20traffic%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Snap%20points%20to%20logical%20route%20path.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20IO%20Module/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html</loc></url>
@@ -170,6 +172,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Introduction%20to%20spatial%20math.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Simple%20Cardinal%20Spline.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Voronoi%20diagram%20generation.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/GeoJSONRouting/Route%20along%20GeoJSON%20network.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html</loc></url>
@@ -186,6 +189,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Symbol%20layer%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Symbol%20Layer%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Text%20format%20with%20inline%20image.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS%204.6.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Cesium%20JS.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html</loc></url>

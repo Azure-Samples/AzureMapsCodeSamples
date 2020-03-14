@@ -94,6 +94,7 @@
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Bubble Layer\Cluster aggregates.html" />
     <None Include="Common\data\SpatialCSV\Airports.pipe" />
+    <Content Include="Common\data\SpatialCSV\Chicago_Police_Stations.csv" />
     <None Include="Common\data\SpatialCSV\WAEcologicalSites.tab" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
@@ -101,7 +102,7 @@
     <Content Include="Common\data\geojson\route-networks\niagra_roads.json" />
     <Content Include="Common\data\geojson\route-networks\transit_routes_datasd.geojson" />
     <Content Include="Common\data\geojson\route-networks\maritime-trade-routes.geojson" />
-    <Content Include="Common\data\SpatialCSV\Chicago Narcotics.csv" />
+    <Content Include="Common\data\SpatialCSV\Chicago_Narcotics.csv" />
     <Content Include="Common\CorsEnabledProxyService.ashx" />
     <Content Include="Common\data\geojson\route-networks\Ipswich-Road-Network.json" />
     <Content Include="Common\data\geojson\GpsTrace.json" />
@@ -153,6 +154,7 @@
     <Content Include="Common\images\icons\ranger_station.png" />
     <Content Include="Common\images\icons\restaurant_pin.png" />
     <Content Include="Common\images\icons\school_pin.png" />
+    <Content Include="Common\images\icons\WiFiIcon.png" />
     <Content Include="Common\images\image-overlays\Chicago_1872_Map.png" />
     <Content Include="Common\images\fill-patterns\fill-checker-blue.png" />
     <Content Include="Common\images\fill-patterns\fill-checker-darkblue.png" />
@@ -243,6 +245,14 @@
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
     <Content Include="Experimental\Display route sections.html" />
     <Content Include="Experimental\Draggable route line.html" />
+    <Content Include="Experimental\Multiple isochrones.html" />
+    <Content Include="Services Module\Search for boundaries.html" />
+    <Content Include="Map\Map user interaction options.html" />
+    <Content Include="SiteResources\screenshots\Map-user-interaction-options.png" />
+    <Content Include="SiteResources\screenshots\Search-for-boundaries.png" />
+    <Content Include="SiteResources\screenshots\Voronoi-diagram-analysis.png" />
+    <Content Include="Symbol Layer\Text format with inline image.html" />
+    <Content Include="Spatial Math\Voronoi diagram generation.html" />
     <Content Include="Services Module\Show traffic along route.html" />
     <Content Include="SiteResources\screenshots\Drag-and-drop-spatial-files-onto-map.png" />
     <Content Include="SiteResources\screenshots\Load-KML-onto-map.png" />
@@ -258,6 +268,7 @@
     <Content Include="SiteResources\screenshots\Simple-WFS-example.png" />
     <Content Include="SiteResources\screenshots\Spatial-data-gallery.png" />
     <Content Include="SiteResources\screenshots\Spatial-data-write-options.png" />
+    <Content Include="SiteResources\screenshots\Text-format-with-inline-imge.png" />
     <Content Include="SiteResources\screenshots\WFS-filter-example.png" />
     <Content Include="SiteResources\screenshots\WFS-service-explorer.png" />
     <Content Include="Spatial IO Module\OGC map layer options.html" />

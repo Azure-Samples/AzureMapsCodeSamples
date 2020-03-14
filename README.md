@@ -16,7 +16,7 @@ A collection of over a hundred code samples for the [Azure Maps](https://azure.c
 
 [![screenshot](Images/screenshot.png)](https://azuremapscodesamples.azurewebsites.net/)
 
-Code samples for the government version of Azure can be found [here](https://github.com/Azure-Samples/AzureMapsGovCloudCodeSamples)
+Code samples for the Government Cloud version of Azure can be found [here](https://github.com/Azure-Samples/AzureMapsGovCloudCodeSamples)
 
 ## Related Projects
 

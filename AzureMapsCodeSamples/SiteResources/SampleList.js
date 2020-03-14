@@ -9,7 +9,7 @@ var sampleList = [
 			path:'Animations/Animate%20a%20Choropleth%20Map.html',
 			sourcePath:'Animations/Animate%20a%20Choropleth%20Map.html',
 			screenshot:'Animate-a-Choropleth-Map.png',
-			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, county, population, data-driven, data driven styling',
+			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling',
 			created:'10/8/2018'
 		},
 		{
@@ -135,7 +135,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20a%20LineString.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-a-LineString.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, line, linestring',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, line, linestring',
 			created:'7/9/2019'
 		},
 		{
@@ -144,7 +144,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20a%20point.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-a-point.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
 			created:'6/26/2019'
 		},
 		{
@@ -153,7 +153,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20multiple%20points.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-multiple-points.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
 			created:'6/26/2019'
 		},
 		{
@@ -162,7 +162,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Animate%20point%20along%20path.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Animate-point-along-path.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
 			created:'7/9/2019'
 		},
 		{
@@ -171,7 +171,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Drop%20multiple%20symbols%20animation.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Drop-multiple-symbols-animation.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
 			created:'7/12/2019'
 		},
 		{
@@ -180,7 +180,7 @@ var sampleList = [
 			path:'Custom%20Modules/Animation%20module/Drop%20symbol%20animation.html',
 			sourcePath:'Custom%20Modules/Animation%20module',
 			screenshot:'Drop-symbol-animation.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, point',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
 			created:'7/12/2019'
 		},
 		{
@@ -261,7 +261,7 @@ var sampleList = [
 			path:'Custom%20Modules/Snakeline/Animate%20a%20snakeline.html',
 			sourcePath:'Custom%20Modules/Snakeline',
 			screenshot:'Animate-a-snakeline.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, snakeline, animation, animate, linestring',
+			keywords:'microsoft maps, map, gis, api, sdk, snakeline, animation, animate, animations, linestring',
 			created:'5/13/2019'
 		},
 		{
@@ -630,7 +630,7 @@ var sampleList = [
 			path:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
 			sourcePath:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
 			screenshot:'CSS-Styled-HTML-Marker.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation, animations',
 			created:'11/28/2018'
 		},
 		{
@@ -918,7 +918,7 @@ var sampleList = [
 			path:'Map/Map%20Localization.html',
 			sourcePath:'Map/Map%20Localization.html',
 			screenshot:'Map-Localization.png',
-			keywords:'microsoft maps, map, gis, api, sdk, language, culture, localization, user region',
+			keywords:'microsoft maps, map, gis, api, sdk, language, culture, localization, user region, map options',
 			created:'5/4/2018'
 		},
 		{
@@ -927,8 +927,17 @@ var sampleList = [
 			path:'Map/Map%20style%20options.html',
 			sourcePath:'Map/Map%20style%20options.html',
 			screenshot:'Map-style-options.png',
-			keywords:'microsoft maps, map, gis, api, sdk, style, logo, lighting',
+			keywords:'microsoft maps, map, gis, api, sdk, style, logo, lighting, map options',
 			created:'11/26/2019'
+		},
+		{
+			title:'Map user interaction options',
+			desc:'This sample shows how the different user interaction options of the map to modify how the map reacts when the user interacts with it.',
+			path:'Map/Map%20user%20interaction%20options.html',
+			sourcePath:'Map/Map%20user%20interaction%20options.html',
+			screenshot:'Map-user-interaction-options.png',
+			keywords:'microsoft maps, map, gis, api, sdk, interact, map options, keyboard, mouse, pan, zoom',
+			created:'3/13/2020'
 		},
 		{
 			title:'Mini Overview Map',
@@ -963,7 +972,7 @@ var sampleList = [
 			path:'Map/Render%20world%20copies.html',
 			sourcePath:'Map/Render%20world%20copies.html',
 			screenshot:'Render-world-copies.png',
-			keywords:'microsoft maps, map, gis, api, sdk, map, worldwrap',
+			keywords:'microsoft maps, map, gis, api, sdk, map, worldwrap, map options',
 			created:'6/24/2019'
 		},
 		{
@@ -1351,6 +1360,15 @@ var sampleList = [
 			created:'9/26/2018'
 		},
 		{
+			title:'Search for boundaries',
+			desc:'This sample shows how to use the Services module for Azure Maps to search for locations that have boundaries and display them on the map. Azure Maps provides boundary data for administrative areas such as states, countries, cities, postal codes, and other boundaries such as industrial areas.',
+			path:'Services%20Module/Search%20for%20boundaries.html',
+			sourcePath:'Services%20Module/Search%20for%20boundaries.html',
+			screenshot:'Search-for-boundaries.png',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, geolocation, search, geocode, geocoding, adminstrative boundaries, boundary, boundaries, polygon',
+			created:'3/13/2020'
+		},
+		{
 			title:'Show traffic along route',
 			desc:'This sample shows how to retrieve traffic information along a route using the <b>sectionType</b> option, and color the sections on the map. ',
 			path:'Services%20Module/Show%20traffic%20along%20route.html',
@@ -1633,6 +1651,15 @@ var sampleList = [
 			created:'1/25/2019'
 		},
 		{
+			title:'Voronoi diagram analysis',
+			desc:'This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates. ',
+			path:'Spatial%20Math/Voronoi%20diagram%20generation.html',
+			sourcePath:'Spatial%20Math/Voronoi%20diagram%20generation.html',
+			screenshot:'Voronoi-diagram-analysis.png',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, voronoi, voronoi diagram',
+			created:'3/14/2020'
+		},
+		{
 			title:'Route along GeoJSON network',
 			desc:'This sample shows how to calculate the shortest route path between two points on a network of lines stored in a GeoJSON file. ',
 			path:'Spatial%20Math/GeoJSONRouting/Route%20along%20GeoJSON%20network.html',
@@ -1781,6 +1808,15 @@ var sampleList = [
 			screenshot:'Symbol-layer-with-built-in-icon-template.png',
 			keywords:'microsoft maps, map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
 			created:'7/5/2019'
+		},
+		{
+			title:'Text format with inline image',
+			desc:'This sample shows how to use the text format expression to create a string with an inline icon with the symbol layers textField option.',
+			path:'Symbol%20Layer/Text%20format%20with%20inline%20image.html',
+			sourcePath:'Symbol%20Layer/Text%20format%20with%20inline%20image.html',
+			screenshot:'',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
+			created:'3/13/2020'
 		},
 	]
 },
@@ -1960,4 +1996,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 202;
+}];var numberOfSamples = 206;
