@@ -1814,7 +1814,7 @@ var sampleList = [
 			desc:'This sample shows how to use the text format expression to create a string with an inline icon with the symbol layers textField option.',
 			path:'Symbol%20Layer/Text%20format%20with%20inline%20image.html',
 			sourcePath:'Symbol%20Layer/Text%20format%20with%20inline%20image.html',
-			screenshot:'',
+			screenshot:'Text-format-with-inline-image.png',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
 			created:'3/13/2020'
 		},

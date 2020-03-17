@@ -93,6 +93,7 @@
     <Content Include="Animations\Simple Symbol Animation.html" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Bubble Layer\Cluster aggregates.html" />
+    <Content Include="Common\data\indoor\tutorial\fixtures.zip" />
     <None Include="Common\data\SpatialCSV\Airports.pipe" />
     <Content Include="Common\data\SpatialCSV\Chicago_Police_Stations.csv" />
     <None Include="Common\data\SpatialCSV\WAEcologicalSites.tab" />
@@ -268,7 +269,7 @@
     <Content Include="SiteResources\screenshots\Simple-WFS-example.png" />
     <Content Include="SiteResources\screenshots\Spatial-data-gallery.png" />
     <Content Include="SiteResources\screenshots\Spatial-data-write-options.png" />
-    <Content Include="SiteResources\screenshots\Text-format-with-inline-imge.png" />
+    <Content Include="SiteResources\screenshots\Text-format-with-inline-image.png" />
     <Content Include="SiteResources\screenshots\WFS-filter-example.png" />
     <Content Include="SiteResources\screenshots\WFS-service-explorer.png" />
     <Content Include="Spatial IO Module\OGC map layer options.html" />
