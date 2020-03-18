@@ -94,8 +94,10 @@
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Bubble Layer\Cluster aggregates.html" />
     <Content Include="Common\data\indoor\tutorial\fixtures.zip" />
+    <Content Include="Common\data\shp\BikeRacks.zip" />
     <None Include="Common\data\SpatialCSV\Airports.pipe" />
     <Content Include="Common\data\SpatialCSV\Chicago_Police_Stations.csv" />
+    <Content Include="Common\data\SpatialCSV\Chicago_Bike_Racks.csv" />
     <None Include="Common\data\SpatialCSV\WAEcologicalSites.tab" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\geojson\US_States_Population_Density.json" />
@@ -249,11 +251,14 @@
     <Content Include="Experimental\Multiple isochrones.html" />
     <Content Include="Services Module\Search for boundaries.html" />
     <Content Include="Map\Map user interaction options.html" />
+    <Content Include="Services Module\Travel time analysis of multiple locations.html" />
     <Content Include="SiteResources\screenshots\Map-user-interaction-options.png" />
     <Content Include="SiteResources\screenshots\Search-for-boundaries.png" />
+    <Content Include="SiteResources\screenshots\Travel-time-analysis-of-multiple-locations.png" />
     <Content Include="SiteResources\screenshots\Voronoi-diagram-analysis.png" />
+    <Content Include="Experimental\Voronoi diagram analysis tool.html" />
     <Content Include="Symbol Layer\Text format with inline image.html" />
-    <Content Include="Spatial Math\Voronoi diagram generation.html" />
+    <Content Include="Spatial Math\Voronoi diagram analysis.html" />
     <Content Include="Services Module\Show traffic along route.html" />
     <Content Include="SiteResources\screenshots\Drag-and-drop-spatial-files-onto-map.png" />
     <Content Include="SiteResources\screenshots\Load-KML-onto-map.png" />

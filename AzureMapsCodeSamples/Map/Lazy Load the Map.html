@@ -86,7 +86,7 @@
                     } else if(error) {
                         error('Unable to access Azure Maps SDK. No internet connection.');
                     }
-                } else if (loaded) {
+                } else if (loaded && _callback) {
                     _callback();
                 }
             };

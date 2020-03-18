@@ -33,13 +33,8 @@
                 }
             });
 
-            //Use SubscriptionKeyCredential with a subscription key
-            var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
-
-            //Use subscriptionKeyCredential to create a pipeline
-            var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
-                retryOptions: { maxTries: 4 }, // Retry options
-            });
+            //Create a pipeline using the Azure Maps subscription key.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey()));
 
             //Create an instance of the SearchURL client.
             searchURL = new atlas.service.SearchURL(pipeline);

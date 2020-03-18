@@ -1386,6 +1386,15 @@ var sampleList = [
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
 			created:'1/31/2020'
 		},
+		{
+			title:'Travel time analysis of multiple locations',
+			desc:'This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates.',
+			path:'Services%20Module/Travel%20time%20analysis%20of%20multiple%20locations.html',
+			sourcePath:'Services%20Module/Travel%20time%20analysis%20of%20multiple%20locations.html',
+			screenshot:'Travel-time-analysis-of-multiple-locations.png',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, travel time, isochrone, route range',
+			created:'3/17/2020'
+		},
 	]
 },
 {
@@ -1653,8 +1662,8 @@ var sampleList = [
 		{
 			title:'Voronoi diagram analysis',
 			desc:'This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates. ',
-			path:'Spatial%20Math/Voronoi%20diagram%20generation.html',
-			sourcePath:'Spatial%20Math/Voronoi%20diagram%20generation.html',
+			path:'Spatial%20Math/Voronoi%20diagram%20analysis.html',
+			sourcePath:'Spatial%20Math/Voronoi%20diagram%20analysis.html',
 			screenshot:'Voronoi-diagram-analysis.png',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, voronoi, voronoi diagram',
 			created:'3/14/2020'
@@ -1996,4 +2005,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 206;
+}];var numberOfSamples = 207;

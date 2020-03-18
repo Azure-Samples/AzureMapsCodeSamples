@@ -38,7 +38,7 @@
                 }
             });
 
-            //Use subscriptionKeyCredential to create a pipeline
+            //Create a pipeline using the Azure Maps subscription key.
             var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey()));
 
             //Construct the RouteURL object

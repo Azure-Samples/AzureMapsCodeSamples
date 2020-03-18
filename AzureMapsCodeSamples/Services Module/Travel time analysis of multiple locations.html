@@ -1,18 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Voronoi diagram analysis - Azure Maps Web SDK Samples</title>
+    <title>Travel time analysis of multiple locations - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates. " />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, Voronoi, Voronoi diagram" />
+    <meta name="description" content="This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, travel time, isochrone, route range" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
     <!-- Add reference to the Azure Maps Spatial IO module. -->
     <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
@@ -21,10 +24,10 @@
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
     <script type='text/javascript'>
-        var map, datasource, voronoiLayer;
+        var map, datasource, routeURL, layer;
 
-        var policeStationUrl = '../Common/data/SpatialCSV/Chicago_Police_Stations.csv';
-        var crimeDataUrl = '../Common/data/SpatialCSV/Chicago_Narcotics.csv';
+        var policeStationsUrl = '../Common/data/SpatialCSV/Chicago_Police_Stations.csv';
+        var bikeRacksUrl = '../Common/data/SpatialCSV/Chicago_Bike_Racks.csv';
 
         function GetMap() {
 
@@ -40,39 +43,45 @@
                 }
             });
 
+            //Create a pipeline using the Azure Maps subscription key.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey()));
+
+            //Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
 
                 //Create a popup but leave it closed so we can update it and display it later.
                 popup = new atlas.Popup();
-                
+
                 //Create a data source ad add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
                 //Add a simple data layer for rendering the data.
-                voronoiLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                layer = new atlas.layer.PolygonLayer(datasource, null, {
                     fillColor: [
                         'step',
-                        ['get', 'totalCrimes'],
+                        ['get', 'totalBikeRacks'],
                         'transparent',
                         1, '#f0f9e8',
-                        1000, '#bae4bc',
-                        2000, '#7bccc4',
-                        3000, '#43a2ca',
-                        4000, '#0868ac'
+                        2, '#bae4bc',
+                        3, '#7bccc4',
+                        4, '#43a2ca',
+                        5, '#0868ac'
                     ],
                     fillOpacity: 0.8
                 });
-                map.layers.add(voronoiLayer, 'labels');
+                map.layers.add(layer, 'labels');
 
                 //Add a click event to the layers.
-                map.events.add('click', voronoiLayer, showPopup);
+                map.events.add('click', layer, showPopup);
 
                 map.layers.add(new atlas.layer.LineLayer(datasource, null, {
                     strokeColor: 'black'
                 }));
-                
+
                 //Add a bubble layer for displaying police stations.
                 map.layers.add(new atlas.layer.BubbleLayer(datasource, null, {
                     filter: ['==', ['geometry-type'], 'Point']
@@ -82,35 +91,51 @@
 
                 //Download the police station and crime data in parrallel.
                 Promise.all([
-                    atlas.io.read(policeStationUrl),
-                    atlas.io.read(crimeDataUrl)
+                    atlas.io.read(policeStationsUrl),
+                    atlas.io.read(bikeRacksUrl)
                 ]).then(function (values) {
                     var stations = values[0];
-                    var crimes = values[1];
+                    var bikeRacks = values[1];
 
-                    //Update map view to display the area of crime data.
+                    //Update map view to display the area of bike racks.
                     map.setCamera({
-                        bounds: crimes.bbox
+                        bounds: bikeRacks.bbox
                     });
 
                     //Add the police station data to the map.
                     datasource.add(stations);
 
-                    //Calculate the voronoi polygons from the station data. Pass in the bounding box to clip the voronoi diagram.
-                    var voronoi = turf.voronoi(stations, { bbox: crimes.bbox });
+                    var routeRangePromises = [];
 
-                    //Loop through the voronoi polygons and aggregate the crime data within them. 
-                    for (var i = 0, len = voronoi.features.length; i < len; i++) {
-                        
-                        var s = turf.pointsWithinPolygon(stations, voronoi.features[i]);
-                        voronoi.features[i].properties = s.features[0].properties;
-
-                        var ptsWithin = turf.pointsWithinPolygon(crimes, voronoi.features[i]);
-                        voronoi.features[i].properties.totalCrimes = ptsWithin.features.length;
+                    //Calculate the travel time polygons from each station.
+                    for (var i = 0; i < stations.features.length; i++) {
+                        routeRangePromises.push(routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), stations.features[i].geometry.coordinates, {
+                            travelMode: 'pedestrian',
+                            timeBudgetInSec: 5 * 60 //5 minutes.
+                        }));
                     }
 
-                    //Add the voronoi polygon data to the map.
-                    datasource.add(voronoi);
+                    Promise.all(routeRangePromises).then(values => {
+                        var isochrones = [];
+
+                        for (var i = 0; i < values.length; i++) {
+                            var data = values[i].geojson.getFeatures();
+
+                            //Copy the properties of the police station to the travel time polygon.
+                            data.features[0].properties = stations.features[i].properties;
+
+                            //Spatially join the bike rack data with each travel time polygon, then use the total number of bike racks as the aggregate.
+                            var ptsWithin = turf.pointsWithinPolygon(bikeRacks, data.features[0]);
+                            data.features[0].properties.totalBikeRacks = ptsWithin.features.length;
+
+                            //The first feature is the polygon, the second is the origin point which we can leave out.
+                            //Close the polygon.
+                            data.features[0].geometry.coordinates[0].push(data.features[0].geometry.coordinates[0][0]);
+                            isochrones.push(data.features[0]);
+                        }
+
+                        datasource.add(isochrones);
+                    });
 
                     document.getElementById('statusPanel').innerHTML = '';
                 });
@@ -124,7 +149,7 @@
                 popup.setOptions({
                     //Update the content of the popup.
                     content: atlas.PopupTemplate.applyTemplate(properties, {
-                        title: '{totalCrimes} crimes'
+                        title: '{totalBikeRacks} bike racks'
                     }),
 
                     //Update the position of the popup.
@@ -167,21 +192,22 @@
     <div id="myMap"></div>
 
     <div class="legend" style="left: 15px;">
-        <b>Number of Crimes</b>
+        <b>Number of Bike Racks</b>
         <table>
-            <tr><td><i style='background:#0868ac' /></td><td>2000+</td></tr>
-            <tr><td><i style='background:#43a2ca' /></td><td>1500 - 2000</td></tr>
-            <tr><td><i style='background:#7bccc4' /></td><td>1000 - 1500</td></tr>
-            <tr><td><i style='background:#bae4bc' /></td><td>500 - 1000</td></tr>
-            <tr><td><i style='background:#f0f9e8' /></td><td>1 - 500</td></tr>
+            <tr><td><i style='background:#0868ac' /></td><td>5+</td></tr>
+            <tr><td><i style='background:#43a2ca' /></td><td>4</td></tr>
+            <tr><td><i style='background:#7bccc4' /></td><td>3</td></tr>
+            <tr><td><i style='background:#bae4bc' /></td><td>2</td></tr>
+            <tr><td><i style='background:#f0f9e8' /></td><td>1</td></tr>
         </table>
         <div id="statusPanel"></div>
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">Voronoi diagram analysis</h1></legend>
-        This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates.
-        This sample generates a Voronoi diagram from police stations in Chicago, and then joins it with the location of crimes.
+        <legend><h1 style="font-size:16px">Travel time analysis of multiple locations</h1></legend>
+        This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates.
+        This sample uses the Azure Maps Route Range service to calculate a 5 minute pedestrian (walking) travel time around police stations in Chicago, and then joins it with the location of bike racks. 
+        This analysis tells us how many bike racks are within a 5 minute walk of a police station in Chicago.
     </fieldset>
 </body>
 </html>
