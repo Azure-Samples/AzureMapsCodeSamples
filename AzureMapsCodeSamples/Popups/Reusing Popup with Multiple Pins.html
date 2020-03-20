@@ -18,7 +18,7 @@
         var map, datasource, popup;
 
         //Define an HTML template for a custom popup content laypout.
-        var popupTemplate = '<div class="customInfobox"><div class="name">{name}</div>{description}</div>';
+        var simplePopupTemplate = '<div class="customInfobox"><div class="name">{name}</div>{description}</div>';
 
         function GetMap() {
             //Initialize a map instance.
@@ -85,7 +85,7 @@
                 //Check to see if the first value in the shapes array is a Point Shape.
                 if (e.shapes[0] instanceof atlas.Shape && e.shapes[0].getType() === 'Point') {
                     var properties = e.shapes[0].getProperties();
-                    content = popupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description);
+                    content = simplePopupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description);
                     coordinate = e.shapes[0].getCoordinates();
                 } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point') {
 
@@ -94,7 +94,7 @@
                         content = '<div style="padding:10px;">Cluster of ' + e.shapes[0].properties.point_count + ' symbols</div>';
                     } else {
                         //Feature is likely from a VectorTileSource.
-                        content = popupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description);
+                        content = simplePopupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description);
                     }
                     
                     coordinate = e.shapes[0].geometry.coordinates;

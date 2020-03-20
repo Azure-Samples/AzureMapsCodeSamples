@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, travel time, isochrone, route range" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, travel time, isochrone, route range, within, intersects, intersection" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -206,8 +206,9 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">Travel time analysis of multiple locations</h1></legend>
         This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates.
-        This sample uses the Azure Maps Route Range service to calculate a 5 minute pedestrian (walking) travel time around police stations in Chicago, and then joins it with the location of bike racks. 
+        This sample uses the Azure Maps Route Range service to calculate a 5 minute pedestrian (walking) travel time around police stations in Chicago, and then joins it with the location of bike racks.
         This analysis tells us how many bike racks are within a 5 minute walk of a police station in Chicago.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
     </fieldset>
 </body>
 </html>

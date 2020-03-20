@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to use the drawing tools to draw polygon areas on the map and select points that are within them. " />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events, within, intersects, intersection" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -105,7 +105,6 @@
             //Exit drawing mode.
             drawingManager.setOptions({ mode: 'idle' });
 
-            var selectedPoints = [];
             var poly = searchArea.toJson();
 
             //If the search area is a circle, create a polygon from its circle coordinates.
@@ -113,23 +112,19 @@
                 poly = new atlas.data.Polygon([searchArea.getCircleCoordinates()]);
             }
 
-            //Search for all points that intersect the polygon.
-            for (var i = 0; i < points.features.length; i++) {
-                var intersection = turf.intersect(poly, points.features[i]);
+            //Calculate all points that are within the polygon area.
+            var ptsWithin = turf.pointsWithinPolygon(points, poly);
 
-                if (intersection) {
-                    selectedPoints.push(points.features[i]);
-
-                    //Change the color of the point.
-                    points.features[i].properties.color = 'red';
-                }
+            //Change to color of all points that are in the polygon area to red.
+            for (var i = 0; i < ptsWithin.features.length; i++) {
+                ptsWithin.features[i].properties.color = 'red';
             }
 
             //Do something with the selected points.
             //For demo purposes, we will simply output the name of each pin.
-            var html = [selectedPoints.length, ' Pins Selected:<br/><br/>'];
-            for (var i = 0; i < selectedPoints.length; i++) {
-                html.push(selectedPoints[i].properties.name, '<br/>');
+            var html = [ptsWithin.length, ' Pins Selected:<br/><br/>'];
+            for (var i = 0; i < ptsWithin.length; i++) {
+                html.push(ptsWithin[i].properties.name, '<br/>');
             }
 
             document.getElementById('output').innerHTML = html.join('');
@@ -166,7 +161,7 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">Select data in drawn polygon area</h1></legend>
         This sample shows how to use the drawing tools to draw polygon areas on the map and select points that are within them. 
-        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to perform a spatial intersection calculation.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
     </fieldset>
 </body>
 </html>

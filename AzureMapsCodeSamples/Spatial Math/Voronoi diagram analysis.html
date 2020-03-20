@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates. " />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, Voronoi, Voronoi diagram" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, Voronoi, Voronoi diagram, within, intersects, intersection" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -183,6 +183,7 @@
         <legend><h1 style="font-size:16px">Voronoi diagram analysis</h1></legend>
         This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates.
         This sample generates a Voronoi diagram from police stations in Chicago, and then joins it with the location of crimes.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
     </fieldset>
 </body>
 </html>

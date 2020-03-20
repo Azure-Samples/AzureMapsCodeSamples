@@ -432,12 +432,12 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html',
 			sourcePath:'Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html',
 			screenshot:'Draw-and-search-polygon-area.png',
-			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, poi',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, poi, within, intersects, intersection',
 			created:'12/10/2019'
 		},
 		{
 			title:'Draw gridded polygon',
-			desc:'This sample shows how to calculate a gridded pattern within a drawn polygon.',
+			desc:'This sample shows how to calculate a gridded pattern within a drawn polygon based on a physical distances. ',
 			path:'Drawing%20Tools%20Module/Draw%20gridded%20polygon.html',
 			sourcePath:'Drawing%20Tools%20Module/Draw%20gridded%20polygon.html',
 			screenshot:'Draw-gridded-polygon.png',
@@ -486,7 +486,7 @@ var sampleList = [
 			path:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
 			sourcePath:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
 			screenshot:'Select-data-in-drawn-polygon-area.png',
-			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, within, intersects, intersection',
 			created:'12/10/2019'
 		},
 		{
@@ -1219,6 +1219,15 @@ var sampleList = [
 			created:'10/8/2018'
 		},
 		{
+			title:'Get current weather at a location',
+			desc:'This sample shows how to retrieve weather data using the Azure Maps Current Conditions REST API.',
+			path:'REST%20Services/Get%20current%20weather%20at%20a%20location.html',
+			sourcePath:'REST%20Services/Get%20current%20weather%20at%20a%20location.html',
+			screenshot:'Get-current-weather-at-a-location.png',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, weather, accuweather',
+			created:'3/20/2020'
+		},
+		{
 			title:'Get Users Timezone with Prompt',
 			desc:'This sample shows how to determine a users timezone by passing the users location into the Azure Maps REST Timezone service. The users location is retrieved using the HTML5 geolocation API which displays a prompt to the user to share their location.',
 			path:'REST%20Services/Get%20Users%20Timezone.html',
@@ -1233,7 +1242,7 @@ var sampleList = [
 			path:'REST%20Services/Get%20weather%20along%20a%20route.html',
 			sourcePath:'REST%20Services/Get%20weather%20along%20a%20route.html',
 			screenshot:'Get-weather-along-a-route.png',
-			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, service, weather, accuweather, forecast, directions, route, routing',
 			created:'12/6/2019'
 		},
 		{
@@ -1392,7 +1401,7 @@ var sampleList = [
 			path:'Services%20Module/Travel%20time%20analysis%20of%20multiple%20locations.html',
 			sourcePath:'Services%20Module/Travel%20time%20analysis%20of%20multiple%20locations.html',
 			screenshot:'Travel-time-analysis-of-multiple-locations.png',
-			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, travel time, isochrone, route range',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, travel time, isochrone, route range, within, intersects, intersection',
 			created:'3/17/2020'
 		},
 	]
@@ -1665,7 +1674,7 @@ var sampleList = [
 			path:'Spatial%20Math/Voronoi%20diagram%20analysis.html',
 			sourcePath:'Spatial%20Math/Voronoi%20diagram%20analysis.html',
 			screenshot:'Voronoi-diagram-analysis.png',
-			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, voronoi, voronoi diagram',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, voronoi, voronoi diagram, within, intersects, intersection',
 			created:'3/14/2020'
 		},
 		{
@@ -2005,4 +2014,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 207;
+}];var numberOfSamples = 208;

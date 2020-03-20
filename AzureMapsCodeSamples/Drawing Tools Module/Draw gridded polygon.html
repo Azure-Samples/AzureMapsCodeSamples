@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to calculate a gridded pattern within a drawn polygon." />
+    <meta name="description" content="This sample shows how to calculate a gridded pattern within a drawn polygon based on a physical distances. " />
     <meta name="keywords" content="map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -17,7 +17,7 @@
     <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
-    
+
     <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
@@ -92,11 +92,11 @@
             //Put the drawing manager into an idle state.
             drawingManager.setOptions({ mode: "idle" });
 
-            // check for kinks in the drawn feature.
+            //Check for kinks in the drawn feature.
             var kinks = turf.kinks(feature);
 
             if (kinks.features.length > 0) {
-                // if there are self-intersections, buffer by 0 to get rid of them
+                //If there are self-intersections, buffer by 0 to get rid of them
                 feature = turf.buffer(feature, 0, { units: 'meters' });
             }
 
@@ -221,7 +221,9 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">Draw gridded polygon</h1></legend>
-        This sample shows how to calculate a gridded pattern within a drawn polygon.
+        This sample shows how to calculate a gridded pattern within a drawn polygon based on a physical distances.
+        For gridded patterns that are based on pixel distances, use a fill pattern with a polygon.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
     </fieldset>
 </body>
 </html>
