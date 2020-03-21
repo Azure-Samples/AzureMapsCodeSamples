@@ -95,6 +95,8 @@
                     popup.close();
                 });
 
+                //TODO: Update to use spatial io module.
+
                 //Download population estimates for US counties.
                 fetch('/Common/data/US_County_2010_Population.csv')
                     .then(response => response.text())

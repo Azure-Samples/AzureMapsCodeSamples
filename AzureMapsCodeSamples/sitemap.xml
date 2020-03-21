@@ -145,7 +145,10 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Search%20for%20boundaries.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Show%20traffic%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Snap%20points%20to%20logical%20route%20path.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Travel%20time%20analysis%20of%20multiple%20locations.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Census%20group%20block%20analysis.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Travel%20time%20analysis%20of%20multiple%20locations.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Voronoi%20diagram%20analysis.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/GeoJSONRouting/Route%20along%20GeoJSON%20network.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20IO%20Module/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20IO%20Module/Drag%20and%20drop%20spatial%20files%20onto%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20IO%20Module/Load%20KML%20onto%20map.html</loc></url>
@@ -174,8 +177,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Introduction%20to%20spatial%20math.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Simple%20Cardinal%20Spline.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/Voronoi%20diagram%20analysis.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Math/GeoJSONRouting/Route%20along%20GeoJSON%20network.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html</loc></url>

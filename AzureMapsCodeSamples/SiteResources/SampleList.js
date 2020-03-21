@@ -127,7 +127,7 @@ var sampleList = [
 },
 {
 	category:'Custom Modules',
-	desc:'Use custom modules to extend the functionality of the Azure Maps Web Control.',
+	desc:'Use custom modules to extend the functionality of the Azure Maps Web SDK.',
 	samples: [
 		{
 			title:'Animate a LineString',
@@ -1294,7 +1294,7 @@ var sampleList = [
 },
 {
 	category:'Services Module',
-	desc:'Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web Control.',
+	desc:'Take advantage of the Services module to simplify integration of the REST services with the Azure Maps Web SDK.',
 	samples: [
 		{
 			title:'Alternate routes with deviation constraints',
@@ -1395,14 +1395,47 @@ var sampleList = [
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
 			created:'1/31/2020'
 		},
+	]
+},
+{
+	category:'Spatial Analysis',
+	desc:'Gain deep insights with in-depth spatial analysis of data.',
+	samples: [
+		{
+			title:'Census group block analysis',
+			desc:'This sample loads census block group data for a state and then retrieves the intersection with an area drawn by the user and calculates an estimated population.',
+			path:'Spatial%20Analysis/Census%20group%20block%20analysis.html',
+			sourcePath:'Spatial%20Analysis/Census%20group%20block%20analysis.html',
+			screenshot:'Census-group-block-analysis.png',
+			keywords:'microsoft maps, map, gis, api, spatial analysis, spatial join, voronoi, voronoi diagram, within, intersects, intersection, spatial data, spatial io module, geoxml, census',
+			created:'3/20/2020'
+		},
 		{
 			title:'Travel time analysis of multiple locations',
 			desc:'This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates.',
-			path:'Services%20Module/Travel%20time%20analysis%20of%20multiple%20locations.html',
-			sourcePath:'Services%20Module/Travel%20time%20analysis%20of%20multiple%20locations.html',
+			path:'Spatial%20Analysis/Travel%20time%20analysis%20of%20multiple%20locations.html',
+			sourcePath:'Spatial%20Analysis/Travel%20time%20analysis%20of%20multiple%20locations.html',
 			screenshot:'Travel-time-analysis-of-multiple-locations.png',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, travel time, isochrone, route range, within, intersects, intersection',
-			created:'3/17/2020'
+			created:'3/20/2020'
+		},
+		{
+			title:'Voronoi diagram analysis',
+			desc:'This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates. ',
+			path:'Spatial%20Analysis/Voronoi%20diagram%20analysis.html',
+			sourcePath:'Spatial%20Analysis/Voronoi%20diagram%20analysis.html',
+			screenshot:'Voronoi-diagram-analysis.png',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, voronoi, voronoi diagram, within, intersects, intersection',
+			created:'3/20/2020'
+		},
+		{
+			title:'Route along GeoJSON network',
+			desc:'This sample shows how to calculate the shortest route path between two points on a network of lines stored in a GeoJSON file. ',
+			path:'Spatial%20Analysis/GeoJSONRouting/Route%20along%20GeoJSON%20network.html',
+			sourcePath:'Spatial%20Analysis/GeoJSONRouting',
+			screenshot:'Route-along-GeoJSON-network.png',
+			keywords:'microsoft maps, map, gis, api, sdk, shortest path, routing, route, directions, spatial math',
+			created:'3/20/2020'
 		},
 	]
 },
@@ -1549,7 +1582,7 @@ var sampleList = [
 },
 {
 	category:'Spatial Math',
-	desc:'Learn how to use the spatial math library that is built into the Azure Maps Web Control.',
+	desc:'Learn how to perform common spatial calculations easily with the Azure Maps Web SDK.',
 	samples: [
 		{
 			title:'Basic snap to road logic',
@@ -1667,24 +1700,6 @@ var sampleList = [
 			screenshot:'Simple-Cardinal-Spline.png',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
 			created:'1/25/2019'
-		},
-		{
-			title:'Voronoi diagram analysis',
-			desc:'This sample shows how to add calculate a Voronoi diagram from a set of points, and then spatially join the Voronoi polygons with a secondary set of points to calculate aggregates. ',
-			path:'Spatial%20Math/Voronoi%20diagram%20analysis.html',
-			sourcePath:'Spatial%20Math/Voronoi%20diagram%20analysis.html',
-			screenshot:'Voronoi-diagram-analysis.png',
-			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, voronoi, voronoi diagram, within, intersects, intersection',
-			created:'3/14/2020'
-		},
-		{
-			title:'Route along GeoJSON network',
-			desc:'This sample shows how to calculate the shortest route path between two points on a network of lines stored in a GeoJSON file. ',
-			path:'Spatial%20Math/GeoJSONRouting/Route%20along%20GeoJSON%20network.html',
-			sourcePath:'Spatial%20Math/GeoJSONRouting',
-			screenshot:'Route-along-GeoJSON-network.png',
-			keywords:'microsoft maps, map, gis, api, sdk, shortest path, routing, route, directions, spatial math',
-			created:'1/16/2020'
 		},
 	]
 },
@@ -2014,4 +2029,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 208;
+}];var numberOfSamples = 209;
