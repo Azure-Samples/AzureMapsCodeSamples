@@ -12,7 +12,7 @@ var geoJsonFiles = {
     'Montreal (19.4MB)': '/Common/data/geojson/route-networks/montreal_roads.json',
     'Niagra Region (10.7MB)': '/Common/data/geojson/route-networks/niagra_roads.json',
     'San Diego Transit (3MB)': '/Common/data/geojson/route-networks/transit_routes_datasd.geojson',
-    'Martime trade routes (2.2MB)': '/Common/data/geojson/route-networks/maritime-trade-routes.geojson'
+    'Maritime trade routes (2.2MB)': '/Common/data/geojson/route-networks/maritime-trade-routes.geojson'
 };
 
 function GetMap() {
@@ -112,6 +112,8 @@ function GetMap() {
     });
 
     document.getElementById('GeoJsonFiles').innerHTML = html.join('');
+
+    document.getElementById('fileSelector').addEventListener('change', handleFileSelect, false);
 }
 
 //Updates the waypoint information in the from/to textboxes.
@@ -121,8 +123,7 @@ function setWaypoint(marker) {
     document.getElementById(waypointId + 'Tbx').value = positionToString(opt.position);
 }
 
-//Loads a GeoJSON file of lines and creates a route network.
-function loadGeoJSON() {
+function reset() {
     routeDataSource.clear();
     dataSource.clear();
     pathFinder = null;
@@ -130,7 +131,12 @@ function loadGeoJSON() {
     selectedMarker = null;
     document.getElementById('fromTbx').value = '';
     document.getElementById('toTbx').value = '';
+}
 
+//Loads a GeoJSON file of lines and creates a route network.
+function loadGeoJSON() {
+    reset();
+    document.getElementById("fileSelector").value = '';
     document.getElementById('loadingIcon').style.display = '';
 
     var elm = document.getElementById('GeoJsonFiles');
@@ -144,48 +150,100 @@ function loadGeoJSON() {
             .then(function(response) {
                 return response.json();
             }).then(function(data) {
-                geojson = data;
-
-                //Add the geojson data to the data source.
-                dataSource.add(data);
-
-                map.setCamera({
-                    bounds: atlas.data.BoundingBox.fromData(geojson)
-                })
-
-                pathFinder = new PathFinder(data, {
-                    precision: 1e-6
-                });
-
-                //Store the vertices of the path finder graph as a feature colleciton for fast snapping.l
-                var v = pathFinder._graph.vertices;
-                vertices = new atlas.data.FeatureCollection(Object.keys(v)
-                    .filter(function (nodeName) {
-                        return Object.keys(v[nodeName]).length;
-                    })
-                    .map(function (nodeName) {
-                        var vertice = pathFinder._graph.sourceVertices[nodeName];
-                        return new atlas.data.Feature(new atlas.data.Point(vertice), {
-                            nodeName: nodeName
-                        });
-                    }.bind(this)));
-
-                //Set the initial position of the start/end points to the first and last vertices in the route network.
-                var vKeys = Object.keys(pathFinder._graph.sourceVertices);
-
-                fromPin.setOptions({ position: pathFinder._graph.sourceVertices[vKeys[0]] });
-                setWaypoint(fromPin);
-
-                toPin.setOptions({ position: pathFinder._graph.sourceVertices[vKeys[vKeys.length - 1]] });
-                setWaypoint(toPin);
-                                
-                document.getElementById('loadingIcon').style.display = 'none';
-
-                calculateRoute();
+                initNetwork(data);
             });
     } else {
         document.getElementById('loadingIcon').style.display = 'none';
     }
+}
+
+function handleFileSelect(e) {
+    reset();
+    document.getElementById('GeoJsonFiles').selectedIndex = 0;
+
+    document.getElementById('loadingIcon').style.display = '';
+
+    var files = e.target.files;
+    if (files.length > 0) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            var fc = JSON.parse(e.target.result);
+
+            if (fc.type && fc.type === 'FeatureCollection') {
+                initNetwork(fc);
+            } else {
+                alert('Route network must be a GeoJSON file containing a feature collection of linestrings.');
+                document.getElementById('loadingIcon').style.display = 'none';
+            }
+        };
+
+        reader.onerror = function (e) {
+            alert(e);
+            document.getElementById('loadingIcon').style.display = 'none';
+        };
+
+        reader.readAsText(files[0]);
+    }
+}
+
+function initNetwork(fc) {
+    var features = [];
+
+    //Clean data, and flatten MultiLineStrings into LineStrings.
+    for (var i = 0, len = fc.features.length; i < len; i++) {
+        if (fc.features[i].geometry.type === 'LineString') {
+            features.push(fc.features[i]);
+        } else if (fc.features[i].geometry.type === 'MultiLineString') {
+            for (var j = 0; j < fc.features[i].geometry.coordinates.length; j++) {
+                features.push(new atlas.data.Feature(new atlas.data.LineString(fc.features[i].geometry.coordinates[j])));
+            }
+        }
+    }
+
+    if (features.length === 0) {
+        alert('No linestring data found.');
+    } else {
+
+        geojson = new atlas.data.FeatureCollection(features);
+
+        //Add the geojson data to the data source.
+        dataSource.add(geojson);
+
+        map.setCamera({
+            bounds: atlas.data.BoundingBox.fromData(geojson)
+        });
+
+        pathFinder = new PathFinder(geojson, {
+            precision: 1e-6
+        });
+
+        //Store the vertices of the path finder graph as a feature colleciton for fast snapping.l
+        var v = pathFinder._graph.vertices;
+        vertices = new atlas.data.FeatureCollection(Object.keys(v)
+            .filter(function (nodeName) {
+                return Object.keys(v[nodeName]).length;
+            })
+            .map(function (nodeName) {
+                var vertice = pathFinder._graph.sourceVertices[nodeName];
+                return new atlas.data.Feature(new atlas.data.Point(vertice), {
+                    nodeName: nodeName
+                });
+            }.bind(this)));
+
+        //Set the initial position of the start/end points to the first and last vertices in the route network.
+        var vKeys = Object.keys(pathFinder._graph.sourceVertices);
+
+        fromPin.setOptions({ position: pathFinder._graph.sourceVertices[vKeys[0]] });
+        setWaypoint(fromPin);
+
+        toPin.setOptions({ position: pathFinder._graph.sourceVertices[vKeys[vKeys.length - 1]] });
+        setWaypoint(toPin);
+
+        calculateRoute();
+    }
+
+    document.getElementById('loadingIcon').style.display = 'none';
 }
 
 //Calculates a route between the from/to positions.
@@ -264,9 +322,6 @@ function calculateRoute() {
         midPos[0] = -180;
 
         var midVertice2 = snapToNearestMeridianVertice(midPos);
-
-        //Get the vertice closest to the anti-meridian.
-        var midVertice = midVertice1;
 
         if (!midVertice1 && !midVertice2) {
             //Unable to calculate mid point vertice, fallback to standard calculation. 
@@ -467,3 +522,7 @@ function parsePosition(posString) {
 }
 
 window.onload = GetMap;
+
+//TODO: 
+// - split out route code into seperate class to make more reusable. 
+// - Use spatial IO module to support more file formats.

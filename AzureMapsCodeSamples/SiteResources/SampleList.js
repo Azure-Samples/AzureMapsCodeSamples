@@ -1402,11 +1402,11 @@ var sampleList = [
 	desc:'Gain deep insights with in-depth spatial analysis of data.',
 	samples: [
 		{
-			title:'Census group block analysis',
+			title:'Census block group analysis',
 			desc:'This sample loads census block group data for a state and then retrieves the intersection with an area drawn by the user and calculates an estimated population.',
-			path:'Spatial%20Analysis/Census%20group%20block%20analysis.html',
-			sourcePath:'Spatial%20Analysis/Census%20group%20block%20analysis.html',
-			screenshot:'Census-group-block-analysis.png',
+			path:'Spatial%20Analysis/Census%20block%20group%20analysis.html',
+			sourcePath:'Spatial%20Analysis/Census%20block%20group%20analysis.html',
+			screenshot:'Census-block-group-analysis.png',
 			keywords:'microsoft maps, map, gis, api, spatial analysis, spatial join, voronoi, voronoi diagram, within, intersects, intersection, spatial data, spatial io module, geoxml, census',
 			created:'3/20/2020'
 		},
@@ -1434,7 +1434,7 @@ var sampleList = [
 			path:'Spatial%20Analysis/GeoJSONRouting/Route%20along%20GeoJSON%20network.html',
 			sourcePath:'Spatial%20Analysis/GeoJSONRouting',
 			screenshot:'Route-along-GeoJSON-network.png',
-			keywords:'microsoft maps, map, gis, api, sdk, shortest path, routing, route, directions, spatial math',
+			keywords:'microsoft maps, map, gis, api, sdk, shortest path, routing, route, directions, spatial math, maritime trade routes, spatial analysis',
 			created:'3/20/2020'
 		},
 	]

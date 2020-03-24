@@ -337,8 +337,8 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
-    <Content Include="SiteResources\screenshots\Census-group-block-analysis.png" />
-    <Content Include="Spatial Analysis\Census group block analysis.html" />
+    <Content Include="SiteResources\screenshots\Census-block-group-analysis.png" />
+    <Content Include="Spatial Analysis\Census block group analysis.html" />
     <Content Include="Experimental\Display route sections.html" />
     <Content Include="Experimental\Draggable route line.html" />
     <Content Include="Experimental\Multiple isochrones.html" />
