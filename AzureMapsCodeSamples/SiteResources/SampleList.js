@@ -40,6 +40,15 @@ var sampleList = [
 			created:'10/11/2018'
 		},
 		{
+			title:'Pulse animation with bubble layer',
+			desc:'This sample shows how to create a pulse animation using a bubble layer as a pulse.',
+			path:'Animations/Pulse%20animation%20with%20bubble%20layer.html',
+			sourcePath:'Animations/Pulse%20animation%20with%20bubble%20layer.html',
+			screenshot:'Pulse-animation-with-bubble-layer.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, bubble',
+			created:'4/14/2020'
+		},
+		{
 			title:'Simple HTML Marker Animation',
 			desc:'This sample shows how to animate the position of a HTML marker on the map by updating the coordinates.',
 			path:'Animations/Simple%20HTML%20Marker%20Animation.html',
@@ -866,6 +875,15 @@ var sampleList = [
 			screenshot:'Icon-template-options.png',
 			keywords:'microsoft maps, map, gis, api, sdk, template, icon templates, symbols, fill patterns, image template',
 			created:'7/5/2019'
+		},
+		{
+			title:'Inspect features under the mouse',
+			desc:'This sample shows how to access any rendered feature on the map, whether it came from a vector tile source, a GeoJSON file, or is part of the base map.',
+			path:'Map/Inspect%20features%20under%20the%20mouse.html',
+			sourcePath:'Map/Inspect%20features%20under%20the%20mouse.html',
+			screenshot:'Inspect-features-under-the-mouse.png',
+			keywords:'microsoft maps, map, gis, api, sdk, vector tiles, inspect features, base map, basemap, access roads',
+			created:'4/9/2020'
 		},
 		{
 			title:'Lazy Load the Map',
@@ -2029,4 +2047,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 209;
+}];var numberOfSamples = 211;

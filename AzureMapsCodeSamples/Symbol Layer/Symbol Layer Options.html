@@ -53,6 +53,7 @@
                 map.layers.add(symbolLayer);
 
                 defaultOptions = symbolLayer.getOptions();
+                defaultOptions.textOptions.haloColor = '#000000'; //Default is actually rgba(0,0,0,0)
 
                 //Update the symbol layer with the options in the input fields.
                 updateSymbolLayer();
@@ -118,7 +119,6 @@
         }
 
         function getPropertyValue(propertyName, value) {
-
             if (removeDefaults) {
                 if (propertyName.indexOf('.') > -1) {
                     var p = propertyName.split('.');
@@ -127,13 +127,18 @@
                         val = val[p[i]];
                     }
 
-                    if (val === value) {
+                    if (Array.isArray(value) && JSON.stringify(val) === JSON.stringify(value)) {
+                        return undefined;
+                    } else if (val === value) {
                         return undefined;
                     }
+                } else if (Array.isArray(value) && JSON.stringify(val) === JSON.stringify(value)) {
+                    return undefined;
                 } else if (defaultOptions[propertyName] === value) {
                     return undefined;
                 }
             }
+
             return value;
         }
 
@@ -186,7 +191,7 @@
 
         #CodeOutput {
             width: 300px;
-            height: 390px;
+            height: 360px;
             overflow-y: auto;
         }
 
@@ -232,7 +237,7 @@
             padding: 6px 12px;
             border: 1px solid #ccc;
             border-top: none;
-            height: 440px;
+            height: 420px;
             overflow-y: auto;
         }
     </style>
@@ -383,9 +388,9 @@
                     <td>Pitch Alignment:</td>
                     <td>
                         <select id="IconPitchAlignment" onchange="updateSymbolLayer()">
-                            <option value="auto">auto</option>
+                            <option value="auto" selected="selected">auto</option>
                             <option value="map">map</option>
-                            <option value="viewport" selected="selected">viewport</option>
+                            <option value="viewport">viewport</option>
                         </select>
                     </td>
                 </tr>
@@ -426,7 +431,7 @@
                             <option value="SegoeFrutigerHelveticaMYingHei-Regular">SegoeFrutigerHelveticaMYingHei-Regular</option>
                             <option value="SegoeUi-Bold">SegoeUi-Bold</option>
                             <option value="SegoeUi-Light">SegoeUi-Light</option>
-                            <option value="SegoeUi-Regular" selected="selected">SegoeUi-Regular</option>
+                            <option value="SegoeUi-Regular">SegoeUi-Regular</option>
                             <option value="SegoeUi-SemiBold">SegoeUi-SemiBold</option>
                             <option value="SegoeUi-SemiLight">SegoeUi-SemiLight</option>
                             <option value="SegoeUi-SymbolRegular">SegoeUi-SymbolRegular</option>
@@ -441,7 +446,7 @@
                             <option value="StandardFontCondensed-Light">StandardFontCondensed-Light</option>
                             <option value="StandardFontCondensed-Regular">StandardFontCondensed-Regular</option>
                             <option value="StandardFont-Light">StandardFont-Light</option>
-                            <option value="StandardFont-Regular">StandardFont-Regular</option>
+                            <option value="StandardFont-Regular" selected="selected">StandardFont-Regular</option>
                         </select>
                     </td>
                 </tr>
@@ -528,9 +533,9 @@
                     <td>Pitch Alignment:</td>
                     <td>
                         <select id="TextPitchAlignment" onchange="updateSymbolLayer()">
-                            <option value="auto">auto</option>
+                            <option value="auto" selected="selected">auto</option>
                             <option value="map">map</option>
-                            <option value="viewport" selected="selected">viewport</option>
+                            <option value="viewport"">viewport</option>
                         </select>
                     </td>
                 </tr>

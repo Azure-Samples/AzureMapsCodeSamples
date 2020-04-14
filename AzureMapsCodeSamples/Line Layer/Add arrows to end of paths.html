@@ -107,9 +107,14 @@
             }
 
             if (l && l.length >= 2) {
-                //Use the last coordinate of the line for the point of the end. Calculate the heading from the second last coordinate to the last coordinate.
+                //Calculate the heading from the second last coordinate to the last coordinate. 
+                //Since we want them to be pixel accurate rather than spatialy accurate, convert them to pixels (any zoom level will do but 20 will likely be more than accurate enough) and get the pixel heading.
+                var pixels = atlas.math.mercatorPositionsToPixels([l[l.length - 2], l[l.length - 1]], 20);
+                var heading = atlas.Pixel.getHeading(pixels[0], pixels[1]);
+
+                //Use the last coordinate of the line for the point of the end. 
                 return new atlas.data.Feature(new atlas.data.Point(l[l.length - 1]), {
-                    heading: atlas.Pixel.getHeading(l[l.length - 2], l[l.length - 1])
+                    heading: heading
                 });
             }
 

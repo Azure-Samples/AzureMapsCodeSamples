@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pulse animation with bubble layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a pulse animation using a bubble layer as a pulse." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animate, animation, symbol, bubble" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, bubbleLayer;
+
+        //A duration for the animation in ms.
+        var duration = 2500;
+
+        //Max radius of the pulse circle. 
+        var maxRadius = 30;
+        
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 9,
+                pitch: 60,
+                view: 'Auto',
+
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create some random points 
+                var points = [];
+
+                for (var i = 0; i < 100; i++) {
+                    datasource.add(new atlas.data.Point([-122.33 + Math.random() - 0.5, 47.6 + Math.random() / 2 - 0.25]));
+                }
+
+                datasource.add(points);
+
+                
+                //A bubble layer that will have its radius scaled during animation to create a pulse.
+                bubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    color: 'rgb(0, 204, 255)',
+
+                    //Hide the stroke of the bubble. 
+                    strokeWidth: 0,
+
+                    //Make bubbles stay flat on the map when the map is pitched.
+                    pitchAlignment: 'map'
+                }); 
+
+                //Add a layers for rendering data.
+                map.layers.add([
+                    bubbleLayer,
+
+                    //A symbol layer to be the main icon layer for the data point.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            //For smoother animation, ignore the placement of the icon. This skips the label collision calculations and allows the icon to overlap map labels. 
+                            ignorePlacement: true,
+
+                            //For smoother animation, allow symbol to overlap all other symbols on the map.
+                            allowOverlap: true
+                        },
+                        textOptions: {
+                            //For smoother animation, ignore the placement of the text. This skips the label collision calculations and allows the text to overlap map labels.
+                            ignorePlacement: true,
+
+                            //For smoother animation, allow text to overlap all other symbols on the map.
+                            allowOverlap: true
+                        }
+                    })
+                ]);
+
+                animate(0);
+            });
+        }
+
+        function animate(timestamp) {
+            //Calculate progress as a ratio of the duration between 0 and 1.
+            progress = timestamp % duration / duration;
+
+            //Early in the animaiton, make the radius small but don't render it. The map transitions between radiis, which causes a flash when going from large radius to small radius. This resolves that.
+            if (progress < 0.1) {
+                bubbleLayer.setOptions({
+                    radius: 0,
+                    opacity: 0
+                });
+            } else {
+                bubbleLayer.setOptions({
+                    radius: maxRadius * progress,
+
+                    //Have the opacity fade as the radius becomes larger.
+                    opacity: Math.max(0.9 - progress, 0)
+                });
+            }
+
+            //Request the next frame of the animation.
+            animation = requestAnimationFrame(animate);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Pulse animation with bubble layer</h1></legend>
+        This sample shows how to create a pulse animation using a bubble layer as a pulse. A second layer (symbol, bubble...) can be used to show the main data point. 
+    </fieldset>
+</body>
+</html>

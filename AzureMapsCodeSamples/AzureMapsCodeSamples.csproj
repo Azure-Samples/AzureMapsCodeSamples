@@ -338,6 +338,8 @@
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
     <Content Include="SiteResources\screenshots\Census-block-group-analysis.png" />
+    <Content Include="SiteResources\screenshots\Inspect-features-under-the-mouse.png" />
+    <Content Include="SiteResources\screenshots\Pulse-animation-with-bubble-layer.gif" />
     <Content Include="Spatial Analysis\Census block group analysis.html" />
     <Content Include="Experimental\Display route sections.html" />
     <Content Include="Experimental\Draggable route line.html" />
@@ -351,6 +353,7 @@
     <Content Include="SiteResources\screenshots\Search-for-boundaries.png" />
     <Content Include="SiteResources\screenshots\Travel-time-analysis-of-multiple-locations.png" />
     <Content Include="SiteResources\screenshots\Voronoi-diagram-analysis.png" />
+    <Content Include="Animations\Pulse animation with bubble layer.html" />
     <Content Include="Symbol Layer\Text format with inline image.html" />
     <Content Include="Spatial Analysis\Voronoi diagram analysis.html" />
     <Content Include="Services Module\Show traffic along route.html" />
@@ -531,7 +534,7 @@
     <Content Include="Tile Layers\Animated Tile Layers\Animated Tile Layer.html" />
     <Content Include="Tile Layers\Animated Tile Layers\AnimatedTileLayer.js" />
     <Content Include="Custom Modules\Fullscreen Control\FullScreenControl.js" />
-    <Content Include="Experimental\Inspect features under the mouse.html" />
+    <Content Include="Map\Inspect features under the mouse.html" />
     <Content Include="Geospatial Files\Add TopoJSON data to the map.html" />
     <Content Include="Geospatial Files\Drag and Drop Shapefiles onto the Map.html" />
     <Content Include="Geospatial Files\Load large Shapefiles using a Web Worker.html" />

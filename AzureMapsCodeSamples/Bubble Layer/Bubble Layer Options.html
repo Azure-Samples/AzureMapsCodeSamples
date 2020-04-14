@@ -244,7 +244,16 @@
 
         <div id="BubbleLayerOptions" class="tabcontent">
             <table>
-                <tr title="The color to fill the circle symbol with.">
+                <tr title="The radius of the circle in pixels.">
+                    <td>Radius</td>
+                    <td>
+                        <form oninput="radius.value=Radius.value">
+                            <input type="range" id="Radius" value="5" min="0" max="50" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <output name="radius" for="Radius">5</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="The color to fill the circle with.">
                     <td>Color:</td>
                     <td><input type="color" id="Color" value="#1A73AA" onchange="updateBubbleLayer()" /></td>
                 </tr>
@@ -261,15 +270,6 @@
                     <td>Stroke Color:</td>
                     <td><input type="color" id="StrokeColor" value="#FFFFFF" onchange="updateBubbleLayer()" /></td>
                 </tr>
-                <tr title="The radius of the circle in pixels.">
-                    <td>Radius</td>
-                    <td>
-                        <form oninput="radius.value=Radius.value">
-                            <input type="range" id="Radius" value="5" min="0" max="50" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
-                            <output name="radius" for="Radius">5</output>
-                        </form>
-                    </td>
-                </tr>
                 <tr title="A number between 0 and 1 that indicates the opacity at which the circles' outlines will be drawn.">
                     <td>Stroke Opacity</td>
                     <td>
@@ -279,7 +279,7 @@
                         </form>
                     </td>
                 </tr>
-                <tr title="The width of the circles" outlines in pixels.">
+                <tr title="The width of the circles' outlines in pixels.">
                     <td>Stroke Width</td>
                     <td>
                         <form oninput="strokeWidth.value=StrokeWidth.value">
@@ -302,7 +302,7 @@
                     <td>
                         <select id="PitchAlignment" onchange="updateBubbleLayer()">
                             <option value="map">map</option>
-                            <option value="viewport" selected="selected">viewport</option>                            
+                            <option value="viewport" selected="selected">viewport</option>
                         </select>
                     </td>
                 </tr>

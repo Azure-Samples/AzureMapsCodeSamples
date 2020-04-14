@@ -43,7 +43,8 @@ window.onload = function () {
             'Pin%20Layer%20Options': 'Symbol%20Layer%20Options',
             'Simple%20directions': 'Calculate%20Route%with%20Services%20Module',
             'Basic%20Geocoding%20Request': 'Simple%20REST%20Geocoding%20Request',
-            'Layer%20Events': 'Symbol%20layer%20events'
+            'Layer%20Events': 'Symbol%20layer%20events',
+            'Census%20group%20block%20analysis':'Census%20block%20group%20analysis'
         };
 
         var redirect = sampleRedirects[hash];
