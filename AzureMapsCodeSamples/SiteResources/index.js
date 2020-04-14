@@ -79,8 +79,8 @@ window.onload = function () {
     window.onscroll = function () { scrollFunction(); };
 };
 
-function toggleDescriptions() {
-    var displayState = (document.getElementById('showDescriptionsCbx').checked) ? '': 'none';
+function toggleDescriptions(elm) {
+    var displayState = (elm.checked) ? '': 'none';
 
     var i, elements = document.getElementsByClassName('card-text');
 
@@ -103,6 +103,11 @@ function toggleDescriptions() {
     }
 }
 
+function toggleShowLatest(elm) {
+    document.getElementById('searchTbx').value = (elm.checked) ? 'latest' : '';
+    search();
+}
+
 function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("scrollToTopBtn").style.display = "block";
@@ -118,9 +123,10 @@ function topFunction() {
 }
 
 function search() {
-    var recentDayLimit = 60;
+    var recentDayLimit = 45;
 
     var query = document.getElementById('searchTbx').value;
+    document.getElementById('showLatestCbx').checked = false;
 
     if (query === '') {
         removeQString('search');
@@ -137,7 +143,7 @@ function search() {
         var matchedSamples = [];
         var i, j, len, cnt; 
 
-        if (query === 'new' || query === 'latest' || query === 'newest') {
+        if (query === 'new' || query === 'latest' || query === 'newest' || query === 'recent') {
             var today = new Date();
 
             for (i = 0, len = sampleList.length; i < len; i++) {
@@ -147,6 +153,8 @@ function search() {
                     }
                 }
             }
+
+            document.getElementById('showLatestCbx').checked = true;
         } else if (query === 'no-image') {
             for (i = 0, len = sampleList.length; i < len; i++) {
                 for (j = 0, cnt = sampleList[i].samples.length; j < cnt; j++) {

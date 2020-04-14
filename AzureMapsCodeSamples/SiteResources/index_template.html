@@ -56,9 +56,13 @@
                 <p><a class="btn btn-primary btn-lg" target="_blank" href="https://github.com/Azure-Samples/AzureMapsCodeSamples" role="button">Open GitHub Project</a></p>
                 <p>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="showDescriptionsCbx" onclick="toggleDescriptions()" checked title="Toggle descriptions">
-                        <label class="form-check-label" for="defaultCheck1">
+                        <input class="form-check-input" type="checkbox" id="showDescriptionsCbx" onclick="toggleDescriptions(this)" checked title="Toggle sample descriptions">
+                        <label class="form-check-label" for="showDescriptionsCbx">
                             Show details
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="showLatestCbx" onclick="toggleShowLatest(this)" title="Toggle show latest samples">
+                        <label class="form-check-label" for="showLatestCbx">
+                            Show latest
                         </label>
                     </div>
                 </p>

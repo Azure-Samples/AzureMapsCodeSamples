@@ -112,3 +112,7 @@ h3 {
     height: 225px;
     position: relative;
 }
+
+.form-check-label {
+    min-width: 120px;
+}
