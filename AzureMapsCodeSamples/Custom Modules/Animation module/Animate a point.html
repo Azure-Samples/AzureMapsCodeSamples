@@ -58,7 +58,7 @@
                 }));
 
                 map.events.add('click', function (e) {
-                    atlas.animations.setCoordinates(point, e.position, { duration: 2000, easing: 'easeInElastic', autoPlay: true });
+                    atlas.animations.setCoordinates(point, e.position, { map: map, duration: 2000, easing: 'easeInElastic', autoPlay: true });
                 });
             });
         }

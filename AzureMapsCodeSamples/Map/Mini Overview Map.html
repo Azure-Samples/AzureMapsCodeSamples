@@ -30,6 +30,8 @@
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
+                center: [-95, 40],
+                zoom: 3,
                 view: 'Auto',
 				
 				//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
@@ -152,7 +154,7 @@
             return new atlas.data.Polygon(coordinates);
         }
 
-        //TODO: Convert this code sample into a custom control. Add options; zoom level offset, min/max zoom, expand/collapse, size, style. 
+        //TODO: Convert this code sample into a custom control. Add options; zoom level offset, min/max zoom, expand/collapse, size, style. Synchronize maps both ways.
     </script>
 </head>
 <body onload="GetMap()">

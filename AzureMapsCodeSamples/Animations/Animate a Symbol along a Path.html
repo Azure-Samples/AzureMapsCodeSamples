@@ -105,7 +105,7 @@
 
                         //Update the symbols coordinates.
                         pin.setCoordinates(position);
-
+                        
                         if (document.getElementById('followSymbol').checked) {
                             map.setCamera({
                                 center: position,
@@ -141,7 +141,7 @@
 
         var animations = (function () {
             var self = this;
-            var _delay = 30; //30 = 33.3 frames per second, 16 = 62.5 frames per second
+            var _delay = 30; //30 = 33.3 frames per second
 
             this.PathAnimation = function (path, intervalCallback, duration) {
                 /// <summary>This class extends from the BaseAnimation class and cycles through a set of positions over a period of time, calculating mid-point positions along the way.</summary>

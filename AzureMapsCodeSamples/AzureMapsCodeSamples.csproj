@@ -131,7 +131,6 @@
     <Content Include="Common\data\Kmz\QPF24hr_Day3_latest.kmz" />
     <Content Include="Common\data\Kmz\RecreationSitePoint.kmz" />
     <Content Include="Common\data\Kmz\shuckstack-fire-tower.kmz" />
-    <Content Include="Common\data\Kml\SimpleNetworkLink.kml" />
     <None Include="Common\data\topojson\neilsen_dma.json" />
     <Content Include="Common\data\GeoRSS\eqs7day-M2.5.xml" />
     <Content Include="Common\data\GeoRSS\SampleGeoRSS.xml" />

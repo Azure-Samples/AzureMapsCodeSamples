@@ -63,7 +63,7 @@ class TrafficControl {
             }
         };
         if (options) {
-            this._options = Object.assign({}, this._options, options);
+            this._options = Object.assign(Object.assign({}, this._options), options);
         }
     }
     /****************************

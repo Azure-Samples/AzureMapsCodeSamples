@@ -61,7 +61,7 @@ class SimpleScaleBarControl {
             //Update the text of the scale bar.
             this._scaleBar.innerHTML = this._createDistanceString(niceDistance, isSmall);
         };
-        this._options = Object.assign({}, this._options, options);
+        this._options = Object.assign(Object.assign({}, this._options), options);
     }
     /****************************
     * Public Methods

@@ -119,16 +119,6 @@
             }
         }
 
-        function loadUserInput() {
-            document.getElementById('servicesDD').selectedIndex = 0;
-
-            var url = document.getElementById('inputTbx').value;
-
-            if (url) {
-                loadClient(url);
-            }
-        }
-
         function proxyOptionChanged() {
             if (currentServiceUrl) {
                 loadClient(currentServiceUrl);
@@ -210,10 +200,6 @@
         <br /><br />
 
         WFS Service:<br /><select id="servicesDD" onchange="loadSelectInput()"></select><br /><br />
-
-        <center>or</center><br />
-
-        Service URL: <input type="text" id="inputTbx" /><input type="button" value="Load" onclick="loadUserInput()" /><br /><br />
 
         <input id="useProxyService" type="checkbox" onclick="proxyOptionChanged()" /> Use Proxy Service
         <br /><br />

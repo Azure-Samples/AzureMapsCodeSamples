@@ -39,7 +39,7 @@
             { name: 'US Census areas (WMS)', url: 'https://tigerweb.geo.census.gov/arcgis/services/TIGERweb/tigerWMS_Current/MapServer/WMSServer' },
             { name: 'Radar base reflectivity (NOAA) (WMS)', url: 'https://idpgis.ncep.noaa.gov/arcgis/services/NWS_Observations/radar_base_reflectivity/MapServer/WmsServer' },
             { name: 'Wetlands_Raster (WMS)', url: 'https://www.fws.gov/wetlands/arcgis/services/Wetlands_Raster/ImageServer/WMSServer' },
-            { name: 'Contors (WMS)', url: 'https://carto.nationalmap.gov/arcgis/services/contours/MapServer/WMSServer' },
+            { name: 'Contours (WMS)', url: 'https://carto.nationalmap.gov/arcgis/services/contours/MapServer/WMSServer' },
             { name: 'Radar meteo imagery nexrad time (NOAA) (WMS)', url: 'https://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer' },
             { name: 'Natural Earth (WMS)', url: 'https://smallscale.nationalmap.gov/arcgis/services/NaturalEarth/MapServer/WMSServer' },
             { name: 'Water areas (WMS)', url: 'https://hydro.nationalmap.gov/arcgis/services/nhd/MapServer/WMSServer' },
@@ -128,19 +128,6 @@
                 loadLayer(services[serviceIdx].url);
             } else {
                 clear();
-            }
-        }
-
-        //Handle user input for a user provided OGC service URL.
-        function loadUserInput() {
-            clear();
-
-            document.getElementById('servicesDD').selectedIndex = 0;
-
-            var url = document.getElementById('inputTbx').value;
-
-            if (url) {
-                loadLayer(url);
             }
         }
 
@@ -322,10 +309,6 @@
         OGC Service:<br />
 
         <select id="servicesDD" onchange="loadSelectInput()"></select><br /><br />
-
-        <center>or</center><br />
-
-        Service URL: <input type="text" id="inputTbx" /><input type="button" value="Load" onclick="loadUserInput()" /><br /><br />
 
         <input id="useProxyService" type="checkbox" /> Use Proxy Service<br /><br />
 

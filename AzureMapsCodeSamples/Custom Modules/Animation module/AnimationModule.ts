@@ -48,7 +48,7 @@ module atlas {
          * @param newCoordinates The new coordinates of the shape. Must be the same format as required by the shape. 
          * @param options Options for the animation.
          */
-        export function setCoordinates(shape: atlas.Shape, newCoordinates: atlas.data.Position | atlas.data.Position[] | atlas.data.Position[][] | atlas.data.Position[][][], options?: PathAnimationOptions): PlayableAnimation {
+        export function setCoordinates(shape: atlas.Shape, newCoordinates: atlas.data.Position | atlas.data.Position[] | atlas.data.Position[][] | atlas.data.Position[][][], options?: PathAnimationOptions | MapPathAnimationOptions): PlayableAnimation {
 
             switch (shape.getType()) {
                 case 'Point':
@@ -70,26 +70,26 @@ module atlas {
         }
 
         /**
-         * Animates the path of a LineString.
+         * Animates a map and/or path of a LineString.
          * @param shape A LineString shape to animate.
          * @param options Options for the animation.
          */
-        export function snakeline(shape: atlas.Shape, options?: PathAnimationOptions): PlayableAnimation {
-            if (shape && shape.getType() === 'LineString') {
+        export function snakeline(shape: atlas.Shape, options?: PathAnimationOptions | MapPathAnimationOptions): PlayableAnimation {
+            if ((shape && shape.getType() === 'LineString') || (options && options['map'])) {
                 return new PathAnimation(shape, (shape.getCoordinates() as atlas.data.Position[]).slice(0), options);
             }
 
-            throw 'Specified shape is not a LineString type.';
+            throw 'Specified shape is not a LineString type, or not map specified.';
         }
 
         /**
-         * Animates a Point shape along a path. 
+         * Animates a map and/or a Point shape along a path. 
          * @param shape A Point shape to animate.
          * @param path The path to animate the point along. Must be either an array of positions, or a LineString geometry/shape.
          * @param options Options for the animation.
          */
-        export function moveAlongPath(shape: atlas.Shape, path?: atlas.data.Position[] | atlas.data.LineString | atlas.Shape, options?: PathAnimationOptions): PlayableAnimation {
-            if (shape && shape.getType() === 'Point') {
+        export function moveAlongPath(shape: atlas.Shape, path?: atlas.data.Position[] | atlas.data.LineString | atlas.Shape, options?: PathAnimationOptions | MapPathAnimationOptions): PlayableAnimation {
+            if ((shape && shape.getType() === 'Point') || (options && options['map'])) {
                 var p: atlas.data.Position[];
 
                 if (path) {
@@ -112,7 +112,7 @@ module atlas {
                 return new PathAnimation(shape, p, options);
             }
 
-            throw 'Specified shape is not a Point type.';
+            throw 'Specified shape is not a Point type, or not map specified.';
         }
 
         /**
@@ -290,6 +290,24 @@ module atlas {
 
         /** Specifies if metadata should be captured as properties of the shape. Potential metadata properties that may be captured: _heading */
         captureMetadata?: boolean;
+    }
+
+    /** Options for animating the map along a path. */
+    export interface MapPathAnimationOptions extends PathAnimationOptions {
+        /** Map to animation along path. */
+        map?: atlas.Map;
+
+        /** A fixed zoom level to snap the map to on each animation frame. By default the maps current zoom level is used. */
+        zoom?: number;
+
+        /** A pitch value to set on the map. By default this is not set. */
+        pitch?: number;
+
+        /** Specifies if the map should rotate such that the bearing of the map faces the direction the map is moving. Default: true */
+        rotate?: boolean;
+
+        /** When rotate is set to true, the animation will follow the animation. An offset of 180 will cause the camera to lead the animation and look back. Default: 0 */
+        rotationOffset?: number;
     }
 
     /****************************
@@ -949,7 +967,7 @@ module atlas {
         * Private properties
         ***************************/
 
-        private _options: PathAnimationOptions = {
+        private _options: MapPathAnimationOptions = {
             duration: 1000
         };
         private _shape: atlas.Shape;
@@ -968,7 +986,7 @@ module atlas {
          * @param shapes An array point geometry shapes to animatie dropping.
          * @param options Options for the animation.
          */
-        constructor(shape: atlas.Shape, newCoordinate?: atlas.data.Position, options?: PathAnimationOptions) {
+        constructor(shape: atlas.Shape, newCoordinate?: atlas.data.Position, options?: MapPathAnimationOptions) {
             super();
 
             this._originPosition = shape.getCoordinates() as atlas.data.Position;
@@ -1024,16 +1042,32 @@ module atlas {
                 if (progress === 1) {
                     //Animation is done.
                     this._shape.setCoordinates(this._destinationPosition);
+
+                    if (this._options.map) {
+                        this._setMapCamera(this._destinationPosition, this._heading, false);
+                    }
                 } else if (progress === 0) {
                     this._shape.setCoordinates(this._originPosition);
+
+                    if (this._options.map) {
+                        this._setMapCamera(this._originPosition, this._heading, false);
+                    }
                 } else {
                     var dx = this._dx * progress;
 
+                    var pos: atlas.data.Position;
+
                     //Calculate the coordinate part way between the origin and destination.
                     if (this._options.geodesic) {
-                        this._shape.setCoordinates(atlas.math.getDestination(this._originPosition, this._heading, dx));
+                        pos = atlas.math.getDestination(this._originPosition, this._heading, dx);
                     } else {
-                        this._shape.setCoordinates(atlas.math.mercatorPixelsToPositions([atlas.Pixel.getDestination(this._originPixel, this._heading, dx)], 21)[0]);
+                        pos = atlas.math.mercatorPixelsToPositions([atlas.Pixel.getDestination(this._originPixel, this._heading, dx)], 21)[0];
+                    }
+
+                    this._shape.setCoordinates(pos);
+
+                    if (this._options.map) {
+                        this._setMapCamera(pos, this._heading, true);
                     }
                 }
             }
@@ -1043,7 +1077,7 @@ module atlas {
         * Private functions
         ***************************/
 
-        private _setOptions(options: PathAnimationOptions): void {
+        private _setOptions(options: MapPathAnimationOptions): void {
             if (options) {
                 if (options.easing && Easings[options.easing]) {
                     this._easing = Easings[options.easing];
@@ -1059,6 +1093,26 @@ module atlas {
 
                 if (typeof options.geodesic === 'boolean') {
                     this._options.geodesic = options.geodesic;
+                }
+
+                if (typeof options.pitch === 'number') {
+                    this._options.pitch = options.pitch;
+                }
+
+                if (typeof options.zoom === 'number') {
+                    this._options.zoom = options.zoom;
+                }
+
+                if (typeof options.rotate === 'boolean') {
+                    this._options.rotate = options.rotate;
+                }
+
+                if (typeof options.rotationOffset === 'number') {
+                    this._options.rotationOffset = options.rotationOffset;
+                }
+
+                if (options.map) {
+                    this._options.map = options.map;
                 }
             }
             
@@ -1091,6 +1145,36 @@ module atlas {
                 this._shape.addProperty('_heading', this._heading);
             }
         }
+        
+        private _setMapCamera(position: atlas.data.Position, heading: number, animate: boolean): void {
+            if (this._options.map && position) {
+                var cam = <atlas.CameraOptions>{
+                    center: position
+                };
+
+                if (typeof this._options.pitch === 'number') {
+                    cam.pitch = this._options.pitch;
+                }
+
+                if (this._options.rotate && typeof heading === 'number') {
+                    cam.bearing = heading;
+
+                    if (typeof this._options.rotationOffset === 'number') {
+                        cam.bearing += this._options.rotationOffset;
+                    }
+                }
+
+                if (animate) {
+                    cam.type = 'fly';
+                    cam.duration = 60;
+                } else {
+                    cam.type = 'jump';
+                }
+
+                //Set the initial view of the map.
+                this._options.map.setCamera(cam);
+            }
+        }
     }
 
     /** Translates a Point object along a path or animates a LineString as a snakeline. */
@@ -1100,8 +1184,10 @@ module atlas {
         * Private Properties
         ***************************/
 
-        private _options: PathAnimationOptions = {
-            duration: 1000
+        private _options: MapPathAnimationOptions = {
+            duration: 1000,
+            rotate: true,
+            rotationOffset: 0
         };
         private _totalLength: number;
         private _positions: atlas.data.Position[];
@@ -1114,7 +1200,7 @@ module atlas {
         * Constructor
         ***************************/
 
-        constructor(shape: atlas.Shape, path: atlas.data.Position[], options?: PathAnimationOptions) {
+        constructor(shape: atlas.Shape, path: atlas.data.Position[], options?: MapPathAnimationOptions) {
             super();
 
             this._shape = shape;
@@ -1168,23 +1254,35 @@ module atlas {
 
                 if (progress === 1) {
                     //Animation is done.
-                    switch (this._shape.getType()) {
-                        case 'Point':
-                            this._shape.setCoordinates(this._positions[this._positions.length - 1]);
-                            break;
-                        case 'LineString':
-                            this._shape.setCoordinates(this._positions);
-                            break;
-                    }
+                    if (this._options.map) {
+                        this._setMapCamera(this._positions[this._positions.length - 1], (this._headings.length > 0) ? this._headings[this._headings.length - 1] : undefined, false);
+                    } 
 
-                    if (this._options.captureMetadata && this._headings.length > 0) {
-                        this._shape.addProperty('_heading', this._headings[this._headings.length - 1]);
+                    if (this._shape) {
+                        switch (this._shape.getType()) {
+                            case 'Point':
+                                this._shape.setCoordinates(this._positions[this._positions.length - 1]);
+                                break;
+                            case 'LineString':
+                                this._shape.setCoordinates(this._positions);
+                                break;
+                        }
+
+                        if (this._options.captureMetadata && this._headings.length > 0) {
+                            this._shape.addProperty('_heading', this._headings[this._headings.length - 1]);
+                        }
                     }
                 } else if (progress === 0) {
-                    this._shape.setCoordinates(this._positions[0]);
+                    if (this._options.map) {
+                        this._setMapCamera(this._positions[0], (this._headings.length > 0)? this._headings[0] : undefined, false);
+                    } 
 
-                    if (this._options.captureMetadata && this._headings.length > 0) {
-                        this._shape.addProperty('_heading', this._headings[0]);
+                    if (this._shape) {
+                        this._shape.setCoordinates(this._positions[0]);
+
+                        if (this._options.captureMetadata && this._headings.length > 0) {
+                            this._shape.addProperty('_heading', this._headings[0]);
+                        }
                     }
                 } else {
                     var dx = this._totalLength * progress;
@@ -1247,19 +1345,24 @@ module atlas {
                     }
 
                     if (pos && pos.length > 0) {
-                        switch (this._shape.getType()) {
-                            case 'Point':
-                                if (pos.length > 0) {
+                        if (this._options.map) {
+                            //Animate to the next view.
+                            this._setMapCamera(pos[pos.length - 1], heading, pos.length > 2);
+                        } 
+
+                        if (this._shape) {
+                            switch (this._shape.getType()) {
+                                case 'Point':
                                     this._shape.setCoordinates(pos[pos.length - 1]);
-                                }
-                                break;
-                            case 'LineString':
-                                this._shape.setCoordinates(pos);
-                                break;
+                                    break;
+                                case 'LineString':
+                                    this._shape.setCoordinates(pos);
+                                    break;
+                            }
                         }
                     }
 
-                    if (this._options.captureMetadata && typeof heading === 'number') {
+                    if (this._shape && this._options.captureMetadata && typeof heading === 'number') {
                         this._shape.addProperty('_heading', heading);
                     }
                 }
@@ -1270,7 +1373,7 @@ module atlas {
         * Private functions
         ***************************/
 
-        private _setOptions(options: PathAnimationOptions): void {
+        private _setOptions(options: MapPathAnimationOptions): void {
             if (options) {
                 if (options.easing && Easings[options.easing]) {
                     this._easing = Easings[options.easing];
@@ -1286,6 +1389,26 @@ module atlas {
 
                 if (typeof options.geodesic === 'boolean') {
                     this._options.geodesic = options.geodesic;
+                }
+
+                if (typeof options.pitch === 'number') {
+                    this._options.pitch = options.pitch;
+                }
+
+                if (typeof options.zoom === 'number') {
+                    this._options.zoom = options.zoom;
+                }
+
+                if (typeof options.rotate === 'boolean') {
+                    this._options.rotate = options.rotate;
+                }
+
+                if (typeof options.rotationOffset === 'number') {
+                    this._options.rotationOffset = options.rotationOffset;
+                }
+
+                if (options.map) {
+                    this._options.map = options.map;
                 }
             }
 
@@ -1317,8 +1440,38 @@ module atlas {
                 }
             }
 
-            if (options.captureMetadata && this._headings.length > 0) {
+            if (options.captureMetadata && this._headings.length > 0 && this._shape instanceof atlas.Shape) {
                 this._shape.addProperty('_heading', this._headings[0]);
+            }
+        }
+
+        private _setMapCamera(position: atlas.data.Position, heading: number, animate: boolean): void {
+            if (this._options.map && position) {
+                var cam = <atlas.CameraOptions>{
+                    center: position
+                };
+
+                if (typeof this._options.pitch === 'number') {
+                    cam.pitch = this._options.pitch;
+                }
+
+                if (this._options.rotate && typeof heading === 'number') {
+                    cam.bearing = heading;
+
+                    if (typeof this._options.rotationOffset === 'number') {
+                        cam.bearing += this._options.rotationOffset;
+                    }
+                }
+
+                if (animate) {
+                    cam.type = 'fly';
+                    cam.duration = 60;
+                } else {
+                    cam.type = 'jump';
+                }
+
+                //Set the initial view of the map.
+                this._options.map.setCamera(cam);
             }
         }
     }

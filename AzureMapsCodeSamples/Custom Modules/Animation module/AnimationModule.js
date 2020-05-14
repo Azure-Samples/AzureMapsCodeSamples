@@ -65,25 +65,25 @@ var atlas;
         }
         animations_1.setCoordinates = setCoordinates;
         /**
-         * Animates the path of a LineString.
+         * Animates a map and/or path of a LineString.
          * @param shape A LineString shape to animate.
          * @param options Options for the animation.
          */
         function snakeline(shape, options) {
-            if (shape && shape.getType() === 'LineString') {
+            if ((shape && shape.getType() === 'LineString') || (options && options['map'])) {
                 return new PathAnimation(shape, shape.getCoordinates().slice(0), options);
             }
-            throw 'Specified shape is not a LineString type.';
+            throw 'Specified shape is not a LineString type, or not map specified.';
         }
         animations_1.snakeline = snakeline;
         /**
-         * Animates a Point shape along a path.
+         * Animates a map and/or a Point shape along a path.
          * @param shape A Point shape to animate.
          * @param path The path to animate the point along. Must be either an array of positions, or a LineString geometry/shape.
          * @param options Options for the animation.
          */
         function moveAlongPath(shape, path, options) {
-            if (shape && shape.getType() === 'Point') {
+            if ((shape && shape.getType() === 'Point') || (options && options['map'])) {
                 var p;
                 if (path) {
                     if (Array.isArray(path)) {
@@ -103,7 +103,7 @@ var atlas;
                 }
                 return new PathAnimation(shape, p, options);
             }
-            throw 'Specified shape is not a Point type.';
+            throw 'Specified shape is not a Point type, or not map specified.';
         }
         animations_1.moveAlongPath = moveAlongPath;
         /**
@@ -813,18 +813,29 @@ var atlas;
                 if (progress === 1) {
                     //Animation is done.
                     this._shape.setCoordinates(this._destinationPosition);
+                    if (this._options.map) {
+                        this._setMapCamera(this._destinationPosition, this._heading, false);
+                    }
                 }
                 else if (progress === 0) {
                     this._shape.setCoordinates(this._originPosition);
+                    if (this._options.map) {
+                        this._setMapCamera(this._originPosition, this._heading, false);
+                    }
                 }
                 else {
                     var dx = this._dx * progress;
+                    var pos;
                     //Calculate the coordinate part way between the origin and destination.
                     if (this._options.geodesic) {
-                        this._shape.setCoordinates(atlas.math.getDestination(this._originPosition, this._heading, dx));
+                        pos = atlas.math.getDestination(this._originPosition, this._heading, dx);
                     }
                     else {
-                        this._shape.setCoordinates(atlas.math.mercatorPixelsToPositions([atlas.Pixel.getDestination(this._originPixel, this._heading, dx)], 21)[0]);
+                        pos = atlas.math.mercatorPixelsToPositions([atlas.Pixel.getDestination(this._originPixel, this._heading, dx)], 21)[0];
+                    }
+                    this._shape.setCoordinates(pos);
+                    if (this._options.map) {
+                        this._setMapCamera(pos, this._heading, true);
                     }
                 }
             }
@@ -845,6 +856,21 @@ var atlas;
                 }
                 if (typeof options.geodesic === 'boolean') {
                     this._options.geodesic = options.geodesic;
+                }
+                if (typeof options.pitch === 'number') {
+                    this._options.pitch = options.pitch;
+                }
+                if (typeof options.zoom === 'number') {
+                    this._options.zoom = options.zoom;
+                }
+                if (typeof options.rotate === 'boolean') {
+                    this._options.rotate = options.rotate;
+                }
+                if (typeof options.rotationOffset === 'number') {
+                    this._options.rotationOffset = options.rotationOffset;
+                }
+                if (options.map) {
+                    this._options.map = options.map;
                 }
             }
             if (this._options.geodesic) {
@@ -874,6 +900,31 @@ var atlas;
                 this._shape.addProperty('_heading', this._heading);
             }
         }
+        _setMapCamera(position, heading, animate) {
+            if (this._options.map && position) {
+                var cam = {
+                    center: position
+                };
+                if (typeof this._options.pitch === 'number') {
+                    cam.pitch = this._options.pitch;
+                }
+                if (this._options.rotate && typeof heading === 'number') {
+                    cam.bearing = heading;
+                    if (typeof this._options.rotationOffset === 'number') {
+                        cam.bearing += this._options.rotationOffset;
+                    }
+                }
+                if (animate) {
+                    cam.type = 'fly';
+                    cam.duration = 60;
+                }
+                else {
+                    cam.type = 'jump';
+                }
+                //Set the initial view of the map.
+                this._options.map.setCamera(cam);
+            }
+        }
     }
     /** Translates a Point object along a path or animates a LineString as a snakeline. */
     class PathAnimation extends atlas.animations.PlayableAnimation {
@@ -886,7 +937,9 @@ var atlas;
             * Private Properties
             ***************************/
             this._options = {
-                duration: 1000
+                duration: 1000,
+                rotate: true,
+                rotationOffset: 0
             };
             this._shape = shape;
             this._positions = path;
@@ -929,22 +982,32 @@ var atlas;
                 }
                 if (progress === 1) {
                     //Animation is done.
-                    switch (this._shape.getType()) {
-                        case 'Point':
-                            this._shape.setCoordinates(this._positions[this._positions.length - 1]);
-                            break;
-                        case 'LineString':
-                            this._shape.setCoordinates(this._positions);
-                            break;
+                    if (this._options.map) {
+                        this._setMapCamera(this._positions[this._positions.length - 1], (this._headings.length > 0) ? this._headings[this._headings.length - 1] : undefined, false);
                     }
-                    if (this._options.captureMetadata && this._headings.length > 0) {
-                        this._shape.addProperty('_heading', this._headings[this._headings.length - 1]);
+                    if (this._shape) {
+                        switch (this._shape.getType()) {
+                            case 'Point':
+                                this._shape.setCoordinates(this._positions[this._positions.length - 1]);
+                                break;
+                            case 'LineString':
+                                this._shape.setCoordinates(this._positions);
+                                break;
+                        }
+                        if (this._options.captureMetadata && this._headings.length > 0) {
+                            this._shape.addProperty('_heading', this._headings[this._headings.length - 1]);
+                        }
                     }
                 }
                 else if (progress === 0) {
-                    this._shape.setCoordinates(this._positions[0]);
-                    if (this._options.captureMetadata && this._headings.length > 0) {
-                        this._shape.addProperty('_heading', this._headings[0]);
+                    if (this._options.map) {
+                        this._setMapCamera(this._positions[0], (this._headings.length > 0) ? this._headings[0] : undefined, false);
+                    }
+                    if (this._shape) {
+                        this._shape.setCoordinates(this._positions[0]);
+                        if (this._options.captureMetadata && this._headings.length > 0) {
+                            this._shape.addProperty('_heading', this._headings[0]);
+                        }
                     }
                 }
                 else {
@@ -1009,18 +1072,22 @@ var atlas;
                         }
                     }
                     if (pos && pos.length > 0) {
-                        switch (this._shape.getType()) {
-                            case 'Point':
-                                if (pos.length > 0) {
+                        if (this._options.map) {
+                            //Animate to the next view.
+                            this._setMapCamera(pos[pos.length - 1], heading, pos.length > 2);
+                        }
+                        if (this._shape) {
+                            switch (this._shape.getType()) {
+                                case 'Point':
                                     this._shape.setCoordinates(pos[pos.length - 1]);
-                                }
-                                break;
-                            case 'LineString':
-                                this._shape.setCoordinates(pos);
-                                break;
+                                    break;
+                                case 'LineString':
+                                    this._shape.setCoordinates(pos);
+                                    break;
+                            }
                         }
                     }
-                    if (this._options.captureMetadata && typeof heading === 'number') {
+                    if (this._shape && this._options.captureMetadata && typeof heading === 'number') {
                         this._shape.addProperty('_heading', heading);
                     }
                 }
@@ -1042,6 +1109,21 @@ var atlas;
                 }
                 if (typeof options.geodesic === 'boolean') {
                     this._options.geodesic = options.geodesic;
+                }
+                if (typeof options.pitch === 'number') {
+                    this._options.pitch = options.pitch;
+                }
+                if (typeof options.zoom === 'number') {
+                    this._options.zoom = options.zoom;
+                }
+                if (typeof options.rotate === 'boolean') {
+                    this._options.rotate = options.rotate;
+                }
+                if (typeof options.rotationOffset === 'number') {
+                    this._options.rotationOffset = options.rotationOffset;
+                }
+                if (options.map) {
+                    this._options.map = options.map;
                 }
             }
             this._totalLength = 0;
@@ -1068,8 +1150,33 @@ var atlas;
                     this._headings.push(h);
                 }
             }
-            if (options.captureMetadata && this._headings.length > 0) {
+            if (options.captureMetadata && this._headings.length > 0 && this._shape instanceof atlas.Shape) {
                 this._shape.addProperty('_heading', this._headings[0]);
+            }
+        }
+        _setMapCamera(position, heading, animate) {
+            if (this._options.map && position) {
+                var cam = {
+                    center: position
+                };
+                if (typeof this._options.pitch === 'number') {
+                    cam.pitch = this._options.pitch;
+                }
+                if (this._options.rotate && typeof heading === 'number') {
+                    cam.bearing = heading;
+                    if (typeof this._options.rotationOffset === 'number') {
+                        cam.bearing += this._options.rotationOffset;
+                    }
+                }
+                if (animate) {
+                    cam.type = 'fly';
+                    cam.duration = 60;
+                }
+                else {
+                    cam.type = 'jump';
+                }
+                //Set the initial view of the map.
+                this._options.map.setCamera(cam);
             }
         }
     }
