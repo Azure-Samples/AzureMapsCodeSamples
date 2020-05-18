@@ -1204,6 +1204,15 @@ var sampleList = [
 			created:'5/4/2018'
 		},
 		{
+			title:'Show clustered points in popup',
+			desc:'This sample shows how to display selectable list of points within a cluster in a popup. When an item is selected, the content of the popup will update to show the details of the selected point. ',
+			path:'Popups/Show%20clustered%20points%20in%20popup.html',
+			sourcePath:'Popups/Show%20clustered%20points%20in%20popup.html',
+			screenshot:'Show-clustered-points-in-popup.png.png',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer',
+			created:'5/18/2020'
+		},
+		{
 			title:'Show popup on hover',
 			desc:'This sample shows how to show a popup when the mouse hovers over or touches a shape.',
 			path:'Popups/Show%20popup%20on%20hover.html',
@@ -2047,4 +2056,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 211;
+}];var numberOfSamples = 212;

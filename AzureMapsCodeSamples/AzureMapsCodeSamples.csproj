@@ -336,9 +336,11 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
+    <Content Include="Popups\Show clustered points in popup.html" />
     <Content Include="SiteResources\screenshots\Census-block-group-analysis.png" />
     <Content Include="SiteResources\screenshots\Inspect-features-under-the-mouse.png" />
     <Content Include="SiteResources\screenshots\Pulse-animation-with-bubble-layer.gif" />
+    <Content Include="SiteResources\screenshots\Show-clustered-points-in-popup.png.png" />
     <Content Include="Spatial Analysis\Census block group analysis.html" />
     <Content Include="Experimental\Display route sections.html" />
     <Content Include="Experimental\Draggable route line.html" />
