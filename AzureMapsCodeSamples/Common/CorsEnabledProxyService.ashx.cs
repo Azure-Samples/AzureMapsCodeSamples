@@ -37,7 +37,7 @@ namespace AzureMapsCodeSamples.Common
                 processUrl = false;
             }
 #else
-            //Only allow requests the originated on the code sample site.
+            //Only allow requests that originated on the code sample site.
             if (!(context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.net/") ||
                 context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.us/")))
             {
