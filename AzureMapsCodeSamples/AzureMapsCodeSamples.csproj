@@ -193,6 +193,8 @@
     <Content Include="Common\data\USCensus2010\BlockGroupPopulation\CenPop2010_Mean_BG54.txt" />
     <Content Include="Common\data\USCensus2010\BlockGroupPopulation\CenPop2010_Mean_BG55.txt" />
     <Content Include="Common\data\USCensus2010\BlockGroupPopulation\CenPop2010_Mean_BG56.txt" />
+    <Content Include="Common\images\fill-patterns\fill-forest-pattern.png" />
+    <Content Include="Common\images\fill-patterns\fill-grass-pattern.png" />
     <Content Include="Common\images\icons\campfire.png" />
     <Content Include="Common\images\icons\campground.png" />
     <Content Include="Common\images\icons\gas_station_pin.png" />
@@ -336,9 +338,11 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
+    <Content Include="Popups\Popups with leader lines.html" />
     <Content Include="Popups\Show clustered points in popup.html" />
     <Content Include="SiteResources\screenshots\Census-block-group-analysis.png" />
     <Content Include="SiteResources\screenshots\Inspect-features-under-the-mouse.png" />
+    <Content Include="SiteResources\screenshots\Popups-with-leader-lines.png" />
     <Content Include="SiteResources\screenshots\Pulse-animation-with-bubble-layer.gif" />
     <Content Include="SiteResources\screenshots\Show-clustered-points-in-popup.png.png" />
     <Content Include="Spatial Analysis\Census block group analysis.html" />

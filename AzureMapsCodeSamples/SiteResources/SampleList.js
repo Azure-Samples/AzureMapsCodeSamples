@@ -1186,6 +1186,15 @@ var sampleList = [
 			created:'10/8/2018'
 		},
 		{
+			title:'Popups with leader lines',
+			desc:'This sample shows how to add events to Popups.',
+			path:'Popups/Popups%20with%20leader%20lines.html',
+			sourcePath:'Popups/Popups%20with%20leader%20lines.html',
+			screenshot:'Popups-with-leader-lines.png',
+			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse',
+			created:'6/1/2020'
+		},
+		{
 			title:'Reuse a popup template',
 			desc:'This sample shows how to use reuse a single popup template with multiple features that share a common set of property fields.',
 			path:'Popups/Reuse%20a%20popup%20template.html',
@@ -2056,4 +2065,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 212;
+}];var numberOfSamples = 213;
