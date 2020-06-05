@@ -338,6 +338,7 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
+    <Content Include="Map\Update layer based on map style.html" />
     <Content Include="Popups\Popups with leader lines.html" />
     <Content Include="Popups\Show clustered points in popup.html" />
     <Content Include="SiteResources\screenshots\Census-block-group-analysis.png" />
@@ -345,6 +346,7 @@
     <Content Include="SiteResources\screenshots\Popups-with-leader-lines.png" />
     <Content Include="SiteResources\screenshots\Pulse-animation-with-bubble-layer.gif" />
     <Content Include="SiteResources\screenshots\Show-clustered-points-in-popup.png.png" />
+    <Content Include="SiteResources\screenshots\Update-layer-based-on-map-style.gif" />
     <Content Include="Spatial Analysis\Census block group analysis.html" />
     <Content Include="Experimental\Display route sections.html" />
     <Content Include="Experimental\Draggable route line.html" />

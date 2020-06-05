@@ -994,6 +994,15 @@ var sampleList = [
 			created:'6/24/2019'
 		},
 		{
+			title:'Update layer based on map style',
+			desc:'This sample shows how to monitor the maps style and update the style of a layer accordingly.',
+			path:'Map/Update%20layer%20based%20on%20map%20style.html',
+			sourcePath:'Map/Update%20layer%20based%20on%20map%20style.html',
+			screenshot:'Update-layer-based-on-map-style.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image, styledata',
+			created:'6/5/2020'
+		},
+		{
 			title:'Export Map as Image',
 			desc:'This sample shows how to export the map canvas as an image which can be used in reports or emails. ',
 			path:'Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html',
@@ -2065,4 +2074,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 213;
+}];var numberOfSamples = 214;
