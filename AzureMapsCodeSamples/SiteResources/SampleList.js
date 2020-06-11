@@ -967,6 +967,15 @@ var sampleList = [
 			created:'10/11/2018'
 		},
 		{
+			title:'Mouse events with key down',
+			desc:'This sample shows how to monitor keys that are pressed when mouse events on the map. This same approach can be used with layers as well.',
+			path:'Map/Mouse%20events%20with%20key%20down.html',
+			sourcePath:'Map/Mouse%20events%20with%20key%20down.html',
+			screenshot:'',
+			keywords:'microsoft maps, map, gis, api, sdk, events, mouse, key',
+			created:'6/11/2020'
+		},
+		{
 			title:'Multiple Maps in Different Languages',
 			desc:'This sample shows two maps rendered on the same page, displaying maps in different languages. Press one of the buttons to change the language of the second map instantly.',
 			path:'Map/Multiple%20Maps%20in%20Different%20Lanaguages.html',
@@ -2074,4 +2083,4 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 214;
+}];var numberOfSamples = 215;

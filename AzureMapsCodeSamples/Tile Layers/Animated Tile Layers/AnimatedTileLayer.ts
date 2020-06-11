@@ -257,4 +257,9 @@ class AnimatedTileLayerManager {
     }
 }
 
-//TODO: try refactoring to use a single tile layer and update it's URL/source as this should work better now.
+/*
+ * //TODO: 
+ * - try refactoring to use a single tile layer and update it's URL/source as this should work better now.
+ * - consider pre-caching tiles.
+ * - consider using requestanimationFrame instead of setTimeout.
+ */
