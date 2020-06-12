@@ -967,11 +967,11 @@ var sampleList = [
 			created:'10/11/2018'
 		},
 		{
-			title:'Mouse events with key down',
+			title:'Mouse events with keys pressed',
 			desc:'This sample shows how to monitor keys that are pressed when mouse events on the map. This same approach can be used with layers as well.',
-			path:'Map/Mouse%20events%20with%20key%20down.html',
-			sourcePath:'Map/Mouse%20events%20with%20key%20down.html',
-			screenshot:'',
+			path:'Map/Mouse%20events%20with%20keys%20pressed.html',
+			sourcePath:'Map/Mouse%20events%20with%20keys%20pressed.html',
+			screenshot:'Mouse-events-with-keys-pressed.png',
 			keywords:'microsoft maps, map, gis, api, sdk, events, mouse, key',
 			created:'6/11/2020'
 		},
