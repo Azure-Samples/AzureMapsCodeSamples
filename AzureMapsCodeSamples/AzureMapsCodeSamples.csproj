@@ -95,6 +95,7 @@
     <Content Include="Bubble Layer\Cluster aggregates.html" />
     <Content Include="Common\data\indoor\tutorial\fixtures.zip" />
     <Content Include="Common\data\shp\BikeRacks.zip" />
+    <Content Include="Common\data\geojson\Census Tracts in Colorado 2016.geojson" />
     <None Include="Common\data\SpatialCSV\Airports.pipe" />
     <Content Include="Common\data\SpatialCSV\Chicago_Police_Stations.csv" />
     <Content Include="Common\data\SpatialCSV\Chicago_Bike_Racks.csv" />
