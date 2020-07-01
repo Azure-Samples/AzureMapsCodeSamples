@@ -221,7 +221,7 @@
 
             //Make a synchronous batch geocode request which allows up to 100 items per batch.
             //Note: There is an asynchronous version of this service that allows up to 10,000 items per batch but requires accessing response headers which is blocked by JavaScript at this time.
-            var res = await fetch('https://atlas.azure.us/search/address/batch/json?api-version=1.0&subscription-key=' + atlas.getSubscriptionKey(), {
+            var res = await fetch('https://atlas.microsoft.com/search/address/batch/json?api-version=1.0&subscription-key=' + atlas.getSubscriptionKey(), {
                 method: 'POST',
                 body: body,
                 headers: {
