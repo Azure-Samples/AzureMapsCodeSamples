@@ -350,6 +350,9 @@
     <Content Include="SiteResources\screenshots\Pulse-animation-with-bubble-layer.gif" />
     <Content Include="SiteResources\screenshots\Show-clustered-points-in-popup.png.png" />
     <Content Include="SiteResources\screenshots\Update-layer-based-on-map-style.gif" />
+    <Content Include="SiteResources\screenshots\Vector-tile-bubble-layer.png" />
+    <Content Include="SiteResources\screenshots\Vector-tile-heat-map.png" />
+    <Content Include="SiteResources\screenshots\Vector-tile-line-layer.png" />
     <Content Include="Spatial Analysis\Census block group analysis.html" />
     <Content Include="Experimental\Display route sections.html" />
     <Content Include="Experimental\Draggable route line.html" />
@@ -881,6 +884,9 @@
     <Content Include="Traffic\Traffic Overlay Options.html" />
     <Content Include="Traffic\Traffic Overlay.html" />
     <Content Include="Tutorials\truckRoute.html" />
+    <Content Include="Vector tiles\Vector tile heat map.html" />
+    <Content Include="Vector tiles\Vector tile line layer.html" />
+    <Content Include="Vector tiles\Vector tile bubble layer.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

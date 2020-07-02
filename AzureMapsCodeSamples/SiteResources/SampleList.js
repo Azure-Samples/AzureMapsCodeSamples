@@ -2083,4 +2083,37 @@ var sampleList = [
 			created:'10/25/2018'
 		},
 	]
-}];var numberOfSamples = 215;
+},
+{
+	category:'Vector tiles',
+	desc:'Vector tiles are an efficient way to render larger data sets on the map.',
+	samples: [
+		{
+			title:'Vector tile bubble layer',
+			desc:'This sample shows how to how to use a vector tile service to render point data on the map.',
+			path:'Vector%20tiles/Vector%20tile%20bubble%20layer.html',
+			sourcePath:'Vector%20tiles/Vector%20tile%20bubble%20layer.html',
+			screenshot:'Vector-tile-bubble-layer.png',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, vector tiles, mbtiles, traffic, layer, flow, incidents',
+			created:'7/2/2020'
+		},
+		{
+			title:'Vector tile heat map',
+			desc:'This sample shows how to how to use a vector tile service to render data as a heat map.',
+			path:'Vector%20tiles/Vector%20tile%20heat%20map.html',
+			sourcePath:'Vector%20tiles/Vector%20tile%20heat%20map.html',
+			screenshot:'Vector-tile-heat-map.png',
+			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, vector tiles, mbtiles, traffic, layer, flow, incidents',
+			created:'7/2/2020'
+		},
+		{
+			title:'Vector tile line layer',
+			desc:'This sample shows how to how to use a vector tile service to render line data on the map.',
+			path:'Vector%20tiles/Vector%20tile%20line%20layer.html',
+			sourcePath:'Vector%20tiles/Vector%20tile%20line%20layer.html',
+			screenshot:'Vector-tile-line-layer.png',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, linelayer, vector tiles, mbtiles, traffic, layer, flow, incidents',
+			created:'7/2/2020'
+		},
+	]
+}];var numberOfSamples = 218;

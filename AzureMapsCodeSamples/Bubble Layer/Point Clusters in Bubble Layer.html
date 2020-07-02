@@ -56,7 +56,7 @@
                 
                 //Create a bubble layer for rendering clustered data points.
                 var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
-                    //Scale the size of the clustered bubble based on the number of points inthe cluster.
+                    //Scale the size of the clustered bubble based on the number of points in the cluster.
                     radius: [
                         'step',
                         ['get', 'point_count'],

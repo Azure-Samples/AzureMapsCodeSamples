@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-06-11</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-07-02</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
@@ -216,4 +216,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/search.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/truckRoute.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/Simple%20Store%20Locator/index.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Vector%20tiles/Vector%20tile%20bubble%20layer.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Vector%20tiles/Vector%20tile%20heat%20map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Vector%20tiles/Vector%20tile%20line%20layer.html</loc></url>
 </urlset>

@@ -56,7 +56,8 @@ namespace SampleListBuilder
             { "Third Party Map Controls", "As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these." },
             { "Tile Layers", "Overlay raster tile layers on top the map using the same tiling system used by the base maps." },
             { "Traffic", "Overlay real-time traffic data on the map." },
-            { "Tutorials", "These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href=\"https://docs.microsoft.com/azure/azure-maps/\" target=\"_blank\">here</a>." }
+            { "Tutorials", "These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href=\"https://docs.microsoft.com/azure/azure-maps/\" target=\"_blank\">here</a>." },
+            { "Vector tiles", "Vector tiles are an efficient way to render larger data sets on the map." }
         };
 
         public static List<ExternalSampleCategory> ExternalSamples = new List<ExternalSampleCategory>()
