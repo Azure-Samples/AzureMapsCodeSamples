@@ -39,7 +39,7 @@
 
                 //Create a vector tile source and add it to the map.
                 datasource = new atlas.source.VectorTileSource(null, {
-                    tiles: ['https://atlas.microsoft.com/traffic/flow/tile/pbf?api-version=1.0&style=relative&zoom={z}&x={x}&y={y}&subscription-key=' + atlas.getSubscriptionKey()],
+                    tiles: ['https://{azMapsDomain}/traffic/flow/tile/pbf?api-version=1.0&style=relative&zoom={z}&x={x}&y={y}'],
                     maxZoom: 22
                 });
                 map.sources.add(datasource);

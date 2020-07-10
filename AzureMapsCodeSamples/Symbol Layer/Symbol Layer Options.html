@@ -530,7 +530,7 @@
                         <select id="TextPitchAlignment" onchange="updateSymbolLayer()">
                             <option value="auto" selected="selected">auto</option>
                             <option value="map">map</option>
-                            <option value="viewport"">viewport</option>
+                            <option value="viewport">viewport</option>
                         </select>
                     </td>
                 </tr>
@@ -551,7 +551,7 @@
                     <td>Halo Width:</td>
                     <td>
                         <form oninput="b.value=HaloWidth.value">
-                            <input type="range" id="HaloWidth" value="0" min="0" max="5" step="0.2" oninput="updateSymbolLayer()" onchange="updateSymbolLayer()" />
+                            <input type="range" id="HaloWidth" value="0" min="0" max="15" step="0.2" oninput="updateSymbolLayer()" onchange="updateSymbolLayer()" />
                             <output name="b" for="HaloWidth">0</output>
                         </form>
                     </td>

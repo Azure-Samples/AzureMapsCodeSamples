@@ -144,6 +144,7 @@ namespace AzureMapsCodeSamples.Common
             //OGC services
             "https://basemap.nationalmap.gov/arcgis/rest/services/",
             "https://carto.nationalmap.gov/arcgis/services/",
+            "https://www.coast.noaa.gov/arcgis/rest/services/",
             "https://data.geus.dk/geusmap/ows/4258.jsp",
             "https://data.gns.cri.nz/webmaps/",
             "https://gis.dnr.alaska.gov/terrapixel/",

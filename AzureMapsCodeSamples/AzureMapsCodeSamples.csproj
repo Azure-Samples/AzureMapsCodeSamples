@@ -339,6 +339,7 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
+    <Content Include="Experimental\HackforEditModeEvents.html" />
     <Content Include="Map\Mouse events with keys pressed.html" />
     <Content Include="Map\Update layer based on map style.html" />
     <Content Include="Popups\Popups with leader lines.html" />
