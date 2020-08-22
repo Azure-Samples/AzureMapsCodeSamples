@@ -7,8 +7,8 @@ IF SUFFICIENT INFORMATION IS NOT PROVIDED VIA THE FOLLOWING TEMPLATE THE ISSUE M
 
 Ensur this is the right place to report your issue.
 
-- If your **issue is with the Azure Maps platform itself** and not specific to a code sample gallery, please report the issue on the forums: https://stackoverflow.com/questions/tagged/azure-maps 
-- If your issue is with "official Azure Maps documentation** you can use the feedback button on the documentation page to directly report the issue to the documentation team.
+- If your **issue is with the Azure Maps platform itself** and not specific to a code sample gallery, please conenct with the Azure support team at https://azure.com/support or report the issue on the forums: https://stackoverflow.com/questions/tagged/azure-maps 
+- If your issue is with the **official Azure Maps documentation** you can use the feedback button on the documentation page to directly report the issue to the documentation team.
 
 Reporting these types of issues using this methods will likely result in your issue being resolved quicker than if reported here.
 
