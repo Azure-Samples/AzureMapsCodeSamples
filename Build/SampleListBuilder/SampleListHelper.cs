@@ -31,7 +31,7 @@ namespace SampleListBuilder
 
         private static Dictionary<string, string> CategoryFolders = new Dictionary<string, string>()
         {
-            { "Animations", "Learn how to animate data on the map." },
+            { "Animations", "Learn how to animate data on the map. Many of these samples leverage the open source <a href=\"https://github.com/Azure-Samples/azure-maps-animations\" target=\"_blank\">Azure Maps Animation module</a>" },
             { "Bubble Layer", "These samples demonstrate different ways to implement the bubble layer to render point based data." },
             { "Controls", "Add UI controls to the map to create an enhanced user experience." },
             { "Custom Modules", "Use custom modules to extend the functionality of the Azure Maps Web SDK." },

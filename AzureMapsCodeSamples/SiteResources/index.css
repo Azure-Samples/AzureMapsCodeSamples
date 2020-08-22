@@ -116,3 +116,8 @@ h3 {
 .form-check-label {
     min-width: 120px;
 }
+
+.dropdown-menu {
+    max-height: calc(100vh - 100px);
+    overflow-y:auto;
+}

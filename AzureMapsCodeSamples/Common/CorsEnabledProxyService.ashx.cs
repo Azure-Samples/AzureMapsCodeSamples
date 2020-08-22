@@ -30,20 +30,14 @@ namespace AzureMapsCodeSamples.Common
             //Only process URL's that are whitelisted.
             bool processUrl = IsUrlAllowed(url);
 
-#if DEBUG
-            //If code running in Debug mode, allow requests that originated from localhost.
-            if (!context.Request.UrlReferrer.AbsoluteUri.StartsWith("http://localhost:"))
-            {
-                processUrl = false;
-            }
-#else
-            //Only allow requests that originated on the code sample site.
-            if (!(context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.net/") ||
+            //Only allow requests that originated on local host or the code sample site.
+            if (!(context.Request.IsLocal || 
+                context.Request.UrlReferrer == null || 
+                context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.net/") ||
                 context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.us/")))
             {
                 processUrl = false;
             }
-#endif
 
             if (processUrl)
             {

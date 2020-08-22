@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Drop multiple markers animation - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate the dropping of multiple HTML markers on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animation, animate, animations, point, symbol, pushpin, marker, pin" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the animation module. -->
+    <script src="../Common/scripts/atlas-animations.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, animation;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33825, 47.53945],
+                zoom: 7,
+                view: 'Auto',
+				
+				//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                map.events.add('click', function (e) {
+                    //If animations are already loaded, play them.
+                    if (animation) {
+                        animation.play();
+                    } else {
+                        //Create random positioned HtmlMarkers and animate them being dropped onto the map.
+                        var markers = [];
+
+                        for (var i = 0; i < 15; i++) {
+                            markers.push(new atlas.HtmlMarker({
+                                position: [-122.3 + (Math.random() * 2 - 1), 47.5 + (Math.random() * 2 - 1)]
+                            }));
+                        }
+
+                        animation = atlas.animations.dropMarkers(markers, map, null, { easing: 'easeOutBounce', duration: 1000, autoPlay: true });
+                    }
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:0px;left:calc(50% - 100px);background-color:white;padding:5px;">Click the map to animate markers.</div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Drop multiple markers animation</h1></legend>
+        This sample shows how to animate the dropping of multiple HTML markers on the map.
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>
+    </fieldset>
+</body>
+</html>

@@ -44,7 +44,13 @@ window.onload = function () {
             'Simple%20directions': 'Calculate%20Route%with%20Services%20Module',
             'Basic%20Geocoding%20Request': 'Simple%20REST%20Geocoding%20Request',
             'Layer%20Events': 'Symbol%20layer%20events',
-            'Census%20group%20block%20analysis':'Census%20block%20group%20analysis'
+            'Census%20group%20block%20analysis': 'Census%20block%20group%20analysis',
+
+            'Animated%20Tile%20Layer': 'Animated%20tile%20layer',
+            'Animate%20a%20Symbol%20along%20a%20Path': 'Animate%20along%20a%20path',
+            'Animate%20a%20LineString': 'Animate%20a%20snakeline',
+            'Animate%20a%20point': 'Animate%20to%20new%20position%20of%20point',
+            'Animate%20a%20Choropleth%20Map': 'Animate%20a%20choropleth%20map'
         };
 
         var redirect = sampleRedirects[hash];

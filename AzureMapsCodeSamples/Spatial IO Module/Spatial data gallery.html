@@ -76,7 +76,8 @@
             //Read a data file from a URL or pass in a raw string.
             atlas.io.read(url, {
                 //Proxy service for accessing cross domain assets that may not have CORs enabled.
-                proxyService: proxyServiceUrl
+                proxyService: proxyServiceUrl,
+                capturePathWaypoints: true
             }).then(async r => {
                 if (r) {
 
@@ -304,7 +305,7 @@
                 <li><a href="javascript:void(0);" onclick="loadData('/Common/data/gpx/Route66Attractions.xml');">Route 66 Attractions</a></li>
                 <li><a href="javascript:void(0);" onclick="loadData('/Common/data/gpx/Tourist_locations_UK-England.xml');">UK Tourist Locations</a></li>
                 <li><a href="javascript:void(0);" onclick="loadData('/Common/data/gpx/gps_points.xml')">GPS Points</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/Common/data/gpx/kuhkopfsteig-fv.gpx')">Kuhkopfsteig</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/Common/data/gpx/race-gps-trace.gpx')">Race GPS trace</a></li>
             </ul>
         </div>
 
@@ -329,6 +330,7 @@
                 <li><a href="javascript:void(0);" onclick="loadData('/Common/data/spatialcsv/Chicago_Bike_Racks.csv')">Chicago Bike Racks (csv)</a></li>
                 <li><a href="javascript:void(0);" onclick="loadData('/Common/data/spatialcsv/Chicago_Narcotics.csv')">Chicago Narcotics (csv)</a></li>
                 <li><a href="javascript:void(0);" onclick="loadData('/Common/data/spatialcsv/Chicago_Police_Stations.csv')">Chicago Police Stations (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/Common/data/spatialcsv/hurricane_barry_track.csv')">Hurricane Barry track (csv)</a></li>
                 <li><a href="javascript:void(0);" onclick="loadData('/Common/data/spatialcsv/WAEcologicalSites.tab')">WA Ecological Sites (tab)</a></li>
             </ul>
         </div>

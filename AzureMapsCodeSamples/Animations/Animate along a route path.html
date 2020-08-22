@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Animate along a route path - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to smoothly animate a symbol along a route path taking into consideration timestamps for each point in the route path. This sample also includes controls and options for the animation." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the animation module. -->
+    <script src="../Common/scripts/atlas-animations.min.js"></script>
+    
+    <script type='text/javascript'>
+        var map, pin, lineSource, pinSource;
+        var animation;
+
+        //Create an array of point features with timestamp information to define a route to animate along.
+        //To animate a route, there must be a _timestamp property that has a value from Date.getTime().
+        var routePoints = [
+            new atlas.data.Feature(new atlas.data.Point([-122.34758, 47.62155]), { _timestamp: new Date('Tue, 18 Aug 2020 00:53:53 GMT').getTime() }),
+            new atlas.data.Feature(new atlas.data.Point([-122.34764, 47.61859]), { _timestamp: new Date('Tue, 18 Aug 2020 00:54:53 GMT').getTime() }),
+            new atlas.data.Feature(new atlas.data.Point([-122.33787, 47.61295]), { _timestamp: new Date('Tue, 18 Aug 2020 00:56:53 GMT').getTime() }),
+            new atlas.data.Feature(new atlas.data.Point([-122.34217, 47.60964]), { _timestamp: new Date('Tue, 18 Aug 2020 00:59:53 GMT').getTime() })
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.345, 47.615],
+                zoom: 14,
+                view: 'Auto',
+				
+				//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Load a custom image icon into the map resources.
+                map.imageSprite.createFromTemplate('arrow-icon', 'marker-arrow', 'teal', '#fff').then(function () {
+
+                    //Create data sources and add them to the map.
+                    lineSource = new atlas.source.DataSource();
+                    pinSource = new atlas.source.DataSource();
+                    map.sources.add([lineSource, pinSource]);
+
+                    //Create a layer to render the path.
+                    map.layers.add(new atlas.layer.LineLayer(lineSource, null, {
+                        strokeColor: 'DodgerBlue',
+                        strokeWidth: 3
+                    }));
+
+                    //Extract the positions to highlight the full route on the map as a line.
+                    var path = [];
+
+                    routePoints.forEach(f => {
+                        path.push(f.geometry.coordinates);
+                    });
+
+                    //Create a line for the path and add it to the data source.
+                    lineSource.add(new atlas.data.LineString(path));
+
+                    //Create a layer to render a symbol which we will animate.
+                    map.layers.add(new atlas.layer.SymbolLayer(pinSource, null, {
+                        iconOptions: {
+                            //Pass in the id of the custom icon that was loaded into the map resources.
+                            image: 'arrow-icon',
+
+                            //Anchor the icon to the center of the image.
+                            anchor: 'center',
+
+                            //Rotate the icon based on the rotation property on the point data.
+                            //The arrow icon being used in this case points down, so we have to rotate it 180 degrees.
+                            rotation: ['+', 180, ['get', 'heading']],
+
+                            //Have the rotation align with the map.
+                            rotationAlignment: 'map',
+
+                            //For smoother animation, ignore the placement of the icon. This skips the label collision calculations and allows the icon to overlap map labels. 
+                            ignorePlacement: true,
+
+                            //For smoother animation, allow symbol to overlap all other symbols on the map.
+                            allowOverlap: true
+                        },
+                        textOptions: {
+                            //For smoother animation, ignore the placement of the text. This skips the label collision calculations and allows the text to overlap map labels.
+                            ignorePlacement: true,
+
+                            //For smoother animation, allow text to overlap all other symbols on the map.
+                            allowOverlap: true
+                        }
+                    }));
+
+                    //Create a pin and wrap with the shape class and add to data source.
+                    pin = new atlas.Shape(routePoints[0]);
+                    pinSource.add(pin);
+
+                    //Create the animation.
+                    animation = atlas.animations.moveAlongRoute(routePoints, pin, { 
+                        //Specify the property that contains the timestamp.
+                        timestampProperty: 'timestamp',
+
+                        //Capture metadata so that data driven styling can be done.
+                        captureMetadata: true,
+                        
+                        loop: document.getElementById('loopAnimation').checked,
+                        reverse: document.getElementById('reverseAnimation').checked,
+                        rotationOffset: (document.getElementById('reverseAnimation').checked)? 90: 0,
+                        
+                        //Animate such that 1 second of animation time = 1 minute of data time.
+                        speedMultiplier: 60,
+
+                        //If following enabled, add a map to the animation.
+                        map: (document.getElementById('followSymbol').checked)? map: null,
+
+                        //Camera options to use when following.
+                        zoom: 15,
+                        pitch: 45,
+                        rotate: true
+                    });
+                });
+            });
+        }
+
+        function toggleFollow(){
+            animation.setOptions({
+                map: (animation.getOptions().map)? null : map
+            });
+        }
+
+        function toggleFollowOffset(){
+            animation.setOptions({
+                rotationOffset: (animation.getOptions().rotationOffset === 0)? 90 : 0
+            });
+        }
+
+        function toggleLooping(){
+            animation.setOptions({
+                loop: !animation.getOptions().loop
+            });
+        }
+
+        function toggleReverse(){
+            animation.setOptions({
+                reverse: !animation.getOptions().reverse
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;border-radius:5px;padding:5px;background-color:white;">
+        <input type="button" value="Play" onclick="animation.play()" />
+        <input type="button" value="Pause" onclick="animation.pause()" />
+        <input type="button" value="Stop" onclick="animation.stop()"/>        
+        <input type="button" value="Reset" onclick="animation.reset()"/>
+        <br/><br/>
+        Follow: <input id="followSymbol" type="checkbox" onclick="toggleFollow()"/><br/>
+        Follow offset: <input id="followOffset" type="checkbox" onclick="toggleFollowOffset()"/><br/>
+        Loop: <input id="loopAnimation" type="checkbox" onclick="toggleLooping()"/><br/>
+        Reverse: <input id="reverseAnimation" type="checkbox" onclick="toggleReverse()"/>        
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Animate along a route path</h1></legend>
+        This sample shows how to smoothly animate a symbol along a route path taking into consideration timestamps for each point in the route path. 
+        This sample also includes controls and options for the animation. 
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>
+    </fieldset>
+</body>
+</html>

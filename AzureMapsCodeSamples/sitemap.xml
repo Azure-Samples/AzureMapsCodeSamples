@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-07-02</lastmod></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Choropleth%20Map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-08-21</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Symbol%20along%20a%20Path.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20snakeline.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20along%20a%20path.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20along%20a%20route%20path.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20marker%20along%20path.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20multiple%20points.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20point%20along%20path.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20to%20new%20position%20of%20marker.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20to%20new%20position%20of%20point.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animated%20tile%20layer.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animation%20easings.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Bouncing%20marker%20animation.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Drop%20markers%20on%20interval.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Drop%20multiple%20markers%20animation.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Drop%20multiple%20symbols%20animation.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Drop%20symbol%20animation.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Drop%20symbols%20on%20interval.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/HTML%20Marker%20Pulse%20Animation.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Morph%20shape%20animation.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Moving%20dashed%20line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Pulse%20animation%20with%20bubble%20layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Simple%20HTML%20Marker%20Animation.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Simple%20Symbol%20Animation.html</loc></url>
@@ -14,12 +32,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Controls/Map%20Navigation%20Control%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Controls/Map%20Style%20Picker.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animation%20module/Animate%20a%20LineString.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animation%20module/Animate%20a%20point.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animation%20module/Animate%20multiple%20points.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animation%20module/Animate%20point%20along%20path.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animation%20module/Drop%20multiple%20symbols%20animation.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Animation%20module/Drop%20symbol%20animation.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html</loc></url>
@@ -28,7 +40,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Geolocation%20Control/Geolocation%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Map%20Synchronizer%20Module/Synchronize%20map%20views.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Snakeline/Animate%20a%20snakeline.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spyglass%20module/Spyglass%20map%20visualization.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spyglass%20module/Spyglass%20module%20options.html</loc></url>
@@ -208,7 +219,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/WMS%20Tile%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/WMTS%20Tile%20Layer.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/interactiveSearch.html</loc></url>

@@ -1,4 +1,10 @@
-﻿/**
+﻿//////////////////////////////////////////////////////////////////////////////////////////////
+// NOTE: 
+// This shows how to create a custom drawing tool for polygons from scratch.For a more robust, 
+// out of the box solution, use the drawing tools module. 
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
  * A tool for drawing polygons on the map using a mouse.
  * @param map An Azure Maps map instance to attach the drawing tool too. 
  * @param beforeLayer The layer or name of a layer to render the drawing layer before.

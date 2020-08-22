@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select a shape in the drawing manager - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, drawingManager;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+				//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                });
+
+                //Get the rendering layers from the drawing manager.
+                var layers = drawingManager.getLayers();
+
+                //Add a click event to the polygon layer which will allow a shape to be selected.
+                map.events.add('click', layers.polygonLayer, shapeSelected);
+
+                //Modify the polygon outline layer to render selected polygons differently.
+                layers.polygonOutlineLayer.setOptions({
+                    strokeColor: [
+                        'case',
+
+                        //Check to see if the shape has a selected property and that it is true.
+                        ['all', ['has', 'selected'], ['get', 'selected']],
+                        //Outline selected shape red.
+                        'red',
+
+                        'black'
+                    ]
+                });
+
+                //Add a event to monitor for the changing of the drawing mode and unselect and shapes that are selected.
+                map.events.add('drawingmodechanged', drawingManager, unselectShape);
+            });
+        }
+
+        var selectedShape;
+
+        function shapeSelected(e) {
+            if (selectedShape) {
+                unselectShape();
+            }
+
+            //Only allow selection of shape is user is not currently drawing a shape.
+            if (drawingManager.getOptions().mode.indexOf('draw') === -1) {
+                selectedShape = e.shapes[0];
+                selectedShape.addProperty('selected', true);
+            }
+        }
+
+        function unselectShape() {
+            if (selectedShape) {
+                selectedShape.addProperty('selected', false);
+                selectedShape = null;
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Select a shape in the drawing manager</h1></legend>
+        Draw a polygon, circle or rectangle. Exit the drawing mode (press selected drawing mode button again or press escape), then click on any of these shapes to select it.
+    </fieldset>
+</body>
+</html>

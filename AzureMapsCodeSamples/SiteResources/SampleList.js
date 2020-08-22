@@ -1,16 +1,25 @@
 var sampleList = [
 {
 	category:'Animations',
-	desc:'Learn how to animate data on the map.',
+	desc:'Learn how to animate data on the map. Many of these samples leverage the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>',
 	samples: [
 		{
 			title:'Animate a Choropleth Map',
 			desc:'This sample shows how to create a choropleth map and animate it over time.',
-			path:'Animations/Animate%20a%20Choropleth%20Map.html',
-			sourcePath:'Animations/Animate%20a%20Choropleth%20Map.html',
-			screenshot:'Animate-a-Choropleth-Map.png',
+			path:'Animations/Animate%20a%20choropleth%20map.html',
+			sourcePath:'Animations/Animate%20a%20choropleth%20map.html',
+			screenshot:'Animate-a-choropleth-map.png',
 			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling',
 			created:'10/8/2018'
+		},
+		{
+			title:'Animate a GPS trace',
+			desc:'This sample shows how to smoothly animate a symbol along a route path taking into consideration timestamps for each point in the route path.',
+			path:'Animations/Animate%20a%20GPS%20trace.html',
+			sourcePath:'Animations/Animate%20a%20GPS%20trace.html',
+			screenshot:'Animate-a-GPS-trace.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate a Line',
@@ -22,13 +31,148 @@ var sampleList = [
 			created:'6/8/2018'
 		},
 		{
-			title:'Animate a Symbol along a Path',
-			desc:'This sample shows how to animate a symbol along a path on the map smoothly. ',
-			path:'Animations/Animate%20a%20Symbol%20along%20a%20Path.html',
-			sourcePath:'Animations/Animate%20a%20Symbol%20along%20a%20Path.html',
-			screenshot:'Animate-a-Symbol-along-a-Path.gif',
+			title:'Animate a snakeline',
+			desc:'This sample shows how to animate a LineString such that its path is drawn out smoothly over time on top of the map using what is called a snakeline animation.',
+			path:'Animations/Animate%20a%20snakeline.html',
+			sourcePath:'Animations/Animate%20a%20snakeline.html',
+			screenshot:'Animate-a-snakeline.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, line, linestring',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animate along a path',
+			desc:'This sample shows how to animate a symbol along a path on the map smoothly. This sample also includes controls and options for the animation.',
+			path:'Animations/Animate%20along%20a%20path.html',
+			sourcePath:'Animations/Animate%20along%20a%20path.html',
+			screenshot:'Animate-along-a-path.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
 			created:'10/10/2018'
+		},
+		{
+			title:'Animate along a route path',
+			desc:'This sample shows how to smoothly animate a symbol along a route path taking into consideration timestamps for each point in the route path. This sample also includes controls and options for the animation.',
+			path:'Animations/Animate%20along%20a%20route%20path.html',
+			sourcePath:'Animations/Animate%20along%20a%20route%20path.html',
+			screenshot:'Animate-along-a-route-path.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animate marker along path',
+			desc:'This sample shows how to easily animate a HTML marker along a path on the map.',
+			path:'Animations/Animate%20marker%20along%20path.html',
+			sourcePath:'Animations/Animate%20marker%20along%20path.html',
+			screenshot:'Animate-marker-along-path.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animate multiple points',
+			desc:'This sample shows how to animate multiple points on the map.',
+			path:'Animations/Animate%20multiple%20points.html',
+			sourcePath:'Animations/Animate%20multiple%20points.html',
+			screenshot:'Animate-multiple-points.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animate point along path',
+			desc:'This sample shows how to easily animate a point along a path on the map.',
+			path:'Animations/Animate%20point%20along%20path.html',
+			sourcePath:'Animations/Animate%20point%20along%20path.html',
+			screenshot:'Animate-point-along-path.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animate to new position of marker',
+			desc:'This sample shows how to animate a marker on the map to a new coordinate.',
+			path:'Animations/Animate%20to%20new%20position%20of%20marker.html',
+			sourcePath:'Animations/Animate%20to%20new%20position%20of%20marker.html',
+			screenshot:'Animate-to-new-position-of-marker.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animate to new position of point',
+			desc:'This sample shows how to animate a point on the map to a new coordinate.',
+			path:'Animations/Animate%20to%20new%20position%20of%20point.html',
+			sourcePath:'Animations/Animate%20to%20new%20position%20of%20point.html',
+			screenshot:'Animate-to-new-position-of-point.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animated tile layer',
+			desc:'This sample shows how to animate an sequence of tile layers smoothly.',
+			path:'Animations/Animated%20tile%20layer.html',
+			sourcePath:'Animations/Animated%20tile%20layer.html',
+			screenshot:'Animated-tile-layer.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, tiles',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animationg easings',
+			desc:'This sample demonstrates the different built in easing functions in the azure-maps-animation library.',
+			path:'Animations/Animation%20easings.html',
+			sourcePath:'Animations/Animation%20easings.html',
+			screenshot:'Animation-easings.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin, easing',
+			created:'8/21/2020'
+		},
+		{
+			title:'Bouncing marker animation',
+			desc:'This sample shows how to animate an HTML marker to make it appear to be bouncing on the map.',
+			path:'Animations/Bouncing%20marker%20animation.html',
+			sourcePath:'Animations/Bouncing%20marker%20animation.html',
+			screenshot:'Bouncing-marker-animation.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Drop markers on interval',
+			desc:'This sample shows how to animate the dropping of multiple HTML markers on an interval to the map.',
+			path:'Animations/Drop%20markers%20on%20interval.html',
+			sourcePath:'Animations/Drop%20markers%20on%20interval.html',
+			screenshot:'Drop-markers-on-interval.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Drop multiple markers animation',
+			desc:'This sample shows how to animate the dropping of multiple HTML markers on the map.',
+			path:'Animations/Drop%20multiple%20markers%20animation.html',
+			sourcePath:'Animations/Drop%20multiple%20markers%20animation.html',
+			screenshot:'Drop-multiple-markers-animation.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Drop multiple symbols animation',
+			desc:'This sample shows how to animate multiple points on the map as dropping symbols.',
+			path:'Animations/Drop%20multiple%20symbols%20animation.html',
+			sourcePath:'Animations/Drop%20multiple%20symbols%20animation.html',
+			screenshot:'Drop-multiple-symbols-animation.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Drop symbol animation',
+			desc:'This sample shows how to animate a point on the map as a dropping symbol.',
+			path:'Animations/Drop%20symbol%20animation.html',
+			sourcePath:'Animations/Drop%20symbol%20animation.html',
+			screenshot:'Drop-symbol-animation.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
+		},
+		{
+			title:'Drop multiple symbols on interval',
+			desc:'This sample shows how to animate the dropping of multiple points on an interval to the map using a symbol layer.',
+			path:'Animations/Drop%20symbols%20on%20interval.html',
+			sourcePath:'Animations/Drop%20symbols%20on%20interval.html',
+			screenshot:'Drop-symbols-on-interval.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
 		},
 		{
 			title:'HTML Marker Pulse Animation',
@@ -38,6 +182,24 @@ var sampleList = [
 			screenshot:'HTML-Marker-Pulse-Animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
 			created:'10/11/2018'
+		},
+		{
+			title:'Morph shape animation',
+			desc:'This sample shows how to animate the morphing of a shape from one geometry to another.',
+			path:'Animations/Morph%20shape%20animation.html',
+			sourcePath:'Animations/Morph%20shape%20animation.html',
+			screenshot:'Morph-shape-animation.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, line, linestring, polygon, geometries, morph',
+			created:'8/21/2020'
+		},
+		{
+			title:'Animate marker along path',
+			desc:'This sample shows how to easily animate a HTML marker along a path on the map.',
+			path:'Animations/Moving%20dashed%20line.html',
+			sourcePath:'Animations/Moving%20dashed%20line.html',
+			screenshot:'Animate-marker-along-path.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
+			created:'8/21/2020'
 		},
 		{
 			title:'Pulse animation with bubble layer',
@@ -139,60 +301,6 @@ var sampleList = [
 	desc:'Use custom modules to extend the functionality of the Azure Maps Web SDK.',
 	samples: [
 		{
-			title:'Animate a LineString',
-			desc:'This sample shows how to animate a LineString such that its path is drawn out smoothly over time on top of the map.',
-			path:'Custom%20Modules/Animation%20module/Animate%20a%20LineString.html',
-			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'Animate-a-LineString.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, line, linestring',
-			created:'7/9/2019'
-		},
-		{
-			title:'Animate a point',
-			desc:'This sample shows how to animate a point on the map to a new coordinate.',
-			path:'Custom%20Modules/Animation%20module/Animate%20a%20point.html',
-			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'Animate-a-point.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
-			created:'6/26/2019'
-		},
-		{
-			title:'Animate multiple points',
-			desc:'This sample shows how to animate multiple points on the map.',
-			path:'Custom%20Modules/Animation%20module/Animate%20multiple%20points.html',
-			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'Animate-multiple-points.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
-			created:'6/26/2019'
-		},
-		{
-			title:'Animate point along path',
-			desc:'This sample shows how to animate a point along a path on the map.',
-			path:'Custom%20Modules/Animation%20module/Animate%20point%20along%20path.html',
-			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'Animate-point-along-path.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
-			created:'7/9/2019'
-		},
-		{
-			title:'Drop multiple symbols animation',
-			desc:'This sample shows how to animate multiple points on the map as dropping symbols.',
-			path:'Custom%20Modules/Animation%20module/Drop%20multiple%20symbols%20animation.html',
-			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'Drop-multiple-symbols-animation.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
-			created:'7/12/2019'
-		},
-		{
-			title:'Drop symbol animation',
-			desc:'This sample shows how to animate a point on the map as a dropping symbol.',
-			path:'Custom%20Modules/Animation%20module/Drop%20symbol%20animation.html',
-			sourcePath:'Custom%20Modules/Animation%20module',
-			screenshot:'Drop-symbol-animation.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point',
-			created:'7/12/2019'
-		},
-		{
 			title:'Bring Data Into View Control',
 			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
 			path:'Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html',
@@ -203,7 +311,7 @@ var sampleList = [
 		},
 		{
 			title:'Draw Line',
-			desc:'This sample shows how to draw a line on the map using the Line Drawing tools.',
+			desc:'This sample shows how to create a custom drawing tool for lines.',
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
 			screenshot:'Draw-Line.gif',
@@ -212,7 +320,7 @@ var sampleList = [
 		},
 		{
 			title:'Draw Polygon',
-			desc:'This sample shows how to draw a polygon on the map using the Polygon Drawing tools.',
+			desc:'This sample shows how to create a custom drawing tool for polygons.',
 			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html',
 			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
 			screenshot:'Draw-Polygon.gif',
@@ -263,15 +371,6 @@ var sampleList = [
 			screenshot:'Simple-Scale-Bar-Control.png',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, scale bar, scalebar',
 			created:'3/6/2019'
-		},
-		{
-			title:'Animate a snakeline',
-			desc:'This sample shows to use Snakeline module to animate the path of a line.',
-			path:'Custom%20Modules/Snakeline/Animate%20a%20snakeline.html',
-			sourcePath:'Custom%20Modules/Snakeline',
-			screenshot:'Animate-a-snakeline.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, snakeline, animation, animate, animations, linestring',
-			created:'5/13/2019'
 		},
 		{
 			title:'Expanding Spider Clusters',
@@ -366,7 +465,7 @@ var sampleList = [
 			path:'Demos/Large%20GeoJSON%20Files.html',
 			sourcePath:'Demos/Large%20GeoJSON%20Files.html',
 			screenshot:'Large-GeoJSON-Files.png',
-			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
+			keywords:'microsoft maps, map, gis, api, sdk, symbol, pushpin, marker, pin, line, linestring, polygon, parcels',
 			created:'9/23/2018'
 		},
 	]
@@ -1998,15 +2097,6 @@ var sampleList = [
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, wmts, web mapping tile service',
 			created:'12/11/2018'
 		},
-		{
-			title:'Animated Tile Layer',
-			desc:'This sample shows how to animate an sequence of tile layers smoothly.',
-			path:'Tile%20Layers/Animated%20Tile%20Layers/Animated%20Tile%20Layer.html',
-			sourcePath:'Tile%20Layers/Animated%20Tile%20Layers',
-			screenshot:'Animated-Tile-Layer.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, tiles, layer',
-			created:'4/1/2019'
-		},
 	]
 },
 {
@@ -2116,4 +2206,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 218;
+}];var numberOfSamples = 228;

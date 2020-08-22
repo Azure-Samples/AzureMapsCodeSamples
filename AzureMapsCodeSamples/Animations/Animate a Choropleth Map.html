@@ -13,9 +13,15 @@
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <!-- Add reference to the animation module. -->
+    <script src="../Common/scripts/atlas-animations.min.js"></script>
 
     <script type='text/javascript'>
-        var map, datasource, popup, maxScale = 30, colorExpressions = [], timer, isPaused = true;
+        var map, datasource, popup, maxScale = 30, colorExpressions = [], timer;
         
         function GetMap() {
             //Initialize a map instance.
@@ -95,36 +101,37 @@
                     popup.close();
                 });
 
-                //TODO: Update to use spatial io module.
+                //Download population estimates for US counties and county boundary GeoJSON data.
+                Promise.all([
+                    fetch('https://azuremapscodesamples.azurewebsites.net/Common/data/US_County_2010_Population.csv').then(response => response.text()),
+                    fetch('https://azuremapscodesamples.azurewebsites.net/Common/data/geojson/US_County_Boundaries.json').then(response => response.json())
+                ]).then(results => {
+                    var csv = results[0];
 
-                //Download population estimates for US counties.
-                fetch('/Common/data/US_County_2010_Population.csv')
-                    .then(response => response.text())
-                    .then(function (text) {
-                        //Parse the CSV file data into a JSON object.
-                        //For faster cross referencing, create an object that indexes the state and county ids.
-                        var populationInfo = [];
+                    //Column header: STATE,COUNTY,STNAME,CTYNAME,CENSUS2000POP,POPESTIMATE072000,POPESTIMATE072001,POPESTIMATE072002,POPESTIMATE072003,POPESTIMATE072004,POPESTIMATE072005,POPESTIMATE072006,POPESTIMATE072007,POPESTIMATE072008,POPESTIMATE072009,POPESTIMATE072010
+                    var csvTable = new atlas.io.core.CsvReader(csv).read();
+                    
+                    //For faster cross referencing, create lookup table for table row based on the state and county ids.
+                    var populationInfo = {};
 
-                        //Split the lines of the file.
-                        var lines = text.split('\n');
-                        var row, stateId, countyId, censusPop, obj, j;
+                    csvTable.forEach((x, i) => {
+                        populationInfo[x[0] + x[1]] = i;
+                    });
 
-                        //Skip the header row and then parse each row into an object.
-                        for (var i = 1; i < lines.length; i++) {
-                            row = lines[i].split(',');
+                    //Loop through the features in the GeoJSON file.
+                    results[1].features.forEach(f => {    
+                        //Create the same cross reference ID as used in with the CSV data.
+                        const id = f.properties['STATE'] + f.properties['COUNTY'];
 
-                            stateId = row[0];
-                            countyId = row[1];
-
-                            if (!populationInfo[stateId]) {
-                                populationInfo[stateId] = {};
-                            }
-
+                        //Check to see if there is any cross referenced data.
+                        if(populationInfo[id]) {
+                            //Grab the matching row of data.
+                            let row = csvTable[populationInfo[id]];
+                            
                             //Get the 2000 population value.
-                            censusPop = parseFloat(row[4]);
+                            let censusPop = parseFloat(row[4]);
 
-                            //Create an object to parse the CSV row into.
-                            obj = {
+                            var obj = {
                                 CountyName: row[3],
                                 StateName: row[2],
                                 CensusPop2000: censusPop
@@ -135,40 +142,27 @@
                                 obj['PopChange' + (j - 5)] = Math.round((parseFloat(row[j]) / censusPop - 1) * 100 * 10) / 10;
                             }
 
-                            populationInfo[stateId][countyId] = obj;
+                            Object.assign(f.properties, obj);
                         }
-
-                        //Download the county boundary GeoJSON data.
-                        fetch('/Common/data/geojson/US_County_Boundaries.json')
-                            .then(function (response) {
-                                return response.json();
-                            }).then(function (response) {
-                                var features = response.features;
-
-                                //Loop through each feature and cross reference the population data information.
-                                for (var i = 0; i < features.length; i++) {
-                                    var prop = features[i].properties;
-
-                                    if (populationInfo[prop['STATE']] && populationInfo[prop['STATE']][prop['COUNTY']]) {
-                                        features[i].properties = Object.assign(prop, populationInfo[prop['STATE']][prop['COUNTY']]);
-                                    }
-                                }
-
-                                //Add the feature data to the data source.
-                                datasource.add(features);
-
-                                //Create an animation loop. 
-                                timer = new FrameAnimationTimer(function (progress, frameIdx) {
-                                    //Update the fill color expression for the current frame.
-                                    polygonLayer.setOptions({ fillColor: colorExpressions[frameIdx] });
-
-                                    //Update the year in the legend.
-                                    document.getElementsByClassName('legend-label')[0].innerText = (2000 + frameIdx) + '';
-                                }, colorExpressions.length, 10000, true);
-
-                                document.getElementById('playPauseBtn').disabled = '';
-                            });
                     });
+
+                    //Add the feature data to the data source.
+                    datasource.add(results[1].features);
+
+                    //Create an animation loop. 
+                    timer = new atlas.animations.FrameBasedAnimationTimer(colorExpressions.length, (frameIdx) => {
+                        //Update the fill color expression for the current frame.
+                        polygonLayer.setOptions({ fillColor: colorExpressions[frameIdx] });
+
+                        //Update the year in the legend.
+                        document.getElementsByClassName('legend-label')[0].innerText = (2000 + frameIdx) + '';
+                    }, {
+                        duration: 10000,
+                        loop: true
+                    });
+
+                    document.getElementById('playPauseBtn').disabled = '';
+                });
 
             });
         }
@@ -190,67 +184,12 @@
         }
 
         function togglePlayPause() {
-            if (isPaused) {
-                timer.play();
-            } else {
+            if (timer.isPlaying()) {
                 timer.pause();
+            } else {
+                timer.play();
             }
-
-            isPaused = !isPaused;
         }
-
-        function FrameAnimationTimer(renderFrameCallback, numFrames, duration, loop) {
-            var _timerId,
-                frameIdx = 0,
-                _isPaused = false;
-
-            duration = (duration && duration > 0) ? duration : 1000;
-
-            delay = duration / (numFrames - 1);
-
-            this.play = function () {
-                if (renderFrameCallback) {
-                    if (_timerId) {
-                        _isPaused = false;
-                    } else {
-                        _timerId = setInterval(function () {
-                            if (!_isPaused) {
-                                var progress = (frameIdx * delay) / duration;
-
-                                renderFrameCallback(progress, frameIdx);
-
-                                if (progress >= 1) {
-                                    if (loop) {
-                                        frameIdx = 0;
-                                    } else {
-                                        reset();
-                                    }
-                                }
-
-                                frameIdx++;
-                            }
-                        }, delay);
-                    }
-                }
-            };
-
-            this.pause = function () {
-                _isPaused = true;
-            };
-
-            this.stop = function () {
-                reset();
-            };
-
-            function reset() {
-                if (_timerId != null) {
-                    clearInterval(_timerId);
-                }
-
-                frameIdx = 0;
-                _isPaused = false;
-            }
-        };
     </script>
     <style>
         .mapContainer, #myMap {
@@ -327,6 +266,8 @@
         to the 2000 census population data. This sample uses two data files; a GeoJSON file that contains the US county boundary data, and a CSV file that contains the population
         data. This sample cross references the population data and adds it as properties of the county boundary. A simple polygon layer is used to render the data and the animation
         is accomplished by changing the fill color expression over time such that it will use a different years population change value to choose a color.
+        This sample uses the <a href="https://docs.microsoft.com/en-us/azure/azure-maps/how-to-use-spatial-io-module" target="_blank"></a>Azure Maps Spatial IO module</a> 
+        and the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>
     </fieldset>
 </body>
 </html>

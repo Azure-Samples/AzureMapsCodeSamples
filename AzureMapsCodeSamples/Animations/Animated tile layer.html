@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Animated tile layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate an sequence of tile layers smoothly." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animate, animation, tiles" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    
+    <!-- Add reference to the animation module. -->
+    <script src="../Common/scripts/atlas-animations.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, layer;
+
+        //Weather tile url from Iowa Environmental Mesonet (IEM): http://mesonet.agron.iastate.edu/ogc/
+        var urlTemplate = 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-{timestamp}/{z}/{x}/{y}.png';
+
+        //The time stamps values for the IEM service for the last 50 minutes broken up into 5 minute increments.
+        var timestamps = ['900913-m50m', '900913-m45m', '900913-m40m', '900913-m35m', '900913-m30m', '900913-m25m', '900913-m20m', '900913-m15m', '900913-m10m', '900913-m05m', '900913'];
+
+        var displayMessages = [];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-95, 40],
+                zoom: 3,
+                style: 'grayscale_dark',
+                view: 'Auto',
+				
+				//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                var tlOptions = [];
+
+                //Create a tile layer option for each time stamp.
+                for (var i = 0; i < timestamps.length; i++) {
+                    tlOptions.push({
+                        tileUrl: urlTemplate.replace('{timestamp}', timestamps[i]),
+                        tileSize: 256,
+                        opacity: 0.8
+                    });
+
+                    //Optionally, create a message to display for each frame of the animation based on the time stamp.
+                    var msg = 'Current';
+
+                    if (timestamps[i] != '900913') {
+                        msg += ' -' + timestamps[i].replace('900913-m', '') + 'in';
+                    }
+
+                    displayMessages.push(msg);
+                }
+
+                //Create the animation manager. 
+                layer = new atlas.layer.AnimatedTileLayer({
+                    tileLayerOptions: tlOptions,
+                    duration: timestamps.length * 1000, //Allow one second for each frame (tile layer) in the animation.
+                    autoPlay: true,
+                    loop: true
+                });
+
+                //Add an event to the underlying frame animation to update the message panel when the frame changes. 
+                map.events.add('onframe', layer.getPlayableAnimation(), function(e) {
+                    if(e.frameIdx >= 0){
+                        var msg = displayMessages[e.frameIdx];
+                        document.getElementById('messagePanel').innerText = msg;
+                    }
+                });                   
+
+                //Add the layer to the map.
+                map.layers.add(layer, 'labels');
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;border-radius:5px;padding:5px;background-color:white;"> 
+        <input type="button" value="Play" onclick="layer.play();" />
+        <input type="button" value="Pause" onclick="layer.pause();" />    
+        <input type="button" value="Stop" onclick="layer.stop();" />
+        <input type="button" value="Reset" onclick="layer.reset();" />
+    </div>
+
+    <div id="messagePanel" style="position: absolute;top: 20px;right: 20px;background-color: white;padding: 2px;border-radius: 15px;width: 110px;text-align: center;"></div>    
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Animated tile layer</h1></legend>
+        This sample shows how to animate an sequence of tile layers smoothly.
+        This example uses the AnimatedTileLayer to animate through an array of tile layers. 
+        For this sample weather radar tiles from the <a href="https://www.mesonet.agron.iastate.edu/ogc/">Iowa Environmental Mesonet of Iowa State University</a> 
+        over the USA  are animated for the last 50 minutes in 5 minute increments.
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>
+    </fieldset>
+</body>
+</html>
