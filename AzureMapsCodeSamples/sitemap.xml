@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-08-21</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-08-23</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -13,6 +13,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20to%20new%20position%20of%20marker.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20to%20new%20position%20of%20point.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animated%20tile%20layer.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animated%20traffic%20flow.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animation%20easings.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Bouncing%20marker%20animation.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Drop%20markers%20on%20interval.html</loc></url>

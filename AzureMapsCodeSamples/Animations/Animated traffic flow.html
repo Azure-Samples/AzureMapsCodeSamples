@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Animated traffic flow - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate the flow of traffic relative to the congestion level using the flowing dashed line animation." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animation, animate, animations, traffic flow, traffic, flow, dashed" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.js"></script>
+
+    <!-- Add reference to the animation module. -->
+    <script src="../Common/scripts/atlas-animations.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, layer, animation;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-74, 40.72],
+                zoom: 15,
+                style: 'grayscale_dark',
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a vector tile source and add it to the map.
+                datasource = new atlas.source.VectorTileSource(null, {
+                    tiles: ['https://{azMapsDomain}/traffic/flow/tile/pbf?api-version=1.0&style=relative&zoom={z}&x={x}&y={y}'],
+                    maxZoom: 22
+                });
+                map.sources.add(datasource);
+
+                //Common style options for traffic background colors.
+                var trafficBackgroundOptions = {
+                    //The name of the data layer within the data source to pass into this rendering layer.
+                    sourceLayer: 'Traffic flow',
+
+                    //Color the roads based on the level of traffic.
+                    strokeColor: [
+                        'step',
+                        ['get', 'traffic_level'],
+                        '#6B0512', //Dark red
+                        0.01, '#EE2F53', //Red
+                        0.8, 'orange', //Orange
+                        1, "#66CC99" //Green
+                    ],
+
+                    //Scale the width of roads based on the level of traffic.
+                    strokeWidth: [
+                        'interpolate',
+                        ['exponential', 2],
+                        ['zoom'],
+                        12, 3,
+                        17, 9
+                    ],
+                };
+
+                //Create two line layer for the base traffic flow color. One layer for both direction traffic data, and one layer for single line traffic data.
+                map.layers.add([
+                    new atlas.layer.LineLayer(datasource, null, Object.assign({
+                        //For traffic data that represents one side of the road, offset it.
+                        offset: [
+                            'interpolate',
+                            ['exponential', 2],
+                            ['zoom'],
+                            12, 2,
+                            17, 6
+                        ],
+
+                        filter: ['==', ['get', 'traffic_road_coverage'], 'one_side']
+                    }, trafficBackgroundOptions)),
+
+                    new atlas.layer.LineLayer(datasource, null, Object.assign({
+                        filter: ['==', ['get', 'traffic_road_coverage'], 'full']
+                    }, trafficBackgroundOptions))
+                ], 'labels');
+
+                //Common style options for traffic flow dashed lines.
+                var trafficFLowLineOptions = {
+                    sourceLayer: 'Traffic flow',
+                    strokeColor: 'black',
+
+                    //Scale the width of roads based on the level of traffic.
+                    strokeWidth: [
+                        'interpolate',
+                        ['exponential', 2],
+                        ['zoom'],
+                        12, 1,
+                        17, 4
+                    ]
+                };
+
+                //Create an offset for the layers that has two directional traffic data.
+                var offsetExp = [
+                    'interpolate',
+                    ['exponential', 2],
+                    ['zoom'],
+                    12, 3,
+                    17, 7
+                ];
+
+                //Create line layers for the different levels of traffic flow.
+                var oneSideSlowFlowLayer = new atlas.layer.LineLayer(datasource, null, Object.assign({
+                    offset: offsetExp,
+                    filter: ['all', ['==', ['get', 'traffic_road_coverage'], 'one_side'], ['>', ['get', 'traffic_level'], 0], ['<=', ['get', 'traffic_level'], 0.01]]
+                }, trafficFLowLineOptions));
+
+                var slowFlowLayer = new atlas.layer.LineLayer(datasource, null, Object.assign({
+                    filter: ['all', ['==', ['get', 'traffic_road_coverage'], 'full'], ['>', ['get', 'traffic_level'], 0], ['<=', ['get', 'traffic_level'], 0.01]]
+                }, trafficFLowLineOptions));
+
+                var oneSideMidFlowLayer = new atlas.layer.LineLayer(datasource, null, Object.assign({
+                    offset: offsetExp,
+                    filter: ['all', ['==', ['get', 'traffic_road_coverage'], 'one_side'], ['>', ['get', 'traffic_level'], 0.01], ['<=', ['get', 'traffic_level'], 0.8]]
+                }, trafficFLowLineOptions));
+
+                var midFlowLayer = new atlas.layer.LineLayer(datasource, null, Object.assign({
+                    filter: ['all', ['==', ['get', 'traffic_road_coverage'], 'full'], ['>', ['get', 'traffic_level'], 0.01], ['<=', ['get', 'traffic_level'], 0.8]]
+                }, trafficFLowLineOptions));
+
+                var oneSideFastFlowLayer = new atlas.layer.LineLayer(datasource, null, Object.assign({
+                    offset: offsetExp,
+                    filter: ['all', ['==', ['get', 'traffic_road_coverage'], 'one_side'], ['>', ['get', 'traffic_level'], 0.8]]
+                }, trafficFLowLineOptions));
+
+                var fastFlowLayer = new atlas.layer.LineLayer(datasource, null, Object.assign({
+                    filter: ['all', ['==', ['get', 'traffic_road_coverage'], 'full'], ['>', ['get', 'traffic_level'], 0.8]]
+                }, trafficFLowLineOptions));
+
+                //Add the layers below the labels to make the map clearer.
+                map.layers.add([oneSideSlowFlowLayer, slowFlowLayer, oneSideMidFlowLayer, midFlowLayer, oneSideFastFlowLayer, fastFlowLayer], 'labels');
+
+                //Create a moving dashed line animation for each of the flow layers, but with different speedMultipliers.
+                //Reverse the animation direction as it appears to ensure the correct flow directions for different side of the road for most countries (drive on the right side).
+                var animationOptions = {
+                    gapLength: 2,
+                    dashLength: 2,
+                    duration: 2000,
+                    autoPlay: true,
+                    loop: true,
+                    reverse: true
+                };
+
+                atlas.animations.flowingDashedLine(oneSideSlowFlowLayer, Object.assign({ speedMultiplier: 0.25 }, animationOptions));
+                atlas.animations.flowingDashedLine(slowFlowLayer, Object.assign({ speedMultiplier: 0.25 }, animationOptions));
+                atlas.animations.flowingDashedLine(oneSideMidFlowLayer, Object.assign({ speedMultiplier: 1 }, animationOptions));
+                atlas.animations.flowingDashedLine(midFlowLayer, Object.assign({ speedMultiplier: 1 }, animationOptions));
+                atlas.animations.flowingDashedLine(oneSideFastFlowLayer, Object.assign({ speedMultiplier: 4 }, animationOptions));
+                atlas.animations.flowingDashedLine(fastFlowLayer, Object.assign({ speedMultiplier: 4 }, animationOptions));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Animated traffic flow</h1></legend>
+        This sample shows how to animate the flow of traffic relative to the congestion level using the flowing dashed line animation.
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>
+    </fieldset>
+</body>
+</html>

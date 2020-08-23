@@ -51,12 +51,12 @@
 
                     //Color the roads based on the level of traffic. 
                     strokeColor: [
-                        'interpolate',
-                        ['linear'],
+                        'step',
                         ['get', 'traffic_level'],
-                        0, 'red',
-                        0.33, 'orange',
-                        0.66, 'green'
+                        '#6B0512', //Dark red
+                        0.01, '#EE2F53', //Red
+                        0.8, 'orange', //Orange
+                        1, "#66CC99" //Green
                     ],
 
                     //Scale the width of roads based on the level of traffic. 

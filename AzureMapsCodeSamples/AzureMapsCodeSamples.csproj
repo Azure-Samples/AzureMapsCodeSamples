@@ -97,6 +97,7 @@
     <Content Include="Animations\Animate to new position of marker.html" />
     <Content Include="Animations\Animate to new position of point.html" />
     <Content Include="Animations\Animated tile layer.html" />
+    <Content Include="Animations\Animated traffic flow.html" />
     <Content Include="Animations\Animation easings.html" />
     <Content Include="Animations\Bouncing marker animation.html" />
     <Content Include="Animations\Drop markers on interval.html" />
@@ -364,6 +365,7 @@
     <Content Include="SiteResources\screenshots\Animate-along-a-route-path.gif" />
     <Content Include="SiteResources\screenshots\Animate-marker-along-path.gif" />
     <Content Include="SiteResources\screenshots\Animate-to-new-position-of-marker.gif" />
+    <Content Include="SiteResources\screenshots\Animated-traffic-flow.gif" />
     <Content Include="SiteResources\screenshots\Animation-easings.gif" />
     <Content Include="SiteResources\screenshots\Bouncing-marker-animation.gif" />
     <Content Include="SiteResources\screenshots\Census-block-group-analysis.png" />

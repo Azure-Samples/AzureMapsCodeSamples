@@ -112,7 +112,16 @@ var sampleList = [
 			created:'8/21/2020'
 		},
 		{
-			title:'Animationg easings',
+			title:'Animated traffic flow',
+			desc:'This sample shows how to animate the flow of traffic relative to the congestion level using the flowing dashed line animation.',
+			path:'Animations/Animated%20traffic%20flow.html',
+			sourcePath:'Animations/Animated%20traffic%20flow.html',
+			screenshot:'Animated-traffic-flow.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, traffic flow, traffic, flow, dashed',
+			created:'8/23/2020'
+		},
+		{
+			title:'Animation easings',
 			desc:'This sample demonstrates the different built in easing functions in the azure-maps-animation library.',
 			path:'Animations/Animation%20easings.html',
 			sourcePath:'Animations/Animation%20easings.html',
@@ -2206,4 +2215,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 228;
+}];var numberOfSamples = 229;
