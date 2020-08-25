@@ -890,7 +890,7 @@
     <Content Include="SiteResources\screenshots\Tile-Layer-using-X,-Y-and-Z.png" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay-Options.png" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay.png" />
-    <Content Include="SiteResources\screenshots\User position accuracy circle.png" />
+    <Content Include="SiteResources\screenshots\User-position-accuracy-circle.png" />
     <Content Include="Spatial Math\Merge Two Polygons Together %28Turf.js%29.html" />
     <Content Include="Spatial Math\Introduction to spatial math.html" />
     <Content Include="Symbol Layer\Create Symbols from Custom JSON.html" />

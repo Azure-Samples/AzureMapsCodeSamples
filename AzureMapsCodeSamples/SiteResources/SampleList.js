@@ -497,7 +497,7 @@ var sampleList = [
 			desc:'This sample shows how to display the users position on the map with an accuracy circle.',
 			path:'Device%20Sensors/User%20position%20accuracy%20circle.html',
 			sourcePath:'Device%20Sensors/User%20position%20accuracy%20circle.html',
-			screenshot:'',
+			screenshot:'User-position-accuracy-circle.png',
 			keywords:'microsoft maps, map, gis, api, sdk, accuracy, circle, geolocation, user, location, position, gps',
 			created:'9/30/2018'
 		},
