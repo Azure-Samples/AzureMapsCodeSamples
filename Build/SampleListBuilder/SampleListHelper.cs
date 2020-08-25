@@ -45,6 +45,7 @@ namespace SampleListBuilder
             { "Layers", "Learn how to visualize data using the different types of rendering layers." },
             { "Line Layer", "Learn how to visualize line and path data on the map using the line layer." },
             { "Map", "These samples show how to use the many different features of the map." },
+            { "Open Modules", "These samples leverage one or more of the <a href=\"https://docs.microsoft.com/Microsoft/Maps/blob/master/AzureMaps.md\" target=\"_blank\">open source Azure Maps Web SDK modules</a>." },
             { "Polygon and Polygon Extrusion Layers", "Learn how to overlay geospatially accurate circles, polygons, and multi-polygons on the map using the polygon and polygon extrusion layers." },
             { "Popups", "See how to display information in a popup on the map." },
             { "REST Services", "Learn how to directly access the Azure Maps REST services from JavaScript." },
@@ -60,7 +61,7 @@ namespace SampleListBuilder
             { "Vector tiles", "Vector tiles are an efficient way to render larger data sets on the map." }
         };
 
-        public static List<ExternalSampleCategory> ExternalSamples = new List<ExternalSampleCategory>()
+       /* public static List<ExternalSampleCategory> ExternalSamples = new List<ExternalSampleCategory>()
         {
             new ExternalSampleCategory()
             {
@@ -228,16 +229,11 @@ namespace SampleListBuilder
                     },
                     new ExternalSample()
                     {
-                        Title = "Azure Web Services - A collection of clients for Azure & Microsoft Web Services - Azure Cognitive Services, Azure Maps",
-                        Href = "https://github.com/cjoakim/azure-web-services"
-                    },
-                    new ExternalSample()
-                    {
                         Title = "Azure Maps GeoJSON Admin Portal",
                         Href = "https://github.com/richorama/azure-maps-admin-portal"
                     }
                 }
             }
-        };
+        };*/
     }
 }

@@ -121,3 +121,28 @@ h3 {
     max-height: calc(100vh - 100px);
     overflow-y:auto;
 }
+
+input[type="reset"] {
+    position: absolute;
+    border: none;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    top: 9px;
+    left: 175px;
+    background-color: #cccccc;
+    padding: 0px;
+    margin: 0px;
+}
+
+    input[type="reset"]:hover,
+    input[type="reset"]:focus {
+        background-color: #767676;
+    }
+
+.searchForm {
+    position: relative;
+}

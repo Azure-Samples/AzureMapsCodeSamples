@@ -364,15 +364,6 @@ var sampleList = [
 			created:'9/19/2019'
 		},
 		{
-			title:'Synchronize map views',
-			desc:'This sample shows how to synchronize the views of two or more maps.',
-			path:'Custom%20Modules/Map%20Synchronizer%20Module/Synchronize%20map%20views.html',
-			sourcePath:'Custom%20Modules/Map%20Synchronizer%20Module',
-			screenshot:'Synchronize-map-views.png',
-			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps',
-			created:'4/15/2019'
-		},
-		{
 			title:'Simple Scale Bar Control',
 			desc:'This sample shows how to create a custom scale bar control that can be added to the map.',
 			path:'Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
@@ -1127,6 +1118,21 @@ var sampleList = [
 			screenshot:'Export-Map-as-Image.png',
 			keywords:'microsoft maps, map, gis, api, sdk, map image, export image, screenshots, reports, export map',
 			created:'1/28/2019'
+		},
+	]
+},
+{
+	category:'Open Modules',
+	desc:'These samples leverage one or more of the <a href="https://docs.microsoft.com/Microsoft/Maps/blob/master/AzureMaps.md" target="_blank">open source Azure Maps Web SDK modules</a>.',
+	samples: [
+		{
+			title:'Synchronize map views',
+			desc:'This sample shows how to synchronize the views of two or more maps.',
+			path:'Open%20Modules/Synchronize%20map%20views.html',
+			sourcePath:'Open%20Modules/Synchronize%20map%20views.html',
+			screenshot:'Synchronize-map-views.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps',
+			created:'8/24/2020'
 		},
 	]
 },

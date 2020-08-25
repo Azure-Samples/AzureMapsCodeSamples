@@ -35,12 +35,14 @@
                         <a class="dropdown-item" target="_blank" href="https://feedback.azuremaps.com">Report a data issue</a>
                         <a class="dropdown-item" target="_blank" href="https://stackoverflow.com/questions/tagged/azure-maps">Forums</a>
                         <a class="dropdown-item" target="_blank" href="https://azure.microsoft.com/en-us/blog/topics/azure-maps/">Blog</a>
+                        <a class="dropdown-item" target="_blank" href="https://github.com/microsoft/Maps/blob/master/AzureMaps.md">Additional samples</a>
                     </div>
                 </li>
             </ul>
             <iframe src="https://ghbtns.com/github-btn.html?user=Azure-Samples&repo=AzureMapsCodeSamples&type=star&count=true" frameborder="0" scrolling="0" style="width:100px;height:20px" aria-label="Github vote counter" lang="en"></iframe>
-            <form class="form-inline my-2 my-lg-0">
+            <form class="searchForm form-inline my-2 my-lg-0">
                 <input id="searchTbx" class="form-control mr-sm-2" type="text" autocomplete="off" placeholder="Search" aria-label="Search">
+                <input type="reset" value="X" aria-label="Clear search"/>
                 <a class="btn btn-outline-success my-2 my-sm-0" href="javascript:search();">Search</a>
             </form>
         </div>
@@ -98,8 +100,8 @@
                         </div>
                     </div>-->
                 </div>
-                {externalSamples}
-            </div>
+                <div><a href="https://github.com/microsoft/Maps/blob/master/AzureMaps.md" target="_blank">Additional external samples</a></div>
+            </div>            
         </div>
 
         <button onclick="topFunction()" id="scrollToTopBtn" aria-label="Go to top of page">Top</button>
@@ -138,10 +140,10 @@
         </div>
     </div>
     
-    <script src="../Common/scripts/lozad.min.js"></script>
+    <script src="/Common/scripts/lozad.min.js"></script>
 
-    <script src="SiteResources/SampleList.js"></script>
-    <script src="SiteResources/index.js"></script>
+    <script src="/SiteResources/SampleList.js"></script>
+    <script src="/SiteResources/index.js"></script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

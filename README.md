@@ -20,16 +20,13 @@ Code samples for the Government Cloud version of Azure can be found [here](https
 
 ## Related Projects
 
+* [Azure Maps Animation module](https://github.com/Azure-Samples/azure-maps-animations)
+* [Azure Maps Services UI module](https://github.com/Azure-Samples/azure-maps-services-ui)
 * [Azure Maps Gov Cloud Web SDK Samples](https://github.com/Azure-Samples/AzureMapsGovCloudCodeSamples)
 * [Azure Maps & Azure Active Directory Samples](https://github.com/Azure-Samples/Azure-Maps-AzureAD-Samples)
-* [AirMap Azure Maps plugin](https://github.com/airmap/js-azure-maps-plugin)
-* [Azure Maps PowerApps PCF component](https://github.com/jenschristianschroder/pcfAzureMaps)
-* [Azure Maps PowerApps PCF Search component](https://github.com/mkcgphy/Azure-Maps-Get-Search-Address-TypeAhead)
-* [Azure Maps PowerApps PCF spider cluster control](https://github.com/alano444/PCFAzureMapCluststerSpider) ([Video](https://www.youtube.com/watch?v=9ehWIk2l4Tc&feature=youtu.be))
-* [Azure IoT Real-time asset tracking workshop](https://aka.ms/iot-workshop/asset-tracking) 
-* [Real-time flight map with Azure functions, CosmosDB and SignalR](https://github.com/davetheunissen/Global-Azure-Bootcamp-2019-Workshop)
-* [Azure Maps Jupyter Notebook samples](https://github.com/Azure-Samples/Azure-Maps-Jupyter-Notebook)
-* [Azure Maps for Retail, Jupyter Notebooks](https://github.com/5h15h/Azure-Maps-Jupyter-Notebooks)
+
+* [List of open-source Azure Maps projects](https://github.com/microsoft/Maps/blob/master/AzureMaps.md)
+
 
 ## Additional Resources
 

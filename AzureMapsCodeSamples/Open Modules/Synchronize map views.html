@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Synchronize map views - Azure Maps Web SDK Samples</title>
 
@@ -15,10 +16,12 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Load in the JavaScript for the map synchronizer module. -->
-    <script src="MapSynchronizerModule.js"></script>
+    <script src="../Common/scripts/azure-maps-sync-maps.min.js"></script>
 
     <script type='text/javascript'>
-        var maps = [];
+        var maps = [], syncMap;
+
+        var azureMapsKey = '<Your Azure Maps Key>';
 
         function GetMap() {
             //Initialize a map instance.
@@ -26,11 +29,11 @@
                 center: [-122.33, 47.6],
                 zoom: 12,
                 view: 'Auto',
-				
-				//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: azureMapsKey
                 }
             }));
 
@@ -39,7 +42,7 @@
                 view: 'Auto',
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: azureMapsKey
                 }
             }));
 
@@ -48,22 +51,35 @@
                 view: 'Auto',
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    subscriptionKey: azureMapsKey
                 }
             }));
 
-            new MapSynchronizer(maps);
+            syncMap = atlas.syncMaps(maps);
+        }
+
+        function toggleEnabledState(elm) {
+            syncMap.setEnabled(elm.checked)
         }
     </script>
 </head>
+
 <body onload="GetMap()">
     <div id="map1" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
     <div id="map2" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
     <div id="map3" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
 
+    <div style="position:absolute;top:0px;left:calc(50% - 100px);background-color:white;padding:5px;">
+        <input type="checkbox" onclick="toggleEnabledState(this)" checked /> Toggle enabled state
+    </div>
+
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">Synchronize map views</h1></legend>
-        This sample shows how to synchronize the views of two or more maps.
+        <legend>
+            <h1 style="font-size:16px">Synchronize map views</h1>
+        </legend>
+        This sample shows how to synchronize the views of two or more maps. 
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-sync-maps" target="_blank">Azure Maps Sync Maps module</a>.
     </fieldset>
 </body>
+
 </html>
