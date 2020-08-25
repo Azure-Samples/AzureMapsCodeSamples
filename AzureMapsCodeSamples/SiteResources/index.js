@@ -50,7 +50,13 @@ window.onload = function () {
             'Animate%20a%20Symbol%20along%20a%20Path': 'Animate%20along%20a%20path',
             'Animate%20a%20LineString': 'Animate%20a%20snakeline',
             'Animate%20a%20point': 'Animate%20to%20new%20position%20of%20point',
-            'Animate%20a%20Choropleth%20Map': 'Animate%20a%20choropleth%20map'
+            'Animate%20a%20Choropleth%20Map': 'Animate%20a%20choropleth%20map',
+            'Geolocation%20Control%20Options': 'Geolocation%20control%20options',
+            'Geolocation%20Control': 'Geolocation%20control',
+            'Create%20a%20Geolocation%20Control': 'Geolocation%20control',
+            'Continuous%20User%20Position%20Tracking': 'Continuous%20user%20position%20tracking',
+            'Show%20a%20Users%20Position': 'Show%20a%20users%20position',
+            'User%20Position%20Accuracy%20Circle': 'User%20position%20accuracy%20circle'
         };
 
         var redirect = sampleRedirects[hash];

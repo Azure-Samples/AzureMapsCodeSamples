@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Create a Geolocation Control - Azure Maps Web SDK Samples</title>
+    <title>Geolocation control - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -14,18 +14,18 @@
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
-    <!-- Load in the JavaScript that has our custom control. -->
-    <script src="GeolocationControl.js"></script>
+    <!-- Add reference to the geolocation control module. -->
+    <script src="/Common/scripts/azure-maps-geolocation-control.min.js"></script>
 
     <script type='text/javascript'>
-        var map;
+        var map, geolocationControl;
 
         function GetMap() {
             //Initialize a map instance.
-            map = new atlas.Map('myMap', {
+            map = new atlas.Map("myMap", {
                 view: 'Auto',
 
-				//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -35,12 +35,12 @@
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
 
-                //Optional. Add the map style control so we can see how the custom control reacts.
                 map.controls.add([
+                    //Optional. Add the map style control so we can see how the custom control reacts.
                     new atlas.control.StyleControl(),
 
-                    //Add the custom control to the map.
-                    new GeolocationControl({
+                    //Add the geolocation control to the map.
+                    new atlas.control.GeolocationControl({
                         style: 'auto'
                     })
                 ], {
@@ -54,8 +54,9 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">Create a Geolocation Control</h1></legend>
+        <legend><h1 style="font-size:16px">Geolocation control</h1></legend>
         This sample shows how to create a custom geolocaiton control that displays the users location on the map.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-geolocation-control" target="_blank">Azure Maps Geolocation Control module</a>.
     </fieldset>
 </body>
 </html>

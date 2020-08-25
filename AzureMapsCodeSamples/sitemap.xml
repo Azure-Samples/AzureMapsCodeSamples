@@ -37,8 +37,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Fullscreen%20Control/Fullscreen%20Control.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Geolocation%20Control/Geolocation%20control%20options.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Geolocation%20Control/Geolocation%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spyglass%20module/Spyglass%20map%20visualization.html</loc></url>
@@ -50,9 +48,11 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Demos/Create%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Demos/Data-Driven%20Styling.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Demos/Large%20GeoJSON%20Files.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Continuous%20User%20Position%20Tracking.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Show%20a%20Users%20Position.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/User%20Position%20Accuracy%20Circle.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Continuous%20user%20position%20tracking.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Geolocation%20control%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Geolocation%20control.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Show%20a%20users%20position.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/User%20position%20accuracy%20circle.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html</loc></url>
@@ -115,9 +115,9 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps%20in%20Different%20Lanaguages.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Render%20world%20copies.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Synchronize%20map%20views.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Update%20layer%20based%20on%20map%20style.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Open%20Modules/Synchronize%20map%20views.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Extruded%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Geospatially%20Accurate%20Circle.html</loc></url>

@@ -346,24 +346,6 @@ var sampleList = [
 			created:'3/6/2019'
 		},
 		{
-			title:'Geolocation Control Options',
-			desc:'This sample shows all the options of the geolocation control.',
-			path:'Custom%20Modules/Geolocation%20Control/Geolocation%20control%20options.html',
-			sourcePath:'Custom%20Modules/Geolocation%20Control',
-			screenshot:'Geolocation-Control-Options.png',
-			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
-			created:'9/19/2019'
-		},
-		{
-			title:'Create a Geolocation Control',
-			desc:'',
-			path:'Custom%20Modules/Geolocation%20Control/Geolocation%20Control.html',
-			sourcePath:'Custom%20Modules/Geolocation%20Control',
-			screenshot:'Geolocation-Control.png',
-			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
-			created:'9/19/2019'
-		},
-		{
 			title:'Simple Scale Bar Control',
 			desc:'This sample shows how to create a custom scale bar control that can be added to the map.',
 			path:'Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
@@ -477,17 +459,35 @@ var sampleList = [
 		{
 			title:'Continuous User Position Tracking',
 			desc:'This sample shows how to continuously get the users position information from the browser by using the HTML5 geolocation API and update it on a map.',
-			path:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
-			sourcePath:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
+			path:'Device%20Sensors/Continuous%20user%20position%20tracking.html',
+			sourcePath:'Device%20Sensors/Continuous%20user%20position%20tracking.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, geolocation, user, location, position, tracking, gps, gps tracking',
 			created:'9/30/2018'
 		},
 		{
+			title:'Geolocation control options',
+			desc:'This sample shows all the options of the geolocation control.',
+			path:'Device%20Sensors/Geolocation%20control%20options.html',
+			sourcePath:'Device%20Sensors/Geolocation%20control%20options.html',
+			screenshot:'Geolocation-control-options.png',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
+			created:'8/25/2020'
+		},
+		{
+			title:'Geolocation control',
+			desc:'',
+			path:'Device%20Sensors/Geolocation%20control.html',
+			sourcePath:'Device%20Sensors/Geolocation%20control.html',
+			screenshot:'Geolocation-control.png',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
+			created:'8/25/2020'
+		},
+		{
 			title:'Show a Users Position',
 			desc:'This sample shows how to get the users position information from the browser by using the HTML5 geolocation API and show it on a map.',
-			path:'Device%20Sensors/Show%20a%20Users%20Position.html',
-			sourcePath:'Device%20Sensors/Show%20a%20Users%20Position.html',
+			path:'Device%20Sensors/Show%20a%20users%20position.html',
+			sourcePath:'Device%20Sensors/Show%20a%20users%20position.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, geolocation, user, location, position, gps',
 			created:'9/30/2018'
@@ -495,9 +495,9 @@ var sampleList = [
 		{
 			title:'User Location Accuracy Circle',
 			desc:'This sample shows how to display the users position on the map with an accuracy circle.',
-			path:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
-			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
-			screenshot:'User-Position-Accuracy-Circle.png',
+			path:'Device%20Sensors/User%20position%20accuracy%20circle.html',
+			sourcePath:'Device%20Sensors/User%20position%20accuracy%20circle.html',
+			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, accuracy, circle, geolocation, user, location, position, gps',
 			created:'9/30/2018'
 		},
@@ -1102,6 +1102,15 @@ var sampleList = [
 			created:'6/24/2019'
 		},
 		{
+			title:'Synchronize map views',
+			desc:'This sample shows how to synchronize the views of two or more maps.',
+			path:'Map/Synchronize%20map%20views.html',
+			sourcePath:'Map/Synchronize%20map%20views.html',
+			screenshot:'Synchronize-map-views.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps',
+			created:'8/25/2020'
+		},
+		{
 			title:'Update layer based on map style',
 			desc:'This sample shows how to monitor the maps style and update the style of a layer accordingly.',
 			path:'Map/Update%20layer%20based%20on%20map%20style.html',
@@ -1118,21 +1127,6 @@ var sampleList = [
 			screenshot:'Export-Map-as-Image.png',
 			keywords:'microsoft maps, map, gis, api, sdk, map image, export image, screenshots, reports, export map',
 			created:'1/28/2019'
-		},
-	]
-},
-{
-	category:'Open Modules',
-	desc:'These samples leverage one or more of the <a href="https://docs.microsoft.com/Microsoft/Maps/blob/master/AzureMaps.md" target="_blank">open source Azure Maps Web SDK modules</a>.',
-	samples: [
-		{
-			title:'Synchronize map views',
-			desc:'This sample shows how to synchronize the views of two or more maps.',
-			path:'Open%20Modules/Synchronize%20map%20views.html',
-			sourcePath:'Open%20Modules/Synchronize%20map%20views.html',
-			screenshot:'Synchronize-map-views.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps',
-			created:'8/24/2020'
 		},
 	]
 },
