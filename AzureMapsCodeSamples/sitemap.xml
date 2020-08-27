@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-08-25</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-08-27</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -36,7 +36,6 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Fullscreen%20Control/Fullscreen%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spyglass%20module/Spyglass%20map%20visualization.html</loc></url>
@@ -99,11 +98,15 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Add%20custom%20icon%20template%20to%20atlas%20namespace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/DataSource%20and%20Shape%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Detect%20if%20browser%20is%20supported.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Display%203D%20building%20footprints.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Full%20Screen%20Map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Fullscreen%20control%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Fullscreen%20control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Icon%20template%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Inspect%20features%20under%20the%20mouse.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Lazy%20Load%20the%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Limit%20Map%20to%20Two%20Finger%20Panning.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Limit%20map%20view%20with%20maxBounds.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Limit%20Scroll%20Wheel%20Zoom.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Load%20Map%20with%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20Events.html</loc></url>

@@ -270,7 +270,7 @@ class SwipeMapControl {
                 this._container.classList.add('azure-maps-swipe-map-horizontal');
                 this._swipeHandle.classList.add('azure-maps-swipe-map-handle-horizontal');
             }
-            this._container.style.msUserSelect = 'none';
+            this._container.style['msUserSelect'] = 'none';
             this._container.style.webkitUserSelect = 'none';
             this._container.style.userSelect = 'none';
             this._swipeHandle.addEventListener('mousedown', this._mouseDown, false);

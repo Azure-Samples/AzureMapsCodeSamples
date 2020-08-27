@@ -65,7 +65,7 @@ namespace SampleListBuilder
             }
 
             var sampleHtml = new StringBuilder();
-            var externalSampleHtml = new StringBuilder();
+            //var externalSampleHtml = new StringBuilder();
             var sampleCatListHtml = new StringBuilder();
             var sampleJson = new StringBuilder();
             var sitemap = new StringBuilder();

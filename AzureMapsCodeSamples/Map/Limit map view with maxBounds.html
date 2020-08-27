@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Limit map view with maxBounds - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to the limit the map view by using the maxBounds options of the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, map, max bounds" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        //The bounding box to limit the map view to. Format [West, South, East, North]
+        var boundingBox = [-118.851303, 32.721998, -117.659286, 34.831255];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                //Pass the bounding box into the maxBounds option to limit the maps movement over that area.
+                maxBounds: boundingBox,
+
+                //Optionally center the map on the bounding box.
+                center: atlas.data.BoundingBox.getCenter(boundingBox),
+
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //For reference, create a polygon from the maxBounds and display it on the map.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                datasource.add(atlas.math.boundingBoxToPolygon(boundingBox));
+
+                //Create a layer to render the outline of the polygon data.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'red'
+                }));
+            });
+        }
+
+        function toggleMaxBounds(elm) {
+            //Update the maxBounds option. Setting it to null will cause it to revert to the default (full globe).
+            map.setCamera({
+                maxBounds: (elm.checked) ? boundingBox : null
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:0px;left:calc(50% - 100px);background-color:white;padding:5px;">
+        Max bounds enabled <input type="checkbox" checked="checked" onclick="toggleMaxBounds(this)" />
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Limit map view with maxBounds</h1></legend>
+        This sample shows how to the limit the users ability to pan and zoom the map to specific bounding box area.
+    </fieldset>
+</body>
+</html>
