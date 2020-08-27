@@ -4,6 +4,7 @@
     <title>Limit Scroll Wheel Zoom - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to limit the scroll zooming functionality of the map such that the map will only be zoomed when the CTRL key is pressed. When the CTRL key is not pressed, the scroll wheel will scroll the page when over the map." />
@@ -22,7 +23,7 @@
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 				
-				//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'

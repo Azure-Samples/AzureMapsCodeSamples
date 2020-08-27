@@ -56,7 +56,9 @@ window.onload = function () {
             'Create%20a%20Geolocation%20Control': 'Geolocation%20control',
             'Continuous%20User%20Position%20Tracking': 'Continuous%20user%20position%20tracking',
             'Show%20a%20Users%20Position': 'Show%20a%20users%20position',
-            'User%20Position%20Accuracy%20Circle': 'User%20position%20accuracy%20circle'
+            'User%20Position%20Accuracy%20Circle': 'User%20position%20accuracy%20circle',
+            'Create%20a%20Fullscreen%20Control': 'Fullscreen%20Control',
+            'Fullscreen%20Control': 'Fullscreen%20control'
         };
 
         var redirect = sampleRedirects[hash];
