@@ -159,7 +159,8 @@ class SpiderClusterManager {
         this._spiderLineLayer = new atlas.layer.LineLayer(this._spiderDataSource, null, this._options.stickLayerOptions);
         map.layers.add(this._spiderLineLayer);
         //Make a copy of the cluster layer options.
-        var unclustedLayerOptions = this._deepCopy(unclustedLayer.getOptions(), ['source']);
+        var unclustedLayerOptions = Object.assign({}, unclustedLayer.getOptions());
+        unclustedLayerOptions.source = undefined;
         unclustedLayerOptions.filter = ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']]; //Only render Point or MultiPoints in this layer.;        
         this._unclustedLayer = unclustedLayer;
         if (unclustedLayer instanceof atlas.layer.BubbleLayer) {
@@ -294,7 +295,7 @@ class SpiderClusterManager {
                     var p = (c instanceof atlas.Shape) ? c.getProperties() : c.properties;
                     var id = (c instanceof atlas.Shape) ? c.getId() : c.id;
                     //Make a copy of the properties.
-                    p = this._deepCopy(p);
+                    p = Object.assign({}, p);
                     p._stickId = i + '';
                     p._parentId = id;
                     shapes.push(new atlas.data.Feature(new atlas.data.Point(pos), p));
@@ -302,18 +303,6 @@ class SpiderClusterManager {
                 this._spiderDataSource.add(shapes);
             });
         }
-    }
-    _deepCopy(obj, filter) {
-        var copy = obj, k;
-        if (obj && typeof obj === 'object') {
-            copy = Object.prototype.toString.call(obj) === '[object Array]' ? [] : {};
-            for (k in obj) {
-                if (!Array.isArray(filter) || (Array.isArray(filter) && filter.indexOf(k) !== -1)) {
-                    copy[k] = this._deepCopy(obj[k], filter);
-                }
-            }
-        }
-        return copy;
     }
 }
 //# sourceMappingURL=SpiderClusterManager.js.map
