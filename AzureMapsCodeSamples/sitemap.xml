@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-08-27</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-09-03</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -42,16 +42,15 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Spyglass%20module/Spyglass%20module%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Swipe%20map%20module/Swipe%20between%20two%20maps.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Swipe%20map%20module/Swipe%20map%20module%20options.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Custom%20Modules/Traffic%20Control/Traffic%20Control.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Demos/Car%20vs%20Truck%20Route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Demos/Create%20a%20Choropleth%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Demos/Data-Driven%20Styling.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Demos/Large%20GeoJSON%20Files.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Continuous%20user%20position%20tracking.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Continuous%20User%20Position%20Tracking.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Geolocation%20control%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Geolocation%20control.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Show%20a%20users%20position.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/User%20position%20accuracy%20circle.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/Show%20a%20Users%20Position.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Device%20Sensors/User%20Position%20Accuracy%20Circle.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html</loc></url>
@@ -223,6 +222,8 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/WMS%20Tile%20Layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tile%20Layers/WMTS%20Tile%20Layer.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20control%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20controls.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/interactiveSearch.html</loc></url>

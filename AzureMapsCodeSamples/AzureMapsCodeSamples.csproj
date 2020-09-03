@@ -347,8 +347,8 @@
     <Content Include="Custom Modules\Spider Clusters\Expanding Spider Clusters.html" />
     <Content Include="Custom Modules\Spider Clusters\SpiderClusterManager.js" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js" />
-    <Content Include="Custom Modules\Traffic Control\Traffic Control.html" />
-    <Content Include="Custom Modules\Traffic Control\TrafficControl.js" />
+    <Content Include="Experimental\Traffic Control\Traffic Control.html" />
+    <Content Include="Experimental\Traffic Control\TrafficControl.js" />
     <Content Include="Demos\Car vs Truck Route.html" />
     <Content Include="Bubble Layer\Data-Driven Bubble Layer Styling.html" />
     <Content Include="Demos\Data-Driven Styling.html" />
@@ -586,7 +586,9 @@
     <Content Include="SiteResources\screenshots\Text-format-with-inline-image.jpg" />
     <Content Include="SiteResources\screenshots\Tile-Layer-Options.jpg" />
     <Content Include="SiteResources\screenshots\Tile-Layer-using-X,-Y-and-Z.jpg" />
+    <Content Include="SiteResources\screenshots\Traffic-control-options.png" />
     <Content Include="SiteResources\screenshots\Traffic-Control.jpg" />
+    <Content Include="SiteResources\screenshots\Traffic-controls.png" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay-Options.jpg" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay.jpg" />
     <Content Include="SiteResources\screenshots\Travel-time-analysis-of-multiple-locations.jpg" />
@@ -743,6 +745,8 @@
     <Content Include="Third Party Map Controls\Satellite Imagery in OpenLayers.html" />
     <Content Include="Tile Layers\WMS Tile Layer.html" />
     <Content Include="Tile Layers\WMTS Tile Layer.html" />
+    <Content Include="Traffic\Traffic control options.html" />
+    <Content Include="Traffic\Traffic controls.html" />
     <Content Include="Tutorials\interactiveSearch.html" />
     <Content Include="Tutorials\route.html" />
     <Content Include="Tutorials\search.html" />
@@ -819,7 +823,7 @@
     <Content Include="Common\data\geojson\US_County_Unemployment_2017.geojson" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js.map" />
     <Content Include="Common\data\topojson\cb_2018_us_zcta510_500k.json" />
-    <Content Include="Custom Modules\Traffic Control\TrafficControl.js.map" />
+    <Content Include="Experimental\Traffic Control\TrafficControl.js.map" />
     <Content Include="Common\data\USCensus2010\BlockGroups\cb_2013_10_bg_500k.kmz" />
     <Content Include="Common\data\USCensus2010\BlockGroups\cb_2013_11_bg_500k.kmz" />
     <Content Include="Common\data\USCensus2010\BlockGroups\cb_2013_12_bg_500k.kmz" />
@@ -944,7 +948,7 @@
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />
     <TypeScriptCompile Include="Custom Modules\Spyglass module\SpyglassModule.ts" />
     <TypeScriptCompile Include="Custom Modules\Swipe map module\SwipeMapModule.ts" />
-    <TypeScriptCompile Include="Custom Modules\Traffic Control\TrafficControl.ts" />
+    <TypeScriptCompile Include="Experimental\Traffic Control\TrafficControl.ts" />
     <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />
     <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />
     <TypeScriptCompile Include="Experimental\Solar Terminator Module\SolarTerminatorModule.ts" />

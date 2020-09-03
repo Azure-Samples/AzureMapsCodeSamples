@@ -58,7 +58,8 @@ window.onload = function () {
             'Show%20a%20Users%20Position': 'Show%20a%20users%20position',
             'User%20Position%20Accuracy%20Circle': 'User%20position%20accuracy%20circle',
             'Create%20a%20Fullscreen%20Control': 'Fullscreen%20Control',
-            'Fullscreen%20Control': 'Fullscreen%20control'
+            'Fullscreen%20Control': 'Fullscreen%20control',
+            'Create%20a%20Traffic%20Control': 'Traffic%20controls'
         };
 
         var redirect = sampleRedirects[hash];
