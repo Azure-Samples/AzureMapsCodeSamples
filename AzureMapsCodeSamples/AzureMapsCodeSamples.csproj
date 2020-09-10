@@ -550,7 +550,7 @@
     <Content Include="SiteResources\screenshots\Reusing-Popup-with-Multiple-Pins.jpg" />
     <Content Include="SiteResources\screenshots\Reverse-Geocode-using-Services-Module.jpg" />
     <Content Include="SiteResources\screenshots\Route-along-GeoJSON-network.jpg" />
-    <Content Include="SiteResources\screenshots\Route-range-control.png" />
+    <Content Include="SiteResources\screenshots\Route-range-control.jpg" />
     <Content Include="SiteResources\screenshots\Route-Waypoint-Optimization.jpg" />
     <Content Include="SiteResources\screenshots\route.jpg" />
     <Content Include="SiteResources\screenshots\Satellite-Imagery-in-OpenLayers.jpg" />
@@ -558,7 +558,7 @@
     <Content Include="SiteResources\screenshots\Search-for-boundaries.jpg" />
     <Content Include="SiteResources\screenshots\search.jpg" />
     <Content Include="SiteResources\screenshots\Select-data-in-drawn-polygon-area.jpg" />
-    <Content Include="SiteResources\screenshots\Selection-control.png" />
+    <Content Include="SiteResources\screenshots\Selection-control.jpg" />
     <Content Include="SiteResources\screenshots\Show-clustered-points-in-popup.jpg" />
     <Content Include="SiteResources\screenshots\Show-popup-on-hover.jpg" />
     <Content Include="SiteResources\screenshots\Show-traffic-along-route.jpg" />
@@ -592,9 +592,9 @@
     <Content Include="SiteResources\screenshots\Text-format-with-inline-image.jpg" />
     <Content Include="SiteResources\screenshots\Tile-Layer-Options.jpg" />
     <Content Include="SiteResources\screenshots\Tile-Layer-using-X,-Y-and-Z.jpg" />
-    <Content Include="SiteResources\screenshots\Traffic-control-options.png" />
+    <Content Include="SiteResources\screenshots\Traffic-control-options.jpg" />
     <Content Include="SiteResources\screenshots\Traffic-Control.jpg" />
-    <Content Include="SiteResources\screenshots\Traffic-controls.png" />
+    <Content Include="SiteResources\screenshots\Traffic-controls.jpg" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay-Options.jpg" />
     <Content Include="SiteResources\screenshots\Traffic-Overlay.jpg" />
     <Content Include="SiteResources\screenshots\Travel-time-analysis-of-multiple-locations.jpg" />

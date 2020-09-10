@@ -326,7 +326,7 @@ var sampleList = [
 			desc:'This sample shows how to add the route range control to the map to query and display a route range polygon.',
 			path:'Controls/Route%20range%20control.html',
 			sourcePath:'Controls/Route%20range%20control.html',
-			screenshot:'Route-range-control.png',
+			screenshot:'Route-range-control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, control, custom control, route range, isochrone',
 			created:'9/9/2020'
 		},
@@ -335,7 +335,7 @@ var sampleList = [
 			desc:'This sample shows how to use the selection control. This control connects to a data source and lets you draw polygon areas on the map and retrieve all the point shapes in the data source that are within that area.',
 			path:'Controls/Selection%20control.html',
 			sourcePath:'Controls/Selection%20control.html',
-			screenshot:'Selection-control.png',
+			screenshot:'Selection-control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, datasource, data source',
 			created:'9/9/2020'
 		},
@@ -494,7 +494,7 @@ var sampleList = [
 		},
 		{
 			title:'Geolocation control',
-			desc:'',
+			desc:'This sample shows how to create a custom geolocation control that displays the users location on the map.',
 			path:'Device%20Sensors/Geolocation%20control.html',
 			sourcePath:'Device%20Sensors/Geolocation%20control.html',
 			screenshot:'Geolocation-control.jpg',
@@ -617,7 +617,7 @@ var sampleList = [
 		},
 		{
 			title:'Snap drawn line to roads',
-			desc:'This sample shows how to snap a line drawn using the draiwng tools to the road network. ',
+			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
 			path:'Drawing%20Tools%20Module/Snap%20drawn%20line%20to%20roads.html',
 			sourcePath:'Drawing%20Tools%20Module/Snap%20drawn%20line%20to%20roads.html',
 			screenshot:'Snap-drawn-line-to-roads.jpg',
@@ -2153,7 +2153,7 @@ var sampleList = [
 			desc:'This sample shows how to use options with the traffic control. Users can use the traffic control to toggle traffic on and off in the map.',
 			path:'Traffic/Traffic%20control%20options.html',
 			sourcePath:'Traffic/Traffic%20control%20options.html',
-			screenshot:'Traffic-control-options.png',
+			screenshot:'Traffic-control-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
 			created:'9/3/2020'
 		},
@@ -2162,7 +2162,7 @@ var sampleList = [
 			desc:'This sample shows how to add the traffic control that lets the user toggle the traffic on and off, as well as how to use the traffic legend control. ',
 			path:'Traffic/Traffic%20controls.html',
 			sourcePath:'Traffic/Traffic%20controls.html',
-			screenshot:'Traffic-controls.png',
+			screenshot:'Traffic-controls.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
 			created:'9/2/2020'
 		},
