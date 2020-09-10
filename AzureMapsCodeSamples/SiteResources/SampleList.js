@@ -286,6 +286,24 @@ var sampleList = [
 	desc:'Add UI controls to the map to create an enhanced user experience.',
 	samples: [
 		{
+			title:'Fullscreen control options',
+			desc:'This sample shows all the options of the fullscreen control.',
+			path:'Controls/Fullscreen%20control%20options.html',
+			sourcePath:'Controls/Fullscreen%20control%20options.html',
+			screenshot:'Fullscreen-control-options.jpg',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
+			created:'9/9/2020'
+		},
+		{
+			title:'Fullscreen control',
+			desc:'This sample shows how to add a fullscreen button to the map to display it in fullscreen mode.',
+			path:'Controls/Fullscreen%20control.html',
+			sourcePath:'Controls/Fullscreen%20control.html',
+			screenshot:'Fullscreen-control.jpg',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
+			created:'9/9/2020'
+		},
+		{
 			title:'Map Navigation Control Options',
 			desc:'This sample shows all the map navigation controls on the map and how they react with different option settings.',
 			path:'Controls/Map%20Navigation%20Control%20Options.html',
@@ -302,6 +320,24 @@ var sampleList = [
 			screenshot:'Map-Style-Picker.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk,  navigation controls, map style, style picker, map type, satellite, aerial, imagery',
 			created:'3/6/2019'
+		},
+		{
+			title:'Route range control',
+			desc:'This sample shows how to add the route range control to the map to query and display a route range polygon.',
+			path:'Controls/Route%20range%20control.html',
+			sourcePath:'Controls/Route%20range%20control.html',
+			screenshot:'Route-range-control.png',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, control, custom control, route range, isochrone',
+			created:'9/9/2020'
+		},
+		{
+			title:'Selection control',
+			desc:'This sample shows how to use the selection control. This control connects to a data source and lets you draw polygon areas on the map and retrieve all the point shapes in the data source that are within that area.',
+			path:'Controls/Selection%20control.html',
+			sourcePath:'Controls/Selection%20control.html',
+			screenshot:'Selection-control.png',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, datasource, data source',
+			created:'9/9/2020'
 		},
 	]
 },
@@ -425,7 +461,7 @@ var sampleList = [
 		},
 		{
 			title:'Large GeoJSON Files',
-			desc:'This sample demonstrates loading large GeoJSON files into the Azure Maps web control.',
+			desc:'This sample demonstrates loading large GeoJSON files into the Azure Maps Web SDK.',
 			path:'Demos/Large%20GeoJSON%20Files.html',
 			sourcePath:'Demos/Large%20GeoJSON%20Files.html',
 			screenshot:'Large-GeoJSON-Files.jpg',
@@ -956,24 +992,6 @@ var sampleList = [
 			screenshot:'Full-Screen-Map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, full, screen',
 			created:'5/4/2018'
-		},
-		{
-			title:'Fullscreen control options',
-			desc:'This sample shows all the options of the fullscreen control.',
-			path:'Map/Fullscreen%20control%20options.html',
-			sourcePath:'Map/Fullscreen%20control%20options.html',
-			screenshot:'Fullscreen-control-options.jpg',
-			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
-			created:'8/26/2020'
-		},
-		{
-			title:'Fullscreen control',
-			desc:'This sample shows how to add a fullscreen button to the map to display it in fullscreen mode.',
-			path:'Map/Fullscreen%20control.html',
-			sourcePath:'Map/Fullscreen%20control.html',
-			screenshot:'Fullscreen-control.jpg',
-			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
-			created:'8/26/2020'
 		},
 		{
 			title:'Icon template options',
@@ -2251,4 +2269,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 233;
+}];var numberOfSamples = 235;

@@ -324,6 +324,8 @@
     <Content Include="Common\scripts\azure-maps-animations.min.js" />
     <Content Include="Common\scripts\azure-maps-fullscreen-control.min.js" />
     <Content Include="Common\scripts\azure-maps-geolocation-control.min.js" />
+    <Content Include="Common\scripts\azure-maps-selection-control.min.css" />
+    <Content Include="Common\scripts\azure-maps-selection-control.min.js" />
     <Content Include="Common\scripts\azure-maps-sync-maps.min.js" />
     <Content Include="Common\scripts\catiline.min.js" />
     <Content Include="Common\scripts\clipboard.min.js" />
@@ -334,6 +336,8 @@
     <Content Include="Common\scripts\lozad.min.js" />
     <Content Include="Common\scripts\shp.min.js" />
     <Content Include="Controls\Map Style Picker.html" />
+    <Content Include="Controls\Route range control.html" />
+    <Content Include="Controls\Selection control.html" />
     <Content Include="Custom Modules\Bring Data Into View Control\Bring Data Into View Control.html" />
     <Content Include="Custom Modules\Bring Data Into View Control\BringDataIntoViewControl.js" />
     <Content Include="Device Sensors\Geolocation control options.html" />
@@ -361,8 +365,8 @@
     <Content Include="Experimental\Simple drawing tools color picker.html" />
     <Content Include="favicon.ico" />
     <Content Include="Map\Display 3D building footprints.html" />
-    <Content Include="Map\Fullscreen control options.html" />
-    <Content Include="Map\Fullscreen control.html" />
+    <Content Include="Controls\Fullscreen control options.html" />
+    <Content Include="Controls\Fullscreen control.html" />
     <Content Include="Map\Limit map view with maxBounds.html" />
     <Content Include="Map\Mouse events with keys pressed.html" />
     <Content Include="Map\Update layer based on map style.html" />
@@ -546,6 +550,7 @@
     <Content Include="SiteResources\screenshots\Reusing-Popup-with-Multiple-Pins.jpg" />
     <Content Include="SiteResources\screenshots\Reverse-Geocode-using-Services-Module.jpg" />
     <Content Include="SiteResources\screenshots\Route-along-GeoJSON-network.jpg" />
+    <Content Include="SiteResources\screenshots\Route-range-control.png" />
     <Content Include="SiteResources\screenshots\Route-Waypoint-Optimization.jpg" />
     <Content Include="SiteResources\screenshots\route.jpg" />
     <Content Include="SiteResources\screenshots\Satellite-Imagery-in-OpenLayers.jpg" />
@@ -553,6 +558,7 @@
     <Content Include="SiteResources\screenshots\Search-for-boundaries.jpg" />
     <Content Include="SiteResources\screenshots\search.jpg" />
     <Content Include="SiteResources\screenshots\Select-data-in-drawn-polygon-area.jpg" />
+    <Content Include="SiteResources\screenshots\Selection-control.png" />
     <Content Include="SiteResources\screenshots\Show-clustered-points-in-popup.jpg" />
     <Content Include="SiteResources\screenshots\Show-popup-on-hover.jpg" />
     <Content Include="SiteResources\screenshots\Show-traffic-along-route.jpg" />

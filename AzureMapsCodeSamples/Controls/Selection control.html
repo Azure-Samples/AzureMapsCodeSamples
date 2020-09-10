@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Selection control - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the selection control. This control connects to a data source and lets you draw polygon areas on the map and retrieve all the point shapes in the data source that are within that area." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, custom, control, custom control, datasource, data source" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
+
+    <!-- Add references to the Azure Maps Selection Control module JavaScript and CSS files. -->
+    <link rel="stylesheet" href="../Common/scripts/azure-maps-selection-control.min.css" type="text/css" />
+    <script src="../Common/scripts/azure-maps-selection-control.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        //GeoJSON feed that contains the data we want to map.
+        var geojsonFeed = 'https://azuremapscodesamples.azurewebsites.net/Common/data/geojson/SamplePoiDataSet.json';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-73.929, 40.7406],
+                zoom: 10,
+                style: 'grayscale_light',
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Import the GeoJSON data into the data source. Capture the point data after it has loaded for quick lookups later.
+                datasource.importDataFromUrl(geojsonFeed);
+
+                //Create a layer to render the points.
+                map.layers.add(new atlas.layer.BubbleLayer(datasource, null, {
+                    color: [
+                        'case',
+                        //If there is a color property, use it.
+                        ['has', 'color'],
+                        ['get', 'color'],
+
+                        //default to blue.
+                        '#3399ff'
+                    ]
+                }));
+
+                var control = new atlas.control.SelectionControl({
+                    style: 'auto',
+                    //  selectionModes: ['circle', 'time']
+                    source: datasource
+                });
+
+                map.events.add('dataselected', control, function (selectedShapes) {
+                    alert(selectedShapes.length + ' shapes selected');
+                });
+
+                //Add controls to the map.
+                map.controls.add([
+                    //Optional. Add the map style control so we can see how the custom control reacts.
+                    new atlas.control.StyleControl({
+                        style: 'auto',
+                        persistSearchArea: true
+                    }),
+
+                    //Add the selection control to the map.
+                    control
+                ], {
+                    position: 'top-left'
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Selection control</h1></legend>        
+        This sample shows how to use the selection control. This control connects to a data source and lets you draw polygon areas on the map and retrieve all the point shapes in the data source that are within that area.
+        Press the pointer button in the top right corner of the map to choose a selection mode, then draw on the map.  
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-selection-control/" target="_blank">Azure Maps Selection Control module</a>
+    </fieldset>
+</body>
+</html>
