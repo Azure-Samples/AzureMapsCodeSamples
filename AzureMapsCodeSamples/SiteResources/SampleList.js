@@ -907,6 +907,15 @@ var sampleList = [
 			created:'11/22/2019'
 		},
 		{
+			title:'Display isoline data',
+			desc:'This sample shows how to display isoline data on the map add apply a data driven styling to assign colors. Isolines are also known as contour lines.',
+			path:'Line%20Layer/Display%20isoline%20data.html',
+			sourcePath:'Line%20Layer/Display%20isoline%20data.html',
+			screenshot:'Display-isoline-data.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling',
+			created:'9/10/2020'
+		},
+		{
 			title:'Line Layer Options',
 			desc:'This sample shows how the different options of the line layer affect rendering.',
 			path:'Line%20Layer/Line%20Layer%20Options.html',
@@ -1819,6 +1828,33 @@ var sampleList = [
 			created:'7/5/2019'
 		},
 		{
+			title:'Create 3D isobands from isolines',
+			desc:'This sample shows how to create 3D isobands from isoline data and display them on a map with a data driven styling to assign colors.',
+			path:'Spatial%20Math/Create%203D%20isobands%20from%20isolines.html',
+			sourcePath:'Spatial%20Math/Create%203D%20isobands%20from%20isolines.html',
+			screenshot:'Create-3D-isobands-from-isolines.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling',
+			created:'9/10/2020'
+		},
+		{
+			title:'Create isobands from isolines',
+			desc:'This sample shows how to create isobands from isoline data and display them on a map with a data driven styling to assign colors. Isobands represent the areas between isolines.',
+			path:'Spatial%20Math/Create%20isobands%20from%20isolines.html',
+			sourcePath:'Spatial%20Math/Create%20isobands%20from%20isolines.html',
+			screenshot:'Create-isobands-from-isolines.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling',
+			created:'9/10/2020'
+		},
+		{
+			title:'Data binning points with Turfjs',
+			desc:'This sample shows how to create a hexagon grid and perform an aggregate to determine how many points are within each cell of a hexagon grid.',
+			path:'Spatial%20Math/Data%20binning%20points%20with%20Turfjs.html',
+			sourcePath:'Spatial%20Math/Data%20binning%20points%20with%20Turfjs.html',
+			screenshot:'Data-binning-points-with-Turfjs.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, hexbin, hex bin, hex grid, hexgrid',
+			created:'9/10/2020'
+		},
+		{
 			title:'Display cluster area with Convex Hull',
 			desc:'This sample shows how to display the area of the points contained within a cluster by calculating a convex hull. ',
 			path:'Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html',
@@ -1882,11 +1918,11 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
-			title:'Merge Two Polygons Together',
+			title:'Merge two polygons together',
 			desc:'This sample shows how to merge (union) two polygons together to create a single polygon object.',
-			path:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
-			sourcePath:'Spatial%20Math/Merge%20Two%20Polygons%20Together%20(Turf.js).html',
-			screenshot:'Merge-Two-Polygons-Together-(Turf.js).jpg',
+			path:'Spatial%20Math/Merge%20two%20polygons%20together.html',
+			sourcePath:'Spatial%20Math/Merge%20two%20polygons%20together.html',
+			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, turf.js, geospatial, math, spatial math, polygons, merge, union, spatial analytics',
 			created:'4/1/2019'
 		},
@@ -2074,7 +2110,16 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
-			title:'Azure Maps Raster Tiles in Leaflet JS',
+			title:'Raster tiles in GeoJS',
+			desc:'This sample shows how to render Azure Maps Raster Tiles in the GeoJS map control.',
+			path:'Third%20Party%20Map%20Controls/Raster%20tiles%20in%20GeoJS.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Raster%20tiles%20in%20GeoJS.html',
+			screenshot:'Raster-tiles-in-GeoJS.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, geojs',
+			created:'9/11/2020'
+		},
+		{
+			title:'Raster Tiles in Leaflet JS',
 			desc:'This sample shows how to render Azure Maps Raster Tiles in the Leaflet JS map control.',
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
@@ -2269,4 +2314,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 235;
+}];var numberOfSamples = 240;

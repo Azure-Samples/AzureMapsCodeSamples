@@ -112,6 +112,7 @@
     <Content Include="Animations\Simple Symbol Animation.html" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Bubble Layer\Cluster aggregates.html" />
+    <Content Include="Common\data\geojson\US_farmers_markets.json" />
     <Content Include="Common\data\indoor\tutorial\fixtures.zip" />
     <Content Include="Common\data\shp\BikeRacks.zip" />
     <Content Include="Common\data\geojson\Census Tracts in Colorado 2016.geojson" />
@@ -333,6 +334,7 @@
     <Content Include="Common\scripts\exif-js-min.js" />
     <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Common\scripts\geojson-path-finder.js" />
+    <Content Include="Common\scripts\GeoJS\geo.min.js" />
     <Content Include="Common\scripts\lozad.min.js" />
     <Content Include="Common\scripts\shp.min.js" />
     <Content Include="Controls\Map Style Picker.html" />
@@ -364,6 +366,16 @@
     <Content Include="Experimental\Select a shape in the drawing manager.html" />
     <Content Include="Experimental\Simple drawing tools color picker.html" />
     <Content Include="favicon.ico" />
+    <Content Include="SiteResources\screenshots\Create-3D-isobands-from-isolines.jpg" />
+    <Content Include="SiteResources\screenshots\Create-isobands-from-isolines.jpg" />
+    <Content Include="SiteResources\screenshots\Data-binning-points-with-Turfjs.jpg" />
+    <Content Include="SiteResources\screenshots\Display-isoline-data.jpg" />
+    <Content Include="SiteResources\screenshots\Raster-tiles-in-GeoJS.jpg" />
+    <Content Include="Spatial Math\Create 3D isobands from isolines.html" />
+    <Content Include="Spatial Math\Data binning points with Turfjs.html" />
+    <Content Include="Spatial Math\Create isobands from isolines.html" />
+    <Content Include="Experimental\Create isolines from points.html" />
+    <Content Include="Line Layer\Display isoline data.html" />
     <Content Include="Map\Display 3D building footprints.html" />
     <Content Include="Controls\Fullscreen control options.html" />
     <Content Include="Controls\Fullscreen control.html" />
@@ -510,7 +522,7 @@
     <Content Include="SiteResources\screenshots\Map-user-interaction-options.jpg" />
     <Content Include="SiteResources\screenshots\MapsSampleIcon.jpg" />
     <Content Include="SiteResources\screenshots\Mercator-Projection-and-Geospatial-Circles.jpg" />
-    <Content Include="SiteResources\screenshots\Merge-Two-Polygons-Together-%28Turf.js%29.jpg" />
+    <Content Include="SiteResources\screenshots\Merge two polygons together.jpg" />
     <Content Include="SiteResources\screenshots\Methods-for-geocoding-multiple-addresses.jpg" />
     <Content Include="SiteResources\screenshots\Mini-Overview-Map.jpg" />
     <Content Include="SiteResources\screenshots\Morph-shape-animation.gif" />
@@ -748,6 +760,7 @@
     <Content Include="HTML Markers\Simple HTML Marker.html" />
     <Content Include="HTML Markers\HTML Marker with Custom SVG Template.html" />
     <Content Include="Symbol Layer\Formatted text field.html" />
+    <Content Include="Third Party Map Controls\Raster tiles in GeoJS.html" />
     <Content Include="Third Party Map Controls\Satellite Imagery in OpenLayers.html" />
     <Content Include="Tile Layers\WMS Tile Layer.html" />
     <Content Include="Tile Layers\WMTS Tile Layer.html" />
@@ -906,7 +919,7 @@
     <Content Include="SiteResources\index.css" />
     <Content Include="SiteResources\index.js" />
     <Content Include="SiteResources\SampleList.js" />
-    <Content Include="Spatial Math\Merge Two Polygons Together %28Turf.js%29.html" />
+    <Content Include="Spatial Math\Merge two polygons together.html" />
     <Content Include="Spatial Math\Introduction to spatial math.html" />
     <Content Include="Symbol Layer\Create Symbols from Custom JSON.html" />
     <Content Include="HTML Markers\CSS Styled HTML Marker.html" />

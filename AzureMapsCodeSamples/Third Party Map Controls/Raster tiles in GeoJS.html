@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Raster tiles in GeoJS - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to render Azure Maps Raster Tiles in the GeoJS map control." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, raster, GeoJS" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the GeoJS map control resources. -->
+    <script src="../Common/scripts/GeoJS/geo.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, primaryMapStyleLayer, secondaryMapStyleLayer;
+
+        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+        var subscriptionKey = '<Your Azure Maps Key>';
+
+        //Tileset IDs for raster tiles in Azure Maps.
+        var tilesetIds = [
+            'microsoft.base.road',
+            'microsoft.base.darkgrey',
+            'microsoft.imagery',
+            'microsoft.weather.infrared.main',
+            'microsoft.weather.radar.main',
+            'microsoft.base.hybrid.road',
+            'microsoft.base.labels.road'
+        ];
+
+        //The language of labels. Supported languages: https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages
+        var language = 'en-US';
+
+        //The regional view of the map. Supported views: https://aka.ms/AzureMapsLocalizationViews
+        var view = 'Auto';
+
+        //The URL domain for the Azure Maps services. Azure Maps is available in both public and government cloud, which use different domains.
+        var domain = 'atlas.microsoft.com';
+
+        function GetMap() {
+            map = geo.map({
+                node: "#myMap"
+            });
+
+            //Create tile sources for all of the Azure Maps raster tilesets and add register them as OSM format tile source for easy selection later.
+            tilesetIds.forEach(tilesetId => {
+                geo.osmLayer.tileSources[tilesetId] = {
+                    url: `https://${domain}/map/tile?subscription-key=${subscriptionKey}&api-version=2.0&tilesetId=${tilesetId}&zoom={z}&x={x}&y={y}&tileSize=256&language=${language}&view=${view}`,
+                    attribution: `© ${new Date().getFullYear()} TomTom, Microsoft`
+                };
+            });
+
+            //Create the primary base map layer and set it to the 'microsoft.base.road' style.
+            primaryMapStyleLayer = map.createLayer('osm', { source: 'microsoft.base.road' });
+
+            //Create a secondary layer to overlay on top to show more info. Hide it initially.
+            secondaryMapStyleLayer = map.createLayer('osm', { visible: false });
+        }
+
+        function updatePrimaryMapStyle(elm) {
+            var tilesetId = elm.options[elm.selectedIndex].value;
+            updateMapStyle(primaryMapStyleLayer, tilesetId);
+        }
+
+        function updateSecondaryMapStyle(elm) {
+            var tilesetId = elm.options[elm.selectedIndex].value;
+            updateMapStyle(secondaryMapStyleLayer, tilesetId);
+        }
+
+        function updateMapStyle(layer, tilesetId) {
+            if (tilesetId === 'none') {
+                layer.visible(false);                
+            } else {
+                layer.source(tilesetId);
+                layer.visible(true);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;padding:10px;border-radius:10px;background-color:white">
+        Primary layer:<br />
+        <select onchange="updatePrimaryMapStyle(this)">
+            <option>microsoft.base.road</option>
+            <option>microsoft.base.darkgrey</option>
+            <option>microsoft.imagery</option>
+        </select>
+        <br /><br />
+        Secondary layer:<br />
+        <select onchange="updateSecondaryMapStyle(this)">
+            <option selected>none</option>
+            <option>microsoft.weather.infrared.main</option>
+            <option>microsoft.weather.radar.main</option>
+            <option>microsoft.base.hybrid.road</option>
+            <option>microsoft.base.labels.road</option>
+        </select>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Raster tiles in GeoJS</h1></legend>
+        This sample shows how to render Azure Maps Raster Tiles in the <a href="http://opengeoscience.github.io/geojs/index.html">GeoJS map control</a>. 
+        Multiple layers can be used to combine overlays, such as displaying labels or weather radar data above satellite imagery.
+    </fieldset>
+</body>
+</html>

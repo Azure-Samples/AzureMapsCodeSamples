@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create isobands from isolines - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create isobands from isoline data and display them on a map with a data driven styling to assign colors. Isobands represent the areas between isolines." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script type='text/javascript'>
+        var map, datasource;
+
+        //Earthquake intensity contours of M7.0 – 1km WSW of Kumamoto-shi, Japan (GeoJson source from usgs.gov: https://earthquake.usgs.gov/data/shakemap/)
+        var contourLineDataUrl = 'https://earthquake.usgs.gov/archive/product/shakemap/us20005iis/us/1467057010522/download/cont_psa03.json';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [131.074968, 32.944332],
+                zoom: 8,
+                style: 'grayscale_light',
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer to render polygon data.
+                map.layers.add(new atlas.layer.PolygonLayer(datasource, null, {
+                    //Use a data-driven expression based on a property on each polygon to assign a color.
+                    fillColor: [
+                        'step',
+                        ['get', 'value'],
+                        'transparent',  //If value is less than 40, make it transparent.
+                        40, 'rgb(25, 150, 65)', //40 - 80 color
+                        80, 'rgb(140, 202, 32)', //80 - 120 color
+                        120, 'rgb(255, 255, 0)', //120 - 160 color
+                        160, 'rgb(235, 140, 14)', //160 - 200 color
+                        200, 'rgb(215, 25, 28)' //200+ color
+                    ],
+                    fillOpacity: 0.5
+                }), 'labels');
+
+                //Load data that represents contour lines.
+                fetch(contourLineDataUrl).then(r => r.json()).then(fc => {
+                    //Convert the isolines into isobands. Sort based on the "value" property.
+                    var isobands = createIsobandsFromIsolines(fc.features, 'value');
+
+                    //Add the polygons to the data source.
+                    datasource.add(isobands);
+                });
+            });
+        }
+
+        //Takes an array of isolines and converts them to isobands.
+        function createIsobandsFromIsolines(isolines) {
+            //Optionally sort features by property value. In this case the "value" property.
+            sortFeaturesByProperty(isolines, 'elevation');
+
+            //Create polygons from the isolines.
+            var polygons = [];
+
+            isolines.forEach(f => {
+                polygons.push(convertIsolineToPolygon(f));
+            });
+
+            //Step through each polygon and calculate the difference with all remaining polygons.
+            var isobands = [];
+
+            for (var i = 0; i < polygons.length; i++) {
+                var p = polygons[i];
+
+                for (var j = i + 1; j < polygons.length; j++) {
+                    p = turf.difference(p, polygons[j]);
+
+                    //If one polygon is completely overlapped, there will be nothing left, and thus be null.
+                    if (p === null) {
+                        break;
+                    }
+                }
+
+                if (p !== null) {
+                    isobands.push(p);
+                }
+            }
+
+            return isobands;
+        }
+
+        //Creates a sorting function for a GeoJSON property.
+        function sortFeaturesByProperty(features, propertyName) {
+            features.sort(function (a, b) {
+                return a.properties[propertyName] - b.properties[propertyName];
+            });
+        }
+
+        //Convert an Isoline into a polygon.
+        function convertIsolineToPolygon(feature) {
+            //Create polygons from the line data.
+            if (feature.geometry.type.indexOf('LineString') > -1) {
+                if (feature.geometry.type === 'LineString') {
+                    feature.geometry.type = 'Polygon';
+                    //Line represents a single polygon ring.
+                    var ring = [feature.geometry.coordinates];
+                    closeRings(ring);
+                    feature.geometry.coordinates = ring;
+                } else {
+                    //Feature is a MultiLineString
+                    feature.geometry.type = 'MultiPolygon';
+
+                    //A MultiLineString represents multiple individual polygons, each with one ring.
+                    var polygonRings = [];
+
+                    feature.geometry.coordinates.forEach(ring => {
+                        closeRings(ring);
+                        polygonRings.push([ring]);
+                    });
+
+                    feature.geometry.coordinates = polygonRings;
+                }
+            }
+
+            return feature;
+        }
+
+        //Ensures that all coordinate rings in a polygon are closed.
+        function closeRings(polygonCoordinates) {
+            var lastIdx;
+
+            polygonCoordinates.forEach(ring => {
+                lastIdx = ring.length - 1;
+
+                //Check to see if the first and last coordinates in the ring are the same. If not, add the first coordinate to the end.
+                if (!atlas.data.Position.areEqual(ring[0], ring[lastIdx])) {
+                    ring.push(ring[0]);
+                }
+            });
+        }
+    </script>
+    <style>
+        .colorband {
+            width: 100px;
+            padding: 2px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:#eee;border-radius:10px;padding:10px;">
+        <div class="colorband" style="background-color: rgba(215, 25, 28, 0.5)">200%g</div>
+        <div class="colorband" style="background-color: rgba(235, 140, 14, 0.5)">160%g</div>
+        <div class="colorband" style="background-color: rgba(255, 255, 0, 0.5)">120%g</div>
+        <div class="colorband" style="background-color: rgba(140, 202, 32, 0.5)">80%g</div>
+        <div class="colorband" style="background-color: rgba(25, 150, 65, 0.5)">40%g</div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Create isobands from isolines</h1></legend>
+        This sample shows how to create isobands from isoline data and display them on a map with a data driven styling to assign colors. Isobands represent the areas between isolines.
+        Isoline data often consists of LineString or MultiLineString shapes that represent closed rings. The lines should never overlap.
+        <br /><br />
+        There are a couple of methods that can be used to create isobands depending on the format of the data.
+        You can assume the data is already sorted is ascending order, or you can sort the data by a property value in ascending order.
+        If you will be using solid colors, you can simply add the polygons as is to the map. If not, then you will need to cut out overlapping areas using one of the methods below.
+        <ul>
+            <li>Convert the line data into polygons, then take first polygon and calculate the difference compared to all other (subtract second polygon area from first one), higher value, polygons, then go to the second polygon and do the same.</li>
+            <li>If the data only consists of LineStrings, then each new line should be within the previous lines area, thus you can use one line as the first ring of a polygon and the second line as hole within the polygon. This is simple but error prone.</li>
+        </ul>
+        <br />
+        This sample shows how to do the first method.
+        Note that LineStrings can be converted to Polygons, and MultiLineStrings into MultiPolygons by simply wrapping the coordinates within an array. From there, one of the following methods can be used.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to perform the difference calculation.
+        <br />
+        The data in this sample represents Earthquake intensity contours of M7.0 – 1km WSW of Kumamoto-shi, Japan and is sourced from the <a href="https://earthquake.usgs.gov/data/shakemap/">USGS Earthquake Hazards Program</a>.
+    </fieldset>
+</body>
+</html>
