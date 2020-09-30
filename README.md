@@ -41,7 +41,6 @@ Code samples for the Government Cloud version of Azure can be found [here](https
 * [Azure Maps Blog](https://azure.microsoft.com/blog/topics/azure-maps/)
 * [Microsoft Q&A](https://docs.microsoft.com/en-us/answers/topics/azure-maps.html)
 * [MSDN Forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=azurelbs)
-* [StackOverflow [azure-maps]](https://stackoverflow.com/questions/tagged/azure-maps)
 * [Azure Maps feedback](https://feedback.azure.com/forums/909172-azure-maps)
 
 ## Contributing
@@ -51,7 +50,6 @@ Learn more about how you can help on our [Contribution Rules & Guidelines](CONTR
 
 You can reach out to us anytime with questions and suggestions using our communities below:
 * [Microsoft Q&A](https://docs.microsoft.com/en-us/answers/topics/azure-maps.html)
-* [StackOverflow [azure-maps]](https://stackoverflow.com/questions/tagged/azure-maps)
 * [Azure Maps feedback](https://feedback.azure.com/forums/909172-azure-maps)
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). 

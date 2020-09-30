@@ -366,10 +366,12 @@
     <Content Include="Experimental\Select a shape in the drawing manager.html" />
     <Content Include="Experimental\Simple drawing tools color picker.html" />
     <Content Include="favicon.ico" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon masks.html" />
     <Content Include="SiteResources\screenshots\Create-3D-isobands-from-isolines.jpg" />
     <Content Include="SiteResources\screenshots\Create-isobands-from-isolines.jpg" />
     <Content Include="SiteResources\screenshots\Data-binning-points-with-Turfjs.jpg" />
     <Content Include="SiteResources\screenshots\Display-isoline-data.jpg" />
+    <Content Include="SiteResources\screenshots\Polygon-masks.jpg" />
     <Content Include="SiteResources\screenshots\Raster-tiles-in-GeoJS.jpg" />
     <Content Include="Spatial Math\Create 3D isobands from isolines.html" />
     <Content Include="Spatial Math\Data binning points with Turfjs.html" />
@@ -543,7 +545,7 @@
     <Content Include="SiteResources\screenshots\Polygon-labels---calculated.jpg" />
     <Content Include="SiteResources\screenshots\Polygon-labels---symbol-layer.jpg" />
     <Content Include="SiteResources\screenshots\Polygon-Layer-Options.jpg" />
-    <Content Include="SiteResources\screenshots\Polygon-masks.jpg" />
+    <Content Include="SiteResources\screenshots\Polygon-mask-with-dynamic-styling.jpg" />
     <Content Include="SiteResources\screenshots\Popup-events.jpg" />
     <Content Include="SiteResources\screenshots\Popup-templates.jpg" />
     <Content Include="SiteResources\screenshots\Popup-with-DOM-element-content.jpg" />
@@ -689,7 +691,7 @@
     <Content Include="Polygon and Polygon Extrusion Layers\Polygon Extrusion Layer Options.html" />
     <Content Include="Polygon and Polygon Extrusion Layers\Polygon labels - symbol layer.html" />
     <Content Include="Polygon and Polygon Extrusion Layers\Polygon labels - calculated.html" />
-    <Content Include="Polygon and Polygon Extrusion Layers\Polygon masks.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Polygon mask with dynamic styling.html" />
     <Content Include="Popups\Accessible popups.html" />
     <Content Include="Popups\Customize a popup.html" />
     <Content Include="REST Services\Show weather overlays on a map.html" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-09-11</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-09-30</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -133,6 +133,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20calculated.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20symbol%20layer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Layer%20Options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20mask%20with%20dynamic%20styling.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20masks.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Simple%20MultiPolygon.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Accessible%20popups.html</loc></url>
