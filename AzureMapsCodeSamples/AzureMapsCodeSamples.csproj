@@ -325,6 +325,7 @@
     <Content Include="Common\scripts\azure-maps-animations.min.js" />
     <Content Include="Common\scripts\azure-maps-fullscreen-control.min.js" />
     <Content Include="Common\scripts\azure-maps-geolocation-control.min.js" />
+    <Content Include="Common\scripts\azure-maps-gridded-data-source.min.js" />
     <Content Include="Common\scripts\azure-maps-selection-control.min.css" />
     <Content Include="Common\scripts\azure-maps-selection-control.min.js" />
     <Content Include="Common\scripts\azure-maps-sync-maps.min.js" />
@@ -366,13 +367,19 @@
     <Content Include="Experimental\Select a shape in the drawing manager.html" />
     <Content Include="Experimental\Simple drawing tools color picker.html" />
     <Content Include="favicon.ico" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Extruded gridded data source.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Gridded data source options.html" />
     <Content Include="Polygon and Polygon Extrusion Layers\Polygon masks.html" />
+    <Content Include="Polygon and Polygon Extrusion Layers\Show points of gridded data source.html" />
     <Content Include="SiteResources\screenshots\Create-3D-isobands-from-isolines.jpg" />
     <Content Include="SiteResources\screenshots\Create-isobands-from-isolines.jpg" />
     <Content Include="SiteResources\screenshots\Data-binning-points-with-Turfjs.jpg" />
     <Content Include="SiteResources\screenshots\Display-isoline-data.jpg" />
+    <Content Include="SiteResources\screenshots\Extruded-gridded-data-source.jpg" />
+    <Content Include="SiteResources\screenshots\Gridded-data-source-options.jpg" />
     <Content Include="SiteResources\screenshots\Polygon-masks.jpg" />
     <Content Include="SiteResources\screenshots\Raster-tiles-in-GeoJS.jpg" />
+    <Content Include="SiteResources\screenshots\Show-points-of-gridded-data-source.jpg" />
     <Content Include="Spatial Math\Create 3D isobands from isolines.html" />
     <Content Include="Spatial Math\Data binning points with Turfjs.html" />
     <Content Include="Spatial Math\Create isobands from isolines.html" />

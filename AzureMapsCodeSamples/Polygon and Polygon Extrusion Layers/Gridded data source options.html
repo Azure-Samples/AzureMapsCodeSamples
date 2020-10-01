@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Gridded data source options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows all the different options available for the gridded data source module." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, bivariate, data binning, data bin, gridding, hexbins, hexgrid, hexagon bins, tessellations" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+     <!-- Add reference to the gridded data source module. -->
+    <script src="../Common/scripts/azure-maps-gridded-data-source.min.js"></script>
+
+    <script type='text/javascript'>
+    var map, datasource, layer, outlineLayer, popup;
+
+    function GetMap()
+    {
+         //Initialize a map instance.
+         map = new atlas.Map('myMap', {
+            center: [-122.3378, 47.6129],
+            zoom: 10,
+            style: 'grayscale_dark',
+            view: 'Auto',
+
+            //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+            authOptions: {
+                authType: 'subscriptionKey',
+                subscriptionKey: '<Your Azure Maps Key>'
+            }
+        });
+
+        //Wait until the map resources are ready.
+        map.events.add('ready', function () {
+            //Create a reusable popup.
+            popup = new atlas.Popup();
+
+            //Create an instance of the gridded data source.
+            datasource = new atlas.source.GriddedDataSource(null, {
+                cellWidth: 2,
+                distanceUnits: 'miles',
+                //Create an aggregate property to calculate the sum of the value property of all points within each cell.
+                aggregateProperties: {
+                    total: ['+', ['get', 'value']]
+                }
+            });
+            map.sources.add(datasource);
+
+            //Create a layer to render the grid cells polygon area.
+            layer = new atlas.layer.PolygonLayer(datasource, null, {
+                fillColor: [
+                    'interpolate',
+                    ['linear'],
+                    ['get', 'total', ['get', 'aggregateProperties']],  //Get the "total" value calculated as part of the aggregateProperties.
+                    0, '#ffffcc',
+                    1000, '#41b6c4',
+                    10000, '#253494'
+                ],
+                fillOpacity: 0.7
+            });
+            
+            //Add a click event to the polygon layer to display a popup.
+            map.events.add('click', layer, openPopup);
+
+            //Create a layer to render the outline of the grid cells polygons.
+            outlineLayer =  new atlas.layer.LineLayer(datasource, null, {
+                strokeColor: 'black'
+            });
+
+            //Add the layers to the map, below the labels.
+            map.layers.add([
+                layer,
+
+                outlineLayer
+            ], 'labels');
+
+            //Initialize a dataset of 5000 points.
+            updateNumPoints(5000);
+        });
+    }
+
+    function changeNumberOfPoints(elm) {
+        var numPoints = parseInt(elm.options[elm.selectedIndex].value);
+        updateNumPoints(numPoints);
+    }
+
+    function updateNumPoints(numPoints){
+        var points = [];
+        
+        //Generate random points within the specified bounding box.
+        var bbox = map.getCamera().bounds;
+        var width = atlas.data.BoundingBox.getWidth(bbox);
+        var height = atlas.data.BoundingBox.getHeight(bbox);
+
+        for(var i = 0; i < numPoints; i++){
+            points.push(new atlas.data.Feature(new atlas.data.Point([
+                Math.random() * width + bbox[0],
+                Math.random() * height + bbox[1]
+            ]), {
+                value: Math.random() * 100
+            }));
+        }
+
+        datasource.setPoints(points);
+    }
+
+    function changeGridType(elm) {
+        setOptions({ gridType: elm.options[elm.selectedIndex].value });
+    }
+
+    function changeCellWidth(elm) {
+        setOptions({ cellWidth: parseFloat(elm.options[elm.selectedIndex].value) });
+    }
+
+    function changeMinCellWidth(elm) {
+        setOptions({ minCellWidth: parseFloat(elm.options[elm.selectedIndex].value) });
+    }
+
+    function changeDistanceUnits(elm){
+        setOptions({ distanceUnits: elm.options[elm.selectedIndex].value });
+    }
+
+    function toggleColor(elm) {
+        if (elm.checked) {
+            layer.setOptions({ 
+                fillColor: [
+                    'interpolate',
+                    ['linear'],
+                    ['get', 'total', ['get', 'aggregateProperties']],  //Get the "total" value calculated as part of the aggregateProperties.
+                    0, '#ffffcc',
+                    1000, '#41b6c4',
+                    10000, '#253494'
+                ]
+            });
+        } else {
+            layer.setOptions({ fillColor: 'lightBlue' });
+        }
+    }
+
+    function toggleOutline(elm){
+        outlineLayer.setOptions({ visible: elm.checked });
+    }
+
+     function toggleScale(elm) {
+        if (elm.checked) {
+            setOptions({ scaleProperty: 'point_count' });
+        } else {
+            setOptions({ scaleProperty: null });
+        }
+    }
+
+    function toggleScaleExpression(elm) {
+        if (elm.checked) {
+            //Use a easeInQuad scaling.           
+            setOptions({ scaleExpression: ['^', ['/',  ['get', 'point_count'], ['get', 'max']], 2] });
+        } else {
+            setOptions({ scaleExpression: null });
+        }
+    }
+
+    function setOptions(opt) {
+        var start = new Date().getTime();
+
+        datasource.setOptions(opt);
+    }
+
+    function updateCoverage(elm){
+        setOptions({ coverage: parseFloat(elm.value) });
+    }
+
+    function updateCenterLatitude(){
+        setOptions({ centerLatitude: map.getCamera().center[1] });
+    }
+
+    function openPopup(e){
+        popup.setOptions({
+            position: e.position,
+            content: atlas.PopupTemplate.applyTemplate(e.shapes[0].getProperties())
+        });
+        popup.open(map);
+    }
+    </script>
+    <style>        
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width:290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend><h1 style="font-size:16px">Gridded data source options</h1></legend>
+        This sample shows all the different options available for the gridded data source module. 
+        This module performs an operation that is also known by many names such as tessellations, data binning, or hex bins. 
+        <br /><br />
+
+        <b>Setup</b><br/><br/>
+        <table>
+            <tr title="Number of mock data points to generate.">
+                <td># of points:</td>
+                <td>
+                    <select onchange="changeNumberOfPoints(this);">
+                        <option value="1000">1,000</option>
+                        <option selected="selected" value="5000">5,000</option>
+                        <option value="10000">10,000</option>
+                        <option value="50000">50,000</option>
+                        <option value="100000">100,000</option>  
+                        <option value="150000">150,000</option>   
+                        <option value="300000">300,000</option>        
+                        <option value="500000">500,000</option>  
+                        <option value="750000">750,000</option>
+                        <option value="1000000">1,000,000</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="Apply a data driven style to the polygon layer based an aggregate property.">
+                <td>Colorize:</td>
+                <td>
+                    <input type="checkbox" checked="checked" onclick="toggleColor(this)"/>
+                </td>
+            </tr>
+            <tr title="Specifies if the cells should be outlined">
+                <td>Outline:</td>
+                <td>
+                    <input type="checkbox" checked="checked" onclick="toggleOutline(this)"/>
+                </td>
+            </tr>
+        </table>
+        <br/><br/>
+        <b>Options</b><br/><br/>
+        <table>
+            <tr title="The type of grid to create.">
+                <td>Grid type:</td>
+                <td>
+                    <select onchange="changeGridType(this);">
+                        <option value="circle">Circle</option>
+                        <option selected="selected" value="hexagon">Hexagon</option>
+                        <option value="hexCircle">Hex Circle</option>
+                        <option value="pointyHexagon">Pointy Hexagon</option>
+                        <option value="square">Square</option>
+                        <option value="triangle">Triangle</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The width of each cell in the grid.">
+                <td>Cell width:</td>
+                <td>
+                    <select onchange="changeCellWidth(this);">
+                        <option value="0.1">0.1</option>
+                        <option value="0.5">0.5</option>
+                        <option value="1">1</option>
+                        <option selected="selected" value="2">2</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="300">300</option>
+                        <option value="400">400</option>
+                        <option value="500">500</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="Distance units of cell widths.">
+                <td>Distance units:</td>
+                <td>
+                    <select onchange="changeDistanceUnits(this);">
+                        <option value="feet">feet</option>
+                        <option value="kilometers">kilometers</option>
+                        <option value="meters">meters</option>
+                        <option selected="selected" value="miles">miles</option>
+                        <option value="nauticalMiles">nauticalMiles</option>
+                        <option value="yards">yards</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="Latitude value used to convert spatial distances to pixel distances.">
+                <td>Center Latitude:</td>
+                <td>
+                    <input type="button" onclick="updateCenterLatitude()" value="Use Map Center"/>
+                </td>
+            </tr>
+            <tr title="Coverage area to fill for each cell area.">
+                <td>Coverage:</td>
+                <td>
+                    <form oninput="c.value=coverage.value">
+                        <input type="range" id="coverage" value="1" min="0" max="2" step="0.05" oninput="updateCoverage(this)" onchange="updateCoverage(this)" style="width:100px"/>
+                        <output name="c" for="coverage">1</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="The property to use for scaling each cell.">
+                <td>Scale property:</td>
+                <td>
+                    <input type="checkbox" onclick="toggleScale(this)" />
+                </td>
+            </tr>
+            <tr title="USe a custom scale expression for scaling each cell.">
+                <td>Custom scale expression:</td>
+                <td>
+                    <input type="checkbox" onclick="toggleScaleExpression(this)" />
+                </td>
+            </tr>
+            <tr title="Minimium cell width of each grid cell when scaling.">
+                <td>Min cell width:</td>
+                <td>
+                    <select onchange="changeMinCellWidth(this);">
+                        <option selected="selected" value="0">0</option>
+                        <option value="0.1">0.1</option>
+                        <option value="0.5">0.5</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="300">300</option>
+                        <option value="400">400</option>
+                        <option value="500">500</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    
+    <div id="myMap"></div>
+</body>
+</html>

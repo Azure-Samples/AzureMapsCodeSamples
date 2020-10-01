@@ -91,7 +91,6 @@
             infopane.innerHTML += 'Downloading ' + geoJsonFeed.name + '...</br/>';
 
             //Download the GeoJSON feed.
-            //Load the earthquake data.
             datasource.importDataFromUrl(geoJsonFeed.url).then(function () {
 
                 var numFeatures = datasource.getShapes().length;
