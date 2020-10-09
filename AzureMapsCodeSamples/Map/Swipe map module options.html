@@ -4,7 +4,7 @@
     <title>Swipe map module options - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to swipe between two overlapping synchronized maps to view different data sets." />
@@ -15,34 +15,32 @@
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
-    <!-- Load in the JavaScript that has our custom module. -->
-    <script src="SwipeMapModule.js"></script>
+    <!-- Load in the JavaScript for the swipe map module. -->
+    <script src="/Common/scripts/azure-maps-swipe-map.min.js"></script>
 
     <script type='text/javascript'>
         var primaryMap, secondaryMap, swipeMapControl;
 
         function GetMap() {
+            //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+            var authOptions = {
+                authType: 'subscriptionKey',
+                subscriptionKey: '<Your Azure Maps Key>'
+            };
+
             //Initialize a map instance.
             primaryMap = new atlas.Map('primaryMap', {
                 view: 'Auto',
-				
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
-                }
+                authOptions: authOptions
             });
 
             secondaryMap = new atlas.Map('secondaryMap', {
                 style: 'grayscale_dark',
-				view: 'Auto',
-                authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
-                }
+                view: 'Auto',
+                authOptions: authOptions
             });
 
-            swipeMapControl = new SwipeMapControl(primaryMap, secondaryMap, {
+            swipeMapControl = new atlas.SwipeMap(primaryMap, secondaryMap, {
                 positionChanged: function (dx) {
                     document.getElementById('sliderPositionTbx').value = dx;
                     lastPosition = dx;
@@ -82,7 +80,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            min-width:290px;
+            min-width: 290px;
             height: 600px;
         }
     </style>
@@ -120,6 +118,7 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">Swipe map module options</h1></legend>
         This sample shows the different options of the swipe map module.
+        This sample uses the open source Azure Maps <a href="https://github.com/Azure-Samples/azure-maps-swipe-map" target="_blank">Swipe Map</a> module.
     </fieldset>
 </body>
 </html>

@@ -16,7 +16,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <script type='text/javascript'>
-        var map, client, datasource;
+        var map, client, datasource, layer;
         var categories = ['bar', 'coffee', 'restaurant'];
 
         function GetMap() {
@@ -26,7 +26,7 @@
                 zoom: 16,
                 view: 'Auto',
 				
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -55,38 +55,36 @@
                     new atlas.data.Feature(new atlas.data.Point([-122.335892, 47.607594]), { category: 'restaurant' })
                 ]);
 
-                //Create a symbol layer for each category.
-                categories.forEach(function (category) {
-                    //Create a symbol layer for the category. Give each layer an id so we can easily retrieve it later.
-                    map.layers.add(new atlas.layer.SymbolLayer(datasource, category, {
-                        iconOptions: {
-                            //The map control has built in icons for bar, coffee and restaurant that we can use.
-                            image: category,    
-                            anchor: 'center',
-                            allowOverlap: true
-                        },
-
-                        //Create a filter which will only render points for the specified category in this layer.
-                        filter: ['==', ['get', 'category'], category]
-                    }));
+                //Create a symbol layer to render the points.
+                layer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        //The map control has built in icons for bar, coffee and restaurant that we can use.
+                        image: ['get', 'category'],
+                        anchor: 'center',
+                        allowOverlap: true
+                    }
                 });
+                map.layers.add(layer);
             });
         }
 
         function filterSymbols(elm, category) {
-            //Retrieve the layer from the map by id. 
-            var layer = map.layers.getLayerById(category);
-
             //Set the visibility of the layer.
             if (elm.checked) {
-                layer.setOptions({
-                    visible: true
-                });
+                //Add the category to the categories array.
+                categories.push(category);
             } else {
-                layer.setOptions({
-                    visible: false
-                });
+                //Remove the category to the categories array.
+                categories.splice(categories.indexOf(category), 1);
             }
+
+            //Create a filter that grabs the category of each point and checks that it is in the array of categories.
+            var filter = ['in', ['get', 'category'], categories];
+
+            //Update the filter in the layer.
+            layer.setOptions({
+                filter: filter
+            });
         }
     </script>
 </head>

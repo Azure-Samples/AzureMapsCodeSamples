@@ -9,7 +9,7 @@ var sampleList = [
 			path:'Animations/Animate%20a%20choropleth%20map.html',
 			sourcePath:'Animations/Animate%20a%20choropleth%20map.html',
 			screenshot:'Animate-a-choropleth-map.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling',
+			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis',
 			created:'10/8/2018'
 		},
 		{
@@ -407,24 +407,6 @@ var sampleList = [
 			screenshot:'Spyglass-module-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
 			created:'4/16/2019'
-		},
-		{
-			title:'Swipe between two maps',
-			desc:'This sample shows how to swipe between two overlapping synchronized maps to view different data sets.',
-			path:'Custom%20Modules/Swipe%20map%20module/Swipe%20between%20two%20maps.html',
-			sourcePath:'Custom%20Modules/Swipe%20map%20module',
-			screenshot:'Swipe-between-two-maps.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
-			created:'4/15/2019'
-		},
-		{
-			title:'Swipe map module options',
-			desc:'This sample shows how to swipe between two overlapping synchronized maps to view different data sets.',
-			path:'Custom%20Modules/Swipe%20map%20module/Swipe%20map%20module%20options.html',
-			sourcePath:'Custom%20Modules/Swipe%20map%20module',
-			screenshot:'Swipe-map-module-options.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
-			created:'4/15/2019'
 		},
 	]
 },
@@ -1147,6 +1129,33 @@ var sampleList = [
 			created:'6/24/2019'
 		},
 		{
+			title:'Swipe between two maps',
+			desc:'This sample shows how to swipe between two overlapping synchronized maps to view different data sets.',
+			path:'Map/Swipe%20between%20two%20maps.html',
+			sourcePath:'Map/Swipe%20between%20two%20maps.html',
+			screenshot:'Swipe-between-two-maps.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
+			created:'10/9/2020'
+		},
+		{
+			title:'Swipe map module options',
+			desc:'This sample shows how to swipe between two overlapping synchronized maps to view different data sets.',
+			path:'Map/Swipe%20map%20module%20options.html',
+			sourcePath:'Map/Swipe%20map%20module%20options.html',
+			screenshot:'Swipe-map-module-options.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
+			created:'10/9/2020'
+		},
+		{
+			title:'Swipe map with fullscreen support',
+			desc:'This sample shows how to use the swipe map experience with the fullscreen control.',
+			path:'Map/Swipe%20map%20with%20fullscreen%20support.html',
+			sourcePath:'Map/Swipe%20map%20with%20fullscreen%20support.html',
+			screenshot:'Swipe-map-with-fullscreen-support.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map, fullscreen, full screen',
+			created:'10/9/2020'
+		},
+		{
 			title:'Synchronize map views',
 			desc:'This sample shows how to synchronize the views of two or more maps.',
 			path:'Map/Synchronize%20map%20views.html',
@@ -1449,7 +1458,7 @@ var sampleList = [
 			path:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
 			sourcePath:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
 			screenshot:'Calculate-a-Simple-Isochrone.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, rest, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis',
 			created:'10/18/2018'
 		},
 		{
@@ -1659,7 +1668,7 @@ var sampleList = [
 			path:'Spatial%20Analysis/Travel%20time%20analysis%20of%20multiple%20locations.html',
 			sourcePath:'Spatial%20Analysis/Travel%20time%20analysis%20of%20multiple%20locations.html',
 			screenshot:'Travel-time-analysis-of-multiple-locations.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, travel time, isochrone, route range, within, intersects, intersection',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, travel time, isochrone, route range, within, intersects, intersection, temporal, temporal analysis',
 			created:'3/20/2020'
 		},
 		{
@@ -1958,7 +1967,7 @@ var sampleList = [
 			desc:'This sample shows how to merge (union) two polygons together to create a single polygon object.',
 			path:'Spatial%20Math/Merge%20two%20polygons%20together.html',
 			sourcePath:'Spatial%20Math/Merge%20two%20polygons%20together.html',
-			screenshot:'',
+			screenshot:'Merge-two-polygons-together.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, turf.js, geospatial, math, spatial math, polygons, merge, union, spatial analytics',
 			created:'4/1/2019'
 		},
@@ -2350,4 +2359,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 244;
+}];var numberOfSamples = 245;

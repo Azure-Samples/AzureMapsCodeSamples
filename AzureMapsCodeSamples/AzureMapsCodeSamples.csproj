@@ -328,6 +328,7 @@
     <Content Include="Common\scripts\azure-maps-gridded-data-source.min.js" />
     <Content Include="Common\scripts\azure-maps-selection-control.min.css" />
     <Content Include="Common\scripts\azure-maps-selection-control.min.js" />
+    <Content Include="Common\scripts\azure-maps-swipe-map.min.js" />
     <Content Include="Common\scripts\azure-maps-sync-maps.min.js" />
     <Content Include="Common\scripts\catiline.min.js" />
     <Content Include="Common\scripts\clipboard.min.js" />
@@ -367,6 +368,7 @@
     <Content Include="Experimental\Select a shape in the drawing manager.html" />
     <Content Include="Experimental\Simple drawing tools color picker.html" />
     <Content Include="favicon.ico" />
+    <Content Include="Map\Swipe map with fullscreen support.html" />
     <Content Include="Polygon and Polygon Extrusion Layers\Extruded gridded data source.html" />
     <Content Include="Polygon and Polygon Extrusion Layers\Gridded data source options.html" />
     <Content Include="Polygon and Polygon Extrusion Layers\Polygon masks.html" />
@@ -380,6 +382,7 @@
     <Content Include="SiteResources\screenshots\Polygon-masks.jpg" />
     <Content Include="SiteResources\screenshots\Raster-tiles-in-GeoJS.jpg" />
     <Content Include="SiteResources\screenshots\Show-points-of-gridded-data-source.jpg" />
+    <Content Include="SiteResources\screenshots\Swipe-map-with-fullscreen-support.jpg" />
     <Content Include="Spatial Math\Create 3D isobands from isolines.html" />
     <Content Include="Spatial Math\Data binning points with Turfjs.html" />
     <Content Include="Spatial Math\Create isobands from isolines.html" />
@@ -531,7 +534,7 @@
     <Content Include="SiteResources\screenshots\Map-user-interaction-options.jpg" />
     <Content Include="SiteResources\screenshots\MapsSampleIcon.jpg" />
     <Content Include="SiteResources\screenshots\Mercator-Projection-and-Geospatial-Circles.jpg" />
-    <Content Include="SiteResources\screenshots\Merge two polygons together.jpg" />
+    <Content Include="SiteResources\screenshots\Merge-two-polygons-together.jpg" />
     <Content Include="SiteResources\screenshots\Methods-for-geocoding-multiple-addresses.jpg" />
     <Content Include="SiteResources\screenshots\Mini-Overview-Map.jpg" />
     <Content Include="SiteResources\screenshots\Morph-shape-animation.gif" />
@@ -666,10 +669,9 @@
     <Content Include="Spatial Analysis\GeoJSONRouting\index.js" />
     <Content Include="Demos\Large GeoJSON Files.html" />
     <Content Include="Animations\Animate a choropleth map.html" />
-    <Content Include="Custom Modules\Swipe map module\Swipe between two maps.html" />
-    <Content Include="Custom Modules\Swipe map module\Swipe map module options.html" />
+    <Content Include="Map\Swipe between two maps.html" />
+    <Content Include="Map\Swipe map module options.html" />
     <Content Include="Map\Synchronize map views.html" />
-    <Content Include="Custom Modules\Swipe map module\SwipeMapModule.js" />
     <Content Include="Custom Modules\Spyglass module\Spyglass map visualization.html" />
     <Content Include="Custom Modules\Spyglass module\Spyglass module options.html" />
     <Content Include="Drawing Tools Module\Draw gridded polygon.html" />
@@ -847,7 +849,6 @@
     <Content Include="Common\data\topojson\Brazil_Municipalities.json" />
     <Content Include="Common\data\topojson\zip-code-level-2017-topojson.json" />
     <Content Include="Common\data\topojson\zips_us_topo.json" />
-    <Content Include="Custom Modules\Swipe map module\SwipeMapModule.js.map" />
     <Content Include="Common\data\geojson\US_County_Unemployment_2017.geojson" />
     <Content Include="Custom Modules\Spyglass module\SpyglassModule.js.map" />
     <Content Include="Common\data\topojson\cb_2018_us_zcta510_500k.json" />
@@ -975,7 +976,6 @@
     <TypeScriptCompile Include="Custom Modules\Simple Scale Bar Control\SimpleScaleBarControl.ts" />
     <TypeScriptCompile Include="Custom Modules\Spider Clusters\SpiderClusterManager.ts" />
     <TypeScriptCompile Include="Custom Modules\Spyglass module\SpyglassModule.ts" />
-    <TypeScriptCompile Include="Custom Modules\Swipe map module\SwipeMapModule.ts" />
     <TypeScriptCompile Include="Experimental\Traffic Control\TrafficControl.ts" />
     <TypeScriptCompile Include="Map\Export Map as Image\MapImageExporter.ts" />
     <TypeScriptCompile Include="HTML Markers\HtmlMarkerLayer\HtmlMarkerLayer.ts" />
