@@ -79,7 +79,7 @@
             }
 
             //Create a filter that grabs the category of each point and checks that it is in the array of categories.
-            var filter = ['in', ['get', 'category'], categories];
+            var filter = ['in', ['get', 'category'], ['literal', categories]];
 
             //Update the filter in the layer.
             layer.setOptions({

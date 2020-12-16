@@ -23,7 +23,7 @@
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -39,6 +39,11 @@
 
                 var textInput = document.createElement('input');
                 textInput.type = 'text';
+
+                //Ensure that focus is given to the text input when mouse downing on it.
+                textInput.onmousedown = () => {
+                    textInput.focus();
+                };
 
                 popupContent.appendChild(textInput);
 

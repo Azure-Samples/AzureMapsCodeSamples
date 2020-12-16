@@ -286,6 +286,15 @@ var sampleList = [
 	desc:'Add UI controls to the map to create an enhanced user experience.',
 	samples: [
 		{
+			title:'Bring Data Into View Control',
+			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
+			path:'Controls/Bring%20Data%20Into%20View%20Control.html',
+			sourcePath:'Controls/Bring%20Data%20Into%20View%20Control.html',
+			screenshot:'Bring-Data-Into-View-Control.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, ',
+			created:'11/5/2020'
+		},
+		{
 			title:'Fullscreen control options',
 			desc:'This sample shows all the options of the fullscreen control.',
 			path:'Controls/Fullscreen%20control%20options.html',
@@ -327,8 +336,17 @@ var sampleList = [
 			path:'Controls/Route%20range%20control.html',
 			sourcePath:'Controls/Route%20range%20control.html',
 			screenshot:'Route-range-control.jpg',
-			keywords:'microsoft maps, maps, map, api, sdk, gis, control, custom control, route range, isochrone',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, control, custom control, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis',
 			created:'9/9/2020'
+		},
+		{
+			title:'Select shapes with selection control',
+			desc:'This sample shows how to use the selection control with a data source of polygons.',
+			path:'Controls/Select%20shapes%20with%20selection%20control.html',
+			sourcePath:'Controls/Select%20shapes%20with%20selection%20control.html',
+			screenshot:'Select-shapes-with-selection-control.jpg',
+			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, datasource, data source',
+			created:'11/30/2020'
 		},
 		{
 			title:'Selection control',
@@ -339,74 +357,32 @@ var sampleList = [
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, datasource, data source',
 			created:'9/9/2020'
 		},
-	]
-},
-{
-	category:'Custom Modules',
-	desc:'Use custom modules to extend the functionality of the Azure Maps Web SDK.',
-	samples: [
-		{
-			title:'Bring Data Into View Control',
-			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
-			path:'Custom%20Modules/Bring%20Data%20Into%20View%20Control/Bring%20Data%20Into%20View%20Control.html',
-			sourcePath:'Custom%20Modules/Bring%20Data%20Into%20View%20Control',
-			screenshot:'Bring-Data-Into-View-Control.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, ',
-			created:'3/8/2019'
-		},
-		{
-			title:'Draw Line',
-			desc:'This sample shows how to create a custom drawing tool for lines.',
-			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Line.html',
-			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
-			screenshot:'Draw-Line.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, drawing, draw',
-			created:'10/9/2018'
-		},
-		{
-			title:'Draw Polygon',
-			desc:'This sample shows how to create a custom drawing tool for polygons.',
-			path:'Custom%20Modules/Custom%20Drawing%20Tools/Draw%20Polygon.html',
-			sourcePath:'Custom%20Modules/Custom%20Drawing%20Tools',
-			screenshot:'Draw-Polygon.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, polygon, drawing, draw',
-			created:'9/23/2018'
-		},
 		{
 			title:'Simple Scale Bar Control',
 			desc:'This sample shows how to create a custom scale bar control that can be added to the map.',
-			path:'Custom%20Modules/Simple%20Scale%20Bar%20Control/Simple%20Scale%20Bar%20Control.html',
-			sourcePath:'Custom%20Modules/Simple%20Scale%20Bar%20Control',
+			path:'Controls/Simple%20Scale%20Bar%20Control.html',
+			sourcePath:'Controls/Simple%20Scale%20Bar%20Control.html',
 			screenshot:'Simple-Scale-Bar-Control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, scale bar, scalebar',
-			created:'3/6/2019'
-		},
-		{
-			title:'Expanding Spider Clusters',
-			desc:'This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout.',
-			path:'Custom%20Modules/Spider%20Clusters/Expanding%20Spider%20Clusters.html',
-			sourcePath:'Custom%20Modules/Spider%20Clusters',
-			screenshot:'Expanding-Spider-Clusters.gif',
-			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
-			created:'2/28/2019'
+			created:'11/5/2020'
 		},
 		{
 			title:'Spyglass map visualization',
 			desc:'This sample shows how to add a spyglass data viewer to the map.',
-			path:'Custom%20Modules/Spyglass%20module/Spyglass%20map%20visualization.html',
-			sourcePath:'Custom%20Modules/Spyglass%20module',
+			path:'Controls/Spyglass%20map%20visualization.html',
+			sourcePath:'Controls/Spyglass%20map%20visualization.html',
 			screenshot:'Spyglass-map-visualization.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
-			created:'4/16/2019'
+			created:'11/5/2020'
 		},
 		{
 			title:'Spyglass module options',
 			desc:'This sample shows how all the options of the spyglass module can be used to customize the user experience.',
-			path:'Custom%20Modules/Spyglass%20module/Spyglass%20module%20options.html',
-			sourcePath:'Custom%20Modules/Spyglass%20module',
+			path:'Controls/Spyglass%20module%20options.html',
+			sourcePath:'Controls/Spyglass%20module%20options.html',
 			screenshot:'Spyglass-module-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
-			created:'4/16/2019'
+			created:'11/5/2020'
 		},
 	]
 },
@@ -493,11 +469,11 @@ var sampleList = [
 			created:'9/30/2018'
 		},
 		{
-			title:'User Location Accuracy Circle',
+			title:'User position accuracy circle',
 			desc:'This sample shows how to display the users position on the map with an accuracy circle.',
 			path:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
-			screenshot:'',
+			screenshot:'User-position-accuracy-circle.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, accuracy, circle, geolocation, user, location, position, gps',
 			created:'9/30/2018'
 		},
@@ -515,6 +491,15 @@ var sampleList = [
 			screenshot:'Add-drawing-toolbar-to-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint',
 			created:'5/4/2019'
+		},
+		{
+			title:'Allow map panning with drawing tools',
+			desc:'This sample shows how to allow the map to pan when using the drawing tools with the interaction type set to click.',
+			path:'Drawing%20Tools%20Module/Allow%20map%20panning%20with%20drawing%20tools.html',
+			sourcePath:'Drawing%20Tools%20Module/Allow%20map%20panning%20with%20drawing%20tools.html',
+			screenshot:'Allow-map-panning-with-drawing-tools.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, delete',
+			created:'12/2/2020'
 		},
 		{
 			title:'Change drawing rendering style',
@@ -733,6 +718,15 @@ var sampleList = [
 			created:'7/5/2019'
 		},
 		{
+			title:'Clustered Pie Chart HTML Markers',
+			desc:'This sample combines the HtmlMarkerLayer class with the PieChartMarker class to create pie charts for clustered markers on the map.',
+			path:'HTML%20Markers/Clustered%20Pie%20Chart%20HTML%20Markers.html',
+			sourcePath:'HTML%20Markers/Clustered%20Pie%20Chart%20HTML%20Markers.html',
+			screenshot:'Clustered-Pie-Chart-HTML-Markers.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, svg template, chart, pie chart',
+			created:'11/5/2020'
+		},
+		{
 			title:'CSS Styled HTML Marker',
 			desc:'This sample shows how to use CSS and HTML to create a marker on the map.',
 			path:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
@@ -760,6 +754,33 @@ var sampleList = [
 			created:'11/28/2018'
 		},
 		{
+			title:'HTML Marker layer and vector tiles',
+			desc:'This sample shows how to how to use a vector tile service to render point data on the map using HTML markers.',
+			path:'HTML%20Markers/HTML%20Marker%20layer%20and%20vector%20tiles.html',
+			sourcePath:'HTML%20Markers/HTML%20Marker%20layer%20and%20vector%20tiles.html',
+			screenshot:'HTML-Marker-layer-and-vector-tiles.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer, clustering, vector tiles, mbtiles, traffic, layer, flow, incidents',
+			created:'11/5/2020'
+		},
+		{
+			title:'HTML marker layer events',
+			desc:'This sample highlights the name of the events that are firing as you interact with the HTML marker layer.',
+			path:'HTML%20Markers/HTML%20marker%20layer%20events.html',
+			sourcePath:'HTML%20Markers/HTML%20marker%20layer%20events.html',
+			screenshot:'HTML-marker-layer-events.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, events, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
+			created:'11/5/2020'
+		},
+		{
+			title:'HTML Marker Layer',
+			desc:'This sample provides a layer which renders point data from a data source as HTML markers on the map.',
+			path:'HTML%20Markers/HTML%20Marker%20Layer.html',
+			sourcePath:'HTML%20Markers/HTML%20Marker%20Layer.html',
+			screenshot:'HTML-Marker-Layer.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer',
+			created:'11/5/2020'
+		},
+		{
 			title:'HTML Marker with built-in icon template',
 			desc:'This sample shows how use image templates with an HTML marker.',
 			path:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
@@ -778,39 +799,30 @@ var sampleList = [
 			created:'11/28/2018'
 		},
 		{
+			title:'Pie chart HTML marker options',
+			desc:'This sample shows how different options of the pie chart marker class change its rendering.',
+			path:'HTML%20Markers/Pie%20chart%20HTML%20marker%20options.html',
+			sourcePath:'HTML%20Markers/Pie%20chart%20HTML%20marker%20options.html',
+			screenshot:'Pie-chart-HTML-marker-options.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, chart, pie chart',
+			created:'11/5/2020'
+		},
+		{
+			title:'Pie Chart HTML Markers',
+			desc:'This sample shows how to create a pie chart using an HTML marker.',
+			path:'HTML%20Markers/Pie%20Chart%20HTML%20Markers.html',
+			sourcePath:'HTML%20Markers/Pie%20Chart%20HTML%20Markers.html',
+			screenshot:'Pie-Chart-HTML-Markers.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, chart, pie chart',
+			created:'11/5/2020'
+		},
+		{
 			title:'Simple HTML Marker',
 			desc:'This sample shows how create a simple HtmlMarker and add it to the map.',
 			path:'HTML%20Markers/Simple%20HTML%20Marker.html',
 			sourcePath:'HTML%20Markers/Simple%20HTML%20Marker.html',
 			screenshot:'Simple-HTML-Marker.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
-			created:'11/28/2018'
-		},
-		{
-			title:'Clustered Pie Chart HTML Markers',
-			desc:'This sample combines the HtmlMarkerLayer class with the PieChartMarker class to create pie charts for clustered markers on the map.',
-			path:'HTML%20Markers/HtmlMarkerLayer/Clustered%20Pie%20Chart%20HTML%20Markers.html',
-			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
-			screenshot:'Clustered-Pie-Chart-HTML-Markers.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, svg template, chart, pie chart',
-			created:'7/5/2019'
-		},
-		{
-			title:'HTML Marker Layer',
-			desc:'This sample provides a layer which renders point data from a data source as HTML markers on the map.',
-			path:'HTML%20Markers/HtmlMarkerLayer/HTML%20Marker%20Layer.html',
-			sourcePath:'HTML%20Markers/HtmlMarkerLayer',
-			screenshot:'HTML-Marker-Layer.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer',
-			created:'7/5/2019'
-		},
-		{
-			title:'Pie Chart HTML Markers',
-			desc:'This sample shows how to create HtmlMarkers that look like scaled pie charts using inline SVG\'s. Click on a marker to view the data for each piece of a pie in a chart.',
-			path:'HTML%20Markers/Pie%20Chart%20HTML%20Marker/Pie%20Chart%20HTML%20Markers.html',
-			sourcePath:'HTML%20Markers/Pie%20Chart%20HTML%20Marker',
-			screenshot:'Pie-Chart-HTML-Markers.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, chart, pie chart',
 			created:'11/28/2018'
 		},
 	]
@@ -976,6 +988,15 @@ var sampleList = [
 			created:'8/26/2020'
 		},
 		{
+			title:'Export Map as Image',
+			desc:'This sample shows how to export the map canvas as an image which can be used in reports or emails.',
+			path:'Map/Export%20Map%20as%20Image.html',
+			sourcePath:'Map/Export%20Map%20as%20Image.html',
+			screenshot:'Export-Map-as-Image.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, map image, export image, screenshots, reports, export map, earthquakes, usgs',
+			created:'11/5/2020'
+		},
+		{
 			title:'Full Screen Map',
 			desc:'This sample shows how to toggle between displaying the standard page layout, and a full screen map view.',
 			path:'Map/Full%20Screen%20Map.html',
@@ -1084,13 +1105,22 @@ var sampleList = [
 			created:'3/13/2020'
 		},
 		{
-			title:'Mini Overview Map',
-			desc:'This sample shows how to create a second mini overview map which shows the main maps area of focus.',
-			path:'Map/Mini%20Overview%20Map.html',
-			sourcePath:'Map/Mini%20Overview%20Map.html',
-			screenshot:'Mini-Overview-Map.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, events, overview map, overview, mini map, minimap',
-			created:'10/11/2018'
+			title:'Mini overview map options',
+			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
+			path:'Map/Mini%20overview%20map%20options.html',
+			sourcePath:'Map/Mini%20overview%20map%20options.html',
+			screenshot:'',
+			keywords:'microsoft maps, map, gis, api, sdk, ',
+			created:'11/13/2020'
+		},
+		{
+			title:'Mini overview map',
+			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
+			path:'Map/Mini%20overview%20map.html',
+			sourcePath:'Map/Mini%20overview%20map.html',
+			screenshot:'Mini-overview-map.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, ',
+			created:'11/13/2020'
 		},
 		{
 			title:'Mouse events with keys pressed',
@@ -1172,15 +1202,6 @@ var sampleList = [
 			screenshot:'Update-layer-based-on-map-style.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image, styledata',
 			created:'6/5/2020'
-		},
-		{
-			title:'Export Map as Image',
-			desc:'This sample shows how to export the map canvas as an image which can be used in reports or emails. ',
-			path:'Map/Export%20Map%20as%20Image/Export%20Map%20as%20Image.html',
-			sourcePath:'Map/Export%20Map%20as%20Image',
-			screenshot:'Export-Map-as-Image.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, map image, export image, screenshots, reports, export map, earthquakes, usgs',
-			created:'1/28/2019'
 		},
 	]
 },
@@ -1462,6 +1483,24 @@ var sampleList = [
 			created:'10/18/2018'
 		},
 		{
+			title:'Snap drawn line to roads',
+			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
+			path:'REST%20Services/Elevation%20path%20gradient.html',
+			sourcePath:'REST%20Services/Elevation%20path%20gradient.html',
+			screenshot:'Snap-drawn-line-to-roads.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
+			created:'12/4/2020'
+		},
+		{
+			title:'Snap drawn line to roads',
+			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
+			path:'REST%20Services/Elevations%20by%20bounding%20box.html',
+			sourcePath:'REST%20Services/Elevations%20by%20bounding%20box.html',
+			screenshot:'Snap-drawn-line-to-roads.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
+			created:'12/4/2020'
+		},
+		{
 			title:'Fill Address Form with Autosuggest',
 			desc:'This sample shows how to use the Azure Maps Search service with JQuery UI\'s autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion.',
 			path:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
@@ -1478,6 +1517,15 @@ var sampleList = [
 			screenshot:'Get-current-weather-at-a-location.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, weather, accuweather',
 			created:'3/20/2020'
+		},
+		{
+			title:'Draggable HTML Marker',
+			desc:'This sample shows how to make an HTML marker draggable.',
+			path:'REST%20Services/Get%20elevation%20at%20position.html',
+			sourcePath:'REST%20Services/Get%20elevation%20at%20position.html',
+			screenshot:'Draggable-HTML-Marker.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
+			created:'12/4/2020'
 		},
 		{
 			title:'Get Users Timezone with Prompt',
@@ -1855,6 +1903,15 @@ var sampleList = [
 			created:'7/5/2019'
 		},
 		{
+			title:'Calculate concentric isochrones',
+			desc:'This sample shows how to calculate concentric isochrones and cut out overlapping areas so that they are nicely displayed.',
+			path:'Spatial%20Math/Calculate%20concentric%20isochrones.html',
+			sourcePath:'Spatial%20Math/Calculate%20concentric%20isochrones.html',
+			screenshot:'Calculate-concentric-isochrones.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis',
+			created:'10/28/2020'
+		},
+		{
 			title:'Cardinal Spline Options',
 			desc:'This sample provides a set of controls to test the various features of the Cardinal Spline calculation.',
 			path:'Spatial%20Math/Cardinal%20Spline%20Options.html',
@@ -2048,6 +2105,15 @@ var sampleList = [
 			screenshot:'Draggable-Symbols.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse',
 			created:'10/2/2018'
+		},
+		{
+			title:'Expanding Spider Clusters',
+			desc:'This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout.',
+			path:'Symbol%20Layer/Expanding%20Spider%20Clusters.html',
+			sourcePath:'Symbol%20Layer/Expanding%20Spider%20Clusters.html',
+			screenshot:'Expanding-Spider-Clusters.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
+			created:'11/5/2020'
 		},
 		{
 			title:'Filter Symbols by Property',
@@ -2359,4 +2425,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 245;
+}];var numberOfSamples = 253;

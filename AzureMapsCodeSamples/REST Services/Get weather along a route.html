@@ -21,7 +21,7 @@
     <script type='text/javascript'>
         var map, searchURL, routeURL, points, datasource, routeLine;
 
-        var weatherAlongRouteUrl = 'https://atlas.microsoft.com/weather/route/json?api-version=1.0&subscription-key={subscription-key}&query={query}';
+        var weatherAlongRouteUrl = 'https://{azMapsDomain}/weather/route/json?api-version=1.0&query={query}';
 
         function GetMap() {
             //Initialize a map instance.
@@ -41,10 +41,10 @@
             var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey()));
 
             //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
+            searchURL = new atlas.service.SearchURL(pipeline, atlas.getDomain());
 
             //Create an instance of the RouteURL client.
-            routeURL = new atlas.service.RouteURL(pipeline);
+            routeURL = new atlas.service.RouteURL(pipeline, atlas.getDomain());
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -168,33 +168,51 @@
                             }
 
                             //Get weather data.
-                            var requestUrl = weatherAlongRouteUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', alongRouteWaypoints.join(':'));
+                            var requestUrl = weatherAlongRouteUrl.replace('{query}', alongRouteWaypoints.join(':'));
 
-                            getWeatherAlongRoute(requestUrl, waypoints);
+                            processRequest(requestUrl).then(response => {
+                                if (response && response.waypoints && response.waypoints.length === waypoints.length) {
+
+                                    //Combine the weather data in with each waypoint.
+                                    for (var i = 0, len = response.waypoints.length; i < len; i++) {
+                                        Object.assign(waypoints[i].properties, response.waypoints[i]);
+                                    }
+
+                                    //Render the waypoints on the map.
+                                    datasource.add(waypoints);
+                                }
+                            });
                         }
                     });
                 });
             });
         }
 
-        function getWeatherAlongRoute(requestUrl, waypoints) {
+        function processRequest(url) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
 
-            //Request the weather data and render it on the map.
-            fetch(requestUrl)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (response) {
-                    if (response && response.waypoints && response.waypoints.length === waypoints.length) {
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
 
-                        //Combine the weather data in with each waypoint.
-                        for (var i = 0, len = response.waypoints.length; i < len; i++) {
-                            Object.assign(waypoints[i].properties, response.waypoints[i]);
-                        }
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(request);
+                }
 
-                        //Render the waypoints on the map.
-                        datasource.add(waypoints);
-                    }
-                });
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
         }
 
         //Geocode the query and return the first coordinate.

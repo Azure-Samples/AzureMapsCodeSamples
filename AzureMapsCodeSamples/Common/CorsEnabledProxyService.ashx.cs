@@ -170,6 +170,7 @@ namespace AzureMapsCodeSamples.Common
             "https://www.basemap.at/wmts",
             "https://www.fws.gov/wetlands/arcgis/services/",
             "https://www.nhc.noaa.gov/",
+            "https://hazards.fema.gov",
             
             //KML resources
             "https://virtualglobetrotting.com/thumbll/",

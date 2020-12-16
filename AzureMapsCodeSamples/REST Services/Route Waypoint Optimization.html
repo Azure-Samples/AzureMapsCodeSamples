@@ -18,7 +18,7 @@
     <script type='text/javascript'>
         var map, datasource, routeLine, waypointQuery, defaultOrder;
 
-        var restRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var restRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
 
         var waypoints = [
             [-122.336502, 47.606544],
@@ -37,7 +37,7 @@
                 zoom: 9,
 
                 view: 'Auto',
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -101,39 +101,63 @@
             }
 
             //Create request to calculate a route in the order in which the waypoints are provided.
-            var requestUrl = restRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', waypointQuery);
+            var requestUrl = restRoutingRequestUrl.replace('{query}', waypointQuery);
 
             if (optimized) {
                 requestUrl += '&computeBestOrder=true';
             }
 
             //Proces the request.
-            fetch(requestUrl)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (r) {
-                    addRouteToMap(r.routes[0]);
+            processRequest(requestUrl).then(r => {
+                addRouteToMap(r.routes[0]);
 
-                    var output = 'Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
+                var output = 'Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
 
-                    if (optimized) {
-                        var pinOrder = ['0'];
+                if (optimized) {
+                    var pinOrder = ['0'];
 
-                        for (var i = 0; i < r.optimizedWaypoints.length; i++) {
-                            //Increase index by one to account for origin index.
-                            pinOrder.push(r.optimizedWaypoints[i].optimizedIndex + 1);
-                        }
-
-                        //Add the desintation index to the end. 
-                        pinOrder.push(waypoints.length - 1);
-
-                        output += 'Waypoint Order: ' + pinOrder.join(', ');
-                    } else {
-                        output += 'Waypoint Order: ' + defaultOrder.join(', ');
+                    for (var i = 0; i < r.optimizedWaypoints.length; i++) {
+                        //Increase index by one to account for origin index.
+                        pinOrder.push(r.optimizedWaypoints[i].optimizedIndex + 1);
                     }
 
-                    document.getElementById('output').innerHTML += output;
-                });
+                    //Add the desintation index to the end. 
+                    pinOrder.push(waypoints.length - 1);
+
+                    output += 'Waypoint Order: ' + pinOrder.join(', ');
+                } else {
+                    output += 'Waypoint Order: ' + defaultOrder.join(', ');
+                }
+
+                document.getElementById('output').innerHTML += output;
+            }));
+        }
+
+        function processRequest(url) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(request);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
         }
 
         function addRouteToMap(route) {

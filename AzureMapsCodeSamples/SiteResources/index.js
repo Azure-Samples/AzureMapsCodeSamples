@@ -61,7 +61,8 @@ window.onload = function () {
             'Fullscreen%20Control': 'Fullscreen%20control',
             'Create%20a%20Traffic%20Control': 'Traffic%20controls',
             'Merge%20Two%20Polygons%20Together': 'Merge%20two%20polygons%20together',
-            'Azure%20Maps%20Raster%20Tiles%20in%20Leaflet%20JS': 'Raster%20Tiles%20in%20Leaflet%20JS'
+            'Azure%20Maps%20Raster%20Tiles%20in%20Leaflet%20JS': 'Raster%20Tiles%20in%20Leaflet%20JS',
+            'Mini%20Overview%20Map': 'Mini%20overview%20map'
         };
 
         var redirect = sampleRedirects[hash];
@@ -231,6 +232,8 @@ function dateDiffInDays(date1, date2) {
     return Math.ceil(timeDiff / _MS_PER_DAY); 
 }
 
+var iframe;
+
 function openSample(sampleName) {
     var sample;
 
@@ -246,11 +249,30 @@ function openSample(sampleName) {
     }
 
     if (sample) {
+        if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', '0');
+            iframe.setAttribute('lang', 'en');
+            iframe.setAttribute('aria-label', 'Live code sample window');
+            iframe.setAttribute('width', '99.6%');
+            iframe.onload = () => {
+                var s = iframe.contentDocument.body.style;
+                s.fontFamily = 'Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif';
+                s.fontSize = '14px';
+            };
+            document.getElementsByClassName('modal-body')[0].appendChild(iframe);
+        }
+
+        iframe.setAttribute('height', ($(window).height() - 190) + 'px');
+        iframe.src = sample.path;
+
         changeUrl('sample', encodeURIComponent(sample.title));
 
         $('.modal-title').text(sample.title);
         $('#modelSourceCode').attr('href', 'https://github.com/Azure-Samples/AzureMapsCodeSamples/blob/master/AzureMapsCodeSamples/' + sample.sourcePath);
-        $('.modal-body').html('<iframe src="' + sample.path + '" frameborder="0" scrolling="0" width="99.6%" height="' + ($(window).height() - 190) + 'px" aria-label="Live code sample window" lang="en"></iframe>');
+        
+        //$('.modal-body').html('<iframe src="' + sample.path + '" frameborder="0" scrolling="0" width="99.6%" height="' + ($(window).height() - 190) + 'px" aria-label="Live code sample window" lang="en"></iframe>');
         $("#myModal").modal('show');
     }
 }

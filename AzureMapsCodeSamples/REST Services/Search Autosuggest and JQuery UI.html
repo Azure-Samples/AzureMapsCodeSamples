@@ -24,14 +24,14 @@
     <script type='text/javascript'>
         var map;
         //Note that the typeahead parameter is set to true.
-        var geocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/{searchType}/json?typeahead=true&subscription-key={subscription-key}&api-version=1&query={query}&language={language}&lon={lon}&lat={lat}&countrySet={countrySet}&view=Auto';
+        var geocodeServiceUrlTemplate = 'https://{azMapsDomain}/search/{searchType}/json?typeahead=true&api-version=1&query={query}&language={language}&lon={lon}&lat={lat}&countrySet={countrySet}&view=Auto';
 
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -59,17 +59,13 @@
                         //Create a URL to the Azure Maps search service to perform the search.
                         var requestUrl = geocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
                             .replace('{searchType}', document.querySelector('input[name="searchTypeGroup"]:checked').value)
-                            .replace('{subscription-key}', atlas.getSubscriptionKey())
                             .replace('{language}', 'en-US')
                             .replace('{lon}', center[0])    //Use a lat and lon value of the center the map to bais the results to the current map view.
                             .replace('{lat}', center[1])
                             .replace('{countrySet}', countryIso); //A comma seperated string of country codes to limit the suggestions to.
 
-                        $.ajax({
-                            url: requestUrl,
-                            success: function (data) {
-                                response(data.results);
-                            }
+                        processRequest(requestUrl).then(data => {
+                            response(data.results);
                         });
                     },
                     select: function (event, ui) {
@@ -100,6 +96,33 @@
                         .append("<a>" + suggestionLabel + "</a>")
                         .appendTo(ul);
                 };
+            });
+        }
+
+        function processRequest(url) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(request);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
             });
         }
     </script>

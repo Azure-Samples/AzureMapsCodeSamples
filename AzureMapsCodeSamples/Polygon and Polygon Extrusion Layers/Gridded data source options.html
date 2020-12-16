@@ -206,11 +206,12 @@
 <body onload="GetMap()">
     <fieldset class="sidePanel">
         <legend><h1 style="font-size:16px">Gridded data source options</h1></legend>
-        This sample shows all the different options available for the gridded data source module. 
-        This module performs an operation that is also known by many names such as tessellations, data binning, or hex bins. 
+        This sample shows all the different options available for the gridded data source module.
+        This module performs an operation that is also known by many names such as tessellations, data binning, or hex bins.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-gridded-data-source" target="_blank">Azure Maps Gridded Data Source module</a>.
         <br /><br />
 
-        <b>Setup</b><br/><br/>
+        <b>Setup</b><br /><br />
         <table>
             <tr title="Number of mock data points to generate.">
                 <td># of points:</td>
@@ -220,10 +221,10 @@
                         <option selected="selected" value="5000">5,000</option>
                         <option value="10000">10,000</option>
                         <option value="50000">50,000</option>
-                        <option value="100000">100,000</option>  
-                        <option value="150000">150,000</option>   
-                        <option value="300000">300,000</option>        
-                        <option value="500000">500,000</option>  
+                        <option value="100000">100,000</option>
+                        <option value="150000">150,000</option>
+                        <option value="300000">300,000</option>
+                        <option value="500000">500,000</option>
                         <option value="750000">750,000</option>
                         <option value="1000000">1,000,000</option>
                     </select>
@@ -232,18 +233,18 @@
             <tr title="Apply a data driven style to the polygon layer based an aggregate property.">
                 <td>Colorize:</td>
                 <td>
-                    <input type="checkbox" checked="checked" onclick="toggleColor(this)"/>
+                    <input type="checkbox" checked="checked" onclick="toggleColor(this)" />
                 </td>
             </tr>
             <tr title="Specifies if the cells should be outlined">
                 <td>Outline:</td>
                 <td>
-                    <input type="checkbox" checked="checked" onclick="toggleOutline(this)"/>
+                    <input type="checkbox" checked="checked" onclick="toggleOutline(this)" />
                 </td>
             </tr>
         </table>
-        <br/><br/>
-        <b>Options</b><br/><br/>
+        <br /><br />
+        <b>Options</b><br /><br />
         <table>
             <tr title="The type of grid to create.">
                 <td>Grid type:</td>
@@ -294,14 +295,14 @@
             <tr title="Latitude value used to convert spatial distances to pixel distances.">
                 <td>Center Latitude:</td>
                 <td>
-                    <input type="button" onclick="updateCenterLatitude()" value="Use Map Center"/>
+                    <input type="button" onclick="updateCenterLatitude()" value="Use Map Center" />
                 </td>
             </tr>
             <tr title="Coverage area to fill for each cell area.">
                 <td>Coverage:</td>
                 <td>
                     <form oninput="c.value=coverage.value">
-                        <input type="range" id="coverage" value="1" min="0" max="2" step="0.05" oninput="updateCoverage(this)" onchange="updateCoverage(this)" style="width:100px"/>
+                        <input type="range" id="coverage" value="1" min="0" max="2" step="0.05" oninput="updateCoverage(this)" onchange="updateCoverage(this)" style="width:100px" />
                         <output name="c" for="coverage">1</output>
                     </form>
                 </td>

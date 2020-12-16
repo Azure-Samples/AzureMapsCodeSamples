@@ -104,8 +104,8 @@
 
                 //Download population estimates for US counties and county boundary GeoJSON data.
                 Promise.all([
-                    fetch('https://azuremapscodesamples.azurewebsites.net/Common/data/US_County_2010_Population.csv').then(response => response.text()),
-                    fetch('https://azuremapscodesamples.azurewebsites.net/Common/data/geojson/US_County_Boundaries.json').then(response => response.json())
+                    fetch('../Common/data/US_County_2010_Population.csv').then(response => response.text()),
+                    fetch('../Common/data/geojson/US_County_Boundaries.json').then(response => response.json())
                 ]).then(results => {
                     var csv = results[0];
 

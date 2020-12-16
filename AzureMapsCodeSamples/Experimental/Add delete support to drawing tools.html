@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add delete support to drawing tools - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add support for deleting shapes when in edit mode by pressing the delete key after a shape has been selected." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events, delete" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, drawingManager, currentShape;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-90, 35],
+                zoom: 3,
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({
+                        position: 'top-right'
+                    })
+                });
+
+                //Try and fix the edit events.
+                fixEditModeEvents(map, drawingManager);
+
+                //Monitor shapes when drawing starts when in 'edit-geometry' mode.
+                map.events.add('drawingstarted', drawingManager, (shape) => {
+                    if (drawingManager.getOptions().mode === 'edit-geometry') {
+                        //Monitor current shape.
+                        currentShape = shape;
+                    }
+                });
+
+                //Monitor when drawing ends.
+                map.events.add('drawingcomplete', drawingManager, () => {
+                    //Stop monitoring current shape.
+                    currentShape = null;
+                });
+
+                //Add a keydown event to the map and look for the delete key.
+                map.getCanvasContainer().addEventListener('keydown', event => {
+                    //Look for the delete keys.
+                    if (event.keyCode === 46) {
+                        //Check to see there is an current shape in edit mode.
+                        if (currentShape && drawingManager.getOptions().mode === 'edit-geometry') {
+                            //Remove the shape from the source of the drawing manager.
+                            drawingManager.getSource().remove(currentShape);
+
+                            //Set the mode to 'edit-geometry' again so as to reset the state and remove the drawing handles.
+                            drawingManager.setOptions({ mode: 'edit-geometry' })
+                        }
+                        return;
+                    }
+                });
+            });
+        }
+
+        function fixEditModeEvents(map, drawingManager) {
+            var _activeShape;
+            var _isChanging = false;
+
+            //If the drawing mode changed and there is an active shape, fire events for completing the edit.
+            map.events.add('drawingmodechanged', drawingManager, (e) => {
+                if (_activeShape) {
+                    shapeEditComplete();
+                }
+            });
+
+            //Currently there is a bug where the drawingchanged, drawingchanging, drawingcomplete, and drawingstarted events are not firing when in edit mode. This is an attempt to work around that.
+
+            //Monitor changes to shapes in the data source. Any changes should trigger the drawingchanging event.
+
+            var layers = drawingManager.getLayers();
+
+            //When a shape is clicked, and drawing manager is in edit mode, it has been selected to be editted/changed.
+            map.events.add('click', layers.pointLayer, layerClicked);
+            map.events.add('click', layers.lineLayer, layerClicked);
+            map.events.add('click', layers.polygonLayer, layerClicked);
+
+            function layerClicked(e) {
+                if (drawingManager.getOptions().mode === 'edit-geometry') {
+                    var s = e.shapes[0];
+
+                    //If a different shape is clicked, need to first events to stop that drawing/editting.
+                    if (_activeShape !== s) {
+                        shapeEditComplete();
+                    }
+
+                    map.events.invoke('drawingstarted', drawingManager, s);
+
+                    //Monitor the shape for changes when in edit mode.
+                    map.events.add('shapechanged', s, shapeChanged);
+                    _activeShape = s;
+                    _isChanging = true;
+                }
+            }
+
+            //When in edit mode, if the active shape has changed, fire it. When in edit mode, the mouse up occurs when shape or drag handle is dragged and released. 
+            map.events.add('mouseup', mapMouseUp);
+
+            function mapMouseUp(e) {
+                //TODO: check to see if the mouse was over the active shape.
+                if (drawingManager.getOptions().mode === 'edit-geometry' && _isChanging) {
+                    var eventOverActiveShape = false;
+
+                    if (e.shapes) {
+                        e.shapes.forEach(s => {
+                            eventOverActiveShape |= (s === _activeShape);
+                        });
+                    }
+
+                    if (eventOverActiveShape) {
+                        map.events.invoke('drawingchanged', drawingManager, _activeShape);
+                    }
+                }
+            }
+
+            function shapeEditComplete() {
+                if (_activeShape) {
+                    //If the shape was changed in any way, fire the drawingchanged event.
+                    if (_isChanging) {
+                        //Fire the drawingchanged event.
+                        map.events.invoke('drawingchanged', drawingManager, _activeShape);
+
+                        _isChanging = false;
+                    }
+
+                    //Stop monitoring the shape for edits.
+                    map.events.remove('shapechanged', _activeShape, shapeChanged);
+
+                    //Fire the drawingcomplete event.
+                    map.events.invoke('drawingcomplete', drawingManager, _activeShape);
+
+                    _activeShape = null;
+                }
+            }
+
+            function shapeChanged() {
+                //Fire the drawingchanged event.
+                map.events.invoke('drawingchanging', drawingManager, _activeShape);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Add delete support to drawing tools</h1></legend>
+        This sample shows how to add support for deleting shapes when in edit mode by pressing the delete key after a shape has been selected.
+    </fieldset>
+</body>
+</html>

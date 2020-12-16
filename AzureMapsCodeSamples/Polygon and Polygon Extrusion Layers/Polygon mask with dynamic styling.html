@@ -97,9 +97,14 @@
         }
 
         function createMask(geometry) {
-            if (geometry.type === 'Polygon') {
+            if (geometry.type === 'Polygon') {                
+                //Copy the polygon mask coordinates.
+                var coords = JSON.parse(JSON.stringify(geometry.coordinates));
+
                 //Add the world polygon ring as the first ring of the polygon mask area. This will cause rendering of the polygon to become inverted. 
-                return polygonMaskArea.coordinates.unshift(worldPolygonRing);
+                coords.unshift(worldPolygonRing);
+
+                return new atlas.data.Polygon(coords);
             } else if (geometry.type === 'MultiPolygon') {
                 var mask = new atlas.data.MultiPolygon([[worldPolygonRing]]);
 

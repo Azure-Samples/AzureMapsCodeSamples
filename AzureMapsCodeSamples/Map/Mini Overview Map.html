@@ -1,175 +1,58 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Mini Overview Map - Azure Maps Web SDK Samples</title>
+    <title>Mini overview map - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to create a second mini overview map which shows the main maps area of focus." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, events, overview map, overview, mini map, minimap" />
+    <meta name="description" content="This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, " />
     <meta name="author" content="Microsoft Azure Maps" />
-    <link href="SiteResources/screenshots/MapsSampleIcon.png" rel="shortcut icon" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
+    <!-- Add reference to the overview map control module. -->
+    <script src="/Common/scripts/azure-maps-overview-map.min.js"></script>
+
     <script type='text/javascript'>
-        var map, datasource, overviewMap;
-
-        //Options that specify if the overview map should also pitch and rotate in alignment of the main map. 
-        var pitchOverviewMap = true;
-        var rotateOverviewMap = true; 
-
-        //An option that indicates if the main map view area should be highlighted on the overview map.
-        var highlightMapViewArea = true;
-        var mapViewPolygon;
-
-        //Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-        var azureMapsKey = '<Your Azure Maps Key>';
+        var map;
 
         function GetMap() {
-
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-95, 40],
-                zoom: 3,
-                view: 'Auto',
-				
-		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: azureMapsKey
-                }
-            });
-
-            overviewMap = new atlas.Map('myOverviewMap', {
-                //Disable all user interaction on the overview map. 
-                interactive: false,
-
-                //Hide the logo on the mini map since it is small.
-                showLogo: false,
-
-                //Hide the feedback link on the mini map. 
-                showFeedbackLink: false,
-
                 view: 'Auto',
 
-		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
-                    subscriptionKey: azureMapsKey
+                    subscriptionKey: '<Your Azure Maps Key>'
                 }
             });
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
-                //Monitor all movement of the map.
-                map.events.add('move', mapChangedView);
-            });
 
-            //Wait until the overviewMap resources have fully loaded.
-            overviewMap.events.add('ready', function () {
-                if (highlightMapViewArea) {
-                    //Create a data source and add it to the map.
-                    datasource = new atlas.source.DataSource();
-                    overviewMap.sources.add(datasource);
-
-                    //Create a layer to render the polygon data.
-                    overviewMap.layers.add(new atlas.layer.PolygonLayer(datasource, null, {
-                        fillColor: 'orange'
-                    }));
-
-                    //Create a polygon from the main maps view bounds.
-                    mapViewPolygon = new atlas.Shape(getMapViewPolygon(map));
-                    datasource.add(mapViewPolygon);
-
-                    //Ensure that the main maps view has been accounted for. 
-                    mapChangedView();
-                }
+                //Add the bring data into view control to the map.
+                map.controls.add(new atlas.control.OverviewMap(), {
+                    position: 'top-left'
+                });
             });
         }
-
-        function mapChangedView() {
-            //Get the camera view of the main map.
-            var camera = map.getCamera();
-
-            if (camera) {
-                var view = {
-                    zoom: 0,
-                    pitch: 0,
-                    bearing: 0,
-                    center: camera.center
-                };
-
-                //We want the zoom level of the overview map to be 6 levels zoomed out from the main map so that we can see the surrounding area. 
-                //If the user is zoomed out less than 6 levels, then set the zoom level to 1.
-                if (camera.zoom > 6) {
-                    view.zoom = camera.zoom - 6;
-                }
-
-                //Check to see if the overview map should also be pitched.
-                if (pitchOverviewMap) {
-                    view.pitch = camera.pitch;
-                }
-
-                //Check to see if the overview map should also be rotated.
-                if (rotateOverviewMap) {
-                    view.bearing = camera.bearing;
-                }
-
-                //Check to see if the main map view area is being highlighted, and if it is, update its position. 
-                if (highlightMapViewArea && mapViewPolygon) {
-                    mapViewPolygon.setCoordinates(getMapViewPolygon(map).coordinates);
-                }
-
-                //Update the camera of the overview map.
-                overviewMap.setCamera(view);
-            }
-        }
-
-        function getMapViewPolygon(map) {
-            //Simply using the bounding box of the map will not generate a polygon that represents the map area when it is rotated and pitched. 
-            //Instead we need to calculate the coordinates of the corners of the map. 
-            var mapRect = map.getCanvasContainer().getBoundingClientRect();
-            var width = mapRect.width;
-            var height = mapRect.height;
-
-            //Calculate coordinates from the pixel corners of the map.
-            var coordinates = map.pixelsToPositions([
-                //Top Left corner
-                [0, 0],
-
-                //Top right corner.
-                [width, 0],
-
-                //Bottom Right corner.
-                [width, height],
-
-                //Bottom left corner.
-                [0, height],
-
-                //Top Left corner again to close the polygon.
-                [0,0]
-            ]);
-
-            return new atlas.data.Polygon(coordinates);
-        }
-
-        //TODO: Convert this code sample into a custom control. Add options; zoom level offset, min/max zoom, expand/collapse, size, style. Synchronize maps both ways.
     </script>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
-    <div id="myOverviewMap" style="box-shadow: 0 2px 4px rgba(0,0,0,.5); width: 200px; height: 200px; left: 1em; top: 1em; position: absolute; border: solid 1px darkgray;z-index: 1; background-color: azure;"></div>
-
-    <div style="clear:both;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">Mini Overview Map</h1></legend>
+        <legend>
+            <h1 style="font-size:16px">Mini overview map</h1>
+        </legend>
         This sample shows how to create a second mini overview map which shows the main maps area of focus.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/Sazure-maps-overview-map" target="_blank">Azure Maps Overview Map Control module</a>.
     </fieldset>
 </body>
 </html>

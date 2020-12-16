@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>User Location Accuracy Circle - Azure Maps Web SDK Samples</title>
+    <title>User position accuracy circle - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
 	<link rel="shortcut icon" href="/favicon.ico"/>
@@ -23,7 +23,7 @@
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 				
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -94,7 +94,7 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">User Location Accuracy Circle</h1></legend>
+        <legend><h1 style="font-size:16px">User position accuracy circle</h1></legend>
         This sample shows how to display the users position on the map with an accuracy circle. 
     </fieldset>
 </body>

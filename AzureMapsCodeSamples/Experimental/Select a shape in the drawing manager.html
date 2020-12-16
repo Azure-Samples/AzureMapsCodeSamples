@@ -29,7 +29,7 @@
                 zoom: 12,
                 view: 'Auto',
 
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: '<Your Azure Maps Key>'
@@ -76,7 +76,7 @@
                 unselectShape();
             }
 
-            //Only allow selection of shape is user is not currently drawing a shape.
+            //Only allow selection of shape if user is not currently drawing a shape.
             if (drawingManager.getOptions().mode.indexOf('draw') === -1) {
                 selectedShape = e.shapes[0];
                 selectedShape.addProperty('selected', true);

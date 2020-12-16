@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HTML Marker layer and vector tiles - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to how to use a vector tile service to render point data on the map using HTML markers." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer, clustering, vector tiles, mbtiles, traffic, layer, flow, incidents" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the HTML Marker layer module. -->
+    <script src="../Common/scripts/azure-maps-html-marker-layer.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, markerLayer, popup;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-74, 40.723],
+                style: 'grayscale_dark',
+                zoom: 12,
+                view: 'Auto',
+				
+		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a reusable popup.
+                popup = new atlas.Popup({
+                    pixelOffset: [0, -20],
+                    closeButton: false
+                });
+
+                 //Create a vector tile source and add it to the map.
+                 datasource = new atlas.source.VectorTileSource(null, {
+                    tiles: ['https://{azMapsDomain}/traffic/incident/tile/pbf?api-version=1.0&zoom={z}&x={x}&y={y}'],
+                    maxZoom: 22
+                });
+                map.sources.add(datasource);
+
+                //Create a HTML marker layer for rendering data points.
+                markerLayer = new atlas.layer.HtmlMarkerLayer(datasource, null, {
+                    //The name of the data layer within the data source to pass into this rendering layer.
+                    sourceLayer: 'Traffic incident POI',
+                    markerCallback: function (id, position, properties) {
+                        if(typeof properties.cluster_size === 'number'){
+                            //Marker is a cluster. Note that clusters in the traffic vector tile source as formatted differently than clusters in a GeoJSON data source.
+                            return new atlas.HtmlMarker({
+                                position: position,
+                                color: 'purple',
+                                text: properties.cluster_size
+                            });
+                        } else {
+                            //Business logic to define color of marker.
+                            var color = 'gray'; //Unknown or undefined
+
+                            switch (properties.magnitude) {
+                                case 1: //Minor
+                                    color = '#3366CC';
+                                    break;
+                                case 2: //Moderate
+                                    color = '#DC3912';
+                                    break;
+                                case 3: //Major
+                                    color = '#FF9900';
+                                    break;
+                                case 4:
+                                    color = '#109618';
+                                    break;
+                            }
+
+                            //Create an HtmlMarker with a random color.
+                            return new atlas.HtmlMarker({
+                                position: position,
+                                color: color
+                            });
+                        } 
+                    }
+                });
+
+                //Add mouse events to the layer to show/hide a popup when hovering over a marker.
+                map.events.add('mouseover', markerLayer, markerHovered);
+                map.events.add('mouseout', markerLayer, hidePopup);  
+
+                //Add marker layer to the map.
+                map.layers.add(markerLayer);
+            });
+        }
+
+        function markerHovered(e) {
+            var marker = e.target;
+            var content;
+
+            if(typeof marker.properties.cluster_size === 'number'){
+                content = `<div style="padding:10px;"">Cluster: ${marker.properties.cluster_size}</div>`;
+            } else {
+                content = atlas.PopupTemplate.applyTemplate(marker.properties);
+            }
+
+            //Update the content and position of the popup.
+            popup.setOptions({
+                content: content,
+                position: marker.getOptions().position
+            });
+
+            //Open the popup.
+            popup.open(map);
+        }
+
+        function hidePopup() {
+            popup.close();
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">HTML Marker layer and vector tiles</h1></legend>
+        This sample shows how to how to use a vector tile service to render point data on the map using HTML markers.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-html-marker-layer" target="_blank">Azure Maps HTML Marker Layer module</a>.
+    </fieldset>
+</body>
+</html>

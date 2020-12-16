@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Calculate concentric isochrones - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate concentric isochrones and cut out overlapping areas so that they are nicely displayed." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script type='text/javascript'>
+        var map, datasource, routeURL, marker;
+
+        var colors = ['LawnGreen', 'Yellow', 'Orange', 'Red'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                style: 'grayscale_light',
+                center: [-73.985708, 40.75773],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Create a pipeline using the Azure Maps subscription key.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey()));
+
+            //Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+                               
+                map.layers.add([
+                     //Create a polygon layer to render the isochrones.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        fillColor: ['get', 'color']
+                    }),
+
+                    //Create a layer to outline the polygon areas.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'white'
+                    })
+                ], 'labels');
+
+                //Create a marker to show the center of the isochrones.
+                marker = new atlas.HtmlMarker({
+                    position: map.getCamera().center,
+                    draggable: true
+                });
+
+                map.events.add('dragend', marker, calculateIsochrones);
+
+                //Add the marker to the map.
+                map.markers.add(marker);
+
+                calculateIsochrones();
+            });
+        }
+
+        function calculateIsochrones() {
+            datasource.clear();
+
+            var origin = marker.getOptions().position;
+
+            Promise.all([
+                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
+                    timeBudgetInSec: 10 * 60
+                }),
+                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
+                    timeBudgetInSec: 15 * 60
+                }),
+                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
+                    timeBudgetInSec: 20 * 60
+                }),
+                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
+                    timeBudgetInSec: 25 * 60
+                })
+            ]).then(values => {
+                //The values are order from shortest time to longest time, based on how we passed in the queries.
+                //Loop through each polygon isochrone and cut out the difference from the previous icochrone. Since the time increases with each isochrone, it should cover all area of the previous isochrone.
+
+                //The first isochrone is unchanged.
+                var prev = values[0].geojson.getFeatures().features[0];
+                prev.properties.color = colors[0];
+
+                //Ensure polygon rings are closed.
+                closePolygonRings(prev);
+
+                var polygons = [prev];
+
+                for (var i = 1; i < values.length; i++) {
+                    var f = values[i].geojson.getFeatures().features[0];
+
+                    //Ensure polygon rings are closed.
+                    closePolygonRings(f);
+
+                    //Subtract the previous isochrone from the current one.
+                    var difference = turf.difference(f, prev);
+                    difference.properties.color = colors[i];
+                    polygons.push(difference);
+
+                    prev = f;
+                }
+
+                if (polygons.length > 0) {
+                    //Add the polygons to the data source.
+                    datasource.add(polygons);
+
+                    //Update the map camera to display the largest isochrone area.
+                    map.setCamera({
+                        bounds: atlas.data.BoundingBox.fromData(polygons[polygons.length - 1])
+                    });
+                }
+            });
+        }
+
+        function closePolygonRings(polygon) {
+            //Ensure the first and last coordinate of each polygon ring are identical to form a closed polygon ring.
+            for (var i = 0; i < polygon.geometry.coordinates.length; i++) {
+                var ring = polygon.geometry.coordinates[i];
+
+                if (!atlas.data.Position.areEqual(ring[0], ring[ring.length - 1])) {
+                    ring.push(ring[0]);
+                }
+            }
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: 100%;
+            min-width: 290px;
+            height: 600px;
+        }
+
+        .legend {
+            font-family: Arial;
+            font-size: 12px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+            .legend i {
+                width: 12px;
+                height: 12px;
+                float: left;
+                margin-right: 8px;
+                opacity: 0.7;
+            }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+
+    <div class="legend">
+        <b>Travel time (minutes)</b>
+        <table>
+            <tr><td><i style='background:LawnGreen' /></td><td>10</td></tr>
+            <tr><td><i style='background:Yellow' /></td><td>15</td></tr>
+            <tr><td><i style='background:Orange' /></td><td>20</td></tr>
+            <tr><td><i style='background:Red' /></td><td>25</td></tr>
+        </table>
+        <div id="statusPanel"></div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Calculate concentric isochrones</h1></legend>
+        This sample shows how to calculate concentric isochrones and cut out overlapping areas so that they are nicely displayed.  
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to perform the difference calculation.
+    </fieldset>
+</body>
+</html>

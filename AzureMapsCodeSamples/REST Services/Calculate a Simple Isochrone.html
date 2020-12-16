@@ -17,7 +17,7 @@
 
     <script type='text/javascript'>
         var map, datasource;
-        var reachableRangeUrlTemplate = 'https://atlas.microsoft.com/route/range/json?subscription-key={subscription-key}&api-version=1.0&query={lat},{lon}&timeBudgetInSec={time}&view=Auto';
+        var reachableRangeUrlTemplate = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query={lat},{lon}&timeBudgetInSec={time}&view=Auto';
 
         function GetMap() {
             //Initialize a map instance.
@@ -60,40 +60,66 @@
         function getIsochrone(center, timeInSeconds) {
             //Create the URL request to the reachable range service.
             var request = reachableRangeUrlTemplate
-                .replace('{subscription-key}', atlas.getSubscriptionKey())
                 .replace('{lat}', center[1])
                 .replace('{lon}', center[0])
                 .replace('{time}', timeInSeconds);
 
-            //Proces the request.
-            fetch(request)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (response) {
+            processRequest(request).then(response => {
+                if (response.error) {
+                    alert(response.error.message);
+                    return;
+                }
 
-                    if (response.reachableRange) {
-                        //Convert the response into GeoJSON and add it to the map.
+                if (response.reachableRange) {
+                    //Convert the response into GeoJSON and add it to the map.
 
-                        var positions = response.reachableRange.boundary.map(function (latLng) {
-                            return [latLng.longitude, latLng.latitude];
-                        });
+                    var positions = response.reachableRange.boundary.map(function (latLng) {
+                        return [latLng.longitude, latLng.latitude];
+                    });
 
-                        var isochrone = new atlas.data.Polygon([positions]);
+                    var isochrone = new atlas.data.Polygon([positions]);
 
-                        var centerPoint = new atlas.data.Point([
-                            response.reachableRange.center.longitude,
-                            response.reachableRange.center.latitude
-                        ]);
+                    var centerPoint = new atlas.data.Point([
+                        response.reachableRange.center.longitude,
+                        response.reachableRange.center.latitude
+                    ]);
 
-                        //Add the data to the data source.
-                        datasource.add([
-                            isochrone, 
-                            centerPoint
-                        ]);
-                    } else {
-                        alert('Unable to calculate an isochrone.')
-                    }
-                });
+                    //Add the data to the data source.
+                    datasource.add([
+                        isochrone,
+                        centerPoint
+                    ]);
+                } else {
+                    alert('Unable to calculate an isochrone.')
+                }
+            });
+        }
+
+        function processRequest(url) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(request);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
         }
     </script>
 </head>

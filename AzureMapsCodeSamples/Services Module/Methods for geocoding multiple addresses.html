@@ -254,7 +254,7 @@
             var t = end - start;
             var addPerSec = Math.round(addresses.length / t * 1000);
 
-            var qps = (searchMethod === 'batchSync') ? 1 : addPerSec;
+            var qps = (searchMethod.indexOf('batch') > -1) ? 1 : addPerSec;
 
             document.getElementById('status').innerHTML = `<b>Status:</b><br/><ul><li>Processing time: ${Math.round(t)}ms</li><li>QPS: ${qps}</li><li>Addresses per second: ${addPerSec}</li></ul>`;
 

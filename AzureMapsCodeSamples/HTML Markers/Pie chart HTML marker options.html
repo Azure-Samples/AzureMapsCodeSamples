@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pie chart HTML marker options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how different options of the pie chart marker class change its rendering." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, html markers, markers, pins, pushpins, symbols, style, chart, pie chart" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the HTML Marker layer module. -->
+    <script src="../Common/scripts/azure-maps-html-marker-layer.min.js"></script>
+
+    <script src="../Common/scripts/clipboard.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, marker, defaultOptions, removeDefaults;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Create the pie chart marker and add it to the map.
+                marker = new atlas.PieChartMarker({
+                    position: [0, 0]
+                });
+                defaultOptions = marker.getOptions();
+
+                //Add the marker to the map.
+                map.markers.add(marker);
+
+                //Update the bubble layer with the options in the input fields.
+                updateMarker();
+            });
+
+            new ClipboardJS('.copyBtn');
+        }
+
+        function updateMarker() {
+            var options = getInputOptions();
+
+            //Update all the options in the pie chart marker.
+            marker.setOptions(options);
+
+            document.getElementById('CodeOutput').value = JSON.stringify(getInputOptions(document.getElementById('RemoveDefaults').checked), null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
+        }
+
+        function getInputOptions(removeDefaults) {
+            var fillColor = document.getElementById('fillColor').value;
+
+            if(document.getElementById('transparentFillColor').checked){
+                fillColor = 'transparent';
+            }
+
+            return {
+                values: document.getElementById('values').value.split(',').map((x) => parseFloat(x)),
+                radius: getPropertyValue('radius', parseFloat(document.getElementById('radius').value), removeDefaults),
+                innerRadius: getPropertyValue('innerRadius', parseFloat(document.getElementById('innerRadius').value), removeDefaults),
+                colors: getPropertyValue('colors', document.getElementById('colors').value.split(','), removeDefaults),
+                fillColor: getPropertyValue('fillColor', fillColor, removeDefaults),
+                strokeColor: getPropertyValue('strokeColor', document.getElementById('strokeColor').value, removeDefaults),
+                strokeWidth: getPropertyValue('strokeWidth', parseFloat(document.getElementById('strokeWidth').value), removeDefaults),
+                text: getPropertyValue('text', document.getElementById('text').value, removeDefaults),
+                draggable: getPropertyValue('draggable', document.getElementById('draggable').checked, removeDefaults),
+                visible: getPropertyValue('visible', document.getElementById('visible').checked, removeDefaults)
+            }; 
+        }
+
+        function getPropertyValue(propertyName, value, removeDefaults) {
+            if (removeDefaults && (defaultOptions[propertyName] === value ||
+                (Array.isArray(value) && JSON.stringify(defaultOptions[propertyName]) === JSON.stringify(value)) || 
+                (typeof value === 'string' && (value === '' || defaultOptions[propertyName].toLowerCase() === value.toLowerCase())))) {
+                return undefined;
+            }
+
+            return value;
+        }
+
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #CodeOutput {
+            width: 300px;
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .copyBtn {
+            float: right;
+        }
+
+        table td:nth-of-type(1) {
+            width: 120px;
+        }
+
+        table td:nth-of-type(2) {
+            width: 200px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 6px 8px;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend>
+            <h1 style="font-size:16px">Pie chart HTML marker options</h1>
+        </legend>
+        This sample shows how different options of the PieChartMarker class change its rendering.
+        <br /><br />
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'MarkerOptions')">Marker Options</button>
+            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+        </div>
+
+        <div id="MarkerOptions" class="tabcontent" style="display:block;">
+            <table>
+                <tr title="The values of in the pie chart.">
+                    <td>Values</td>
+                    <td>
+                        <input type="text" id="values" value="1,2,3,4,5" onblur="updateMarker()" />
+                    </td>
+                </tr>
+                <tr title="The radius of the pie chart in pixels.">
+                    <td>Radius</td>
+                    <td>
+                        <form oninput="r.value=radius.value">
+                            <input type="range" id="radius" value="40" min="0" max="100" step="1"
+                                oninput="updateMarker()" onchange="updateMarker()" />
+                            <output name="r" for="radius">40</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="The inner radius of the pie chart in pixels">
+                    <td>Inner Radius</td>
+                    <td>
+                        <form oninput="ir.value=innerRadius.value">
+                            <input type="range" id="innerRadius" value="0" min="0" max="50" step="1"
+                                oninput="updateMarker()" onchange="updateMarker()" />
+                            <output name="ir" for="innerRadius">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr
+                    title="The colors of each category in the pie chart. Should have a length >= to largest values array in data set.">
+                    <td>Colors:</td>
+                    <td><input type="text" id="colors" value="#d7191c,#fdae61,#ffffbf,#abdda4,#2b83ba"
+                            onblur="updateMarker()" /></td>
+                </tr>
+                <tr title="The color to fill the center of a pie chart when inner radius is greated than 0.">
+                    <td>Fill Color:</td>
+                    <td>
+                        <input type="color" id="fillColor" value="#FFFFFF" onchange="updateMarker()" />
+                        <input id="transparentFillColor" type="checkbox" onclick="updateMarker()" checked="checked"  />Transparent
+                    </td>
+                </tr>
+                <tr title="The color of the stroke line.">
+                    <td>Stroke Color:</td>
+                    <td><input type="color" id="strokeColor" value="#666666" onchange="updateMarker()" /></td>
+                </tr>
+                <tr title="The stroke width in pixels.">
+                    <td>Stroke Width</td>
+                    <td>
+                        <form oninput="sw.value=strokeWidth.value">
+                            <input type="range" id="strokeWidth" value="0" min="0" max="10" step="1"
+                                oninput="updateMarker()" onchange="updateMarker()" />
+                            <output name="sw" for="strokeWidth">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Text to display at the center of the pie chart.">
+                    <td>Text</td>
+                    <td>
+                        <input type="text" id="text" value="" onkeyup="updateMarker()" />
+                    </td>
+                </tr>                
+                <tr title="Indicates if the user can drag the position of the marker using the mouse or touch controls.">
+                    <td>Draggable:</td>
+                    <td><input id="draggable" type="checkbox" onclick="updateMarker()" /></td>
+                </tr>
+                <tr title="Specifies if the marker is visible or not.">
+                    <td>Visible:</td>
+                    <td><input id="visible" type="checkbox" onclick="updateMarker()" checked="checked" /></td>
+                </tr>
+            </table>
+
+            <p>
+                In addition to the options in this tool, the PieChartMarker also has options for; anchor, pixelOffset, popup, position, textClassName, tooltipCallback<br/><br/>
+
+                This samples uses the PieChartMarker class from the open source <a href="https://github.com/Azure-Samples/azure-maps-html-marker-layer" target="_blank">Azure Maps HTML Marker Layer module</a>.
+            </p>
+        </div>
+
+        <div id="Code" class="tabcontent">
+            <textarea id="CodeOutput"></textarea><br /><br />
+            <input id="RemoveDefaults" type="checkbox" onclick="updateMarker()" checked="checked" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+</body>
+</html>
