@@ -1109,7 +1109,7 @@ var sampleList = [
 			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
 			path:'Map/Mini%20overview%20map%20options.html',
 			sourcePath:'Map/Mini%20overview%20map%20options.html',
-			screenshot:'',
+			screenshot:'Mini-overview-map-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, ',
 			created:'11/13/2020'
 		},
@@ -1474,6 +1474,15 @@ var sampleList = [
 	desc:'Learn how to directly access the Azure Maps REST services from JavaScript.',
 	samples: [
 		{
+			title:'3D Elevation profiles',
+			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
+			path:'REST%20Services/3D%20Elevation%20profiles.html',
+			sourcePath:'REST%20Services/3D%20Elevation%20profiles.html',
+			screenshot:'3D-Elevation-profiles.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
+			created:'12/17/2020'
+		},
+		{
 			title:'Calculate a Simple Isochrone',
 			desc:'This sample shows how to calculate an isochrone (drive time polygon) using the Azure Maps Route Reachable Range service and display it on the map. ',
 			path:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
@@ -1483,20 +1492,20 @@ var sampleList = [
 			created:'10/18/2018'
 		},
 		{
-			title:'Snap drawn line to roads',
+			title:'Elevation path gradient',
 			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
 			path:'REST%20Services/Elevation%20path%20gradient.html',
 			sourcePath:'REST%20Services/Elevation%20path%20gradient.html',
-			screenshot:'Snap-drawn-line-to-roads.jpg',
+			screenshot:'Elevation-path-gradient.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
 			created:'12/4/2020'
 		},
 		{
-			title:'Snap drawn line to roads',
+			title:'Elevation by bounding box',
 			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
 			path:'REST%20Services/Elevations%20by%20bounding%20box.html',
 			sourcePath:'REST%20Services/Elevations%20by%20bounding%20box.html',
-			screenshot:'Snap-drawn-line-to-roads.jpg',
+			screenshot:'Elevation-by-bounding-box.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
 			created:'12/4/2020'
 		},
@@ -1519,11 +1528,11 @@ var sampleList = [
 			created:'3/20/2020'
 		},
 		{
-			title:'Draggable HTML Marker',
+			title:'Get elevation at position',
 			desc:'This sample shows how to make an HTML marker draggable.',
 			path:'REST%20Services/Get%20elevation%20at%20position.html',
 			sourcePath:'REST%20Services/Get%20elevation%20at%20position.html',
-			screenshot:'Draggable-HTML-Marker.gif',
+			screenshot:'Get-elevation-at-position.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
 			created:'12/4/2020'
 		},
@@ -2425,4 +2434,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 253;
+}];var numberOfSamples = 254;

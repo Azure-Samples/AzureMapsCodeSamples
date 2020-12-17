@@ -70,7 +70,10 @@
                 map.sources.add(datasource);
 
                 //Load a dataset of polygons that have metadata we can style against.
-                datasource.importDataFromUrl('../Common/data/geojson/address.json');
+                datasource.importDataFromUrl('../Common/data/geojson/address.json').then(() => {
+                    //Hide the loading icon.
+                    document.getElementById('loadingIcon').style.display = 'none';
+                });
 
                 //Create a stepped expression based on the color scale.
                 var steppedExp = [
@@ -176,10 +179,12 @@
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
+    <img id="loadingIcon" src="../Common/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;" />
+
     <div id="legend">
-        <b>Addresses per cell</b><br/>
-        <div id="legendColors"></div><br/> 
-        <b>Grid type:</b><br/>
+        <b>Addresses per cell</b><br />
+        <div id="legendColors"></div><br />
+        <b>Grid type:</b><br />
         <select onchange="changeGridType(this);">
             <option value="circle">Circle</option>
             <option selected="selected" value="hexagon">Hexagon</option>

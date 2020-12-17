@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>3D Elevation profiles - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content=" This sample shows how to snap a line drawn using the drawing tools to the road network. " />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script type='text/javascript'>
+        var map, datasource, hoverLayer, drawingManager, popup;
+
+        var elevationLineUrl = 'https://{azMapsDomain}/elevation/line/json?api-version=1.0&samples={samples}';
+
+        var maxSampleSize = 100;
+        var colors = ['#1a9641', '#a6d96a', '#ffffbf', '#fdae61', '#d7191c'];
+        var elvSteps = 50;
+
+        //The color expression used to assign a color based on elevation.
+        var colorExp = [
+            "interpolate",
+            ["linear"],
+            ['get', 'elevation'],
+            0, "black",
+            50, "royalblue",
+            150, "cyan",
+            200, "lime",
+            250, "yellow",
+            300, "red"
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122, 47.5],
+                zoom: 12,
+                pitch: 60,
+                style: 'satellite',
+                view: 'Auto',
+
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+            
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-left'
+                });
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    pixelOffset: [0, -18],
+                    closeButton: false
+                });
+
+                //Create a data source.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer that colors the elevation blocks based on their height.
+                var layer = new atlas.layer.PolygonExtrusionLayer(datasource, null, {
+                    base: 0,
+                    height: ['get', 'elevation'],
+                    fillColor: colorExp,
+                    fillOpacity: 0.8
+                });
+
+                //Create a layer to highlight when section of elevation profile is hovered.
+                hoverLayer = new atlas.layer.PolygonExtrusionLayer(datasource, null, {
+                    base: 0,
+                    height: ['get', 'elevation'],
+                    fillColor: 'purple',
+                    fillOpacity: 1,
+                    filter: ['==', ['get', 'idx'], -1]
+                });
+
+                //Create an add an extruded polygon layer th the map below the labels. 
+                map.layers.add([
+                    layer,
+                    hoverLayer
+                ], 'labels');
+
+                //Create an instance of the drawing manager and display the line drawing option of the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({
+                        buttons: ['draw-line'],
+                        position: 'top-left',
+                        style: 'light'
+                    })
+                });
+
+                //Make the drawing line easier to see on darked map styles by changing its color.
+                drawingManager.getLayers().lineLayer.setOptions({ strokeColor: 'DodgerBlue', strokeWidth: 4 });
+
+                // When the user moves their mouse over the polygonLayer, we'll update the filter in
+                // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
+                map.events.add('mousemove', layer, function (e) {
+                    var props = e.shapes[0].getProperties();
+
+                    hoverLayer.setOptions({ filter: ['==', ['get', 'idx'], props.idx] });
+
+                    //Populate the popupTemplate with data from the clicked point feature.
+                    popup.setOptions({
+                        //Update the content of the popup.
+                        content: `<div style="padding:10px;">Elevation: ${props.elevation}m</div>`,
+
+                        //Update the position of the popup with the symbols coordinate.
+                        position: e.position
+                    });
+
+                    //Open the popup.
+                    popup.open(map);
+                });
+
+                // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
+                map.events.add('mouseleave', layer, function (e) {
+                    hoverLayer.setOptions({ filter: ['==', ['get', 'idx'], -1] });
+                    popup.close();
+                });
+
+                ///Clear the map and drawing canvas when the user enters into a drawing mode.
+                map.events.add('drawingmodechanged', drawingManager, drawingModeChanged);
+
+                //Monitor for when a line drawing has been completed.
+                map.events.add('drawingcomplete', drawingManager, getElevations);
+
+                //Create a legend for the elevation color gradient.
+                createLegend();
+            });
+        }
+
+        function drawingModeChanged(mode) {
+            //Clear the drawing canvas and data source.
+            if (mode.startsWith('draw')) {
+                drawingManager.getSource().clear();
+                datasource.clear();
+            }
+        }
+
+        function getElevations(line) {
+            //Exit drawing mode and clear the drawing canvas.
+            drawingManager.setOptions({ mode: 'idle' });
+            drawingManager.getSource().clear();
+
+            //Get the coordinates from the drawn line.
+            var lineCoords = line.getCoordinates();
+            var jsonBody = [];
+            var lastCoord;
+
+            //Create the JSON body for the path.
+            lineCoords.forEach(c => {
+                //Ensure only unique coordinates are in the path. 
+                //Format the coordinates 
+                if (!lastCoord || !atlas.data.Position.areEqual(lastCoord, c)) {
+                    jsonBody.push({
+                        lon: c[0],
+                        lat: c[1]
+                    });
+                }
+
+                lastCoord = c;
+            });
+
+            if (jsonBody.length < 2) {
+                alert('Not enough unique positions in the line.');
+                return;
+            }
+
+            //Get the total length of the path.
+            var totalLength = atlas.math.getLengthOfPath(lineCoords);
+            
+            //The elevation dataset has a 24 meter sample spacing, no need for smaller sample spacing.
+            //Elevation service requires a minimum of 2 samples.
+            var sampleSize = Math.max(2, Math.min(Math.round(totalLength / 24), maxSampleSize));
+
+            var url = elevationLineUrl.replace('{samples}', sampleSize);
+
+            //Show loading icon.
+            document.getElementById('loadingIcon').style.display = '';
+
+            processPostRequest(url, jsonBody).then(response => {
+                if (response.error) {
+                    var msg = response.error.message;
+
+                    if (response.error.details && response.error.details) {
+                        response.error.details.forEach(d => {
+                            msg += '\n' + d.message;
+                        });                        
+                    }
+
+                    alert(msg);
+                    return;
+                }
+
+                var chunks = turf.lineChunk(new atlas.data.LineString(lineCoords), totalLength / sampleSize / 1000, { units: 'kilometers' });
+
+                //Its possible the chunking may result in one last small polygon. When this happens assign the last elevation to it.
+                if (chunks.features.length > response.data.length) {
+                    response.data.push(response.data[response.data.length - 1]);
+                }
+
+                var shapes = [];
+
+                //Turn each line chunk into a polygon by buffering it by 25 meters. Then pass the elevation and the index into the properties of the polygon to power the styling.
+                chunks.features.forEach((chunk, idx) => {
+                    var shape = turf.buffer(chunk, 0.025, { units: 'kilometers' });
+                    shape.properties.elevation = response.data[idx].elevationInMeter;
+                    shape.properties.idx = idx;
+                    shapes.push(shape);
+                });
+
+                //Add the shapes to the data source.
+                datasource.setShapes(shapes);
+
+                //Hide loading icon.
+                document.getElementById('loadingIcon').style.display = 'none';
+            });
+        }
+
+        function processPostRequest(url, jsonBody) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(request);
+                }
+
+                //Add content type of body to the headers.
+                requestParams.headers['Content-type'] = 'application/json; charset=UTF-8';
+
+                fetch(requestParams.url, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers),
+                    body: JSON.stringify(jsonBody) 
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
+        }
+
+        function createLegend() {
+            var canvas = document.createElement('canvas');
+            canvas.width = 150;
+            canvas.height = 15;
+
+            var ctx = canvas.getContext('2d');
+            var grd = ctx.createLinearGradient(0, 0, 150, 0);
+
+            var maxValue = colorExp[colorExp.length - 2];
+
+            if (colorExp[0] === 'interpolate' && colorExp[1][0] === 'linear') {
+                for (var j = 3; j < colorExp.length; j += 2) {
+                    grd.addColorStop(colorExp[j] / maxValue, colorExp[j + 1]);
+                }
+            } else if (colorExp[0] === 'step') {
+                grd.addColorStop(0, colorExp[2]);
+
+                for (var j = 3; j < colorExp.length - 1; j += 2) {
+                    grd.addColorStop(colorExp[j] / maxValue, colorExp[j + 1]);
+
+                    if ((j + 3) < colorExp.length && (colorExp[j] - 0.001) <= 1) {
+                        grd.addColorStop((colorExp[j + 2] - 0.001) / maxValue, colorExp[j + 1]);
+                    }
+                }
+
+                grd.addColorStop(1, colorExp[colorExp.length - 1]);
+            }
+
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, 150, 15);
+
+            document.getElementById('legendGradient').innerHTML = `<img src="${canvas.toDataURL()}" /><br/><span>0m</span><span style="float:right;">${maxValue}m</span>`;
+        }
+    </script>
+    <style>
+        .legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div class="legend">
+        <div style="font-size:14px;font-weight:bold;">Elevation</div>
+        <div id="legendGradient" style="float:left"></div>
+    </div>
+
+    <div style="position:absolute;top:0px;left:calc(50% - 100px);background-color:white;padding:5px;">Draw a line on the map</div>
+
+    <img id="loadingIcon" src="../Common/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">3D Elevation profiles</h1></legend>
+        This sample shows how to retrieve elevation data along a path, and then render that path as a 3D elevation profile.
+
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to break the lines into ever chuncks and buffer them into polygons.
+    </fieldset>
+</body>
+</html>

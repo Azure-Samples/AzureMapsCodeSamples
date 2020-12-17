@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Snap drawn line to roads - Azure Maps Web SDK Samples</title>
+    <title>Elevation path gradient - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -63,6 +63,7 @@
                     lineJoin: 'round',
                     lineCap: 'round'
                 });
+
                 map.layers.add([
                     //Optionally. Add a second line layer behind the gradient layer. This layer will provide a board around the line so it is easier to see the details.
                     new atlas.layer.LineLayer(datasource, null, {
@@ -106,22 +107,37 @@
             drawingManager.getSource().clear();
 
             //Get the coordinates from the drawn line.
-            var lineCoords = line.getCoordinates();
+            var cleanLineCoords = [];
+
+            var lastCoord;
 
             //Round coordinates to 6 decimal places (~10cm accuracy) to reduce the length of URLs.
             lineCoords.forEach(c => {
                 c[0] = Math.round(c[0] * 1000000) / 1000000;
                 c[1] = Math.round(c[1] * 1000000) / 1000000;
+
+                //The elevation service does not allow repeat coordinates in the path.
+                if (!lastCoord || !atlas.data.Position.areEqual(lastCoord, c)) {
+                    cleanLineCoords.push(c);
+                }
+
+                lastCoord = c;
             });
 
+            if (cleanLineCoords.length < 2) {
+                alert('Not enough unique positions in the line.');
+                return;
+            }
+
             //Get the total length of the path.
-            var totalLength = atlas.math.getLengthOfPath(lineCoords);
+            var totalLength = atlas.math.getLengthOfPath(cleanLineCoords);
 
             //Format line coordinates as "longitude0,latitude0|longitude1,latitude1|..."
-            var lineParam = lineCoords.map(c => c.join(',')).join('|');
+            var lineParam = cleanLineCoords.map(c => c.join(',')).join('|');
 
-            //The elevation dataset has a 24 meter sample spacing. 
-            var sampleSize = Math.min(Math.round(totalLength / 24), maxSampleSize);
+            //The elevation dataset has a 24 meter sample spacing, no need for smaller sample spacing.
+            //Elevation service requires a minimum of 2 samples.
+            var sampleSize = Math.max(2, Math.min(Math.round(totalLength / 24), maxSampleSize));
 
             var url = elevationLineUrl.replace('{lines}', lineParam).replace('{samples}', sampleSize);
 
@@ -253,14 +269,8 @@
     <img id="loadingIcon" src="../Common/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">Snap drawn line to roads</h1></legend>
-        This sample shows how to snap a line drawn using the drawing tools to the road network.
-        To run this sample, press the line drawing button in the top corner of the map and draw a line near roads.
-        When you complete the drawing (double click, press ESC, or press the line drawing button again),
-        the Azure Maps route direction service will be used to calculate logical route path on the road network following the drawn line.
-        The black line is the original drawn line and the blue line is the snapped line on the road network.
-        <br /><br />
-        <b>Modules used:</b> Drawing, Services
+        <legend><h1 style="font-size:16px">Elevation path gradient</h1></legend>
+        This sample shows how to retrieve elevation data along a path, and then render that path as a gradient based on the elevation.
     </fieldset>
 </body>
 </html>

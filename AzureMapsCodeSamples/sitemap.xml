@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-12-15</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2020-12-17</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -155,6 +155,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Reusing%20Popup%20with%20Multiple%20Pins.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Show%20clustered%20points%20in%20popup.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Show%20popup%20on%20hover.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/3D%20Elevation%20profiles.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Calculate%20a%20Simple%20Isochrone.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Elevation%20path%20gradient.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/REST%20Services/Elevations%20by%20bounding%20box.html</loc></url>
