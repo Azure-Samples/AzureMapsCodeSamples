@@ -18,19 +18,42 @@
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
 
     <script type='text/javascript'>
-        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-        var subscriptionKey = '<Your Azure Maps Key>';
+        //Your Azure Maps Active Directory details for autheniticating the service.
+        var clientId = '04ec075f-3827-4aed-9975-d56301a2d663';
+        var tokenService = 'https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx';
+
+        var token;
 
         var map;
 
-        function GetMap() {
+        async function GetMap() {
+            //Retrieve an Azure Active Directory token if there isn't one currently available.
+            if (!token) {
+                await initAzureAD();
+            }
+
             map = new ol.Map({
                 target: 'myMap',
                 layers: [
                     new ol.layer.Tile({
                         source: new ol.source.XYZ({
-                            url: `https://atlas.microsoft.com/map/imagery/png?api-version=1&style=satellite&tileSize=256&view=Auto&zoom={z}&x={x}&y={y}&subscription-key=${subscriptionKey}`,
-                            attributions: `© ${new Date().getFullYear()} DigitalGlobe, Microsoft`
+                            url: 'https://atlas.microsoft.com/map/tile?api-version=2.0&tilesetId=microsoft.imagery&zoom={z}&x={x}&y={y}&tileSize=256&view={view}',
+                            attributions: `© ${new Date().getFullYear()} DigitalGlobe, Microsoft`,
+
+                            //Create a custom tile load function that will append Azure Active Directory headers to tile requests.
+                            tileLoadFunction: function (imageTile, src) {
+                                fetch(src, {
+                                    method: 'GET',
+                                    mode: 'cors',
+                                    headers: {
+                                        'x-ms-client-id': clientId,
+                                        'Authorization': 'Bearer ' + token
+                                    }
+                                }).then(r => r.blob()).then(image => {
+                                    var t = URL.createObjectURL(image);
+                                    imageTile.getImage().src = t;
+                                });
+                            }
                         })
                     })
                 ],
@@ -39,6 +62,45 @@
                     zoom: 2
                 })
             });
+        }
+
+        async function initAzureAD() {
+            //Get Azure Active Directory token.
+            token = await getAadToken();
+
+            // Create a repeating timeout that will renew the AAD token
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getAadToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            }
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getAadToken() {
+            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
+            const response = await fetch(tokenService);
+            return response.text();
+        }
+
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed
+            // Reduce the time until renew by 5 minutes to avoid using an expired token
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 300000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
         }
     </script>
 </head>

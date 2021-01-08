@@ -16,13 +16,25 @@
     <script src="https://cesiumjs.org/releases/1.44/Build/Cesium/Cesium.js"></script>
 
     <script type='text/javascript'>
+        //Your Azure Maps Active Directory details for autheniticating the service with Azure Maps.
+        var clientId = '04ec075f-3827-4aed-9975-d56301a2d663';
+        var tokenService = 'https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx';
+
+        var token;
         var map;
 
-        function GetMap() {
+        async function GetMap() {
+            //Retrieve an Azure Active Directory token if there isn't one currently available.
+            if (!token) {
+                await initAzureAD();
+            }
+
             map = new Cesium.Viewer('myMap', {
                 imageryProvider: new Cesium.UrlTemplateImageryProvider({
                     url: new Cesium.Resource({
-                        url: 'https://atlas.microsoft.com/map/tile?api-version=2.0&zoom={z}&x={x}&y={y}&tileSize=256',
+                        url: 'https://atlas.microsoft.com/map/tile?api-version=2.0&zoom={z}&x={x}&y={y}&tileSize=512',
+                        tileWidth: 512,
+                        tileHeight: 512,
                         queryParameters: {
 
                             /*
@@ -30,7 +42,7 @@
                                                      
                                 'microsoft.base.road',  
                                 'microsoft.base.darkgrey',
-                                'microsoft.imagery', 
+                                'microsoft.imagery', //Only supports tile width/height of 256
                                 'microsoft.weather.infrared.main', 
                                 'microsoft.weather.radar.main', 
                                 'microsoft.base.hybrid.road',
@@ -42,10 +54,11 @@
                             language: 'en-US',
 
                             //The regional view of the map. Supported views: https://aka.ms/AzureMapsLocalizationViews
-                            view: 'Auto',
-							
-					//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                            'subscription-key': '<Your Azure Maps Key>' 				
+                            view: 'Auto'
+                        },
+                        headers: {
+                            'x-ms-client-id': clientId,
+                            'Authorization': 'Bearer ' + token,
                         }
                     }),
                     credit: new Cesium.Credit(`© ${new Date().getFullYear()} TomTom, Microsoft`, true),
@@ -54,6 +67,45 @@
                 }),
                 baseLayerPicker: false
             });
+        }
+
+        async function initAzureAD() {
+            //Get Azure Active Directory token.
+            token = await getAadToken();
+
+            // Create a repeating timeout that will renew the AAD token
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getAadToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            }
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getAadToken() {
+            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
+            const response = await fetch(tokenService);
+            return response.text();
+        }
+
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed
+            // Reduce the time until renew by 5 minutes to avoid using an expired token
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 300000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
         }
     </script>
 </head>

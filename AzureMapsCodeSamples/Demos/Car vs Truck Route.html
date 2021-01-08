@@ -19,9 +19,9 @@
         var map, datasource, routePoints = [], currentScenario;
 
         var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
-        var geocodeRequestUrl = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1&query={query}&view=Auto';
-        var carRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
-        var truckRoutingRequestUrl = 'https://atlas.microsoft.com/route/directions/json?subscription-key={subscription-key}&api-version=1&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&view=Auto';
+        var geocodeRequestUrl = 'https://{azMapsDomain}/search/address/json?api-version=1&query={query}&view=Auto';
+        var carRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var truckRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&view=Auto';
 
         var scenarios = [
             { from: '47.632241,-122.299189', to: '47.634676,-122.300302', height: '5', width: '3', length: '', weight: '', load: [], description: 'Low bridge', streetsideLink: 'https://binged.it/2oT6d4V' },
@@ -33,11 +33,26 @@
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
-				
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+
+                //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    //Use Azure Active Directory authentication.
+                    authType: "anonymous",
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Maps Azure Active Directory account client id.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(function (response) {
+                            return response.text();
+                        }).then(function (token) {
+                            resolve(token);
+                        });
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
                 }
             });
 
@@ -118,14 +133,14 @@
 
                     var query = fromCoord.join(',') + ':' + toCoord.join(',');
 
-                    var carRequestUrl = carRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', query);
+                    var carRequestUrl = carRoutingRequestUrl.replace('{query}', query);
 
                     callRestService(carRequestUrl, function (r) {
                         addRouteToMap(r.routes[0], 'red');
                         document.getElementById('output').innerHTML += 'Car Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
                     });
 
-                    var truckRequestUrl = truckRoutingRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', query);
+                    var truckRequestUrl = truckRoutingRequestUrl.replace('{query}', query);
 
                     var loadType = getSelectValues('vehicleLoadType');
                     if (loadType && loadType !== '') {
@@ -151,7 +166,7 @@
 
                     callback([parseFloat(vals[1]), parseFloat(vals[0])]);
                 } else {
-                    var requestUrl = geocodeRequestUrl.replace('{subscription-key}', atlas.getSubscriptionKey()).replace('{query}', encodeURIComponent(query));
+                    var requestUrl = geocodeRequestUrl.replace('{query}', encodeURIComponent(query));
 
                     callRestService(requestUrl, function (r) {
                         if (r && r.results && r.results.length > 0) {
@@ -192,21 +207,27 @@
 
         function callRestService(requestUrl, callback, errorCallback) {
             if (callback) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open('GET', requestUrl, true);
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {
-                            var response = JSON.parse(xhttp.responseText);
-                            callback(response);
-                        } else if (errorCallback) {
-                            if (errorCallback) {
-                                errorCallback(JSON.parse(xhttp.responseText));
-                            }
-                        }
-                    }
-                };
-                xhttp.send();
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                requestUrl = requestUrl.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: requestUrl });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(request);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        callback(r);
+                    }, e => errorCallback(e));
             }
         }
 

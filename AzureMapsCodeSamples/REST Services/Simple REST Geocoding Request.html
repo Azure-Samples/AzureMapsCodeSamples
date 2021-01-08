@@ -12,11 +12,20 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <script type='text/javascript'>
-        //Get an Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
-        var geocodeUrlTemplate = 'https://atlas.microsoft.com/search/address/json?subscription-key={subscription-key}&api-version=1&query={query}&language={language}&countrySet={countrySet}&view=Auto';
+        //Your Azure Maps Active Directory details for autheniticating the service.
+        var clientId = '04ec075f-3827-4aed-9975-d56301a2d663';
+        var tokenService = 'https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx';
 
-        function geocode() {
+        var token;
+
+        var geocodeUrlTemplate = 'https://atlas.microsoft.com/search/address/json?api-version=1.0&query={query}&language={language}&countrySet={countrySet}&view=Auto';
+
+        async function geocode() {
+            //Retrieve an Azure Active Directory token if there isn't one currently available.
+            if (!token) {
+                await initAzureAD();
+            }
+
             var query = document.getElementById('input').value;
 
             var elm = document.getElementById('languageSelector');
@@ -27,36 +36,79 @@
 
             var geocodeRequest = geocodeUrlTemplate.replace('{query}', encodeURIComponent(query))
                 .replace('{language}', languageCode)
-                .replace('{countrySet}', countryIso)
-                .replace('{subscription-key}', subscriptionKey);
+                .replace('{countrySet}', countryIso);
 
             //Proces the request.
-            fetch(geocodeRequest)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (response) {
+            var res = await fetch(geocodeRequest, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'x-ms-client-id': clientId,
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            });
+            
+            var response = await res.json();
+            var output = document.getElementById('output');
 
-                    var output = document.getElementById('output');
+            if (response &&
+                response.results &&
+                response.results.length > 0) {
 
-                    if (response &&
-                        response.results &&
-                        response.results.length > 0) {
+                var results = response.results;
 
-                        var results = response.results;
+                var html = ['<table ><tr><td>Address</td><td>Latitude</td><td>Longitude</td></tr>'];
 
-                        var html = ['<table ><tr><td>Address</td><td>Latitude</td><td>Longitude</td></tr>'];
+                for (var i = 0; i < results.length; i++) {
+                    html.push('<tr><td>', results[i].address.freeformAddress, '</td><td>', results[i].position.lat, '</td><td>', results[i].position.lon, '</td></tr>');
+                }
 
-                        for (var i = 0; i < results.length; i++) {
-                            html.push('<tr><td>', results[i].address.freeformAddress, '</td><td>', results[i].position.lat, '</td><td>', results[i].position.lon, '</td></tr>');
-                        }
+                html.push('</table>');
 
-                        html.push('</table>');
+                output.innerHTML = html.join('');
+            } else {
+                output.innerHTML = "No results found.";
+            }
+        }
 
-                        output.innerHTML = html.join('');
-                    } else {
-                        output.innerHTML = "No results found.";
-                    }
-                });
+        async function initAzureAD() {
+            //Get Azure Active Directory token.
+            token = await getAadToken();
+
+            // Create a repeating timeout that will renew the AAD token
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getAadToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            }
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getAadToken() {
+            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
+            const response = await fetch(tokenService);
+            return response.text();
+        }
+
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed
+            // Reduce the time until renew by 5 minutes to avoid using an expired token
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 300000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
         }
     </script>
     <style>

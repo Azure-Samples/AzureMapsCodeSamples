@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content=" This sample shows how to snap a line drawn using the drawing tools to the road network. " />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
+    <meta name="description" content="This sample shows how to retrieve elevation data along a path, and then render that path as a gradient based on the elevation." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, elevation, elevations" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -35,10 +35,25 @@
                 zoom: 12,
                 view: 'Auto',
 
-                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    //Use Azure Active Directory authentication.
+                    authType: "anonymous",
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Maps Azure Active Directory account client id.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(function (response) {
+                            return response.text();
+                        }).then(function (token) {
+                            resolve(token);
+                        });
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
                 }
             });
 
@@ -110,6 +125,8 @@
             var cleanLineCoords = [];
 
             var lastCoord;
+
+            var lineCoords = line.getCoordinates();
 
             //Round coordinates to 6 decimal places (~10cm accuracy) to reduce the length of URLs.
             lineCoords.forEach(c => {
@@ -271,6 +288,7 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">Elevation path gradient</h1></legend>
         This sample shows how to retrieve elevation data along a path, and then render that path as a gradient based on the elevation.
+        Elevation data from the <a href="https://docs.microsoft.com/azure/azure-maps/how-to-request-elevation-data" target="_blank">Azure Maps Elevation services</a> © DLR 2011-2014 / © Airbus 2021.
     </fieldset>
 </body>
 </html>

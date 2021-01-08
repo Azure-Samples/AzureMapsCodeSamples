@@ -62,7 +62,8 @@ window.onload = function () {
             'Create%20a%20Traffic%20Control': 'Traffic%20controls',
             'Merge%20Two%20Polygons%20Together': 'Merge%20two%20polygons%20together',
             'Azure%20Maps%20Raster%20Tiles%20in%20Leaflet%20JS': 'Raster%20Tiles%20in%20Leaflet%20JS',
-            'Mini%20Overview%20Map': 'Mini%20overview%20map'
+            'Mini%20Overview%20Map': 'Mini%20overview%20map',
+            'Raster%2Tiles%2in%2ArcGIS%2JS%24.6': 'Raster%2Tiles%2in%2ArcGIS%2JS'
         };
 
         var redirect = sampleRedirects[hash];

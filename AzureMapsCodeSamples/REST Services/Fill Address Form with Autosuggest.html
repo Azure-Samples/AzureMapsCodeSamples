@@ -22,12 +22,20 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <script type='text/javascript'>
-        //Get your Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
+        //Your Azure Maps Active Directory details for autheniticating the service.
+        var clientId = '04ec075f-3827-4aed-9975-d56301a2d663';
+        var tokenService = 'https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx';
 
-        var addresssGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/address/json?typeahead=true&subscription-key={subscription-key}&api-version=1&query={query}&language={language}&countrySet={countrySet}&view=Auto';
+        var token;
 
-        function PageLoaded() {
+        var addresssGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}&language={language}&countrySet={countrySet}&view=Auto';
+
+        async function PageLoaded() {
+            //Retrieve an Azure Active Directory token if there isn't one currently available.
+            if (!token) {
+                await initAzureAD();
+            }
+
             //Create a jQuery autocomplete UI widget.
             $("#searchBox").autocomplete({
                 minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed. This will reduce costs by not making requests that will likely not have much relevance.
@@ -35,15 +43,20 @@
 
                     //Create a URL to the Azure Maps search service to perform the address search.
                     var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
-                        .replace('{subscription-key}', subscriptionKey)
                         .replace('{language}', 'en-US')
                         .replace('{countrySet}', 'US'); //A comma seperated string of country codes to limit the suggestions to.
 
-                    $.ajax({
-                        url: requestUrl,
-                        success: function (data) {
-                            response(data.results);
+                    //Proces the request.
+                    fetch(requestUrl, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'x-ms-client-id': clientId,
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json; charset=utf-8'
                         }
+                    }).then(r => r.json()).then(data => {
+                        response(data.results);
                     });
                 },
                 select: function (event, ui) {
@@ -70,6 +83,45 @@
                     .append("<a>" + suggestionLabel + "</a>")
                     .appendTo(ul);
             };
+        }
+
+        async function initAzureAD() {
+            //Get Azure Active Directory token.
+            token = await getAadToken();
+
+            // Create a repeating timeout that will renew the AAD token
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getAadToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            }
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getAadToken() {
+            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
+            const response = await fetch(tokenService);
+            return response.text();
+        }
+
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed
+            // Reduce the time until renew by 5 minutes to avoid using an expired token
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 300000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
         }
     </script>
     <style>

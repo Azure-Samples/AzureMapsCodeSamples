@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content=" This sample shows how to snap a line drawn using the drawing tools to the road network. " />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
+    <meta name="description" content="This sample shows how to retrieve elevation data along a path, and then render that path as a 3D elevation profile." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, elevation, elevations" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -27,9 +27,8 @@
 
         var elevationLineUrl = 'https://{azMapsDomain}/elevation/line/json?api-version=1.0&samples={samples}';
 
-        var maxSampleSize = 100;
+        var maxSampleSize = 2000;
         var colors = ['#1a9641', '#a6d96a', '#ffffbf', '#fdae61', '#d7191c'];
-        var elvSteps = 50;
 
         //The color expression used to assign a color based on elevation.
         var colorExp = [
@@ -53,10 +52,25 @@
                 style: 'satellite',
                 view: 'Auto',
 
-                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    //Use Azure Active Directory authentication.
+                    authType: "anonymous",
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Maps Azure Active Directory account client id.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(function (response) {
+                            return response.text();
+                        }).then(function (token) {
+                            resolve(token);
+                        });
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
                 }
             });
             
@@ -96,7 +110,7 @@
                     filter: ['==', ['get', 'idx'], -1]
                 });
 
-                //Create an add an extruded polygon layer th the map below the labels. 
+                //Create and add an extruded polygon layer th the map below the labels. 
                 map.layers.add([
                     layer,
                     hoverLayer
@@ -114,14 +128,13 @@
                 //Make the drawing line easier to see on darked map styles by changing its color.
                 drawingManager.getLayers().lineLayer.setOptions({ strokeColor: 'DodgerBlue', strokeWidth: 4 });
 
-                // When the user moves their mouse over the polygonLayer, we'll update the filter in
-                // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
+                //When the user moves their mouse over the polygonLayer, we'll update the filter in
+                //the polygonHoverLayer to only show the matching state, thus creating a hover effect.
                 map.events.add('mousemove', layer, function (e) {
                     var props = e.shapes[0].getProperties();
 
                     hoverLayer.setOptions({ filter: ['==', ['get', 'idx'], props.idx] });
 
-                    //Populate the popupTemplate with data from the clicked point feature.
                     popup.setOptions({
                         //Update the content of the popup.
                         content: `<div style="padding:10px;">Elevation: ${props.elevation}m</div>`,
@@ -134,7 +147,7 @@
                     popup.open(map);
                 });
 
-                // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
+                //Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
                 map.events.add('mouseleave', layer, function (e) {
                     hoverLayer.setOptions({ filter: ['==', ['get', 'idx'], -1] });
                     popup.close();
@@ -194,6 +207,11 @@
             //The elevation dataset has a 24 meter sample spacing, no need for smaller sample spacing.
             //Elevation service requires a minimum of 2 samples.
             var sampleSize = Math.max(2, Math.min(Math.round(totalLength / 24), maxSampleSize));
+
+            //If the length of the path is more than approximately 250KM the service will not allow any more than 100 samples.
+            if (totalLength > 250000) {
+                sampleSize = 100;
+            }
 
             var url = elevationLineUrl.replace('{samples}', sampleSize);
 
@@ -331,6 +349,8 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">3D Elevation profiles</h1></legend>
         This sample shows how to retrieve elevation data along a path, and then render that path as a 3D elevation profile.
+
+        Elevation data from the <a href="https://docs.microsoft.com/azure/azure-maps/how-to-request-elevation-data" target="_blank">Azure Maps Elevation services</a> © DLR 2011-2014 / © Airbus 2021.
 
         This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to break the lines into ever chuncks and buffer them into polygons.
     </fieldset>

@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content=" This sample shows how to snap a line drawn using the drawing tools to the road network. " />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
+    <meta name="description" content="This sample shows how to get elevations in a grid pattern with a bounding box." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, elevations, elevation, DEM" />
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -35,10 +35,25 @@
 				style: 'satellite',
                 view: 'Auto',
 
-                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    //Use Azure Active Directory authentication.
+                    authType: "anonymous",
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Maps Azure Active Directory account client id.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(function (response) {
+                            return response.text();
+                        }).then(function (token) {
+                            resolve(token);
+                        });
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
                 }
             });
 
@@ -283,7 +298,8 @@
 		The color of each data point is set using a data-driven style based on the elevation value.
 		The style is dynamically scaled based on the
 		<br /><br />
-		<b>Modules used:</b> Drawing, Services
+		<b>Modules used:</b> Drawing, Services<br /><br />
+		Elevation data from the <a href="https://docs.microsoft.com/azure/azure-maps/how-to-request-elevation-data" target="_blank">Azure Maps Elevation services</a> © DLR 2011-2014 / © Airbus 2021.
 	</fieldset>
 </body>
 </html>

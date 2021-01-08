@@ -18,19 +18,34 @@
     <script type='text/javascript'>
         var map, datasource;
 
-        var restRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&subscription-key={subscription-key}&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var restRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
 
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-122.33, 47.6],
                 zoom: 12,
-
                 view: 'Auto',
-		        //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+
+                //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '<Your Azure Maps Key>'
+                    //Use Azure Active Directory authentication.
+                    authType: "anonymous",
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Maps Azure Active Directory account client id.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(function (response) {
+                            return response.text();
+                        }).then(function (token) {
+                            resolve(token);
+                        });
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
                 }
             });
 
@@ -85,7 +100,7 @@
                 });
 
                 //Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
-                var requestUrl = restRoutingRequestUrl.replace('{query}', `${startPosition[1]},${startPosition[0]},${endPosition[1]},${endPosition[0]}`);
+                var requestUrl = restRoutingRequestUrl.replace('{query}', `${startPosition[1]},${startPosition[0]}:${endPosition[1]},${endPosition[0]}`);
 
                 //Process the request and render the route result on the map.
                 processRequest(requestUrl).then(response => {

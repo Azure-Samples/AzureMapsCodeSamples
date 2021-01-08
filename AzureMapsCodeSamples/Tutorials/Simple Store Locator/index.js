@@ -20,24 +20,34 @@ function initialize() {
         center: [-90, 40],
         zoom: 2,
         view: 'Auto',
-		
-		//Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-        authOptions: {
-            authType: 'subscriptionKey',
-            subscriptionKey: '<Your Azure Maps Key>'
-        }
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: "anonymous",
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Maps Azure Active Directory account client id.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(function (response) {
+                            return response.text();
+                        }).then(function (token) {
+                            resolve(token);
+                        });
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
     });
 
     //Create a popup but leave it closed so we can update it and display it later.
     popup = new atlas.Popup();
 
-    //Use SubscriptionKeyCredential with a subscription key
-    const subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
-
-    //Use subscriptionKeyCredential to create a pipeline
-    const pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential, {
-        retryOptions: { maxTries: 4 } // Retry options
-    });
+    //Use MapControlCredential to share authentication between a map control and the service module.
+    var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
 
     //Create an instance of the SearchURL client.
     searchURL = new atlas.service.SearchURL(pipeline);

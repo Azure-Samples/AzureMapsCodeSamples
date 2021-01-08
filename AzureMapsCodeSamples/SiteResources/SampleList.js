@@ -1475,11 +1475,11 @@ var sampleList = [
 	samples: [
 		{
 			title:'3D Elevation profiles',
-			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
+			desc:'This sample shows how to retrieve elevation data along a path, and then render that path as a 3D elevation profile.',
 			path:'REST%20Services/3D%20Elevation%20profiles.html',
 			sourcePath:'REST%20Services/3D%20Elevation%20profiles.html',
 			screenshot:'3D-Elevation-profiles.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, elevation, elevations',
 			created:'12/17/2020'
 		},
 		{
@@ -1492,21 +1492,30 @@ var sampleList = [
 			created:'10/18/2018'
 		},
 		{
+			title:'Elevation along a route',
+			desc:'This sample shows how to retrieve elevation data along a route path, and then render each data point as a colored bubble based on its elevation.',
+			path:'REST%20Services/Elevation%20along%20a%20route.html',
+			sourcePath:'REST%20Services/Elevation%20along%20a%20route.html',
+			screenshot:'',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, elevation, elevations',
+			created:'1/5/2021'
+		},
+		{
 			title:'Elevation path gradient',
-			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
+			desc:'This sample shows how to retrieve elevation data along a path, and then render that path as a gradient based on the elevation.',
 			path:'REST%20Services/Elevation%20path%20gradient.html',
 			sourcePath:'REST%20Services/Elevation%20path%20gradient.html',
 			screenshot:'Elevation-path-gradient.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, elevation, elevations',
 			created:'12/4/2020'
 		},
 		{
 			title:'Elevation by bounding box',
-			desc:'This sample shows how to snap a line drawn using the drawing tools to the road network. ',
+			desc:'This sample shows how to get elevations in a grid pattern with a bounding box.',
 			path:'REST%20Services/Elevations%20by%20bounding%20box.html',
 			sourcePath:'REST%20Services/Elevations%20by%20bounding%20box.html',
 			screenshot:'Elevation-by-bounding-box.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
+			keywords:'microsoft maps, map, gis, api, sdk, services, elevations, elevation, dem',
 			created:'12/4/2020'
 		},
 		{
@@ -1529,11 +1538,11 @@ var sampleList = [
 		},
 		{
 			title:'Get elevation at position',
-			desc:'This sample shows how to make an HTML marker draggable.',
+			desc:'This sample shows how to get the elevation for individual positions on the map.',
 			path:'REST%20Services/Get%20elevation%20at%20position.html',
 			sourcePath:'REST%20Services/Get%20elevation%20at%20position.html',
 			screenshot:'Get-elevation-at-position.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, elevation, elevations',
 			created:'12/4/2020'
 		},
 		{
@@ -2212,11 +2221,11 @@ var sampleList = [
 	desc:'As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these.',
 	samples: [
 		{
-			title:'Raster Tiles in ArcGIS JS 4.6',
-			desc:'This sample shows how to render Azure Maps Raster Tiles in the ArcGIS version 4.6 JavaScript map control.',
-			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS%204.6.html',
-			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS%204.6.html',
-			screenshot:'Raster-Tiles-in-ArcGIS-JS-4.6.jpg',
+			title:'Raster Tiles in ArcGIS JS',
+			desc:'This sample shows how to render Azure Maps Raster Tiles in the ArcGIS JavaScript map control.',
+			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS.html',
+			screenshot:'Raster-Tiles-in-ArcGIS-JS.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, arcgis, esri',
 			created:'9/23/2018'
 		},
@@ -2228,15 +2237,6 @@ var sampleList = [
 			screenshot:'Raster-Tiles-in-Cesium-JS.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
 			created:'9/23/2018'
-		},
-		{
-			title:'Raster tiles in GeoJS',
-			desc:'This sample shows how to render Azure Maps Raster Tiles in the GeoJS map control.',
-			path:'Third%20Party%20Map%20Controls/Raster%20tiles%20in%20GeoJS.html',
-			sourcePath:'Third%20Party%20Map%20Controls/Raster%20tiles%20in%20GeoJS.html',
-			screenshot:'Raster-tiles-in-GeoJS.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, geojs',
-			created:'9/11/2020'
 		},
 		{
 			title:'Raster Tiles in Leaflet JS',

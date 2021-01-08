@@ -109,11 +109,14 @@ namespace AzureMapsCodeSamples.Common
         /// <returns></returns>
         private bool IsUrlAllowed(string url)
         {
-            for (int i = 0; i < UrlDomainWhitelist.Length; i++)
+            if (url != null)
             {
-                if (url.StartsWith(UrlDomainWhitelist[i]))
+                for (int i = 0; i < UrlDomainWhitelist.Length; i++)
                 {
-                    return true;
+                    if (url.StartsWith(UrlDomainWhitelist[i]))
+                    {
+                        return true;
+                    }
                 }
             }
 

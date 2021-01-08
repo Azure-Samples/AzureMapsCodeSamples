@@ -13,12 +13,20 @@
 
 
     <script type='text/javascript'>
-        //Get your Azure Maps key at https://azure.com/maps
-        var subscriptionKey = '<Your Azure Maps Key>';
+        //Your Azure Maps Active Directory details for autheniticating the service.
+        var clientId = '04ec075f-3827-4aed-9975-d56301a2d663';
+        var tokenService = 'https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx';
 
-        var timezoneRequestUrl = 'https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&subscription-key={subscription-key}&options=all&query={latitude},{longitude}&view=Auto';
+        var token;
 
-        function getTimezone() {
+        var timezoneRequestUrl = 'https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&options=all&query={latitude},{longitude}&view=Auto';
+
+        async function getTimezone() {
+            //Retrieve an Azure Active Directory token if there isn't one currently available.
+            if (!token) {
+                await initAzureAD();
+            }
+
             var output = document.getElementById('output');
 
             output.innerHTML = '<img src="../Common/images/loadingIcon.gif" title="Loading"/>';
@@ -28,13 +36,19 @@
                 //Create a URL request to the Azure Maps Timezone service.
                 //Coordinates only need 5 decimal places to represent a high accuracy location.
                 var requestUrl = timezoneRequestUrl
-                    .replace('{subscription-key}', subscriptionKey)
                     .replace('{latitude}', position.coords.latitude)
                     .replace('{longitude}', position.coords.longitude);
 
                 //Process the request.
-                fetch(requestUrl)
-                    .then(function (response) {
+                fetch(requestUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'x-ms-client-id': clientId,
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }).then(function (response) {
                         return response.json();
                     }).then(function (response) {
 
@@ -102,6 +116,45 @@
                         break;
                 }
             });
+        }
+
+        async function initAzureAD() {
+            //Get Azure Active Directory token.
+            token = await getAadToken();
+
+            // Create a repeating timeout that will renew the AAD token
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getAadToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            }
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getAadToken() {
+            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
+            const response = await fetch(tokenService);
+            return response.text();
+        }
+
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed
+            // Reduce the time until renew by 5 minutes to avoid using an expired token
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 300000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
         }
     </script>
 </head>
