@@ -1696,6 +1696,15 @@ var sampleList = [
 			created:'3/13/2020'
 		},
 		{
+			title:'Search for POIs along route',
+			desc:'This sample shows how to retrieve points of interest along a route.',
+			path:'Services%20Module/Search%20for%20POIs%20along%20route.html',
+			sourcePath:'Services%20Module/Search%20for%20POIs%20along%20route.html',
+			screenshot:'Search-for-POIs-along-route.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, rest, service, points of interest, poi, directions, route, routing',
+			created:'1/12/2021'
+		},
+		{
 			title:'Show traffic along route',
 			desc:'This sample shows how to retrieve traffic information along a route using the <b>sectionType</b> option, and color the sections on the map. ',
 			path:'Services%20Module/Show%20traffic%20along%20route.html',
@@ -2452,4 +2461,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 256;
+}];var numberOfSamples = 257;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-01-11</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-01-12</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -179,6 +179,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Page%20through%20POI%20results.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Search%20for%20boundaries.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Search%20for%20POIs%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Show%20traffic%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Snap%20points%20to%20logical%20route%20path.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Census%20block%20group%20analysis.html</loc></url>

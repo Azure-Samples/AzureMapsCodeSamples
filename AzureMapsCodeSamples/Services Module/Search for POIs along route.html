@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search for POIs along route - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to retrieve points of interest along a route." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, service, points of interest, POI, directions, route, routing" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, searchURL, routeURL, points, datasource, routeLine;
+        var aborter = atlas.service.Aborter.timeout(3000);
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.25, 47.64],
+                zoom: 11,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline, atlas.getDomain());
+
+            //Create an instance of the RouteURL client.
+            routeURL = new atlas.service.RouteURL(pipeline, atlas.getDomain());
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering the POI data points.
+                var waypointLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    //color: ['get', 'color'],
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                });
+
+                map.layers.add([
+                    //Add a layer for rendering line data.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'rgb(0, 204, 153)',
+                        strokeWidth: 5,
+                        filter: ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]	//Only render LineString or MultiLineString in this layer.
+                    }),
+
+                    waypointLayer
+                ]);
+
+                //Add click events to the waypoint layer.
+                map.events.add('click', waypointLayer, featureClicked);
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+            });
+        }
+
+        async function calculateRoute() {
+            datasource.clear();
+
+            var start = document.getElementById('startTbx').value;
+            var end = document.getElementById('endTbx').value;
+
+            if (start == '' || end == '') {
+                alert('Invalid waypoint point specified.');
+                return;
+            }
+
+            //Geocode the start waypoint.
+            var startLocation = await searchURL.searchAddress(aborter, start, {
+                limit: 1,
+                view: 'Auto'
+            });
+
+            if (!startLocation || startLocation.results.length === 0) {
+                alert('Unable to geocode start waypoint.');
+                return;
+            }
+
+            var startPoint = [startLocation.results[0].position.lon, startLocation.results[0].position.lat];
+
+            //Geocode the end waypoint.
+            var endLocation = await searchURL.searchAddress(aborter, end, {
+                limit: 1,
+                view: 'Auto'
+            });
+
+            if (!endLocation || endLocation.results.length === 0) {
+                alert('Unable to geocode end waypoint.');
+                return;
+            }
+
+            var endPoint = [endLocation.results[0].position.lon, endLocation.results[0].position.lat];
+
+            //Calculate route.
+            var routeResponse = await routeURL.calculateRouteDirections(aborter, [startPoint, endPoint], {
+                maxAlternatives: 0,
+                instructionsType: 'text',
+                traffic: true
+            });
+
+            if (!routeResponse || routeResponse.routes.length === 0) {
+                alert('Unable to calculate route.');
+                return;
+            }
+
+            var route = routeResponse.routes[0];
+
+            var routeCoordinates = [];
+            for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
+                var leg = route.legs[legIndex];
+
+                //Convert the route point data into a format that the map control understands.
+                var legCoordinates = leg.points.map(function (point) {
+                    return [point.longitude, point.latitude];
+                });
+
+                //Combine the route point data for each route leg together to form a single path.
+                routeCoordinates = routeCoordinates.concat(legCoordinates);
+            }
+
+            //Create a line from the route path points and add it to the data source.
+            routeLine = new atlas.data.LineString(routeCoordinates);
+
+            //Display the route line on the map.
+            datasource.add(routeLine);
+
+            //Have the map focus on the route.
+            map.setCamera({
+                bounds: atlas.data.BoundingBox.fromData(routeLine),
+                padding: 40
+            });
+
+            //Get search query options.
+            var query = document.getElementById('queryTbx').value;
+            var maxDetourTime = parseInt(document.getElementById('maxDetourTimeSlider').value);
+
+            //Search for POIs along route.
+            var poiResponse = await searchURL.searchAlongRoute(aborter, query, maxDetourTime, {
+                route: routeLine
+            }, {
+                limit: 20
+            });
+
+            //Render the waypoints on the map.
+            datasource.add(poiResponse.geojson.getFeatures());
+        }
+
+        function featureClicked(e) {
+            //Make sure the event occurred on a shape feature.
+            if (e.shapes && e.shapes.length > 0) {
+                //Get the properties of the feature.
+                var properties = e.shapes[0].getProperties();
+
+                //Set the content and position of the popup.
+                popup.setOptions({
+                    //Update the content of the popup.
+                    content: atlas.PopupTemplate.applyTemplate(properties, {
+                        //Since there is a lot of content, and we trust the content, don't sandbox it. Sandboxing limits the amount of data that can be rendered in the popup.
+                        sandboxContent: false
+                    }),
+
+                    //Update the position of the popup with the pins coordinate.
+                    position: e.shapes[0].getCoordinates()
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
+        <table>
+            <tr>
+                <td>Start: </td>
+                <td><input type="text" id="startTbx" value="Seattle" /></td>
+            </tr>
+            <tr>
+                <td>End: </td>
+                <td><input type="text" id="endTbx" value="Redmond" /></td>
+            </tr>
+            <tr><td colspan="2"><b>Search options</b></td></tr>
+            <tr>
+                <td>Query:</td>
+                <td><input type="text" id="queryTbx" value="pizza"/></td>
+            </tr>
+            <tr>
+                <td>Max detour time (seconds)</td>
+                <td>
+                    <form oninput="mdt.value=maxDetourTimeSlider.value">
+                        <input type="range" id="maxDetourTimeSlider" value="300" min="0" max="3600" step="60"/>
+                        <output name="mdt" for="maxDetourTimeSlider">300</output>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="Calculate Route" onclick="calculateRoute()" /></td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Search for POIs along route</h1></legend>
+        This sample shows how to retrieve points of interest along a route.        
+    </fieldset>
+</body>
+</html>

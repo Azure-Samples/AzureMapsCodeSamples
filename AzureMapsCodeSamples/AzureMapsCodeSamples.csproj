@@ -423,6 +423,7 @@
     <Content Include="REST Services\Elevation path gradient.html" />
     <Content Include="REST Services\Elevations by bounding box.html" />
     <Content Include="REST Services\Get elevation at position.html" />
+    <Content Include="Services Module\Search for POIs along route.html" />
     <Content Include="SiteResources\screenshots\3D-Elevation-profiles.jpg" />
     <Content Include="SiteResources\screenshots\Allow-map-panning-with-drawing-tools.gif" />
     <Content Include="SiteResources\screenshots\Azure-Maps-Leaflet-options.jpg" />
@@ -443,6 +444,7 @@
     <Content Include="SiteResources\screenshots\Pie-chart-HTML-marker-options.jpg" />
     <Content Include="SiteResources\screenshots\Polygon-masks.jpg" />
     <Content Include="SiteResources\screenshots\Raster-tiles-in-GeoJS.jpg" />
+    <Content Include="SiteResources\screenshots\Search-for-POIs-along-route.jpg" />
     <Content Include="SiteResources\screenshots\Select-shapes-with-selection-control.jpg" />
     <Content Include="SiteResources\screenshots\Show-Azure-Maps-in-Leaflet-layer-control.jpg" />
     <Content Include="SiteResources\screenshots\Show-points-of-gridded-data-source.jpg" />
