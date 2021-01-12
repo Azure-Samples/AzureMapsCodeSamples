@@ -2221,6 +2221,15 @@ var sampleList = [
 	desc:'As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these.',
 	samples: [
 		{
+			title:'Azure Maps Leaflet options',
+			desc:'This sample shows how the different options of Azure Maps tile layer can be used in the Leaflet JS map control.',
+			path:'Third%20Party%20Map%20Controls/Azure%20Maps%20Leaflet%20options.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20Leaflet%20options.html',
+			screenshot:'Azure-Maps-Leaflet-options.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js, leafletjs',
+			created:'1/11/2021'
+		},
+		{
 			title:'Raster Tiles in ArcGIS JS',
 			desc:'This sample shows how to render Azure Maps Raster Tiles in the ArcGIS JavaScript map control.',
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS.html',
@@ -2239,21 +2248,21 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
-			title:'Raster Tiles in Leaflet JS',
-			desc:'This sample shows how to render Azure Maps Raster Tiles in the Leaflet JS map control.',
-			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
-			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Leaflet%20JS.html',
-			screenshot:'Raster-Tiles-in-Leaflet-JS.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js',
-			created:'9/23/2018'
-		},
-		{
 			title:'Raster Tiles in OpenLayers',
 			desc:'This sample shows how to render Azure Maps Raster Tiles in the OpenLayers map control.',
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
 			screenshot:'Raster-Tiles-in-OpenLayers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, tiles, open layers, openlayers',
+			created:'9/23/2018'
+		},
+		{
+			title:'Render Azure Maps in Leaflet',
+			desc:'This sample shows how to render Azure Maps Raster Tiles in the Leaflet JS map control.',
+			path:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20Leaflet.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20Leaflet.html',
+			screenshot:'Render-Azure-Maps-in-Leaflet.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js, leafletjs',
 			created:'9/23/2018'
 		},
 		{
@@ -2264,6 +2273,15 @@ var sampleList = [
 			screenshot:'Satellite-Imagery-in-OpenLayers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
 			created:'11/14/2018'
+		},
+		{
+			title:'Show Azure Maps in Leaflet layer control',
+			desc:'This sample shows how to create add all the different Azure Maps tile layers to the layer control in leaflet.',
+			path:'Third%20Party%20Map%20Controls/Show%20Azure%20Maps%20in%20Leaflet%20layer%20control.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Show%20Azure%20Maps%20in%20Leaflet%20layer%20control.html',
+			screenshot:'Show-Azure-Maps-in-Leaflet-layer-control.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js, leafletjs',
+			created:'1/11/2021'
 		},
 	]
 },
@@ -2434,4 +2452,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 254;
+}];var numberOfSamples = 256;

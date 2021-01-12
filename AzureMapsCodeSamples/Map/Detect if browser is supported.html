@@ -35,17 +35,13 @@
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
                     //Use Azure Active Directory authentication.
-                    authType: "anonymous",
-                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Maps Azure Active Directory account client id.
+                    authType: 'anonymous',
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
                         var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
 
-                        fetch(tokenServiceUrl).then(function (response) {
-                            return response.text();
-                        }).then(function (token) {
-                            resolve(token);
-                        });
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
 
                     //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
@@ -75,7 +71,7 @@
             <li>Show an error message and recommend the user tries a more modern browser.</li>
             <li>If the map part of a page that has a lot of other content, consider hiding the map div.</li>
             <li>If showing a smaller data set on the map, consider generating a static map image using the <a href="https://docs.microsoft.com/azure/azure-maps/how-to-render-custom-data" target="_blank">Azure Maps Render service</a></li>
-            <li>Write additional code to fallback to a legacy browser such as <a href="/Third Party Map Controls/Raster Tiles in Leaflet JS.html" target="_blank">Leaflet</a>.</li>
+            <li>Write additional code to fallback to a legacy browser such as <a href="/Third Party Map Controls/Render Azure Maps in Leaflet.html" target="_blank">Leaflet</a>.</li>
         </ul>
     </fieldset>
 </body>
