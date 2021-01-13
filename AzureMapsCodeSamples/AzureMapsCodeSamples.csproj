@@ -375,7 +375,6 @@
     <Content Include="Common\scripts\geojson-path-finder.js" />
     <Content Include="Common\scripts\GeoJS\geo.min.js" />
     <Content Include="Common\scripts\lozad.min.js" />
-    <Content Include="Common\scripts\Select shapes with selection control.html" />
     <Content Include="Common\scripts\shp.min.js" />
     <Content Include="Controls\Bring Data Into View Control.html" />
     <Content Include="Controls\Map Style Picker.html" />
