@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Accessible shape selection - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add keyboard selection support to shapes by leveraging hidden popups." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, popups, infobox, infowindow, events, mouse, accessibility" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, lineHoverLayer
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-110, 50],
+                zoom: 2,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering a different color outline of a polygon for representing a hover state.
+                lineHoverLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'red',
+                    strokeWidth: 5,
+
+                    //Don't highlight polygons by setting the filter to a shape that has no ID value. 
+                    //All shapes in a data source are assigned a unique "_azureMapsShapeId" property value. This is the same as the ID of the shape.
+                    filter: ['==', ['get', '_azureMapsShapeId'], '']
+                });
+
+                map.layers.add([
+                    //Create a layer to render the polygon data.
+                    new atlas.layer.PolygonLayer(datasource),
+
+                    //Add a layer for rendering the styled outline of the polygon data.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'white',
+                        strokeWidth: 1
+                    }),
+
+                    lineHoverLayer
+                ], 'labels');
+
+                //Download a GeoJSON feed and add the data to the data source.
+                datasource.importDataFromUrl('/Common/data/geojson/US_States_Population_Density.json').then(() => {
+                    //Loop through all shapes in the data source, create a popup that can be used to power keyboard tabbing through shapes.
+                    var shapes = datasource.getShapes();      
+                                        
+                    shapes.forEach(shape => {
+                        //Get the properties on the shape.
+                        var props = shape.getProperties();
+
+                        //Create a popup.
+                        var popup = new atlas.Popup({
+                            //Add content that you want the screen reader to read out.
+                            content: `<div style='clip:rect(1px,1px,1px,1px);height:1px;width:1px;position:absolute' aria-label="Description">Name ${props.name}. Population density ${props.density}</div>`,
+                            
+                            //Since the popup won't be visible, it can be displayed anywhere.
+                            position: [0, 0],
+
+                            //Hide the pointer.
+                            showPointer: false,
+
+                            //Hide the close button, otherwise the user will have to press tab twice to move on to the next popup.
+                            closeButton: false
+                        });
+
+                        //Store the ID of the shape that this popup is for so that we can use it later to retrieve the shape reference.
+                        popup.properties = {
+                            shapeId: shape.getId()
+                        };
+
+                        //Add the close event before the open event on the popup so that the close event fires first.
+                        map.events.add('close', popup, popupClosed);
+                        map.events.add('open', popup, popupOpened);
+
+                        //Add the popup to the map.
+                        map.popups.add(popup);
+                    });
+                });
+            });
+        }
+
+        function popupOpened(e) {
+            var id = e.target.properties.shapeId;
+
+            //Get the shape that has the specified ID.
+            var shape = datasource.getShapeById(id);
+
+            //Show content for the shape in the display panel.
+            displayContent(shape);
+
+            //Highlight a polygon by setting the line filter such that the "_azureMapsShapeId" property value is the id of the shape to be highlighted.
+            lineHoverLayer.setOptions({ filter: ['==', ['get', '_azureMapsShapeId'], id] });
+        }
+
+        function popupClosed(e) {
+            //Don't highlight polygons by setting the filter to a shape that has no ID value. 
+            lineHoverLayer.setOptions({ filter: ['==', ['get', '_azureMapsShapeId'], ''] });
+
+            //Hide the display panel.
+            document.getElementById('displayPanel').style.display = 'none';
+        }
+
+        function displayContent(shape) {
+            //Get the properties on the shape.
+            var props = shape.getProperties();
+
+            var displayPanel = document.getElementById('displayPanel');
+
+            //Create the content for the display panel based on the properties of the shape.
+            displayPanel.innerHTML = `<b>${props.name}</b><br/><br/>Population density: ${props.density}`;
+
+            //Show the display panel.
+            displayPanel.style.display = '';
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="displayPanel" style="position:absolute;top:10px;left:10px;background:white;padding:5px;border-radius:5px;display:none;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Accessible shape selection</h1></legend>
+        This sample shows how to add keyboard selection support to shapes by leveraging hidden popups. 
+        To make things a bit more advanced, rather than simply displaying a popup, this sample displays the content in a custom display panel.
+        Use the tab key to step through the shapes on the map.
+
+        <br /><br />
+        Ideas to take things further;
+        <ul>
+            <li>
+                Sort the polygons based on their most north western coordinate.
+                This will make it so the tab order, when the map isn't rotated is left to right, top to bottom.'
+            </li>
+            <li>
+                Set a limit to the number of popup's that are created. After a couple hundred popups the page will slow down. 
+                Additionally, users likely won't want to have to tab through hundreds of shapes. 
+                Consider creating/removing popups after the map has been moved and only creating those that are closest to the center of the map.
+            </li>
+        </ul>
+    </fieldset>
+</body>
+</html>

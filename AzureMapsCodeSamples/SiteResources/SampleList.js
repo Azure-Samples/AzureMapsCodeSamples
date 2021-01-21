@@ -1369,6 +1369,15 @@ var sampleList = [
 			created:'11/20/2019'
 		},
 		{
+			title:'Accessible shape selection',
+			desc:'This sample shows how to add keyboard selection support to shapes by leveraging hidden popups.',
+			path:'Popups/Accessible%20shape%20selection.html',
+			sourcePath:'Popups/Accessible%20shape%20selection.html',
+			screenshot:'Accessible-shape-selection.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse, accessibility',
+			created:'1/21/2021'
+		},
+		{
 			title:'Customize a popup',
 			desc:'This sample shows how to customize the look of a popup.',
 			path:'Popups/Customize%20a%20popup.html',
@@ -1496,7 +1505,7 @@ var sampleList = [
 			desc:'This sample shows how to retrieve elevation data along a route path, and then render each data point as a colored bubble based on its elevation.',
 			path:'REST%20Services/Elevation%20along%20a%20route.html',
 			sourcePath:'REST%20Services/Elevation%20along%20a%20route.html',
-			screenshot:'',
+			screenshot:'Elevation-along-a-route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, elevation, elevations',
 			created:'1/5/2021'
 		},
@@ -2461,4 +2470,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 257;
+}];var numberOfSamples = 258;

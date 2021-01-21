@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-01-12</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-01-21</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -144,6 +144,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Show%20points%20of%20gridded%20data%20source.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Polygon%20and%20Polygon%20Extrusion%20Layers/Simple%20MultiPolygon.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Accessible%20popups.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Accessible%20shape%20selection.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Customize%20a%20popup.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20events.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Popups/Popup%20templates.html</loc></url>

@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Polygon Hover Style - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a hover effect on a polygon layer." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, polygon, layer, hover, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, datasource, hoveredStateId;
+
+        //Hack: All shapes in a data source are assigned a unique "_azureMapsShapeId" property value. This is the same as the ID of the shape. 
+        var promoteId = '_azureMapsShapeId';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+
+                /* HACK: start: override _buildSource function so we can include the promoteId option. */
+                var json = datasource._buildSource();
+
+                datasource._buildSource = function () {
+                    json.promoteId = promoteId;//{ 'Traffic flow': promoteId };
+                    return json;
+                };
+                /* HACK: end */
+
+                //Add data source to the map.
+                map.sources.add(datasource);
+
+                //Add a layer for rendering filled polygon area.
+                var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: [
+                        'case',
+
+                        //HACK: Using the undocumented feature-state expression.
+                        //Check the feature state to see if the "hover" state has been set. Default to false if state isn't set on the feature.
+                        ['boolean', ['feature-state', 'hover'], false],
+
+                        //The color to use if hovered
+                        'red',
+
+                        //Default color for all other polygons.
+                        'blue'
+                    ]
+                });
+
+                //Add the layer to be map, but render it below the labels.
+                map.layers.add(polygonLayer, 'labels');
+
+                map.events.add('mousemove', polygonLayer, function (e) {
+                    //Reset any features that have 
+                    if (hoveredStateId) {
+                        //HACK: Calling underlying functionality that's not documented to set feature state.
+                        map.map.setFeatureState(
+                            { source: datasource.getId(), id: hoveredStateId },
+                            { hover: false }
+                        );
+                    }
+
+                    var shape = e.shapes[0];
+                    hoveredStateId = shape.getId();
+
+                    //HACK: Calling underlying functionality that's not documented to set feature state.
+                    map.map.setFeatureState(
+                        { source: datasource.getId(), id: hoveredStateId },
+                        { hover: true }
+                    );
+                });
+
+                // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
+                map.events.add('mouseleave', polygonLayer, function (e) {
+                    if (hoveredStateId) {
+                        //HACK: Calling underlying functionality that's not documented to set feature state.
+                        map.map.setFeatureState(
+                            { source: datasource.getId(), id: hoveredStateId },
+                            { hover: false }
+                        );
+                    }
+                    hoveredStateId = null;
+                });
+
+                //Add a test shape.
+                datasource.add(new atlas.data.Polygon([[[-50, -20], [0, 40], [50, -20], [-50, -20]]]));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Polygon Hover Style</h1></legend>
+        This sample shows how to create a hover effect on a polygon layer.
+        The basic principal is to have two layers, one for rendering all data, and a seconded layer that only renders
+        the shape being hovered. A filter is used on the hover layer based on a unique property on each shape,
+        in this case a "GEO_ID" property.
+    </fieldset>
+</body>
+</html>
