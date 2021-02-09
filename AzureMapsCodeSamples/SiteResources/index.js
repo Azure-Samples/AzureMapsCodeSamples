@@ -63,7 +63,8 @@ window.onload = function () {
             'Azure%20Maps%20Raster%20Tiles%20in%20Leaflet%20JS': 'Raster%20Tiles%20in%20Leaflet%20JS',
             'Mini%20Overview%20Map': 'Mini%20overview%20map',
             'Raster%2Tiles%2in%2ArcGIS%2JS%24.6': 'Raster%2Tiles%2in%2ArcGIS%2JS',
-            'Raster%20Tiles%20in%20Leaflet%20JS': 'Render%20Azure%20Maps%20in%20Leaflet'
+            'Raster%20Tiles%20in%20Leaflet%20JS': 'Render%20Azure%20Maps%20in%20Leaflet',
+            'Raster%20Tiles%20in%20Cesium%20JS': 'Render%20Azure%20Maps%20in%20Cesium'
         };
 
         var redirect = sampleRedirects[hash];

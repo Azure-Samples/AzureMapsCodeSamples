@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Render Azure Maps in Cesium - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to render Azure Maps as an imagery provider in the Cesium JS map control." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, raster, cesium, cesium.js" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the CesiumJS Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://cesiumjs.org/releases/1.77/Build/Cesium/Widgets/widgets.css" type="text/css" />
+    <script src="https://cesiumjs.org/releases/1.77/Build/Cesium/Cesium.js"></script>
+
+    <!-- Add reference to the Azure Maps Cesium plugin. -->
+    <script src="../Common/scripts/azure-maps-cesium.min.js"></script>
+
+    <script type='text/javascript'>
+        var viewer;
+
+        function GetMap() {
+            //Create a map instance.
+            viewer = new Cesium.Viewer('myMap', {
+                //Create an Azure Maps imagery provider for the base road tileset. 
+                imageryProvider: new Cesium.AzureMapsImageryProvider({
+                    //Add authentication details for connecting to Azure Maps.
+                    authOptions: {
+                        //Use Azure Active Directory authentication.
+                        authType: 'anonymous',
+                        clientId: '04ec075f-3827-4aed-9975-d56301a2d663', //Your Azure Active Directory client id for accessing your Azure Maps account.
+                        getToken: function (resolve, reject, map) {
+                            //URL to your authentication service that retrieves an Azure Active Directory Token.
+                            var tokenServiceUrl = 'https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx';
+
+                            fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                        }
+
+                        //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                        //authType: 'subscriptionKey',
+                        //subscriptionKey: '<Your Azure Maps Key>'
+                    },
+
+                    //Set the tilesetId to display as the imagery provider.
+                    tilesetId: 'microsoft.base.road',
+
+                    //Optional: set the language of the map labels.
+                    //language: 'fr-FR',
+
+                    //Optional: set the geopolitical view of the map.
+                    //view: 'Auto',
+                    
+                    //Optional: if using a weather layer, specify a timestamp to get recent or forecast data.
+                    //timeStamp: '2019-11-14T16:03:00-08:00'
+                }),
+                
+                //Disable the base layer picker and geocoder by default.
+                baseLayerPicker: false,
+                geocoder: false
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>
+            <h1 style="font-size:16px">Render Azure Maps in Cesium</h1>
+        </legend>
+        This sample shows how to render Azure Maps as an imagery provider in the Cesium JS map control.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-cesium" target="_blank">Azure Maps Cesium JS plugin</a>.
+    </fieldset>
+</body>
+</html>

@@ -37,7 +37,7 @@
                 layers: [
                     new ol.layer.Tile({
                         source: new ol.source.XYZ({
-                            url: 'https://atlas.microsoft.com/map/tile?api-version=2.0&tilesetId=microsoft.imagery&zoom={z}&x={x}&y={y}&tileSize=256&view={view}',
+                            url: 'https://atlas.microsoft.com/map/tile?api-version=2.0&tilesetId=microsoft.imagery&zoom={z}&x={x}&y={y}&tileSize=256',
                             attributions: `© ${new Date().getFullYear()} DigitalGlobe, Microsoft`,
 
                             //Create a custom tile load function that will append Azure Active Directory headers to tile requests.

@@ -353,6 +353,7 @@
     <Content Include="Common\images\icons\weather-black\8.png" />
     <Content Include="Common\scripts\azure-maps-animations.min.js" />
     <Content Include="Common\scripts\azure-maps-bring-data-into-view-control.min.js" />
+    <Content Include="Common\scripts\azure-maps-cesium.min.js" />
     <Content Include="Common\scripts\azure-maps-fullscreen-control.min.js" />
     <Content Include="Common\scripts\azure-maps-geolocation-control.min.js" />
     <Content Include="Common\scripts\azure-maps-gridded-data-source.min.js" />
@@ -428,6 +429,7 @@
     <Content Include="SiteResources\screenshots\3D-Elevation-profiles.jpg" />
     <Content Include="SiteResources\screenshots\Accessible-shape-selection.jpg" />
     <Content Include="SiteResources\screenshots\Allow-map-panning-with-drawing-tools.gif" />
+    <Content Include="SiteResources\screenshots\Azure-Maps-Cesium-options.jpg" />
     <Content Include="SiteResources\screenshots\Azure-Maps-Leaflet-options.jpg" />
     <Content Include="SiteResources\screenshots\Calculate-concentric-isochrones.jpg" />
     <Content Include="SiteResources\screenshots\Create-3D-isobands-from-isolines.jpg" />
@@ -448,6 +450,7 @@
     <Content Include="SiteResources\screenshots\Raster-tiles-in-GeoJS.jpg" />
     <Content Include="SiteResources\screenshots\Search-for-POIs-along-route.jpg" />
     <Content Include="SiteResources\screenshots\Select-shapes-with-selection-control.jpg" />
+    <Content Include="SiteResources\screenshots\Show-Azure-Maps-in-Cesium-BaseLayerPicker.jpg" />
     <Content Include="SiteResources\screenshots\Show-Azure-Maps-in-Leaflet-layer-control.jpg" />
     <Content Include="SiteResources\screenshots\Show-points-of-gridded-data-source.jpg" />
     <Content Include="SiteResources\screenshots\Swipe-map-with-fullscreen-support.jpg" />
@@ -632,7 +635,7 @@
     <Content Include="SiteResources\screenshots\Popups-with-leader-lines.jpg" />
     <Content Include="SiteResources\screenshots\Pulse-animation-with-bubble-layer.gif" />
     <Content Include="SiteResources\screenshots\Raster-Tiles-in-ArcGIS-JS.jpg" />
-    <Content Include="SiteResources\screenshots\Raster-Tiles-in-Cesium-JS.jpg" />
+    <Content Include="SiteResources\screenshots\Render-Azure-Maps-in-Cesium.jpg" />
     <Content Include="SiteResources\screenshots\Render-Azure-Maps-in-Leaflet.jpg" />
     <Content Include="SiteResources\screenshots\Raster-Tiles-in-OpenLayers.jpg" />
     <Content Include="SiteResources\screenshots\Read-and-write-Well-Known-Text.jpg" />
@@ -829,8 +832,11 @@
     <Content Include="HTML Markers\Simple HTML Marker.html" />
     <Content Include="HTML Markers\HTML Marker with Custom SVG Template.html" />
     <Content Include="Symbol Layer\Formatted text field.html" />
+    <Content Include="Third Party Map Controls\Azure Maps Cesium options.html" />
     <Content Include="Third Party Map Controls\Azure Maps Leaflet options.html" />
+    <Content Include="Third Party Map Controls\Render Azure Maps in Cesium.html" />
     <Content Include="Third Party Map Controls\Satellite Imagery in OpenLayers.html" />
+    <Content Include="Third Party Map Controls\Show Azure Maps in Cesium BaseLayerPicker.html" />
     <Content Include="Third Party Map Controls\Show Azure Maps in Leaflet layer control.html" />
     <Content Include="Tile Layers\WMS Tile Layer.html" />
     <Content Include="Tile Layers\WMTS Tile Layer.html" />
@@ -988,7 +994,6 @@
     <Content Include="Symbol Layer\Styled Symbol Layer.html" />
     <Content Include="template.html" />
     <Content Include="Third Party Map Controls\Raster Tiles in ArcGIS JS.html" />
-    <Content Include="Third Party Map Controls\Raster Tiles in Cesium JS.html" />
     <Content Include="Third Party Map Controls\Render Azure Maps in Leaflet.html" />
     <Content Include="Third Party Map Controls\Raster Tiles in OpenLayers.html" />
     <Content Include="Traffic\Traffic Overlay Options.html" />

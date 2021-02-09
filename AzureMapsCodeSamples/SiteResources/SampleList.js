@@ -2239,6 +2239,15 @@ var sampleList = [
 	desc:'As good as the Azure Maps Web Control is, there are many 3rd party map controls in which you can import Azure Maps data into which is a great option if you have an existing app built on one of these.',
 	samples: [
 		{
+			title:'Azure Maps Cesium options',
+			desc:'This sample shows how the different options of the Azure Maps imagery provider class can be used in the Cesium JS map control.',
+			path:'Third%20Party%20Map%20Controls/Azure%20Maps%20Cesium%20options.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20Cesium%20options.html',
+			screenshot:'Azure-Maps-Cesium-options.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
+			created:'2/9/2021'
+		},
+		{
 			title:'Azure Maps Leaflet options',
 			desc:'This sample shows how the different options of Azure Maps tile layer can be used in the Leaflet JS map control.',
 			path:'Third%20Party%20Map%20Controls/Azure%20Maps%20Leaflet%20options.html',
@@ -2257,15 +2266,6 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
-			title:'Raster Tiles in Cesium JS',
-			desc:'This sample shows how to render Azure Maps Raster Tiles in the Cesium JS map control.',
-			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Cesium%20JS.html',
-			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20Cesium%20JS.html',
-			screenshot:'Raster-Tiles-in-Cesium-JS.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
-			created:'9/23/2018'
-		},
-		{
 			title:'Raster Tiles in OpenLayers',
 			desc:'This sample shows how to render Azure Maps Raster Tiles in the OpenLayers map control.',
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
@@ -2273,6 +2273,15 @@ var sampleList = [
 			screenshot:'Raster-Tiles-in-OpenLayers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, tiles, open layers, openlayers',
 			created:'9/23/2018'
+		},
+		{
+			title:'Render Azure Maps in Cesium',
+			desc:'This sample shows how to render Azure Maps as an imagery provider in the Cesium JS map control.',
+			path:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20Cesium.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20Cesium.html',
+			screenshot:'Render-Azure-Maps-in-Cesium.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
+			created:'2/9/2021'
 		},
 		{
 			title:'Render Azure Maps in Leaflet',
@@ -2291,6 +2300,15 @@ var sampleList = [
 			screenshot:'Satellite-Imagery-in-OpenLayers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
 			created:'11/14/2018'
+		},
+		{
+			title:'Show Azure Maps in Cesium BaseLayerPicker',
+			desc:'This sample shows how to show all the available Azure Maps tile layers as imagery providers in the Cesium base layer picker. ',
+			path:'Third%20Party%20Map%20Controls/Show%20Azure%20Maps%20in%20Cesium%20BaseLayerPicker.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Show%20Azure%20Maps%20in%20Cesium%20BaseLayerPicker.html',
+			screenshot:'Show-Azure-Maps-in-Cesium-BaseLayerPicker.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
+			created:'2/9/2021'
 		},
 		{
 			title:'Show Azure Maps in Leaflet layer control',
@@ -2470,4 +2488,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 258;
+}];var numberOfSamples = 260;
