@@ -360,6 +360,7 @@
     <Content Include="Common\scripts\azure-maps-html-marker-layer.min.js" />
     <Content Include="Common\scripts\azure-maps-image-exporter.min.js" />
     <Content Include="Common\scripts\azure-maps-leaflet.min.js" />
+    <Content Include="Common\scripts\azure-maps-openlayers.min.js" />
     <Content Include="Common\scripts\azure-maps-overview-map.min.js" />
     <Content Include="Common\scripts\azure-maps-scale-bar-control.min.js" />
     <Content Include="Common\scripts\azure-maps-selection-control.min.css" />
@@ -431,6 +432,7 @@
     <Content Include="SiteResources\screenshots\Allow-map-panning-with-drawing-tools.gif" />
     <Content Include="SiteResources\screenshots\Azure-Maps-Cesium-options.jpg" />
     <Content Include="SiteResources\screenshots\Azure-Maps-Leaflet-options.jpg" />
+    <Content Include="SiteResources\screenshots\Azure-Maps-OpenLayers-options.jpg" />
     <Content Include="SiteResources\screenshots\Calculate-concentric-isochrones.jpg" />
     <Content Include="SiteResources\screenshots\Create-3D-isobands-from-isolines.jpg" />
     <Content Include="SiteResources\screenshots\Create-isobands-from-isolines.jpg" />
@@ -453,6 +455,7 @@
     <Content Include="SiteResources\screenshots\Show-Azure-Maps-in-Cesium-BaseLayerPicker.jpg" />
     <Content Include="SiteResources\screenshots\Show-Azure-Maps-in-Leaflet-layer-control.jpg" />
     <Content Include="SiteResources\screenshots\Show-points-of-gridded-data-source.jpg" />
+    <Content Include="SiteResources\screenshots\Simple-Azure-Maps-layer-picker-for-OpenLayers.jpg" />
     <Content Include="SiteResources\screenshots\Swipe-map-with-fullscreen-support.jpg" />
     <Content Include="Spatial Math\Create 3D isobands from isolines.html" />
     <Content Include="Spatial Math\Data binning points with Turfjs.html" />
@@ -637,7 +640,7 @@
     <Content Include="SiteResources\screenshots\Raster-Tiles-in-ArcGIS-JS.jpg" />
     <Content Include="SiteResources\screenshots\Render-Azure-Maps-in-Cesium.jpg" />
     <Content Include="SiteResources\screenshots\Render-Azure-Maps-in-Leaflet.jpg" />
-    <Content Include="SiteResources\screenshots\Raster-Tiles-in-OpenLayers.jpg" />
+    <Content Include="SiteResources\screenshots\Render-Azure-Maps-in-OpenLayers.jpg" />
     <Content Include="SiteResources\screenshots\Read-and-write-Well-Known-Text.jpg" />
     <Content Include="SiteResources\screenshots\Read-Well-Known-Text.jpg" />
     <Content Include="SiteResources\screenshots\Render-world-copies.jpg" />
@@ -648,7 +651,7 @@
     <Content Include="SiteResources\screenshots\Route-range-control.jpg" />
     <Content Include="SiteResources\screenshots\Route-Waypoint-Optimization.jpg" />
     <Content Include="SiteResources\screenshots\route.jpg" />
-    <Content Include="SiteResources\screenshots\Satellite-Imagery-in-OpenLayers.jpg" />
+    <Content Include="SiteResources\screenshots\Azure-Maps-OpenLayers-satellite-labels.jpg" />
     <Content Include="SiteResources\screenshots\Search-Autosuggest-and-JQuery-UI.gif" />
     <Content Include="SiteResources\screenshots\Search-for-boundaries.jpg" />
     <Content Include="SiteResources\screenshots\search.jpg" />
@@ -834,10 +837,13 @@
     <Content Include="Symbol Layer\Formatted text field.html" />
     <Content Include="Third Party Map Controls\Azure Maps Cesium options.html" />
     <Content Include="Third Party Map Controls\Azure Maps Leaflet options.html" />
+    <Content Include="Third Party Map Controls\Azure Maps OpenLayers options.html" />
+    <Content Include="Third Party Map Controls\Azure Maps OpenLayers satellite labels.html" />
     <Content Include="Third Party Map Controls\Render Azure Maps in Cesium.html" />
-    <Content Include="Third Party Map Controls\Satellite Imagery in OpenLayers.html" />
+    <Content Include="Third Party Map Controls\Render Azure Maps in OpenLayers.html" />
     <Content Include="Third Party Map Controls\Show Azure Maps in Cesium BaseLayerPicker.html" />
     <Content Include="Third Party Map Controls\Show Azure Maps in Leaflet layer control.html" />
+    <Content Include="Third Party Map Controls\Simple Azure Maps layer picker for OpenLayers.html" />
     <Content Include="Tile Layers\WMS Tile Layer.html" />
     <Content Include="Tile Layers\WMTS Tile Layer.html" />
     <Content Include="Traffic\Traffic control options.html" />
@@ -995,7 +1001,6 @@
     <Content Include="template.html" />
     <Content Include="Third Party Map Controls\Raster Tiles in ArcGIS JS.html" />
     <Content Include="Third Party Map Controls\Render Azure Maps in Leaflet.html" />
-    <Content Include="Third Party Map Controls\Raster Tiles in OpenLayers.html" />
     <Content Include="Traffic\Traffic Overlay Options.html" />
     <Content Include="Traffic\Traffic Overlay.html" />
     <Content Include="Tutorials\truckRoute.html" />

@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Azure Maps layer picker for OpenLayers - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the create a simple layer picker for OpenLayers with all the different Azure Maps basemap and overlay tilesets." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, raster, imagery, satellite, aerial, tiles, Open Layers, OpenLayers" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the OpenLayers JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css" />
+
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+
+    <!-- Add reference to the Azure Maps OpenLayers plugin. -->
+    <script src="../Common/scripts/azure-maps-openlayers.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, baseMapLayer, overlayLayer;
+
+        function GetMap() {
+            //Add authentication details for connecting to Azure Maps.
+            var authOptions = {
+                //Use Azure Active Directory authentication.
+                authType: "anonymous",
+                clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                getToken: function (resolve, reject, map) {
+                    //URL to your authentication service that retrieves an Azure Active Directory Token.
+                    var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                    fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                }
+
+                //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //authType: 'subscriptionKey',
+                //subscriptionKey: '<Your Azure Maps Key>'
+            };
+
+            //Create a layer for rendering basemap tilesets.
+            baseMapLayer = new ol.layer.Tile({
+                source: new ol.source.AzureMaps({
+                    authOptions: authOptions,
+                    tilesetId: 'microsoft.base.road'
+                })
+            });
+
+            //Create a layer for rendering overlay type tilesets above the base map.
+            overlayLayer = new ol.layer.Tile({
+                source: new ol.source.AzureMaps({
+                    authOptions: authOptions
+                }),
+                opacity: 0.8,
+                visible: false
+            });
+
+            //Create a map instance.
+            map = new ol.Map({
+                target: 'myMap',
+                layers: [
+                    baseMapLayer,
+                    overlayLayer
+                ],
+                view: new ol.View({
+                    center: [0, 0],
+                    zoom: 2
+                })
+            });
+        }
+
+        function basemapUpdated(elm) {
+            var tilesetId = elm.options[elm.selectedIndex].value;
+
+            baseMapLayer.getSource().setTilesetId(tilesetId);
+        }
+
+        function overlayUpdated(elm) {
+            var tilesetId = elm.options[elm.selectedIndex].value;
+
+            if (!tilesetId || tilesetId === '') {
+                overlayLayer.setVisible(false);
+            } else {
+                overlayLayer.getSource().setTilesetId(tilesetId);
+                overlayLayer.setVisible(true);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;right:15px;border-radius:5px;background-color:#fff;padding:5px;z-index:1000">
+        <table>
+            <tr>
+                <td>Basemap:</td>
+                <td>
+                    <select onchange="basemapUpdated(this)">
+                        <option value="microsoft.base.road" selected="selected">Road</option>
+                        <option value="microsoft.base.darkgrey">Dark Grayscale</option>
+                        <option value="microsoft.imagery">Imagery</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Overlay:</td>
+                <td>
+                    <select onchange="overlayUpdated(this)">      
+                        <option></option>                               
+                        <option value="microsoft.base.hybrid.road">Road labels and lines (hybrid)</option> 
+                        <option value="microsoft.base.labels.road">Road labels</option>
+                        <option value="microsoft.traffic.flow.absolute">Traffic flow - absolute</option>
+                        <option value="microsoft.traffic.flow.reduced-sensitivity">Traffic flow - reduced-sensitivity</option>
+                        <option value="microsoft.traffic.flow.relative">Traffic flow - relative</option>
+                        <option value="microsoft.traffic.flow.relative-delay">Traffic flow - relative-delay</option>
+                        <option value="microsoft.traffic.incident.night">Traffic incident - night</option>
+                        <option value="microsoft.traffic.incident.s1">Traffic incident - s1</option>
+                        <option value="microsoft.traffic.incident.s2">Traffic incident - s2</option>
+                        <option value="microsoft.traffic.incident.s3">Traffic incident - s3</option>                        
+                        <option value="microsoft.weather.infrared.main">Weather - Infrared</option>
+                        <option value="microsoft.weather.radar.main">Weather - Radar</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>
+            <h1 style="font-size:16px">Simple Azure Maps layer picker for OpenLayers</h1>
+        </legend>
+        This sample shows how the create a simple layer picker for OpenLayers with all the different Azure Maps basemap and overlay tilesets.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-openlayers" target="_blank">Azure Maps OpenLayers plugin</a>.
+    </fieldset>
+</body>
+</html>

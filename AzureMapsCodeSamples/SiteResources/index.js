@@ -64,7 +64,9 @@ window.onload = function () {
             'Mini%20Overview%20Map': 'Mini%20overview%20map',
             'Raster%2Tiles%2in%2ArcGIS%2JS%24.6': 'Raster%2Tiles%2in%2ArcGIS%2JS',
             'Raster%20Tiles%20in%20Leaflet%20JS': 'Render%20Azure%20Maps%20in%20Leaflet',
-            'Raster%20Tiles%20in%20Cesium%20JS': 'Render%20Azure%20Maps%20in%20Cesium'
+            'Raster%20Tiles%20in%20Cesium%20JS': 'Render%20Azure%20Maps%20in%20Cesium',
+            'Raster%20Tiles%20in%20OpenLayers': 'Render%20Azure%20Maps%20in%20OpenLayers',
+            'Satellite%20Imagery%20in%20OpenLayers': 'Azure%20Maps%20OpenLayers%20satellite%20labels'
         };
 
         var redirect = sampleRedirects[hash];

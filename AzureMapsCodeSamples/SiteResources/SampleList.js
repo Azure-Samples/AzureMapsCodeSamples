@@ -2257,21 +2257,30 @@ var sampleList = [
 			created:'1/11/2021'
 		},
 		{
+			title:'Azure Maps OpenLayers options',
+			desc:'This sample shows how the different options of Azure Maps tile layer can be used in the OpenLayers map control.',
+			path:'Third%20Party%20Map%20Controls/Azure%20Maps%20OpenLayers%20options.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20OpenLayers%20options.html',
+			screenshot:'Azure-Maps-OpenLayers-options.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
+			created:'2/10/2021'
+		},
+		{
+			title:'Azure Maps OpenLayers satellite labels',
+			desc:'TThis sample shows how to render Azure Maps satellite imagery with labels overlaid in the OpenLayers map control.',
+			path:'Third%20Party%20Map%20Controls/Azure%20Maps%20OpenLayers%20satellite%20labels.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20OpenLayers%20satellite%20labels.html',
+			screenshot:'Azure-Maps-OpenLayers-satellite-labels.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
+			created:'2/10/2021'
+		},
+		{
 			title:'Raster Tiles in ArcGIS JS',
 			desc:'This sample shows how to render Azure Maps Raster Tiles in the ArcGIS JavaScript map control.',
 			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS.html',
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS.html',
 			screenshot:'Raster-Tiles-in-ArcGIS-JS.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, arcgis, esri',
-			created:'9/23/2018'
-		},
-		{
-			title:'Raster Tiles in OpenLayers',
-			desc:'This sample shows how to render Azure Maps Raster Tiles in the OpenLayers map control.',
-			path:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
-			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20OpenLayers.html',
-			screenshot:'Raster-Tiles-in-OpenLayers.jpg',
-			keywords:'microsoft maps, map, gis, api, sdk, raster, tiles, open layers, openlayers',
 			created:'9/23/2018'
 		},
 		{
@@ -2293,13 +2302,13 @@ var sampleList = [
 			created:'9/23/2018'
 		},
 		{
-			title:'Satellite Imagery in OpenLayers',
-			desc:'This sample shows how to render Azure Maps Satellite/Aerial imagery tiles in the OpenLayers map control.',
-			path:'Third%20Party%20Map%20Controls/Satellite%20Imagery%20in%20OpenLayers.html',
-			sourcePath:'Third%20Party%20Map%20Controls/Satellite%20Imagery%20in%20OpenLayers.html',
-			screenshot:'Satellite-Imagery-in-OpenLayers.jpg',
+			title:'Render Azure Maps in OpenLayers',
+			desc:'TThis sample shows how to render Azure Maps as a base map in the OpenLayers map control.',
+			path:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20OpenLayers.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20OpenLayers.html',
+			screenshot:'Render-Azure-Maps-in-OpenLayers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
-			created:'11/14/2018'
+			created:'2/10/2021'
 		},
 		{
 			title:'Show Azure Maps in Cesium BaseLayerPicker',
@@ -2318,6 +2327,15 @@ var sampleList = [
 			screenshot:'Show-Azure-Maps-in-Leaflet-layer-control.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js, leafletjs',
 			created:'1/11/2021'
+		},
+		{
+			title:'Simple Azure Maps layer picker for OpenLayers',
+			desc:'This sample shows how the create a simple layer picker for OpenLayers with all the different Azure Maps basemap and overlay tilesets.',
+			path:'Third%20Party%20Map%20Controls/Simple%20Azure%20Maps%20layer%20picker%20for%20OpenLayers.html',
+			sourcePath:'Third%20Party%20Map%20Controls/Simple%20Azure%20Maps%20layer%20picker%20for%20OpenLayers.html',
+			screenshot:'Simple-Azure-Maps-layer-picker-for-OpenLayers.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
+			created:'2/10/2021'
 		},
 	]
 },
@@ -2488,4 +2506,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 260;
+}];var numberOfSamples = 262;
