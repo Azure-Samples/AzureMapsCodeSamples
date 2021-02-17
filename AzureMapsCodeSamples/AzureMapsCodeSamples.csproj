@@ -380,6 +380,7 @@
     <Content Include="Common\scripts\shp.min.js" />
     <Content Include="Common\scripts\turf.min.js" />
     <Content Include="Controls\Bring Data Into View Control.html" />
+    <Content Include="Controls\Custom navigation controls.html" />
     <Content Include="Controls\Map Style Picker.html" />
     <Content Include="Controls\Route range control.html" />
     <Content Include="Controls\Select shapes with selection control.html" />
@@ -390,6 +391,7 @@
     <Content Include="Device Sensors\Geolocation control options.html" />
     <Content Include="Device Sensors\Geolocation control.html" />
     <Content Include="SiteResources\screenshots\Creator-indoor-maps.jpg" />
+    <Content Include="SiteResources\screenshots\Custom-navigation-controls.jpg" />
     <Content Include="Tutorials\Creator indoor maps.html" />
     <Content Include="Experimental\Feature states.html" />
     <Content Include="Popups\Accessible shape selection.html" />

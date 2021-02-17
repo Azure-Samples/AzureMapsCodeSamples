@@ -295,6 +295,15 @@ var sampleList = [
 			created:'11/5/2020'
 		},
 		{
+			title:'Custom navigation controls',
+			desc:'This sample shows how to create a set of map navigation controls that can be placed anywhere on the page.',
+			path:'Controls/Custom%20navigation%20controls.html',
+			sourcePath:'Controls/Custom%20navigation%20controls.html',
+			screenshot:'Custom-navigation-controls.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, controls, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery',
+			created:'2/17/2021'
+		},
+		{
 			title:'Fullscreen control options',
 			desc:'This sample shows all the options of the fullscreen control.',
 			path:'Controls/Fullscreen%20control%20options.html',
@@ -2515,4 +2524,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 263;
+}];var numberOfSamples = 264;
