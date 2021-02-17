@@ -2428,6 +2428,15 @@ var sampleList = [
 	desc:'These are the finished code samples for the tutorials in the Azure Maps documentation. You can find the full tutorial walkthroughs <a href="https://docs.microsoft.com/azure/azure-maps/" target="_blank">here</a>.',
 	samples: [
 		{
+			title:'Creator indoor maps',
+			desc:'This is a demo of the Azure Maps Creator indoor maps tutorial and the how-to implementation for the Azure Maps Web SDK.',
+			path:'Tutorials/Creator%20indoor%20maps.html',
+			sourcePath:'Tutorials/Creator%20indoor%20maps.html',
+			screenshot:'Creator-indoor-maps.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, creator, indoor maps, indoor, building',
+			created:'2/16/2021'
+		},
+		{
 			title:'Interactive Search Quickstart',
 			desc:'This tutorial shows how to create an interactive search experience.',
 			path:'Tutorials/interactiveSearch.html',
@@ -2506,4 +2515,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 262;
+}];var numberOfSamples = 263;

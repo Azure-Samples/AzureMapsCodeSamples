@@ -378,6 +378,7 @@
     <Content Include="Common\scripts\GeoJS\geo.min.js" />
     <Content Include="Common\scripts\lozad.min.js" />
     <Content Include="Common\scripts\shp.min.js" />
+    <Content Include="Common\scripts\turf.min.js" />
     <Content Include="Controls\Bring Data Into View Control.html" />
     <Content Include="Controls\Map Style Picker.html" />
     <Content Include="Controls\Route range control.html" />
@@ -388,6 +389,8 @@
     <Content Include="Controls\Spyglass module options.html" />
     <Content Include="Device Sensors\Geolocation control options.html" />
     <Content Include="Device Sensors\Geolocation control.html" />
+    <Content Include="SiteResources\screenshots\Creator-indoor-maps.jpg" />
+    <Content Include="Tutorials\Creator indoor maps.html" />
     <Content Include="Experimental\Feature states.html" />
     <Content Include="Popups\Accessible shape selection.html" />
     <Content Include="REST Services\3D Elevation profiles.html" />

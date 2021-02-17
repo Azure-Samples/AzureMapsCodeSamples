@@ -134,108 +134,117 @@
             This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-overview-map" target="_blank">Azure Maps Overview Map Control module</a>.
 
             <br /><br />
-            <table>
-                <tr title="Specifies the type of information to overlay on top of the map.">
-                    <td>Overlay:</td>
-                    <td>
-                        <select onchange="setOverlay(this)">
-                            <option selected="selected">area</option>
-                            <option>marker</option>
-                            <option>none</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr id="markerOption" style="display:none;" title="Specifies if marker is draggable.">
-                    <td>Marker options<br />(draggable):</td>
-                    <td><input type="checkbox" onclick="setMarkerDraggable(this)" /></td>
-                </tr>
-                <tr title="The height of the overview map in pixels.">
-                    <td>Height</td>
-                    <td>
-                        <form oninput="h.value=height.value">
-                            <input type="range" id="height" value="150" min="32" max="300" step="1" onchange="sliderUpdated(this, 'height')" />
-                            <output name="h" for="height">150</output>
-                        </form>
-                    </td>
-                </tr>
-                <tr title="The width of the overview map in pixels.">
-                    <td>Width</td>
-                    <td>
-                        <form oninput="w.value=width.value">
-                            <input type="range" id="width" value="150" min="32" max="300" step="1" onchange="sliderUpdated(this, 'width')" />
-                            <output name="w" for="width">150</output>
-                        </form>
-                    </td>
-                </tr>
-                <tr title="The name of the style to use when rendering the map. ">
-                    <td>Map style:</td>
-                    <td>
-                        <select onchange="selectUpdated(this, 'mapStyle')">
-                            <option>grayscale_dark</option>
-                            <option>grayscale_light</option>
-                            <option>high_contrast_dark</option>
-                            <option>night</option>
-                            <option selected="selected">road</option>
-                            <option>road_shaded_relief</option>
-                            <option>satellite</option>
-                            <option>satellite_road_labels</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr title="The style of the control.">
-                    <td>Style:</td>
-                    <td>
-                        <select onchange="selectUpdated(this, 'style')">
-                            <option>auto</option>
-                            <option>auto-reverse</option>
-                            <option>dark</option>
-                            <option selected="selected">light</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr title="Specifies if zoom level changes should be synchronized.">
-                    <td>Sync zoom:</td>
-                    <td><input type="checkbox" onclick="setSyncZoom(this)" checked="checked" /></td>
-                </tr>
-                <tr id="zoomOption" style="display:none" title="Zoom level to set on overview map when not synchronizing zoom level changes.">
-                    <td>Zoom</td>
-                    <td>
-                        <form oninput="z.value=zoom.value">
-                            <input type="range" id="zoom" value="1" min="0" max="24" step="1" onchange="sliderUpdated(this, 'zoom')" />
-                            <output name="z" for="zoom">1</output>
-                        </form>
-                    </td>
-                </tr>
-                <tr title="The number of zoom levels to offset from the parent map zoom level when synchronizing zoom level changes.">
-                    <td>Zoom offset</td>
-                    <td>
-                        <form oninput="zo.value=zoomOffset.value">
-                            <input type="range" id="zoomOffset" value="-5" min="-8" max="3" step="1" onchange="sliderUpdated(this, 'zoomOffset')" />
-                            <output name="zo" for="zoomOffset">-5</output>
-                        </form>
-                    </td>
-                </tr>
-                <tr title="Specifies if bearing and pitch changes should be synchronized.">
-                    <td>Sync bearing pitch:</td>
-                    <td><input type="checkbox" onclick="checkboxUpdated(this, 'syncBearingPitch')" checked="checked" /></td>
-                </tr>
-                <tr title="Specifies if the overview map is interactive.">
-                    <td>Interactive:</td>
-                    <td><input type="checkbox" onclick="checkboxUpdated(this, 'interactive')" checked="checked" /></td>
-                </tr>
-                <tr title="Specifies if the overview map is minimized or not.">
-                    <td>Minimized:</td>
-                    <td><input type="checkbox" onclick="checkboxUpdated(this, 'minimized')" /></td>
-                </tr>
-                <tr title="Specifies if a toggle button for mininizing the overview map should be displayed or not.">
-                    <td>Show toggle:</td>
-                    <td><input type="checkbox" onclick="checkboxUpdated(this, 'showToggle')" checked="checked" /></td>
-                </tr>
-                <tr title="Specifies if the overview map control is visible or not.">
-                    <td>Visible:</td>
-                    <td><input type="checkbox" onclick="checkboxUpdated(this, 'visible')" checked="checked" /></td>
-                </tr>
-            </table>
+                  <table>
+                      <tr title="Specifies the type of information to overlay on top of the map.">
+                          <td>Overlay:</td>
+                          <td>
+                              <select onchange="setOverlay(this)">
+                                  <option selected="selected">area</option>
+                                  <option>marker</option>
+                                  <option>none</option>
+                              </select>
+                          </td>
+                      </tr>
+                      <tr id="markerOption" style="display:none;" title="Specifies if marker is draggable.">
+                          <td>Marker options<br />(draggable):</td>
+                          <td><input type="checkbox" onclick="setMarkerDraggable(this)" /></td>
+                      </tr>
+                      <tr title="The height of the overview map in pixels.">
+                          <td>Height</td>
+                          <td>
+                              <form oninput="h.value=height.value">
+                                  <input type="range" id="height" value="150" min="32" max="300" step="1" onchange="sliderUpdated(this, 'height')" />
+                                  <output name="h" for="height">150</output>
+                              </form>
+                          </td>
+                      </tr>
+                      <tr title="The width of the overview map in pixels.">
+                          <td>Width</td>
+                          <td>
+                              <form oninput="w.value=width.value">
+                                  <input type="range" id="width" value="150" min="32" max="300" step="1" onchange="sliderUpdated(this, 'width')" />
+                                  <output name="w" for="width">150</output>
+                              </form>
+                          </td>
+                      </tr>
+                      <tr title="The name of the style to use when rendering the map. ">
+                          <td>Map style:</td>
+                          <td>
+                              <select onchange="selectUpdated(this, 'mapStyle')">
+                                  <option>grayscale_dark</option>
+                                  <option>grayscale_light</option>
+                                  <option>high_contrast_dark</option>
+                                  <option>night</option>
+                                  <option selected="selected">road</option>
+                                  <option>road_shaded_relief</option>
+                                  <option>satellite</option>
+                                  <option>satellite_road_labels</option>
+                              </select>
+                          </td>
+                      </tr>
+                      <tr title="The style of the control.">
+                          <td>Style:</td>
+                          <td>
+                              <select onchange="selectUpdated(this, 'style')">
+                                  <option>auto</option>
+                                  <option>auto-reverse</option>
+                                  <option>dark</option>
+                                  <option selected="selected">light</option>
+                              </select>
+                          </td>
+                      </tr>
+                      <tr title="Specifies the shape of the overview map.">
+                          <td>Shape:</td>
+                          <td>
+                              <select onchange="selectUpdated(this, 'shape')">
+                                  <option selected="selected">square</option>
+                                  <option>round</option>
+                              </select>
+                          </td>
+                      </tr>
+                      <tr title="Specifies if zoom level changes should be synchronized.">
+                          <td>Sync zoom:</td>
+                          <td><input type="checkbox" onclick="setSyncZoom(this)" checked="checked" /></td>
+                      </tr>
+                      <tr id="zoomOption" style="display:none" title="Zoom level to set on overview map when not synchronizing zoom level changes.">
+                          <td>Zoom</td>
+                          <td>
+                              <form oninput="z.value=zoom.value">
+                                  <input type="range" id="zoom" value="1" min="0" max="24" step="1" onchange="sliderUpdated(this, 'zoom')" />
+                                  <output name="z" for="zoom">1</output>
+                              </form>
+                          </td>
+                      </tr>
+                      <tr title="The number of zoom levels to offset from the parent map zoom level when synchronizing zoom level changes.">
+                          <td>Zoom offset</td>
+                          <td>
+                              <form oninput="zo.value=zoomOffset.value">
+                                  <input type="range" id="zoomOffset" value="-5" min="-8" max="3" step="1" onchange="sliderUpdated(this, 'zoomOffset')" />
+                                  <output name="zo" for="zoomOffset">-5</output>
+                              </form>
+                          </td>
+                      </tr>
+                      <tr title="Specifies if bearing and pitch changes should be synchronized.">
+                          <td>Sync bearing pitch:</td>
+                          <td><input type="checkbox" onclick="checkboxUpdated(this, 'syncBearingPitch')" checked="checked" /></td>
+                      </tr>
+                      <tr title="Specifies if the overview map is interactive.">
+                          <td>Interactive:</td>
+                          <td><input type="checkbox" onclick="checkboxUpdated(this, 'interactive')" checked="checked" /></td>
+                      </tr>
+                      <tr title="Specifies if the overview map is minimized or not.">
+                          <td>Minimized:</td>
+                          <td><input type="checkbox" onclick="checkboxUpdated(this, 'minimized')" /></td>
+                      </tr>
+                      <tr title="Specifies if a toggle button for mininizing the overview map should be displayed or not.">
+                          <td>Show toggle:</td>
+                          <td><input type="checkbox" onclick="checkboxUpdated(this, 'showToggle')" checked="checked" /></td>
+                      </tr>
+                      <tr title="Specifies if the overview map control is visible or not.">
+                          <td>Visible:</td>
+                          <td><input type="checkbox" onclick="checkboxUpdated(this, 'visible')" checked="checked" /></td>
+                      </tr>
+                  </table>
 
             <p>
                 Additional ways to customize the overview map.<br /><br />

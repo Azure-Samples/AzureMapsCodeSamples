@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-02-10</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-02-16</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -255,6 +255,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20controls.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay%20Options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Traffic/Traffic%20Overlay.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/Creator%20indoor%20maps.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/interactiveSearch.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Tutorials/search.html</loc></url>
