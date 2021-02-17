@@ -59,11 +59,9 @@
         const pitchStep = 10;
 
         function pitchMap(offset) {
-            var cam = map.getCamera();
-
             map.setCamera({
                 //Pitch the map within the range of 0 - 60 degrees.
-                pitch: Math.max(0, Math.min(60, cam.pitch + offset * pitchStep)),
+                pitch: Math.max(0, Math.min(60, map.getCamera().pitch + offset * pitchStep)),
                 type: 'ease',
                 duration: 250
             })
@@ -73,10 +71,8 @@
         const bearingStep = 15;
 
         function rotateMap(offset) {
-            var cam = map.getCamera();
-
             map.setCamera({
-                bearing: cam.bearing + offset * bearingStep,
+                bearing: map.getCamera().bearing + offset * bearingStep,
                 type: 'ease',
                 duration: 250
             })
