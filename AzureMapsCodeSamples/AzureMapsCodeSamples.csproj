@@ -770,7 +770,7 @@
     <Content Include="Map\Map style options.html" />
     <Content Include="REST Services\Get weather along a route.html" />
     <Content Include="Symbol Layer\Image sprite fallback expression.html" />
-    <Content Include="Experimental\Load missing image into sprite.html" />
+    <Content Include="Symbol Layer\Load missing image into sprite.html" />
     <Content Include="Map\Add custom icon template to atlas namespace.html" />
     <Content Include="HTML Markers\All built-in icon templates as HTML markers.html" />
     <Content Include="Line Layer\Add arrows to end of paths.html" />

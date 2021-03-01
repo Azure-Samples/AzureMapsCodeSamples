@@ -2188,6 +2188,15 @@ var sampleList = [
 			created:'11/22/2019'
 		},
 		{
+			title:'Load missing image into sprite',
+			desc:'This sample shows how to add an event that fires when an image is missing from the maps image sprite, and then load in the missing image.',
+			path:'Symbol%20Layer/Load%20missing%20image%20into%20sprite.html',
+			sourcePath:'Symbol%20Layer/Load%20missing%20image%20into%20sprite.html',
+			screenshot:'',
+			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
+			created:'3/1/2021'
+		},
+		{
 			title:'Styled Symbol Layer',
 			desc:'This sample shows how to create a symbol layer and apply styles to it to customize how it renders each symbol.',
 			path:'Symbol%20Layer/Styled%20Symbol%20Layer.html',
@@ -2524,4 +2533,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 264;
+}];var numberOfSamples = 265;

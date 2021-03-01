@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Custom Symbol Image Icon - Azure Maps Web SDK Samples</title>
+    <title>Load missing image into sprite - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
 	<link rel="shortcut icon" href="/favicon.ico"/>
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to add a custom symbol icon to the map resources and then use it render point data with a custom symbol on the map." />
+    <meta name="description" content="This sample shows how to add an event that fires when an image is missing from the maps image sprite, and then load in the missing image." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, icon, image" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -17,8 +17,6 @@
 
     <script type='text/javascript'>
         var map, datasource;
-
-//TODO: waiting on https://github.com/mapbox/mapbox-gl-js/issues/8335
 
         function GetMap() {
             //Initialize a map instance.
@@ -47,12 +45,12 @@
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
-                var loaded = false;
+                var iconLoaded = {};
                 //Add an event to handle the situation when an image is missing from the sprite.
                 map.events.add('styleimagemissing', function (id) {
-                    if (!loaded) {
-                        loaded = true;
-                   
+                    //Check to see if the image is has been or is being loaded. Don't try and load the image multiple times.
+                    if (!iconLoaded[id]) {
+                        iconLoaded[id] = true;
                         //Load the custom image icon into the map resources.
                         map.imageSprite.add(id, '../Common/images/icons/showers.png').then();
                     }
@@ -92,8 +90,9 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">Custom Symbol Image Icon</h1></legend>
-        This sample shows how to add a custom symbol icon to the map resources and then use it to render point data with a custom symbol on the map.
+        <legend><h1 style="font-size:16px">Load missing image into sprite</h1></legend>
+        This sample shows how to add an event that fires when an image is missing from the maps image sprite, and then load in the missing image.
+        This is useful if loading different data feed that may rely on many different image icons and you don't want to have to load all of them ahead of time.
     </fieldset>
 </body>
 </html>

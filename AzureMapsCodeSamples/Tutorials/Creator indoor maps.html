@@ -63,14 +63,14 @@
                     statesetId: statesetId // Optional
                 });
 
-                if (statesetId.length > 0) {
-                    indoorManager.setDynamicStyling(true);
-                }
-
                 //Add a level control to the indoor manager.
                 indoorManager.setOptions({
                     levelControl: new atlas.control.LevelControl({ position: 'top-right' })
                 });
+
+                if (statesetId.length > 0) {
+                    indoorManager.setDynamicStyling(true);
+                }
 
                 //Add event for when the focused facility level changes.
                 map.events.add('levelchanged', indoorManager, (eventData) => {
