@@ -1006,6 +1006,15 @@ var sampleList = [
 			created:'11/5/2020'
 		},
 		{
+			title:'Fill viewport with single world',
+			desc:'TThis sample shows how to limit the map such that it renders only a single copy of the map and restricts panning and zooming to minimize any whitespace appearing around the map.',
+			path:'Map/Fill%20viewport%20with%20single%20world.html',
+			sourcePath:'Map/Fill%20viewport%20with%20single%20world.html',
+			screenshot:'',
+			keywords:'microsoft maps, map, gis, api, sdk, map, worldwrap, map options',
+			created:'3/9/2021'
+		},
+		{
 			title:'Full Screen Map',
 			desc:'This sample shows how to toggle between displaying the standard page layout, and a full screen map view.',
 			path:'Map/Full%20Screen%20Map.html',
@@ -2533,4 +2542,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 265;
+}];var numberOfSamples = 266;

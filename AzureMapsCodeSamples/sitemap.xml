@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-03-01</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-03-09</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -105,6 +105,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Detect%20if%20browser%20is%20supported.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Display%203D%20building%20footprints.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Export%20Map%20as%20Image.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Fill%20viewport%20with%20single%20world.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Full%20Screen%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Icon%20template%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Inspect%20features%20under%20the%20mouse.html</loc></url>

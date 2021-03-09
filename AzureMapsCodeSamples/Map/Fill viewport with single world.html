@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fill viewport with single world - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="TThis sample shows how to limit the map such that it renders only a single copy of the map and restricts panning and zooming to minimize any whitespace appearing around the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, map, worldwrap, map options" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type='text/javascript'>
+        var map;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                //Only render a single copy of the world.
+                renderWorldCopies: false,
+
+                //Set the min zoom level of the map.
+                minZoom: calculateMinZoom(),
+
+                //Limit panning to the single world.
+                maxBounds: [-180, -90, 180, 90],
+
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Add some data to the map so that we can see how the rendering of data also changes.
+            map.events.add('ready', function () {
+
+                //Add an event to monitor when the map resizes, and adjust the min zoom limt of the map.
+                map.events.add('resize', function () {
+                    var oldMinZoom = map.getCamera().minZoom;
+                    var newMinZoom = calculateMinZoom();
+
+                    if (oldMinZoom !== newMinZoom) {
+                        map.setCamera({ minZoom: newMinZoom })
+                    }
+                });
+            });
+        }
+
+        //Calculate the min zoom level needed to file the map viewport.
+        function calculateMinZoom() {
+            //Get the size of the map canvas.
+            var mapSize = document.getElementById('myMap').getBoundingClientRect();
+
+            //Get the max dimension.
+            var maxDim = Math.max(mapSize.width, mapSize.height);
+
+            //Determine the number of 512 pixel tiles required to fill max dimension.
+            var numTiles = maxDim / 512;
+
+            //Calculate the zoom level based on the tile pyramid: https://docs.microsoft.com/en-us/azure/azure-maps/zoom-levels-and-tile-grid
+            var zoom = Math.ceil(Math.log(numTiles) / Math.log(2));
+
+            return zoom;
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Fill viewport with single world</h1></legend>
+        This sample shows how to limit the map such that it renders only a single copy of the map and restricts panning and zooming to minimize any whitespace appearing around the map.
+    </fieldset>
+</body>
+</html>
