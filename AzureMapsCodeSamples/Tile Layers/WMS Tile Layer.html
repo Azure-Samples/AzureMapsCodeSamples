@@ -21,8 +21,6 @@
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-81.410866, 28.437791],
-                zoom: 11,
                 view: 'Auto',
 
                 //Add authentication details for connecting to Azure Maps.
@@ -48,9 +46,8 @@
                 //Create a tile layer and add it to the map below the transit layer so that roads appear above the layer.
                 //Note the bounding box placeholder in the tileUrl and the CRS set to EPSG:3857
                 map.layers.add(new atlas.layer.TileLayer({
-                    tileUrl: 'https://www.fws.gov/wetlands/arcgis/services/Wetlands_Raster/ImageServer/WMSServer?REQUEST=GetMap&SERVICE=WMS&VERSION=1.3.0&LAYERS=0&STYLES=default&FORMAT=image/png&TRANSPARENT=TRUE&CRS=EPSG:3857&BBOX={bbox-epsg-3857}&WIDTH=1024&HEIGHT=1024',
-                    tileSize: 1024,
-                    minSourceZoom: 10
+                    tileUrl: 'https://mrdata.usgs.gov/services/gscworld?FORMAT=image/png&HEIGHT=1024&LAYERS=geology&REQUEST=GetMap&STYLES=default&TILED=true&TRANSPARENT=true&WIDTH=1024&VERSION=1.3.0&SERVICE=WMS&CRS=EPSG:3857&BBOX={bbox-epsg-3857}',
+                    tileSize: 1024
                 }), 'transit');
             });
         }
@@ -63,7 +60,7 @@
         <legend><h1 style="font-size:16px">WMS Tile Layer</h1></legend>
         This sample shows how to create a tile layer which points to a Web Mapping Service (WMS).
         This method is a simple way to add WMTS onto the map, for a more robust option, take a look at the <a href="/index.html?search=wms">OGC Map Layer examples</a>.
-        The data in this sample comes from the <a href="https://www.fws.gov/wetlands/Data/Web-Map-Services.html" target="_blank">U.S. Fish & Wildlife Service</a>.
+        The data in this sample comes from the <a href="https://mrdata.usgs.gov/" target="_blank">U.S. Geological Survey (USGS)</a>.
     </fieldset>
 </body>
 </html>

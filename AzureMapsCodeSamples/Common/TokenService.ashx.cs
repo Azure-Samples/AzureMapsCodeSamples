@@ -13,7 +13,8 @@ namespace AzureMapsCodeSamples.Common
         /// </summary>
         /// <remarks>
         /// For the Web SDK to authorize correctly, you still must assign Azure role based access control for the managed identity
-        /// as explained in the readme.md. There is significant benefit which is outlined in the the readme.
+        /// as explained in the readme.md. There is significant benefit which is outlined in the the readme of the Azure-Maps-AzureAD-Samples project: https://github.com/Azure-Samples/Azure-Maps-AzureAD-Samples.
+        /// This sample makes use of the client grant method.
         /// </remarks>
         private static readonly AzureServiceTokenProvider tokenProvider = new AzureServiceTokenProvider();
 
