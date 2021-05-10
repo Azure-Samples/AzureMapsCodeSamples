@@ -1,0 +1,15 @@
+﻿{"type":"FeatureCollection","features":[
+{"type":"Feature","id":4,"geometry":{"type":"Point","coordinates":[-105.072334,40.581108]},"properties":{"name":"Station 1","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1722/636517782979970000"}},
+{"type":"Feature","id":22,"geometry":{"type":"Point","coordinates":[-105.040072,40.542962]},"properties":{"name":"Station 10","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1724/636517782982000000"}},
+{"type":"Feature","id":24,"geometry":{"type":"Point","coordinates":[-105.225611,40.566027]},"properties":{"name":"Station 11","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1726/636517782983570000"}},
+{"type":"Feature","id":26,"geometry":{"type":"Point","coordinates":[-105.071222,40.617491]},"properties":{"name":"Station 12","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1728/636517782984970000"}},
+{"type":"Feature","id":28,"geometry":{"type":"Point","coordinates":[-105.03871,40.496825]},"properties":{"name":"Station 14","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1730/636517782986530000"}},
+{"type":"Feature","id":6,"geometry":{"type":"Point","coordinates":[-105.106959,40.582845]},"properties":{"name":"Station 2","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1732/636517782988400000"}},
+{"type":"Feature","id":8,"geometry":{"type":"Point","coordinates":[-105.072081,40.561387]},"properties":{"name":"Station 3","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1734/636517782989800000"}},
+{"type":"Feature","id":10,"geometry":{"type":"Point","coordinates":[-105.113379,40.552368]},"properties":{"name":"Station 4","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1736/636517782991370000"}},
+{"type":"Feature","id":12,"geometry":{"type":"Point","coordinates":[-105.071222,40.523136]},"properties":{"name":"Station 5","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1738/636517782993070000"}},
+{"type":"Feature","id":14,"geometry":{"type":"Point","coordinates":[-105.030578,40.58556]},"properties":{"name":"Station 6","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1740/636517782994970000"}},
+{"type":"Feature","id":16,"geometry":{"type":"Point","coordinates":[-105.13839,40.627714]},"properties":{"name":"Station 7","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1742/636517782996970000"}},
+{"type":"Feature","id":18,"geometry":{"type":"Point","coordinates":[-104.975808,40.52038]},"properties":{"name":"Station 8","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1744/636517782999000000"}},
+{"type":"Feature","id":20,"geometry":{"type":"Point","coordinates":[-105.167943,40.519424]},"properties":{"name":"Station 9","imageUrl":"https://www.poudre-fire.org/home/showpublishedimage/1746/636517783001030000"}}
+]}

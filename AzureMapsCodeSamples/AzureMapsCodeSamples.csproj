@@ -147,6 +147,9 @@
     <Content Include="Common\data\geojson\Census Tracts in Colorado 2016.geojson" />
     <Content Include="Common\data\Kml\Poo Poo Point via High School Trail %28one-way track%29.kml" />
     <Content Include="Common\data\Gpx\race-gps-trace.gpx" />
+    <Content Include="Common\data\geojson\address_optimized.json" />
+    <Content Include="Common\data\geojson\fort_collins_fire_stations.json" />
+    <Content Include="Common\data\geojson\fort_collins_schools.json" />
     <None Include="Common\data\SpatialCSV\Airports.pipe" />
     <Content Include="Common\data\SpatialCSV\Chicago_Police_Stations.csv" />
     <Content Include="Common\data\SpatialCSV\Chicago_Bike_Racks.csv" />
@@ -250,6 +253,7 @@
     <Content Include="Common\images\fill-patterns\fill-grass-pattern.png" />
     <Content Include="Common\images\icons\campfire.png" />
     <Content Include="Common\images\icons\campground.png" />
+    <Content Include="Common\images\icons\fire_shield.png" />
     <Content Include="Common\images\icons\gas_station_pin.png" />
     <Content Include="Common\images\icons\grocery_cart_pin.png" />
     <Content Include="Common\images\icons\homegardenbusiness.png" />
@@ -391,11 +395,14 @@
     <Content Include="Device Sensors\Geolocation control options.html" />
     <Content Include="Device Sensors\Geolocation control.html" />
     <Content Include="Experimental\Disable pitch and rotation.html" />
+    <Content Include="Geospatial Files\GeoJSON file optimizer.html" />
     <Content Include="Map\Fill viewport with single world.html" />
     <Content Include="REST Services\Calculate slope direction.html" />
+    <Content Include="SiteResources\screenshots\Calculate-nearest-locations.jpg" />
     <Content Include="SiteResources\screenshots\Calculate-slope-direction.jpg" />
     <Content Include="SiteResources\screenshots\Creator-indoor-maps.jpg" />
     <Content Include="SiteResources\screenshots\Custom-navigation-controls.jpg" />
+    <Content Include="Spatial Analysis\Calculate nearest locations.html" />
     <Content Include="Tutorials\Creator indoor maps.html" />
     <Content Include="Experimental\Feature states.html" />
     <Content Include="Popups\Accessible shape selection.html" />

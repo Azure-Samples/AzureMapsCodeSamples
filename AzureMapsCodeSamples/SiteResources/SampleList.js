@@ -643,6 +643,15 @@ var sampleList = [
 			created:'1/22/2019'
 		},
 		{
+			title:'GeoJSON file optimizer',
+			desc:'A simple tool for optimizing geojson files.',
+			path:'Geospatial%20Files/GeoJSON%20file%20optimizer.html',
+			sourcePath:'Geospatial%20Files/GeoJSON%20file%20optimizer.html',
+			screenshot:'',
+			keywords:'microsoft maps, map, gis, api, sdk, geojson',
+			created:'5/10/2021'
+		},
+		{
 			title:'Load large Shapefiles using a Web Worker',
 			desc:'This sample shows how to load large shapefiles (.shp, .dbf, .prj) onto the map using a web worker so that it doesn\'t freeze the UI.',
 			path:'Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html',
@@ -1007,7 +1016,7 @@ var sampleList = [
 		},
 		{
 			title:'Fill viewport with single world',
-			desc:'TThis sample shows how to limit the map such that it renders only a single copy of the map and restricts panning and zooming to minimize any whitespace appearing around the map.',
+			desc:'This sample shows how to limit the map such that it renders only a single copy of the map and restricts panning and zooming to minimize any whitespace appearing around the map.',
 			path:'Map/Fill%20viewport%20with%20single%20world.html',
 			sourcePath:'Map/Fill%20viewport%20with%20single%20world.html',
 			screenshot:'',
@@ -1764,6 +1773,15 @@ var sampleList = [
 	category:'Spatial Analysis',
 	desc:'Gain deep insights with in-depth spatial analysis of data.',
 	samples: [
+		{
+			title:'Calculate nearest locations',
+			desc:'This sample shows how to do a spatial join between two sets of points based on the shortest stright line distance or travel time along roads using the route matrix service.',
+			path:'Spatial%20Analysis/Calculate%20nearest%20locations.html',
+			sourcePath:'Spatial%20Analysis/Calculate%20nearest%20locations.html',
+			screenshot:'Calculate-nearest-locations.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, fire, school, route matrix, matrix, distance matrix, travel time',
+			created:'5/10/2021'
+		},
 		{
 			title:'Census block group analysis',
 			desc:'This sample loads census block group data for a state and then retrieves the intersection with an area drawn by the user and calculates an estimated population.',
@@ -2551,4 +2569,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 267;
+}];var numberOfSamples = 269;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-03-16</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-05-10</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -68,6 +68,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Extract%20and%20display%20photo%20location.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/GeoJSON%20file%20optimizer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html</loc></url>
@@ -186,6 +187,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Search%20for%20POIs%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Show%20traffic%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Snap%20points%20to%20logical%20route%20path.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Calculate%20nearest%20locations.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Census%20block%20group%20analysis.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Travel%20time%20analysis%20of%20multiple%20locations.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Spatial%20Analysis/Voronoi%20diagram%20analysis.html</loc></url>
