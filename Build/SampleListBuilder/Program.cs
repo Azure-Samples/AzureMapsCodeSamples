@@ -176,6 +176,13 @@ namespace SampleListBuilder
             {
                 string path, sourcePath, fileName;
 
+                var screenshotNameLookup = new Dictionary<string, string>();
+
+                foreach (var ss in screenshots)
+                {
+                    screenshotNameLookup.Add(ss.Name.Replace(ss.Extension, ""), ss.Name);
+                }
+
                 foreach (var f in files)
                 {
                     if (!f.Name.Contains("- Private"))
@@ -276,32 +283,44 @@ namespace SampleListBuilder
 
                         if (!sampleNameList.Contains(sample.Title))
                         {
-                            sample.Screenshot = sample.Title.Replace(" ", "-");
+                            var temp = sample.Title;
 
-                            foreach (var ss in screenshots)
+                            if (screenshotNameLookup.ContainsKey(temp))
                             {
-                                if (string.Compare(ss.Name.Replace(ss.Extension, ""), sample.Screenshot) == 0)
+                                sample.Screenshot = screenshotNameLookup[temp];
+                            }
+
+                            if (String.IsNullOrEmpty(sample.Screenshot))
+                            {
+                                temp = sample.Title.Replace(" ", "-");
+
+                                if (screenshotNameLookup.ContainsKey(temp))
                                 {
-                                    sample.Screenshot = ss.Name;
-                                    break;
+                                    sample.Screenshot = screenshotNameLookup[temp];
                                 }
                             }
 
-                            if (!sample.Screenshot.Contains("."))
+                            if (String.IsNullOrEmpty(sample.Screenshot) || !sample.Screenshot.Contains("."))
                             {
-                                sample.Screenshot = fileName.Replace(" ", "-");
+                                temp = fileName;
 
-                                foreach (var ss in screenshots)
+                                if (screenshotNameLookup.ContainsKey(temp))
                                 {
-                                    if (string.Compare(ss.Name.Replace(ss.Extension, ""), sample.Screenshot) == 0)
+                                    sample.Screenshot = screenshotNameLookup[temp];
+                                }
+
+                                if (String.IsNullOrEmpty(sample.Screenshot))
+                                {
+                                    temp = fileName.Replace(" ", "-");
+
+                                    if (screenshotNameLookup.ContainsKey(temp))
                                     {
-                                        sample.Screenshot = ss.Name;
-                                        break;
+                                        sample.Screenshot = screenshotNameLookup[temp];
                                     }
                                 }
                             }
 
-                            if (!sample.Screenshot.Contains("."))
+                            if (String.IsNullOrEmpty(sample.Screenshot) || !sample.Screenshot.Contains("."))
                             {
                                 sample.Screenshot = string.Empty;
                             }

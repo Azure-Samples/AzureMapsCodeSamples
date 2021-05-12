@@ -1514,7 +1514,7 @@ var sampleList = [
 			desc:'This sample shows how to retrieve elevation data along a path, and then render that path as a 3D elevation profile.',
 			path:'REST%20Services/3D%20Elevation%20profiles.html',
 			sourcePath:'REST%20Services/3D%20Elevation%20profiles.html',
-			screenshot:'3D-Elevation-profiles.jpg',
+			screenshot:'3D Elevation profiles.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, elevation, elevations',
 			created:'12/17/2020'
 		},
