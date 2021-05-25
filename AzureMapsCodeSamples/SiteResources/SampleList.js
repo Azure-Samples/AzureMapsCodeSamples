@@ -669,6 +669,15 @@ var sampleList = [
 			keywords:'microsoft maps, map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc',
 			created:'2/20/2019'
 		},
+		{
+			title:'Visualize Excel data',
+			desc:'This sample shows how to easily load and visualize a local Excel file on the map.',
+			path:'Geospatial%20Files/Visualize%20Excel%20data.html',
+			sourcePath:'Geospatial%20Files/Visualize%20Excel%20data.html',
+			screenshot:'Visualize-Excel-data.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, spatial io, csv, excel, xlsx, spreadsheet, csv, tsv, delimited file',
+			created:'5/25/2021'
+		},
 	]
 },
 {
@@ -2569,4 +2578,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 269;
+}];var numberOfSamples = 270;

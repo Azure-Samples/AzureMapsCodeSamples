@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-05-18</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-05-25</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -71,6 +71,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/GeoJSON%20file%20optimizer.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Visualize%20Excel%20data.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html</loc></url>

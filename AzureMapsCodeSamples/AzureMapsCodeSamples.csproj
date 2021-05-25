@@ -380,9 +380,11 @@
     <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Common\scripts\geojson-path-finder.js" />
     <Content Include="Common\scripts\GeoJS\geo.min.js" />
+    <Content Include="Common\scripts\jszip.min.js" />
     <Content Include="Common\scripts\lozad.min.js" />
     <Content Include="Common\scripts\shp.min.js" />
     <Content Include="Common\scripts\turf.min.js" />
+    <Content Include="Common\scripts\xlsx.full.min.js" />
     <Content Include="Controls\Bring Data Into View Control.html" />
     <Content Include="Controls\Custom navigation controls.html" />
     <Content Include="Controls\Map Style Picker.html" />
@@ -395,6 +397,7 @@
     <Content Include="Device Sensors\Geolocation control options.html" />
     <Content Include="Device Sensors\Geolocation control.html" />
     <Content Include="Experimental\Disable pitch and rotation.html" />
+    <Content Include="Geospatial Files\Visualize Excel data.html" />
     <Content Include="Geospatial Files\GeoJSON file optimizer.html" />
     <Content Include="Map\Fill viewport with single world.html" />
     <Content Include="REST Services\Calculate slope direction.html" />
@@ -402,6 +405,7 @@
     <Content Include="SiteResources\screenshots\Calculate-slope-direction.jpg" />
     <Content Include="SiteResources\screenshots\Creator-indoor-maps.jpg" />
     <Content Include="SiteResources\screenshots\Custom-navigation-controls.jpg" />
+    <Content Include="SiteResources\screenshots\Visualize-Excel-data.jpg" />
     <Content Include="Spatial Analysis\Calculate nearest locations.html" />
     <Content Include="Tutorials\Creator indoor maps.html" />
     <Content Include="Experimental\Feature states.html" />
