@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-05-25</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-06-07</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -121,7 +121,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20style%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20user%20interaction%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20overview%20map%20options.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20overview%20map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20Overview%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mouse%20events%20with%20keys%20pressed.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps%20in%20Different%20Lanaguages.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps.html</loc></url>
@@ -180,6 +180,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Calculate%20a%20simple%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Calculate%20spaced%20positions%20along%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Get%20nearest%20POIs%20to%20a%20set%20of%20addresses.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Load%20POI%20as%20the%20map%20moves.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Methods%20for%20geocoding%20multiple%20addresses.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Page%20through%20POI%20results.html</loc></url>
