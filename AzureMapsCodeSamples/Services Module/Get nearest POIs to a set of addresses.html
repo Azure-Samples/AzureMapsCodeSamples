@@ -7,14 +7,13 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows the nearest POIs to a set of addresses" />
-    <meta name="keywords"
-        content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
     <meta name="author" content="Microsoft Azure Maps" />
     
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css"
-        type="text/css" />
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
@@ -109,6 +108,7 @@
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
+
                     //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '<Subscription Key>'

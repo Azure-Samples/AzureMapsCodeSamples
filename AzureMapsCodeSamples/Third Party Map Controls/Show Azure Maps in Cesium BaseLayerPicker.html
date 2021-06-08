@@ -12,9 +12,9 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the CesiumJS Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://cesiumjs.org/releases/1.77/Build/Cesium/Widgets/widgets.css" type="text/css" />
-    <script src="https://cesiumjs.org/releases/1.77/Build/Cesium/Cesium.js"></script>
-    
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
+
     <!-- Add reference to the Azure Maps Cesium plugin. -->
     <script src="../Common/scripts/azure-maps-cesium.min.js"></script>
 
@@ -43,13 +43,13 @@
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: authOptions
-            });          
+            });
 
             //Create a map instance.
             viewer = new Cesium.Viewer('myMap', {
                 //Default to the first imagery provider.
                 imageryProvider: providers[0],
-                
+
                 //Don't show the default base layer picker.
                 baseLayerPicker: false,
 
@@ -65,12 +65,12 @@
                 globe: viewer.scene.globe,
                 imageryProviderViewModels: providers,
                 selectedImageryProviderViewModel: providers[0]
-            });            
+            });
 
             //Get all overlay imagery layers from the Azure Maps Imagery provider. Since other instances of AzureMapsImageryProvider were already created, no need to re-specify authOptions.
-            overlayLayers = Cesium.AzureMapsImageryProvider.getAllOverlayImageryLayer(null, { 
+            overlayLayers = Cesium.AzureMapsImageryProvider.getAllOverlayImageryLayer(null, {
                 //Hide the layers by default.
-                show: false 
+                show: false
             });
 
             //Create the options for the overlay dropdown selection.

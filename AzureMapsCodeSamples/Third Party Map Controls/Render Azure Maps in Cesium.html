@@ -12,8 +12,8 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <!-- Add references to the CesiumJS Map control JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://cesiumjs.org/releases/1.77/Build/Cesium/Widgets/widgets.css" type="text/css" />
-    <script src="https://cesiumjs.org/releases/1.77/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
 
     <!-- Add reference to the Azure Maps Cesium plugin. -->
     <script src="../Common/scripts/azure-maps-cesium.min.js"></script>
@@ -24,7 +24,7 @@
         function GetMap() {
             //Create a map instance.
             viewer = new Cesium.Viewer('myMap', {
-                //Create an Azure Maps imagery provider for the base road tileset. 
+                //Create an Azure Maps imagery provider for the base road tileset.
                 imageryProvider: new Cesium.AzureMapsImageryProvider({
                     //Add authentication details for connecting to Azure Maps.
                     authOptions: {
@@ -51,11 +51,11 @@
 
                     //Optional: set the geopolitical view of the map.
                     //view: 'Auto',
-                    
+
                     //Optional: if using a weather layer, specify a timestamp to get recent or forecast data.
                     //timeStamp: '2019-11-14T16:03:00-08:00'
                 }),
-                
+
                 //Disable the base layer picker and geocoder by default.
                 baseLayerPicker: false,
                 geocoder: false
