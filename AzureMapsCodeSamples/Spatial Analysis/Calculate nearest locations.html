@@ -158,9 +158,9 @@
             lineSource.setShapes(lines);
         }
 
-        async function analyzeAlongRoads() {
+        async function analyzeAlongRoads(metric) {
             if (travelTimeMatrix) {
-                showTravelTimes();
+                showTravelMetric(metric);
                 return;
             } else {
                 //Show loading icon.
@@ -200,8 +200,8 @@
                     //Cache the matrix so it is only calculated once.
                     travelTimeMatrix = r.matrix;
 
-                    //Show the shortest travel times.
-                    showTravelTimes();
+                    //Show the shortest travel metric.
+                    showTravelMetric(metric);
 
                     ///Hide loading icon.
                     document.getElementById('loadingIcon').style.display = 'none';
@@ -209,21 +209,23 @@
             }
         }
 
-        function showTravelTimes() {
+        function showTravelMetric(metric) {
             var lines = [];
+
+            var prop = (metric === 'time') ? 'travelTimeInSeconds' : 'lengthInMeters';
 
             //Loop through each schools can calculate the shortest path.
             for (var i = 0, len = schools.length; i < len; i++) {
-                var minTime = Infinity;
+                var minMetric = Infinity;
                 var minStation;
 
-                //Loop through each fire station and find which one is the shortest travel time away from the address.
+                //Loop through each fire station and find which one is the shortest travel time or distance away from the address.
                 for (var j = 0, cnt = fireStations.length; j < cnt; j++) {
-                    //Get the travel time for the schools/fire station pair.
-                    var t = travelTimeMatrix[j][i].response.routeSummary.travelTimeInSeconds;
-
-                    if (t < minTime) {
-                        minTime = t;
+                    //Get the travel time or distance for the schools/fire station pair.
+                    var m = travelTimeMatrix[j][i].response.routeSummary[prop];
+                    
+                    if (m < minMetric) {
+                        minMetric = m;
                         minStation = fireStations[j];
                     }
                 }
@@ -271,7 +273,8 @@
     <div style="position:absolute;top:10px;left:10px;background-color:#fff;padding:10px;border-radius:5px;">
         Match closest by: <br /><br />
         <input type="button" value="Straight line distances" onclick="analyzeStraightLines()" /><br /><br />
-        <input type="button" value="Travel time along roads" onclick="analyzeAlongRoads()" />
+        <input type="button" value="Travel time along roads" onclick="analyzeAlongRoads('time')" /><br /><br />
+        <input type="button" value="Travel distance along roads" onclick="analyzeAlongRoads('distance')" />
     </div>
 
     <img id="loadingIcon" src="../Common/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
