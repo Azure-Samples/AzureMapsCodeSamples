@@ -93,6 +93,10 @@
         function updateShapeDragging(elm) {
             drawingManager.setOptions({ shapeDraggingEnabled: elm.checked });
         }
+
+        function updateShapeRotation(elm) {
+            drawingManager.setOptions({ shapeRotationEnabled: elm.checked });
+        }
     </script>
     <style>
         .sidePanel {
@@ -134,6 +138,8 @@
                         <option>draw-polygon</option>
                         <option>draw-circle</option>
                         <option>draw-rectangle</option>
+                        <option>edit-geometry</option>
+                        <option>erase-geometry</option>
                         <option selected="selected">idle</option>
                     </select>
                 </td>
@@ -166,6 +172,10 @@
             <tr title="Specifies if shapes should be draggable when editting.">
                 <td>Shape Dragging Enabled:</td>
                 <td><input type="checkbox" onclick="updateShapeDragging(this)" checked="checked" /></td>
+            </tr>
+            <tr title="Specifies if shapes can be rotated when editting.">
+                <td>Shape Rotation Enabled:</td>
+                <td><input type="checkbox" onclick="updateShapeRotation(this)" checked="checked" /></td>
             </tr>
         </table>
     </div>

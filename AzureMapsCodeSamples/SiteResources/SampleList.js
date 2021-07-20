@@ -10,7 +10,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20a%20choropleth%20map.html',
 			screenshot:'Animate-a-choropleth-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis',
-			created:'7/18/2021'
+			created:'10/8/2018'
 		},
 		{
 			title:'Animate a GPS trace',
@@ -19,7 +19,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20a%20GPS%20trace.html',
 			screenshot:'Animate-a-GPS-trace.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate a Line',
@@ -28,7 +28,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20a%20Line.html',
 			screenshot:'Animate-a-Line.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, line, linestring, polyline',
-			created:'7/18/2021'
+			created:'6/8/2018'
 		},
 		{
 			title:'Animate a snakeline',
@@ -37,7 +37,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20a%20snakeline.html',
 			screenshot:'Animate-a-snakeline.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, line, linestring',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate along a path',
@@ -46,7 +46,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20along%20a%20path.html',
 			screenshot:'Animate-along-a-path.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
-			created:'7/18/2021'
+			created:'10/10/2018'
 		},
 		{
 			title:'Animate along a route path',
@@ -55,7 +55,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20along%20a%20route%20path.html',
 			screenshot:'Animate-along-a-route-path.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate marker along path',
@@ -64,7 +64,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20marker%20along%20path.html',
 			screenshot:'Animate-marker-along-path.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate multiple points',
@@ -73,7 +73,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20multiple%20points.html',
 			screenshot:'Animate-multiple-points.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate point along path',
@@ -82,7 +82,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20point%20along%20path.html',
 			screenshot:'Animate-point-along-path.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate to new position of marker',
@@ -91,7 +91,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20to%20new%20position%20of%20marker.html',
 			screenshot:'Animate-to-new-position-of-marker.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate to new position of point',
@@ -100,7 +100,7 @@ var sampleList = [
 			sourcePath:'Animations/Animate%20to%20new%20position%20of%20point.html',
 			screenshot:'Animate-to-new-position-of-point.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animated tile layer',
@@ -109,7 +109,7 @@ var sampleList = [
 			sourcePath:'Animations/Animated%20tile%20layer.html',
 			screenshot:'Animated-tile-layer.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, tiles',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animated traffic flow',
@@ -118,7 +118,7 @@ var sampleList = [
 			sourcePath:'Animations/Animated%20traffic%20flow.html',
 			screenshot:'Animated-traffic-flow.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, traffic flow, traffic, flow, dashed',
-			created:'7/18/2021'
+			created:'8/23/2020'
 		},
 		{
 			title:'Animation easings',
@@ -127,7 +127,7 @@ var sampleList = [
 			sourcePath:'Animations/Animation%20easings.html',
 			screenshot:'Animation-easings.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin, easing',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Bouncing marker animation',
@@ -136,7 +136,7 @@ var sampleList = [
 			sourcePath:'Animations/Bouncing%20marker%20animation.html',
 			screenshot:'Bouncing-marker-animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Drop markers on interval',
@@ -145,7 +145,7 @@ var sampleList = [
 			sourcePath:'Animations/Drop%20markers%20on%20interval.html',
 			screenshot:'Drop-markers-on-interval.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Drop multiple markers animation',
@@ -154,7 +154,7 @@ var sampleList = [
 			sourcePath:'Animations/Drop%20multiple%20markers%20animation.html',
 			screenshot:'Drop-multiple-markers-animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Drop multiple symbols animation',
@@ -163,7 +163,7 @@ var sampleList = [
 			sourcePath:'Animations/Drop%20multiple%20symbols%20animation.html',
 			screenshot:'Drop-multiple-symbols-animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Drop symbol animation',
@@ -172,7 +172,7 @@ var sampleList = [
 			sourcePath:'Animations/Drop%20symbol%20animation.html',
 			screenshot:'Drop-symbol-animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Drop multiple symbols on interval',
@@ -181,7 +181,7 @@ var sampleList = [
 			sourcePath:'Animations/Drop%20symbols%20on%20interval.html',
 			screenshot:'Drop-symbols-on-interval.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'HTML Marker Pulse Animation',
@@ -190,7 +190,7 @@ var sampleList = [
 			sourcePath:'Animations/HTML%20Marker%20Pulse%20Animation.html',
 			screenshot:'HTML-Marker-Pulse-Animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'10/11/2018'
 		},
 		{
 			title:'Morph shape animation',
@@ -199,7 +199,7 @@ var sampleList = [
 			sourcePath:'Animations/Morph%20shape%20animation.html',
 			screenshot:'Morph-shape-animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, line, linestring, polygon, geometries, morph',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Animate marker along path',
@@ -208,7 +208,7 @@ var sampleList = [
 			sourcePath:'Animations/Moving%20dashed%20line.html',
 			screenshot:'Animate-marker-along-path.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animation, animate, animations, point, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'8/21/2020'
 		},
 		{
 			title:'Pulse animation with bubble layer',
@@ -217,7 +217,7 @@ var sampleList = [
 			sourcePath:'Animations/Pulse%20animation%20with%20bubble%20layer.html',
 			screenshot:'Pulse-animation-with-bubble-layer.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, bubble',
-			created:'7/18/2021'
+			created:'4/14/2020'
 		},
 		{
 			title:'Simple HTML Marker Animation',
@@ -226,7 +226,7 @@ var sampleList = [
 			sourcePath:'Animations/Simple%20HTML%20Marker%20Animation.html',
 			screenshot:'Simple-HTML-Marker-Animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbol, pushpin, marker, pin',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Simple Symbol Animation',
@@ -235,7 +235,7 @@ var sampleList = [
 			sourcePath:'Animations/Simple%20Symbol%20Animation.html',
 			screenshot:'Simple-Symbol-Animation.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, animate, animation, symbols, pushpins, markers, pins',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 	]
 },
@@ -250,7 +250,7 @@ var sampleList = [
 			sourcePath:'Bubble%20Layer/Bubble%20Layer%20Options.html',
 			screenshot:'Bubble-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Cluster aggregates',
@@ -259,7 +259,7 @@ var sampleList = [
 			sourcePath:'Bubble%20Layer/Cluster%20aggregates.html',
 			screenshot:'Cluster-aggregates.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, cluster aggregate',
-			created:'7/18/2021'
+			created:'8/5/2019'
 		},
 		{
 			title:'Data-Driven Bubble Layer Styling',
@@ -268,7 +268,7 @@ var sampleList = [
 			sourcePath:'Bubble%20Layer/Data-Driven%20Bubble%20Layer%20Styling.html',
 			screenshot:'Data-Driven-Bubble-Layer-Styling.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven styling, weather, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Point Clusters in Bubble Layer',
@@ -277,7 +277,7 @@ var sampleList = [
 			sourcePath:'Bubble%20Layer/Point%20Clusters%20in%20Bubble%20Layer.html',
 			screenshot:'Point-Clusters-in-Bubble-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 	]
 },
@@ -292,7 +292,7 @@ var sampleList = [
 			sourcePath:'Controls/Bring%20Data%20Into%20View%20Control.html',
 			screenshot:'Bring-Data-Into-View-Control.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, ',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'Custom navigation controls',
@@ -301,7 +301,7 @@ var sampleList = [
 			sourcePath:'Controls/Custom%20navigation%20controls.html',
 			screenshot:'Custom-navigation-controls.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, controls, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery',
-			created:'7/18/2021'
+			created:'2/17/2021'
 		},
 		{
 			title:'Fullscreen control options',
@@ -310,7 +310,7 @@ var sampleList = [
 			sourcePath:'Controls/Fullscreen%20control%20options.html',
 			screenshot:'Fullscreen-control-options.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
-			created:'7/18/2021'
+			created:'9/9/2020'
 		},
 		{
 			title:'Fullscreen control',
@@ -319,7 +319,7 @@ var sampleList = [
 			sourcePath:'Controls/Fullscreen%20control.html',
 			screenshot:'Fullscreen-control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, fullscreen, full screen',
-			created:'7/18/2021'
+			created:'9/9/2020'
 		},
 		{
 			title:'Map Navigation Control Options',
@@ -328,7 +328,7 @@ var sampleList = [
 			sourcePath:'Controls/Map%20Navigation%20Control%20Options.html',
 			screenshot:'Map-Navigation-Control-Options.gif',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, navigation controls, pan, zoom, pitch, tilt, rotate, satellite, aerial, imagery',
-			created:'7/18/2021'
+			created:'9/7/2018'
 		},
 		{
 			title:'Map Style Picker',
@@ -337,7 +337,7 @@ var sampleList = [
 			sourcePath:'Controls/Map%20Style%20Picker.html',
 			screenshot:'Map-Style-Picker.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk,  navigation controls, map style, style picker, map type, satellite, aerial, imagery',
-			created:'7/18/2021'
+			created:'3/6/2019'
 		},
 		{
 			title:'Route range control',
@@ -346,7 +346,7 @@ var sampleList = [
 			sourcePath:'Controls/Route%20range%20control.html',
 			screenshot:'Route-range-control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, control, custom control, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis',
-			created:'7/18/2021'
+			created:'9/9/2020'
 		},
 		{
 			title:'Select shapes with selection control',
@@ -355,7 +355,7 @@ var sampleList = [
 			sourcePath:'Controls/Select%20shapes%20with%20selection%20control.html',
 			screenshot:'Select-shapes-with-selection-control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, datasource, data source',
-			created:'7/18/2021'
+			created:'11/30/2020'
 		},
 		{
 			title:'Selection control',
@@ -364,7 +364,7 @@ var sampleList = [
 			sourcePath:'Controls/Selection%20control.html',
 			screenshot:'Selection-control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, datasource, data source',
-			created:'7/18/2021'
+			created:'9/9/2020'
 		},
 		{
 			title:'Simple Scale Bar Control',
@@ -373,7 +373,7 @@ var sampleList = [
 			sourcePath:'Controls/Simple%20Scale%20Bar%20Control.html',
 			screenshot:'Simple-Scale-Bar-Control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, scale bar, scalebar',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'Spyglass map visualization',
@@ -382,7 +382,7 @@ var sampleList = [
 			sourcePath:'Controls/Spyglass%20map%20visualization.html',
 			screenshot:'Spyglass-map-visualization.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'Spyglass module options',
@@ -391,7 +391,7 @@ var sampleList = [
 			sourcePath:'Controls/Spyglass%20module%20options.html',
 			screenshot:'Spyglass-module-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spyglass, synchronized maps, magnifying glass',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 	]
 },
@@ -406,7 +406,7 @@ var sampleList = [
 			sourcePath:'Demos/Car%20vs%20Truck%20Route.html',
 			screenshot:'Car-vs-Truck-Route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, truck, car, routing, route, directions',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Create a Choropleth Map',
@@ -415,7 +415,7 @@ var sampleList = [
 			sourcePath:'Demos/Create%20a%20Choropleth%20Map.html',
 			screenshot:'Create-a-Choropleth-Map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map',
-			created:'7/18/2021'
+			created:'10/8/2018'
 		},
 		{
 			title:'Data-Driven Styling',
@@ -424,7 +424,7 @@ var sampleList = [
 			sourcePath:'Demos/Data-Driven%20Styling.html',
 			screenshot:'Data-Driven-Styling.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, circle, bubble, layers, data-driven, bubblelayer, geojson, data driven styling',
-			created:'7/18/2021'
+			created:'1/25/2019'
 		},
 		{
 			title:'Large GeoJSON Files',
@@ -433,7 +433,7 @@ var sampleList = [
 			sourcePath:'Demos/Large%20GeoJSON%20Files.html',
 			screenshot:'Large-GeoJSON-Files.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, symbol, pushpin, marker, pin, line, linestring, polygon, parcels',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 	]
 },
@@ -448,7 +448,7 @@ var sampleList = [
 			sourcePath:'Device%20Sensors/Continuous%20User%20Position%20Tracking.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, geolocation, user, location, position, tracking, gps, gps tracking',
-			created:'7/18/2021'
+			created:'9/30/2018'
 		},
 		{
 			title:'Geolocation control options',
@@ -457,7 +457,7 @@ var sampleList = [
 			sourcePath:'Device%20Sensors/Geolocation%20control%20options.html',
 			screenshot:'Geolocation-control-options.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
-			created:'7/18/2021'
+			created:'8/25/2020'
 		},
 		{
 			title:'Geolocation control',
@@ -466,7 +466,7 @@ var sampleList = [
 			sourcePath:'Device%20Sensors/Geolocation%20control.html',
 			screenshot:'Geolocation-control.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, custom, control, custom control, geolocation, user, location, position, tracking, gps, gps tracking',
-			created:'7/18/2021'
+			created:'8/25/2020'
 		},
 		{
 			title:'Show a Users Position',
@@ -475,7 +475,7 @@ var sampleList = [
 			sourcePath:'Device%20Sensors/Show%20a%20Users%20Position.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, geolocation, user, location, position, gps',
-			created:'7/18/2021'
+			created:'9/30/2018'
 		},
 		{
 			title:'User position accuracy circle',
@@ -484,7 +484,7 @@ var sampleList = [
 			sourcePath:'Device%20Sensors/User%20Position%20Accuracy%20Circle.html',
 			screenshot:'User-position-accuracy-circle.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, accuracy, circle, geolocation, user, location, position, gps',
-			created:'7/18/2021'
+			created:'9/30/2018'
 		},
 	]
 },
@@ -499,7 +499,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Add%20drawing%20toolbar%20to%20map.html',
 			screenshot:'Add-drawing-toolbar-to-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint',
-			created:'7/18/2021'
+			created:'5/4/2019'
 		},
 		{
 			title:'Allow map panning with drawing tools',
@@ -508,7 +508,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Allow%20map%20panning%20with%20drawing%20tools.html',
 			screenshot:'Allow-map-panning-with-drawing-tools.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, delete',
-			created:'7/18/2021'
+			created:'12/2/2020'
 		},
 		{
 			title:'Change drawing rendering style',
@@ -517,7 +517,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Change%20drawing%20rendering%20style.html',
 			screenshot:'Change-drawing-rendering-style.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, paint, customize',
-			created:'7/18/2021'
+			created:'5/4/2019'
 		},
 		{
 			title:'Create a measuring tool',
@@ -526,7 +526,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Create%20a%20measuring%20tool.html',
 			screenshot:'Create-a-measuring-tool.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, measuring tape, measure',
-			created:'7/18/2021'
+			created:'12/10/2019'
 		},
 		{
 			title:'Draw and search polygon area',
@@ -535,7 +535,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Draw%20and%20search%20polygon%20area.html',
 			screenshot:'Draw-and-search-polygon-area.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, poi, within, intersects, intersection',
-			created:'7/18/2021'
+			created:'12/10/2019'
 		},
 		{
 			title:'Draw gridded polygon',
@@ -544,7 +544,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Draw%20gridded%20polygon.html',
 			screenshot:'Draw-gridded-polygon.jpg',
 			keywords:'map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events',
-			created:'7/18/2021'
+			created:'1/2/2020'
 		},
 		{
 			title:'Drawing manager options',
@@ -553,7 +553,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Drawing%20manager%20options.html',
 			screenshot:'Drawing-manager-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, drawing mode, interaction type, freehand interval',
-			created:'7/18/2021'
+			created:'5/4/2019'
 		},
 		{
 			title:'Drawing toolbar options',
@@ -562,7 +562,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Drawing%20toolbar%20options.html',
 			screenshot:'Drawing-toolbar-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, toolbar, drawing toolbar',
-			created:'7/18/2021'
+			created:'12/10/2019'
 		},
 		{
 			title:'Drawing tools events',
@@ -571,7 +571,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Drawing%20tools%20events.html',
 			screenshot:'Drawing-tools-events.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, paint, events',
-			created:'7/18/2021'
+			created:'12/10/2019'
 		},
 		{
 			title:'Get drawn shapes from drawing manager',
@@ -580,7 +580,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html',
 			screenshot:'Get-drawn-shapes-from-drawing-manager.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, drawing manager, paint, shapes',
-			created:'7/18/2021'
+			created:'5/4/2019'
 		},
 		{
 			title:'Select data in drawn polygon area',
@@ -589,7 +589,7 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
 			screenshot:'Select-data-in-drawn-polygon-area.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events, within, intersects, intersection',
-			created:'7/18/2021'
+			created:'12/10/2019'
 		},
 		{
 			title:'Snap drawn line to roads',
@@ -598,7 +598,25 @@ var sampleList = [
 			sourcePath:'Drawing%20Tools%20Module/Snap%20drawn%20line%20to%20roads.html',
 			screenshot:'Snap-drawn-line-to-roads.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
-			created:'7/18/2021'
+			created:'1/31/2020'
+		},
+		{
+			title:'Snap grid options',
+			desc:'This sample shows how the different options of the snap grid manager modify how the snapping experience works.',
+			path:'Drawing%20Tools%20Module/Snap%20grid%20options.html',
+			sourcePath:'Drawing%20Tools%20Module/Snap%20grid%20options.html',
+			screenshot:'Snap-grid-options.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, paint, events',
+			created:'7/20/2021'
+		},
+		{
+			title:'Use a snapping grid',
+			desc:'This sample shows how to use the snap grid manager when dragging HTML markers and/or while drawing shapes.',
+			path:'Drawing%20Tools%20Module/Use%20a%20snapping%20grid.html',
+			sourcePath:'Drawing%20Tools%20Module/Use%20a%20snapping%20grid.html',
+			screenshot:'Use-a-snapping-grid.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, paint, events',
+			created:'7/20/2021'
 		},
 	]
 },
@@ -613,7 +631,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html',
 			screenshot:'Add-TopoJSON-data-to-the-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, topojson',
-			created:'7/18/2021'
+			created:'3/18/2019'
 		},
 		{
 			title:'Drag and Drop GeoJSON File onto Map',
@@ -622,7 +640,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html',
 			screenshot:'Drag-and-Drop-GeoJSON-File-onto-Map.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, geojson, drag, drop, dropover, filereader',
-			created:'7/18/2021'
+			created:'10/7/2018'
 		},
 		{
 			title:'Drag and Drop Shapefiles onto the Map',
@@ -631,7 +649,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html',
 			screenshot:'Drag-and-Drop-Shapefiles-onto-the-Map.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker, drag, drop, dropover, filereader',
-			created:'7/18/2021'
+			created:'2/20/2019'
 		},
 		{
 			title:'Extract and display photo location',
@@ -640,7 +658,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/Extract%20and%20display%20photo%20location.html',
 			screenshot:'Extract-and-display-photo-location.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, exif, gps, location, jpg, jpeg, tiff, image, photo',
-			created:'7/18/2021'
+			created:'1/22/2019'
 		},
 		{
 			title:'GeoJSON file optimizer',
@@ -649,7 +667,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/GeoJSON%20file%20optimizer.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, geojson',
-			created:'7/18/2021'
+			created:'5/10/2021'
 		},
 		{
 			title:'Load large Shapefiles using a Web Worker',
@@ -658,7 +676,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/Load%20large%20Shapefiles%20using%20a%20Web%20Worker.html',
 			screenshot:'Load-large-Shapefiles-using-a-Web-Worker.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc, web worker',
-			created:'7/18/2021'
+			created:'2/20/2019'
 		},
 		{
 			title:'Load Shapefiles onto the Map',
@@ -667,7 +685,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/Load%20Shapefiles%20onto%20the%20Map.html',
 			screenshot:'Load-Shapefiles-onto-the-Map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, esri shapefiles, shapefiles, shp, dbf, ogc',
-			created:'7/18/2021'
+			created:'2/20/2019'
 		},
 		{
 			title:'Visualize Excel data',
@@ -676,7 +694,7 @@ var sampleList = [
 			sourcePath:'Geospatial%20Files/Visualize%20Excel%20data.html',
 			screenshot:'Visualize-Excel-data.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial io, csv, excel, xlsx, spreadsheet, csv, tsv, delimited file',
-			created:'7/18/2021'
+			created:'5/25/2021'
 		},
 	]
 },
@@ -691,7 +709,7 @@ var sampleList = [
 			sourcePath:'Heat%20Map%20Layer/Cluster%20weighted%20Heat%20Map.html',
 			screenshot:'Cluster-weighted-Heat-Map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, clustering, superclusterer, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'3/27/2019'
 		},
 		{
 			title:'Consistent zoomable Heat Map',
@@ -700,7 +718,7 @@ var sampleList = [
 			sourcePath:'Heat%20Map%20Layer/Consistent%20zoomable%20Heat%20Map.html',
 			screenshot:'Consistent-zoomable-Heat-Map.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic',
-			created:'7/18/2021'
+			created:'4/1/2019'
 		},
 		{
 			title:'Heat Map Layer Options',
@@ -709,7 +727,7 @@ var sampleList = [
 			sourcePath:'Heat%20Map%20Layer/Heat%20Map%20Layer%20Options.html',
 			screenshot:'Heat-Map-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, thermatic, layer, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Simple Heat Map Layer',
@@ -718,7 +736,7 @@ var sampleList = [
 			sourcePath:'Heat%20Map%20Layer/Simple%20Heat%20Map%20Layer.html',
 			screenshot:'Simple-Heat-Map-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Weighted Heat Map Layer',
@@ -727,7 +745,7 @@ var sampleList = [
 			sourcePath:'Heat%20Map%20Layer/Weighted%20Heat%20Map%20Layer.html',
 			screenshot:'Weighted-Heat-Map-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'4/10/2019'
 		},
 	]
 },
@@ -742,7 +760,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/All%20built-in%20icon%20templates%20as%20HTML%20markers.html',
 			screenshot:'All-built-in-icon-templates-as-HTML-markers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template, image template',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Clustered Pie Chart HTML Markers',
@@ -751,7 +769,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/Clustered%20Pie%20Chart%20HTML%20Markers.html',
 			screenshot:'Clustered-Pie-Chart-HTML-Markers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, html marker layer, svg template, chart, pie chart',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'CSS Styled HTML Marker',
@@ -760,7 +778,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/CSS%20Styled%20HTML%20Marker.html',
 			screenshot:'CSS-Styled-HTML-Marker.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, style, css, animate, animation, animations',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Draggable HTML Marker',
@@ -769,7 +787,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/Draggable%20HTML%20Marker.html',
 			screenshot:'Draggable-HTML-Marker.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, drag, draggable, mouse',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'HTML Marker events',
@@ -778,7 +796,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HTML%20Marker%20events.html',
 			screenshot:'HTML-Marker-events.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, events, mouse',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'HTML Marker layer and vector tiles',
@@ -787,7 +805,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HTML%20Marker%20layer%20and%20vector%20tiles.html',
 			screenshot:'HTML-Marker-layer-and-vector-tiles.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer, clustering, vector tiles, mbtiles, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'HTML marker layer events',
@@ -796,7 +814,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HTML%20marker%20layer%20events.html',
 			screenshot:'HTML-marker-layer-events.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, events, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'HTML Marker Layer',
@@ -805,7 +823,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HTML%20Marker%20Layer.html',
 			screenshot:'HTML-Marker-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, html marker layer',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'HTML Marker with built-in icon template',
@@ -814,7 +832,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HTML%20Marker%20with%20built-in%20icon%20template.html',
 			screenshot:'HTML-Marker-with-built-in-icon-template.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'HTML Marker with Custom SVG Template',
@@ -823,7 +841,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/HTML%20Marker%20with%20Custom%20SVG%20Template.html',
 			screenshot:'HTML-Marker-with-Custom-SVG-Template.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Pie chart HTML marker options',
@@ -832,7 +850,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/Pie%20chart%20HTML%20marker%20options.html',
 			screenshot:'Pie-chart-HTML-marker-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, chart, pie chart',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'Pie Chart HTML Markers',
@@ -841,7 +859,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/Pie%20Chart%20HTML%20Markers.html',
 			screenshot:'Pie-Chart-HTML-Markers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, chart, pie chart',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'Simple HTML Marker',
@@ -850,7 +868,7 @@ var sampleList = [
 			sourcePath:'HTML%20Markers/Simple%20HTML%20Marker.html',
 			screenshot:'Simple-HTML-Marker.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, html markers, markers, pins, pushpins, symbols, style, svg, template, svg template',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 	]
 },
@@ -865,7 +883,7 @@ var sampleList = [
 			sourcePath:'Image%20Layer/Cross%20reference%20pixels%20in%20image%20layer.html',
 			screenshot:'Cross-reference-pixels-in-image-layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Image Layer Options',
@@ -874,7 +892,7 @@ var sampleList = [
 			sourcePath:'Image%20Layer/Image%20Layer%20Options.html',
 			screenshot:'Image-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'KML Ground Overlay as Image Layer',
@@ -883,7 +901,7 @@ var sampleList = [
 			sourcePath:'Image%20Layer/KML%20Ground%20Overlay%20as%20Image%20Layer.html',
 			screenshot:'KML-Ground-Overlay-as-Image-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, image, raster, kml, layer, ground overlay, groundoverlay',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Simple Image Layer',
@@ -892,7 +910,7 @@ var sampleList = [
 			sourcePath:'Image%20Layer/Simple%20Image%20Layer.html',
 			screenshot:'Simple-Image-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, image, raster, layer, ground overlay, groundoverlay',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 	]
 },
@@ -907,7 +925,7 @@ var sampleList = [
 			sourcePath:'Line%20Layer/Add%20Arrows%20along%20a%20Path.html',
 			screenshot:'Add-Arrows-along-a-Path.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, linestring, arrows, path, symbols, linelayer',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 		{
 			title:'Add arrows to end of paths',
@@ -916,7 +934,7 @@ var sampleList = [
 			sourcePath:'Line%20Layer/Add%20arrows%20to%20end%20of%20paths.html',
 			screenshot:'Add-arrows-to-end-of-paths.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, linestring, arrows, path, symbols, linelayer',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 		{
 			title:'Data-driven stroke gradient',
@@ -925,7 +943,7 @@ var sampleList = [
 			sourcePath:'Line%20Layer/Data-driven%20stroke%20gradient.html',
 			screenshot:'Data-driven-stroke-gradient.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, stroke gradient, gradient, linelayer, data-driven, data driven styling',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 		{
 			title:'Display isoline data',
@@ -934,7 +952,7 @@ var sampleList = [
 			sourcePath:'Line%20Layer/Display%20isoline%20data.html',
 			screenshot:'Display-isoline-data.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'9/10/2020'
 		},
 		{
 			title:'Line Layer Options',
@@ -943,7 +961,7 @@ var sampleList = [
 			sourcePath:'Line%20Layer/Line%20Layer%20Options.html',
 			screenshot:'Line-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, linelayer',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 		{
 			title:'Line layer with built-in icon template',
@@ -952,7 +970,7 @@ var sampleList = [
 			sourcePath:'Line%20Layer/Line%20layer%20with%20built-in%20icon%20template.html',
 			screenshot:'Line-layer-with-built-in-icon-template.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, template, linestring, arrows, path, symbols, linelayer, image template',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 		{
 			title:'Line with Stroke Gradient',
@@ -961,7 +979,7 @@ var sampleList = [
 			sourcePath:'Line%20Layer/Line%20with%20Stroke%20Gradient.html',
 			screenshot:'Line-with-Stroke-Gradient.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, stroke gradient, gradient, linelayer',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 	]
 },
@@ -976,7 +994,7 @@ var sampleList = [
 			sourcePath:'Map/Add%20a%20Context%20Menu%20to%20the%20Map.html',
 			screenshot:'Add-a-Context-Menu-to-the-Map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, context menu, popup, right click, mouse',
-			created:'7/18/2021'
+			created:'10/8/2018'
 		},
 		{
 			title:'Add custom icon template to atlas namespace',
@@ -985,7 +1003,7 @@ var sampleList = [
 			sourcePath:'Map/Add%20custom%20icon%20template%20to%20atlas%20namespace.html',
 			screenshot:'Add-custom-icon-template-to-atlas-namespace.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, image template, symbology, symbols',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'DataSource and Shape events',
@@ -994,7 +1012,7 @@ var sampleList = [
 			sourcePath:'Map/DataSource%20and%20Shape%20events.html',
 			screenshot:'DataSource-and-Shape-events.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, events, data source, datasource, shapes',
-			created:'7/18/2021'
+			created:'12/6/2019'
 		},
 		{
 			title:'Detect if browser is supported',
@@ -1003,7 +1021,7 @@ var sampleList = [
 			sourcePath:'Map/Detect%20if%20browser%20is%20supported.html',
 			screenshot:'Detect-if-browser-is-supported.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, browser support, supported browsers',
-			created:'7/18/2021'
+			created:'6/14/2019'
 		},
 		{
 			title:'Display 3D building footprints',
@@ -1012,7 +1030,7 @@ var sampleList = [
 			sourcePath:'Map/Display%203D%20building%20footprints.html',
 			screenshot:'Display-3D-building-footprints.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, map, worldwrap, map options, 3d, extruded polygons, buildings',
-			created:'7/18/2021'
+			created:'8/26/2020'
 		},
 		{
 			title:'Export Map as Image',
@@ -1021,7 +1039,7 @@ var sampleList = [
 			sourcePath:'Map/Export%20Map%20as%20Image.html',
 			screenshot:'Export-Map-as-Image.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, map image, export image, screenshots, reports, export map, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'Fill viewport with single world',
@@ -1030,7 +1048,7 @@ var sampleList = [
 			sourcePath:'Map/Fill%20viewport%20with%20single%20world.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, map, worldwrap, map options',
-			created:'7/18/2021'
+			created:'3/9/2021'
 		},
 		{
 			title:'Full Screen Map',
@@ -1039,7 +1057,7 @@ var sampleList = [
 			sourcePath:'Map/Full%20Screen%20Map.html',
 			screenshot:'Full-Screen-Map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, full, screen',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Icon template options',
@@ -1048,7 +1066,7 @@ var sampleList = [
 			sourcePath:'Map/Icon%20template%20options.html',
 			screenshot:'Icon-template-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, template, icon templates, symbols, fill patterns, image template',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Inspect features under the mouse',
@@ -1057,7 +1075,7 @@ var sampleList = [
 			sourcePath:'Map/Inspect%20features%20under%20the%20mouse.html',
 			screenshot:'Inspect-features-under-the-mouse.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, vector tiles, inspect features, base map, basemap, access roads',
-			created:'7/18/2021'
+			created:'4/9/2020'
 		},
 		{
 			title:'Lazy Load the Map',
@@ -1066,7 +1084,7 @@ var sampleList = [
 			sourcePath:'Map/Lazy%20Load%20the%20Map.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, lazy load, reduce cost, tabs',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Limit Map to Two Finger Panning',
@@ -1075,7 +1093,7 @@ var sampleList = [
 			sourcePath:'Map/Limit%20Map%20to%20Two%20Finger%20Panning.html',
 			screenshot:'Limit-Map-to-Two-Finger-Panning.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, two finger panning, dragging, panning, map, user interaction, dragpaninteraction',
-			created:'7/18/2021'
+			created:'3/8/2019'
 		},
 		{
 			title:'Limit map view with maxBounds',
@@ -1084,7 +1102,7 @@ var sampleList = [
 			sourcePath:'Map/Limit%20map%20view%20with%20maxBounds.html',
 			screenshot:'Limit-map-view-with-maxBounds.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, map, max bounds',
-			created:'7/18/2021'
+			created:'8/27/2020'
 		},
 		{
 			title:'Limit Scroll Wheel Zoom',
@@ -1093,7 +1111,7 @@ var sampleList = [
 			sourcePath:'Map/Limit%20Scroll%20Wheel%20Zoom.html',
 			screenshot:'Limit-Scroll-Wheel-Zoom.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, mouse wheel, mousewheel, scroll page, map, user interaction, scrollzoominteraction',
-			created:'7/18/2021'
+			created:'3/8/2019'
 		},
 		{
 			title:'Load Map with Options',
@@ -1102,7 +1120,7 @@ var sampleList = [
 			sourcePath:'Map/Load%20Map%20with%20Options.html',
 			screenshot:'Load-Map-with-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, multiple',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Map Events',
@@ -1111,7 +1129,7 @@ var sampleList = [
 			sourcePath:'Map/Map%20Events.html',
 			screenshot:'Map-Events.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, events, click, mouse, touch, context menu, wheel, zoomed, panned, dragged, pitched, moved',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Map Localization',
@@ -1120,7 +1138,7 @@ var sampleList = [
 			sourcePath:'Map/Map%20Localization.html',
 			screenshot:'Map-Localization.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, language, culture, localization, user region, map options',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Map style options',
@@ -1129,7 +1147,7 @@ var sampleList = [
 			sourcePath:'Map/Map%20style%20options.html',
 			screenshot:'Map-style-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, style, logo, lighting, map options',
-			created:'7/18/2021'
+			created:'11/26/2019'
 		},
 		{
 			title:'Map user interaction options',
@@ -1138,7 +1156,7 @@ var sampleList = [
 			sourcePath:'Map/Map%20user%20interaction%20options.html',
 			screenshot:'Map-user-interaction-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, interact, map options, keyboard, mouse, pan, zoom',
-			created:'7/18/2021'
+			created:'3/13/2020'
 		},
 		{
 			title:'Mini overview map options',
@@ -1147,16 +1165,16 @@ var sampleList = [
 			sourcePath:'Map/Mini%20overview%20map%20options.html',
 			screenshot:'Mini-overview-map-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, ',
-			created:'7/18/2021'
+			created:'11/13/2020'
 		},
 		{
 			title:'Mini overview map',
 			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
-			path:'Map/Mini%20Overview%20Map.html',
-			sourcePath:'Map/Mini%20Overview%20Map.html',
-			screenshot:'Mini-Overview-Map.jpg',
+			path:'Map/Mini%20overview%20map.html',
+			sourcePath:'Map/Mini%20overview%20map.html',
+			screenshot:'Mini-overview-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, ',
-			created:'7/18/2021'
+			created:'11/13/2020'
 		},
 		{
 			title:'Mouse events with keys pressed',
@@ -1165,7 +1183,7 @@ var sampleList = [
 			sourcePath:'Map/Mouse%20events%20with%20keys%20pressed.html',
 			screenshot:'Mouse-events-with-keys-pressed.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, events, mouse, key',
-			created:'7/18/2021'
+			created:'6/11/2020'
 		},
 		{
 			title:'Multiple Maps in Different Languages',
@@ -1174,7 +1192,7 @@ var sampleList = [
 			sourcePath:'Map/Multiple%20Maps%20in%20Different%20Lanaguages.html',
 			screenshot:'Multiple-Maps-in-Different-Lanaguages.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, multiple, language, localization, culture',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Multiple Maps',
@@ -1183,7 +1201,7 @@ var sampleList = [
 			sourcePath:'Map/Multiple%20Maps.html',
 			screenshot:'Multiple-Maps.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, multiple',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Render world copies',
@@ -1192,7 +1210,7 @@ var sampleList = [
 			sourcePath:'Map/Render%20world%20copies.html',
 			screenshot:'Render-world-copies.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, map, worldwrap, map options',
-			created:'7/18/2021'
+			created:'6/24/2019'
 		},
 		{
 			title:'Swipe between two maps',
@@ -1201,7 +1219,7 @@ var sampleList = [
 			sourcePath:'Map/Swipe%20between%20two%20maps.html',
 			screenshot:'Swipe-between-two-maps.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
-			created:'7/18/2021'
+			created:'10/9/2020'
 		},
 		{
 			title:'Swipe map module options',
@@ -1210,7 +1228,7 @@ var sampleList = [
 			sourcePath:'Map/Swipe%20map%20module%20options.html',
 			screenshot:'Swipe-map-module-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map',
-			created:'7/18/2021'
+			created:'10/9/2020'
 		},
 		{
 			title:'Swipe map with fullscreen support',
@@ -1219,7 +1237,7 @@ var sampleList = [
 			sourcePath:'Map/Swipe%20map%20with%20fullscreen%20support.html',
 			screenshot:'Swipe-map-with-fullscreen-support.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps, swipe map, fullscreen, full screen',
-			created:'7/18/2021'
+			created:'10/9/2020'
 		},
 		{
 			title:'Synchronize map views',
@@ -1228,7 +1246,7 @@ var sampleList = [
 			sourcePath:'Map/Synchronize%20map%20views.html',
 			screenshot:'Synchronize-map-views.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, synchronized maps',
-			created:'7/18/2021'
+			created:'8/25/2020'
 		},
 		{
 			title:'Update layer based on map style',
@@ -1237,7 +1255,7 @@ var sampleList = [
 			sourcePath:'Map/Update%20layer%20based%20on%20map%20style.html',
 			screenshot:'Update-layer-based-on-map-style.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image, styledata',
-			created:'7/18/2021'
+			created:'6/5/2020'
 		},
 	]
 },
@@ -1252,7 +1270,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Extruded%20choropleth%20map.html',
 			screenshot:'Extruded-choropleth-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, thematic, choropleth, heatmap, heat map, polygon extrusion, extruded polygons',
-			created:'7/18/2021'
+			created:'2/3/2020'
 		},
 		{
 			title:'Extruded gridded data source',
@@ -1261,7 +1279,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Extruded%20gridded%20data%20source.html',
 			screenshot:'Extruded-gridded-data-source.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, bivariate, data binning, data bin, gridding, hexgrid, hexbins, hexagon bins, tessellations, thematic, choropleth, heatmap, heat map, polygon extrusion, extruded polygons',
-			created:'7/18/2021'
+			created:'10/1/2020'
 		},
 		{
 			title:'Fill polygon with built-in icon template',
@@ -1270,7 +1288,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Fill%20polygon%20with%20built-in%20icon%20template.html',
 			screenshot:'Fill-polygon-with-built-in-icon-template.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, template, fill pattern, polygonlayer, image template',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Geospatially Accurate Circle',
@@ -1279,7 +1297,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Geospatially%20Accurate%20Circle.html',
 			screenshot:'Geospatially-Accurate-Circle.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, circles, geospatial, geospatial circles',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Gridded data source options',
@@ -1288,7 +1306,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Gridded%20data%20source%20options.html',
 			screenshot:'Gridded-data-source-options.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, bivariate, data binning, data bin, gridding, hexbins, hexgrid, hexagon bins, tessellations',
-			created:'7/18/2021'
+			created:'10/1/2020'
 		},
 		{
 			title:'Mercator Projection and Geospatial Circles',
@@ -1297,7 +1315,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Mercator%20Projection%20and%20Geospatial%20Circles.html',
 			screenshot:'Mercator-Projection-and-Geospatial-Circles.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, circle, geospatial, mercator, projection',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Polygon Extrusion Layer Options',
@@ -1306,7 +1324,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Extrusion%20Layer%20Options.html',
 			screenshot:'Polygon-Extrusion-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, polygon, layer',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 		{
 			title:'Polygon Fill Pattern',
@@ -1315,7 +1333,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Fill%20Pattern.html',
 			screenshot:'Polygon-Fill-Pattern.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, polyon, fill pattern',
-			created:'7/18/2021'
+			created:'1/24/2019'
 		},
 		{
 			title:'Polygon Hover Style',
@@ -1324,7 +1342,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Hover%20Style.html',
 			screenshot:'Polygon-Hover-Style.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, polygon, layer, hover, mouse',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Polygon labels - calculated',
@@ -1333,7 +1351,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20calculated.html',
 			screenshot:'Polygon-labels---calculated.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, template, fill pattern, polygonlayer',
-			created:'7/18/2021'
+			created:'9/27/2019'
 		},
 		{
 			title:'Polygon labels - symbol layer',
@@ -1342,7 +1360,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20labels%20-%20symbol%20layer.html',
 			screenshot:'Polygon-labels---symbol-layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, template, fill pattern, polygonlayer',
-			created:'7/18/2021'
+			created:'9/27/2019'
 		},
 		{
 			title:'Polygon Layer Options',
@@ -1351,7 +1369,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20Layer%20Options.html',
 			screenshot:'Polygon-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, polygon, layer',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Polygon mask with dynamic styling',
@@ -1360,7 +1378,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20mask%20with%20dynamic%20styling.html',
 			screenshot:'Polygon-mask-with-dynamic-styling.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, polygon mask, restrict map view',
-			created:'7/18/2021'
+			created:'8/20/2019'
 		},
 		{
 			title:'Polygon masks',
@@ -1369,7 +1387,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Polygon%20masks.html',
 			screenshot:'Polygon-masks.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, multipolygon, polygon mask, restrict map view',
-			created:'7/18/2021'
+			created:'8/20/2019'
 		},
 		{
 			title:'Show points of gridded data source',
@@ -1378,7 +1396,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Show%20points%20of%20gridded%20data%20source.html',
 			screenshot:'Show-points-of-gridded-data-source.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, earthquakes, usgs, bivariate, data binning, data bin, gridding, hexgrid, hexbins, hexagon bins, tessellations, thematic, choropleth, heatmap, heat map, polygon extrusion, extruded polygons',
-			created:'7/18/2021'
+			created:'10/1/2020'
 		},
 		{
 			title:'Simple MultiPolygon',
@@ -1387,7 +1405,7 @@ var sampleList = [
 			sourcePath:'Polygon%20and%20Polygon%20Extrusion%20Layers/Simple%20MultiPolygon.html',
 			screenshot:'Simple-MultiPolygon.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, polyon, multipolygon',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 	]
 },
@@ -1402,7 +1420,7 @@ var sampleList = [
 			sourcePath:'Popups/Accessible%20popups.html',
 			screenshot:'Accessible-popups.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse, accessibility',
-			created:'7/18/2021'
+			created:'11/20/2019'
 		},
 		{
 			title:'Accessible shape selection',
@@ -1411,7 +1429,7 @@ var sampleList = [
 			sourcePath:'Popups/Accessible%20shape%20selection.html',
 			screenshot:'Accessible-shape-selection.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse, accessibility',
-			created:'7/18/2021'
+			created:'1/21/2021'
 		},
 		{
 			title:'Customize a popup',
@@ -1420,7 +1438,7 @@ var sampleList = [
 			sourcePath:'Popups/Customize%20a%20popup.html',
 			screenshot:'Customize-a-popup.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, popup, style',
-			created:'7/18/2021'
+			created:'7/8/2019'
 		},
 		{
 			title:'Popup events',
@@ -1429,7 +1447,7 @@ var sampleList = [
 			sourcePath:'Popups/Popup%20events.html',
 			screenshot:'Popup-events.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse',
-			created:'7/18/2021'
+			created:'6/24/2019'
 		},
 		{
 			title:'Popup templates',
@@ -1438,7 +1456,7 @@ var sampleList = [
 			sourcePath:'Popups/Popup%20templates.html',
 			screenshot:'Popup-templates.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
-			created:'7/18/2021'
+			created:'12/6/2019'
 		},
 		{
 			title:'Popup with DOM element content',
@@ -1447,7 +1465,7 @@ var sampleList = [
 			sourcePath:'Popups/Popup%20with%20DOM%20element%20content.html',
 			screenshot:'Popup-with-DOM-element-content.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, popup, style',
-			created:'7/18/2021'
+			created:'1/3/2020'
 		},
 		{
 			title:'Popup with Media Content',
@@ -1456,7 +1474,7 @@ var sampleList = [
 			sourcePath:'Popups/Popup%20with%20Media%20Content.html',
 			screenshot:'Popup-with-Media-Content.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, popup, infobox, infowindow, media',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Popups on Shapes',
@@ -1465,7 +1483,7 @@ var sampleList = [
 			sourcePath:'Popups/Popups%20on%20Shapes.html',
 			screenshot:'Popups-on-Shapes.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, popup, polygon, line, linestring, polyline',
-			created:'7/18/2021'
+			created:'10/8/2018'
 		},
 		{
 			title:'Popups with leader lines',
@@ -1474,7 +1492,7 @@ var sampleList = [
 			sourcePath:'Popups/Popups%20with%20leader%20lines.html',
 			screenshot:'Popups-with-leader-lines.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, popups, infobox, infowindow, events, mouse',
-			created:'7/18/2021'
+			created:'6/1/2020'
 		},
 		{
 			title:'Reuse a popup template',
@@ -1483,7 +1501,7 @@ var sampleList = [
 			sourcePath:'Popups/Reuse%20a%20popup%20template.html',
 			screenshot:'Reuse-a-popup-template.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover, popup templates',
-			created:'7/18/2021'
+			created:'12/6/2019'
 		},
 		{
 			title:'Reusing Popup with Multiple Pins',
@@ -1492,7 +1510,7 @@ var sampleList = [
 			sourcePath:'Popups/Reusing%20Popup%20with%20Multiple%20Pins.html',
 			screenshot:'Reusing-Popup-with-Multiple-Pins.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, optimization, popup',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Show clustered points in popup',
@@ -1501,7 +1519,7 @@ var sampleList = [
 			sourcePath:'Popups/Show%20clustered%20points%20in%20popup.html',
 			screenshot:'Show-clustered-points-in-popup.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'5/18/2020'
 		},
 		{
 			title:'Show popup on hover',
@@ -1510,7 +1528,7 @@ var sampleList = [
 			sourcePath:'Popups/Show%20popup%20on%20hover.html',
 			screenshot:'Show-popup-on-hover.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, pins, symbols, pushpins, markers, infobox, infowindow, hover',
-			created:'7/18/2021'
+			created:'4/15/2019'
 		},
 	]
 },
@@ -1525,7 +1543,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/3D%20Elevation%20profiles.html',
 			screenshot:'3D-Elevation-profiles.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, elevation, elevations',
-			created:'7/18/2021'
+			created:'12/17/2020'
 		},
 		{
 			title:'Calculate a Simple Isochrone',
@@ -1534,7 +1552,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Calculate%20a%20Simple%20Isochrone.html',
 			screenshot:'Calculate-a-Simple-Isochrone.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, rest, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis',
-			created:'7/18/2021'
+			created:'10/18/2018'
 		},
 		{
 			title:'Calculate slope direction',
@@ -1543,7 +1561,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Calculate%20slope%20direction.html',
 			screenshot:'Calculate-slope-direction.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, slope, services, elevations, elevation, dem, hydrology, terrain',
-			created:'7/18/2021'
+			created:'3/11/2021'
 		},
 		{
 			title:'Elevation along a route',
@@ -1552,7 +1570,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Elevation%20along%20a%20route.html',
 			screenshot:'Elevation-along-a-route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, elevation, elevations',
-			created:'7/18/2021'
+			created:'1/5/2021'
 		},
 		{
 			title:'Elevation path gradient',
@@ -1561,7 +1579,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Elevation%20path%20gradient.html',
 			screenshot:'Elevation-path-gradient.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, elevation, elevations',
-			created:'7/18/2021'
+			created:'12/4/2020'
 		},
 		{
 			title:'Elevation by bounding box',
@@ -1570,7 +1588,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Elevations%20by%20bounding%20box.html',
 			screenshot:'Elevation-by-bounding-box.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, elevations, elevation, dem',
-			created:'7/18/2021'
+			created:'12/4/2020'
 		},
 		{
 			title:'Fill Address Form with Autosuggest',
@@ -1579,7 +1597,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Fill%20Address%20Form%20with%20Autosuggest.html',
 			screenshot:'Fill-Address-Form-with-Autosuggest.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, search, geocoding, geocode, autosuggest, autocomplete, jquery',
-			created:'7/18/2021'
+			created:'10/8/2018'
 		},
 		{
 			title:'Geolocation Sample',
@@ -1588,7 +1606,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Geolocation%20Sample.html',
 			screenshot:'',
 			keywords:'api, sdk, services, module, geolocation, ip, address, location, globalization, region, information, currency, metric, imperial',
-			created:'7/18/2021'
+			created:'7/20/2021'
 		},
 		{
 			title:'Get current weather at a location',
@@ -1597,7 +1615,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Get%20current%20weather%20at%20a%20location.html',
 			screenshot:'Get-current-weather-at-a-location.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, weather, accuweather',
-			created:'7/18/2021'
+			created:'3/20/2020'
 		},
 		{
 			title:'Get elevation at position',
@@ -1606,7 +1624,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Get%20elevation%20at%20position.html',
 			screenshot:'Get-elevation-at-position.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, elevation, elevations',
-			created:'7/18/2021'
+			created:'12/4/2020'
 		},
 		{
 			title:'Get Users Timezone with Prompt',
@@ -1615,7 +1633,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Get%20Users%20Timezone.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, rest, service, timezone, user, location, geolocation',
-			created:'7/18/2021'
+			created:'9/24/2018'
 		},
 		{
 			title:'Get weather along a route',
@@ -1624,7 +1642,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Get%20weather%20along%20a%20route.html',
 			screenshot:'Get-weather-along-a-route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, rest, service, weather, accuweather, forecast, directions, route, routing',
-			created:'7/18/2021'
+			created:'12/6/2019'
 		},
 		{
 			title:'Route Waypoint Optimization',
@@ -1633,7 +1651,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Route%20Waypoint%20Optimization.html',
 			screenshot:'Route-Waypoint-Optimization.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, route directions service, direcitons, travelling salesmen problem, route optimization, optimize, vehicle routing problem, vrp, tsp',
-			created:'7/18/2021'
+			created:'10/18/2018'
 		},
 		{
 			title:'Search Autosuggest and JQuery UI',
@@ -1642,7 +1660,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Search%20Autosuggest%20and%20JQuery%20UI.html',
 			screenshot:'Search-Autosuggest-and-JQuery-UI.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, rest, search, geocoding, geocode, fuzzy, address, place, poi, points of interest, category, autosuggest, autocomplete, jquery',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Show weather overlays on a map',
@@ -1651,7 +1669,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Show%20weather%20overlays%20on%20a%20map.html',
 			screenshot:'Show-weather-overlays-on-a-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, weather, accuweather',
-			created:'7/18/2021'
+			created:'11/4/2019'
 		},
 		{
 			title:'Simple REST Directions (Route)',
@@ -1660,7 +1678,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Simple%20REST%20Directions.html',
 			screenshot:'Simple-REST-Directions.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, rest, service, directions, route, routing',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Simple REST Geocoding Request',
@@ -1669,7 +1687,7 @@ var sampleList = [
 			sourcePath:'REST%20Services/Simple%20REST%20Geocoding%20Request.html',
 			screenshot:'Simple-REST-Geocoding-Request.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, rest, service, search, geocoding, geocode',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 	]
 },
@@ -1684,7 +1702,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Alternate%20routes%20with%20deviation%20constraints.html',
 			screenshot:'Alternate-routes-with-deviation-constraints.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions',
-			created:'7/18/2021'
+			created:'1/29/2020'
 		},
 		{
 			title:'Calculate a simple route',
@@ -1693,7 +1711,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Calculate%20a%20simple%20route.html',
 			screenshot:'Calculate-a-simple-route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions',
-			created:'7/18/2021'
+			created:'9/16/2019'
 		},
 		{
 			title:'Calculate spaced positions along route',
@@ -1702,7 +1720,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Calculate%20spaced%20positions%20along%20route.html',
 			screenshot:'Calculate-spaced-positions-along-route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions',
-			created:'7/18/2021'
+			created:'9/16/2019'
 		},
 		{
 			title:'Fuzzy Search with Services Module',
@@ -1711,7 +1729,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
 			screenshot:'Fuzzy-Search-using-Services-Module.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places',
-			created:'7/18/2021'
+			created:'9/26/2018'
 		},
 		{
 			title:'Get nearest POIs to a set of addresses',
@@ -1720,7 +1738,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Get%20nearest%20POIs%20to%20a%20set%20of%20addresses.html',
 			screenshot:'Get nearest POIs to a set of addresses.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places, batch, batch geocode',
-			created:'7/18/2021'
+			created:'6/7/2021'
 		},
 		{
 			title:'Load POIs as the map moves',
@@ -1729,7 +1747,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Load%20POI%20as%20the%20map%20moves.html',
 			screenshot:'Load-POIs-as-the-map-moves.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, search, points of interest, poi',
-			created:'7/18/2021'
+			created:'4/26/2019'
 		},
 		{
 			title:'Methods for geocoding multiple addresses',
@@ -1738,7 +1756,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Methods%20for%20geocoding%20multiple%20addresses.html',
 			screenshot:'Methods-for-geocoding-multiple-addresses.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, poi, address, addresses, places, batch, batch geocode',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'Page through POI results',
@@ -1747,7 +1765,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Page%20through%20POI%20results.html',
 			screenshot:'Page-through-POI-results.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, page results, paging results, pagination',
-			created:'7/18/2021'
+			created:'9/9/2019'
 		},
 		{
 			title:'Reverse Geocode with Services Module',
@@ -1756,7 +1774,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Reverse%20Geocode%20using%20Services%20Module.html',
 			screenshot:'Reverse-Geocode-using-Services-Module.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, search, reverse, geocode, geocoding, address, addresses',
-			created:'7/18/2021'
+			created:'9/26/2018'
 		},
 		{
 			title:'Search for boundaries',
@@ -1765,7 +1783,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Search%20for%20boundaries.html',
 			screenshot:'Search-for-boundaries.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, geolocation, search, geocode, geocoding, adminstrative boundaries, boundary, boundaries, polygon',
-			created:'7/18/2021'
+			created:'3/13/2020'
 		},
 		{
 			title:'Search for POIs along route',
@@ -1774,7 +1792,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Search%20for%20POIs%20along%20route.html',
 			screenshot:'Search-for-POIs-along-route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, rest, service, points of interest, poi, directions, route, routing',
-			created:'7/18/2021'
+			created:'1/12/2021'
 		},
 		{
 			title:'Show traffic along route',
@@ -1783,7 +1801,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Show%20traffic%20along%20route.html',
 			screenshot:'Show-traffic-along-route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, route sections, traffic',
-			created:'7/18/2021'
+			created:'3/2/2020'
 		},
 		{
 			title:'Snap points to logical route path',
@@ -1792,7 +1810,7 @@ var sampleList = [
 			sourcePath:'Services%20Module/Snap%20points%20to%20logical%20route%20path.html',
 			screenshot:'Snap-points-to-logical-route-path.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road',
-			created:'7/18/2021'
+			created:'1/31/2020'
 		},
 	]
 },
@@ -1807,7 +1825,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Analysis/Calculate%20nearest%20locations.html',
 			screenshot:'Calculate-nearest-locations.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, fire, school, route matrix, matrix, distance matrix, travel time',
-			created:'7/18/2021'
+			created:'5/10/2021'
 		},
 		{
 			title:'Census block group analysis',
@@ -1816,7 +1834,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Analysis/Census%20block%20group%20analysis.html',
 			screenshot:'Census-block-group-analysis.jpg',
 			keywords:'microsoft maps, map, gis, api, spatial analysis, spatial join, voronoi, voronoi diagram, within, intersects, intersection, spatial data, spatial io module, geoxml, census',
-			created:'7/18/2021'
+			created:'3/20/2020'
 		},
 		{
 			title:'Travel time analysis of multiple locations',
@@ -1825,7 +1843,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Analysis/Travel%20time%20analysis%20of%20multiple%20locations.html',
 			screenshot:'Travel-time-analysis-of-multiple-locations.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, travel time, isochrone, route range, within, intersects, intersection, temporal, temporal analysis',
-			created:'7/18/2021'
+			created:'3/20/2020'
 		},
 		{
 			title:'Voronoi diagram analysis',
@@ -1834,7 +1852,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Analysis/Voronoi%20diagram%20analysis.html',
 			screenshot:'Voronoi-diagram-analysis.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial analysis, spatial join, voronoi, voronoi diagram, within, intersects, intersection',
-			created:'7/18/2021'
+			created:'3/20/2020'
 		},
 		{
 			title:'Route along GeoJSON network',
@@ -1843,7 +1861,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Analysis/GeoJSONRouting',
 			screenshot:'Route-along-GeoJSON-network.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, shortest path, routing, route, directions, spatial math, maritime trade routes, spatial analysis',
-			created:'7/18/2021'
+			created:'3/20/2020'
 		},
 	]
 },
@@ -1858,7 +1876,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Add%20a%20delimited%20file%20(CSV)%20to%20the%20map.html',
 			screenshot:'Add-a-delimited-file-(CSV)-to-the-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, csv, tsv, delimited file',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'Drag and drop spatial files onto map',
@@ -1867,7 +1885,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Drag%20and%20drop%20spatial%20files%20onto%20map.html',
 			screenshot:'Drag-and-drop-spatial-files-onto-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml',
-			created:'7/18/2021'
+			created:'2/23/2020'
 		},
 		{
 			title:'Load KML onto map',
@@ -1876,7 +1894,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Load%20KML%20onto%20map.html',
 			screenshot:'Load-KML-onto-map.jpg',
 			keywords:'map, gis, api, sdk, kml, kmz, ogc, spatial data, spatial io module, geoxml',
-			created:'7/18/2021'
+			created:'2/23/2020'
 		},
 		{
 			title:'Load spatial data (simple)',
@@ -1885,7 +1903,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Load%20spatial%20data%20(simple).html',
 			screenshot:'Load-spatial-data-(simple).jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml',
-			created:'7/18/2021'
+			created:'2/23/2020'
 		},
 		{
 			title:'OGC map layer example',
@@ -1894,7 +1912,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/OGC%20map%20layer%20example.html',
 			screenshot:'OGC-map-layer-example.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, web mapping service, web mapping tile service, wmts, wms, ogc, spatial io module',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'OGC map layer options',
@@ -1903,7 +1921,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/OGC%20map%20layer%20options.html',
 			screenshot:'OGC-map-layer-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'OGC Web Map Service explorer',
@@ -1912,7 +1930,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/OGC%20Web%20Map%20Service%20explorer.html',
 			screenshot:'OGC-Web-Map-Service-explorer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, web mapping service, web mapping tile service, wmts, wms, ogc, spatial io module',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'Read and write Well Known Text',
@@ -1921,7 +1939,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Read%20and%20write%20Well%20Known%20Text.html',
 			screenshot:'Read-and-write-Well-Known-Text.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, well known text, wkt, ogc, spatial io module',
-			created:'7/18/2021'
+			created:'2/23/2020'
 		},
 		{
 			title:'Read Well Known Text',
@@ -1930,7 +1948,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Read%20Well%20Known%20Text.html',
 			screenshot:'Read-Well-Known-Text.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, well known text, wkt, ogc, spatial io module',
-			created:'7/18/2021'
+			created:'2/23/2020'
 		},
 		{
 			title:'Simple data layer options',
@@ -1939,7 +1957,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Simple%20data%20layer%20options.html',
 			screenshot:'Simple-data-layer-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, linelayer, symbols, markers, pins, pushpins, spatial data, spatial io module',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'Simple WFS example',
@@ -1948,7 +1966,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Simple%20WFS%20example.html',
 			screenshot:'Simple-WFS-example.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, wfs, web feature service, ogc, spatial data, spatial io module',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'Spatial data gallery',
@@ -1957,7 +1975,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Spatial%20data%20gallery.html',
 			screenshot:'Spatial-data-gallery.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'Spatial data write options',
@@ -1966,7 +1984,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/Spatial%20data%20write%20options.html',
 			screenshot:'Spatial-data-write-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, kml, kmz, georss, gpx, gml, geojson, csv, ogc, spatial data, spatial io module, geoxml',
-			created:'7/18/2021'
+			created:'2/28/2020'
 		},
 		{
 			title:'WFS filter example',
@@ -1975,7 +1993,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/WFS%20filter%20examples.html',
 			screenshot:'WFS-filter-example.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, wfs, web feature service, ogc, spatial data, spatial io module',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 		{
 			title:'WFS service explorer',
@@ -1984,7 +2002,7 @@ var sampleList = [
 			sourcePath:'Spatial%20IO%20Module/WFS%20service%20explorer.html',
 			screenshot:'WFS-service-explorer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, wfs, web feature service, ogc, spatial data, spatial io module',
-			created:'7/18/2021'
+			created:'2/27/2020'
 		},
 	]
 },
@@ -1999,7 +2017,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Basic%20snap%20to%20road%20logic.html',
 			screenshot:'Basic-snap-to-road-logic.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, snap to road, snap to roads, snapping, road network, gps',
-			created:'7/18/2021'
+			created:'1/31/2020'
 		},
 		{
 			title:'Calculate a convex hull',
@@ -2008,7 +2026,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Calculate%20a%20convex%20hull.html',
 			screenshot:'Calculate-a-convex-hull.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, convex hull',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Calculate concentric isochrones',
@@ -2017,7 +2035,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Calculate%20concentric%20isochrones.html',
 			screenshot:'Calculate-concentric-isochrones.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis',
-			created:'7/18/2021'
+			created:'10/28/2020'
 		},
 		{
 			title:'Cardinal Spline Options',
@@ -2026,7 +2044,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Cardinal%20Spline%20Options.html',
 			screenshot:'Cardinal-Spline-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
-			created:'7/18/2021'
+			created:'12/10/2018'
 		},
 		{
 			title:'Convex hull and HTML markers',
@@ -2035,7 +2053,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Convex%20hull%20and%20HTML%20markers.html',
 			screenshot:'Convex-hull-and-HTML-markers.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, convex hull, markers',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Create 3D isobands from isolines',
@@ -2044,7 +2062,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Create%203D%20isobands%20from%20isolines.html',
 			screenshot:'Create-3D-isobands-from-isolines.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling',
-			created:'7/18/2021'
+			created:'9/10/2020'
 		},
 		{
 			title:'Create isobands from isolines',
@@ -2053,7 +2071,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Create%20isobands%20from%20isolines.html',
 			screenshot:'Create-isobands-from-isolines.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'9/10/2020'
 		},
 		{
 			title:'Data binning points with Turfjs',
@@ -2062,7 +2080,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Data%20binning%20points%20with%20Turfjs.html',
 			screenshot:'Data-binning-points-with-Turfjs.jpg',
 			keywords:'microsoft maps, maps, map, api, sdk, gis, bivariate, data binning, data bin, gridding, hexbins, hexgrid, hexagon bins, tessellations',
-			created:'7/18/2021'
+			created:'9/10/2020'
 		},
 		{
 			title:'Display cluster area with Convex Hull',
@@ -2071,7 +2089,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Display%20cluster%20area%20with%20Convex%20Hull.html',
 			screenshot:'Display-cluster-area-with-Convex-Hull.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, convex hull, spatial math, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'3/27/2019'
 		},
 		{
 			title:'Filter Data Along Route',
@@ -2080,7 +2098,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Filter%20Data%20Along%20Route.html',
 			screenshot:'Filter-Data-Along-Route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, turf.js, geospatial, math, points, buffer, within, intersects, intersection',
-			created:'7/18/2021'
+			created:'4/1/2019'
 		},
 		{
 			title:'Get closest HTML marker to position',
@@ -2089,7 +2107,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Get%20closest%20HTML%20marker%20to%20position.html',
 			screenshot:'Get-closest-HTML-marker-to-position.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, markers, coordinate',
-			created:'7/18/2021'
+			created:'9/20/2019'
 		},
 		{
 			title:'Get closest point to geometry',
@@ -2098,7 +2116,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Get%20closest%20point%20to%20geometry.html',
 			screenshot:'Get-closest-point-to-geometry.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Get closest point to position',
@@ -2107,7 +2125,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Get%20closest%20point%20to%20position.html',
 			screenshot:'Get-closest-point-to-position.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, point, coordinate',
-			created:'7/18/2021'
+			created:'9/20/2019'
 		},
 		{
 			title:'Get points in current map view',
@@ -2116,7 +2134,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Get%20points%20in%20current%20map%20view.html',
 			screenshot:'Get-points-in-current-map-view.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, events, overview map, overview, mini map, minimap',
-			created:'7/18/2021'
+			created:'11/3/2019'
 		},
 		{
 			title:'Introduction to Spatial Math',
@@ -2125,7 +2143,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Introduction%20to%20spatial%20math.html',
 			screenshot:'Introduction-to-spatial-math.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, geospatial, spatial math, math, haversine, heading, bearing',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Merge two polygons together',
@@ -2134,7 +2152,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Merge%20two%20polygons%20together.html',
 			screenshot:'Merge-two-polygons-together.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, turf.js, geospatial, math, spatial math, polygons, merge, union, spatial analytics',
-			created:'7/18/2021'
+			created:'4/1/2019'
 		},
 		{
 			title:'Simple Cardinal Spline',
@@ -2143,7 +2161,7 @@ var sampleList = [
 			sourcePath:'Spatial%20Math/Simple%20Cardinal%20Spline.html',
 			screenshot:'Simple-Cardinal-Spline.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, spatial math, math, spline, cardinal spline, curves, lines, line layer',
-			created:'7/18/2021'
+			created:'1/25/2019'
 		},
 	]
 },
@@ -2158,7 +2176,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/All%20built-in%20icon%20templates%20as%20symbols.html',
 			screenshot:'All-built-in-icon-templates-as-symbols.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, image template, icon templates',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Change Mouse Cursor when Hovering Layer',
@@ -2167,7 +2185,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Change%20Mouse%20Cursor%20when%20Hovering%20Layer.html',
 			screenshot:'Change-Mouse-Cursor-when-Hovering-Layer.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, mouse, cursor',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Create Symbols from Custom JSON',
@@ -2176,7 +2194,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Create%20Symbols%20from%20Custom%20JSON.html',
 			screenshot:'Create-Symbols-from-Custom-JSON.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, json, layer',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Custom Symbol Image Icon',
@@ -2185,7 +2203,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Custom%20Symbol%20Image%20Icon.html',
 			screenshot:'Custom-Symbol-Image-Icon.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
-			created:'7/18/2021'
+			created:'1/8/2020'
 		},
 		{
 			title:'Data-driven symbol icons',
@@ -2194,7 +2212,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Data-driven%20symbol%20icons.html',
 			screenshot:'Data-driven-symbol-icons.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image, expression',
-			created:'7/18/2021'
+			created:'5/14/2019'
 		},
 		{
 			title:'Display clusters with a Symbol Layer',
@@ -2203,7 +2221,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Display%20clusters%20with%20a%20Symbol%20layer.html',
 			screenshot:'Display-clusters-with-a-Symbol-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, clustering, superclusterer, earthquakes, usgs',
-			created:'7/18/2021'
+			created:'3/27/2019'
 		},
 		{
 			title:'Draggable Symbols',
@@ -2212,7 +2230,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Draggable%20Symbols.html',
 			screenshot:'Draggable-Symbols.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer, drag, draggable, mouse',
-			created:'7/18/2021'
+			created:'10/2/2018'
 		},
 		{
 			title:'Expanding Spider Clusters',
@@ -2221,7 +2239,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Expanding%20Spider%20Clusters.html',
 			screenshot:'Expanding-Spider-Clusters.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider',
-			created:'7/18/2021'
+			created:'11/5/2020'
 		},
 		{
 			title:'Filter Symbols by Property',
@@ -2230,7 +2248,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Filter%20Symbols%20by%20Property.html',
 			screenshot:'Filter-Symbols-by-Property.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
-			created:'7/18/2021'
+			created:'10/19/2018'
 		},
 		{
 			title:'Formatted text field',
@@ -2239,7 +2257,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Formatted%20text%20field.html',
 			screenshot:'Formatted-text-field.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, text formatting, formatting, string formatting',
-			created:'7/18/2021'
+			created:'3/29/2019'
 		},
 		{
 			title:'Image sprite fallback expression',
@@ -2248,7 +2266,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Image%20sprite%20fallback%20expression.html',
 			screenshot:'Image-sprite-fallback-expression.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
-			created:'7/18/2021'
+			created:'11/22/2019'
 		},
 		{
 			title:'Load missing image into sprite',
@@ -2257,7 +2275,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Load%20missing%20image%20into%20sprite.html',
 			screenshot:'',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
-			created:'7/18/2021'
+			created:'3/1/2021'
 		},
 		{
 			title:'Styled Symbol Layer',
@@ -2266,7 +2284,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Styled%20Symbol%20Layer.html',
 			screenshot:'Styled-Symbol-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, styling, style, layer',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Symbol image selection state',
@@ -2275,7 +2293,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Symbol%20image%20selection%20state.html',
 			screenshot:'Symbol-image-selection-state.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
-			created:'7/18/2021'
+			created:'1/8/2020'
 		},
 		{
 			title:'Layer events',
@@ -2284,7 +2302,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Symbol%20layer%20events.html',
 			screenshot:'Layer-events.gif',
 			keywords:'microsoft maps, map, gis, api, sdk, events, bubble, circles, bubblelayer, line, linestring, polyline, polygon, symbols, markers, pins, pushpins, layer, click, mouse, touch, context menu, wheel',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Symbol Layer Options',
@@ -2293,7 +2311,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Symbol%20Layer%20Options.html',
 			screenshot:'Symbol-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, symbols, markers, pins, pushpins, layer',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Symbol layer with built-in icon template',
@@ -2302,7 +2320,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Symbol%20layer%20with%20built-in%20icon%20template.html',
 			screenshot:'Symbol-layer-with-built-in-icon-template.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, template, symbols, markers, pins, pushpins, styling, style, layer, icons, image template',
-			created:'7/18/2021'
+			created:'7/5/2019'
 		},
 		{
 			title:'Text format with inline image',
@@ -2311,7 +2329,7 @@ var sampleList = [
 			sourcePath:'Symbol%20Layer/Text%20format%20with%20inline%20image.html',
 			screenshot:'Text-format-with-inline-image.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, icon, image',
-			created:'7/18/2021'
+			created:'3/13/2020'
 		},
 	]
 },
@@ -2326,7 +2344,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20Cesium%20options.html',
 			screenshot:'Azure-Maps-Cesium-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
-			created:'7/18/2021'
+			created:'2/9/2021'
 		},
 		{
 			title:'Azure Maps Leaflet options',
@@ -2335,7 +2353,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20Leaflet%20options.html',
 			screenshot:'Azure-Maps-Leaflet-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js, leafletjs',
-			created:'7/18/2021'
+			created:'1/11/2021'
 		},
 		{
 			title:'Azure Maps OpenLayers options',
@@ -2344,7 +2362,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20OpenLayers%20options.html',
 			screenshot:'Azure-Maps-OpenLayers-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
-			created:'7/18/2021'
+			created:'2/10/2021'
 		},
 		{
 			title:'Azure Maps OpenLayers satellite labels',
@@ -2353,7 +2371,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Azure%20Maps%20OpenLayers%20satellite%20labels.html',
 			screenshot:'Azure-Maps-OpenLayers-satellite-labels.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
-			created:'7/18/2021'
+			created:'2/10/2021'
 		},
 		{
 			title:'Raster Tiles in ArcGIS JS',
@@ -2362,7 +2380,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Raster%20Tiles%20in%20ArcGIS%20JS.html',
 			screenshot:'Raster-Tiles-in-ArcGIS-JS.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, arcgis, esri',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Render Azure Maps in Cesium',
@@ -2371,7 +2389,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20Cesium.html',
 			screenshot:'Render-Azure-Maps-in-Cesium.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
-			created:'7/18/2021'
+			created:'2/9/2021'
 		},
 		{
 			title:'Render Azure Maps in Leaflet',
@@ -2380,7 +2398,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20Leaflet.html',
 			screenshot:'Render-Azure-Maps-in-Leaflet.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js, leafletjs',
-			created:'7/18/2021'
+			created:'9/23/2018'
 		},
 		{
 			title:'Render Azure Maps in OpenLayers',
@@ -2389,7 +2407,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Render%20Azure%20Maps%20in%20OpenLayers.html',
 			screenshot:'Render-Azure-Maps-in-OpenLayers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
-			created:'7/18/2021'
+			created:'2/10/2021'
 		},
 		{
 			title:'Show Azure Maps in Cesium BaseLayerPicker',
@@ -2398,7 +2416,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Show%20Azure%20Maps%20in%20Cesium%20BaseLayerPicker.html',
 			screenshot:'Show-Azure-Maps-in-Cesium-BaseLayerPicker.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, cesium, cesium.js',
-			created:'7/18/2021'
+			created:'2/9/2021'
 		},
 		{
 			title:'Show Azure Maps in Leaflet layer control',
@@ -2407,7 +2425,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Show%20Azure%20Maps%20in%20Leaflet%20layer%20control.html',
 			screenshot:'Show-Azure-Maps-in-Leaflet-layer-control.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, raster, leaflet, leaflet.js, leafletjs',
-			created:'7/18/2021'
+			created:'1/11/2021'
 		},
 		{
 			title:'Simple Azure Maps layer picker for OpenLayers',
@@ -2416,7 +2434,7 @@ var sampleList = [
 			sourcePath:'Third%20Party%20Map%20Controls/Simple%20Azure%20Maps%20layer%20picker%20for%20OpenLayers.html',
 			screenshot:'Simple-Azure-Maps-layer-picker-for-OpenLayers.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, raster, imagery, satellite, aerial, tiles, open layers, openlayers',
-			created:'7/18/2021'
+			created:'2/10/2021'
 		},
 	]
 },
@@ -2431,7 +2449,7 @@ var sampleList = [
 			sourcePath:'Tile%20Layers/Tile%20Layer%20Options.html',
 			screenshot:'Tile-Layer-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'Tile Layer using X, Y, and Z',
@@ -2440,7 +2458,7 @@ var sampleList = [
 			sourcePath:'Tile%20Layers/Tile%20Layer%20using%20X,%20Y%20and%20Z.html',
 			screenshot:'Tile-Layer-using-X,-Y-and-Z.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, nautical chart, openseamap',
-			created:'7/18/2021'
+			created:'11/28/2018'
 		},
 		{
 			title:'WMS Tile Layer',
@@ -2449,7 +2467,7 @@ var sampleList = [
 			sourcePath:'Tile%20Layers/WMS%20Tile%20Layer.html',
 			screenshot:'WMS-Tile-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, wms, web mapping service',
-			created:'7/18/2021'
+			created:'12/10/2018'
 		},
 		{
 			title:'WMTS Tile Layer',
@@ -2458,7 +2476,7 @@ var sampleList = [
 			sourcePath:'Tile%20Layers/WMTS%20Tile%20Layer.html',
 			screenshot:'WMTS-Tile-Layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tiles, layer, wmts, web mapping tile service',
-			created:'7/18/2021'
+			created:'12/11/2018'
 		},
 	]
 },
@@ -2473,7 +2491,7 @@ var sampleList = [
 			sourcePath:'Traffic/Traffic%20control%20options.html',
 			screenshot:'Traffic-control-options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'9/3/2020'
 		},
 		{
 			title:'Traffic controls',
@@ -2482,7 +2500,7 @@ var sampleList = [
 			sourcePath:'Traffic/Traffic%20controls.html',
 			screenshot:'Traffic-controls.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'9/2/2020'
 		},
 		{
 			title:'Traffic Overlay Options',
@@ -2491,7 +2509,7 @@ var sampleList = [
 			sourcePath:'Traffic/Traffic%20Overlay%20Options.html',
 			screenshot:'Traffic-Overlay-Options.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 		{
 			title:'Traffic Overlay',
@@ -2500,7 +2518,7 @@ var sampleList = [
 			sourcePath:'Traffic/Traffic%20Overlay.html',
 			screenshot:'Traffic-Overlay.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'5/4/2018'
 		},
 	]
 },
@@ -2515,7 +2533,7 @@ var sampleList = [
 			sourcePath:'Tutorials/Creator%20indoor%20maps.html',
 			screenshot:'Creator-indoor-maps.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, creator, indoor maps, indoor, building',
-			created:'7/18/2021'
+			created:'2/16/2021'
 		},
 		{
 			title:'Interactive Search Quickstart',
@@ -2524,7 +2542,7 @@ var sampleList = [
 			sourcePath:'Tutorials/interactiveSearch.html',
 			screenshot:'interactiveSearch.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, search, point of interest, poi',
-			created:'7/18/2021'
+			created:'10/25/2018'
 		},
 		{
 			title:'Route to a destination',
@@ -2533,7 +2551,7 @@ var sampleList = [
 			sourcePath:'Tutorials/route.html',
 			screenshot:'route.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
-			created:'7/18/2021'
+			created:'10/25/2018'
 		},
 		{
 			title:'Search for points of interest',
@@ -2542,7 +2560,7 @@ var sampleList = [
 			sourcePath:'Tutorials/search.html',
 			screenshot:'search.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, search',
-			created:'7/18/2021'
+			created:'10/25/2018'
 		},
 		{
 			title:'Multiple routes by mode of travel',
@@ -2551,7 +2569,7 @@ var sampleList = [
 			sourcePath:'Tutorials/truckRoute.html',
 			screenshot:'truckRoute.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, services, module, tutorials, routing, directions, route, truck, commercial vehicle',
-			created:'7/18/2021'
+			created:'10/25/2018'
 		},
 		{
 			title:'Simple Store Locator',
@@ -2560,7 +2578,7 @@ var sampleList = [
 			sourcePath:'Tutorials/Simple%20Store%20Locator',
 			screenshot:'Simple-Store-Locator.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, tutorials, store locator, locator, coffee, contoso, clustering',
-			created:'7/18/2021'
+			created:'10/25/2018'
 		},
 	]
 },
@@ -2575,7 +2593,7 @@ var sampleList = [
 			sourcePath:'Vector%20tiles/Vector%20tile%20bubble%20layer.html',
 			screenshot:'Vector-tile-bubble-layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, markers, pins, pushpins, symbols, layer, bubbles, clustering, vector tiles, mbtiles, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'7/2/2020'
 		},
 		{
 			title:'Vector tile heat map',
@@ -2584,7 +2602,7 @@ var sampleList = [
 			sourcePath:'Vector%20tiles/Vector%20tile%20heat%20map.html',
 			screenshot:'Vector-tile-heat-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, vector tiles, mbtiles, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'7/2/2020'
 		},
 		{
 			title:'Vector tile line layer',
@@ -2593,7 +2611,7 @@ var sampleList = [
 			sourcePath:'Vector%20tiles/Vector%20tile%20line%20layer.html',
 			screenshot:'Vector-tile-line-layer.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, line, linestring, polyline, layer, linelayer, vector tiles, mbtiles, traffic, layer, flow, incidents',
-			created:'7/18/2021'
+			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 272;
+}];var numberOfSamples = 274;

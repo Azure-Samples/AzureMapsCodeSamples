@@ -63,6 +63,11 @@
                 layers.polygonLayer.setOptions({ fillColor: 'green' });
                 layers.polygonOutlineLayer.setOptions({ strokeColor: 'orange' });
 
+                //Get preview rendering layers from the drawing manager and modify line styles to be dashed.
+                var previewLayers = drawingManager.getPreviewLayers();
+                previewLayers.lineLayer.setOptions({ strokeColor: 'red', strokeWidth: 4, strokeDashArray: [3,3] });
+                previewLayers.polygonOutlineLayer.setOptions({ strokeColor: 'orange', strokeDashArray: [3, 3] });
+
                 //Drag handles that appear for coordinates when editting are HTML markers.
                 //HTML marker options can be passed to the drawing manager as options.
                 drawingManager.setOptions({
@@ -90,7 +95,7 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend><h1 style="font-size:16px">Change drawing rendering style</h1></legend>
         This sample shows how to customize the rendering of the drawing shapes in the drawing manager by
-        accessing the rendering layers using the <b>drawingManager.getLayers()</b> function. 
+        accessing the rendering layers using the <b>drawingManager.getLayers()</b> and <b>drawingManager.getPreviewLayers()</b> functions.
         Drag handles that appear for coordinates when editting are HTML markers, and can be styled by setting the <b>dragHandleStyle</b> and <b>secondaryDragHandleStyle</b> drawing manager options.
     </fieldset>
 </body>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-07-18</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-07-20</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -64,6 +64,8 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Get%20drawn%20shapes%20from%20drawing%20manager.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Snap%20drawn%20line%20to%20roads.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Snap%20grid%20options.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Drawing%20Tools%20Module/Use%20a%20snapping%20grid.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Add%20TopoJSON%20data%20to%20the%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Drag%20and%20Drop%20GeoJSON%20File%20onto%20Map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Geospatial%20Files/Drag%20and%20Drop%20Shapefiles%20onto%20the%20Map.html</loc></url>
@@ -121,7 +123,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20style%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Map%20user%20interaction%20options.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20overview%20map%20options.html</loc></url>
-<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20Overview%20Map.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mini%20overview%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Mouse%20events%20with%20keys%20pressed.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps%20in%20Different%20Lanaguages.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Map/Multiple%20Maps.html</loc></url>

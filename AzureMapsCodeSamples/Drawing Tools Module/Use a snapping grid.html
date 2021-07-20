@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Drawing tools events - Azure Maps Web SDK Samples</title>
+    <title>Use a snapping grid - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how the events in the Drawing Tools module work." />
+    <meta name="description" content="This sample shows how to use the snap grid manager when dragging HTML markers and/or while drawing shapes." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, paint, events" />
     <meta name="author" content="Microsoft Azure Maps" />
 
@@ -20,7 +20,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
 
     <script type='text/javascript'>
-        var map, drawingManager, drawingEvents = ['drawingchanged', 'drawingchanging', 'drawingcomplete', 'drawingmodechanged', 'drawingstarted', 'drawingerased'];
+        var map, snapGrid;
 
         function GetMap() {
             //Initialize a map instance.
@@ -47,46 +47,71 @@
                 }
             });
 
-            //Wait until the map resources are ready.
+            // Wait until the map resources are ready.
             map.events.add('ready', function () {
-
-                //Create an instance of the drawing manager and display the drawing toolbar.
-                drawingManager = new atlas.drawing.DrawingManager(map, {
-                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                snapGrid = new atlas.drawing.SnapGridManager(map, {
+                    showGrid: true,
+                    resolution: 50,
+                    removeDuplicates: true,
+                    simplify: true,
+                    enabled: true
                 });
 
-                //Add events to the drawing manager.
-                for (var i = 0; i < drawingEvents.length; i++) {
-                    map.events.add(drawingEvents[i], drawingManager, createHighlightEvent(drawingEvents[i]));
+                // Use a draggable marker as a method to test snapping.
+                var marker = new atlas.HtmlMarker({
+                    draggable: true,
+                    position: map.getCamera().center
+                });
 
-                    //Add a div to highlight the event.
-                    document.getElementById('eventPanel').innerHTML += '<div id="' + drawingEvents[i] + '">' + drawingEvents[i] + '</div>'
-                }
+                map.markers.add(marker);
+
+                map.events.add('dragend', marker, (e) => {
+                    var snappedPosition = snapGrid.snapPositions([e.target.getOptions().position])[0];
+
+                    e.target.setOptions({
+                        position: snappedPosition
+                    });
+                });
+
+                // Using drawing tools in combination with snap grid.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({
+                        position: 'top-right',
+                        style: 'light'
+                    })
+                });
+
+                // Monitor for when a line drawing has been completed.
+                map.events.add('drawingcomplete', drawingManager, snapToGrid);
+
+
+                // Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-left'
+                });
             });
         }
 
-        function createHighlightEvent(eventType) {
+        function snapToGrid(shape) {
+            // Exit drawing mode.
+            drawingManager.setOptions({ mode: 'idle' });
 
-            return function (e) {
-                //Highlight the div to indicate that the event has fired.
-                document.getElementById(eventType).style.background = 'LightGreen';
-
-                //Remove the highlighting after a second.
-                setTimeout(function () { document.getElementById(eventType).style.background = 'white'; }, 1000);
-            }
+            snapGrid.snapShape(shape);
         }
     </script>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
-    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"></div>
-
-    <div style="clear:both;"></div>
-
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend><h1 style="font-size:16px">Drawing tools events</h1></legend>
-        This sample shows how the events in the Drawing Tools module work.
+        <legend><h1 style="font-size:16px">Use a snapping grid</h1></legend>
+        This sample shows how to use the snap grid manager when dragging HTML markers and/or while drawing shapes.
+        Pass any shape into the <b>snapShape</b> function or positions into the <b>snapPositions</b> function to get the snapped data from the current map view.
+        A snapping grid makes it easier to draw shapes with shared edges and nodes between shapes, and straighter lines.
+        The resolution of the snapping grid is in pixels. The grid is square and relative to the nearest integer zoom level. 
+        The grid scales by a factor of 2 relative to physical real-world area with each zoom level.
     </fieldset>
 </body>
 </html>

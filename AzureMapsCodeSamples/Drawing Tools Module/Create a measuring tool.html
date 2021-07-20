@@ -53,7 +53,7 @@
                 //Create an instance of the drawing manager and display the drawing toolbar.
                 drawingManager = new atlas.drawing.DrawingManager(map, {
                     toolbar: new atlas.control.DrawingToolbar({
-                        buttons: ['draw-line', 'draw-polygon', 'draw-rectangle', 'draw-circle'],
+                        buttons: ['draw-line', 'draw-polygon', 'draw-rectangle', 'draw-circle', 'edit-geometry'],
                         position: 'top-right',
                         style: 'light'
                     })
@@ -63,8 +63,9 @@
                 map.events.add('drawingmodechanged', drawingManager, drawingModeChanged);
 
                 //Monitor for when a polygon drawing has been completed.
-                map.events.add('drawingchanging', drawingManager, measureShape);
-                map.events.add('drawingcomplete', drawingManager, drawingComplete);
+                map.events.add('drawingchanging', drawingManager, measureShape);    //Fires when in shape preview is shown.
+                map.events.add('drawingchanged', drawingManager, measureShape);     //Fires when the shape has changed.
+                map.events.add('drawingcomplete', drawingManager, drawingComplete); //Fires when drawing is completed.
             });
         }
 

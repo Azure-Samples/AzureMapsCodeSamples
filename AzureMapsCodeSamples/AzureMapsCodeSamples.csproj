@@ -396,6 +396,8 @@
     <Content Include="Controls\Spyglass module options.html" />
     <Content Include="Device Sensors\Geolocation control options.html" />
     <Content Include="Device Sensors\Geolocation control.html" />
+    <Content Include="Drawing Tools Module\Snap grid options.html" />
+    <Content Include="Drawing Tools Module\Use a snapping grid.html" />
     <Content Include="Experimental\Disable pitch and rotation.html" />
     <Content Include="Geospatial Files\Visualize Excel data.html" />
     <Content Include="Geospatial Files\GeoJSON file optimizer.html" />
@@ -408,13 +410,14 @@
     <Content Include="SiteResources\screenshots\Creator-indoor-maps.jpg" />
     <Content Include="SiteResources\screenshots\Custom-navigation-controls.jpg" />
     <Content Include="SiteResources\screenshots\Get nearest POIs to a set of addresses.gif" />
+    <Content Include="SiteResources\screenshots\Snap-grid-options.jpg" />
+    <Content Include="SiteResources\screenshots\Use-a-snapping-grid.jpg" />
     <Content Include="SiteResources\screenshots\Visualize-Excel-data.jpg" />
     <Content Include="Spatial Analysis\Calculate nearest locations.html" />
     <Content Include="Tutorials\Creator indoor maps.html" />
     <Content Include="Experimental\Feature states.html" />
     <Content Include="Popups\Accessible shape selection.html" />
     <Content Include="REST Services\3D Elevation profiles.html" />
-    <Content Include="Experimental\Add delete support to drawing tools.html" />
     <Content Include="Drawing Tools Module\Allow map panning with drawing tools.html" />
     <Content Include="Experimental\Custom Drawing Tools\Draw Line.html" />
     <Content Include="Experimental\Custom Drawing Tools\Draw Polygon.html" />
@@ -426,7 +429,6 @@
     <Content Include="Common\images\icons\endPin.png" />
     <Content Include="Common\images\icons\startPin.png" />
     <Content Include="Drawing Tools Module\Snap drawn line to roads.html" />
-    <Content Include="Experimental\HackforEditModeEvents.html" />
     <Content Include="Experimental\IE11 polyfill map.html" />
     <Content Include="Experimental\Select a shape in the drawing manager.html" />
     <Content Include="Experimental\Simple drawing tools color picker.html" />
@@ -483,7 +485,6 @@
     <Content Include="Spatial Math\Create 3D isobands from isolines.html" />
     <Content Include="Spatial Math\Data binning points with Turfjs.html" />
     <Content Include="Spatial Math\Create isobands from isolines.html" />
-    <Content Include="Experimental\Create isolines from points.html" />
     <Content Include="Line Layer\Display isoline data.html" />
     <Content Include="Map\Display 3D building footprints.html" />
     <Content Include="Controls\Fullscreen control options.html" />
