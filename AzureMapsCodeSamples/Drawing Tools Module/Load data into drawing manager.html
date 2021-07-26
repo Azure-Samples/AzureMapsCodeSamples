@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Load data into drawing manager - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to programmatically add shapes to the drawing manager and put them into edit mode. " />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, drawingManager;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 10,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                });
+
+                //Get the source from the drawing manager.
+                var source = drawingManager.getSource();
+
+                //Method 1: Create a shape fature and add it to the map. 
+                source.add({
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": [[-122.27577,47.55938],[-122.29705,47.60662],[-122.22358,47.6367]]
+                    }
+                });
+
+                //Method 2: Import GeoJSON data from a file.
+                source.importDataFromUrl('../Common/data/geojson/randomFeatures.json');
+            });
+        }
+
+        function editFirstShape() {
+            //This shows how to programmatically put a shape into edit mode.
+
+            //Get a shape. Can either be a new shape or one that's in the data source of the drawing manager.
+            var shape = drawingManager.getSource().getShapes()[0];
+
+            //Pass the shape into the drawing managers edit function.
+            drawingManager.edit(shape);
+
+            //To programmatically take a shape out of edit mode, set the drawing managers mode to 'idle'.
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend><h1 style="font-size:16px">Load data into drawing manager</h1></legend>
+        This sample shows how to programmatically add shapes to the drawing manager and put them into edit mode. 
+
+        <input type="button" onclick="editFirstShape()" value="Edit first shape" />
+    </fieldset>
+</body>
+</html>

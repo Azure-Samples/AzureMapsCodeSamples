@@ -583,6 +583,15 @@ var sampleList = [
 			created:'5/4/2019'
 		},
 		{
+			title:'Load data into drawing manager',
+			desc:'This sample shows how to programmatically add shapes to the drawing manager and put them into edit mode. ',
+			path:'Drawing%20Tools%20Module/Load%20data%20into%20drawing%20manager.html',
+			sourcePath:'Drawing%20Tools%20Module/Load%20data%20into%20drawing%20manager.html',
+			screenshot:'Load-data-into-drawing-manager.jpg',
+			keywords:'microsoft maps, map, gis, api, sdk, drawing tools, circle, rectangle, polygon, linestring, point, marker, paint',
+			created:'7/26/2021'
+		},
+		{
 			title:'Select data in drawn polygon area',
 			desc:'This sample shows how to use the drawing tools to draw polygon areas on the map and select points that are within them. ',
 			path:'Drawing%20Tools%20Module/Select%20data%20in%20drawn%20polygon%20area.html',
@@ -2614,4 +2623,4 @@ var sampleList = [
 			created:'7/2/2020'
 		},
 	]
-}];var numberOfSamples = 274;
+}];var numberOfSamples = 275;

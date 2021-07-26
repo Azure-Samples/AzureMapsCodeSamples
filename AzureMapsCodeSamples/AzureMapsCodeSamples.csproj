@@ -143,6 +143,7 @@
     <Content Include="Bubble Layer\Cluster aggregates.html" />
     <Content Include="Common\data\geojson\US_farmers_markets.json" />
     <Content Include="Common\data\indoor\tutorial\fixtures.zip" />
+    <None Include="Common\data\geojson\randomFeatures.json" />
     <Content Include="Common\data\shp\BikeRacks.zip" />
     <Content Include="Common\data\geojson\Census Tracts in Colorado 2016.geojson" />
     <Content Include="Common\data\Kml\Poo Poo Point via High School Trail %28one-way track%29.kml" />
@@ -396,6 +397,7 @@
     <Content Include="Controls\Spyglass module options.html" />
     <Content Include="Device Sensors\Geolocation control options.html" />
     <Content Include="Device Sensors\Geolocation control.html" />
+    <Content Include="Drawing Tools Module\Load data into drawing manager.html" />
     <Content Include="Drawing Tools Module\Snap grid options.html" />
     <Content Include="Drawing Tools Module\Use a snapping grid.html" />
     <Content Include="Experimental\Disable pitch and rotation.html" />
@@ -410,6 +412,7 @@
     <Content Include="SiteResources\screenshots\Creator-indoor-maps.jpg" />
     <Content Include="SiteResources\screenshots\Custom-navigation-controls.jpg" />
     <Content Include="SiteResources\screenshots\Get nearest POIs to a set of addresses.gif" />
+    <Content Include="SiteResources\screenshots\Load-data-into-drawing-manager.jpg" />
     <Content Include="SiteResources\screenshots\Snap-grid-options.jpg" />
     <Content Include="SiteResources\screenshots\Use-a-snapping-grid.jpg" />
     <Content Include="SiteResources\screenshots\Visualize-Excel-data.jpg" />

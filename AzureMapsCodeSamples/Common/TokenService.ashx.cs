@@ -20,9 +20,11 @@ namespace AzureMapsCodeSamples.Common
 
         public override async Task ProcessRequestAsync(HttpContext context)
         {
-             //Ensure the request for a token is coming from 
+             //Ensure the request for a token is coming from this sample site or the Azure Maps codepen samples.
              if (context.Request.UrlReferrer != null &&
-                 context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.net/"))
+                 (context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.net/") ||
+                 context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://cdpn.io") ||
+                 context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://codepen.io")))
              {
                  context.Response.ContentType = "text/plain";
                 try
