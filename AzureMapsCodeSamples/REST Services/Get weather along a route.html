@@ -211,7 +211,7 @@
                 //Transform the request.
                 var transform = map.getServiceOptions().tranformRequest;
                 if (transform) {
-                    requestParams = transform(request);
+                    requestParams = transform(url);
                 }
 
                 fetch(requestParams.url, {
