@@ -29,7 +29,7 @@
                 authOptions: {
                     //Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    clientId: '04ec075f-3827-4aed-9975-d56301a2d663', //Your Azure Active Directory client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
                         var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
@@ -230,7 +230,7 @@
                     </td>
                 </tr>
                 <tr title="An integer specifying the maximum zoom level to render the layer at.">
-                    <td>Min Zoom:</td>
+                    <td>Max Zoom:</td>
                     <td>
                         <form oninput="maxz.value=MaxZoom.value">
                             <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />

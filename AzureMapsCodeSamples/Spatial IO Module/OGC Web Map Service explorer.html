@@ -25,16 +25,12 @@
 
         //Sample WMTS and WMS services to let users test with.
         var services = [
-            //WMTS services            
-            { name: 'Texas Vegetation (WMTS)', url: 'https://tpwd.texas.gov/arcgis/rest/services/Vegetation_Mapping/Texas_Ecological_Mapping_Systems_Data/mapserver/WMTS/1.0.0/WMTSCapabilities.xml' },
-            { name: 'USGS Geologic maps (WMTS)', url: 'https://mrdata.usgs.gov/mapcache/wmts/' },            
+            //WMTS services                      
             { name: 'USGS Shaded Relief Only (WMTS)', url: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS/1.0.0/WMTSCapabilities.xml' },
-            { name: 'Iowa City HYDROLOGY (WMTS)', url: 'https://maps.iowa-city.org/sslarcgis/rest/services/IowaCityHYDROLOGY/DFIRM/MapServer/WMTS/1.0.0/WMTSCapabilities.xml' },
-            { name: 'Luxembourg admin areas (WMTS)', url: 'https://wmts1.geoportail.lu/opendata/service' },
             { name: 'basemap.at (WMTS)', url: 'https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml' },
-            { name: 'GeoNorth Ortho (WMTS)', url: 'https://gis.dnr.alaska.gov/terrapixel/cubeserv/ortho?SERVICE=WMTS&REQUEST=GetCapabilities' },
+            { name: 'USGS Geologic maps (WMTS)', url: 'https://mrdata.usgs.gov/mapcache/wmts/' },     
+            { name: 'Luxembourg admin areas (WMTS)', url: 'https://wmts1.geoportail.lu/opendata/service' },
             { name: 'GeoNorth AeronauticalCharts (WMTS)', url: 'https://gis.dnr.alaska.gov/terrapixel/cubeserv/AeronauticalCharts?SERVICE=WMTS&REQUEST=GetCapabilities' },
-            { name: 'Historical Hurricanes (WMTS)', url: 'https://www.coast.noaa.gov/arcgis/rest/services/Hurricanes/AllHurricanes/MapServer/WMTS/1.0.0/WMTSCapabilities.xml' },
 
             //WMS services
             { name: 'World geology survey (WMS)', url: 'https://mrdata.usgs.gov/services/gscworld' },
@@ -61,7 +57,7 @@
                 authOptions: {
                     //Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: "04ec075f-3827-4aed-9975-d56301a2d663", //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    clientId: '04ec075f-3827-4aed-9975-d56301a2d663', //Your Azure Active Directory client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
                         var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
