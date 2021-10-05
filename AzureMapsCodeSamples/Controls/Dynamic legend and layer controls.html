@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dynamic legend and layer controls - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create use the dynamic legend and layer controls." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, legend, legend control" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.js"></script>
+
+    <!-- Load in the JavaScript and CSS files that has our custom control. -->
+    <link rel="stylesheet" href="../Common/scripts/azure-maps-layer-legend.min.css" type="text/css" />
+    <script src="../Common/scripts/azure-maps-layer-legend.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, legend;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: '04ec075f-3827-4aed-9975-d56301a2d663', //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a legend control that the layer control will leverage.
+                legend = new atlas.control.LegendControl({
+                    title: 'My Legend',
+                    
+                    //Optional resource name mappings for named values that appear in some dynamically created legends.
+                    resx: {
+                        low: 'Low',
+                        high: 'High',
+                        'no-data': 'No data'
+                    }
+                });
+
+                //Add the legend control to the map.
+                map.controls.add(legend, {
+                    position: 'bottom-left'
+                });
+
+                //Create the layer control.
+                layerControl = new atlas.control.LayerControl({
+                    //Attach the legend control.
+                    legendControl: legend,
+
+                    //Set dynamic layer group settings. 
+                    dynamicLayerGroup: {
+                        groupTitle: 'Layers',
+                        layout: 'checkbox'
+                    }
+                });
+
+                //Add the layer control to the map. 
+                map.controls.add(layerControl, {
+                    position: 'top-right'
+                });
+
+                //Load some mock data for the example.
+                loadMockData();
+            });
+        }
+
+        function loadMockData(){
+
+            //Load a couple images for testing.
+            var images = [
+                map.imageSprite.createFromTemplate('marker-arrow', 'marker-arrow', 'purple'),
+                map.imageSprite.createFromTemplate('marker-square', 'marker-square', 'red'),
+                map.imageSprite.createFromTemplate('marker-ball-pin', 'marker-ball-pin', 'orange')
+            ];
+
+            Promise.all(images).then(() => {
+            
+                //Load a data set of points, in this case earthquake data from the USGS.
+                var earthquakeSource = new atlas.source.DataSource();
+                map.sources.add(earthquakeSource);
+                earthquakeSource.importDataFromUrl('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson');
+
+                //Load US state boundaries.
+                var stateSource = new atlas.source.DataSource();
+                map.sources.add(stateSource);
+                stateSource.importDataFromUrl('https://azuremapscodesamples.azurewebsites.net/Common/data/geojson/US_States_Population_Density.json');
+
+                //Load POI points.
+                var poiSource = new atlas.source.DataSource();
+                map.sources.add(poiSource);
+                poiSource.importDataFromUrl('https://azuremapscodesamples.azurewebsites.net/Common/data/geojson/SamplePoiDataSet.json');
+
+                //Load a KML source.
+                var kmlSource = new atlas.source.DataSource();
+                map.sources.add(kmlSource);
+
+                map.layers.add([
+                    //Create a heatmap and add it to the map.
+                    new atlas.layer.HeatMapLayer(earthquakeSource, 'Earthquake Heatmap', {
+                        radius: 10,
+                        opacity: 0.8,
+                        maxZoom: 5
+                    }),
+
+                    //Add a choropleth polygon layer
+                    new atlas.layer.PolygonLayer(stateSource, 'State population density', {
+                        fillColor:  [
+                            'step',
+                            ['get', 'density'],
+                            '#FFEDA0',
+                            10, '#FED976',
+                            20, '#FEB24C',
+                            50, '#FD8D3C',
+                            100, '#FC4E2A',
+                            200, '#E31A1C',
+                            500, '#BD0026',
+                            1000, '#800026'
+                        ],
+                        maxZoom: 5
+                    }),
+
+                    //Add an OGC layer
+                    new atlas.layer.OgcMapLayer({
+                        url: 'https://mrdata.usgs.gov/services/gscworld',
+                        activeLayers: ['geology'],
+                        minZoom: 5
+                    })
+                ], 'labels');
+
+                map.layers.add([
+                    new atlas.layer.BubbleLayer(earthquakeSource, 'Earthquake Circles', {
+                        //Bubbles are made semi-transparent.
+                        opacity: 0.75,
+
+                        //Color of each bubble based on the value of "mag" property using a color gradient of green, yellow, orange, and red.
+                        color: [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'mag'],
+                            0, 'green',
+                            5, 'yellow',
+                            6, 'orange',
+                            7, 'red'
+                        ],
+
+                        /*
+                         * Radius for each data point scaled based on the value of "mag" property.
+                         * When "mag" = 0, radius will be 2 pixels.
+                         * When "mag" = 8, radius will be 40 pixels.
+                         * All other "mag" values will be a linear interpolation between these values.
+                         */
+                        radius: [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'mag'],
+                            0, 2,
+                            8, 40
+                        ],
+
+                        minZoom: 5
+                    }),
+
+                    //Create a symbol layer using the same data source to render the magnitude as text above each bubble and add it to the map.
+                    new atlas.layer.SymbolLayer(earthquakeSource, 'Earthquake Labels', {
+                        iconOptions: {
+                            //Hide the icon image.
+                            image: 'none'
+                        },
+                        textOptions: {
+                            //An expression is used to concerte the "mag" property value into a string and appends the letter "m" to the end of it.
+                            textField: ['concat', ['to-string', ['get', 'mag']], 'm'],
+                            textSize: 12
+                        },
+
+                        minZoom: 5
+                    }),
+
+                    //Load a layer that has several different icons
+                    new atlas.layer.SymbolLayer(poiSource, 'POIs', {
+                        iconOptions: {
+                            //Use a match expression to select the image icon based on the EntityType property of the data point.
+                            image: [
+                                'match',
+
+                                ['get', 'EntityType'],
+
+                                //For each entity type, specify the icon name to use.
+                                'Gas Station', 'marker-ball-pin',
+                                'Grocery Store', 'marker-arrow',
+                                'Restaurant', 'marker-square',
+                                'School', 'pin-round-blue',
+
+                                //Default fallback icon.
+                                'marker-black'
+                            ]
+                        },
+
+                        minZoom: 5
+                    })
+                ]);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>
+            <h1 style="font-size:16px">Dynamic legend and layer controls</h1>
+        </legend>
+        This sample shows how to create use the dynamic legend and layer controls.
+        This will automatically detect user added layers in the map and generate a layer selection control and legend.
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-layer-legend" target="_blank">Azure Maps Layer & Legend Control module</a>
+    </fieldset>
+    <div id="outsidePanel"></div>
+</body>
+</html>

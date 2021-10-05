@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Category legend options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the category legend type." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, legend, legend control" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript and CSS files that has our custom control. -->
+    <link rel="stylesheet" href="../Common/scripts/azure-maps-layer-legend.min.css" type="text/css" />
+    <script src="../Common/scripts/azure-maps-layer-legend.min.js"></script>
+
+    <script type='text/javascript'>
+        var map, legend;
+
+        //Initial category options.
+        var categoryLegend = {
+            type: 'category',
+            items: [
+                {
+                    color: 'DodgerBlue',
+                    label: 'Hello',
+                    shape: 'https://azuremapscodesamples.azurewebsites.net/Common/images/icons/campfire.png'
+                }, {
+                    color: 'Yellow',
+                    label: 'World',
+                    shape: 'square'
+                },  {
+                    label: '10',
+                    shapeSize: 10
+                }, {
+                    label: '20',
+                    shapeSize: 20
+                }, {
+                    label: '30',
+                    shapeSize: 30
+                }, {
+                    label: '40',
+                    shapeSize: 40
+                }
+            ]
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: '04ec075f-3827-4aed-9975-d56301a2d663', //Your Azure Active Directory client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '<Your Azure Maps Key>'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+               //Add the custom control to the map.
+               legend = new atlas.control.LegendControl({
+                    legends: [categoryLegend]
+                });
+
+                //Add the legend control to the map.
+                map.controls.add(legend, {
+                    position: 'bottom-left'
+                });     
+            });
+        }
+
+        function updateLegend(property, elm){
+            _updateLegend(property, elm.value);
+        }
+
+        function updateLegendCheck(property, elm){
+            _updateLegend(property, elm.checked);
+        }
+
+        function updateLegendRange(property, elm){
+            _updateLegend(property, parseInt(elm.value));
+        }
+
+        function updateLegendCheckValue(property, elm){
+            _updateLegend(property, elm.checked ? elm.value : null);
+        }
+
+        function _updateLegend(property, value){
+            //Copy the options so that the properties don't flow through without being set.
+            categoryLegend = Object.assign({}, categoryLegend);
+            categoryLegend[property] = value;
+
+            legend.setOptions({
+                legends: [categoryLegend]
+            });
+        }
+    </script>
+    <style>
+        .sidePanel {
+            width: 350px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 360px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        .customLegendCSS svg {
+            stroke: red !important;
+            stroke-dasharray: 2 2;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="sidePanel">
+        <fieldset style="width:320px;margin-bottom:10px;">
+            <legend><h1 style="font-size:16px">Category legend options</h1></legend>
+            This sample shows how the different options of the category legend type.
+        </fieldset>
+        
+        <table>
+            <tr title="The title of the individual legend.">
+                <td>Subtitle:</td>
+                <td>
+                   <input type="text" oninput="updateLegend('subtitle', this)" />
+                </td>
+            </tr>
+            <tr title="The footer of the legend.">
+                <td>Footer:</td>
+                <td>
+                   <input type="text" oninput="updateLegend('footer', this)" />
+                </td>
+            </tr>
+            <tr title="An integer specifying the minimum zoom level to render the legend at.">
+                <td>Min Zoom:</td>
+                <td>
+                    <form oninput="minz.value=MinZoom.value">
+                        <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" onchange="updateLegendRange('minZoom', this)" />
+                        <output name="minz" for="MinZoom">0</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="An integer specifying the maximum zoom level to render the legend at.">
+                <td>Max Zoom:</td>
+                <td>
+                    <form oninput="maxz.value=MaxZoom.value">
+                        <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" onchange="updateLegendRange('maxZoom', this)" />
+                        <output name="maxz" for="MaxZoom">24</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="The layout of all items relatively.">
+                <td>Layout:</td>
+                <td>
+                    <select onchange="updateLegend('layout', this)">
+                        <option selected="selected">column</option>
+                        <option>column-reverse</option>
+                        <option>row</option>
+                        <option>row-reverse</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The layout of individual items.">
+                <td>Item Layout:</td>
+                <td>
+                    <select onchange="updateLegend('itemLayout', this)">
+                        <option>column</option>
+                        <option>column-reverse</option>
+                        <option selected="selected">row</option>
+                        <option>row-reverse</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The fill color of SVGs.">
+                <td>Color:</td>
+                <td><input type="color" id="Color" value="#ffffff" onchange="updateLegend('color', this)" /></td>
+            </tr>
+            <tr title="Specifies if all items should be fit into the largest container created by an item.">
+                <td>Fit items:</td>
+                <td><input id="fitItems" type="checkbox" onclick="updateLegendCheck('fitItems', this)" /></td>
+            </tr>
+            <tr title="Specifies if all items should be fit into the largest container created by an item.">
+                <td>Labels Overlap Shapes:</td>
+                <td><input id="labelsOverlapShapes" type="checkbox" onclick="updateLegendCheck('labelsOverlapShapes', this)" /></td>
+            </tr>
+            <tr title="The shape of the color swatches of all items. Supports image urls and SVG strings.">
+                <td>Shape:</td>
+                <td>
+                    <select onchange="updateLegend('shape', this)">
+                        <option selected="selected">circle</option>
+                        <option>line</option>
+                        <option>square</option>
+                        <option>triangle</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The size of the all shapes in pixels. Used to scale the width of the shape.">
+                <td>Shape size:</td>
+                <td>
+                    <form oninput="shapeSize.value=ShapeSize.value">
+                        <input type="range" id="ShapeSize" value="20" min="1" max="50" step="1" onchange="updateLegendRange('shapeSize', this)" />
+                        <output name="shapeSize" for="ShapeSize">20</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="The thickness of the stroke on SVG shapes in pixels.">
+                <td>Stroke Width:</td>
+                <td>
+                    <form oninput="strokeWidth.value=StrokeWidth.value">
+                        <input type="range" id="StrokeWidth" value="1" min="0" max="9" step="1" onchange="updateLegendRange('strokeWidth', this)" />
+                        <output name="strokeWidth" for="StrokeWidth">1</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="A CSS class to customize the legend.">
+                <td>CSS class:</td>
+                <td><input id="cssClass" type="checkbox" value="customLegendCSS" onclick="updateLegendCheckValue('cssClass', this)" /></td>
+            </tr>
+        </table>
+
+        <p>
+            The category legend type also has options for;
+            <ul>
+                <li>items - individual items with the legend.</li>
+                <li>numberFormat - the formatting options for number labels.</li>
+                <li>numberFormatLocales - the locale for formatting numbers.</li>
+            </ul>
+        </p>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+</html>
