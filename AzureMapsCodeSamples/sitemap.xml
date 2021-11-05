@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-10-07</lastmod></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2021-11-05</lastmod></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20choropleth%20map.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20GPS%20trace.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Animations/Animate%20a%20Line.html</loc></url>
@@ -192,6 +192,7 @@
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Alternate%20routes%20with%20deviation%20constraints.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Calculate%20a%20simple%20route.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Calculate%20spaced%20positions%20along%20route.html</loc></url>
+<url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Draggable%20route%20lines.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Get%20nearest%20POIs%20to%20a%20set%20of%20addresses.html</loc></url>
 <url><loc>https://azuremapscodesamples.azurewebsites.net/Services%20Module/Load%20POI%20as%20the%20map%20moves.html</loc></url>

@@ -417,6 +417,7 @@
     <Content Include="Map\Fill viewport with single world.html" />
     <Content Include="REST Services\Calculate slope direction.html" />
     <Content Include="REST Services\Geolocation Sample.html" />
+    <Content Include="Services Module\Draggable route lines.html" />
     <Content Include="Services Module\Get nearest POIs to a set of addresses.html" />
     <Content Include="SiteResources\screenshots\Calculate-nearest-locations.jpg" />
     <Content Include="SiteResources\screenshots\Calculate-slope-direction.jpg" />
@@ -427,6 +428,7 @@
     <Content Include="SiteResources\screenshots\Creator-indoor-maps.jpg" />
     <Content Include="SiteResources\screenshots\Custom-navigation-controls.jpg" />
     <Content Include="SiteResources\screenshots\Custom-styled-legend.jpg" />
+    <Content Include="SiteResources\screenshots\Draggable-route-lines.gif" />
     <Content Include="SiteResources\screenshots\Dynamic-legend-and-layer-controls.jpg" />
     <Content Include="SiteResources\screenshots\Get nearest POIs to a set of addresses.gif" />
     <Content Include="SiteResources\screenshots\Gradient-legend-options.jpg" />

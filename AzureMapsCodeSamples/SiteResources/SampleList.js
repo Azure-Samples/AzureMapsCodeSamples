@@ -1813,6 +1813,15 @@ var sampleList = [
 			created:'9/22/2021'
 		},
 		{
+			title:'Draggable route lines',
+			desc:'This sample shows how to calculate a simple route and display it on the map using the Services module for Azure Maps.',
+			path:'Services%20Module/Draggable%20route%20lines.html',
+			sourcePath:'Services%20Module/Draggable%20route%20lines.html',
+			screenshot:'Draggable-route-lines.gif',
+			keywords:'microsoft maps, map, gis, api, sdk, services, module, route, directions',
+			created:'11/5/2021'
+		},
+		{
 			title:'Fuzzy Search with Services Module',
 			desc:'This sample shows how to use the Services module for Azure Maps to perform a fuzzy search for points of interests, address, and places. Providing user location information allows the search service choose results that are more local to the user.',
 			path:'Services%20Module/Fuzzy%20Search%20using%20Services%20Module.html',
@@ -2704,4 +2713,4 @@ var sampleList = [
 			created:'9/22/2021'
 		},
 	]
-}];var numberOfSamples = 284;
+}];var numberOfSamples = 285;
