@@ -275,16 +275,18 @@
         }
 
         function mouseUp() {
+            //If new mid-point added to line, calculate new directions.
+            if (mouseDownOnRoute) {
+                calculateDirections();
+            }
+
             //Clear the mouseDownOnRoute flag.
             mouseDownOnRoute = false;
             activeWaypointIdx = null;
             skipMidPointAdd = false;
 
             //Enable the maps dragging capabilities.
-            map.setUserInteraction({ dragPanInteraction: true });
-
-            //Calculate new route directions.
-            calculateDirections();
+            map.setUserInteraction({ dragPanInteraction: true });           
         }
 
         function updatePreview() {
