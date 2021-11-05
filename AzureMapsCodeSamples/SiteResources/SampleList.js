@@ -1260,8 +1260,8 @@ var sampleList = [
 		{
 			title:'Mini overview map',
 			desc:'This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map.',
-			path:'Map/Mini%20overview%20map.html',
-			sourcePath:'Map/Mini%20overview%20map.html',
+			path:'Map/Mini%20Overview%20Map.html',
+			sourcePath:'Map/Mini%20Overview%20Map.html',
 			screenshot:'Mini-overview-map.jpg',
 			keywords:'microsoft maps, map, gis, api, sdk, ',
 			created:'9/22/2021'
