@@ -73,7 +73,7 @@
 
             for (var i = 0; i < s.length; i++) {
                 //Read each line of text as well known text.
-                var g = atlas.io.ogc.WKT.read(s[0]);
+                var g = atlas.io.ogc.WKT.read(s[i]);
 
                 if (g !== null) {
                     geoms = geoms.concat(g);
