@@ -1029,6 +1029,7 @@
     <Content Include="Common\data\USCensus2010\BlockGroups\cb_2013_08_bg_500k.kmz" />
     <Content Include="Common\data\USCensus2010\BlockGroups\cb_2013_09_bg_500k.kmz" />
     <Content Include="Common\TokenService.ashx" />
+    <Content Include="libman.json" />
     <None Include="packages.config" />
     <Content Include="Common\images\icons\showers.png" />
     <Content Include="Controls\Map Navigation Control Options.html" />
