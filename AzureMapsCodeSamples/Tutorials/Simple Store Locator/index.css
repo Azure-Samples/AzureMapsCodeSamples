@@ -149,7 +149,7 @@ header {
         margin-right: 5px;
     }
 
-/* Adjust the layout of the page when the screen width is less than 800 pixels. */
+/* Adjust the layout of the page when the screen width is less than 700 pixels. */
 @media screen and (max-width: 700px) {
     .searchPanel {
         width: 100vw;
