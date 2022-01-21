@@ -1039,6 +1039,7 @@
     <Content Include="index.html" />
     <Content Include="Tutorials\Simple Store Locator\data\ContosoCoffee.xlsx" />
     <None Include="Properties\PublishProfiles\AzureMapsCodeSamples - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\azuremapscodesamples-qa - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\data\geojson\US_County_Boundaries.json" />

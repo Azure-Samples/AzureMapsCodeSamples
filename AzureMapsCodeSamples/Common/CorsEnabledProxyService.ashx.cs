@@ -34,7 +34,8 @@ namespace AzureMapsCodeSamples.Common
             if (!(context.Request.IsLocal || 
                 context.Request.UrlReferrer == null || 
                 context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.net/") ||
-                context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.us/")))
+                context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://azuremapscodesamples.azurewebsites.us/") ||
+                context.Request.UrlReferrer.AbsoluteUri.StartsWith("https://samples.azuremaps.com/")))
             {
                 processUrl = false;
             }
