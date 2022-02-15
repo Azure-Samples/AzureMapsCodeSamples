@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Filter Data Along Route - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to take a route line, calculate a buffer around it and then filter a set of points to find those that are within the buffer." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Turf.js, geospatial, math, points, buffer, within, intersects, intersection" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='/scripts/turf.min.js'></script>
+
+    <script>
+        var map, searchURL, routeURL, points, datasource, routeLine;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.25, 47.64],
+                zoom: 11,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
+            //Create an instance of the RouteURL client.
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Generate 1000 random points within the bounds of the map view using the Turf.js library
+                points = turf.randomPoint(1000, {
+                    bbox: map.getCamera().bounds
+                });
+
+                //Assign a color property to each point.
+                for (var i = 0; i < points.features.length; i++) {
+                    points.features[i].properties.color = '#3399ff';
+                }
+
+                datasource.add(points);
+
+                map.layers.add([
+                    //Add a layer for rendering line data.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        fillColor: 'rgba(255, 0, 255, 0.4)',
+                        filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
+                    }),
+
+                    //Add a layer for rendering line data.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'rgb(0, 204, 153)',
+                        strokeWidth: 5,
+                        filter: ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]	//Only render LineString or MultiLineString in this layer.
+                    }),
+
+                    //Add a layer for rendering points as symbols.
+                    new atlas.layer.BubbleLayer(datasource, null, {
+                        color: ['get', 'color'],
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                    })
+                ]);
+            });
+        }
+
+        function calculateRoute() {
+            var start = document.getElementById('startTbx').value;
+            var end = document.getElementById('endTbx').value;
+
+            if (start == '' || end == '') {
+                alert('Invalid waypoint point specified.');
+                return;
+            }
+
+            //Geocode the start waypoint.
+            geocodeQuery(start, function (startPoint) {
+                if (!startPoint) {
+                    alert('Unable to geocode start waypoint.');
+                    return;
+                }
+
+                //Geocode the end waypoint.
+                geocodeQuery(end, function (endPoint) {
+                    if (!endPoint) {
+                        alert('Unable to geocode end waypoint.');
+                        return;
+                    }
+
+                    routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(3000), [startPoint, endPoint], {
+                        maxAlternatives: 0
+                    }).then(r => {
+                        if (r && r.routes && r.routes.length > 0) {
+                            var route = r.routes[0];
+                            var routeCoordinates = [];
+                            for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
+                                var leg = route.legs[legIndex];
+
+                                //Convert the route point data into a format that the map control understands.
+                                var legCoordinates = leg.points.map(function (point) {
+                                    return [point.longitude, point.latitude];
+                                });
+
+                                //Combine the route point data for each route leg together to form a single path.
+                                routeCoordinates = routeCoordinates.concat(legCoordinates);
+                            }
+
+                            //Create a line from the route path points and add it to the data source.
+                            routeLine = new atlas.data.LineString(routeCoordinates);
+
+                            filterData();
+                        }
+                    });
+                });
+            });
+        }
+
+        function filterData() {
+            if (routeLine) {
+                var bufferDistance = parseFloat(document.getElementById('bufferDistance').value);
+
+                //Create a polygon search area by buffering the route line.
+                filterArea = turf.buffer(routeLine, bufferDistance, { units: 'miles' });
+
+                //Reset the color property of each point.
+                for (var i = 0; i < points.features.length; i++) {
+                    points.features[i].properties.color = '#3399ff';
+                }
+
+                //Calculate all points that are within the filter area.
+                var ptsWithin = turf.pointsWithinPolygon(points, filterArea);
+
+                //Change to color of all points that are in the filter area to red.
+                for (var i = 0; i < ptsWithin.features.length; i++) {
+                    ptsWithin.features[i].properties.color = 'red';
+                }
+
+                //Update the data on the map.
+                datasource.setShapes(points);
+                datasource.add([filterArea, routeLine]);
+            }
+        }
+
+        //Geocode the query and return the first coordinate.
+        function geocodeQuery(query, callback) {
+            if (callback) {
+                searchURL.searchAddress(atlas.service.Aborter.timeout(3000), query, {
+                    limit: 1,
+                    view: 'Auto'
+                }).then(results => {
+                    var data = results.geojson.getFeatures();
+                    if (data && data.features.length > 0) {
+                        callback(data.features[0].geometry.coordinates);
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
+        <table>
+            <tr>
+                <td>Start: </td>
+                <td><input type="text" id="startTbx" value="Seattle" /></td>
+            </tr>
+            <tr>
+                <td>End: </td>
+                <td><input type="text" id="endTbx" value="Redmond" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="Calculate Route" onclick="calculateRoute()" /></td>
+            </tr>
+            <tr>
+                <td>Buffer: </td>
+                <td>
+                    <form oninput="bd.value=bufferDistance.value">
+                        <input type="range" id="bufferDistance" value="1" min="0.1" max="5" step="0.1" onchange="filterData()" />
+                        <output name="bd" for="bufferDistance">1</output>
+                        <label> miles</label>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Filter Data Along Route</legend>
+        This sample shows how to take a route line and calculate a buffer around it and then filter a set of point data to find those that are within the buffer.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
+    </fieldset>
+</body>
+</html>

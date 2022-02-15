@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Reverse Geocode with Services Module - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinate." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, search, reverse, geocode, geocoding, address, addresses" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        var map, searchURL, popup;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.335, 47.608],
+                zoom: 15,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Update the style of mouse cursor to a crosshair.
+                map.getCanvasContainer().style.cursor = 'crosshair';
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0]
+                });
+
+                //Add a click event to the map.
+                map.events.add('click', mapClicked);
+            });
+        }
+
+        function mapClicked(e) {
+            //Execute the reverse address search query and open a popup once a response is received.
+            searchURL.searchAddressReverse(atlas.service.Aborter.timeout(3000), e.position, {
+                view: 'Auto'
+            }).then(results => {
+                //Get the results in GeoJSON format.
+                var data = results.geojson.getFeatures();
+
+                var content = '<div style="padding:10px">';
+
+                if (data.features.length > 0 && data.features[0].properties && data.features[0].properties.address && data.features[0].properties.address.freeformAddress) {
+                    content += data.features[0].properties.address.freeformAddress;
+                } else {
+                    content += 'No address for that location!';
+                }
+
+                content += '</div>';
+
+                //Set the popup options.
+                popup.setOptions({
+                    position: e.position,
+                    content: content
+                });
+
+                //Open the popup.
+                popup.open(map);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Reverse Geocode with Services Module</legend>
+        This sample shows how to use the Services module for Azure Maps to reverse geocode a coordinate.
+        Click on any location on the map and a coordinate of where you clicked will be used to perform a reverse geocode.
+    </fieldset>
+</body>
+</html>

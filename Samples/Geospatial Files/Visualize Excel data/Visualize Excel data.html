@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Visualize Excel data - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to easily load and visualize a local Excel file on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Spatial IO, CSV, Excel, xlsx, spreadsheet, CSV, TSV, delimited file" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script type="text/javascript" src="/lib/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="/lib/jszip.min.js"></script>
+
+    <script>
+        var map, datasource, layer;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a simple data layer for rendering the data.
+                layer = new atlas.layer.SimpleDataLayer(datasource);
+                map.layers.add(layer);
+            });
+        }
+
+        function Upload() {
+            //Clear the data source to free up memory and remove data from map.
+            datasource.clear();
+
+            //Show the loading icon.
+            document.getElementById('loadingIcon').style.display = '';
+
+            //Reference the FileUpload element.
+            var fileUpload = document.getElementById("fileUpload");
+
+            //Validate whether File is valid Excel file.
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx|.csv)$/;
+
+            if (regex.test(fileUpload.value.toLowerCase())) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    ProcessExcel(e.target.result);
+                };
+                reader.readAsBinaryString(fileUpload.files[0]);
+            } else {
+                alert("Please upload a valid Excel file.");
+            }
+        }
+
+        function ProcessExcel(data) {
+            //Read the Excel File data.
+            var workbook = XLSX.read(data, {
+                type: 'binary'
+            });
+
+            //Fetch the name of First Sheet.
+            var firstSheet = workbook.SheetNames[0];
+
+            //Read all rows from First Sheet into CSV format.
+            var data = XLSX.utils.sheet_to_csv(workbook.Sheets[firstSheet]);
+
+            //Read CSV data using Spatial IO module which will parse it into a GeoJSON Feature Collection.
+            atlas.io.read(data).then(r => {
+                if (r) {
+                    //Add the feature data to the data source.
+                    datasource.add(r);
+
+                    //If bounding box information is known for data, set the map view to it.
+                    if (r.bbox) {
+                        map.setCamera({ bounds: r.bbox, padding: 50 });
+                    }
+
+                    //Display the number of features to the user.
+                    document.getElementById('output').innerText = `${r.features.length.toLocaleString()} features loaded.`;
+
+                    //Hide the loading icon.
+                    document.getElementById('loadingIcon').style.display = 'none';
+                }
+            }, e => {
+                //Display the error message.
+                document.getElementById('output').innerText = e.message;
+
+                //Hide the loading icon.
+                document.getElementById('loadingIcon').style.display = 'none';
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;width:200px;top:15px;left:15px;border-radius:5px;padding:5px;background-color:white;">
+        Select an Excel file that contains latitude and longitude, or Well Known Text data.
+        <br /><br />
+        <input type="file" id="fileUpload" onchange="Upload()" accept=".xlsx,.xls,.csv" />
+        <br /><br />
+        <div id="output"></div>
+    </div>
+
+    <img id="loadingIcon" src="/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Visualize Excel data</legend>
+        This sample shows how to easily load and visualize a local Excel file on the map.
+        This sample only reads the first sheet in the workbook. 
+        To simplify things, this sample leverages the spatial CSV capabilities of the Spatial IO module which analyizes the column names and first row of data to find which columns contain spatial information that can be used to create GeoJSON features.
+        Converting the worksheet to JSON, then manualy converting to JSON would be a better approach if you need to add logic to geocode string addresses.
+        <br/><br/>
+        This sample makes use of <a href="https://github.com/SheetJS/sheetjs">SheetJS</a>, an open source library for reading Excel files in JavaScript.
+    </fieldset>
+</body>
+</html>

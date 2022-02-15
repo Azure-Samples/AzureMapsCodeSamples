@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Geolocation Sample - Azure Maps Web SDK Samples</title>
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="API, SDK, services, module, geolocation, IP, address, location, globalization, region, information, currency, metric, imperial"/>
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.png" />
+
+    <script>
+        function GetUserIpAddress() {
+            //User's IP address is populated when page load through the JSONIP service.
+            fetch('https://ipv4.jsonip.com').then(r=> r.json().then(j=> document.getElementById("input").value = j.ip));            
+        }
+        function GetLocationSettings() {
+            //Azure Function that calls the Azure Maps Geolocation API.
+            fetch('https://samples.azuremaps.com/api/GetGeolocation?ip='+document.getElementById("input").value)
+            .then(r=> r.json()
+            .then(j=> {              
+                var html = ['<h3>Based on the IP address location your settings are:</h3><ul>'];
+                    html.push('<li> Country (English): '+j.EnglishName);
+                    html.push('<li> Country (Native): '+j.NativeName);
+                    html.push('<li> Metric System: '+j.IsMetric);
+                    html.push('<li> Currency (English): '+j.CurrencyEnglishName);
+                    html.push('<li> Currency (Native): '+j.CurrencyNativeName);  
+                    html.push('<li> Currency Symbol: '+j.CurrencySymbol);        
+                html.push('</ul>');
+                //Display the list of settings.
+                document.getElementById('output').innerHTML = html.join('');
+            }));
+        }
+    </script>
+</head>
+<body onload="GetUserIpAddress()">
+    <input type="text" id="input" placeholder="Insert a valid IP address here." />
+    <input type="button" onClick="GetLocationSettings()" value="Get your settings" />
+    <div id="output"></div>
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Geolocation Sample</legend>
+        This sample shows how to use the <a href="https://docs.microsoft.com/en-us/rest/api/maps/geolocation" target="_blank">Azure Maps Geolocation API</a> in an Azure Function to determine the location of an IP address and based on the location it provides settings such as country, currency and measurement system (Imperial or Metric). The web page gets the user IP address from the JSONIP service but any other IPV4 address can be used as input.  
+    </fieldset>
+</body>
+</html>

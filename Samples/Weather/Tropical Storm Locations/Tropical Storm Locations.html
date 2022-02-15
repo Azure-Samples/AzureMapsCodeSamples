@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tropical Storm Locations - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Get information of tropical storms, this includes; location coordinates, geometry, basin ID, date, wind details and wind radii." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, layer, weather, AccuWeather" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, popup;
+
+        var weatherUrl = 'https://{azMapsDomain}/weather/tropical/storms/locations/json?api-version=1.1&year=2021&basinId=NP&govId=1';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [10, 130],
+                zoom: 5,
+                view: 'Auto',
+                style: 'road_shaded_relief',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Load the custom image icon into the map resources.
+                map.imageSprite.add('arrow-icon', '/images/icons/purpleArrowRight.png').then(function () {
+
+                    //Create a data source to add your data to.
+                    datasource = new atlas.source.DataSource();
+                    map.sources.add(datasource);
+
+                    //Get Tropical Storm Locations
+                    processRequest(weatherUrl).then(response => {
+
+                        var line = createLineFrom(response.results);
+                        datasource.add(line);
+
+                        //Add a layers for rendering data.
+                        map.layers.add([
+                            //Add a line layer for displaying the line.
+                            new atlas.layer.LineLayer(datasource, null, {
+                                strokeColor: 'DarkOrchid',
+                                strokeWidth: 3
+                            }),
+
+                            //Add a symbol layer for rendering the arrow along the line.
+                            new atlas.layer.SymbolLayer(datasource, null, {
+                                lineSpacing: 100,
+                                placement: 'line',
+                                iconOptions: {
+                                    image: 'arrow-icon',
+                                    allowOverlap: true,
+                                    anchor: 'center',
+                                    size: 0.8
+                                }
+                            })
+                        ]);
+
+                    });
+
+                });
+            });
+        }
+
+        function createLineFrom(points) {
+            var coords = [];
+            for (var i = 0; i < points.length; i++) {
+                coords.push([points[i].location.latitude, points[i].location.longitude]);
+            }
+            return new atlas.data.LineString(coords);
+        }
+
+        function processRequest(url) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(url);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Tropical Storm Locations</legend>
+        This sample shows how to retrieve tropical storms data using the <a href="https://docs.microsoft.com/en-us/rest/api/maps/weather/get-tropical-storm-locations" target="_blank">Azure Maps Weather - Get Tropical Storm Locations</a> REST API.
+    </fieldset>
+</body>
+</html>

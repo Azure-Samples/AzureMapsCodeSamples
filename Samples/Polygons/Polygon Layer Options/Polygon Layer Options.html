@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Polygon Layer Options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the polygon layer affect rendering." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, polygon, layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script src="/lib/clipboard.min.js"></script>
+
+    <script>
+        var map, datasource, polygonLayer, defaultOptions, removeDefaults, selectedFillPatternIdx = 0;
+
+        var fillPatterns = [
+            'fill-checker-blue', 'fill-checker-darkblue', 'fill-checker-green', 'fill-checker-red', 'fill-checker-yellow',
+            'fill-diamond-blue', 'fill-diamond-darkblue', 'fill-diamond-green', 'fill-diamond-red', 'fill-diamond-yellow',
+            'fill-grid-blue', 'fill-grid-darkblue', 'fill-grid-green', 'fill-grid-red', 'fill-grid-yellow',
+            'fill-smallgrid-blue', 'fill-smallgrid-darkblue', 'fill-smallgrid-green', 'fill-smallgrid-red', 'fill-smallgrid-yellow',
+            'fill-stripes-downwards-blue', 'fill-stripes-downwards-darkblue', 'fill-stripes-downwards-green', 'fill-stripes-downwards-red', 'fill-stripes-downwards-yellow',
+            'fill-stripes-upwards-blue', 'fill-stripes-upwards-darkblue', 'fill-stripes-upwards-green', 'fill-stripes-upwards-red', 'fill-stripes-upwards-yellow',
+            'fill-grass-pattern', 'fill-forest-pattern'
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [12, 39],
+                zoom: 2,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    style: 'dark'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add polygon to data source.
+                datasource.add(new atlas.data.Polygon([[[-15.82031, 2.46018], [14.0625, 30.14512], [40.78125, 2.81137], [12.30468, 65.21989], [-15.82031, 2.46018]]]));
+
+                //Create a layer to render the polygon data.
+                polygonLayer = new atlas.layer.PolygonLayer(datasource);
+                map.layers.add(polygonLayer, 'labels');
+
+                defaultOptions = polygonLayer.getOptions();
+
+                //Update the polygon layer with the options in the input fields.
+                createFillPatternOptions();
+                fillPatternSelected(document.getElementById('fillPatternDropdown').childNodes[0], 0);
+                toggleFillPatternDropdown();
+            });
+
+            new ClipboardJS('.copyBtn');
+        }
+
+        function updatePolygonLayer() {
+            var options = getInputOptions();
+
+            //Update all the options in the polygon layer.
+            polygonLayer.setOptions(options);
+
+            document.getElementById('CodeOutput').value = JSON.stringify(options, null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
+        }
+
+        function getInputOptions() {
+            removeDefaults = document.getElementById('RemoveDefaults').checked;
+
+            var options = {                
+                fillOpacity: getPropertyValue('fillOpacity', parseFloat(document.getElementById('FillOpacity').value)),
+                minZoom: getPropertyValue('minZoom', parseFloat(document.getElementById('MinZoom').value)),
+                maxZoom: getPropertyValue('maxZoom', parseFloat(document.getElementById('MaxZoom').value)),
+                visible: getPropertyValue('visible', document.getElementById('Visible').checked)
+            };
+
+            //Need to make the fill pattern undefined to override it.
+            polygonLayer.setOptions({ fillPattern: undefined });
+
+            if (document.getElementById('fillColorBtn').checked || document.getElementById('FillColorTransparent').checked) {
+                options.fillColor = getPropertyValue('fillColor', document.getElementById('FillColorTransparent').checked ? 'transparent' : document.getElementById('FillColor').value);
+            } else {
+                options.fillPattern = fillPatterns[selectedFillPatternIdx];
+            }
+
+            return options;
+        }
+
+        function getPropertyValue(propertyName, value) {
+            if (removeDefaults && defaultOptions[propertyName] === value) {
+                return undefined;
+            }
+
+            return value;
+        }
+
+        function getSelectValue(id) {
+            var elm = document.getElementById(id);
+            return elm.options[elm.selectedIndex].value;
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
+        }
+
+        function createFillPatternOptions() {
+            var html = [];
+
+            for (var i = 0; i < fillPatterns.length; i++) {
+                map.imageSprite.add(fillPatterns[i], '/images/fill-patterns/' + fillPatterns[i] + '.png');
+
+                html.push('<a class="pattern-selector" href="javascript:void(0);" onclick="fillPatternSelected(this, ', i, ');" style="background-image:url(\'/images/fill-patterns/', fillPatterns[i], '.png\')" title="', fillPatterns[i], '"></a>');
+            }
+
+            document.getElementById('fillPatternDropdown').innerHTML = html.join('');
+        }
+
+        function fillPatternSelected(elm, idx) {
+            selectedFillPatternIdx = idx;            
+            document.getElementById('fillPatternBtn').style.backgroundImage = elm.style.backgroundImage;
+            
+            toggleFillPatternDropdown();
+            updatePolygonLayer();
+        }
+
+        function toggleFillPatternDropdown() {
+            document.getElementById("fillPatternDropdown").classList.toggle("show");
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width:290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #CodeOutput {
+            width: 300px;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .copyBtn {
+            float: right;
+        }
+
+        table td:nth-of-type(1) {
+            width: 120px;
+        }
+
+        table td:nth-of-type(2) {
+            width: 200px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        /* Dropdown Button */
+        .dropbtn {
+            background-color: white;
+            color: white;
+            height: 20px;
+            width: 150px;
+            border: none;
+            cursor: pointer;
+        }
+
+            /* Dropdown button on hover & focus */
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: white;
+            }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            max-height:400px;
+            overflow-y:auto;
+        }
+
+            /* Links inside the dropdown */
+            .dropdown-content a {
+                color: black;
+                padding: 6px;
+                display: block;
+            }
+
+                /* Change color of dropdown links on hover */
+                .dropdown-content a:hover {
+                    background-color: #ddd
+                }
+
+        /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+        .show {
+            display: block;
+        }
+
+        .pattern-selector {
+            background-repeat: repeat;
+            height: 10px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend>Polygon Layer Options</legend>
+        This sample shows how the different options of the polygon layer affect rendering.
+        <br /><br />
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Layer Options</button>
+            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+        </div>
+
+        <div id="StyleOptions" class="tabcontent" style="display:block;">
+            <table>
+                <tr title="The color to fill the polygons with.">
+                    <td><input id="fillColorBtn" name="fillGroup" type="radio" onclick="updatePolygonLayer()" checked="checked" /> Fill Color:</td>
+                    <td>
+                        <input type="color" value="#1A73AA" id="FillColor" onchange="updatePolygonLayer()" />
+                        <input type="checkbox" id="FillColorTransparent" onclick="updatePolygonLayer()" />Transparent
+                    </td>
+                </tr>
+                <tr title="The color gradient expression to colorize the heat map.">
+                    <td><input name="fillGroup" type="radio" onclick="updatePolygonLayer()"/>Fill Pattern:</td>
+                    <td>
+                        <div class="dropdown">
+                            <button id="fillPatternBtn" onclick="toggleFillPatternDropdown()" class="dropbtn"></button>
+                            <div id="fillPatternDropdown" class="dropdown-content">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr title="A number between 0 and 1 that indicates the opacity at which the fill will be drawn.">
+                    <td>Fill Opacity:</td>
+                    <td>
+                        <form oninput="o.value=FillOpacity.value">
+                            <input type="range" id="FillOpacity" value="0.5" min="0" max="1" step="0.1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
+                            <output name="o" for="FillOpacity">0.5</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="An integer specifying the minimum zoom level to render the layer at.">
+                    <td>Min Zoom:</td>
+                    <td>
+                        <form oninput="minz.value=MinZoom.value">
+                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
+                            <output name="minz" for="MinZoom">0</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="An integer specifying the maximum zoom level to render the layer at.">
+                    <td>Max Zoom:</td>
+                    <td>
+                        <form oninput="maxz.value=MaxZoom.value">
+                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updatePolygonLayer()" onchange="updatePolygonLayer()" />
+                            <output name="maxz" for="MaxZoom">24</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Specifies if the layer is visible or not.">
+                    <td>Visible:</td>
+                    <td><input id="Visible" type="checkbox" onclick="updatePolygonLayer()" checked="checked" /></td>
+                </tr>
+            </table>
+
+            <p>
+                In addition to the options in this tool, the PolygonLayer also has options for;
+                <ul>
+                    <li>sourceLayer - used with VectorTileSource.</li>
+                    <li>filter - used to filter data in layer.</li>
+                </ul>
+                Many options in this layer also support Expressions which are not demonstrated in this sample.
+            </p>
+        </div>
+        <div id="Code" class="tabcontent">
+            <textarea id="CodeOutput"></textarea><br /><br />
+            <input id="RemoveDefaults" type="checkbox" onclick="updatePolygonLayer()" checked="checked" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+</body>
+</html>

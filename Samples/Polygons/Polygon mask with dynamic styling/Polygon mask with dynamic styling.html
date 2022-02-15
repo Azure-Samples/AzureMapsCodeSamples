@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Polygon mask with dynamic styling - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to dynamically style a polygon mask to align with the current style of the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, polygon mask, restrict map view" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, maskLayer;
+
+        //A polygon ring that covers the full globe.
+        var worldPolygonRing = [[-180, 90], [-180, -90], [0, -90], [180, -90], [180, 90], [0, 90], [-180, 90]];
+
+        //The polygon area to use to create a mask.
+        var polygonMaskArea = {
+            "type": "Polygon",
+            "coordinates": [[
+                [-111.87649, 41.99852], [-112.23910, 42.00121], [-112.83308, 41.99930], [-113.25082, 41.99561], [-113.76453, 41.98945], [-114.06177, 41.99379], [-114.59826, 41.99451], [-115.25079, 41.99615],
+                [-115.98688, 41.99853], [-116.03860, 41.99746], [-116.49977, 41.99674], [-116.96915, 41.99899], [-117.02655, 42.37855], [-117.02677, 43.57867], [-117.02690, 43.62488], [-117.02665, 43.73393],
+                [-116.99739, 43.86487], [-116.96625, 43.91857], [-116.97183, 43.96280], [-116.93448, 44.02124], [-116.97735, 44.08536], [-116.92768, 44.10943], [-116.93544, 44.19396], [-116.97394, 44.22593],
+                [-117.02527, 44.24850], [-117.05303, 44.22907], [-117.09457, 44.27097], [-117.13090, 44.26945], [-117.19312, 44.27096], [-117.21521, 44.30911], [-117.19733, 44.34740], [-117.23483, 44.39966],
+                [-117.22154, 44.47014], [-117.20893, 44.48566], [-117.18158, 44.52296], [-117.14825, 44.56437], [-117.12052, 44.61465], [-117.09122, 44.66880], [-117.06227, 44.72714], [-116.97780, 44.76798],
+                [-116.93070, 44.78988], [-116.90577, 44.83479], [-116.84210, 44.91492], [-116.85140, 44.95984], [-116.84794, 45.02260], [-116.78353, 45.09360], [-116.72420, 45.17150], [-116.68702, 45.26785],
+                [-116.67379, 45.32151], [-116.57594, 45.45252], [-116.54867, 45.51038], [-116.46363, 45.60278], [-116.49451, 45.65567], [-116.53717, 45.73728], [-116.63203, 45.78497], [-116.69719, 45.82013],
+                [-116.75097, 45.81853], [-116.78752, 45.84020], [-116.85725, 45.90415], [-116.91598, 45.99541], [-116.96041, 46.07634], [-116.97882, 46.09573], [-116.94833, 46.12588], [-116.96296, 46.19968],
+                [-116.96437, 46.25328], [-116.99089, 46.28037], [-117.02066, 46.31479], [-117.03067, 46.34031], [-117.06278, 46.36528], [-117.03828, 46.40604], [-117.03977, 46.47177], [-117.04001, 47.25927],
+                [-117.04051, 47.52235], [-117.04143, 47.68000], [-117.04262, 47.76122], [-117.04140, 48.08550], [-117.03961, 48.18401], [-117.03528, 48.43011], [-116.75718, 48.99979], [-116.04894, 48.30984],
+                [-116.04915, 47.99992], [-115.99367, 47.92618], [-115.90093, 47.84306], [-115.84044, 47.78017], [-115.78044, 47.74344], [-115.72377, 47.69667], [-115.70647, 47.57729], [-115.71034, 47.52951],
+                [-115.67118, 47.45439], [-115.71034, 47.41778], [-115.57861, 47.36700], [-115.51186, 47.29521], [-115.41068, 47.26422], [-115.31187, 47.22967], [-115.28635, 47.18327], [-115.17293, 47.11288],
+                [-115.09813, 47.04889], [-115.02899, 46.97315], [-114.92794, 46.90994], [-114.94039, 46.85605], [-114.88814, 46.80857], [-114.82911, 46.78250], [-114.77966, 46.73041], [-114.72744, 46.71460],
+                [-114.62085, 46.70741], [-114.61167, 46.64770], [-114.48621, 46.63282], [-114.36070, 46.66905], [-114.33393, 46.58273], [-114.35165, 46.50811], [-114.39444, 46.46954], [-114.41068, 46.36067],
+                [-114.45325, 46.27093], [-114.44592, 46.17393], [-114.48830, 46.11310], [-114.49057, 46.03242], [-114.42584, 45.98498], [-114.41597, 45.94789], [-114.38716, 45.88916], [-114.50930, 45.84553],
+                [-114.56617, 45.77386], [-114.52967, 45.65232], [-114.55399, 45.59127], [-114.47375, 45.56327], [-114.36562, 45.49041], [-114.24818, 45.53322], [-114.15483, 45.55291], [-114.08658, 45.59118],
+                [-114.01378, 45.65823], [-113.93040, 45.67187], [-113.86140, 45.62366], [-113.80914, 45.51990], [-113.76459, 45.43140], [-113.73239, 45.38505], [-113.69203, 45.26519], [-113.63688, 45.21298],
+                [-113.51334, 45.11522], [-113.45197, 45.05924], [-113.44895, 44.95354], [-113.45507, 44.86542], [-113.35403, 44.79174], [-113.19436, 44.80215], [-113.13770, 44.76010], [-113.06775, 44.67280],
+                [-113.06559, 44.61739], [-113.01863, 44.52006], [-112.85539, 44.35997], [-112.79786, 44.46611], [-112.66069, 44.48575], [-112.51171, 44.46644], [-112.35660, 44.49312], [-112.30764, 44.55765],
+                [-112.18393, 44.53306], [-112.09629, 44.52321], [-112.01385, 44.54234], [-111.84929, 44.53983], [-111.73719, 44.54306], [-111.58576, 44.56284], [-111.46773, 44.54452], [-111.47317, 44.66547],
+                [-111.42960, 44.72014], [-111.37476, 44.75029], [-111.26875, 44.66827], [-111.20145, 44.57569], [-111.13137, 44.49992], [-111.04911, 44.12492], [-111.04651, 43.90837], [-111.04588, 43.68103],
+                [-111.04414, 43.07236], [-111.04409, 43.02927], [-111.04395, 42.96445], [-111.04705, 42.18267], [-111.04710, 42.14897], [-111.04710, 42.14249], [-111.04668, 42.00156], [-111.87649, 41.99852]
+            ]]
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-115, 45.5],
+                zoom: 5,
+                style: 'grayscale_light',
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create and add the polygon mask to the data source.
+                datasource.add(createMask(polygonMaskArea));
+                
+                //Create a layer to render the polygon mask with a solid color and add it to the map.
+                maskLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillOpacity: 1
+                });
+
+                map.layers.add(maskLayer);
+
+                //Add an event for when the map style changes and change the color of the maskLayer accordingly.
+                map.events.add('styledata', mapStyleChanged);
+
+                //Initialize the color of the mask.
+                mapStyleChanged();
+            });
+        }
+
+        function createMask(geometry) {
+            if (geometry.type === 'Polygon') {                
+                //Copy the polygon mask coordinates.
+                var coords = JSON.parse(JSON.stringify(geometry.coordinates));
+
+                //Add the world polygon ring as the first ring of the polygon mask area. This will cause rendering of the polygon to become inverted. 
+                coords.unshift(worldPolygonRing);
+
+                return new atlas.data.Polygon(coords);
+            } else if (geometry.type === 'MultiPolygon') {
+                var mask = new atlas.data.MultiPolygon([[worldPolygonRing]]);
+
+                //Loop through polygons in MultiPolygon
+                for (var i = 0, len = geometry.coordinates.length; i < len; i++) {
+                    var p = geometry.coordinates[i];
+
+                    //Loop through rings
+                    for (var j = 0, cnt = p.length; j < cnt; j++) {
+                        if (j === 0) {
+                            //Subtract the first ring from each first polygon in the mask (rings 1+ in a polygon are holes).
+                            mask.coordinates[0].push(p[j]);
+                        } else {
+                            //Create new polygons from the hole rings by wrapping them with an array.
+                            mask.coordinates.push([p[j]]);
+                        }
+                    }
+                }
+
+                return mask;
+            }
+
+            return null;
+        }
+
+        function mapStyleChanged() {
+            //This code changes the color of the polygon mask to the same color of water in the map style.
+            var maskColor = 'white';
+
+            switch (map.getStyle().style) {
+                case 'road':
+                case 'road_shaded_relief':
+                    maskColor = 'rgb(147, 199, 230)';                    
+                    break;
+                case 'satellite':
+                case 'satellite_road_labels':
+                    maskColor = 'rgb(7, 37, 48)';
+                    break;
+                case 'night':
+                    maskColor = 'rgb(18, 45, 68)';
+                    break;
+                case 'grayscale_dark':
+                    maskColor = 'rgb(0, 28, 45)';
+                    break;
+                case 'grayscale_light':
+                    maskColor = 'rgb(175, 175, 175)';
+                    break;
+                default:
+                    break;
+            }
+
+            maskLayer.setOptions({ fillColor: maskColor });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Polygon mask with dynamic styling</legend>
+        This sample shows how to dynamically style a polygon mask to align with the current style of the map.
+        This sample also monitors the 'styledata' event of the map and change the
+        color of the mask polygon based on the style of the map to create a more seamless experience.
+        Alternatively, any fill color and opacity value can be set on the polygon layer itself without the 'styledata' event if desired.
+    </fieldset>
+</body>
+</html>

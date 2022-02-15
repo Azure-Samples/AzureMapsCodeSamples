@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cluster aggregates - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to define custom properties on clusters that are defined using data-driven style expresison calculation. These calculations aggregate values across all points contained within the cluster." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, cluster aggregate" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    
+    <script>
+        var map, datasource, popup;
+
+        //GeoJSON feed that contains the data we want to map.
+        var geojsonFeed = '..//data/geojson/SamplePoiDataSet.json';
+
+        //Colors for each EntityType property in point data: [Gas Station, Grocery Store, Restaurant, School]
+        var entityTypes = ['Gas Station', 'Grocery Store', 'Restaurant', 'School'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-97, 39],
+                zoom: 3,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a reusable popup.
+                popup = new atlas.Popup();
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource(null, {
+                    cluster: true,
+
+                    //The radius in pixels to cluster points together.
+                    clusterRadius: 50,
+
+                    //Calculate counts for each entity type in a cluster as custom aggregate properties.
+                    clusterProperties: { 
+                        'Gas Station': ['+', ['case', ['==', ['get', 'EntityType'], 'Gas Station'], 1, 0]],
+                        'Grocery Store': ['+', ['case', ['==', ['get', 'EntityType'], 'Grocery Store'], 1, 0]],
+                        'Restaurant': ['+', ['case', ['==', ['get', 'EntityType'], 'Restaurant'], 1, 0]],
+                        'School': ['+', ['case', ['==', ['get', 'EntityType'], 'School'], 1, 0]]
+                    }
+                });
+                map.sources.add(datasource);
+
+                //Create a bubble layer for rendering clustered data points.
+                var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    radius: 20,
+                    color: 'purple',
+                    strokeWidth: 0,
+                    filter: ['has', 'point_count'] //Only rendered data points which have a point_count property, which clusters do.
+                });
+
+                //Add a click event to the layer so a popup can be displayed to show details about the cluster.
+                map.events.add('click', clusterBubbleLayer, clusterClicked);
+
+                //Add the clusterBubbleLayer and two additional layers to the map.
+                map.layers.add([
+                    clusterBubbleLayer,
+
+                    //Create a symbol layer to render the count of locations in a cluster.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            image: 'none' //Hide the icon image.
+                        },
+                        textOptions: {
+                            textField: ['get', 'point_count_abbreviated'],
+                            offset: [0, 0.4],
+                            color: 'white'
+                        }
+                    }),
+
+                    //Create a layer to render the individual locations.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                    })
+                ]);
+
+                //Import the GeoJSON data into the data source.
+                datasource.importDataFromUrl(geojsonFeed);
+            });
+        }
+
+        function clusterClicked(e) {
+            if (e && e.shapes && e.shapes.length > 0 && e.shapes[0].properties.cluster) {
+                //Get the clustered point from the event.
+                var cluster = e.shapes[0];
+
+                var html = ['<div style="padding:10px;">'];
+
+                html.push(`<b>Cluster size: ${cluster.properties.point_count_abbreviated} entities</b><br/><br/>`);
+
+                //Loop though each entity type get the count from the clusterProperties of the cluster.
+                entityTypes.forEach(et => {
+                    html.push(`${et}: ${cluster.properties[et]}<br/>`);
+                })
+
+                html.push('</div>');
+
+                //Update the options of the popup and open it on the map.
+                popup.setOptions({
+                    position: cluster.geometry.coordinates,
+                    content: html.join('')
+                });
+
+                popup.open(map);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Cluster aggregates</legend>
+        This sample shows how to define custom properties on clusters that are defined using data-driven style expresison calculation. 
+        These calculations aggregate values across all points contained within the cluster.
+    </fieldset>
+</body>
+</html>

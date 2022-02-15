@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create a layer control - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample loads Mapbox styles of a GeoJSON polygon into Azure Maps." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, layer control" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.js"></script>
+
+    <!-- Load in the JavaScript and CSS files that has our custom control. -->
+    <link rel="stylesheet" href="/lib/azure-maps-layer-legend.min.css" type="text/css" />
+    <script src="/lib/azure-maps-layer-legend.min.js"></script>
+
+    <script>
+        var map, legend, layerControl;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a legend control that the layer control will leverage.
+                legend = new atlas.control.LegendControl({
+                    title: 'Legend'
+                });
+
+                //Add the legend control to the map.
+                map.controls.add(legend, {
+                    position: 'bottom-left'
+                });
+
+                //Create the layer control.
+                layerControl = new atlas.control.LayerControl({
+                    title: 'Layer options',
+
+                    //Attach the legend control.
+                    legendControl: legend,
+
+                    dynamicLayerGroup: {
+                        groupTitle: 'Layers',
+                        layout: 'checkbox'
+                    },
+
+                    //Specify the layer groups for the control. 
+                    layerGroups: [                       
+
+                        //A dropdown layer group option.
+                        {
+                            layout: 'dropdown',
+
+                            //A title for this layer group.
+                            groupTitle: 'Symbol label',
+
+                            //The layers affected by this group. 
+                            layers: ['earthquake-labels'],
+
+                            items: [{
+                                label: 'mag',
+
+                                //Optionally specify if the state is enabled or not initially.
+                                enabled: true,
+
+                                //The style to apply to the layers when this state is enabled.
+                                enabledStyle: {
+                                    textOptions: {
+                                        //An expression is used to concerte the "mag" property value into a string and appends the letter "m" to the end of it.
+                                        textField: ['concat', ['to-string', ['get', 'mag']], 'm']
+                                    }
+                                }
+                            }, {
+                                label: 'place',
+
+                                //The style to apply to the layers when this state is enabled.
+                                enabledStyle: {
+                                    textOptions: {
+                                        textField: ['get', 'place']
+                                    }
+                                }
+                            }]
+                        },
+
+                        //A group of check box options.
+                        {
+                            layout: 'checkbox',
+
+                            //A title for this layer group.
+                            groupTitle: 'Magnitude filter',
+
+                            //The layers affected by this group. 
+                            layers: ['earthquake-circles', 'earthquake-labels'],
+
+                            items: [
+                                {
+                                    layout: 'checkbox',
+                                    label: 'mag > 6',
+
+                                    //Optionally specify if the state is enabled or not initially.
+                                    enabled: false,
+
+                                    //Style to apply when a checkbox is checked.
+                                    enabledStyle: {
+                                        filter: ['>', ['get', 'mag'], 6]
+                                    },
+
+                                    //Style to apply when a checkbox is unchecked.
+                                    disabledStyle: {
+                                        filter: null
+                                    }
+                                }
+                            ]
+                        },
+
+                        //A range sliders layer group option. 
+                        {
+                            layout: 'range',
+
+                            //A title for this layer group, in this case using a value that has a match in the localization resources (resx).
+                            groupTitle: 'rangeSlider',
+
+                            //The layers affected by this group. 
+                            layers: ['earthquake-circles'],
+
+                            //Settings for one or more range sliders.
+                            items: [{
+                                //Optionally format the label.
+                                label: '{rangeValue}px',
+
+                                //Set the initial value. 
+                                value: 0.5,
+
+                                //Specify the style applied to the layers as the range sliders value changes.
+                                style: {
+                                    opacity: '{rangeValue}',
+
+                                    //Use a style expression to apply custom logic, in this case, applying the opposite value to the stroke. 
+                                    strokeOpacity: ['-', 1, '{rangeValue}']
+                                },
+
+                                //Specify is the layer styles should update as the slider is moving, rather than waiting until it has finished moving.
+                                updateOnInput: true
+                            }
+                            ]
+                        },
+
+                        //A radio button layer group options. 
+                        {
+                            layout: 'radio',
+
+                            //A title for this layer group.
+                            groupTitle: 'Stroke Width',
+
+                            //The layers affected by this group. 
+                            layers: ['earthquake-circles'],
+                            items: [{
+                                label: '5px',
+
+                                //Style to apply when a radio item is selected.
+                                enabledStyle: {
+                                    strokeWidth: 5
+                                }
+                            },
+                            {
+                                label: '10px',
+
+                                //Style to apply when a radio item is selected.
+                                enabledStyle: {
+                                    strokeWidth: 10
+                                },
+                                //Optionally limit the zoom level that certain options appear.
+                                //minZoom: 3,
+                                //maxZoom: 7
+                            },
+                            {
+                                label: '15px',
+
+                                //Style to apply when a radio item is selected.
+                                enabledStyle: {
+                                    strokeWidth: 15
+                                }
+                            }
+                            ]
+                        }],
+                    resx: {
+                        'rangeSlider': 'Opacity slider'
+                    }
+                });
+
+                //Add the layer control to the map. 
+                map.controls.add(layerControl, {
+                    position: 'top-right'
+                });
+
+                //Optionally add events to the layer control to know when any states change.
+                map.events.add('statechanged', layerControl, function (e) {
+                    console.log('statechanged');
+                });
+
+                map.events.add('toggled', legend, function (e) {
+                    console.log('Minified ' + e.minimized);
+                });
+
+                //Load some mock data for the example.
+                loadMockData();
+            });
+        }
+
+        function loadMockData(){
+            //Create a data source and add it to the map.
+            var source = new atlas.source.DataSource();
+            map.sources.add(source);
+
+            //Load the earthquake data.
+            source.importDataFromUrl('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson');
+
+            map.layers.add([
+                //Create a layer that defines how to render the shapes in the data source and add it to the map.
+                new atlas.layer.BubbleLayer(source, 'earthquake-circles', {
+                    //Bubbles are made semi-transparent.
+                    opacity: 0.75,
+
+                    //Color of each bubble based on the value of "mag" property using a color gradient of green, yellow, orange, and red.
+                    color: [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mag'],
+                        0, 'green',
+                        5, 'yellow',
+                        6, 'orange',
+                        7, 'red'
+                    ],
+
+                    /*
+                        * Radius for each data point scaled based on the value of "mag" property.
+                        * When "mag" = 0, radius will be 2 pixels.
+                        * When "mag" = 8, radius will be 40 pixels.
+                        * All other "mag" values will be a linear interpolation between these values.
+                        */
+                    radius: [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mag'],
+                        0, 2,
+                        8, 40
+                    ]
+                }),
+
+                //Create a symbol layer using the same data source to render the magnitude as text above each bubble and add it to the map.
+                new atlas.layer.SymbolLayer(source, 'earthquake-labels', {
+                    iconOptions: {
+                        //Hide the icon image.
+                        image: 'none'
+                    },
+                    textOptions: {
+                        //An expression is used to concerte the "mag" property value into a string and appends the letter "m" to the end of it.
+                        textField: ['concat', ['to-string', ['get', 'mag']], 'm'],
+                        textSize: 12
+                    }
+                })
+            ]);
+        }
+    </script>
+</head>
+
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>
+            <h1 style="font-size:16px">Create a layer control</h1>
+        </legend>
+        This sample shows how to create a layer control and add it to the map.
+
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-layer-legend" target="_blank">Azure Maps Layer & Legend Control module</a>
+    </fieldset>
+
+    <div id="outsidePanel"></div>
+</body>
+</html>

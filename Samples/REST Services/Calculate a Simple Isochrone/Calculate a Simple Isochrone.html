@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Calculate a Simple Isochrone - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate an isochrone (drive time polygon) using the Azure Maps Route Reachable Range service and display it on the map. " />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource;
+        var reachableRangeUrlTemplate = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query={lat},{lon}&timeBudgetInSec={time}&view=Auto';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-0.113042, 51.511859],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+                
+                //Add layers to the map to render the data.
+                map.layers.add([
+                    //Create a polygon layer to render the isochrone.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        fillColor: 'rgba(255,0,0,0.4)'
+                    }),
+
+                    //Create a symbol layer to render the center point.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                    })
+                ]);
+
+                //Calculate a 15 minute isochrone from the center of the map. Note that we have to convert 15 minutes to seconds.
+                getIsochrone(map.getCamera().center, 15 * 60);
+            });
+        }
+
+        function getIsochrone(center, timeInSeconds) {
+            //Create the URL request to the reachable range service.
+            var request = reachableRangeUrlTemplate
+                .replace('{lat}', center[1])
+                .replace('{lon}', center[0])
+                .replace('{time}', timeInSeconds);
+
+            processRequest(request).then(response => {
+                if (response.error) {
+                    alert(response.error.message);
+                    return;
+                }
+
+                if (response.reachableRange) {
+                    //Convert the response into GeoJSON and add it to the map.
+
+                    var positions = response.reachableRange.boundary.map(function (latLng) {
+                        return [latLng.longitude, latLng.latitude];
+                    });
+
+                    var isochrone = new atlas.data.Polygon([positions]);
+
+                    var centerPoint = new atlas.data.Point([
+                        response.reachableRange.center.longitude,
+                        response.reachableRange.center.latitude
+                    ]);
+
+                    //Add the data to the data source.
+                    datasource.add([
+                        isochrone,
+                        centerPoint
+                    ]);
+                } else {
+                    alert('Unable to calculate an isochrone.')
+                }
+            });
+        }
+
+        function processRequest(url) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(url);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Calculate a Simple Isochrone</legend>
+        This sample shows how to calculate a simple isochrone (drive time polygon) using the Azure Maps 
+        <a href="https://docs.microsoft.com/en-us/azure/azure-maps/glossary#reachable-range" target="_blank">Route Reachable Range service</a> and display it on the map. 
+        This sample calculates an isochrone for driving 15 minutes from a point near the center of London, UK.
+    </fieldset>
+</body>
+</html>

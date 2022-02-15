@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Render world copies - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to the renderWolrdCopies map style option changes the layout of the map when zoomed out." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, map, worldwrap, map options" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                renderWorldCopies: true,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Add some data to the map so that we can see how the rendering of data also changes.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                map.layers.add(new atlas.layer.BubbleLayer(datasource));
+                
+                datasource.add(new atlas.data.Point([0, 0]));
+            });
+        }
+
+        function toggleRenderWorldCopies() {
+            var styleOptions = map.getStyle();
+
+            map.setStyle({
+                renderWorldCopies: !styleOptions.renderWorldCopies
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <input type="button" value="Toggle Render World Copies" onclick="toggleRenderWorldCopies()" style="position:absolute;top:10px;left:10px;"/>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Render world copies</legend>
+        This sample shows how to the renderWolrdCopies map style option changes the layout of the map when zoomed out. When zoomed out, by default, 
+        if there is a lot of horizontal space, copies of the map view will be displayed. 
+        Setting the renderWorldCopies map style option to false makes it so only one copy is displayed.
+    </fieldset>
+</body>
+</html>

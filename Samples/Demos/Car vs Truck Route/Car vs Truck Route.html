@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Car vs Truck Route - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample compares the route a truck has to take to the route a car can take." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, truck, car, routing, route, directions" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, routePoints = [], currentScenario;
+
+        var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
+        var geocodeRequestUrl = 'https://{azMapsDomain}/search/address/json?api-version=1&query={query}&view=Auto';
+        var carRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var truckRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&view=Auto';
+
+        var scenarios = [
+            { from: '47.632241,-122.299189', to: '47.634676,-122.300302', height: '5', width: '3', length: '', weight: '', load: [], description: 'Low bridge', streetsideLink: 'https://binged.it/2oT6d4V' },
+            { from: '47.586514,-122.245874', to: '47.584868,-122.243094', height: '', width: '', length: '30', weight: '', load: [], description: 'Tight turn', streetsideLink: 'https://binged.it/2v2gal8' },
+            { from: '40.429993,-79.998690', to: '40.414211,-80.009550', height: '', width: '', length: '', weight: '', load: ['USHazmatClass3'], description: 'Flammable load', streetsideLink: 'https://binged.it/2hd6P3s' }
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source to store the data in.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering line data.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: ['get', 'strokeColor'],
+                    strokeWidth: 5
+                }), 'labels');
+
+                //Add a layer for rendering point data.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: ['get', 'icon']
+                    },
+                    textOptions: {
+                        textField: ['get', 'title'],
+                        size: 14,
+                        font: ['SegoeUi-Bold'],
+                        offset: [0, 1.2]
+                    },
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                }));
+
+                //Load scenarios
+                var scenarioHtml = [];
+
+                for (var i = 0; i < scenarios.length; i++) {
+                    scenarioHtml.push('<input type="button" value="', scenarios[i].description, '" onclick="loadScenario(', i, ')" /> ');
+                }
+
+                document.getElementById('scenarios').innerHTML = scenarioHtml.join('');
+            });
+        }
+
+        function calculateDirections() {
+            routePoints = [];
+            document.getElementById('output').innerHTML = '';
+            datasource.clear();
+
+            var from = document.getElementById('fromTbx').value;
+
+            geocodeQuery(from, function (fromCoord) {
+                var to = document.getElementById('toTbx').value;
+
+                geocodeQuery(to, function (toCoord) {
+
+                    //Create pins for the start and end of the route.
+                    var startPoint = new atlas.data.Point(fromCoord);
+                    var startPin = new atlas.data.Feature(startPoint, {
+                        title: 'Start',
+                        icon: 'pin-round-blue'
+                    });
+
+                    var endPoint = new atlas.data.Point(toCoord);
+                    var endPin = new atlas.data.Feature(endPoint, {
+                        title: 'End',
+                        icon: 'pin-round-red'
+                    });
+
+                    //Fit the map window to the bounding box defined by the start and end points.
+                    map.setCamera({
+                        bounds: atlas.data.BoundingBox.fromData([toCoord, fromCoord]),
+                        padding: 50
+                    });
+
+                    //Add pins to the map for the start and end point of the route.
+                    datasource.add([startPin, endPin]);
+
+                    //Convert lon,lat into lat,lon.
+                    fromCoord.reverse();
+                    toCoord.reverse()
+
+                    var query = fromCoord.join(',') + ':' + toCoord.join(',');
+
+                    var carRequestUrl = carRoutingRequestUrl.replace('{query}', query);
+
+                    callRestService(carRequestUrl, function (r) {
+                        addRouteToMap(r.routes[0], 'red');
+                        document.getElementById('output').innerHTML += 'Car Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
+                    });
+
+                    var truckRequestUrl = truckRoutingRequestUrl.replace('{query}', query);
+
+                    var loadType = getSelectValues('vehicleLoadType');
+                    if (loadType && loadType !== '') {
+                        truckRequestUrl += '&vehicleLoadType=' + loadType;
+                    }
+
+                    truckRequestUrl = setValueOptions(truckRequestUrl, ['vehicleWeight', 'vehicleWidth', 'vehicleHeight', 'vehicleLength']);
+
+                    callRestService(truckRequestUrl, function (r) {
+                        addRouteToMap(r.routes[0], 'green');
+                        document.getElementById('output').innerHTML += 'Truck Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
+                    });
+                });
+            });
+        }
+
+        //Geocode the query and return the first coordinate.
+        function geocodeQuery(query, callback) {
+            if (callback) {
+                //Check to see if the query is a coordinate. if so, it doesn't need to be geocoded.
+                if (coordinateRx.test(query)) {
+                    var vals = query.split(',');
+
+                    callback([parseFloat(vals[1]), parseFloat(vals[0])]);
+                } else {
+                    var requestUrl = geocodeRequestUrl.replace('{query}', encodeURIComponent(query));
+
+                    callRestService(requestUrl, function (r) {
+                        if (r && r.results && r.results.length > 0) {
+                            callback([r.results[0].position.lon, r.results[0].position.lat]);
+                        }
+                    });
+                }
+            }
+        }
+
+        function addRouteToMap(route, strokeColor) {
+            var routeCoordinates = [];
+
+            for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
+                var leg = route.legs[legIndex];
+
+                //Convert the route point data into a format that the map control understands.
+                var legCoordinates = leg.points.map(function (point) {
+                    return [point.longitude, point.latitude];
+                });
+
+                //Combine the route point data for each route leg together to form a single path.
+                routeCoordinates = routeCoordinates.concat(legCoordinates);
+            }
+
+            //Create a LineString from the route path points and add it to the line layer.
+            datasource.add(new atlas.data.Feature(new atlas.data.LineString(routeCoordinates), {
+                strokeColor: strokeColor
+            }));
+
+            //Fit the map window to the bounding box defined by the route points.
+            routePoints = routePoints.concat(routeCoordinates);
+            map.setCamera({
+                bounds: atlas.data.BoundingBox.fromPositions(routePoints),
+                padding: 50
+            });
+        }
+
+        function callRestService(requestUrl, callback, errorCallback) {
+            if (callback) {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                requestUrl = requestUrl.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: requestUrl });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(url);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        callback(r);
+                    }, e => errorCallback(e));
+            }
+        }
+
+        // Return a set of the selected opion value for a multi-select as a comma delimited string.
+        function getSelectValues(id) {
+            var select = document.getElementById(id);
+            var selected = [];
+
+            for (var i = 0; i < select.length; i++) {
+                if (select.options[i].selected) {
+                    selected.push(select.options[i].value);
+                }
+            }
+
+            return selected.join(',');
+        }
+
+        function setValueOptions(requestUrl, valueOptions) {
+            for (var i = 0; i < valueOptions.length; i++) {
+                requestUrl = requestUrl.replace('{' + valueOptions[i] + '}', document.getElementById(valueOptions[i]).value);
+            }
+
+            return requestUrl;
+        }
+
+        function loadScenario(scenarioNum) {
+            var scenario = scenarios[scenarioNum];
+
+            document.getElementById('fromTbx').value = scenario.from;
+            document.getElementById('toTbx').value = scenario.to;
+            document.getElementById('vehicleWidth').value = scenario.width;
+            document.getElementById('vehicleHeight').value = scenario.height;
+            document.getElementById('vehicleLength').value = scenario.length;
+            document.getElementById('vehicleWeight').value = scenario.weight;
+
+            var vehicleLoadTypeSelect = document.getElementById('vehicleLoadType');
+
+            for (var i = 0; i < vehicleLoadTypeSelect.length; i++) {
+                if (scenario.load.indexOf(vehicleLoadTypeSelect.options[i].value) > -1) {
+                    vehicleLoadTypeSelect.options[i].selected = 'selected';
+                } else {
+                    vehicleLoadTypeSelect.options[i].selected = null;
+                }
+            }
+
+            calculateDirections();
+
+            document.getElementById('output').innerHTML = '<a href="' + scenario.streetsideLink + '" target="_blank">Streetside</a><br/>';
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 370px);
+            min-width:290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 350px;
+            float: left;
+            padding: 10px;
+        }
+
+        #waypointsTbx {
+            height: 50px;
+            width: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="sidePanel">
+        <fieldset style="width:300px;margin-bottom:10px;">
+            <legend>Car vs Truck Route</legend>
+            This sample compares the route a truck has to take <span style="color:green">(green)</span> to the route a car can take <span style="color:red">(red)</span>.
+        </fieldset>
+
+        <table>
+            <tr><td>From:</td><td><input type="text" id="fromTbx" /></td></tr>
+            <tr><td>To:</td><td><input type="text" id="toTbx" /></td></tr>
+
+            <tr>
+                <td colspan="2">
+                    <table id="truckOptions">
+                        <tr><td colspan="2"><b>Truck Options</b></td></tr>
+                        <tr>
+                            <td>Vehicle Width (meters):</td>
+                            <td>
+                                <input type="number" id="vehicleWidth" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vehicle Height (meters):</td>
+                            <td>
+                                <input type="number" id="vehicleHeight" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vehicle Length (meters):</td>
+                            <td>
+                                <input type="number" id="vehicleLength" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vehicle Weight (kg):</td>
+                            <td>
+                                <input type="number" id="vehicleWeight" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vehicle Load Type:</td>
+                            <td>
+                                <select id="vehicleLoadType">
+                                    <option value="" />
+                                    <option value="USHazmatClass1" />Explosives
+                                    <option value="USHazmatClass2" />Compressed gas
+                                    <option value="USHazmatClass3" />Flammable liquids
+                                    <option value="USHazmatClass4" />Flammable solids
+                                    <option value="USHazmatClass5" />Oxidizers
+                                    <option value="USHazmatClass6" />Poisons
+                                    <option value="USHazmatClass7" />Radioactive
+                                    <option value="USHazmatClass8" />Corrosives
+                                    <option value="USHazmatClass9" />Miscellaneous
+                                    <option value="otherHazmatExplosive" />Explosives
+                                    <option value="otherHazmatGeneral" />Miscellaneous
+                                    <option value="otherHazmatHarmfulToWater" />Harmful to water
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr><td colspan="2"><b>Scenarios:</b></td></tr>
+            <tr><td colspan="2"><div id="scenarios"></div></td></tr>
+            <tr><td></td><td><br /><input type="button" value="Calculate Directions" onclick="calculateDirections()" /></td></tr>
+            <tr><td colspan="2"><br /><div id="output"></div></td></tr>
+        </table>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+</html>

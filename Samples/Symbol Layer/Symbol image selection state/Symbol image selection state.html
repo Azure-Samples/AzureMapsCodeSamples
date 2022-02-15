@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Symbol image selection state - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to change the image of a symbol based on its selection state. " />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, icon, image" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, selectedShapeId;
+        
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                zoom: 4,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Load two custom image icons into the map resources.
+                var images = [
+                    map.imageSprite.add('inactive-icon', '/images/icons/purple_pin_small.png'),
+                    map.imageSprite.add('active-icon', '/images/icons/purple_pin.png'),
+                ];
+
+                Promise.all(images).then(function () {
+
+                    //Create a data source and add it to the map.
+                    datasource = new atlas.source.DataSource();
+                    map.sources.add(datasource);
+
+                    //Create point features and add it to the data source.
+                    datasource.add([
+                        new atlas.data.Feature(new atlas.data.Point([0, 0])),
+                        new atlas.data.Feature(new atlas.data.Point([-10, 0])),
+                        new atlas.data.Feature(new atlas.data.Point([10, 0]))
+                    ]);
+
+                    //Add a layer for rendering point data as symbols.
+                    var layer = new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            //Check the icon property of the feature to set the image. 
+                            image: [
+                                'case',
+
+                                ['has', 'icon'],
+                                ['get', 'icon'],
+
+                                //Default to the inactive icon if no icon property set on feature.
+                                'inactive-icon'
+                            ]
+                        }
+                    });
+
+                    //Add layer to map.
+                    map.layers.add(layer);
+
+                    //Add click event to layer.
+                    map.events.add('click', layer, symbolClicked);
+
+                    //When the mouse is over the layer, change the cursor to be a pointer.
+                    map.events.add('mouseover', layer, function () {
+                        map.getCanvasContainer().style.cursor = 'pointer';
+                    });
+
+                    //When the mouse leaves the item on the layer, change the cursor back to the default which is grab.
+                    map.events.add('mouseout', layer, function () {
+                        map.getCanvasContainer().style.cursor = 'grab';
+                    });
+                });
+            });
+        }
+
+        function symbolClicked(e) {
+            //Get the clicked shape an it's id. 
+            var shape = e.shapes[0];
+            var shapeId = e.shapes[0].getId();
+
+            var properties = shape.getProperties();
+
+            //If the shape is already showing the active icon, toggle it to show the inactive icon.
+            shape.setProperties({
+                icon: (properties.icon === 'active-icon') ? 'inactive-icon' : 'active-icon'
+            });
+
+            //If a shape has previously been selected, revert it's icon to the inactive icon.
+            if (selectedShapeId) {
+                var s = datasource.getShapeById(selectedShapeId);
+                s.setProperties({
+                    icon: 'inactive-icon'
+                });
+            }
+
+            //If the shape id is new, cache it, otherwise no shape is active, cache null.
+            selectedShapeId = (selectedShapeId !== shapeId) ? shapeId : null;
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Symbol image selection state</legend>
+        This sample shows how to change the image of a symbol based on its selection state. 
+        This sample looks at all features in a data source and only allows one feature to be active. 
+        Clicking on an active feature will toggle it to its inactive state.
+    </fieldset>
+</body>
+</html>

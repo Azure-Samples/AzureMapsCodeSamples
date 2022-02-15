@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Data-driven symbol icons - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use multiple custom icons in a single symbol layer by using data-driven styling with an expression." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, icon, image, expression" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-73.985708, 40.75773],
+                zoom: 9,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load some point data into the data source.
+                datasource.importDataFromUrl('..//data/geojson/SamplePoiDataSet.json');
+
+                //Create an array of custom icon promises to load into the map. 
+                var iconPromises = [
+                    map.imageSprite.add('gas_station_icon', '/images/icons/gas_station_pin.png'),
+                    map.imageSprite.add('grocery_store_icon', '/images/icons/grocery_cart_pin.png'),
+                    map.imageSprite.add('restaurant_icon', '/images/icons/restaurant_pin.png'),
+                    map.imageSprite.add('school_icon', '/images/icons/school_pin.png'),
+                ];
+
+                //Load all the custom image icons into the map resources.
+                Promise.all(iconPromises).then(function () {
+
+                    //Add a layer for rendering point data as symbols.
+                    map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            //Use a match expression to select the image icon based on the EntityType property of the data point.
+                            image: [
+                                'match',
+
+                                ['get', 'EntityType'],
+
+                                //For each entity type, specify the icon name to use.
+                                'Gas Station', 'gas_station_icon',
+                                'Grocery Store', 'grocery_store_icon',
+                                'Restaurant', 'restaurant_icon',
+                                'School', 'school_icon',
+
+                                //Default fallback icon.
+                                'marker-blue'
+                            ]
+                        }
+                    }));
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Data-driven symbol icons</legend>
+        This sample shows how to use multiple custom icons in a single symbol layer by using data-driven styling with an expression. 
+        This sample uses a GeoJSON file that contains points of interest as a data source. 
+        Each record in this data set has an EntityType property which is one of the following properties: 
+        'Gas Station', 'Grocery Store', 'Restaurant', 'School'. 
+        This sample uses the EntityType property to select the icon to display on the map.
+    </fieldset>
+</body>
+</html>

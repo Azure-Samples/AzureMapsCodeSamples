@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Show Azure Maps in Cesium BaseLayerPicker - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to show all the available Azure Maps tile layers as imagery providers in the Cesium base layer picker. " />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, raster, cesium, cesium.js" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the CesiumJS Map control JavaScript and CSS files. -->
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
+
+    <!-- Add reference to the Azure Maps Cesium plugin. -->
+    <script src="/lib/azure-maps-cesium.min.js"></script>
+
+    <script>
+        var viewer, overlayLayers, currentOverlay;
+
+        function GetMap() {
+            var authOptions = {
+                //Use Azure Active Directory authentication.
+                authType: 'anonymous',
+                clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                getToken: function (resolve, reject, map) {
+                    //URL to your authentication service that retrieves an Azure Active Directory Token.
+                    var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+                    fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                }
+
+                //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //authType: 'subscriptionKey',
+                //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+            };
+
+            //Get all base map imagery providers from Azure Maps.
+            var providers = Cesium.AzureMapsImageryProvider.getBaseMapProviderViewModels({
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: authOptions
+            });
+
+            //Create a map instance.
+            viewer = new Cesium.Viewer('myMap', {
+                //Default to the first imagery provider.
+                imageryProvider: providers[0],
+
+                //Don't show the default base layer picker.
+                baseLayerPicker: false,
+
+                //Update the geocoder to use Azure Maps.
+                geocoder: new Cesium.AzureMapsGeocoderService({
+                    //Add authentication details for connecting to Azure Maps.
+                    authOptions: authOptions
+                })
+            });
+
+            //Create a custom baseLayerPicker widget using the Azure Maps view models imagery providers.
+            var baseLayerPicker = new Cesium.BaseLayerPicker('baseLayerPickerContainer', {
+                globe: viewer.scene.globe,
+                imageryProviderViewModels: providers,
+                selectedImageryProviderViewModel: providers[0]
+            });
+
+            //Get all overlay imagery layers from the Azure Maps Imagery provider. Since other instances of AzureMapsImageryProvider were already created, no need to re-specify authOptions.
+            overlayLayers = Cesium.AzureMapsImageryProvider.getAllOverlayImageryLayer(null, {
+                //Hide the layers by default.
+                show: false
+            });
+
+            //Create the options for the overlay dropdown selection.
+            var html = ['<option value="-1" selected="selected">none</option>'];
+            overlayLayers.forEach((ol, idx) => {
+                html.push(`<option value="${idx}">${ol.imageryProvider.getDisplayName()}</option>`);
+
+                //Add each overlay layer to the map imageryLayers collection.
+                viewer.imageryLayers.add(ol);
+            })
+
+            document.getElementById('overlaySelectionContainer').innerHTML = html.join('');
+        }
+
+        function overlaySelectionChanged(elm) {
+            var idx = parseInt(elm.value);
+
+            if (currentOverlay) {
+                currentOverlay.show = false
+                currentOverlay = null;
+            }
+
+            if (idx > -1) {
+                currentOverlay = overlayLayers[idx];
+                currentOverlay.show = true
+            }
+        }
+    </script>
+</head>
+
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="baseLayerPickerContainer" style="position:absolute;top:50px;right:13px;width:38px;height:38px;"></div>
+
+    <div style="position:absolute;top:13px;left:13px;background-color:white;padding:5px;border-radius:5px;">
+        Overlay: <select id="overlaySelectionContainer" onchange="overlaySelectionChanged(this)"></select>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>
+            <h1 style="font-size:16px">Show Azure Maps in Cesium BaseLayerPicker</h1>
+        </legend>
+        This sample shows how to show all the available Azure Maps tile layers as imagery providers in the Cesium base layer picker. 
+        An additional dropdown is added to let the user select additional Azure Maps imagery provider overlays such as traffic.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-cesium" target="_blank">Azure Maps Cesium JS plugin</a>.
+    </fieldset>
+</body>
+
+</html>

@@ -1,0 +1,374 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Interactive Search Quickstart - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This tutorial shows how to create an interactive search experience." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, tutorials, search, point of interest, POI" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        var map, datasource, client, popup, searchInput, resultsPanel, searchInputLength, centerMapOnResults;
+
+        //The minimum number of characters needed in the search input before a search is performed.
+        var minSearchInputLength = 3;
+
+        //The number of ms between key strokes to wait before performing a search.
+        var keyStrokeDelay = 150;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-118.270293, 34.039737],
+                zoom: 14,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Store a reference to the Search Info Panel.
+            resultsPanel = document.getElementById("results-panel");
+
+            //Add key up event to the search box. 
+            searchInput = document.getElementById("search-input");
+            searchInput.addEventListener("keyup", searchInputKeyup);
+
+            //Create a popup which we can reuse for each result.
+            popup = new atlas.Popup();
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Add the zoom control to the map.
+                map.controls.add(new atlas.control.ZoomControl(), {
+                    position: 'top-right'
+                });
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering the results.
+                var searchLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: 'pin-round-darkblue',
+                        anchor: 'center',
+                        allowOverlap: true
+                    }
+                });
+                map.layers.add(searchLayer);
+
+                //Add a click event to the search layer and show a popup when a result is clicked.
+                map.events.add("click", searchLayer, function (e) {
+                    //Make sure the event occurred on a shape feature.
+                    if (e.shapes && e.shapes.length > 0) {
+                        showPopup(e.shapes[0]);
+                    }
+                });
+            });
+        }
+        function searchInputKeyup(e) {
+            centerMapOnResults = false;
+            if (searchInput.value.length >= minSearchInputLength) {
+                if (e.keyCode === 13) {
+                    centerMapOnResults = true;
+                }
+                //Wait 100ms and see if the input length is unchanged before performing a search. 
+                //This will reduce the number of queries being made on each character typed.
+                setTimeout(function () {
+                    if (searchInputLength == searchInput.value.length) {
+                        search();
+                    }
+                }, keyStrokeDelay);
+            } else {
+                resultsPanel.innerHTML = '';
+            }
+            searchInputLength = searchInput.value.length;
+        }
+        function search() {
+            //Remove any previous results from the map.
+            datasource.clear();
+            popup.close();
+            resultsPanel.innerHTML = '';
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Construct the SearchURL object
+            var searchURL = new atlas.service.SearchURL(pipeline);
+
+            var query = document.getElementById("search-input").value;
+            searchURL.searchPOI(atlas.service.Aborter.timeout(10000), query, {
+                lon: map.getCamera().center[0],
+                lat: map.getCamera().center[1],
+                maxFuzzyLevel: 4,
+                view: 'Auto'
+            }).then((results) => {
+
+                //Extract GeoJSON feature collection from the response and add it to the datasource
+                var data = results.geojson.getFeatures();
+                datasource.add(data);
+
+                if (centerMapOnResults) {
+                    map.setCamera({
+                        bounds: data.bbox
+                    });
+                }
+                console.log(data);
+                //Create the HTML for the results list.
+                var html = [];
+                for (var i = 0; i < data.features.length; i++) {
+                    var r = data.features[i];
+                    html.push('<li onclick="itemClicked(\'', r.id, '\')" onmouseover="itemHovered(\'', r.id, '\')">')
+                    html.push('<div class="title">');
+                    if (r.properties.poi && r.properties.poi.name) {
+                        html.push(r.properties.poi.name);
+                    } else {
+                        html.push(r.properties.address.freeformAddress);
+                    }
+                    html.push('</div><div class="info">', r.properties.type, ': ', r.properties.address.freeformAddress, '</div>');
+                    if (r.properties.poi) {
+                        if (r.properties.phone) {
+                            html.push('<div class="info">phone: ', r.properties.poi.phone, '</div>');
+                        }
+                        if (r.properties.poi.url) {
+                            html.push('<div class="info"><a href="http://', r.properties.poi.url, '">http://', r.properties.poi.url, '</a></div>');
+                        }
+                    }
+                    html.push('</li>');
+                    resultsPanel.innerHTML = html.join('');
+                }
+
+            });
+        }
+        function itemHovered(id) {
+            //Show a popup when hovering an item in the result list.
+            var shape = datasource.getShapeById(id);
+            showPopup(shape);
+        }
+        function itemClicked(id) {
+            //Center the map over the clicked item from the result list.
+            var shape = datasource.getShapeById(id);
+            map.setCamera({
+                center: shape.getCoordinates(),
+                zoom: 17
+            });
+        }
+        function showPopup(shape) {
+            var properties = shape.getProperties();
+            //Create the HTML content of the POI to show in the popup.
+            var html = ['<div class="poi-box">'];
+            //Add a title section for the popup.
+            html.push('<div class="poi-title-box"><b>');
+
+            if (properties.poi && properties.poi.name) {
+                html.push(properties.poi.name);
+            } else {
+                html.push(properties.address.freeformAddress);
+            }
+            html.push('</b></div>');
+            //Create a container for the body of the content of the popup.
+            html.push('<div class="poi-content-box">');
+            html.push('<div class="info location">', properties.address.freeformAddress, '</div>');
+            if (properties.poi) {
+                if (properties.poi.phone) {
+                    html.push('<div class="info phone">', properties.phone, '</div>');
+                }
+                if (properties.poi.url) {
+                    html.push('<div><a class="info website" href="http://', properties.poi.url, '">http://', properties.poi.url, '</a></div>');
+                }
+            }
+            html.push('</div></div>');
+            popup.setOptions({
+                position: shape.getCoordinates(),
+                content: html.join('')
+            });
+            popup.open(map);
+        }
+    </script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow:hidden;
+            font-family: segoeui;
+        }
+        #myMap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        #search {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 400px;
+            box-shadow: 0px 24px 74px 0px rgba(0, 0, 0, .32);
+            border: 1px solid #ccc;
+            overflow-y: hidden;
+        }
+            #search > .search-input-box {
+                background: #fff;
+                height: 72px;
+                width: 100%;
+            }
+                #search > .search-input-box > .search-input-group {
+                    position: relative;
+                    top: 20px;
+                    left: 20px;
+                    width: 358px;
+                    height: 30px;
+                    margin: 0;
+                    padding: 0;
+                    border: 1px dotted #ccc;
+                }
+                    #search > .search-input-box > .search-input-group > .search-icon {
+                        margin: 0;
+                        padding: 0;
+                        background-size: 20px 20px;
+                        width: 30px;
+                        height: 30px;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-image: url("data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctitle%3E-%3C/title%3E%3Cpath d='M10.5,0a5.4457,5.4457,0,0,1,2.7734.75A5.6134,5.6134,0,0,1,15.25,2.7266a5.5224,5.5224,0,0,1,.5547,4.2344A5.4147,5.4147,0,0,1,15.25,8.2734,5.6134,5.6134,0,0,1,13.2734,10.25a5.5014,5.5014,0,0,1-4.6445.4219,5.6256,5.6256,0,0,1-1.6445-.9453L.8516,15.8516A.4807.4807,0,0,1,.5,16a.4823.4823,0,0,1-.3516-.1484.4905.4905,0,0,1,0-.7031l6.125-6.1328a5.6194,5.6194,0,0,1-.9453-1.6445A5.39,5.39,0,0,1,5,5.5a5.4457,5.4457,0,0,1,.75-2.7734A5.6134,5.6134,0,0,1,7.7266.75,5.4457,5.4457,0,0,1,10.5,0Zm0,10a4.347,4.347,0,0,0,1.75-.3555A4.5254,4.5254,0,0,0,14.6445,7.25,4.347,4.347,0,0,0,15,5.5a4.347,4.347,0,0,0-.3555-1.75A4.5254,4.5254,0,0,0,12.25,1.3555a4.4854,4.4854,0,0,0-3.5,0A4.5254,4.5254,0,0,0,6.3555,3.75a4.4854,4.4854,0,0,0,0,3.5A4.5254,4.5254,0,0,0,8.75,9.6445,4.3487,4.3487,0,0,0,10.5,10Z' fill='%234b4b4b'/%3E%3C/svg%3E");
+                    }
+                    #search > .search-input-box > .search-input-group > input {
+                        display: inline-block;
+                        position: absolute;
+                        top: 0px;
+                        left: 30px;
+                        width: calc(100% - 40px);
+                        height: 100%;
+                        margin: 0;
+                        padding: 0 5px;
+                        border-collapse: collapse;
+                        border: 0px;
+                    }
+                        #search > .search-input-box > .search-input-group > input:focus {
+                            outline: none;
+                        }
+        #results-panel {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            list-style: none;
+            overflow-y: auto;
+            max-height: calc(100vh - 119px);
+        }
+            #results-panel > li {
+                border-top: 1px dotted #ccc;
+                padding: 10px 20px;
+            }
+                #results-panel > li:hover {
+                    background-color: #f1f2f2;
+                    cursor: pointer;
+                }
+                #results-panel > li > .title {
+                    font-family: segoeui-b;
+                    line-height: 14pt;
+                    width: 100%;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+                #results-panel > li > .info {
+                    width: 100%;
+                    line-height: 14pt;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+        .poi-box {
+            max-width: 200px;
+            padding: 0;
+            margin: 0;
+        }
+        .poi-title-box {
+            background-color: #153C64;
+            width: calc(100% - 16px);
+            height: 23px;
+            padding: 8px;
+            color: #fff;
+            font-size: 12px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            font-family: segoeui-b;
+        }
+        .poi-content-box {
+            width: calc(100% - 16px);
+            height: calc(100% - 39px);
+            padding: 8px;
+        }
+            .poi-content-box .info {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+                background-repeat: no-repeat;
+                background-position: left;
+                padding-left: 15px;
+                background-size: 10px 10px;
+                width: calc(100% - 15px);
+            }
+        .info .phone {
+            background-image: url("data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNS45NzQ2IDI2Ij48dGl0bGU+cG9pPC90aXRsZT48cGF0aCBkPSJNMjAuMzkxNCwxNS4zOTk0YTIuODE0MSwyLjgxNDEsMCwwLDEsMS4wNzIyLjIwOTUsMi43MjQzLDIuNzI0MywwLDAsMSwuOTA3My42MDNsMi43OTE2LDIuNzkzYTIuNzI1OCwyLjcyNTgsMCwwLDEsLjYwMjcuOTA3NywyLjg1MjksMi44NTI5LDAsMCwxLDAsMi4xNDU1LDIuNzI1OCwyLjcyNTgsMCwwLDEtLjYwMjcuOTA3N3EtLjcyMzMuNzM2My0xLjMyLDEuMzAxM2E3LjQwNDMsNy40MDQzLDAsMCwxLTEuMjMwOC45NTIxLDUuMDk1LDUuMDk1LDAsMCwxLTEuNDA4NS41ODRBNy42NjM4LDcuNjYzOCwwLDAsMSwxOS4zMzgyLDI2YTExLjQ3NywxMS40NzcsMCwwLDEtMy4yNjExLS40OTUxLDE4LjA4ODIsMTguMDg4MiwwLDAsMS0zLjMzMDktMS4zNzExLDIzLjg4LDIzLjg4LDAsMCwxLTMuMjQ4NC0yLjA4MkEyOC4xNTgsMjguMTU4LDAsMCwxLDYuNDksMTkuNDE3NSwyOC44OTc1LDI4Ljg5NzUsMCwwLDEsMy44ODI5LDE2LjM5NmEyMy42NzQ3LDIzLjY3NDcsMCwwLDEtMi4wNTU2LTMuMjVBMTguMjMyNywxOC4yMzI3LDAsMCwxLC40ODIyLDkuODM4OSwxMS4zODY0LDExLjM4NjQsMCwwLDEsMCw2LjY0LDcuNTk1Niw3LjU5NTYsMCwwLDEsLjE5NjcsNC43OCw1LjIxLDUuMjEsMCwwLDEsLjc4LDMuMzcwNmE3LjA3NSw3LjA3NSwwLDAsMSwuOTUxNy0xLjIzMTRxLjU2NDctLjU5LDEuMzAwNi0xLjMxNEEyLjgyNywyLjgyNywwLDAsMSwzLjkzMzYuMjE1OGEyLjc4NzIsMi43ODcyLDAsMCwxLDIuMTUwOCwwLDIuODA3OSwyLjgwNzksMCwwLDEsLjkwNzMuNjA5NGwyLjc5MTYsMi43OTNhMi43MjU4LDIuNzI1OCwwLDAsMSwuNjAyNy45MDc3LDIuODE3OSwyLjgxNzksMCwwLDEsLjIwOTQsMS4wNzI4LDIuNDc4LDIuNDc4LDAsMCwxLS4xOS45OTY2LDMuNjAxNiwzLjYwMTYsMCwwLDEtLjQ2OTUuNzkzNSw0LjY5NzksNC42OTc5LDAsMCwxLS42MTU0LjY0NzVxLS4zMzYzLjI5Mi0uNjE1NC41NzEzYTMuNzMyNCwzLjczMjQsMCwwLDAtLjQ2OTUuNTY0OSwxLjA4OTQsMS4wODk0LDAsMCwwLS4xOS42MTU3LDEuMTI1MiwxLjEyNTIsMCwwLDAsLjM0MjYuODI1Mmw2Ljk5MTcsNi45OTUxYTEuMTI0MSwxLjEyNDEsMCwwLDAsLjgyNDguMzQyOCwxLjA4ODEsMS4wODgxLDAsMCwwLC42MTU0LS4xOSwzLjczMTMsMy43MzEzLDAsMCwwLC41NjQ3LS40N3EuMjc5Mi0uMjc5My41NzEtLjYxNTdhNC42OTc1LDQuNjk3NSwwLDAsMSwuNjQ3MS0uNjE1NywzLjU5OTEsMy41OTkxLDAsMCwxLC43OTMxLS40NywyLjQ3NDcsMi40NzQ3LDAsMCwxLC45OTYxLS4xOU0xOS4zMzgyLDI0LjM3NWE1Ljc5NDIsNS43OTQyLDAsMCwwLDEuNTI5LS4xNzE0LDMuOTQ3OCwzLjk0NzgsMCwwLDAsMS4xMS0uNDk1MSw1LjczNDEsNS43MzQxLDAsMCwwLC45NjQ0LS44MDYycS40Njk1LS40ODI0LDEuMDc4Ni0xLjA5MThhMS4xMjUyLDEuMTI1MiwwLDAsMCwuMzQyNi0uODI1MiwxLjEwNDUsMS4xMDQ1LDAsMCwwLS4xODQtLjU0LDQuNzY0OSw0Ljc2NDksMCwwLDAtLjQ3NTgtLjY1MzhxLS4yOTE5LS4zNDI4LS42NTM1LS43MDQ2dC0uNzEwNi0uNjg1NXEtLjM0OS0uMzIzNy0uNjQ3MS0uNTk2N3QtLjQ2MzItLjQzOGExLjEzODksMS4xMzg5LDAsMCwwLS44Mzc1LS4zNDI4LDEuMDU4NywxLjA1ODcsMCwwLDAtLjYwOTEuMTksMy45MTY4LDMuOTE2OCwwLDAsMC0uNTU4My40N3EtLjI3OTIuMjc5My0uNTc3NC42MTU3YTUuMDAyNiw1LjAwMjYsMCwwLDEtLjY1MzUuNjE1NywzLjU5OTEsMy41OTkxLDAsMCwxLS43OTMxLjQ3LDIuNDc0NywyLjQ3NDcsMCwwLDEtLjk5NjEuMTksMi44MTQxLDIuODE0MSwwLDAsMS0xLjA3MjItLjIwOTUsMi43MjQzLDIuNzI0MywwLDAsMS0uOTA3My0uNjAzTDcuMjMyOCwxMS43Njg2YTIuNzI1OCwyLjcyNTgsMCwwLDEtLjYwMjctLjkwNzcsMi44MTc5LDIuODE3OSwwLDAsMS0uMjA5NC0xLjA3MjgsMi40NzgsMi40NzgsMCwwLDEsLjE5LS45OTY2LDMuNjAxNiwzLjYwMTYsMCwwLDEsLjQ2OTUtLjc5MzUsNS4wMDMsNS4wMDMsMCwwLDEsLjYxNTQtLjY1MzhxLjMzNjMtLjI5ODMuNjE1NC0uNTc3NmEzLjkxNzgsMy45MTc4LDAsMCwwLC40Njk1LS41NTg2LDEuMDYsMS4wNiwwLDAsMCwuMTktLjYwOTQsMS4xNCwxLjE0LDAsMCwwLS4zNDI2LS44Mzc5cS0uMTY1LS4xNjUtLjQzNzgtLjQ2MzRUNy41OTQ0LDMuNjVxLS4zMjM2LS4zNDkxLS42ODUyLS43MTA5VDYuMjA1LDIuMjg1MmE0Ljc2MjcsNC43NjI3LDAsMCwwLS42NTM1LS40NzYxLDEuMTAzMiwxLjEwMzIsMCwwLDAtLjUzOTMtLjE4NDEsMS4xMjQxLDEuMTI0MSwwLDAsMC0uODI0OC4zNDI4cS0uNjA5MS42MDk0LTEuMDg0OSwxLjA3OTFhNi40NjgzLDYuNDY4MywwLDAsMC0uODEyMS45NjQ4LDMuNzUsMy43NSwwLDAsMC0uNTA3NiwxLjExMDhBNS43NDQyLDUuNzQ0MiwwLDAsMCwxLjYxMTUsNi42NGE5Ljk4MzQsOS45ODM0LDAsMCwwLC40NjMyLDIuOTMyNiwxNi41LDE2LjUsMCwwLDAsMS4yODE2LDMuMDIxNSwyMy4wMTM3LDIzLjAxMzcsMCwwLDAsMS45MzUxLDIuOTc3MSwyNi41MjI5LDI2LjUyMjksMCwwLDAsMi40MzYzLDIuNzczOSwyNy4yODMyLDI3LjI4MzIsMCwwLDAsMi43ODUzLDIuNDEyMSwyMi45ODcsMjIuOTg3LDAsMCwwLDIuOTY5MywxLjkxMDYsMTYuMzY2MSwxNi4zNjYxLDAsMCwwLDIuOTk0NiwxLjI1NjhBOS44ODEsOS44ODEsMCwwLDAsMTkuMzM4MiwyNC4zNzVaIiBmaWxsPSIjNjY2NzY3Ii8+PC9zdmc+");
+        }
+        .info .website {
+            background-image: url("data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNyAyNyI+PHRpdGxlPnBvaTwvdGl0bGU+PHBhdGggZD0iTTEzLjUsMGExMy4yOTc4LDEzLjI5NzgsMCwwLDEsMy41ODU5LjQ4MTIsMTMuNjUyNCwxMy42NTI0LDAsMCwxLDMuMjMsMS4zNTc5LDEzLjQ3NDMsMTMuNDc0MywwLDAsMSw0Ljg0NSw0Ljg0NSwxMy42NTI0LDEzLjY1MjQsMCwwLDEsMS4zNTc5LDMuMjMsMTMuNjAxOSwxMy42MDE5LDAsMCwxLDAsNy4xNzE5LDEzLjY1MjQsMTMuNjUyNCwwLDAsMS0xLjM1NzksMy4yMywxMy40NzQzLDEzLjQ3NDMsMCwwLDEtNC44NDUsNC44NDUsMTMuNjUyNCwxMy42NTI0LDAsMCwxLTMuMjMsMS4zNTc5LDEzLjYwMTksMTMuNjAxOSwwLDAsMS03LjE3MTksMCwxMy42NTI0LDEzLjY1MjQsMCwwLDEtMy4yMy0xLjM1NzksMTMuNDc0MywxMy40NzQzLDAsMCwxLTQuODQ1LTQuODQ1QTEzLjY4MTIsMTMuNjgxMiwwLDAsMSwuNDgxMiwxNy4wOTI1YTEzLjYyNjUsMTMuNjI2NSwwLDAsMSwwLTcuMTc4NSwxMy42NTI0LDEzLjY1MjQsMCwwLDEsMS4zNTc5LTMuMjMsMTMuNDc0MywxMy40NzQzLDAsMCwxLDQuODQ1LTQuODQ1QTEzLjY4MTIsMTMuNjgxMiwwLDAsMSw5LjkwNzUuNDgxMiwxMy4yNzU1LDEzLjI3NTUsMCwwLDEsMTMuNSwwTTI0LjE2NTUsOC40Mzc1YTExLjI2NzgsMTEuMjY3OCwwLDAsMC0xLjIxMjktMi4wMSwxMi4wMDg0LDEyLjAwODQsMCwwLDAtMS41ODItMS43MiwxMi4yNCwxMi4yNCwwLDAsMC0xLjg4NTMtMS4zODQzLDExLjM1MjYsMTEuMzUyNiwwLDAsMC0yLjEyMjYtLjk4ODhBMTEuMjA5NCwxMS4yMDk0LDAsMCwxLDE4LjIyLDMuNzMxYTE0LjMzMTYsMTQuMzMxNiwwLDAsMSwuNjc5LDEuNTIyNywxNS44Nzc1LDE1Ljg3NzUsMCwwLDEsLjUwNzYsMS41ODg2cS4yMTA5LjgwNDIuMzY5MSwxLjU5NTJoNC4zOU0yNS4zMTI1LDEzLjVhMTEuNjUyNSwxMS42NTI1LDAsMCwwLS40ODc4LTMuMzc1SDIwLjAzOTFxLjEwNTUuODQzNy4xNTgyLDEuNjgwOVQyMC4yNSwxMy41cTAsLjg1NjktLjA1MjcsMS42OTQxdC0uMTU4MiwxLjY4MDloNC43ODU2YTExLjY1MjUsMTEuNjUyNSwwLDAsMCwuNDg3OC0zLjM3NU0xMy41LDI1LjMxMjVhMi4yMDg2LDIuMjA4NiwwLDAsMCwxLjIwNjMtLjM1Niw0LjM3Niw0LjM3NiwwLDAsMCwxLjAzNDktLjkzNiw3LjQwMjUsNy40MDI1LDAsMCwwLC44NS0xLjMxMTgsMTUuMzI3MiwxNS4zMjcyLDAsMCwwLC42NjU4LTEuNDgzMnEuMjktLjc1MTUuNDg3OC0xLjQ1dC4zMDMyLTEuMjEyOUg4Ljk1MTdxLjEwNTUuNTE0Mi4zMDMyLDEuMjEyOXQuNDg3OCwxLjQ1YTE1LjMyNzQsMTUuMzI3NCwwLDAsMCwuNjY1OCwxLjQ4MzIsNy40MDI1LDcuNDAyNSwwLDAsMCwuODUsMS4zMTE4LDQuMzc2MSw0LjM3NjEsMCwwLDAsMS4wMzQ5LjkzNiwyLjIwODYsMi4yMDg2LDAsMCwwLDEuMjA2My4zNTZtNC44Mzg0LTguNDM3NXEuMTA1NS0uODQzOC4xNjQ4LTEuNjgwOVQxOC41NjI1LDEzLjVxMC0uODU2OS0uMDU5My0xLjY5NDF0LS4xNjQ4LTEuNjgwOUg4LjY2MTZxLS4xMDU1Ljg0MzctLjE2NDgsMS42ODA5VDguNDM3NSwxMy41cTAsLjg1NjkuMDU5MywxLjY5NDF0LjE2NDgsMS42ODA5aDkuNjc2OE0xLjY4NzUsMTMuNWExMS42NTI1LDExLjY1MjUsMCwwLDAsLjQ4NzgsMy4zNzVINi45NjA5cS0uMTA1NS0uODQzOC0uMTU4Mi0xLjY4MDlUNi43NSwxMy41cTAtLjg1NjkuMDUyNy0xLjY5NDF0LjE1ODItMS42ODA5SDIuMTc1M0ExMS42NTI1LDExLjY1MjUsMCwwLDAsMS42ODc1LDEzLjVNMTMuNSwxLjY4NzVhMi4yMDg2LDIuMjA4NiwwLDAsMC0xLjIwNjMuMzU2LDQuMzc2LDQuMzc2LDAsMCwwLTEuMDM0OS45MzYsNy40MDI1LDcuNDAyNSwwLDAsMC0uODUsMS4zMTE4LDE1LjMyNzQsMTUuMzI3NCwwLDAsMC0uNjY1OCwxLjQ4MzJxLS4yOS43NTE1LS40ODc4LDEuNDVUOC45NTE3LDguNDM3NWg5LjA5NjdxLS4xMDU1LS41MTQyLS4zMDMyLTEuMjEyOXQtLjQ4NzgtMS40NWExNS4zMjcyLDE1LjMyNzIsMCwwLDAtLjY2NTgtMS40ODMyLDcuNDAyNSw3LjQwMjUsMCwwLDAtLjg1LTEuMzExOCw0LjM3Niw0LjM3NiwwLDAsMC0xLjAzNDktLjkzNkEyLjIwODYsMi4yMDg2LDAsMCwwLDEzLjUsMS42ODc1bS0zLjg2MjguNjQ2YTExLjM1MjYsMTEuMzUyNiwwLDAsMC0yLjEyMjYuOTg4OEExMi4yNCwxMi4yNCwwLDAsMCw1LjYyOTQsNC43MDY1YTEyLjAwODQsMTIuMDA4NCwwLDAsMC0xLjU4MiwxLjcyLDExLjI2NzgsMTEuMjY3OCwwLDAsMC0xLjIxMjksMi4wMWg0LjM5cS4xNTgyLS43OTEuMzY5MS0xLjU5NTJhMTUuODc3OCwxNS44Nzc4LDAsMCwxLC41MDc2LTEuNTg4NkExNC4zMzE3LDE0LjMzMTcsMCwwLDEsOC43OCwzLjczMWExMS4yMDkzLDExLjIwOTMsMCwwLDEsLjg1NjktMS4zOTc1TTIuODM0NSwxOC41NjI1YTExLjI2NzgsMTEuMjY3OCwwLDAsMCwxLjIxMjksMi4wMSwxMi4wMDgzLDEyLjAwODMsMCwwLDAsMS41ODIsMS43MiwxMi4yNCwxMi4yNCwwLDAsMCwxLjg4NTMsMS4zODQzLDExLjM1MjUsMTEuMzUyNSwwLDAsMCwyLjEyMjYuOTg4OEExMS4yMDkzLDExLjIwOTMsMCwwLDEsOC43OCwyMy4yNjlhMTQuMzMxNywxNC4zMzE3LDAsMCwxLS42NzktMS41MjI3LDE1Ljg3NzgsMTUuODc3OCwwLDAsMS0uNTA3Ni0xLjU4ODZxLS4yMTA5LS44MDQyLS4zNjkxLTEuNTk1MmgtNC4zOW0xNC41MjgzLDYuMTA0YTExLjM1MjYsMTEuMzUyNiwwLDAsMCwyLjEyMjYtLjk4ODgsMTIuMjQsMTIuMjQsMCwwLDAsMS44ODUzLTEuMzg0MywxMi4wMDgzLDEyLjAwODMsMCwwLDAsMS41ODItMS43MiwxMS4yNjc5LDExLjI2NzksMCwwLDAsMS4yMTI5LTIuMDFoLTQuMzlxLS4xNTgyLjc5MS0uMzY5MSwxLjU5NTJhMTUuODc3NSwxNS44Nzc1LDAsMCwxLS41MDc2LDEuNTg4NiwxNC4zMzE1LDE0LjMzMTUsMCwwLDEtLjY3OSwxLjUyMjdBMTEuMjA5NCwxMS4yMDk0LDAsMCwxLDE3LjM2MjgsMjQuNjY2NVoiIGZpbGw9IiM2NjY3NjciLz48L3N2Zz4=");
+        }
+        .info .location {
+            background-image: url("data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNyAzNiI+PHRpdGxlPnBvaTwvdGl0bGU+PHBhdGggZD0iTTEzLjUsMGExMy4zNywxMy4zNywwLDAsMSwzLjU4NTkuNDc5MiwxMy43ODY2LDEzLjc4NjYsMCwwLDEsMy4yMjczLDEuMzQzOCwxMy4zMzg2LDEzLjMzODYsMCwwLDEsNi4yMDE2LDcuOTY4N0ExMi45MDA5LDEyLjkwMDksMCwwLDEsMjcsMTMuMzMzM2ExMC41NjY0LDEwLjU2NjQsMCwwLDEtLjM0OCwyLjc0LDEzLjQwNTEsMTMuNDA1MSwwLDAsMS0xLjAwMiwyLjU5MzhMMTMuNSwzNiwxLjM1LDE4LjY2NjdBMTMuNDA1LDEzLjQwNSwwLDAsMSwuMzQ4LDE2LjA3MjksMTAuNTY2NCwxMC41NjY0LDAsMCwxLDAsMTMuMzMzMywxMi45MDA5LDEyLjkwMDksMCwwLDEsLjQ4NTIsOS43OTE3LDEzLjQzNDYsMTMuNDM0NiwwLDAsMSwxLjg0NTcsNi42MDQyYTEzLjQ1MywxMy40NTMsMCwwLDEsNC44NDEtNC43ODEyQTEzLjc4NjUsMTMuNzg2NSwwLDAsMSw5LjkxNDEuNDc5MiwxMy4zNywxMy4zNywwLDAsMSwxMy41LDBNMjMuNTQwNiwxNy42MjVxMC0uMDIwOC4wMTA1LS4wMjA4dC4wMTA1LS4wMjA4YTguOTgsOC45OCwwLDAsMCwuODAxNi0yLjA2MjUsOC44ODE2LDguODgxNiwwLDAsMCwuMjc0Mi0yLjE4NzUsMTAuNTMzNywxMC41MzM3LDAsMCwwLS44NzU0LTQuMjcwOCwxMS4xNTYxLDExLjE1NjEsMCwwLDAtMi4zOTQxLTMuNSwxMS4zMSwxMS4zMSwwLDAsMC0zLjU0MzctMi4zNjQ2QTEwLjg5NjEsMTAuODk2MSwwLDAsMCwxMy41LDIuMzMzM2ExMC44OTYxLDEwLjg5NjEsMCwwLDAtNC4zMjQyLjg2NDZBMTEuMzEsMTEuMzEsMCwwLDAsNS42MzIsNS41NjI1YTExLjE1NjEsMTEuMTU2MSwwLDAsMC0yLjM5NDEsMy41LDEwLjUzMzcsMTAuNTMzNywwLDAsMC0uODc1NCw0LjI3MDgsOC44ODE1LDguODgxNSwwLDAsMCwuMjc0MiwyLjE4NzUsOC45OCw4Ljk4LDAsMCwwLC44MDE2LDIuMDYyNXEwLC4wMjA4LjAxMDUuMDIwOHQuMDEwNS4wMjA4TDEzLjUsMzAuNzkxNywyMy41NDA2LDE3LjYyNU0xMy41LDUuNWE3LjgxMjIsNy44MTIyLDAsMCwxLDMuMDkuNjE0Niw4LjAwOTMsOC4wMDkzLDAsMCwxLDIuNTIwNywxLjY3NzEsNy45LDcuOSwwLDAsMSwxLjY5OCwyLjQ5LDcuNzk2LDcuNzk2LDAsMCwxLDAsNi4xMDQyLDcuOSw3LjksMCwwLDEtMS42OTgsMi40OUE4LjAwOTMsOC4wMDkzLDAsMCwxLDE2LjU5LDIwLjU1MjFhOC4wNzY0LDguMDc2NCwwLDAsMS02LjE4LDBBOC4wMDkyLDguMDA5MiwwLDAsMSw3Ljg4OTEsMTguODc1YTcuOSw3LjksMCwwLDEtMS42OTgtMi40OSw3Ljc5Niw3Ljc5NiwwLDAsMSwwLTYuMTA0Miw3LjksNy45LDAsMCwxLDEuNjk4LTIuNDlBOC4wMDkyLDguMDA5MiwwLDAsMSwxMC40MSw2LjExNDYsNy44MTIzLDcuODEyMywwLDAsMSwxMy41LDUuNW0wLDEzLjMzMzNhNS41NDA3LDUuNTQwNywwLDAsMCw1LjEzNjMtMy4zNTQyLDUuNTQsNS41NCwwLDAsMCwwLTQuMjkxNyw1LjUwNTQsNS41MDU0LDAsMCwwLTEuMTkxOC0xLjc1LDUuNjI4OSw1LjYyODksMCwwLDAtNy44ODkxLDAsNS41MDU0LDUuNTA1NCwwLDAsMC0xLjE5MTgsMS43NSw1LjU0LDUuNTQsMCwwLDAsMCw0LjI5MTcsNS41MDU0LDUuNTA1NCwwLDAsMCwxLjE5MTgsMS43NUE1LjU2OTQsNS41Njk0LDAsMCwwLDEzLjUsMTguODMzM1oiIGZpbGw9IiM2NzY4NjciLz48L3N2Zz4=");
+        }
+    </style>
+</head>
+
+<body onload="GetMap()">
+    <div id="myMap"></div>
+
+    <div id="search">
+        <div class="search-input-box">
+            <div class="search-input-group">
+                <div class="search-icon" type="button"></div>
+                <input id="search-input" type="text" placeholder="Search">
+            </div>
+        </div>
+        <ul id="results-panel"></ul>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Gradient legend options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the gradient legend type." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, legend, legend control" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript and CSS files that has our custom control. -->
+    <link rel="stylesheet" href="/lib/azure-maps-layer-legend.min.css" type="text/css" />
+    <script src="/lib/azure-maps-layer-legend.min.js"></script>
+
+    <script>
+        var map, legend;
+
+        //Initial gradient options.
+        var gradientLegend = {
+            type: 'gradient',
+            stops: [
+                {
+                    offset: 0,
+                    color: 'royalblue',
+                    label: 'low'
+                },
+                {
+                    offset: 0.25,
+                    color: 'cyan'
+                },
+                {
+                    offset: 0.5,
+                    color: 'lime',
+                    label: 'medium'
+                }, 
+                {
+                    offset: 0.75,
+                    color: 'yellow'
+                },{
+                    offset: 1,
+                    color: 'red',
+                    label: 'high'
+                }
+            ]
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+               //Add the custom control to the map.
+               legend = new atlas.control.LegendControl({
+                    legends: [gradientLegend]
+                });
+
+                //Add the legend control to the map.
+                map.controls.add(legend, {
+                    position: 'bottom-left'
+                });     
+            });
+        }
+
+        function updateLegend(property, elm){
+            _updateLegend(property, elm.value);
+        }
+
+        function updateLegendCheck(property, elm){
+            _updateLegend(property, elm.checked);
+        }
+
+        function updateLegendRange(property, elm){
+            _updateLegend(property, parseInt(elm.value));
+        }
+
+        function _updateLegend(property, value){
+            //Copy the options so that the properties don't flow through without being set.
+            gradientLegend = Object.assign({}, gradientLegend);
+            gradientLegend[property] = value;
+
+            legend.setOptions({
+                legends: [gradientLegend]
+            });
+        }
+    </script>
+    <style>
+        .sidePanel {
+            width: 350px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 360px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="sidePanel">
+        <fieldset style="width:320px;margin-bottom:10px;">
+            <legend>Gradient legend options</legend>
+            This sample shows how the different options of the gradient legend type.
+        </fieldset>
+        
+        <table>
+            <tr title="The title of the individual legend.">
+                <td>Subtitle:</td>
+                <td>
+                   <input type="text" oninput="updateLegend('subtitle', this)" />
+                </td>
+            </tr>
+            <tr title="The footer of the legend.">
+                <td>Footer:</td>
+                <td>
+                   <input type="text" oninput="updateLegend('footer', this)" />
+                </td>
+            </tr>
+            <tr title="An integer specifying the minimum zoom level to render the legend at.">
+                <td>Min Zoom:</td>
+                <td>
+                    <form oninput="minz.value=MinZoom.value">
+                        <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" onchange="updateLegendRange('minZoom', this)" />
+                        <output name="minz" for="MinZoom">0</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="An integer specifying the maximum zoom level to render the legend at.">
+                <td>Max Zoom:</td>
+                <td>
+                    <form oninput="maxz.value=MaxZoom.value">
+                        <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" onchange="updateLegendRange('maxZoom', this)" />
+                        <output name="maxz" for="MaxZoom">24</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="The orientation of the legend. ">
+                <td>Orientation:</td>
+                <td>
+                    <select onchange="updateLegend('orientation', this)">
+                        <option selected="selected">horizontal</option>
+                        <option>vertical</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The length of the gradient bar in pixels.">
+                <td>Bar length:</td>
+                <td>
+                    <form oninput="barLength.value=BarLength.value">
+                        <input type="range" id="BarLength" value="256" min="1" max="500" step="2" onchange="updateLegendRange('barLength', this)" />
+                        <output name="barLength" for="BarLength">256</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="How thick the gradient bar should be in pixels.">
+                <td>Bar thickness:</td>
+                <td>
+                    <form oninput="barThickness.value=BarThickness.value">
+                        <input type="range" id="BarThickness" value="20" min="1" max="50" step="1" onchange="updateLegendRange('barThickness', this)" />
+                        <output name="barThickness" for="BarThickness">20</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="The font size of the labels.">
+                <td>Font size:</td>
+                <td>
+                    <form oninput="fontSize.value=FontSize.value">
+                        <input type="range" id="FontSize" value="12" min="1" max="24" step="1" onchange="updateLegendRange('fontSize', this)" />
+                        <output name="fontSize" for="FontSize">12</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="Amount of pixel space added to the ends of bars to allow space for text.">
+                <td>Tick size:</td>
+                <td>
+                    <form oninput="tickSize.value=TickSize.value">
+                        <input type="range" id="TickSize" value="5" min="0" max="20" step="1" onchange="updateLegendRange('tickSize', this)" />
+                        <output name="tickSize" for="TickSize">5</output>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+            The category legend type also has options for;
+            <ul>
+                <li>stops - color stops in the gradient.</li>
+                <li>cssClass - CSS class to customize legend.</li>
+                <li>fontFamily - The font family used for labels.</li>
+                <li>numberFormat - the formatting options for number labels.</li>
+                <li>numberFormatLocales - the locale for formatting numbers.</li>
+            </ul>
+        </p>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+</html>

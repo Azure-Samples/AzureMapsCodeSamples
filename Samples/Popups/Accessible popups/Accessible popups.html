@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Accessible popups - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use popups in a way that users can easily access them using keyboard shortcuts or on mouse click." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, popups, infobox, infowindow, events, mouse, accessibility" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, popups = [], datasource;
+
+        var sampleLocationData = [
+            {
+                position: [-90, 45],
+                description: 'This is the first location.'
+            }, {
+                position: [90, 45],
+                description: 'This is the second location.'
+            }, {
+                position: [-90, -45],
+                description: 'This is the third location.'
+            }, {
+                position: [90, -45],
+                description: 'This is the fourth location.'
+            }
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //For each sample location, create a popup, store it in an array. 
+                //Then create a point feature, add the popups array index properties of the point feature, then add the add it to the data source.
+                for (var i = 0; i < sampleLocationData.length; i++) {
+                    //Create a popup. 
+                    popups.push(new atlas.Popup({
+                        content: `<div style="padding:10px;" aria-label="Description">${sampleLocationData[i].description}</div>`,
+                        position: sampleLocationData[i].position,
+                        pixelOffset: [0, -18]
+                    }));
+
+                    //Create a point feature and store the popups index from the array.
+                    datasource.add(new atlas.data.Feature(new atlas.data.Point(sampleLocationData[i].position), {
+                        popupIdx: popups.length - 1
+                    }));
+                }
+
+                //Add all the popups to the map. 
+                map.popups.add(popups);
+
+                //Add a symbol layer to display the point features on the map. 
+                var layer = new atlas.layer.SymbolLayer(datasource);
+                map.layers.add(layer);
+
+                //Add a click event the 
+                map.events.add('click', layer, showPopup);
+            });
+        }
+
+        function showPopup(e) {
+            //Get the point feature the click event occured on.
+            var point = e.shapes[0];
+
+            //Get the popup for the point feature.
+            var popup = popups[point.getProperties().popupIdx];
+
+            //Open the popup.
+            popup.open(map);
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Accessible popups</legend>
+        This sample shows how to use popups in a way that users can easily access them using keyboard shortcuts (tab) or on mouse click.
+    </fieldset>
+</body>
+</html>

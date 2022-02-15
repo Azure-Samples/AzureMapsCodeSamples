@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>All built-in icon templates as HTML markers - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows all the built-in icon templates rendered as HTML markers." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, html markers, markers, pins, pushpins, symbols, style, SVG, template, SVG template, image template" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                zoom: 4,
+                center: [20, -10],
+                style: 'blank',
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Get all icon templates available in the map control. 
+                var keys = atlas.getAllImageTemplateNames();
+
+                //Create a grid of the HTML markers, each using a different icon template.
+                var cols = 6;
+                var rows = Math.ceil(keys.length / cols);
+
+                for (var row = 0; row < rows; row++) {
+                    for (var col = 0; col < cols; col++) {
+                        var idx = cols * row + col;
+                        if (idx < keys.length) {
+                            createIcon(keys[idx], row, col);
+                        }
+                    }
+                }
+            });
+        }
+
+        function createIcon(id, row, col) {
+            map.markers.add(new atlas.HtmlMarker({
+                htmlContent: atlas.getImageTemplate(id),
+                text: '00', //Add '00' as placeholder for where text would be rendered on the icon.
+                position: [8 * col, -3.5 * row]
+            }));
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>All built-in icon templates as HTML markers</legend>
+        This sample shows all the built-in icon templates rendered as HTML markers. "00" is added as the text value for each icon so that you can see where the text will render on the marker.
+    </fieldset>
+</body>
+</html>

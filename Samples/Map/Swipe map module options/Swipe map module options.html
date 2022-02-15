@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Swipe map module options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to swipe between two overlapping synchronized maps to view different data sets." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, synchronized maps, swipe map" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript for the swipe map module. -->
+    <script src="/lib/azure-maps-swipe-map.min.js"></script>
+
+    <script>
+        var primaryMap, secondaryMap, swipeMapControl;
+
+        function GetMap() {
+            //Add authentication details for connecting to Azure Maps.
+            var authOptions = {
+                //Use Azure Active Directory authentication.
+                authType: 'anonymous',
+                clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                getToken: function (resolve, reject, map) {
+                    //URL to your authentication service that retrieves an Azure Active Directory Token.
+                    var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                    fetch(tokenServiceUrl).then(function (response) {
+                        return response.text();
+                    }).then(function (token) {
+                        resolve(token);
+                    });
+                }
+
+                //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //authType: 'subscriptionKey',
+                //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+            };
+
+            //Initialize a map instance.
+            primaryMap = new atlas.Map('primaryMap', {
+                view: 'Auto',
+                authOptions: authOptions
+            });
+
+            secondaryMap = new atlas.Map('secondaryMap', {
+                style: 'grayscale_dark',
+                view: 'Auto',
+                authOptions: authOptions
+            });
+
+            swipeMapControl = new atlas.SwipeMap(primaryMap, secondaryMap, {
+                positionChanged: function (dx) {
+                    document.getElementById('sliderPositionTbx').value = dx;
+                    lastPosition = dx;
+                }
+            });
+
+            var opt = swipeMapControl.getOptions();
+            document.getElementById('sliderPositionTbx').value = opt.sliderPosition;
+        }
+
+        var lastPosition;
+        function updateSwipeMapOptions() {
+            var opt = {
+                interactive: document.getElementById('interactiveCbx').checked,
+                orientation: document.getElementById('orientationDD').selectedOptions[0].text,
+                style: document.getElementById('styleTbx').value
+            };
+
+            //Only update the position property if it has changed. This way we can test the fallback functionality when switching orientation.
+            var pos = parseFloat(document.getElementById('sliderPositionTbx').value);
+            if (lastPosition != pos) {
+                opt.sliderPosition = pos;
+            }
+
+            swipeMapControl.setOptions(opt);
+        }
+    </script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 100%;
+            height: 600px;
+        }
+
+        .map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-width: 290px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="mapContainer">
+        <div id="primaryMap" class="map"></div>
+        <div id="secondaryMap" class="map"></div>
+    </div>
+
+    <div style="position:absolute;top:15px;left:15px;border-radius:5px;background-color:#fff;padding:5px;">
+        <table>
+            <tr title="Specifies if the slider can be moved using mouse, touch or keyboard. ">
+                <td>Interactive</td><td><input id="interactiveCbx" type="checkbox" checked="checked" /></td>
+            </tr>
+            <tr title="The orientation of the swipe map control. Can be 'vertical' or 'horizontal'. ">
+                <td>Orientation</td>
+                <td>
+                    <select id="orientationDD">
+                        <option>horizontal</option>
+                        <option selected="selected">vertical</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="The position of the slider in pixels relative to the left or top edge of the viewport, depending on orientation.">
+                <td>Slider Position</td><td><input id="sliderPositionTbx" type="number" /></td>
+            </tr>
+            <tr title="The style of the control. Can be; light, dark, or any CSS3 color.">
+                <td>Style</td><td><input id="styleTbx" type="text" value="light" /></td>
+            </tr>
+            <tr><td></td><td><input type="button" value="Update options" onclick="updateSwipeMapOptions()" /></td></tr>
+        </table>        
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Swipe map module options</legend>
+        This sample shows the different options of the swipe map module.
+        This sample uses the open source Azure Maps <a href="https://github.com/Azure-Samples/azure-maps-swipe-map" target="_blank">Swipe Map</a> module.
+    </fieldset>
+</body>
+</html>

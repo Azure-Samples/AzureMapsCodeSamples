@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Popup events - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add events to Popups." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, popups, infobox, infowindow, events, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, popup, events = ['drag', 'dragstart', 'dragend', 'open', 'close'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a popup.
+                popup = new atlas.Popup({
+                    content: '<div style="padding:10px;">Hello World</div>',
+                    position: [0, 0],
+                    draggable: true
+                });
+
+                popup.open(map);
+
+                for (var i = 0; i < events.length; i++) {
+                    //Add the event to the popup.
+                    map.events.add(events[i], popup, highlight);
+
+                    //Add a div to highlight the event.
+                    document.getElementById('eventPanel').innerHTML += '<div id="' + events[i] + '">' + events[i] + '</div>';
+                }
+            });
+        }
+
+        function highlight(e) {
+            //Highlight the div to indicate that the event has fired.
+            document.getElementById(e.type).style.background = 'LightGreen';
+
+            //Remove the highlighting after a second.
+            setTimeout(function () { document.getElementById(e.type).style.background = 'white'; }, 1000);
+        }
+
+        function openPopup() {
+            popup.open(map);
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="eventPanel" style="position:absolute;top:0;left:0;background-color:white;padding:10px;"></div>
+
+    <input type="button" value="Open Popup" onclick="openPopup()" style="position:absolute;top:10px;right:10px;"/>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Popup events</legend>
+        This sample shows how to add events to Popups.
+    </fieldset>
+</body>
+</html>

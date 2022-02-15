@@ -1,0 +1,168 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A collection of code samples for the Azure Maps Web Control.">
+    <meta name="author" content="Microsoft Azure Maps">
+
+    <title>Azure Maps Samples</title>
+
+    <link href="/favicon.ico" rel="shortcut icon">
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script>
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "abqktua2pr");
+    </script>
+</head>
+<body onload="Start()">
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <svg width="20" height="20" class="me-2 mb-1" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32.2448 35.7947C23.525 42.5775 10.9868 40.9815 4.20483 32.2608C-2.57719 23.5401 -0.981434 11.0005 7.7383 4.21768C7.7953 4.16068 7.85228 4.10369 7.96627 4.04669C16.743 -2.6221 29.2812 -0.855162 35.9492 7.92256C42.5603 16.7003 40.9075 29.0689 32.2448 35.7947Z" fill="url(#paint0_linear)" />
+                    <path d="M23.183 5.35754L8.30811 29.0118L26.9444 21.773L23.183 5.35754Z" fill="#9CEBFF" />
+                    <path opacity="0.7" d="M20.1626 10.1454L29.3953 32.5457L23.1832 5.35754L20.1626 10.1454Z" fill="white" />
+                    <path d="M19.6494 24.623L25.2346 22.457L29.395 32.6027L19.6494 24.623Z" fill="#32BEDD" />
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="20.1249" y1="40.1385" x2="20.1249" y2="0.196089" gradientUnits="userSpaceOnUse">
+                            <stop offset="0.0" stop-color="#198AB3" />
+                            <stop offset="0.4417" stop-color="#28B7DB" />
+                            <stop offset="0.7753" stop-color="#32D4F5" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                Azure Maps Samples
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://azuremaps.com" title="About Azure Maps">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://docs.azuremaps.com" title="Azure Maps Documentation">Docs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://demo.azuremaps.com" title="Azure Maps Demo">Demo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://blog.azuremaps.com" title="Azure Maps Blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://updates.azuremaps.com" title="Azure Maps Updates">Updates</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul id="categoryList" class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown" style="max-height: calc(100vh - 100px); overflow-y: auto;">
+                            {categoryList}
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" id="searchBox" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-info" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <div id="carouselIndicators" class="carousel slide border rounded-3 shadow-lg" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="3D buildings"></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="Weather"></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2" aria-label="Contour lines"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <a target="_blank" href="https://demo.azuremaps.com"><img src="/images/azuremapsdemo1.jpg" class="d-block w-100" alt="3D buildings"></a>
+                            </div>
+                            <div class="carousel-item">
+                                <a target="_blank" href="https://demo.azuremaps.com"><img src="/images/azuremapsdemo2.jpg" class="d-block w-100" alt="Weather"></a>
+                            </div>
+                            <div class="carousel-item">
+                                <a target="_blank" href="https://demo.azuremaps.com"><img src="/images/azuremapsdemo3.jpg" class="d-block w-100" alt="Contour lines"></a>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Azure Maps Samples</h1>
+                    <p class="lead">
+                        Welcome to the Azure Maps Web Control V2 Code Sample Gallery. This is a collection of <strong>{numberOfSamples}</strong> code samples that have been made open source on GitHub. Build your location-aware solutions with a seamless development experience. Easily integrate open source and other map controls, as well as Open Geospatial Consortium standards, such as GeoJSON and KML.
+                    </p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <a href="https://github.com/cschotte/Azure-Maps-Samples" target="_blank" class="btn btn-info btn-lg px-4 me-md-2">Open GitHub Project</a>
+                        <a href="https://aka.ms/AzureMapsGettingStarted" target="_blank" class="btn btn-outline-secondary btn-lg px-4">Getting Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div id="sampleList" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+                    {sampleList}
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-muted py-5">
+        <div class="container">
+            <p class="float-end mb-1">
+                <a href="#">Back to top</a>
+            </p>
+            <p class="mb-1">Azure Maps &copy; Microsoft, but please download and customize it for yourself!</p>
+            <p class="mb-0">New to Azure Maps? <a href="https://azuremaps.com" title="About Azure Maps">Visit the homepage</a> or read our <a href="https://aka.ms/AzureMapsGettingStarted" title="Azure Maps getting started guide">getting started guide</a>.</p>
+        </div>
+    </footer>
+
+    <!-- Model -->
+    <div class="modal fade" id="sampleModal" tabindex="-1" aria-labelledby="sampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sampleModalLabel">Sample</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="height: calc(100vh - 200px); min-height: 600px;">
+                    <iframe id="sampleModalPath" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" target="_blank" class="btn btn-info" id="sampleModalSource">Source Code</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/PushDataToUrl/pushToUrl.min.js"></script>
+    <script src="/js/site.min.js"></script>
+</body>
+</html>

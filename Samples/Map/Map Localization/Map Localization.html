@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Map Localization - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample lets you switch the map between all its supported languages." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, language, culture, localization, user region, map options" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [20, 50],
+                zoom: 4,
+
+                //Set the language of the map.
+                language: 'en-US',
+
+                //Set the regional view of the map.
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+        }
+
+        function updateLanguage() {
+            var langOptions = document.getElementById('langOptions');
+            var lang = langOptions.options[langOptions.selectedIndex].value;
+
+            //Update the language of the map instance.
+            map.setStyle({
+                language: lang
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="clear:both;padding-top:10px;">
+        Language:
+        <select id="langOptions" onchange="updateLanguage()">
+            <option value="NGT">Neutral Ground Truth (NGT)</option>
+            <option value="NGT-Latn">Neutral Ground Truth - Latin exonyms (NGT-Latn)</option>
+            <option value="ar">Arabic (ar)</option>
+            <option value="bg">Bulgarian (bg)</option>
+            <option value="bg-BG">Bulgarian (Bulgaria) (bg-BG)</option>
+            <option value="ca-ES">Catalan (Spain) (ca-ES)</option>
+            <option value="cs">Czech (cs)</option>
+            <option value="cs-CZ">Czech (Czech Republic) (cs-CZ)</option>
+            <option value="da">Danish (da)</option>
+            <option value="da-DK">Danish (Denmark) (da-DK)</option>
+            <option value="nl">Dutch (Netherlands) (nl)</option>
+            <option value="nl-NL">Dutch (Netherlands) (nl-NL)</option>
+            <option value="en">English (en)</option>
+            <option value="en-AU">English (Australia) (en-AU)</option>
+            <option value="en-CA">English (Canada) (en-CA)</option>
+            <option value="en-GB">English (United Kingdom) (en-GB)</option>
+            <option value="en-NZ">English (New Zealand) (en-NZ)</option>
+            <option value="en-US" selected="selected">English (United States) (en-US)</option>
+            <option value="fi">Finnish (fi)</option>
+            <option value="fi-FI">Finnish (Finland) (fi-FI)</option>
+            <option value="fr">French (fr)</option>
+            <option value="fr-FR">French (France) (fr-FR)</option>
+            <option value="de">German (de)</option>
+            <option value="de-DE">German (Germany) (de-DE)</option>
+            <option value="el">Greek (el)</option>
+            <option value="el-GR">Greek (el-GR)</option>
+            <option value="hu">Hungarian (hu)</option>
+            <option value="hu-HU">Hungarian (hu-HU)</option>
+            <option value="id">Indonesian (id)</option>
+            <option value="id-ID">Indonesian (id-ID)</option>
+            <option value="it">Italian (it)</option>
+            <option value="it-IT">Italian (it-IT)</option>
+            <option value="lt">Lithuanian (lt)</option>
+            <option value="lt-LT">Lithuanian (lt-LT)</option>
+            <option value="ms-MY">Malay (ms-MY)</option>
+            <option value="nb-NO">Norwegian, Bokmal (Norway) (nb-NO)</option>
+            <option value="pl">Polish (pl)</option>
+            <option value="pl-PL">Polish (Poland) (pl-PL)</option>
+            <option value="pt">Portuguese (Brazil) (pt)</option>
+            <option value="pt-BR">Portuguese (Brazil) (pt-BR)</option>
+            <option value="pt-PT">Portuguese (Portugal) (pt-PT)</option>
+            <option value="ru">Russian (ru)</option>
+            <option value="ru-RU">Russian (Russia) (ru-RU)</option>
+            <option value="sk">Slovak (sk)</option>
+            <option value="sk-SK">Slovak (Slovakia) (sk-SK)</option>
+            <option value="sl">Slovenian (sl)</option>
+            <option value="sl-SI">Slovenian (sl-SI)</option>
+            <option value="es">Spanish (es)</option>
+            <option value="es-ES">Spanish (Spain) (es-ES)</option>
+            <option value="es-MX">Spanish (Mexico) (es-MX)</option>
+            <option value="sv">Swedish (sv)</option>
+            <option value="sv-SE">Swedish (sv-SE)</option>
+            <option value="th">Thai (th)</option>
+            <option value="th-TH">Thai - Thailand  (th-TH)</option>
+            <option value="tr">Turkish (tr)</option>
+            <option value="tr-TR">Turkish (tr-TR)</option>
+        </select>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Map Localization</legend>
+        This sample lets you switch the map between all its supported languages.
+    </fieldset>
+</body>
+</html>

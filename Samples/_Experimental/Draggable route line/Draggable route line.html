@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Draggable route line - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how tomake a route line on a map draggable." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, draggable" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        var map, datasource, previewDatasource, routeURL, dragHandle, waypoints, mousePixel, selectedLegIdx = -1, isHandleHovered, isWaypointHovered, isLineDragging, previewLine;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.335, 47.608],
+                zoom: 15,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source for the route line.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a data source for the preview line.
+                previewDatasource = new atlas.source.DataSource();
+                map.sources.add(previewDatasource);
+                
+                //Create the draggable HTML markers for start and end points waypoints of the route.
+                waypoints = [
+                    new atlas.HtmlMarker({
+                        position: [-122.33028, 47.60323],
+                        draggable: true,
+                        color: 'green'
+                    }),
+                    new atlas.HtmlMarker({
+                        position: [-122.124, 47.67491],
+                        draggable: true,
+                        color: 'red'
+                    })
+                ];
+
+                map.markers.add(waypoints);
+                addWaypointEvents(waypoints);
+                
+                //Create a layer for rendering the route line under the road labels.
+                var routeLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: '#2272B9',
+                    strokeWidth: 7,
+                    lineJoin: 'round',
+                    lineCap: 'round'
+                });
+
+                map.layers.add(routeLayer, 'labels');
+
+                //Add mouse events to the route line layer.
+                map.events.add('mousemove', routeLayer, lineMouseMove);
+                map.events.add('mousedown', routeLayer, lineSelected);
+
+                map.layers.add(new atlas.layer.LineLayer(previewDatasource, null, {
+                    strokeColor: 'red',
+                    strokeWidth: 3,
+                    strokeDashArray: [3,3],
+                    lineJoin: 'round',
+                    lineCap: 'round'
+                }));
+
+                //Use a HTML marker as a drag handle.
+                dragHandle = new atlas.HtmlMarker({
+                    htmlContent: atlas.getImageTemplate('pin-round', 0.75),
+                    color: 'white',
+                    secondaryColor: 'black',
+                    anchor: 'center',
+                    draggable: true,
+                    visible: false
+                });
+                map.markers.add(dragHandle);
+
+                map.events.add('drag', dragHandle, handleDragged);
+                map.events.add('dragend', dragHandle, handleReleased);
+                map.events.add('mousemove', mouseMoved);
+                
+                //Calculate the initial route.
+                calculateRoute();
+            });
+        }
+
+        //Add events for monitoring the movement of waypoints.
+        function addWaypointEvents(wp) {
+            map.events.add('mousemove', wp, waypointMouseMove);
+            map.events.add('mouseout', wp, waypointMouseOut);
+            map.events.add('dragstart', wp, waypointStratDrag);
+            map.events.add('drag', wp, waypointDragged);
+            map.events.add('dragend', wp, waypointReleased);
+        }
+
+        //Take note of when the mouse is over a waypoint and make sure the drag handle isn't displayed.
+        function waypointMouseMove() {
+            isWaypointHovered = true;
+            map.getCanvasContainer().style.cursor = 'pointer';
+
+            dragHandle.setOptions({
+                visible: false
+            });
+        }
+
+        //Stop monitoring the waypoint when released. 
+        function waypointMouseOut() {
+            isWaypointHovered = false;
+        }
+
+        //When the waypoint starts being dragged, create the preview line.
+        function waypointStratDrag(e) {
+            //Find the current waypoint.
+            for (var i = 0; i < waypoints.length; i++) {
+                if (waypoints[i] === e.target) {
+                    //Get the route leg index and create a waypoint for it. 
+                    selectedLegIdx = i - 1;
+                    break;
+                }
+            }
+
+            if (selectedLegIdx !== -1) {
+                //Create preview line.
+                previewLine = new atlas.Shape(new atlas.data.Feature(new atlas.data.LineString(getWaypointCoords(waypoints.slice(Math.max(selectedLegIdx, 0), selectedLegIdx + 3))), {
+                    isPreview: true
+                }));
+
+                previewDatasource.add(previewLine);
+
+                //Set the line dragging flag.
+                isLineDragging = true;
+            }           
+        }
+
+        function waypointDragged() {
+            //Show preview lines.
+            if (previewLine) {
+                previewLine.setCoordinates(getWaypointCoords(waypoints.slice(Math.max(selectedLegIdx, 0), selectedLegIdx + 3)));
+            }
+        }
+
+        //When the waypoint is release, calculate the new route. 
+        function waypointReleased() {
+            //Calculate a new route.
+            calculateRoute();
+
+            previewDatasource.clear();
+
+            //Set the line dragging flag.
+            isLineDragging = false;
+
+            isWaypointHovered = false;
+
+            selectedLegIdx = -1;
+
+            //Hide the drag handle.
+            removeDragHandle();
+        }
+
+        function mouseMoved(e) {
+            //Remove the drag handle when it isn't needed.
+            if (isWaypointHovered || (!isLineDragging && !isHandleHovered)) {
+                removeDragHandle(e);
+            } else if (isLineDragging) {
+                //Otherwise, update the position of the drag handle.
+                dragHandle.setOptions({
+                    position: e.position
+                });
+            }
+
+            isHandleHovered = false;
+        }
+
+        //Show the drag handle when mouse is over the route line.
+        function lineMouseMove(e) {
+            if (!isLineDragging && !isWaypointHovered) {
+                isHandleHovered = true;
+                mousePixel = e.pixel;
+
+                map.getCanvasContainer().style.cursor = 'pointer';
+
+                dragHandle.setOptions({
+                    position: e.position,
+                    visible: true
+                });
+            }
+        }
+
+        //Remove the drag handle. 
+        function removeDragHandle() {
+            if (!isLineDragging) {
+                map.getCanvasContainer().style.cursor = 'grab';
+
+                dragHandle.setOptions({
+                    visible: false
+                });
+            }
+        }
+
+        //When a point on the line is selected, allow dragging the line. 
+        function lineSelected(e) {
+            if (!isWaypointHovered) {
+                //Get the route leg index and create a waypoint for it. 
+                selectedLegIdx = e.shapes[0].getProperties().legIdx;
+
+                //Create an waypoint in the correct index.
+                var wp = new atlas.HtmlMarker({
+                    position: e.position,
+                    draggable: true,
+                    htmlContent: atlas.getImageTemplate('pin-round', 0.75),
+                    color: 'white',
+                    secondaryColor: 'black',
+                    anchor: 'center'
+                });
+
+                addWaypointEvents(wp);
+
+                map.markers.add(wp);
+                waypoints.splice(selectedLegIdx + 1, 0, wp);
+
+                //Create preview line.
+                previewLine = new atlas.Shape(new atlas.data.Feature(new atlas.data.LineString(getWaypointCoords(waypoints.slice(selectedLegIdx, selectedLegIdx + 3))), {
+                    isPreview: true
+                }));
+
+                previewDatasource.add(previewLine);
+
+                //Set the line dragging flag.
+                isLineDragging = true;
+            }
+        }
+
+        function handleDragged() {
+            //Update the waypoint.
+            waypoints[selectedLegIdx + 1].setOptions({
+                position: dragHandle.getOptions().position
+            });
+
+            waypointDragged();            
+        }
+
+        function handleReleased() {
+            //Update the waypoint.
+            waypoints[selectedLegIdx + 1].setOptions({
+                position: dragHandle.getOptions().position
+            });
+
+            waypointReleased();
+        }
+
+        function calculateRoute() {
+            //Calculate a route.
+            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), getWaypointCoords(waypoints)).then((directions) => {
+                //Get the route data as GeoJSON and add it to the data source.
+                var data = directions.geojson.getFeatures();
+
+                //Route line is a MultiLineString, where each line is a route leg.
+                var route = data.features[0];
+
+                var routeLegs = [];
+                var numLegs = route.geometry.coordinates.length
+                var legCoords;
+
+                //Seperate the line into individual route legs to make it easier to select sections of a route. 
+                for (var i = 0; i < numLegs; i++) {
+                    legCoords = route.geometry.coordinates[i];
+
+                    routeLegs.push(new atlas.data.Feature(new atlas.data.LineString(legCoords), {
+                        legIdx: i
+                    }));
+
+                    //Snap the dragged waypoint coordinates to the route path.
+                    if (numLegs > 1 && i < numLegs - 1) {
+                        waypoints[i + 1].setOptions({
+                            position: legCoords[legCoords.length - 1]
+                        });
+                    }
+                }
+
+                datasource.setShapes(routeLegs);
+
+                //Update the map view to center over the route.
+                map.setCamera({
+                    bounds: data.bbox,
+                    padding: 30 //Add a padding to account for the pixel size of symbols.
+                });
+            });
+        }
+
+        function getWaypointCoords(wp) {
+            return wp.map(x => x.getOptions().position);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Draggable route line</legend>
+        This sample shows how tomake a route line on a map draggable. A preview line is generated between the dragged point and neighbouring waypoints. 
+        It is possible to modify this sample to recalculate the route line as the drag handle moves, but that would generate a lot of route requests.
+    </fieldset>
+</body>
+</html>

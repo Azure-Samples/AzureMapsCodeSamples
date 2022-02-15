@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Symbols from Custom JSON - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use this JSON data to create clickable symbols on a map, that when clicked, display a popup with the title and description values of the symbol that was clicked." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, JSON, layer" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, popup;
+
+        //Define an HTML template for a custom popup content laypout.
+        var popupTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
+
+        var myCustomJson = {
+            results: [
+                {
+                    title: 'Pin 1',
+                    desc: 'I am pin 1',
+                    lat: 45.0001,
+                    lon: -110.0001
+                },
+                {
+                    title: 'Pin 2',
+                    desc: 'I am pin 2',
+                    lat: 43.0832,
+                    lon: -100.0832
+                }
+            ]
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-105, 44],
+                zoom: 5,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Loop through all results in the custom JSON object can create Point features from them.
+                var points = [];
+
+                if (myCustomJson && myCustomJson.results && myCustomJson.results.length > 0) {
+
+                    for (var i = 0; i < myCustomJson.results.length; i++) {
+
+                        //Create a position object from the lon and lat values.
+                        var position = new atlas.data.Position(myCustomJson.results[i].lon, myCustomJson.results[i].lat);
+
+                        //Create a Point feature and pass in the result object as the properties so that we can access them later if needed.
+                        var point = new atlas.data.Feature(new atlas.data.Point(position), myCustomJson.results[i]);
+
+                        points.push(point);
+                    }
+                }
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add point data to the data source.
+                datasource.add(points);
+
+                //Create a layer that defines how to render the points on the map.
+                var symbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    textOptions: {
+                        textField: ['get', 'title'],    //Specify the property name that contains the text you want to appear with the symbol.
+                        offset: [0, 1.2]
+                    }
+                });
+
+                map.layers.add(symbolLayer);
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    position: [0, 0],
+                    pixelOffset: [0, -18]
+                });
+
+                //Add a click event to the symbol layer.
+                map.events.add('click', symbolLayer, symbolClicked);
+            });
+        }
+
+        function symbolClicked(e) {
+            //Make sure the event occurred on a pin.
+            if (e.shapes && e.shapes.length > 0&& e.shapes[0].getType() === 'Point') {
+                var properties = e.shapes[0].getProperties();
+
+                popup.setOptions({
+                    //Update the content of the popup.
+                    content: popupTemplate.replace('{title}', properties.title).replace('{description}', properties.desc),
+
+                    //Update the position of the popup with the pins coordinate.
+                    position: e.shapes[0].getCoordinates()
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+    </script>
+    <style>
+        /* CSS styles used by custom popup template */
+        .customInfobox {
+            max-width: 200px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+            .customInfobox .title {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Create Symbols from Custom JSON</legend>
+        It is fairly common to access JSON data in your application which contains location data but is not in GeoJSON format.
+        This sample shows how to use this JSON data to create clickable symbols on a map, that when clicked, display a popup with
+        the title and description values of the symbol that was clicked.
+    </fieldset>
+</body>
+</html>

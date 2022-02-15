@@ -1,0 +1,1 @@
+﻿sitemap: https://samples.azuremaps.com/sitemap.xml

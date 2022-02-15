@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>OGC Web Map Service explorer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This is a simple tool for exploring Web Map Services (WMS) and Web Map Tile Services (WMTS) as layers on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, web mapping service, web mapping tile service, wmts, wms, OGC, spatial io module" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script>
+        var map, popup, layer, currentCapabilities;
+
+        var proxyServiceUrl = window.location.origin + '/CorsEnabledProxyService.ashx?url=';
+
+        //Sample WMTS and WMS services to let users test with.
+        var services = [
+            //WMTS services                      
+            { name: 'USGS Shaded Relief Only (WMTS)', url: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS/1.0.0/WMTSCapabilities.xml' },
+            { name: 'basemap.at (WMTS)', url: 'https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml' },
+            { name: 'USGS Geologic maps (WMTS)', url: 'https://mrdata.usgs.gov/mapcache/wmts/' },     
+            { name: 'Luxembourg admin areas (WMTS)', url: 'https://wmts1.geoportail.lu/opendata/service' },
+            { name: 'GeoNorth AeronauticalCharts (WMTS)', url: 'https://gis.dnr.alaska.gov/terrapixel/cubeserv/AeronauticalCharts?SERVICE=WMTS&REQUEST=GetCapabilities' },
+
+            //WMS services
+            { name: 'World geology survey (WMS)', url: 'https://mrdata.usgs.gov/services/gscworld' },
+            { name: 'US Census areas (WMS)', url: 'https://tigerweb.geo.census.gov/arcgis/services/TIGERweb/tigerWMS_Current/MapServer/WMSServer' },
+            { name: 'Radar base reflectivity (NOAA) (WMS)', url: 'https://idpgis.ncep.noaa.gov/arcgis/services/NWS_Observations/radar_base_reflectivity/MapServer/WmsServer' },
+            { name: 'Wetlands_Raster (WMS)', url: 'https://www.fws.gov/wetlands/arcgis/services/Wetlands_Raster/ImageServer/WMSServer' },
+            { name: 'Contours (WMS)', url: 'https://carto.nationalmap.gov/arcgis/services/contours/MapServer/WMSServer' },
+            { name: 'Radar meteo imagery nexrad time (NOAA) (WMS)', url: 'https://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer' },
+            { name: 'Natural Earth (WMS)', url: 'https://smallscale.nationalmap.gov/arcgis/services/NaturalEarth/MapServer/WMSServer' },
+            { name: 'Water areas (WMS)', url: 'https://hydro.nationalmap.gov/arcgis/services/nhd/MapServer/WMSServer' },
+            { name: 'USGS NAIP Plus (WMS)', url: 'https://services.nationalmap.gov/arcgis/services/USGSNAIPPlus/MapServer/WMSServer' },
+            { name: 'Government land (WMS)', url: 'https://carto.nationalmap.gov/arcgis/services/govunits/MapServer/WMSServer' },
+            { name: 'US Topo Availability (WMS)', url: 'https://index.nationalmap.gov/arcgis/services/USTopoAvailability/MapServer/WMSServer' },
+            { name: 'FEMA National Flood Hazard Layer', url: 'https://hazards.fema.gov/nfhl/services/public/NFHLWMS/MapServer/WMSServer?request=GetCapabilities&service=WMS'}
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                zoom: 1,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Generate a selection list of some predefined OGC map services.
+            var html = ['<option value="-1"></option>'];
+
+            for (var i = 0; i < services.length; i++) {
+                html.push('<option value="', i, '">', services[i].name, '</option>');
+            }
+
+            document.getElementById('servicesDD').innerHTML = html.join('');
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                popup = new atlas.Popup();
+
+                //Create a style control and add it to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-right'
+                });
+
+                //Add a click event to the map.
+                map.events.add('click', mapClick);
+            });
+        }
+
+        function loadLayer(url) {
+            clear();
+
+            //Show the loading icon.
+            document.getElementById('loadingIcon').style.display = '';
+
+            //Create an OGC layer.
+            layer = new atlas.layer.OgcMapLayer({
+                url: url,
+                proxyService: (document.getElementById('useProxyService').checked) ? proxyServiceUrl : null,
+                bringIntoView: document.getElementById('bringIntoView').checked,
+                debug: true
+            });
+
+            //Monitor for when the active layers change in the layer.
+            layer.onActiveLayersChanged = () => {
+                //Get the capabilities if the active layers change.
+                layer.getCapabilities().then(cap => {
+                    if (cap) {
+                        currentCapabilities = cap;
+
+                        //Build a seleciton list of sub-layers.
+                        buildLayerList();
+                    }
+                });
+
+                //Hide the loading icon.
+                document.getElementById('loadingIcon').style.display = 'none';
+            };
+
+            map.layers.add(layer, 'transit');
+        }
+
+        //Handle user selection from the list of known OGC services.
+        function loadSelectInput() {
+            var elm = document.getElementById('servicesDD');
+            var serviceIdx = parseInt(elm.options[elm.selectedIndex].value);
+
+            if (serviceIdx >= 0) {
+                loadLayer(services[serviceIdx].url);
+            } else {
+                clear();
+            }
+        }
+
+        //Clear the map and reset the UI.
+        function clear() {
+            currentCapabilities = null;
+            document.getElementById('layerPicker').innerHTML = '';
+
+            if (layer) {
+                map.layers.remove(layer);
+                layer = null;
+            }
+
+            popup.close();
+        }
+
+        //Handle click events on the map.
+        function mapClick(e) {
+            if (layer) {
+                //Get the feature info for where the user clicked on the map.
+                layer.getFeatureInfo(e.position).then(result => {
+                    if (result && result.features && result.features.length > 0) {
+                        popup.setOptions({
+                            content: atlas.PopupTemplate.applyTemplate(result.features[0].properties),
+                            position: e.position
+                        });
+
+                        popup.open(map);
+                    }
+                }, error => {
+                    alert(error);
+                });
+            }
+        }
+
+        //Create a selection list of all the sub-layers in the layer.
+        function buildLayerList() {
+            var cap = currentCapabilities;
+            var html = [];
+            var o = layer.getOptions();
+
+            for (var i = 0; i < cap.sublayers.length; i++) {
+                html.push('<input type="checkbox" class="collapsible" value="', i, '"');
+
+                var isActive = false;
+
+                //Check to see if the layer is active.
+                if (o.activeLayers && o.activeLayers.length > 0) {
+                    o.activeLayers.forEach(al => {
+                        if ((typeof al === 'string' && al === cap.sublayers[i].id) || al.id === cap.sublayers[i].id) {
+                            isActive = true;
+                        }
+                    });
+                }
+
+                var t = cap.sublayers[i].title;
+
+                if (!t || t === '') {
+                    t = cap.sublayers[i].id;
+                }
+
+                //Add the title to the of the sub-layer.
+                if (isActive) {
+                    html.push('checked="checked"/>', t, '<div class="content" style="display:block">');
+                } else {
+                    html.push('/>', t, '<div class="content">');
+                }
+
+                html.push('<p>');
+
+                //Add the description of the sub-layer
+                if (cap.sublayers[i].description && cap.sublayers[i].description !== '') {
+                    html.push(cap.sublayers[i].description, '<br/>');
+                }
+
+                //Add the zoom level range of the sub-layer.
+                html.push('Zoom range: ', cap.sublayers[i].minZoom, ' - ', cap.sublayers[i].maxZoom, '<br/><br/>');
+
+                //Add the legend for the sub-layer.
+                if (cap.sublayers[i].styles && cap.sublayers[i].styles.length > 0 && cap.sublayers[i].styles[0].legendUrl && cap.sublayers[i].styles[0].legendUrl !== '') {
+                    html.push('<img src="', cap.sublayers[i].styles[0].legendUrl, '" />');
+                }
+
+                html.push('</p></div><br/>');
+            }
+
+            //Update the layer picker.
+            document.getElementById('layerPicker').innerHTML = html.join('');
+
+            //Loop through and make each collapsible item clickable.
+            var coll = document.getElementsByClassName("collapsible");
+
+            for (var i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+
+                    var idx = parseInt(this.value);
+                    var o = layer.getOptions();
+                    var al = o.activeLayers || [];
+                    var clickedLayer = currentCapabilities.sublayers[idx].id;
+
+                    //Show the loading icon when the selected layers changes.
+                    document.getElementById('loadingIcon').style.display = '';
+
+                    //WMS services allow multiple layers to be selected.
+                    if (o.service === 'WMS') {
+                        if (content.style.display === "block") {
+                            //Remove the layer.
+                            content.style.display = "none";
+                            al = al.filter(e => e.id !== clickedLayer);
+                        } else {
+                            //Add the layer.
+                            content.style.display = "block";
+                            al.push(clickedLayer);
+                        }
+                    } else {
+                        //WMTS layers only allow a single layer to be selected.
+                        if (content.style.display === "block") {
+                            //Remove the layer.
+                            content.style.display = "none";
+                            al = [];
+                        } else {
+                            //Add the layer.
+                            content.style.display = "block";
+                            al = [clickedLayer];
+                        }
+                    }
+
+                    //Update the list of active layers.
+                    layer.setOptions({ activeLayers: al });
+                });
+            }
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 400px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #loadingIcon {
+            position: absolute;
+            top: 250px;
+            left: 120px;
+        }
+
+        #layerPicker {
+            width: 330px;
+            height: 230px;
+            overflow-y: auto;
+        }
+
+        .collapsible {
+        }
+
+        .content {
+            padding: 0 18px;
+            display: none;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend>OGC Web Map Service explorer</legend>
+        This is a simple tool for exploring Web Map Services (WMS) and Web Map Tile Services (WMTS) as layers on the map.
+        <br /><br />
+
+        OGC Service:<br />
+
+        <select id="servicesDD" onchange="loadSelectInput()"></select><br /><br />
+
+        <input id="useProxyService" type="checkbox" /> Use Proxy Service<br /><br />
+
+        <input id="bringIntoView" type="checkbox" checked="checked" /> Bring into view<br /><br />
+
+        <b>Sublayers</b><br /><br />
+
+        <div id="layerPicker"></div>
+    </fieldset>
+
+    <div id="myMap"></div>
+
+    <img id="loadingIcon" style="display:none;" src="/images/loadingIcon.gif" />
+</body>
+</html>

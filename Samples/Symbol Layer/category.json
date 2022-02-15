@@ -1,0 +1,4 @@
+{
+  "Title": "Symbol Layer",
+  "Description": "Render lots of styled points on the map in a Symbol layer with good performance. If working with smaller data sets use HTML based markers and take advantage of CSS for styling."
+}

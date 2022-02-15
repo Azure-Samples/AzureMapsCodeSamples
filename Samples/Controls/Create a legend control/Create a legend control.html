@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create a legend control - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="TThis sample shows how to create a legend control and add it to the map." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, legend, legend control" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.js"></script>
+
+    <!-- Load in the JavaScript and CSS files that has our custom control. -->
+    <link rel="stylesheet" href="/lib/azure-maps-layer-legend.min.css" type="text/css" />
+    <script src="/lib/azure-maps-layer-legend.min.js"></script>
+
+    <script>
+        var map, legend;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Add the custom control to the map.
+                legend = new atlas.control.LegendControl({
+                    //Global title to display for the legend.
+                    title: 'My Legend',
+
+                    //How the legend control should layout multiple legend cards. Options: 'list' | 'carousel' | 'accordion'
+                   // layout: 'accordion',
+                    
+                    //container: 'outsidePanel',
+                    
+                    //All legend cards to display within the legend control.
+                    legends: [
+                    
+                        //A category legend that uses a combination of shapes and icons.
+                        {
+                            type: 'category',
+                            subtitle: 'Category',
+                            layout: 'column',
+                            itemLayout: 'row',
+                            footer: 'A category legend that uses a combination of shapes and icons.',
+                            strokeWidth: 2,
+                            items: [
+                                {
+                                    color: 'DodgerBlue',
+                                    label: 'label1',
+
+                                    //Url to an image.
+                                    shape: '/images/icons/campfire.png'
+                                }, {
+                                    color: 'Yellow',
+                                    label: 'label2',
+                                    shape: 'square'
+                                }, {
+                                    color: 'Orange',
+                                    label: 'Ricky',
+                                    shape: 'line'
+                                }, {
+                                    color: 'Red',
+                                    label: 'is',
+                                    shape: 'circle'
+                                }, {
+                                    color: 'purple',
+                                    label: 'awesome!',
+                                    shape: 'triangle'
+                                }
+                            ]
+                        },
+
+                        //A category legend that scales the shapes/icons.
+                        {
+                            type: 'category',
+                            subtitle: 'Category - Scaled shapes',
+                            layout: 'column-reverse',
+                            itemLayout: 'row',
+                            shape: 'circle',
+                            color: 'transparent',
+                            footer: 'A category legend that scales the shapes/icons.',
+
+                            //Setting fitItems to true will allow all shapes to be equally spaced out and centered.
+                            fitItems: true,
+
+                            //Set the shape size for each item.
+                            items: [
+                                {
+                                    label: '10',
+                                    shapeSize: 10
+                                }, {
+                                    label: '20',
+                                    shapeSize: 20
+                                }, {
+                                    label: '30',
+                                    shapeSize: 30
+                                }, {
+                                    label: '40',
+                                    shapeSize: 40
+                                }
+                            ]
+                        },
+
+                        //A category legend with different size lines.
+                        {
+                            type: 'category',
+                            subtitle: 'Category - Scaled lines',
+                            layout: 'column-reverse',
+                            itemLayout: 'row',
+                            shape: 'line',
+                            footer: 'A category legend that scales lines. Scale line thickness by using stroke width. Use shape size to specify length.',
+
+                            //Setting fitItems to true will allow all shapes to be equally spaced out and centered.
+                            fitItems: true,
+
+                            //Use shape size to set line length.
+                            shapeSize: 20,
+
+                            //Scale lines by using stroke width.
+                            items: [
+                                {
+                                    label: '1',
+                                    strokeWidth: 1,
+                                    color: 'red'
+                                }, {
+                                    label: '2',
+                                    strokeWidth: 2,
+                                    color: 'orange'
+                                }, {
+                                    label: '4',
+                                    strokeWidth: 4,
+                                    color: 'purple'
+                                }, {
+                                    label: '6',
+                                    strokeWidth: 6,
+                                    color: 'blue'
+                                }
+                            ]
+                        },      
+
+                        //A category legend that collapses the space between items, overlaps the labels with the shapes, and uses custom CSS to collapse the space between the category items. 
+                        {
+                            type: 'category',
+                            subtitle: 'Category - Custom CSS',
+                            layout: 'column',
+                            itemLayout: 'column',
+                            shape: 'square',
+                            
+                            //Have the labels overlap the shape. Otherwise the text span size may push the shape away from the other shapes.
+                            labelsOverlapShapes: true,
+
+                            //Collapse the space between the items.
+                            collapse: true,
+
+                            //Optionally remove the stroke around the shapes.
+                            strokeWidth: 0,
+                            footer: 'A category legend that collapses the space between items, overlaps the labels with the shapes, and uses custom CSS to collapse the space between the category items.',
+                            items: [
+                                {
+                                    label: 'low',
+                                    color: 'white',
+
+                                    //Ensure the label will always appear when overlaid on top of the item. 
+                                    cssClass: 'darkText'
+                                },
+                                {
+                                    color: '#d24fa0'
+                                },
+                                {
+                                    color: '#8a32d7'
+                                },
+                                {
+                                    color: '#144bed'
+                                },
+                                {
+                                    color: '#479702'
+                                },
+                                {
+                                    color: '#72b403'
+                                },
+                                {
+                                    color: '#93c701'
+                                },
+                                {
+                                    color: '#ffd701'
+                                },
+                                {
+                                    color: '#f05514'
+                                },
+                                {
+                                    color: '#dc250e'
+                                },
+                                {
+                                    color: '#ba0808'
+                                },
+                                {
+                                    label: 'high',
+                                    color: 'black',
+
+                                    //Ensure the label will always appear when overlaid on top of the item. 
+                                    cssClass: 'lightText'
+                                }
+                            ]
+                        },
+
+                        //A simple legend that loads an image.
+                        {
+                            type: 'image',
+                            subtitle: 'Image legend',
+
+                            //URL to legend image.
+                            url: 'https://i0.wp.com/gisgeography.com/wp-content/uploads/2016/05/Map-Example-Legend.png',
+
+                            //Alt text should always be provided for legend images.
+                            altText: 'A legend for the icons on the map.',
+
+                            //Optionally specify a max width or height for the image.
+                            maxHeight: 200,
+
+                            footer: 'This legend was created using an image.'
+                        },
+                        
+                        //A simple HTML legend created using an HTML string.
+                        {
+                            type: 'html',
+                            subtitle: 'Simple HTML legend',
+                            html: '<span class="simple-legend">This <b>legend</b> is created using an <i>HTML</i> string.</span>'
+                        },
+
+                        //A gradient legend that uses multiple color stops, some having labels.
+                        {
+                            type: 'gradient',
+                            subtitle: 'Gradient legend',
+                            footer: 'A gradient legend that uses multiple color stops, some having labels.',
+
+                            stops: [
+                                {
+                                    offset: 0,
+                                    color: 'royalblue',
+                                    label: 'low'
+                                },
+                                {
+                                    offset: 0.25,
+                                    color: 'cyan'
+                                },
+                                {
+                                    offset: 0.5,
+                                    color: 'lime',
+                                    label: 'medium'
+                                }, 
+                                {
+                                    offset: 0.75,
+                                    color: 'yellow'
+                                },{
+                                    offset: 1,
+                                    color: 'red',
+                                    label: 'high'
+                                }
+                            ]
+                        },
+
+                        //A gradient legend that has transparency
+                        {
+                            type: 'gradient',
+                            subtitle: 'Gradient legend - transparency',
+                            footer: 'A gradient legend that has transparency.',
+                            orientation: 'vertical',
+                            barLength: 75,
+                            stops: [
+                                {
+                                    offset: 0,
+                                    color: 'rgba(0,0,0,0)',
+                                    label: 'Transparent'
+                                },{
+                                    offset: 1,
+                                    color: 'black',
+                                    label: 'Solid'
+                                }
+                            ]
+                        },
+
+                        //A gradient legend with stepped color stops.
+                        {
+                            type: 'gradient',
+                            subtitle: 'Gradient legend - stepped',
+                            footer: 'In this gradient each color has two stops, a starting stop and an end stop. The end stop has the same offset as the next colors starting stop.',
+                            stops: [
+                                {
+                                    offset: 0,
+                                    color: '#03939c',
+                                    label: '< -1'
+                                }, {
+                                    offset: 0.167,
+                                    color: '#03939c'
+                                }, {
+                                    offset: 0.167,
+                                    color: '#5ebabf'
+                                }, {
+                                    offset: 0.334,
+                                    color: '#5ebabf'
+                                }, {
+                                    offset: 0.334,
+                                    color: '#bae1e2'
+                                }, {
+                                    offset: 0.501,
+                                    color: '#bae1e2'
+                                }, {
+                                    offset: 0.501,
+                                    color: '#f8c0aa',
+                                    label: '0'
+                                }, {
+                                    offset: 0.668,
+                                    color: '#f8c0aa'
+                                }, {
+                                    offset: 0.668,
+                                    color: '#dd7755'
+                                }, {
+                                    offset: 0.835,
+                                    color: '#dd7755'
+                                }, {
+                                    offset: 0.835,
+                                    color: '#c22e00'
+                                }, {
+                                    offset: 1,
+                                    color: '#c22e00',
+                                    label: '> 1'
+                                },
+                            ]
+                        }
+                    ],
+                    //Optional resource key value pairs used to replace labels and titles with localized values specified in this object.
+                    resx: {
+                        'label1': 'Hello',
+                        'label2': 'World'
+                    }
+                });
+
+                //Add the legend control to the map.
+                map.controls.add(legend, {
+                    position: 'bottom-left'
+                });                
+
+                //Optionally add events to the legend control to know when the focused legend card changes.
+                map.events.add('legendfocused', legend, function(e){
+                    console.log('legendfocused ' + e.legendIdx);
+                });
+
+                map.events.add('toggled', legend, function(e){
+                    console.log('Minified ' + e.minimized);
+                });
+            });
+        }
+    </script>
+    <style>
+        .darkText {
+            color: black;
+            text-shadow: white 0 0 2px;
+        }
+
+        .lightText {
+            color: white;
+            text-shadow: black 0 0 2px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>
+            <h1 style="font-size:16px">Create a legend control</h1>
+        </legend>
+        This sample shows how to create a legend control and add it to the map. 
+        There are several built in legend types, such as category, gradient, and image. 
+        You can also create custom legend cards using HTML.
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-layer-legend" target="_blank">Azure Maps Layer & Legend Control module</a>
+    </fieldset>
+    <div id="outsidePanel"></div>
+</body>
+</html>

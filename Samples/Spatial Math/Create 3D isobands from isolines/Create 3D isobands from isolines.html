@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create 3D isobands from isolines - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create 3D isobands from isoline data and display them on a map with a data driven styling to assign colors." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, line, linestring, polyline, layer, isobands, isoband, isolines, isoline, contour, linelayer, data-driven, data driven styling" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='/scripts/turf.min.js'></script>
+
+    <script>
+        var map, datasource;
+
+        //Isoline data that represents elevation levels.
+        var isolines = [
+            { 'type': 'Feature', 'geometry': { 'type': 'LineString', 'coordinates': [[-121.770771, 46.842308], [-121.752232, 46.847944], [-121.752232, 46.854048], [-121.761845, 46.860622], [-121.763905, 46.864378], [-121.770085, 46.864378], [-121.780385, 46.866256], [-121.787251, 46.864378], [-121.775578, 46.856866], [-121.776265, 46.847474], [-121.775578, 46.845126]] }, 'properties': { 'elevation': 4000 } },
+            { 'type': 'Feature', 'geometry': { 'type': 'LineString', 'coordinates': [[-121.776265, 46.837141], [-121.757039, 46.838081], [-121.749485, 46.842308], [-121.740559, 46.848883], [-121.741932, 46.856396], [-121.750859, 46.863909], [-121.756352, 46.863909], [-121.761845, 46.868134], [-121.768025, 46.868134], [-121.774205, 46.870950], [-121.781071, 46.870950], [-121.787251, 46.872828], [-121.794117, 46.861561], [-121.787938, 46.854518], [-121.783131, 46.853109], [-121.783818, 46.846065]] }, 'properties': { 'elevation': 3500 } },
+            { 'type': 'Feature', 'geometry': { 'type': 'LineString', 'coordinates': [[-121.774891, 46.830565], [-121.756352, 46.830565], [-121.756352, 46.830565], [-121.746052, 46.832914], [-121.733693, 46.833383], [-121.730946, 46.839020], [-121.726826, 46.839490], [-121.724080, 46.848413], [-121.730946, 46.857335], [-121.734379, 46.861092], [-121.735066, 46.865317], [-121.743306, 46.868134], [-121.748112, 46.871420], [-121.754292, 46.871889], [-121.754979, 46.877991], [-121.767338, 46.872359], [-121.774205, 46.876114], [-121.779698, 46.876114], [-121.787251, 46.882215], [-121.790684, 46.876583], [-121.794804, 46.875175], [-121.800297, 46.870011], [-121.806477, 46.863439], [-121.807850, 46.857335], [-121.801671, 46.854988], [-121.803730, 46.849822], [-121.798924, 46.846535], [-121.795491, 46.841369], [-121.796864, 46.836672], [-121.788624, 46.836672]] }, 'properties': { 'elevation': 3000 } },
+            { 'type': 'Feature', 'geometry': { 'type': 'LineString', 'coordinates': [[-121.714467, 46.851231], [-121.712407, 46.847474], [-121.707600, 46.847944], [-121.709660, 46.851231], [-121.713780, 46.851231]] }, 'properties': { 'elevation': 3000 } },
+            { 'type': 'Feature', 'geometry': { 'type': 'LineString', 'coordinates': [[-121.783818, 46.813180], [-121.763905, 46.803311], [-121.757725, 46.806131], [-121.752232, 46.806131], [-121.749485, 46.812241], [-121.740559, 46.812711], [-121.734379, 46.809421], [-121.734379, 46.802841], [-121.724766, 46.802841], [-121.721333, 46.809421], [-121.715153, 46.808481], [-121.715840, 46.806601], [-121.710347, 46.806131], [-121.706227, 46.806601], [-121.700734, 46.809421], [-121.707600, 46.822578], [-121.703480, 46.827746], [-121.696614, 46.825397], [-121.691807, 46.827276], [-121.685627, 46.821169], [-121.667775, 46.818819], [-121.666401, 46.823048], [-121.660222, 46.825397], [-121.665028, 46.832914], [-121.669835, 46.839020], [-121.660908, 46.839490], [-121.656102, 46.845126], [-121.650609, 46.852170], [-121.640309, 46.852640], [-121.634129, 46.847944], [-121.619023, 46.846535], [-121.613530, 46.841369], [-121.609410, 46.847474], [-121.612843, 46.853109], [-121.618336, 46.854048], [-121.625203, 46.853579], [-121.625889, 46.857805], [-121.631382, 46.856866], [-121.633442, 46.860622], [-121.636189, 46.857335], [-121.644429, 46.856396], [-121.645802, 46.860153], [-121.650609, 46.859683], [-121.651982, 46.856396], [-121.661595, 46.854048], [-121.662968, 46.859683], [-121.673268, 46.862500], [-121.679448, 46.862031], [-121.687001, 46.862500], [-121.689061, 46.866725], [-121.698674, 46.870011], [-121.704167, 46.878461], [-121.694554, 46.885500], [-121.707600, 46.883154], [-121.717900, 46.887378], [-121.708973, 46.891132], [-121.706227, 46.898170], [-121.684254, 46.903800], [-121.678074, 46.905676], [-121.668461, 46.907553], [-121.670521, 46.912713], [-121.663655, 46.917872], [-121.651982, 46.915058], [-121.620396, 46.915996], [-121.610783, 46.914589], [-121.614216, 46.919279], [-121.620396, 46.918341], [-121.626576, 46.919748], [-121.632069, 46.918341], [-121.637562, 46.920217], [-121.643055, 46.920217], [-121.651295, 46.918341], [-121.659535, 46.920217], [-121.665715, 46.920686], [-121.666401, 46.925844], [-121.672581, 46.927720], [-121.665028, 46.931471], [-121.667088, 46.934754], [-121.673268, 46.932409], [-121.679448, 46.935222], [-121.682881, 46.932409], [-121.681508, 46.925376], [-121.686314, 46.924438], [-121.681508, 46.920217], [-121.680134, 46.915058], [-121.692494, 46.911305], [-121.697987, 46.916465], [-121.698674, 46.922093], [-121.701420, 46.923500], [-121.697987, 46.926782], [-121.702107, 46.928189], [-121.706227, 46.924907], [-121.700734, 46.912243], [-121.706913, 46.910367], [-121.715153, 46.911305], [-121.723393, 46.904738], [-121.723393, 46.895824], [-121.732319, 46.894885], [-121.737812, 46.897231], [-121.770085, 46.904269], [-121.774205, 46.901454], [-121.783818, 46.902861], [-121.785878, 46.911774], [-121.792744, 46.912713], [-121.795491, 46.915527], [-121.808537, 46.918810], [-121.818837, 46.915996], [-121.818150, 46.910836], [-121.826390, 46.905676], [-121.833256, 46.905676], [-121.816090, 46.890193], [-121.820210, 46.887378], [-121.829136, 46.886439], [-121.836003, 46.883623], [-121.842869, 46.885031], [-121.845616, 46.882685], [-121.839436, 46.879869], [-121.836689, 46.875644], [-121.831196, 46.871889], [-121.834630, 46.862500], [-121.842869, 46.859213], [-121.853169, 46.862970], [-121.859349, 46.860622], [-121.866902, 46.861561], [-121.866215, 46.858744], [-121.857975, 46.859213], [-121.852482, 46.857335], [-121.849049, 46.856866], [-121.843556, 46.850761], [-121.846302, 46.845126], [-121.848362, 46.841369], [-121.851109, 46.838081], [-121.849736, 46.833853], [-121.855916, 46.831504], [-121.855229, 46.829156], [-121.839436, 46.832444], [-121.831196, 46.830095], [-121.822957, 46.820699], [-121.826390, 46.816000], [-121.820897, 46.816000], [-121.814717, 46.816940], [-121.811970, 46.812711], [-121.797551, 46.810831], [-121.793431, 46.808951]] }, 'properties': { 'elevation': 2000 } },
+            { 'type': 'Feature', 'geometry': { 'type': 'LineString', 'coordinates': [[-121.673954, 46.872359], [-121.640995, 46.883623], [-121.645802, 46.885500], [-121.648549, 46.887378], [-121.655415, 46.886908], [-121.656788, 46.883154], [-121.661595, 46.882215], [-121.665715, 46.883623], [-121.665715, 46.886439], [-121.669835, 46.884092], [-121.669148, 46.880807], [-121.674641, 46.873767]] }, 'properties': { 'elevation': 2000 } },
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-121.768712, 46.854048],
+                zoom: 11,
+                pitch: 60,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer to render polygon data.
+                map.layers.add(new atlas.layer.PolygonExtrusionLayer(datasource, null, {
+                    //Use a data-driven expression based on a property on each polygon to assign a color.
+                    fillColor: [
+                        'step',
+                        ['get', 'elevation'],
+                        'transparent', //If value is less than 2000, make it transparent.
+                        2000, 'rgb(235, 140, 14)',  //2000 - 3000 color
+                        3000, 'rgb(255, 255, 0)', //3000 - 3500 color
+                        3500, 'rgb(140, 202, 32)', //3500 - 4000 color
+                        4000, 'rgb(25, 150, 65)' //4000+ color
+                    ],
+                    fillOpacity: 0.5,
+                    height: ['get', 'elevation']
+                }), 'labels');
+
+                //Convert the isolines into isobands.
+                var isobands = createIsobandsFromIsolines(isolines);
+
+                //Add the polygons to the data source.
+                datasource.add(isobands);
+            });
+        }
+
+        //Takes an array of isolines and converts them to isobands.
+        function createIsobandsFromIsolines(isolines) {
+            //Optionally sort features by property value. In this case the "value" property.
+            sortFeaturesByProperty(isolines, 'elevation');
+
+            //Create polygons from the isolines.
+            var polygons = [];
+
+            isolines.forEach(f => {
+                polygons.push(convertIsolineToPolygon(f));
+            });
+
+            //Step through each polygon and calculate the difference with all remaining polygons.
+            var isobands = [];
+
+            for (var i = 0; i < polygons.length; i++) {
+                var p = polygons[i];
+
+                for (var j = i + 1; j < polygons.length; j++) {
+                    p = turf.difference(p, polygons[j]);
+
+                    //If one polygon is completely overlapped, there will be nothing left, and thus be null.
+                    if (p === null) {
+                        break;
+                    }
+                }
+
+                if (p !== null) {
+                    isobands.push(p);
+                }
+            }
+
+            return isobands;
+        }
+
+        //Creates a sorting function for a GeoJSON property.
+        function sortFeaturesByProperty(features, propertyName) {
+            features.sort(function (a, b) {
+                return a.properties[propertyName] - b.properties[propertyName];
+            });
+        }
+
+        //Convert an Isoline into a polygon.
+        function convertIsolineToPolygon(feature) {
+            //Create polygons from the line data.
+            if (feature.geometry.type.indexOf('LineString') > -1) {
+                if (feature.geometry.type === 'LineString') {
+                    feature.geometry.type = 'Polygon';
+                    //Line represents a single polygon ring.
+                    var ring = [feature.geometry.coordinates];
+                    closeRings(ring);
+                    feature.geometry.coordinates = ring;
+                } else {
+                    //Feature is a MultiLineString
+                    feature.geometry.type = 'MultiPolygon';
+
+                    //A MultiLineString represents multiple individual polygons, each with one ring.
+                    var polygonRings = [];
+
+                    feature.geometry.coordinates.forEach(ring => {
+                        closeRings(ring);
+                        polygonRings.push([ring]);
+                    });
+
+                    feature.geometry.coordinates = polygonRings;
+                }
+            }
+
+            return feature;
+        }
+
+        //Ensures that all coordinate rings in a polygon are closed.
+        function closeRings(polygonCoordinates) {
+            var lastIdx;
+
+            polygonCoordinates.forEach(ring => {
+                lastIdx = ring.length - 1;
+
+                //Check to see if the first and last coordinates in the ring are the same. If not, add the first coordinate to the end.
+                if (!atlas.data.Position.areEqual(ring[0], ring[lastIdx])) {
+                    ring.push(ring[0]);
+                }
+            });
+        }
+    </script>
+    <style>
+        .colorband {
+            width: 100px;
+            padding: 2px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:white;border-radius:10px;padding:10px;">
+        <div class="colorband" style="background-color: rgba(25, 150, 65, 0.5)">4000m</div>
+        <div class="colorband" style="background-color: rgba(140, 202, 32, 0.5)">3500m</div>
+        <div class="colorband" style="background-color: rgba(255, 255, 0, 0.5)">3000m</div>
+        <div class="colorband" style="background-color: rgba(235, 140, 14, 0.5)">2000m</div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Create 3D isobands from isolines</legend>
+        This sample shows how to create 3D isobands from isoline data and display them on a map with a data driven styling to assign colors. 
+        This is uses the exact same process for converting isolines into isobands as this <a href="index.html?sample=Create%20isobands%20from%20isolines">sample</a>, but uses a PolygonExtrusionLayer for rendering instead.
+    </fieldset>
+</body>
+</html>

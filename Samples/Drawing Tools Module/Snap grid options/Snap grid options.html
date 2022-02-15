@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Snap grid options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the snap grid manager modify how the snapping experience works." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, paint, events" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js"></script>
+
+    <script>
+        var map, snapGrid;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                snapGrid = new atlas.drawing.SnapGridManager(map, {
+                    showGrid: true
+                });
+
+                // Use a draggable marker as a method to test snapping.
+                var marker = new atlas.HtmlMarker({
+                    draggable: true,
+                    position: map.getCamera().center
+                });
+
+                map.markers.add(marker);
+
+                map.events.add('dragend', marker, (e) => {
+                    var snappedPosition = snapGrid.snapPositions([e.target.getOptions().position])[0];
+
+                    e.target.setOptions({
+                        position: snappedPosition
+                    });
+                });
+
+                // Using drawing tools in combination with snap grid.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({
+                        position: 'top-right',
+                        style: 'light'
+                    })
+                });
+
+                // Monitor for when a line drawing has been completed.
+                map.events.add('drawingcomplete', drawingManager, snapToGrid);
+
+
+                // Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-left'
+                });
+            });
+        }
+
+        function snapToGrid(shape) {
+            // Exit drawing mode.
+            drawingManager.setOptions({ mode: 'idle' });
+
+            snapGrid.snapShape(shape);
+        }
+
+        function enabled(elm) {
+            snapGrid.setOptions({
+                enabled: elm.checked
+            });
+        }
+
+        function removeDuplicates(elm) {
+            snapGrid.setOptions({
+                removeDuplicates: elm.checked
+            });
+        }
+
+        function showGrid(elm) {
+            snapGrid.setOptions({
+                showGrid: elm.checked
+            });
+        }
+
+        function simplify(elm) {
+            snapGrid.setOptions({
+                simplify: elm.checked
+            });
+        }
+
+        function setResolution(elm){
+            snapGrid.setOptions({
+                resolution: parseFloat(elm.value)
+            });
+        }
+
+        function editStrokeColor(elm) {
+            snapGrid.getGridLayer().setOptions({
+                strokeColor: elm.value
+            });
+        }
+    </script>
+    <style>
+        .sidePanel {
+            width: 350px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 360px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="sidePanel">
+        <fieldset style="width:320px;margin-bottom:10px;">
+            <legend>Snap grid options</legend>
+            This sample shows how the different options of the snap grid manager modify how the snapping experience works.
+
+            <table>
+                <tr title="Specifies if the snapping functions are enabled. If not, the original shapes and positions will be returned.">
+                    <td>Enabled:</td>
+                    <td><input type="checkbox" onclick="enabled(this)" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies duplicate sequential positions should be removed when snapping.">
+                    <td>Remove duplicates:</td>
+                    <td><input type="checkbox" onclick="removeDuplicates(this)" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies the size of the snapping grid in pixels. The grid will be square and relative to the nearest integer zoom level. The grid will scale by a factor of 2 relative to physical real-world area with each zoom level.">
+                    <td>Resolution:</td>
+                    <td>
+                        <form oninput="res.value=Resolution.value">
+                            <input type="range" id="Resolution" value="15" min="1" max="100" step="1" oninput="setResolution(this)" onchange="setResolution(this)" />
+                            <output name="res" for="Resolution">15</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr title="Specifies if grid lines should be displayed on the map.">
+                    <td>Show grid:</td>
+                    <td><input type="checkbox" onclick="showGrid(this)" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if a Douglas-Peucker simplification should occur while snapping to create smoother lines.">
+                    <td>Simplify:</td>
+                    <td><input type="checkbox" onclick="simplify(this)" checked="checked" /></td>
+                </tr>
+            </table>
+
+            <br />
+
+            Edit the grid line styles by retrieving the underlying line layer using the <b>getGridLayer</b> function.
+            The following is an example of how to edit the stroke color.
+
+            <table>
+                <tr title="The color used to outline the line.">
+                    <td>Stroke Color:</td>
+                    <td><input type="color" id="StrokeColor" value="#c3a77e" oninput="editStrokeColor(this)" onchange="editStrokeColor(this)" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+</html>

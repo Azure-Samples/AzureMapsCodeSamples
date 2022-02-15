@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Get drawn shapes from drawing manager - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to get the shapes that have been drawn on the map using the drawing managers drawingManager.getSource() function." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, drawing manager, paint, shapes" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js"></script>
+
+    <script>
+        var map, drawingManager;
+
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                });
+            });
+        }
+
+        function getDrawnShapes() {
+            var source = drawingManager.getSource();
+            
+            document.getElementById('CodeOutput').value = JSON.stringify(source.toJson(), null, '    ');
+        }
+    </script>
+    <style>
+        .sidePanel {
+            width: 350px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 360px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        #CodeOutput {
+            width: 340px;
+            height: 450px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="sidePanel">
+        <fieldset style="width:320px;margin-bottom:10px;">
+            <legend>Get drawn shapes from drawing manager</legend>
+            This sample shows how to get the shapes that have been drawn on the map using the drawing managers <b>drawingManager.getSource()</b> function.
+        </fieldset>
+
+        <input type="button" value="Get drawn shapes" onclick="getDrawnShapes()"/>
+        <textarea id="CodeOutput"></textarea>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+</html>

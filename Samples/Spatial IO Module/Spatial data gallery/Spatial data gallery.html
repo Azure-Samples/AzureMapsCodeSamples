@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Spatial data gallery - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows all the different types of spatial data files that can be read with the spatial IO module." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, KML, KMZ, GeoRSS, GPX, GML, GeoJSON, CSV, ogc, spatial data, spatial io module, geoxml, earthquakes, USGS" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <script>
+        var map, datasource, layer, imageLayers = [], imageIcons = [], loadingIcon, statsOuput;
+
+        var proxyServiceUrl = window.location.origin + '/CorsEnabledProxyService.ashx?url=';
+
+        function GetMap() {
+            loadingIcon = document.getElementById('loadingIcon');
+            statsOuput = document.getElementById('statsOuput');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a simple data layer for rendering the data.
+                layer = new atlas.layer.SimpleDataLayer(datasource);
+                map.layers.add(layer);
+            });
+        }
+
+        function loadData(url, isAbsolute) {
+            if (!isAbsolute) {
+                url = window.location.origin + url;
+            }
+
+            loadingIcon.style.display = '';
+            statsOuput.innerHTML = '';
+            datasource.clear();
+
+            //Remove any previously loaded icon images.
+            if (imageIcons.length > 0) {
+                for (var i = 0; i < imageIcons.length; i++) {
+                    map.imageSprite.remove(imageIcons[i]);
+                }
+
+                imageIcons = [];
+            }
+
+            //Remove any previously loaded ground overlays.
+            if (imageLayers.length > 0) {
+                map.layers.remove(imageLayers);
+                imageLayers = [];
+            }
+
+            //Read a data file from a URL or pass in a raw string.
+            atlas.io.read(url, {
+                //Proxy service for accessing cross domain assets that may not have CORs enabled.
+                proxyService: proxyServiceUrl,
+                capturePathWaypoints: true
+            }).then(async r => {
+                if (r) {
+
+                    //Check to see if there are any icons in the data set that need to be loaded into the map resources.
+                    if (r.icons) {
+                        //For each icon image, create a promise to add it to the map, then run the promises in parrallel.
+                        var imagePromises = [];
+
+                        //The keys are the names of each icon image.
+                        imageIcons = Object.keys(r.icons);
+
+                        if (imageIcons.length !== 0) {
+                            imageIcons.forEach(function (key) {
+                                imagePromises.push(map.imageSprite.add(key, r.icons[key]));
+                            });
+
+                            await Promise.all(imagePromises);
+                        }
+                    }
+
+                    //Load all features.
+                    if (r.features && r.features.length > 0) {
+                        datasource.add(r.features);
+                    }
+
+                    //Load all ground overlays.
+                    if (r.groundOverlays && r.groundOverlays.length > 0) {
+                        map.layers.add(r.groundOverlays);
+
+                        imageLayers = r.groundOverlays;
+                    }
+
+                    //If bounding box information is known for data, set the map view to it.
+                    if (r.bbox) {
+                        map.setCamera({ bounds: r.bbox, padding: 50 });
+                    }
+
+                    writeStats(r.stats);
+
+                    loadingIcon.style.display = 'none';
+                }
+            });
+        }
+
+        //Write reading stats and errors for each file read.
+        function writeStats(stats) {
+            var result = [];
+
+            if (stats) {
+
+                if (stats.numCharecters) {
+                    result.push('\r\nFile size: ', Math.ceil(stats.numCharecters / 1024), ' KB');
+                }
+
+                if (stats.numPoints) {
+                    result.push('\r\n# of Points: ', stats.numPoints);
+                }
+
+                if (stats.numLineStrings) {
+                    result.push('\r\n# of LineStrings: ', stats.numLineStrings);
+                }
+
+                if (stats.numPolygons) {
+                    result.push('\r\n# of Polygons: ', stats.numPolygons);
+                }
+
+                if (stats.numPositions) {
+                    result.push('\r\n# of Positions: ', stats.numPositions);
+                }
+
+                if (stats.numNetworkLinks) {
+                    result.push('\r\n# of Network Links: ', stats.numNetworkLinks);
+                }
+
+                if (stats.numGroundOverlays) {
+                    result.push('\r\n# of Ground Overlays ', stats.numGroundOverlays);
+                }
+
+                result.push('\r\nProcessing time (ms): ', stats.processingTime, '\r\n\r\n');
+            }
+
+            statsOuput.value = result.join('');
+        }
+
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        #statsOuput {
+            width: 275px;
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <fieldset class="sidePanel">
+        <legend>Spatial data gallery</legend>
+        This sample shows all the different types of spatial data files that can be read with the spatial IO module using the <b>atlas.io.read</b> function.
+        <br /><br />
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(this, 'External')">External Feeds</button>
+            <button class="tablinks" onclick="openTab(this, 'KML')">KML</button>
+            <button class="tablinks" onclick="openTab(this, 'KMZ')">KMZ</button>
+            <button class="tablinks" onclick="openTab(this, 'GPX')">GPX</button>
+            <button class="tablinks" onclick="openTab(this, 'GeoRSS')">GeoRSS</button>
+            <button class="tablinks" onclick="openTab(this, 'GML')">GML</button>
+            <button class="tablinks" onclick="openTab(this, 'SpatialCSV')">Spatial CSV</button>
+            <button class="tablinks" onclick="openTab(this, 'GeoJSON')">GeoJSON</button>
+            <button class="tablinks" onclick="openTab(this, 'Stats')">Stats</button>
+        </div>
+
+        <div id="External" class="tabcontent" style="display:block;">
+            These files are hosted on other domains.
+            <br /><br />
+            <b>Proxied feeds</b>
+            <br /><br />
+            These feeds are hosted on endpoints that don't have CORs enabled. A proxy service is used to make the cross domain request possible.
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('https://www.brianabbott.net/media/kml/NYC-Transit.kmz', true);">New York City Metro (KMZ)</a></li>
+            </ul>
+
+            <b>CORs enabled feeds</b>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.atom', true);">USGS Earthquakes Feed (GeoRSS)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month_age.kml', true);">USGS Earthquakes Feed (KML)</a></li>
+            </ul>
+        </div>
+
+        <div id="KML" class="tabcontent">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/2007SanDiegoCountyFires.kml');">2007 San Diego Fires</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/nhc_active.kml')">Active Tropical Cyclones</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/AWOIS_Wrecks.kml')">AWOIS Wrecks</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/BalloonStyle.kml')">Balloon Style</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/BalloonStyle2.kml')">Balloon Style 2</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/esfr-trip-track-20080407.xml');">Bike trip</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/GroundOverlay.kml');">Ground Overlay</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/internet_users_2005_choropleth.kml');">Internet Users 2005 Choropleth</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/internet_users_2005_choropleth_3D.kml')">Internet Users 2005 Choropleth 3D</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/LiquidTelcom.kml')">Liquid Telcom</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/London%20Tube%20Lines.kml');">London Tube Lines</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/London%20stations.kml');">London Tube Stations</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/Pentagon.kml')">Pentagon</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/PhotoPins.kml')">Photo pins</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/WMSGroundOverlay.kml')">WMS Ground Overlay</a></li>
+            </ul>
+        </div>
+
+        <div id="KMZ" class="tabcontent">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/RecreationSitePoint.kmz');">Recreation Site Point</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/shuckstack-fire-tower.kmz');">Shuckstack fire tower</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/CivilWarSites.kmz')">Civil War Sites</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/Hurricane_Evacuation_Routes.kmz')">Hurricane Evacuation Routes</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/internet_users_2005_bars.kmz')">Internet Users 2005 Bars</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/qfaults.kmz')">Earthquake Faults</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/QPF24hr_Day3_latest.kmz')">24hr Quantitative Precipitation Forecasts</a></li>
+            </ul>
+        </div>
+
+        <div id="GPX" class="tabcontent">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/BikeRoute.xml');">Bike Route</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/Route66Attractions.xml');">Route 66 Attractions</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/Tourist_locations_UK-England.xml');">UK Tourist Locations</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/gps_points.xml')">GPS Points</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/race-gps-trace.gpx')">Race GPS trace</a></li>
+            </ul>
+        </div>
+
+        <div id="GeoRSS" class="tabcontent">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/georss/WifiLocations.xml');">Wifi Locations</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/georss/eqs7day-M2.5.xml')">Earthquakes</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/georss/SampleGeoRSS.xml');">Sample GeoRSS</a></li>
+            </ul>
+        </div>
+
+        <div id="GML" class="tabcontent">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/gml/FEMA_Hazard_WFS_2.0.0.xml')">FEMA Hazard WFS</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/gml/USGS_FC_WFS_GML.xml')">USGS WFS GML</a></li>
+            </ul>
+        </div>
+
+        <div id="SpatialCSV" class="tabcontent">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Airports.pipe')">Airports (pipe)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Chicago_Bike_Racks.csv')">Chicago Bike Racks (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Chicago_Narcotics.csv')">Chicago Narcotics (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Chicago_Police_Stations.csv')">Chicago Police Stations (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/hurricane_barry_track.csv')">Hurricane Barry track (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/WAEcologicalSites.tab')">WA Ecological Sites (tab)</a></li>
+            </ul>
+        </div>
+
+        <div id="GeoJSON" class="tabcontent">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/geojson/GpsTrace.json')">GPS Trace</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/geojson/SamplePoiDataSet.json')">Sample POI Data Set</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/geojson/US_States_500k.json')">US States</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/geojson/USGS_M7EarthquakeContours.json')">Earthquake Contours</a></li>
+            </ul>
+        </div>
+
+        <div id="Stats" class="tabcontent">
+            <textarea id="statsOuput"></textarea>
+        </div>
+    </fieldset>
+
+    <div id="myMap"></div>
+
+    <img id="loadingIcon" src="/images/loadingIcon.gif" style="position:absolute;top:270px;left:calc(50% - 30px);display:none;" />
+</body>
+</html>

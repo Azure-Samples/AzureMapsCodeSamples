@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Large GeoJSON Files - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample demonstrates loading large GeoJSON files into the Azure Maps Web SDK." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, symbol, pushpin, marker, pin, line, linestring, polygon, parcels" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Atlas Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, infopane, completed = 0, featureCnt = 0, totalFileSize = 0;
+        var geoJsonData = [
+            { name: 'Parcel Boundaries', url: '/data/geojson/parcels.json', fileSizeMB: 80, geomType: 'polygons' },
+            { name: 'Streets', url: '/data/geojson/streets.json', fileSizeMB: 16, geomType: 'lines' },
+            { name: 'Addresses', url: '/data/geojson/address.json', fileSizeMB: 41, geomType: 'points' }
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-105.076, 40.55],
+                zoom: 11,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            infopane = document.getElementById('infopane');
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source to store the data in.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering the outline of polygons.
+                var polygonLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'black',
+                    filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]	//Only render Polygon or MultiPolygon in this layer.
+                });
+
+                //Add a click event to the layer.
+                map.events.add('click', polygonLayer, featureClicked);
+
+                //Add a layer for rendering line data.
+                var lineLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'purple',
+                    strokeWidth: 4,
+                    filter: ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]	//Only render LineString or MultiLineString in this layer.
+                });
+
+                //Add a click event to the layer.
+                map.events.add('click', lineLayer, featureClicked);
+
+                //Add a layer for rendering point data.
+                var pointLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        allowOverlap: true,
+                        ignorePlacement: true,
+                        image: 'pin-round-darkblue'
+                    },
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                });
+
+                //Add a click event to the layer.
+                map.events.add('click', pointLayer, featureClicked);
+
+                //Add all layers to the map.
+                map.layers.add([polygonLayer, lineLayer, pointLayer]);
+
+                //Load the GeoJSON feeds.
+                loadGeoJsonFile(geoJsonData[0]);
+                loadGeoJsonFile(geoJsonData[1]);
+                loadGeoJsonFile(geoJsonData[2]);
+            });
+        }
+
+        function loadGeoJsonFile(geoJsonFeed) {
+            infopane.innerHTML += 'Downloading ' + geoJsonFeed.name + '...</br/>';
+
+            //Download the GeoJSON feed.
+            datasource.importDataFromUrl(geoJsonFeed.url).then(function () {
+
+                var numFeatures = datasource.getShapes().length;
+
+                infopane.innerHTML += `Retrieved ${(numFeatures - featureCnt).toLocaleString()} ${geoJsonFeed.geomType} (${geoJsonFeed.fileSizeMB} MB)<br/>`;
+
+                featureCnt = numFeatures;
+                totalFileSize += geoJsonFeed.fileSizeMB;
+
+                completed++;
+
+                if (completed === geoJsonData.length) {
+                    infopane.innerHTML += `Rendering ${featureCnt.toLocaleString()} features (${totalFileSize} MB)...`;
+                }
+            });
+        }
+
+        function featureClicked(e) {
+            //Make sure the event occurred on a shape feature.
+            if (e.shapes && e.shapes.length > 0) {
+                //By default, show the popup where the mouse event occurred.
+                var pos = e.position;
+                var offset = [0, 0];
+                var properties;
+
+                if (e.shapes[0] instanceof atlas.Shape) {
+                    properties = e.shapes[0].getProperties();
+
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].getType() === 'Point') {
+                        pos = e.shapes[0].getCoordinates();
+                        offset = [0, -18];
+                    }
+                } else {
+                    properties = e.shapes[0].properties;
+
+                    //If the shape is a point feature, show the popup at the points coordinate.
+                    if (e.shapes[0].type === 'Point') {
+                        pos = e.shapes[0].geometry.coordinates;
+                        offset = [0, -18];
+                    }
+                }
+
+                //Update the content and position of the popup.
+                popup.setOptions({
+                    //Create a table from the properties in the feature.
+                    content: atlas.PopupTemplate.applyTemplate(properties),
+                    position: pos,
+                    pixelOffset: offset
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: calc(100% - 210px);
+            min-width:290px;
+            height: 600px;
+            float: left;
+        }
+
+        #infopane {
+            margin-left: 10px;
+            width: 200px;
+            height: 600px;
+            overflow-y: auto;
+            float: left;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+
+    <div id="infopane"></div>
+
+    <div style="clear:both;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Large GeoJSON Files</legend>
+        This sample loads three large GeoJSON files which contain address (point), parcel boundary (polygon), and street (lines) data for all of Fort Collins, CO.<br/><br/> 
+        This sample loads a lot of data and will be slow to load.
+    </fieldset>
+</body>
+</html>
