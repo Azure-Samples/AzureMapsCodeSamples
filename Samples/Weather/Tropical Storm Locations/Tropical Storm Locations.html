@@ -5,7 +5,7 @@
 
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Get information of tropical storms, this includes; location coordinates, geometry, basin ID, date, wind details and wind radii." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, layer, weather, AccuWeather" />
@@ -19,15 +19,15 @@
     <script>
         var map, datasource, popup;
 
-        var weatherUrl = 'https://{azMapsDomain}/weather/tropical/storms/locations/json?api-version=1.1&year=2021&basinId=NP&govId=1';
+        var weatherUrl = 'https://{azMapsDomain}/weather/tropical/storms/locations/json?api-version=1.1&year=2021&basinId=NP&govId=2';
 
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [10, 130],
-                zoom: 5,
+                center: [135, 17],
+                zoom: 4,
                 view: 'Auto',
-                style: 'road_shaded_relief',
+                style: 'satellite',
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
@@ -63,6 +63,9 @@
                         var line = createLineFrom(response.results);
                         datasource.add(line);
 
+                        var circle = createCircleFrom(response.results);
+                        datasource.add(circle);
+
                         //Add a layers for rendering data.
                         map.layers.add([
                             //Add a line layer for displaying the line.
@@ -81,6 +84,15 @@
                                     anchor: 'center',
                                     size: 0.8
                                 }
+                            }),
+
+                            new atlas.layer.BubbleLayer(datasource, null, {
+                                color: 'yellow',
+                                strokeColor: 'yellow',
+                                opacity: 0.1,
+                                strokeOpacity: 0.2,
+                                radius: ['case', ['has', 'myRadius'], ['get', 'myRadius'], 10],
+                                filter: ['==', 'layer', 'myLayer']
                             })
                         ]);
 
@@ -92,10 +104,28 @@
 
         function createLineFrom(points) {
             var coords = [];
+
             for (var i = 0; i < points.length; i++) {
-                coords.push([points[i].location.latitude, points[i].location.longitude]);
+                coords.push([points[i].location.longitude, points[i].location.latitude]);
             }
+
+            console.log(coords);
+
             return new atlas.data.LineString(coords);
+        }
+
+        function createCircleFrom(items) {
+            var circles = [];
+
+            for (var i = 0; i < items.length; i++) {
+                var data = new atlas.data.Feature(new atlas.data.Point([items[i].location.longitude, items[i].location.latitude]), {
+                    myRadius: items[i].maxWindGust.value / 5,
+                    layer: 'myLayer'
+                });
+                circles.push(data);
+            }
+
+            return circles;
         }
 
         function processRequest(url) {
