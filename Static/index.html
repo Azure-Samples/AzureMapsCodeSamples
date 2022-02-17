@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,7 @@
         })(window, document, "clarity", "script", "abqktua2pr");
     </script>
 </head>
-<body onload="Start()">
+<body onload="Start()" class="d-flex flex-column h-100">
 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
@@ -131,11 +131,11 @@
 
     </main>
 
-    <footer class="footer mt-auto py-3 bg-light">
-        <div class="flex-fill">
+    <footer class="footer mt-auto py-3 pt-0 bg-light">
+        <div class="container-fluid p-0">
             <div id="cookie-banner"></div>
         </div>
-        <div class="container">
+        <div class="container pt-3">
             <p class="float-end mb-1">
                 <a href="https://go.microsoft.com/fwlink/?LinkId=521839" class="link-secondary">Privacy</a>
                 <a href="https://go.microsoft.com/fwlink/?LinkID=206977" class="link-secondary">Terms of use</a>
@@ -171,7 +171,13 @@
     <script src="/js/site.min.js"></script>
 
     <script>
-        window.WcpConsent && WcpConsent.init("en-US", "cookie-banner", null, null, WcpConsent.themes.light);
+        window.WcpConsent && WcpConsent.init("en-US", "cookie-banner", function (err, _siteConsent) {
+            if (!err) {
+                siteConsent = _siteConsent;
+            } else {
+                console.log("Error initializing WcpConsent: " + err);
+            }
+        }, null, WcpConsent.themes.light);
     </script>
 </body>
 </html>
