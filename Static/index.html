@@ -10,14 +10,6 @@
 
     <link href="/favicon.ico" rel="shortcut icon">
     <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <script>
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "abqktua2pr");
-    </script>
 </head>
 <body onload="Start()" class="d-flex flex-column h-100">
 
@@ -76,6 +68,10 @@
         </div>
     </nav>
 
+    <div class="container-fluid p-0" style="margin-top: 56px;">
+        <div id="cookie-banner"></div>
+    </div>
+
     <main>
 
         <div class="container col-xxl-8 px-4 py-5">
@@ -131,16 +127,14 @@
 
     </main>
 
-    <footer class="footer mt-auto py-3 pt-0 bg-light">
-        <div class="container-fluid p-0">
-            <div id="cookie-banner"></div>
-        </div>
-        <div class="container pt-3">
-            <p class="float-end mb-1">
-                <a href="https://go.microsoft.com/fwlink/?LinkId=521839" class="link-secondary">Privacy</a>
-                <a href="https://go.microsoft.com/fwlink/?LinkID=206977" class="link-secondary">Terms of use</a>
-            </p>
-            <p class="mb-1">Azure Maps &copy; <a href="https://www.microsoft.com/" class="link-secondary">Microsoft</a>, but please <a href="https://github.com/Azure-Samples/AzureMapsCodeSamples/tree/vnext" class="link-secondary" title="Open Source on GitHub">download</a> and customize it for yourself!</p>
+    <footer class="footer mt-auto py-2 pt-0 bg-light">
+        <div class="container pt-1">
+            <ul class="nav float-end">
+                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?LinkId=521839" class="nav-link px-2 text-muted">Terms of use</a></li>
+                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?LinkID=206977" class="nav-link px-2 text-muted">Privacy</a></li>
+                <li class="nav-item"><a href="#" onclick="siteConsent.manageConsent()" class="nav-link px-2 text-muted">Manage cookies</a></li>
+            </ul>
+            <p class="mb-0">Azure Maps &copy; <a href="https://www.microsoft.com/" class="link-secondary">Microsoft</a>, but please <a href="https://github.com/Azure-Samples/AzureMapsCodeSamples/tree/vnext" class="link-secondary">download</a> and customize it for yourself!</p>
             <p class="mb-0">New to Azure Maps? <a href="https://azuremaps.com" class="link-secondary">Visit the homepage</a> or read our <a href="https://aka.ms/AzureMapsGettingStarted">getting started guide</a>.</p>
         </div>
     </footer>
@@ -174,10 +168,26 @@
         window.WcpConsent && WcpConsent.init("en-US", "cookie-banner", function (err, _siteConsent) {
             if (!err) {
                 siteConsent = _siteConsent;
+                startAnalytics();
             } else {
                 console.log("Error initializing WcpConsent: " + err);
             }
-        }, null, WcpConsent.themes.light);
+        }, onConsentChanged, WcpConsent.themes.light);
+
+        function startAnalytics() {
+            var userConsent = siteConsent.getConsent();
+            if (userConsent.Analytics === true && userConsent.Advertising === true) {
+                (function (c, l, a, r, i, t, y) {
+                    c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+                    t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+                    y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+                })(window, document, "clarity", "script", "abqktua2pr");
+            }
+        }
+
+        function onConsentChanged(categoryPreferences) {
+            startAnalytics();
+        }
     </script>
 </body>
 </html>
