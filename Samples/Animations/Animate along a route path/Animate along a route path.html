@@ -175,22 +175,22 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:15px;left:15px;border-radius:5px;padding:5px;background-color:white;">
-        <input type="button" value="Play" onclick="animation.play()" />
-        <input type="button" value="Pause" onclick="animation.pause()" />
-        <input type="button" value="Stop" onclick="animation.stop()"/>        
-        <input type="button" value="Reset" onclick="animation.reset()"/>
+        <input type="button" value="Play" onclick="animation.play()" title="Play" />
+        <input type="button" value="Pause" onclick="animation.pause()" title="Pause" />
+        <input type="button" value="Stop" onclick="animation.stop()" title="Stop" />        
+        <input type="button" value="Reset" onclick="animation.reset()" title="Reset" />
         <br/><br/>
-        Follow: <input id="followSymbol" type="checkbox" onclick="toggleFollow()"/><br/>
-        Follow offset: <input id="followOffset" type="checkbox" onclick="toggleFollowOffset()"/><br/>
-        Loop: <input id="loopAnimation" type="checkbox" onclick="toggleLooping()"/><br/>
-        Reverse: <input id="reverseAnimation" type="checkbox" onclick="toggleReverse()"/>        
+        Follow: <input id="followSymbol" type="checkbox" onclick="toggleFollow()" title="Follow"/><br/>
+        Follow offset: <input id="followOffset" type="checkbox" onclick="toggleFollowOffset()" title="Follow offset"/><br/>
+        Loop: <input id="loopAnimation" type="checkbox" onclick="toggleLooping()" title="Loop"/><br/>
+        Reverse: <input id="reverseAnimation" type="checkbox" onclick="toggleReverse()" title="Reverse"/>        
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Animate along a route path</legend>
         This sample shows how to smoothly animate a symbol along a route path taking into consideration timestamps for each point in the route path. 
         This sample also includes controls and options for the animation. 
-        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank" title="Azure Maps Animation module">Azure Maps Animation module</a>
     </fieldset>
 </body>
 </html>

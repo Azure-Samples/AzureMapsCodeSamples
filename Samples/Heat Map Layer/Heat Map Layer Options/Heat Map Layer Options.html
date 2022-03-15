@@ -475,9 +475,9 @@
         <br /><br />
 
         <div class="tab">
-            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Base Options</button>
-            <button class="tablinks" onclick="openTab(this, 'LayerOptions')">Layer Options</button>
-            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')" title="Base Options">Base Options</button>
+            <button class="tablinks" onclick="openTab(this, 'LayerOptions')" title="Layer Options">Layer Options</button>
+            <button class="tablinks" onclick="openTab(this, 'Code')" title="Code">Code</button>
         </div>
 
         <div id="StyleOptions" class="tabcontent" style="display:block;">
@@ -486,7 +486,7 @@
                     <td>Min Zoom:</td>
                     <td>
                         <form oninput="minz.value=MinZoom.value">
-                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" title="Min Zoom" />
                             <output name="minz" for="MinZoom">0</output>
                         </form>
                     </td>
@@ -495,14 +495,14 @@
                     <td>Max Zoom:</td>
                     <td>
                         <form oninput="maxz.value=MaxZoom.value">
-                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" title="Max Zoom" />
                             <output name="maxz" for="MaxZoom">24</output>
                         </form>
                     </td>
                 </tr>
                 <tr title="Specifies if the layer is visible or not.">
                     <td>Visible:</td>
-                    <td><input id="Visible" type="checkbox" onclick="updateHeatMapLayer()" checked="checked" /></td>
+                    <td><input title="Visible" id="Visible" type="checkbox" onclick="updateHeatMapLayer()" checked="checked" /></td>
                 </tr>
             </table>
 
@@ -521,7 +521,7 @@
                     <td>Heat Gradient:</td>
                     <td>
                         <div class="dropdown">
-                            <button id="gradientDropdownBtn" onclick="toggleGradientDropdown()" class="dropbtn"></button>
+                            <button id="gradientDropdownBtn" title="Heat Gradient" onclick="toggleGradientDropdown()" class="dropbtn"></button>
                             <div id="gradientDropdown" class="dropdown-content">
                             </div>
                         </div>
@@ -531,7 +531,7 @@
                     <td>Radius</td>
                     <td>
                         <form oninput="radius.value=Radius.value">
-                            <input type="range" id="Radius" value="10" min="1" max="100" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <input title="Radius" type="range" id="Radius" value="10" min="1" max="100" step="1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
                             <output name="radius" for="Radius">10</output>
                         </form>
                     </td>
@@ -540,7 +540,7 @@
                     <td>Opacity</td>
                     <td>
                         <form oninput="opacity.value=Opacity.value">
-                            <input type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <input title="Opacity" type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
                             <output name="opacity" for="Opacity">1</output>
                         </form>
                     </td>
@@ -549,7 +549,7 @@
                     <td>Intensity</td>
                     <td>
                         <form oninput="intensity.value=Intensity.value">
-                            <input type="range" id="Intensity" value="1" min="0" max="5" step="0.02" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
+                            <input title="Intensity" type="range" id="Intensity" value="1" min="0" max="5" step="0.02" oninput="updateHeatMapLayer()" onchange="updateHeatMapLayer()" />
                             <output name="intensity" for="Intensity">1</output>
                         </form>
                     </td>
@@ -557,16 +557,16 @@
                 <tr title="Specifies how much an individual data point contributes to the heatmap. Must be a number greater than 0. A value of 5 would be equivalent to having 5 points of weight 1 in the same spot. This is useful when clustering points to allow heatmap rendering or large datasets.">
                     <td>Weight</td>
                     <td>
-                        <input id="Weight" type="checkbox" onclick="updateHeatMapLayer()"/> base on "mag" property
+                        <input title="Weight" id="Weight" type="checkbox" onclick="updateHeatMapLayer()"/> base on "mag" property
                     </td>
                 </tr>
             </table>
         </div>
 
         <div id="Code" class="tabcontent">
-            <textarea id="CodeOutput"></textarea><br /><br />
-            <input id="RemoveDefaults" type="checkbox" onclick="updateHeatMapLayer()" checked="checked" /> Remove defaults
-            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+            <textarea id="CodeOutput" title="Code Output"></textarea><br /><br />
+            <input id="RemoveDefaults" type="checkbox" onclick="updateHeatMapLayer()" checked="checked" title="Remove defaults" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput" title="Copy to clipboard">Copy to clipboard</button>
         </div>
     </fieldset>
 

@@ -30,7 +30,8 @@
                 {
                     color: 'DodgerBlue',
                     label: 'Hello',
-                    shape: '/images/icons/campfire.png'
+                    shape: '/images/icons/campfire.png',
+                    alt: 'Campfire'
                 }, {
                     color: 'Yellow',
                     label: 'World',
@@ -148,20 +149,20 @@
             <tr title="The title of the individual legend.">
                 <td>Subtitle:</td>
                 <td>
-                   <input type="text" oninput="updateLegend('subtitle', this)" />
+                   <input type="text" oninput="updateLegend('subtitle', this)" title="Subtitle" />
                 </td>
             </tr>
             <tr title="The footer of the legend.">
                 <td>Footer:</td>
                 <td>
-                   <input type="text" oninput="updateLegend('footer', this)" />
+                   <input type="text" oninput="updateLegend('footer', this)" title="Footer" />
                 </td>
             </tr>
             <tr title="An integer specifying the minimum zoom level to render the legend at.">
                 <td>Min Zoom:</td>
                 <td>
                     <form oninput="minz.value=MinZoom.value">
-                        <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" onchange="updateLegendRange('minZoom', this)" />
+                        <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" onchange="updateLegendRange('minZoom', this)" title="Min Zoom" />
                         <output name="minz" for="MinZoom">0</output>
                     </form>
                 </td>
@@ -170,7 +171,7 @@
                 <td>Max Zoom:</td>
                 <td>
                     <form oninput="maxz.value=MaxZoom.value">
-                        <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" onchange="updateLegendRange('maxZoom', this)" />
+                        <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" onchange="updateLegendRange('maxZoom', this)" title="Max Zoom" />
                         <output name="maxz" for="MaxZoom">24</output>
                     </form>
                 </td>
@@ -178,7 +179,7 @@
             <tr title="The layout of all items relatively.">
                 <td>Layout:</td>
                 <td>
-                    <select onchange="updateLegend('layout', this)">
+                    <select onchange="updateLegend('layout', this)" title="Layout">
                         <option selected="selected">column</option>
                         <option>column-reverse</option>
                         <option>row</option>
@@ -189,7 +190,7 @@
             <tr title="The layout of individual items.">
                 <td>Item Layout:</td>
                 <td>
-                    <select onchange="updateLegend('itemLayout', this)">
+                    <select onchange="updateLegend('itemLayout', this)" title="Item Layout">
                         <option>column</option>
                         <option>column-reverse</option>
                         <option selected="selected">row</option>
@@ -199,20 +200,20 @@
             </tr>
             <tr title="The fill color of SVGs.">
                 <td>Color:</td>
-                <td><input type="color" id="Color" value="#ffffff" onchange="updateLegend('color', this)" /></td>
+                <td><input type="color" id="Color" value="#ffffff" onchange="updateLegend('color', this)" title="Color" /></td>
             </tr>
             <tr title="Specifies if all items should be fit into the largest container created by an item.">
                 <td>Fit items:</td>
-                <td><input id="fitItems" type="checkbox" onclick="updateLegendCheck('fitItems', this)" /></td>
+                <td><input id="fitItems" type="checkbox" onclick="updateLegendCheck('fitItems', this)" title="Fit items" /></td>
             </tr>
             <tr title="Specifies if all items should be fit into the largest container created by an item.">
                 <td>Labels Overlap Shapes:</td>
-                <td><input id="labelsOverlapShapes" type="checkbox" onclick="updateLegendCheck('labelsOverlapShapes', this)" /></td>
+                <td><input id="labelsOverlapShapes" type="checkbox" onclick="updateLegendCheck('labelsOverlapShapes', this)" title="Labels Overlap Shapes" /></td>
             </tr>
             <tr title="The shape of the color swatches of all items. Supports image urls and SVG strings.">
                 <td>Shape:</td>
                 <td>
-                    <select onchange="updateLegend('shape', this)">
+                    <select onchange="updateLegend('shape', this)" title="Shape">
                         <option selected="selected">circle</option>
                         <option>line</option>
                         <option>square</option>
@@ -224,7 +225,7 @@
                 <td>Shape size:</td>
                 <td>
                     <form oninput="shapeSize.value=ShapeSize.value">
-                        <input type="range" id="ShapeSize" value="20" min="1" max="50" step="1" onchange="updateLegendRange('shapeSize', this)" />
+                        <input type="range" id="ShapeSize" value="20" min="1" max="50" step="1" onchange="updateLegendRange('shapeSize', this)" title="Shape size" />
                         <output name="shapeSize" for="ShapeSize">20</output>
                     </form>
                 </td>
@@ -233,14 +234,14 @@
                 <td>Stroke Width:</td>
                 <td>
                     <form oninput="strokeWidth.value=StrokeWidth.value">
-                        <input type="range" id="StrokeWidth" value="1" min="0" max="9" step="1" onchange="updateLegendRange('strokeWidth', this)" />
+                        <input type="range" id="StrokeWidth" value="1" min="0" max="9" step="1" onchange="updateLegendRange('strokeWidth', this)" title="Stroke Width" />
                         <output name="strokeWidth" for="StrokeWidth">1</output>
                     </form>
                 </td>
             </tr>
             <tr title="A CSS class to customize the legend.">
                 <td>CSS class:</td>
-                <td><input id="cssClass" type="checkbox" value="customLegendCSS" onclick="updateLegendCheckValue('cssClass', this)" /></td>
+                <td><input id="cssClass" type="checkbox" value="customLegendCSS" onclick="updateLegendCheckValue('cssClass', this)" title="CSS class" /></td>
             </tr>
         </table>
 

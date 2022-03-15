@@ -301,12 +301,12 @@
     <div class="sidePanel">
         <fieldset style="width:300px;margin-bottom:10px;">
             <legend>Car vs Truck Route</legend>
-            This sample compares the route a truck has to take <span style="color:green">(green)</span> to the route a car can take <span style="color:red">(red)</span>.
+            This sample compares the route a truck has to take <span style="color:green">(green)</span> to the route a car can take <span style="color: #e50000">(red)</span>.
         </fieldset>
 
         <table>
-            <tr><td>From:</td><td><input type="text" id="fromTbx" /></td></tr>
-            <tr><td>To:</td><td><input type="text" id="toTbx" /></td></tr>
+            <tr><td>From:</td><td><input type="text" id="fromTbx" title="From" /></td></tr>
+            <tr><td>To:</td><td><input type="text" id="toTbx" title="To" /></td></tr>
 
             <tr>
                 <td colspan="2">
@@ -315,31 +315,31 @@
                         <tr>
                             <td>Vehicle Width (meters):</td>
                             <td>
-                                <input type="number" id="vehicleWidth" />
+                                <input type="number" id="vehicleWidth" title="Vehicle Width (meters)" />
                             </td>
                         </tr>
                         <tr>
                             <td>Vehicle Height (meters):</td>
                             <td>
-                                <input type="number" id="vehicleHeight" />
+                                <input type="number" id="vehicleHeight" title="Vehicle Height (meters)" />
                             </td>
                         </tr>
                         <tr>
                             <td>Vehicle Length (meters):</td>
                             <td>
-                                <input type="number" id="vehicleLength" />
+                                <input type="number" id="vehicleLength" title="Vehicle Length (meters)" />
                             </td>
                         </tr>
                         <tr>
                             <td>Vehicle Weight (kg):</td>
                             <td>
-                                <input type="number" id="vehicleWeight" />
+                                <input type="number" id="vehicleWeight" title="Vehicle Weight (kg)" />
                             </td>
                         </tr>
                         <tr>
                             <td>Vehicle Load Type:</td>
                             <td>
-                                <select id="vehicleLoadType">
+                                <select id="vehicleLoadType" title="Vehicle Load Type">
                                     <option value="" />
                                     <option value="USHazmatClass1" />Explosives
                                     <option value="USHazmatClass2" />Compressed gas
@@ -361,7 +361,7 @@
             </tr>
             <tr><td colspan="2"><b>Scenarios:</b></td></tr>
             <tr><td colspan="2"><div id="scenarios"></div></td></tr>
-            <tr><td></td><td><br /><input type="button" value="Calculate Directions" onclick="calculateDirections()" /></td></tr>
+            <tr><td></td><td><br /><input type="button" value="Calculate Directions" title="Calculate Directions" onclick="calculateDirections()" /></td></tr>
             <tr><td colspan="2"><br /><div id="output"></div></td></tr>
         </table>
     </div>

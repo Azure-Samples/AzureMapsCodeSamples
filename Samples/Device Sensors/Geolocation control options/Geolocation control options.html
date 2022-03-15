@@ -164,8 +164,8 @@
         <br /><br />
 
         <div class="tab">
-            <button class="tablinks active" onclick="openTab(this, 'Options')">Options</button>
-            <button class="tablinks" onclick="openTab(this, 'EventInfo')">Event info</button>
+            <button class="tablinks active" onclick="openTab(this, 'Options')" title="Options">Options</button>
+            <button class="tablinks" onclick="openTab(this, 'EventInfo')" title="Event info">Event info</button>
         </div>
 
         <div id="Options" class="tabcontent" style="display:block;">
@@ -173,7 +173,7 @@
                 <tr title="The style of the control.">
                     <td>Style:</td>
                     <td>
-                        <select id="style" onchange="update()">
+                        <select id="style" onchange="update()" title="Style">
                             <option>auto</option>
                             <option>dark</option>
                             <option selected="selected">light</option>
@@ -182,42 +182,42 @@
                 </tr>
                 <tr title="Shows the users location on the map using a marker.">
                     <td>Show user location:</td>
-                    <td><input id="showUserLocation" type="checkbox" checked="checked" onclick="update()" /></td>
+                    <td><input id="showUserLocation" type="checkbox" checked="checked" onclick="update()" title="Show user location" /></td>
                 </tr>
                 <tr title="Shows the users current location on the map and updates it as they move.">
                     <td>Track user location:</td>
-                    <td><input id="trackUserLocation" type="checkbox" onclick="update()" /></td>
+                    <td><input id="trackUserLocation" type="checkbox" onclick="update()" title="Track user location" /></td>
                 </tr>
                 <tr title="Specifies that if the speed or heading values are missing in the geolocation position, it will calculate these values based on the last known position.">
                     <td>Calculate missing values:</td>
-                    <td><input id="calculateMissingValues" type="checkbox" onclick="update()" /></td>
+                    <td><input id="calculateMissingValues" type="checkbox" onclick="update()" title="Calculate missing values" /></td>
                 </tr>
                 <tr title="Specifies if the map camera should update as the position moves. When set to `true`, the map camera will update to the new position, unless the user has interacted with the map.">
                     <td>Update map camera:</td>
-                    <td><input id="updateMapCamera" type="checkbox" checked="checked" onclick="update()" /></td>
+                    <td><input id="updateMapCamera" type="checkbox" checked="checked" onclick="update()" title="Update map camera" /></td>
                 </tr>
                 <tr title="Sets the color of the marker.">
                     <td>Marker color:</td>
-                    <td><input id="markerColor" type="color" value="#1e90ff" onchange="update()" /></td>
+                    <td><input id="markerColor" type="color" value="#1e90ff" onchange="update()" title="Marker color" /></td>
                 </tr>
                 <tr title="The maximum zoom level the map can be zoomed out. If zoomed out more than this when location updates, the map will zoom into this level. If zoomed in more than this level, the map will maintain its current zoom level.">
                     <td>Max zoom</td>
                     <td>
                         <form oninput="maxz.value=maxZoom.value">
-                            <input type="range" id="maxZoom" value="15" min="0" max="24" step="1" onchange="update()" />
+                            <input type="range" id="maxZoom" value="15" min="0" max="24" step="1" onchange="update()" title="Max zoom" />
                             <output name="maxz" for="maxZoom">0</output>
                         </form>
                     </td>
                 </tr>
                 <tr>
                     <td>Position option: Enable high accuracy</td>
-                    <td><input id="enableHighAccuracy" type="checkbox" onclick="update()" /></td>
+                    <td><input id="enableHighAccuracy" type="checkbox" onclick="update()" title="Enable high accuracy" /></td>
                 </tr>
                 <tr>
                     <td>Position option: Maximum Age</td>
                     <td>
                         <form oninput="maxa.value=maximumAge.value">
-                            <input type="range" id="maximumAge" value="0" min="0" max="60000" step="100" onchange="update()" />
+                            <input type="range" id="maximumAge" value="0" min="0" max="60000" step="100" onchange="update()" title="Maximum Age" />
                             <output name="maxa" for="maximumAge">0</output>
                         </form>
                     </td>
@@ -226,19 +226,19 @@
                     <td>Position option: Timeout</td>
                     <td>
                         <form oninput="to.value=timeout.value">
-                            <input type="range" id="timeout" value="6000" min="0" max="60000" step="100" onchange="update()" />
+                            <input type="range" id="timeout" value="6000" min="0" max="60000" step="100" onchange="update()" title="Timeout" />
                             <output name="to" for="timeout">0</output>
                         </form>
                     </td>
                 </tr>
             </table>
             <br />
-            The position options are for the <a href="https://www.w3schools.com/html/html5_geolocation.asp" target="_blank">HTML5 Geolocation API</a>.
+            The position options are for the <a href="https://www.w3schools.com/html/html5_geolocation.asp" target="_blank" title="HTML5 Geolocation API">HTML5 Geolocation API</a>.
         </div>
 
         <div id="EventInfo" class="tabcontent">
             <b>Event info</b><br />
-            <textarea id="eventInfo"></textarea>
+            <textarea id="eventInfo" title="Event info"></textarea>
         </div>
     </fieldset>
 

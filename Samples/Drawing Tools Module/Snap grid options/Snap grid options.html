@@ -160,28 +160,28 @@
             <table>
                 <tr title="Specifies if the snapping functions are enabled. If not, the original shapes and positions will be returned.">
                     <td>Enabled:</td>
-                    <td><input type="checkbox" onclick="enabled(this)" checked="checked" /></td>
+                    <td><input type="checkbox" onclick="enabled(this)" checked="checked" title="Enabled" /></td>
                 </tr>
                 <tr title="Specifies duplicate sequential positions should be removed when snapping.">
                     <td>Remove duplicates:</td>
-                    <td><input type="checkbox" onclick="removeDuplicates(this)" checked="checked" /></td>
+                    <td><input type="checkbox" onclick="removeDuplicates(this)" checked="checked" title="Remove duplicates" /></td>
                 </tr>
                 <tr title="Specifies the size of the snapping grid in pixels. The grid will be square and relative to the nearest integer zoom level. The grid will scale by a factor of 2 relative to physical real-world area with each zoom level.">
                     <td>Resolution:</td>
                     <td>
                         <form oninput="res.value=Resolution.value">
-                            <input type="range" id="Resolution" value="15" min="1" max="100" step="1" oninput="setResolution(this)" onchange="setResolution(this)" />
+                            <input type="range" id="Resolution" value="15" min="1" max="100" step="1" oninput="setResolution(this)" onchange="setResolution(this)" title="Resolution" />
                             <output name="res" for="Resolution">15</output>
                         </form>
                     </td>
                 </tr>
                 <tr title="Specifies if grid lines should be displayed on the map.">
                     <td>Show grid:</td>
-                    <td><input type="checkbox" onclick="showGrid(this)" checked="checked" /></td>
+                    <td><input type="checkbox" onclick="showGrid(this)" checked="checked" title="Show grid" /></td>
                 </tr>
                 <tr title="Specifies if a Douglas-Peucker simplification should occur while snapping to create smoother lines.">
                     <td>Simplify:</td>
-                    <td><input type="checkbox" onclick="simplify(this)" checked="checked" /></td>
+                    <td><input type="checkbox" onclick="simplify(this)" checked="checked" title="Simplify" /></td>
                 </tr>
             </table>
 
@@ -193,7 +193,7 @@
             <table>
                 <tr title="The color used to outline the line.">
                     <td>Stroke Color:</td>
-                    <td><input type="color" id="StrokeColor" value="#c3a77e" oninput="editStrokeColor(this)" onchange="editStrokeColor(this)" /></td>
+                    <td><input type="color" title="Stroke Color" id="StrokeColor" value="#c3a77e" oninput="editStrokeColor(this)" onchange="editStrokeColor(this)" /></td>
                 </tr>
             </table>
         </fieldset>

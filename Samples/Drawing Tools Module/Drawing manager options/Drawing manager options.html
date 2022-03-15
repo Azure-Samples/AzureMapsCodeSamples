@@ -128,12 +128,12 @@
         <table>
             <tr>
                 <td>Show toolbar:</td>
-                <td><input type="checkbox" onclick="showToolbar(this)" checked="checked" /></td>
+                <td><input type="checkbox" onclick="showToolbar(this)" checked="checked" title="Show toolbar" /></td>
             </tr>
             <tr title="Specifies mode the drawing manager is in.">
                 <td>Drawing mode:</td>
                 <td>
-                    <select onchange="updateDraiwngMode(this)">
+                    <select onchange="updateDraiwngMode(this)" title="Drawing mode">
                         <option>draw-point</option>
                         <option>draw-line</option>
                         <option>draw-polygon</option>
@@ -148,7 +148,7 @@
             <tr title="Specifies how the user can interact with the map to draw shapes.">
                 <td>Interaction type:</td>
                 <td>
-                    <select onchange="updateInteractionType(this)">
+                    <select onchange="updateInteractionType(this)" title="Interaction type">
                         <option>click</option>
                         <option>freehand</option>
                         <option selected="selected">hybrid</option>
@@ -158,7 +158,7 @@
             <tr title="Specifies the minimum pixel distance the mouse must move before a new position is added to the shape when drawing freehand.">
                 <td>Freehand Interval:</td>
                 <td>
-                    <select onchange="updateFreehandInterval(this)">
+                    <select onchange="updateFreehandInterval(this)" title="Freehand Interval">
                         <option>1</option>
                         <option>2</option>
                         <option selected="selected">3</option>
@@ -172,11 +172,11 @@
             </tr>
             <tr title="Specifies if shapes should be draggable when editting.">
                 <td>Shape Dragging Enabled:</td>
-                <td><input type="checkbox" onclick="updateShapeDragging(this)" checked="checked" /></td>
+                <td><input type="checkbox" onclick="updateShapeDragging(this)" checked="checked" title="Shape Dragging Enabled" /></td>
             </tr>
             <tr title="Specifies if shapes can be rotated when editting.">
                 <td>Shape Rotation Enabled:</td>
-                <td><input type="checkbox" onclick="updateShapeRotation(this)" checked="checked" /></td>
+                <td><input type="checkbox" onclick="updateShapeRotation(this)" checked="checked" title="Shape Rotation Enabled" /></td>
             </tr>
         </table>
     </div>

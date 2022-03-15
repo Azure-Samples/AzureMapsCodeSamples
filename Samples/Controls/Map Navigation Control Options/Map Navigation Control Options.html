@@ -135,7 +135,7 @@
             <tr title="The position the control will be placed on the map. If not specified, the control will be located at the default position it defines.">
                 <td>Control Position:</td>
                 <td>
-                    <select id="controlPosition" onchange="addControls()">
+                    <select id="controlPosition" onchange="addControls()" title="Control Position">
                         <option>bottom-left</option>
                         <option>bottom-right</option>
                         <option>non-fixed</option>
@@ -147,7 +147,7 @@
             <tr title="The style of the control.">
                 <td>Control Style:</td>
                 <td>
-                    <select id="controlStyle" onchange="addControls()">
+                    <select id="controlStyle" onchange="addControls()" title="Control Style">
                         <option>dark</option>
                         <option selected="selected">light</option>
                     </select>
@@ -156,7 +156,7 @@
             <tr title="The extent to which the map will zoom with each click of the control.">
                 <td>Zoom Delta:</td>
                 <td>
-                    <select id="zoomControlDelta" onchange="addControls()">
+                    <select id="zoomControlDelta" onchange="addControls()" title="Zoom Delta">
                         <option selected="selected">1</option>
                         <option>2</option>
                         <option>3</option>
@@ -168,7 +168,7 @@
             <tr title="The angle that the map will tilt with each click of the control.">
                 <td>Pitch Delta:</td>
                 <td>
-                    <select id="pitchControlDelta" onchange="addControls()">
+                    <select id="pitchControlDelta" onchange="addControls()" title="Pitch Delta">
                         <option>5</option>
                         <option selected="selected">10</option>
                         <option>15</option>
@@ -184,7 +184,7 @@
             <tr title="The angle that the map will rotate with each click of the control.">
                 <td>Compass Rotation Delta:</td>
                 <td>
-                    <select id="compassControlRotationDelta" onchange="addControls()">
+                    <select id="compassControlRotationDelta" onchange="addControls()" title="Compass Rotation Delta">
                         <option>5</option>
                         <option>10</option>
                         <option selected="selected">15</option>
@@ -200,7 +200,7 @@
             <tr title="The name of the style to use when rendering the map. Available styles can be found in the supported styles article.">
                 <td>Picker Styles:</td>
                 <td>
-                    <select id="pickerStyles" multiple="multiple" onchange="addControls()">
+                    <select id="pickerStyles" multiple="multiple" onchange="addControls()" title="Picker Styles">
                         <option value="blank">blank</option>
                         <option value="blank_accessible">blank_accessible</option>
                         <option value="grayscale_dark" selected="selected">grayscale_dark</option>
@@ -218,7 +218,7 @@
             <tr title="The style of the control.">
                 <td>Style Picker Layout:</td>
                 <td>
-                    <select id="pickerLayout" onchange="addControls()">
+                    <select id="pickerLayout" onchange="addControls()" title="Style Picker Layout">
                         <option selected="selected">icons</option>
                         <option>list</option>
                     </select>

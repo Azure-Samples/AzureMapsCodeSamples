@@ -194,18 +194,18 @@
 
     <div style="position:absolute;top:15px;left:15px;border-radius:5px;padding:5px;background-color:white;">
         Select weather overlay:
-        <select onchange="updateTileLayer(this)">
+        <select onchange="updateTileLayer(this)" title="Select weather overlay">
             <option value="microsoft.weather.radar.main" selected="selected">Radar</option>
             <option value="microsoft.weather.infrared.main">Infrared</option>
         </select>
         <br /><br />
-        <input type="button" value="Play" onclick="layer.play();" />
-        <input type="button" value="Pause" onclick="layer.pause();" />
-        <input type="button" value="Stop" onclick="layer.stop();" />
-        <input type="button" value="Reset" onclick="layer.reset();" />
+        <input type="button" value="Play" title="Play" onclick="layer.play();" />
+        <input type="button" value="Pause" title="Pause" onclick="layer.pause();" />
+        <input type="button" value="Stop" title="Stop" onclick="layer.stop();" />
+        <input type="button" value="Reset" title="Reset" onclick="layer.reset();" />
         <br /><br />
         Speed:
-        <select onchange="setSpeed(this)">
+        <select onchange="setSpeed(this)" title="Speed">
             <option value="0.5">0.5x</option>
             <option value="1" selected="selected">1x</option>
             <option value="2">2x</option>

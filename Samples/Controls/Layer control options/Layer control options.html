@@ -308,13 +308,13 @@
             <tr title="Global title of the layer control.">
                 <td>Title:</td>
                 <td>
-                   <input type="text" oninput="setTitle(this)" />
+                   <input type="text" oninput="setTitle(this)" title="Title" />
                 </td>
             </tr>
             <tr title="How multiple layer groups are laid out.">
                 <td>Layout:</td>
                 <td>
-                    <select onchange="setLayout(this)">
+                    <select onchange="setLayout(this)" title="Layout">
                         <option>accordion</option>
                         <option selected="selected">carousel</option>
                         <option>list</option>                        
@@ -323,16 +323,16 @@
             </tr>
             <tr title="Specifies if the expand/collapse button show be displayed.">
                 <td>Show toggle:</td>
-                <td><input type="checkbox" onclick="showToggle(this)" checked="checked" /></td>
+                <td><input type="checkbox" onclick="showToggle(this)" checked="checked" title="Show toggle" /></td>
             </tr>
             <tr title="Specifies if the control should be minimized. Only works when showToggle is true.">
                 <td>Minimized:</td>
-                <td><input type="checkbox" onclick="setMinimized(this)" /></td>
+                <td><input type="checkbox" onclick="setMinimized(this)" title="Minimized" /></td>
             </tr>
             <tr title="The style of the control.">
                 <td>Style:</td>
                 <td>
-                    <select onchange="setStyle(this)">
+                    <select onchange="setStyle(this)" title="Style">
                         <option>auto</option>
                         <option>auto-reverse</option>
                         <option>dark</option>
@@ -342,11 +342,11 @@
             </tr>
             <tr title="Specifies if the layer control is visible or not.">
                 <td>Visible:</td>
-                <td><input id="Visible" type="checkbox" onclick="setVisible(this)" checked="checked" /></td>
+                <td><input id="Visible" type="checkbox" onclick="setVisible(this)" checked="checked" title="Visible" /></td>
             </tr>
             <tr title="Specifies that the layer control should render in a element outside the map.">
                 <td>Container:</td>
-                <td><input type="checkbox" onclick="setContainerId(this)" /> show in test area</td>
+                <td><input type="checkbox" onclick="setContainerId(this)" title="Container"/> show in test area</td>
             </tr>
         </table>
 

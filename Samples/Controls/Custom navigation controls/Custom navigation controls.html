@@ -131,7 +131,7 @@
             }
 
                 .controlContainer .navSelect:hover {
-                    color: gray;
+                    color: black;
                 }
     </style>
 </head>
@@ -149,7 +149,7 @@
             <button class="navButton" onclick="rotateMap(-1)" title="Rotate Right">⟳</button>
             <button class="navButton" onclick="rotateMap(1)" title="Rotate Left">⟲</button>
 
-            <select class="navButton navSelect" onchange="mapStyleChanged(this)">
+            <select class="navButton navSelect" onchange="mapStyleChanged(this)" title="Map Style">
                 <option value="road" selected="selected">Road</option>
                 <option value="grayscale_dark">Dark Grayscale</option>
                 <option value="grayscale_light">Light Grayscale</option>

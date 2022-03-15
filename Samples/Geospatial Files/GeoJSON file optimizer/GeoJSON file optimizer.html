@@ -291,7 +291,7 @@
         
         <br /><br />
         
-        <input type="file" id="file-input" accept=".json,.geojson" onchange="loadFile()" />
+        <input title="Select GeoJSON file" type="file" id="file-input" accept=".json,.geojson" onchange="loadFile()" />
         
         <br /><br />
 
@@ -299,7 +299,7 @@
             <tr>
                 <td>Number of decimal places:</td>
                 <td>
-                    <select id="numDigits">
+                    <select id="numDigits" title="Number of decimal places">
                         <option>0</option>
                         <option>1</option>
                         <option>2</option>
@@ -317,7 +317,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><input type="button" onclick="optimizeData()" value="Optimize" /></td>
+                <td colspan="2"><input type="button" onclick="optimizeData()" value="Optimize" title="Optimize" /></td>
             </tr>
             <tr><td colspan="2" id="output"></td></tr>
         </table>

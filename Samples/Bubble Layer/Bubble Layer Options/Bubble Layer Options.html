@@ -214,9 +214,9 @@
         <br /><br />
 
         <div class="tab">
-            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')">Base Options</button>
-            <button class="tablinks" onclick="openTab(this, 'BubbleLayerOptions')">Bubble Options</button>
-            <button class="tablinks" onclick="openTab(this, 'Code')">Code</button>
+            <button class="tablinks active" onclick="openTab(this, 'StyleOptions')" title="Base Options">Base Options</button>
+            <button class="tablinks" onclick="openTab(this, 'BubbleLayerOptions')" title="Bubble Options">Bubble Options</button>
+            <button class="tablinks" onclick="openTab(this, 'Code')" title="Code">Code</button>
         </div>
 
         <div id="StyleOptions" class="tabcontent" style="display:block;">
@@ -225,7 +225,7 @@
                     <td>Min Zoom:</td>
                     <td>
                         <form oninput="minz.value=MinZoom.value">
-                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" title="Min Zoom" />
                             <output name="minz" for="MinZoom">0</output>
                         </form>
                     </td>
@@ -234,14 +234,14 @@
                     <td>Max Zoom:</td>
                     <td>
                         <form oninput="maxz.value=MaxZoom.value">
-                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" title="Max Zoom" />
                             <output name="maxz" for="MaxZoom">24</output>
                         </form>
                     </td>
                 </tr>
                 <tr title="Specifies if the layer is visible or not.">
                     <td>Visible:</td>
-                    <td><input id="Visible" type="checkbox" onclick="updateBubbleLayer()" checked="checked" /></td>
+                    <td><input id="Visible" type="checkbox" onclick="updateBubbleLayer()" checked="checked" title="Visible" /></td>
                 </tr>
             </table>
 
@@ -261,33 +261,33 @@
                     <td>Radius</td>
                     <td>
                         <form oninput="radius.value=Radius.value">
-                            <input type="range" id="Radius" value="5" min="0" max="50" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <input type="range" id="Radius" value="5" min="0" max="50" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" title="Radius" />
                             <output name="radius" for="Radius">5</output>
                         </form>
                     </td>
                 </tr>
                 <tr title="The color to fill the circle with.">
                     <td>Color:</td>
-                    <td><input type="color" id="Color" value="#1A73AA" onchange="updateBubbleLayer()" /></td>
+                    <td><input type="color" id="Color" value="#1A73AA" onchange="updateBubbleLayer()" title="Color" /></td>
                 </tr>
                 <tr title="A number between 0 and 1 that indicates the opacity at which the circles will be drawn.">
                     <td>Opacity</td>
                     <td>
                         <form oninput="opacity.value=Opacity.value">
-                            <input type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <input type="range" id="Opacity" value="1" min="0" max="1" step="0.1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" title="Opacity" />
                             <output name="opacity" for="Opacity">1</output>
                         </form>
                     </td>
                 </tr>
                 <tr title="The color of the circles' outlines.">
                     <td>Stroke Color:</td>
-                    <td><input type="color" id="StrokeColor" value="#FFFFFF" onchange="updateBubbleLayer()" /></td>
+                    <td><input type="color" id="StrokeColor" value="#FFFFFF" onchange="updateBubbleLayer()" title="Stroke Color" /></td>
                 </tr>
                 <tr title="A number between 0 and 1 that indicates the opacity at which the circles' outlines will be drawn.">
                     <td>Stroke Opacity</td>
                     <td>
                         <form oninput="strokeOpacity.value=StrokeOpacity.value">
-                            <input type="range" id="StrokeOpacity" value="1" min="0" max="1" step="0.1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <input type="range" id="StrokeOpacity" value="1" min="0" max="1" step="0.1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" title="Stroke Opacity" />
                             <output name="strokeOpacity" for="StrokeOpacity">1</output>
                         </form>
                     </td>
@@ -296,7 +296,7 @@
                     <td>Stroke Width</td>
                     <td>
                         <form oninput="strokeWidth.value=StrokeWidth.value">
-                            <input type="range" id="StrokeWidth" value="2" min="0" max="10" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <input type="range" id="StrokeWidth" value="2" min="0" max="10" step="1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" title="Stroke Width" />
                             <output name="strokeWidth" for="StrokeWidth">2</output>
                         </form>
                     </td>
@@ -305,7 +305,7 @@
                     <td>Blur</td>
                     <td>
                         <form oninput="blur.value=Blur.value">
-                            <input type="range" id="Blur" value="0" min="0" max="1" step="0.1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" />
+                            <input type="range" id="Blur" value="0" min="0" max="1" step="0.1" oninput="updateBubbleLayer()" onchange="updateBubbleLayer()" title="Blur" />
                             <output name="blur" for="Blur">0</output>
                         </form>
                     </td>
@@ -313,7 +313,7 @@
                 <tr title="Specifies the orientation of circle when map is pitched.">
                     <td>Pitch Alignment:</td>
                     <td>
-                        <select id="PitchAlignment" onchange="updateBubbleLayer()">
+                        <select id="PitchAlignment" onchange="updateBubbleLayer()" title="Pitch Alignment">
                             <option value="map">map</option>
                             <option value="viewport" selected="selected">viewport</option>
                         </select>
@@ -324,8 +324,8 @@
 
         <div id="Code" class="tabcontent">
             <textarea id="CodeOutput"></textarea><br /><br />
-            <input id="RemoveDefaults" type="checkbox" onclick="updateBubbleLayer()" checked="checked" /> Remove defaults
-            <button class="copyBtn" data-clipboard-target="#CodeOutput">Copy to clipboard</button>
+            <input id="RemoveDefaults" type="checkbox" onclick="updateBubbleLayer()" checked="checked" title="Remove defaults" /> Remove defaults
+            <button class="copyBtn" data-clipboard-target="#CodeOutput" title="Copy to clipboard">Copy to clipboard</button>
         </div>
     </fieldset>
 

@@ -140,20 +140,20 @@
             <tr title="The title of the individual legend.">
                 <td>Subtitle:</td>
                 <td>
-                   <input type="text" oninput="updateLegend('subtitle', this)" />
+                   <input type="text" oninput="updateLegend('subtitle', this)" title="Subtitle" />
                 </td>
             </tr>
             <tr title="The footer of the legend.">
                 <td>Footer:</td>
                 <td>
-                   <input type="text" oninput="updateLegend('footer', this)" />
+                   <input type="text" oninput="updateLegend('footer', this)" title="Footer" />
                 </td>
             </tr>
             <tr title="An integer specifying the minimum zoom level to render the legend at.">
                 <td>Min Zoom:</td>
                 <td>
                     <form oninput="minz.value=MinZoom.value">
-                        <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" onchange="updateLegendRange('minZoom', this)" />
+                        <input type="range" id="MinZoom" value="0" min="0" max="24" step="1" onchange="updateLegendRange('minZoom', this)" title="Min Zoom" />
                         <output name="minz" for="MinZoom">0</output>
                     </form>
                 </td>
@@ -162,7 +162,7 @@
                 <td>Max Zoom:</td>
                 <td>
                     <form oninput="maxz.value=MaxZoom.value">
-                        <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" onchange="updateLegendRange('maxZoom', this)" />
+                        <input type="range" id="MaxZoom" value="24" min="0" max="24" step="1" onchange="updateLegendRange('maxZoom', this)" title="Max Zoom" />
                         <output name="maxz" for="MaxZoom">24</output>
                     </form>
                 </td>
@@ -170,7 +170,7 @@
             <tr title="The orientation of the legend. ">
                 <td>Orientation:</td>
                 <td>
-                    <select onchange="updateLegend('orientation', this)">
+                    <select onchange="updateLegend('orientation', this)" title="Orientation">
                         <option selected="selected">horizontal</option>
                         <option>vertical</option>
                     </select>
@@ -180,7 +180,7 @@
                 <td>Bar length:</td>
                 <td>
                     <form oninput="barLength.value=BarLength.value">
-                        <input type="range" id="BarLength" value="256" min="1" max="500" step="2" onchange="updateLegendRange('barLength', this)" />
+                        <input type="range" id="BarLength" value="256" min="1" max="500" step="2" onchange="updateLegendRange('barLength', this)" title="Bar length" />
                         <output name="barLength" for="BarLength">256</output>
                     </form>
                 </td>
@@ -189,7 +189,7 @@
                 <td>Bar thickness:</td>
                 <td>
                     <form oninput="barThickness.value=BarThickness.value">
-                        <input type="range" id="BarThickness" value="20" min="1" max="50" step="1" onchange="updateLegendRange('barThickness', this)" />
+                        <input type="range" id="BarThickness" value="20" min="1" max="50" step="1" onchange="updateLegendRange('barThickness', this)" title="Bar thickness" />
                         <output name="barThickness" for="BarThickness">20</output>
                     </form>
                 </td>
@@ -198,7 +198,7 @@
                 <td>Font size:</td>
                 <td>
                     <form oninput="fontSize.value=FontSize.value">
-                        <input type="range" id="FontSize" value="12" min="1" max="24" step="1" onchange="updateLegendRange('fontSize', this)" />
+                        <input type="range" id="FontSize" value="12" min="1" max="24" step="1" onchange="updateLegendRange('fontSize', this)" title="Font size" />
                         <output name="fontSize" for="FontSize">12</output>
                     </form>
                 </td>
@@ -207,7 +207,7 @@
                 <td>Tick size:</td>
                 <td>
                     <form oninput="tickSize.value=TickSize.value">
-                        <input type="range" id="TickSize" value="5" min="0" max="20" step="1" onchange="updateLegendRange('tickSize', this)" />
+                        <input type="range" id="TickSize" value="5" min="0" max="20" step="1" onchange="updateLegendRange('tickSize', this)" title="Tick size" />
                         <output name="tickSize" for="TickSize">5</output>
                     </form>
                 </td>

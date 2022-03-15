@@ -140,7 +140,7 @@
             <tr title="Specifies which buttons to display in the toolbar.">
                 <td>Buttons:</td>
                 <td>
-                    <select onchange="setButtons(this)" multiple="multiple">
+                    <select onchange="setButtons(this)" multiple="multiple" title="Buttons">
                         <option selected="selected">draw-point</option>
                         <option selected="selected">draw-line</option>
                         <option selected="selected">draw-polygon</option>
@@ -154,7 +154,7 @@
             <tr title="Specifies the number of columns to display the buttons with. ">
                 <td>Num columns:</td>
                 <td>
-                    <select onchange="setNumColumns(this)">
+                    <select onchange="setNumColumns(this)" title="Num columns">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -167,7 +167,7 @@
             <tr title="The position the control will be placed on the map. If not specified, the control will be located at the default position it defines.">
                 <td>Position:</td>
                 <td>
-                    <select onchange="positionToolbar(this)">
+                    <select onchange="positionToolbar(this)" title="Position">
                         <option>bottom-left</option>
                         <option>bottom-right</option>
                         <option selected="selected">non-fixed</option>
@@ -179,7 +179,7 @@
             <tr title="The style of the control.">
                 <td>Style:</td>
                 <td>
-                    <select onchange="styleToolbar(this)">
+                    <select onchange="styleToolbar(this)" title="Style">
                         <option>dark</option>
                         <option selected="selected">light</option>
                     </select>
@@ -187,11 +187,11 @@
             </tr>
             <tr>
                 <td>Visible:</td>
-                <td><input type="checkbox" onclick="showToolbar(this)" checked="checked" /></td>
+                <td><input type="checkbox" onclick="showToolbar(this)" checked="checked" title="Visible" /></td>
             </tr>
             <tr>
                 <td>Container ID:</td>
-                <td><input type="checkbox" onclick="setContainerId(this)" /> show in test area</td>
+                <td><input type="checkbox" onclick="setContainerId(this)" title="Container ID" /> show in test area</td>
             </tr>
         </table>
 
