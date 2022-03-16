@@ -62,7 +62,7 @@
             controls = document.getElementById('controls');
 
             //Populate the list of datasets.
-            var html = ['<select onchange="datasetChanged(this)">'];
+            var html = ['<select onchange="datasetChanged(this)" title="select dataset">'];
 
             for(var i=0; i < datasets.length; i++){
                 html.push(`<option value="${i}">${datasets[i].displayName}</option>`);
@@ -273,11 +273,11 @@
             <input type="button" value="Reset" onclick="updateAnimation('reset')"/> 
             <br/><br/>
 
-            <b>Follow:</b> <input id="followSymbol" type="checkbox" checked onclick="toggleFollow()"/>
+            <b>Follow:</b> <input id="followSymbol" type="checkbox" checked onclick="toggleFollow()" title="Follow"/>
             <br/><br/>
             
             <b>Speed:</b>       
-            <select onchange="setSpeed(this)">
+            <select onchange="setSpeed(this)" title="Speed">
                 <option value="0.5">0.5x</option>
                 <option value="1">1x</option>
                 <option value="2">2x</option>
