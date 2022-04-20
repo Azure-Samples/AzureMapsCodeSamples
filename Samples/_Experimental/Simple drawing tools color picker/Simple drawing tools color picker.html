@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Change drawing rendering style - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to customize the rendering of the drawing shapes in the drawing manager by accessing the rendering layers using the drawingManager.getLayers() function." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, drawing manager, paint, customize" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js"></script>
+
+    <script>
+        var map, drawingManager;
+        var activeShape;
+        var styles = {
+            strokeColor: '#000000',
+            fillColor: '#000000'
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                });
+
+                //Get the rendering layers from the drawing manager and make color styles expressions that grab the colors from the shape properties.
+                var layers = drawingManager.getLayers();
+                layers.lineLayer.setOptions({
+                    strokeColor: [
+                        'case',
+                        ['has', 'strokeColor'],
+                        ['get', 'strokeColor'],
+
+                        //Default color
+                        '#000000'
+                    ]
+                });
+
+                layers.polygonLayer.setOptions({
+                    fillColor: [
+                        'case',
+                        ['has', 'fillColor'],
+                        ['get', 'fillColor'],
+
+                        //Default color
+                        '#000000'
+                    ]
+                });
+
+                fixEditModeEvents(map, drawingManager);
+
+                //Get the shape that is being drawn and set the color.
+                map.events.add('drawingstarted', drawingManager, drawingStarted);
+                map.events.add('drawingcomplete', drawingManager, drawingComplete);
+            });
+        }
+
+        function drawingStarted(shape) {
+            activeShape = shape;
+            setInitialStyle(shape);
+        }
+
+        function drawingComplete(shape) {
+            activeShape = null;
+            setInitialStyle(shape);
+        }
+
+        function setInitialStyle(shape) {
+            //Check to see if the drawing has any style properties on it. 
+            //If it doesn't then it is a new shape that has just been drawn. 
+            //Otherwise it was a shape that was in edit mode and we shouldn't update the styles.
+
+            if (shape) {
+                var prop = shape.getProperties();
+
+                if (typeof prop.strokeColor === 'undefined' &&
+                    typeof prop.fillColor === 'undefined') {
+                    //Check to see if the current shape is a LineString or MultiLineString.
+                    if (shape.getType().indexOf('LineString') !== -1) {
+                        shape.setProperties(Object.assign(shape.getProperties(), { strokeColor: styles.strokeColor }));
+                    } else if (shape.getType().indexOf('Polygon') !== -1 || shape.isCircle()) {
+                        shape.setProperties(Object.assign(shape.getProperties(), { fillColor: styles.fillColor }));
+                    }
+                }
+            }
+        }
+
+        function changeColor(shapeType, elm) {
+            if (shapeType === 'LineString') {
+                styles.strokeColor = elm.value;
+
+                if (activeShape && activeShape.getType().indexOf('LineString') !== -1) {
+                    activeShape.setProperties(Object.assign(activeShape.getProperties(), { strokeColor: styles.strokeColor }));
+                }
+            } else if (shapeType === 'Polygon') {
+                styles.fillColor = elm.value;
+
+                if (activeShape && (activeShape.getType().indexOf('Polygon') !== -1 || shape.isCircle())) {
+                    activeShape.setProperties(Object.assign(activeShape.getProperties(), { fillColor: styles.fillColor }));
+                }
+            }
+        }
+
+        function fixEditModeEvents(map, drawingManager) {
+            var _activeShape;
+            var _isChanging = false;
+
+            //If the drawing mode changed and there is an active shape, fire events for completing the edit.
+            map.events.add('drawingmodechanged', drawingManager, (e) => {
+                if (_activeShape) {
+                    shapeEditComplete();
+                }
+            });
+
+            //Currently there is a bug where the drawingchanged, drawingchanging, drawingcomplete, and drawingstarted events are not firing when in edit mode. This is an attempt to work around that.
+
+            //Monitor changes to shapes in the data source. Any changes should trigger the drawingchanging event.
+
+            var layers = drawingManager.getLayers();
+
+            //When a shape is clicked, and drawing manager is in edit mode, it has been selected to be editted/changed.
+            map.events.add('click', layers.pointLayer, layerClicked);
+            map.events.add('mousedown', layers.lineLayer, layerClicked);
+            map.events.add('click', layers.polygonLayer, layerClicked);
+
+            function layerClicked(e) {
+                if (drawingManager.getOptions().mode === 'edit-geometry') {
+                    var s = e.shapes[0];
+
+                    //If a different shape is clicked, need to first events to stop that drawing/editting.
+                    if (_activeShape !== s) {
+                        shapeEditComplete();
+                    }
+
+                    map.events.invoke('drawingstarted', drawingManager, s);
+
+                    //Monitor the shape for changes when in edit mode.
+                    map.events.add('shapechanged', s, shapeChanged);
+                    _activeShape = s;
+                    _isChanging = true;
+                }
+            }
+
+            //When in edit mode, if the active shape has changed, fire it. When in edit mode, the mouse up occurs when shape or drag handle is dragged and released. 
+            map.events.add('mouseup', mapMouseUp);
+
+            function mapMouseUp(e) {
+                //TODO: check to see if the mouse was over the active shape.
+                if (drawingManager.getOptions().mode === 'edit-geometry' && _isChanging) {
+                    var eventOverActiveShape = false;
+
+                    if (e.shapes) {
+                        e.shapes.forEach(s => {
+                            eventOverActiveShape |= (s === _activeShape);
+                        });
+                    }
+
+                    if (eventOverActiveShape) {
+                        map.events.invoke('drawingchanged', drawingManager, _activeShape);
+                    }
+                }
+            }
+
+            function shapeEditComplete() {
+                if (_activeShape) {
+                    //If the shape was changed in any way, fire the drawingchanged event.
+                    if (_isChanging) {
+                        //Fire the drawingchanged event.
+                        map.events.invoke('drawingchanged', drawingManager, _activeShape);
+
+                        _isChanging = false;
+                    }
+
+                    //Stop monitoring the shape for edits.
+                    map.events.remove('shapechanged', _activeShape, shapeChanged);
+
+                    //Fire the drawingcomplete event.
+                    map.events.invoke('drawingcomplete', drawingManager, _activeShape);
+
+                    _activeShape = null;
+                }
+            }
+
+            function shapeChanged() {
+                //Fire the drawingchanged event.
+                map.events.invoke('drawingchanging', drawingManager, _activeShape);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:white;padding:10px;border-radius:10px;">
+        <table>
+            <tr><td>Line color:</td><td><input type="color" onchange="changeColor('LineString', this)" oninput="changeColor(this)" value="#000000" /></td></tr>
+            <tr><td>Polygon color:</td><td><input type="color" onchange="changeColor('Polygon', this)" oninput="changeColor(this)" value="#000000" /></td></tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Change drawing rendering style</legend>
+        This sample shows how to customize the rendering of the drawing shapes in the drawing manager by
+        accessing the rendering layers using the <b>drawingManager.getLayers()</b> function.
+        Drag handles that appear for coordinates when editting are HTML markers, and can be styled by setting the <b>dragHandleStyle</b> and <b>secondaryDragHandleStyle</b> drawing manager options.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Morph shape animation - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate the morphing of a shape from one geometry to another." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animation, animate, animations, point, line, linestring, polygon, geometries, morph" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the animation module. -->
+    <script src="/lib/azure-maps-animations.min.js"></script>
+
+    <script>
+        var map, polygon, animation;
+
+        var data = [
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "Polygon","coordinates": [[[-114.96093,44.08758],[-101.07421,38.95940],[-97.91015,52.37559],[-114.96093,44.08758]]]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "Polygon","coordinates": [[[-73.125,24.36711],[-52.20703,24.36711],[-52.20703,37.43997],[-73.125,37.43997],[-73.125,24.36711]]]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "LineString","coordinates": [[-83.32031,44.08758],[-74.53125,51.39920],[-59.41406,47.75409],[-50.97656,59.35559],[-37.61718,51.83577],[-45.35156,45.33670],[-51.67968,44.08758]]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "Point","coordinates": [-99.14062,23.56398]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "Point","coordinates": [-34.45312,30.75127]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "Point","coordinates": [-13.35937,55.77657]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "MultiPoint","coordinates": [[-68.55468,8.75479],[-31.99218,-7.71099],[-20.39062,23.56398],[-41.48437,8.40716],[-49.57031,15.96132]]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "LineString","coordinates": [[-10.54687,31.05293],[7.03125,-14.94478],[52.38281,-31.95216],[74.53125,-24.20688],[67.5,11.86735]]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "Polygon","coordinates": [[[-10.54687,31.05293],[7.03125,-14.94478],[52.38281,-31.95216],[74.53125,-24.20688],[67.5,11.86735],[59.0625,-17.64402],[43.24218,8.40716],[50.27343,26.11598],[58.35937,37.99616],[49.21875,46.31658],[35.50781,44.59046],[22.85156,34.01624],[9.14062,42.81152],[-10.54687,31.05293]]]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "MultiLineString","coordinates": [[[-80.85937,-53.95608],[-15.11718,-53.95608],[-15.11718,-22.59372],[-80.85937,-22.59372],[-80.85937,-53.95608]],[[-63.28125,-47.75409],[-28.47656,-47.75409],[-28.47656,-31.95216],[-63.28125,-31.95216],[-63.28125,-47.75409]]]}
+            },
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {"type": "MultiPolygon","coordinates": [[[[22.14843,-42.03297],[12.65625,-54.97761],[52.03125,-55.17886],[47.46093,-41.77131],[22.14843,-42.03297]]],[[[52.73437,-41.24477],[60.46875,-54.16243],[88.94531,-39.36827],[78.75,-32.84267],[52.73437,-41.24477]]]]}
+            }
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                polygon = new atlas.Shape(data[0]);
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add the data to the data source.
+                datasource.add(polygon);
+
+                //Add a layer for rendering polygon data. 
+                map.layers.add([
+                    new atlas.layer.PolygonLayer(datasource, null, { 
+                        fillColor: 'red',
+                        filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]
+                    }),
+                    new atlas.layer.LineLayer(datasource, null, { 
+                        strokeColor: 'red',
+                        strokeWidth: 5,
+                        filter: ['any', ['==', ['geometry-type'], 'LineString'], ['==', ['geometry-type'], 'MultiLineString']]
+                    }),
+                    new atlas.layer.BubbleLayer(datasource, null, { filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']]})
+                ]);
+
+                //Morph to a new random shape every 2 seconds.
+                animation = atlas.animations.interval(2000, function(){
+                    atlas.animations.morph(polygon, data[Math.round(Math.random()*(data.length - 1))].geometry, { 
+                        duration: 1500, 
+                        autoPlay: true 
+                    });
+                });
+
+                //Start playing the animation.
+                animation.play();
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:white;padding:5px;">
+        <input type="button" value="Play" onclick="animation.play()" />
+        <input type="button" value="Pause" onclick="animation.pause()" />
+        <input type="button" value="Stop" onclick="animation.stop()"/>
+        <input type="button" value="Reset" onclick="animation.reset()"/>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Morph shape animation</legend>
+        This sample shows how to animate the morphing of a shape from one geometry to another. 
+        This sample uses the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank">Azure Maps Animation module</a>
+    </fieldset>
+</body>
+</html>

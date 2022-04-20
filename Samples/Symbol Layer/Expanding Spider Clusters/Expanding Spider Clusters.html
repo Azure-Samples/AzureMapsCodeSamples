@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Expanding Spider Clusters - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, spider" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load the code for the Spider Cluster Manager. -->
+    <script src="/lib/azure-maps-spider-clusters.min.js"></script>
+
+    <script>
+        var map, datasource, popup, spiderManager;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-110, 50],
+                zoom: 2,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a popup.
+                popup = new atlas.Popup();
+
+                //Hide popup when user clicks or moves the map.
+                map.events.add('click', hidePopup);
+                map.events.add('movestart', hidePopup);
+
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource(null, {
+                    //Tell the data source to cluster point data.
+                    cluster: true,
+
+                    //The radius in pixels to cluster points together.
+                    clusterRadius: 45,
+
+                    //The maximium zoom level in which clustering occurs.
+                    //If you zoom in more than this, all points are rendered as symbols.
+                    clusterMaxZoom: 15
+                });
+                map.sources.add(datasource);
+
+                //Load some point data into the data source.
+                datasource.importDataFromUrl('/data/geojson/SamplePoiDataSet.json');
+
+                //Create a layer for rendering clustered data in the data source.
+                var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    //Scale the size of the clustered bubble based on the number of points inthe cluster.
+                    radius: [
+                        'step',
+                        ['get', 'point_count'],
+                        20,         //Default of 20 pixel radius.
+                        100, 30,    //If point_count >= 100, radius is 30 pixels.
+                        750, 40     //If point_count >= 750, radius is 40 pixels.
+                    ],
+
+                    //Change the color of the cluster based on the value on the point_cluster property of the cluster.
+                    color: [
+                        'step',
+                        ['get', 'point_count'],
+                        'rgba(0,255,0,0.8)',            //Default to green. 
+                        100, 'rgba(255,255,0,0.8)',     //If the point_count >= 100, color is yellow.
+                        750, 'rgba(255,0,0,0.8)'        //If the point_count >= 100, color is red.
+                    ],
+                    strokeWidth: 0,
+                    blur: 0.5,
+                    filter: ['has', 'point_count'] //Only rendered data points which have a point_count property, which clusters do.
+                });
+
+                //Create a layer to render the individual locations.
+                var shapeLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                });
+
+                //Add the clusterBubbleLayer and two additional layers to the map.
+                map.layers.add([
+                    clusterBubbleLayer,
+
+                    //Create a symbol layer to render the count of locations in a cluster.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            image: 'none' //Hide the icon image.
+                        },
+                        textOptions: {
+                            textField: '{point_count_abbreviated}',
+                            offset: [0, 0.4]
+                        }
+                    }),
+
+                    shapeLayer
+                ]);
+
+                //Create an instance of the spider manager.
+                spiderManager = new atlas.SpiderClusterManager(map, clusterBubbleLayer, shapeLayer);
+
+                //Add event handler for when a feature is selected.
+                map.events.add('featureSelected', spiderManager, function(e) {
+                    if (e.cluster) {
+                        showPopup(e.cluster.geometry.coordinates, e.shape.getProperties(), [0, 0]);
+                    } else {
+                        showPopup(e.shape.getCoordinates(), e.shape.getProperties(), [0, -20]);
+                    }
+                });
+
+                //Add event handler for when a feature is unselected.
+                map.events.add('featureUnselected', spiderManager, function() {
+                    hidePopup();
+                });
+            });
+        }
+
+        function showPopup(position, properties, pixelOffset) {
+            popup.setOptions({
+                //Update the content of the popup.
+                content: atlas.PopupTemplate.applyTemplate(properties),
+
+                //Update the position of the popup with the symbols coordinate.
+                position: position,
+
+                //Offset the popups position for better alignment with the layer.
+                pixelOffset: pixelOffset
+            });
+
+            //Open the popup.
+            popup.open(map);
+        }
+
+        function hidePopup() {
+            popup.close();
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Expanding Spider Clusters</legend>
+        This sample shows how to visualize the contents of a cluster as a expanded spider cluster layout. 
+        If you click on a cluster, and it has less than 100 features in it, it will generate each individual location in the cluster 
+        and layout it out in a spiral around the cluster, connected by a line.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-spider-clusters" target="_blank">Azure Maps Spider Clusters module</a>.
+    </fieldset>
+</body>
+</html>

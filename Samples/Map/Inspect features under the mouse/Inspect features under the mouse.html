@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Inspect features under the mouse - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to access any rendered feature on the map, whether it came from a vector tile source, a GeoJSON file, or is part of the base map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, vector tiles, inspect features, base map, basemap, access roads" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Change the cursor of the mouse when it is over the map to be a pointer.
+            map.getCanvasContainer().style.cursor = 'pointer';
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Add the Style Control to the map.
+                map.controls.add([
+                    new atlas.control.ZoomControl(),
+                    new atlas.control.PitchControl(),
+                    new atlas.control.CompassControl(),
+                    new atlas.control.StyleControl({ mapStyles: 'all' })
+                ], {
+                    position: 'top-right'
+                }); 
+
+                //Create a data source to load what should he highlighted.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer for rendering the highlighted data.
+                map.layers.add([
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'red',
+                        strokeWidth: 5,
+                        filter: ['!', ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']]] //Anything but a Point or a MultiPoint feature.
+                    }),
+
+                    new atlas.layer.BubbleLayer(datasource, null, {
+                        radius: 20,
+                        strokeColor: 'red',
+                        strokeWidth: 5,
+                        color: 'transparent',
+                        filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                    })
+                ]);
+
+                //Add a click event to query the map features.
+                map.events.add('click', function (e) {
+                    var features = e.shapes;
+
+                    if (features.length > 0) {
+                        var selected = features[0];
+
+                        //Optionally, loop over the features and filter out features that aren't a part of the data source or source layer you want to inspect. 
+                        //var layersToIgnore = ['Built-up area'];
+
+                        //for (var i = 0; i < features.length; i++) {
+                        //    if (features[i].layer && features[i].layer['source-layer'] && layersToIgnore.indexOf(features[i].layer['source-layer']) === -1) {
+                        //        selected = features[i];
+                        //        break;
+                        //    }
+                        //}
+
+                        //Overwrite the data in the data source.
+                        datasource.setShapes(selected);
+
+                        //Display the features JSON data in the side panel.
+                        document.getElementById('sidePanel').innerHTML = JSON.stringify(selected, null, 2);
+                    }
+                });
+
+                map.events.add('mousemove', function (e) {
+                    //Show layer geometry type and layer names when hovering over items on the map.
+
+                    var msg = [];
+
+                    if (e.shapes && e.shapes.length > 0) {
+                        msg.push(e.shapes.length, ' shapes hovered.<ul>');
+
+                        e.shapes.forEach(s => {
+                            if (s instanceof atlas.Shape) {
+                                msg.push('<li>Shape: ', s.getType(), '</li>');
+                            } else {
+                                msg.push('<li>Feature: ', s.geometry.type, ' (', s.source, ' -> ', s.sourceLayer, ')</li>');
+                            }
+                        });
+
+                        msg.push('</ul>');
+                    }
+
+                    document.getElementById('hoverPanel').innerHTML = msg.join('');
+                });
+
+                map.events.add('mouseout', function () {
+                    //Clear the hover panel when the mouse leaves the map.
+                    document.getElementById('hoverPanel').innerHTML = '';
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:calc(100% - 400px);min-width:290px;height:600px;float:left;"></div>
+
+    <div id="hoverPanel" style="position:absolute;top:10px;left:10px;background-color:white;padding:10px;border-radius:10px;"></div>
+
+    <div style="position:relative;width:380px;height:580px;float:left;overflow:auto;padding:10px;">
+        <pre id="sidePanel"></pre>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Inspect features under the mouse</legend>
+        This sample shows how to access any rendered feature on the map, whether it came from a vector tile source, a GeoJSON file, or is part of the base map. Click the map to get details about the top most rendered feature.
+    </fieldset>
+</body>
+</html>

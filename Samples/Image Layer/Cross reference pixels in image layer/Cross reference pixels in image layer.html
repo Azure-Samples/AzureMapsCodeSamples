@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cross reference pixels in image layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to cross reference pixel positions on a source image with the position of an image overlay on a map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, image, raster, layer, ground overlay, groundoverlay" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, marker, imageLayer, imageViewerHandle;
+
+        //The source image coordinates.
+        var source = [[0, 0], [736, 0], [736, 856]];
+
+        //The target coordinates of the source image to bind to the map.
+        var target = [[-76, 41], [-70, 41], [-70.0, 36]];
+
+        var originPosition, toggledPosition = [[-70, 40], [-60, 37], [-63, 30], [-72, 33]];
+
+        function GetMap() {
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-74.2, 40],
+                zoom: 4,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Get the source image viewer container and handle. 
+            imageViewerHandle = document.getElementById('imageViewerHandle');
+            var container = document.getElementById('imageViewerContainer');
+
+            //Add support for dragging a point over the source image container.
+            var drag = false;
+            container.onmousedown = function () {
+                drag = true;
+            };
+            container.onmouseup = function () {
+                drag = false;
+            };
+            container.onmousemove = function (e) {
+                if (drag) {
+                    //Get the pixel position of the image viewer handle, calculate the corresponding reference points on the map and update the marker position.
+                    var p = [e.offsetX, e.offsetY];
+
+                    imageViewerHandle.style.left = p[0] + 'px';
+                    imageViewerHandle.style.top = p[1] + 'px';
+
+                    if (imageLayer) {
+                        imageLayer.getPositions([p]).then((positions) => {
+                            var pos = positions[0];
+                            marker.setOptions({ position: pos });
+                        });
+                    }
+                }
+            };
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a draggable HTML marker.
+                marker = new atlas.HtmlMarker({
+                    draggable: true,
+                    color: 'red',
+                    position: map.getCamera().center
+                });
+
+                //Add a drag event to get the position of the marker. 
+                map.events.add('drag', marker, function () {
+                    var pos = marker.getOptions().position;
+
+                    //When the marker is dragged, calculate the pixel coordinate on the source image by repositioning the viewer handle.
+                    if (imageLayer) {
+                        imageLayer.getPixels([pos]).then((pixels) => {
+                            var pixel = pixels[0];
+
+                            imageViewerHandle.style.left = pixel[0] + 'px';
+                            imageViewerHandle.style.top = pixel[1] + 'px';
+                        });
+                    }
+                });
+
+                //Add the marker to the map.
+                map.markers.add(marker);
+
+                //Load the source image and gets its width/height, then calculate the ImageLayer coordinates using the reference points.
+                var img = new Image();
+                img.onload = function () {
+                    originPosition = atlas.layer.ImageLayer.getCoordinatesFromRefPoints(img.width, img.height, source, target);
+
+                    //Create the image layer and add it to the map.
+                    imageLayer = new atlas.layer.ImageLayer({
+                        url: '/images/pixel-art.jpg',
+                        coordinates: originPosition
+                    });
+                    map.layers.add(imageLayer);
+                };
+                img.src = '/images/pixel-art.jpg';
+            });
+        }
+
+        function toogleImageLayerPosition() {
+            var pos = imageLayer.getOptions().coordinates;
+
+            if (JSON.stringify(pos) === JSON.stringify(originPosition)) {
+                imageLayer.setOptions({ coordinates: toggledPosition });
+            } else {
+                imageLayer.setOptions({ coordinates: originPosition });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:50%;min-width:290px;height:600px;float:left;"></div>
+
+    <input type="button" value="Toggle image layer position" onclick="toogleImageLayerPosition()" style="position:absolute;top:10px;left:10px;"/>
+
+    <div id="imageViewerContainer" style="position:relative;width:50%;height:600px;overflow:hidden;float:left;">
+        <img src="/images/pixel-art.jpg" style="pointer-events:none;" />
+        <div id="imageViewerHandle" style="pointer-events:none;background-color:red;border:solid 2px #fff;width:8px;height:8px;margin-left:-5px;position:absolute;top:0px;left:0px;"></div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Cross reference pixels in image layer</legend>
+        This sample shows how to cross reference pixel positions on a source image with the position of an image overlay on a map.
+        Drag the red HTML marker or the square handle on the source image to see the corresponding source/target position displayed.
+        Rotate and pitch the map to see how the positions cross reference correctly.
+        If the image layer skews the source image, there may be a bit of distortion when cross referencing positions.
+    </fieldset>
+</body>
+</html>

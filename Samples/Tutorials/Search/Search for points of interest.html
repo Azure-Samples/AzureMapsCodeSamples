@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Search for points of interest - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This tutorial shows how to search for points of interest and display them on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, tutorials, search" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        function GetMap() {
+            
+            // Instantiate a map object
+            var map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering point data.
+                var resultLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: 'pin-round-darkblue',
+                        anchor: 'center',
+                        allowOverlap: true
+                    },
+                    textOptions: {
+                        anchor: "top"
+                    }
+                });
+
+                map.layers.add(resultLayer);
+
+                //Use MapControlCredential to share authentication between a map control and the service module.
+                var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+                // Construct the SearchURL object
+                var searchURL = new atlas.service.SearchURL(pipeline);
+
+                var query = 'gasoline-station';
+                var radius = 9000;
+                var lat = 47.64452336193245;
+                var lon = -122.13687658309935;
+
+                searchURL.searchPOI(atlas.service.Aborter.timeout(10000), query, {
+                    limit: 10,
+                    lat: lat,
+                    lon: lon,
+                    radius: radius,
+                    view: 'Auto'
+                }).then((results) => {
+
+                    // Extract GeoJSON feature collection from the response and add it to the datasource
+                    var data = results.geojson.getFeatures();
+                    datasource.add(data);
+
+                    // set camera to bounds to show the results
+                    map.setCamera({
+                        bounds: data.bbox,
+                        zoom: 10,
+                        padding: 15
+                    });
+                });
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+
+                //Add a mouse over event to the result layer and display a popup when this event fires.
+                map.events.add('mouseover', resultLayer, showPopup);
+
+                function showPopup(e) {
+                    //Get the properties and coordinates of the first shape that the event occurred on.
+
+                    var p = e.shapes[0].getProperties();
+                    var position = e.shapes[0].getCoordinates();
+
+                    //Create HTML from properties of the selected result.
+                    var html = ['<div style="padding:5px"><div><b>', p.poi.name,
+                        '</b></div><div>', p.address.freeformAddress,
+                        '</div><div>', position[1], ', ', position[0], '</div></div>'];
+
+                    //Update the content and position of the popup.
+                    popup.setPopupOptions({
+                        content: html.join(''),
+                        position: position
+                    });
+
+                    //Open the popup.
+                    popup.open(map);
+                }
+            });
+        }
+    </script>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #myMap {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body onload="GetMap()">
+    <div id="myMap"></div>
+</body>
+
+</html>

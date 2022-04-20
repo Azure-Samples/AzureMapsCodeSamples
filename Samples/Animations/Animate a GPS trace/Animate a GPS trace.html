@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Animate a GPS trace - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to smoothly animate a symbol along a route path taking into consideration timestamps for each point in the route path." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animate, animation, symbols, pushpins, markers, pins, line, linestring, polyline" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <!-- Add reference to the animation module. -->
+    <script src="/lib/azure-maps-animations.min.js"></script>
+    
+    <script>
+        var datasets = [
+            {
+                displayName: 'GPS Trace (GeoJSON)',                
+                url: '/data/geojson/GpsTrace.json',
+                timestampProperty: 'time'
+            },             
+            {
+                displayName: 'Hurricane Barry track (csv)',                
+                url: '/data/spatialcsv/hurricane_barry_track.csv',
+                timestampProperty: 'Date'
+            },           
+            {
+                displayName: 'Kuhkopfsteig trail (GPX)',                
+                url: '/data/Gpx/kuhkopfsteig-fv.gpx',
+
+                //Perform a linear interpolation on the `ele` property.
+                valueInterpolations: [{ propertyPath: 'ele' }]
+            },
+            {
+                displayName: 'Bike race GPS trace (GPX)',
+                url: '/data/Gpx/race-gps-trace.gpx',
+
+                //Perform a linear interpolation on the `ele` property.
+                valueInterpolations: [{ propertyPath: 'ele' }]
+            }
+        ];
+
+        var speed = 16;
+
+        var map, pin, datasource, pinSource;
+        var animation, infoPanel, controls;
+
+        function GetMap() {           
+            
+            //Cache reference to DOM elements for performance.
+            infoPanel = document.getElementById('infoPanel');
+            controls = document.getElementById('controls');
+
+            //Populate the list of datasets.
+            var html = ['<select onchange="datasetChanged(this)" title="select dataset">'];
+
+            for(var i=0; i < datasets.length; i++){
+                html.push(`<option value="${i}">${datasets[i].displayName}</option>`);
+            }
+
+            html.push('</select>');
+
+            document.getElementById('datasetList').innerHTML = html.join('');
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Load a custom image icon into the map resources.
+                map.imageSprite.createFromTemplate('arrow-icon', 'marker-arrow', 'teal', '#fff').then(function () {
+                    //Create a data source and add it to the map.
+                    datasource = new atlas.source.DataSource();
+
+                    //Create a second data source for the animated pin.
+                    pinSource = new atlas.source.DataSource();
+                    
+                    map.sources.add([datasource, pinSource]);
+                    
+                    //Add a simple data layer for rendering the data.
+                    layer = new atlas.layer.SimpleDataLayer(datasource);
+                    map.layers.add(layer);
+
+                    //Create a layer to render a symbol which we will animate.
+                    map.layers.add(new atlas.layer.SymbolLayer(pinSource, null, {
+                        iconOptions: {
+                            //Pass in the id of the custom icon that was loaded into the map resources.
+                            image: 'arrow-icon',
+
+                            //Anchor the icon to the center of the image.
+                            anchor: 'center',
+
+                            //Rotate the icon based on the rotation property on the point data.
+                            //The arrow icon being used in this case points down, so we have to rotate it 180 degrees.
+                            rotation: ['+', 180, ['get', 'heading']],
+
+                            //Have the rotation align with the map.
+                            rotationAlignment: 'map',
+
+                            //For smoother animation, ignore the placement of the icon. This skips the label collision calculations and allows the icon to overlap map labels. 
+                            ignorePlacement: true,
+
+                            //For smoother animation, allow symbol to overlap all other symbols on the map.
+                            allowOverlap: true
+                        },
+                        textOptions: {
+                            //For smoother animation, ignore the placement of the text. This skips the label collision calculations and allows the text to overlap map labels.
+                            ignorePlacement: true,
+
+                            //For smoother animation, allow text to overlap all other symbols on the map.
+                            allowOverlap: true
+                        }
+                    }));
+
+                    loadGPSTrace(0);
+                });
+            });
+        }
+
+        function datasetChanged(elm){
+            loadGPSTrace(parseInt(elm.value));
+        }
+
+        function loadGPSTrace(idx){
+
+            controls.style.display = 'none';
+            datasource.clear();
+            pinSource.clear();
+            infoPanel.innerText = '';
+
+            if(animation){
+                map.events.remove('onprogress', animation, onAnimationProgress);
+                animation.dispose();
+            }
+
+            var dataset = datasets[idx];
+
+            if(dataset){
+                //Read an XML file from a URL or pass in a raw XML string.
+                atlas.io.read(dataset.url, {
+                    //If the dataset is a GPX file, track and routes will capture waypoints for each point in the path.
+                    capturePathWaypoints: true
+                }).then(r => {
+                    if (r) {
+                        //Add the feature data to the data source.
+                        datasource.add(r);
+
+                        //If bounding box information is known for data, set the map view to it.
+                        if (r.bbox) {
+                            map.setCamera({ bounds: r.bbox, padding: 50 });
+                        }
+
+                        //Extract route waypoints from the features.
+                        var route = atlas.animations.extractRoutePoints(r, dataset.timestampProperty);
+                        if(route){
+                            //Create a pin and wrap with the shape class and add to data source.
+                            pin = new atlas.Shape(route[0]);
+                            pinSource.add(pin);
+
+                            //Create the animation.
+                            animation = atlas.animations.moveAlongRoute(route, pin, { 
+                                //Capture metadata so that data driven styling can be done.
+                                captureMetadata: true, 
+
+                                speedMultiplier: speed,
+
+                                //Provide details on any interpolations to perform on property values.
+                                valueInterpolations: dataset.valueInterpolations,
+
+                                //If following enabled, add a map to the animation.
+                                map: (document.getElementById('followSymbol').checked)? map: null,
+
+                                //Camera options to use when following.
+                                zoom: 15,
+                                pitch: 45
+                            });
+
+                            infoPanel.innerText = new Date(animation.getTimeSpan().begin).toUTCString();
+
+                            map.events.add('onprogress', animation, onAnimationProgress);
+
+                            controls.style.display = '';
+                        }
+                    }
+                });
+            }
+        }
+
+        function onAnimationProgress(e){
+            //Display the event data and some other info. 
+            var html = [`${new Date(e.timestamp).toUTCString()}<br/><br/><b>Event details:</b><br/><table>`];
+
+            Object.keys(e).forEach(key => {
+                html.push(`<tr><td>${key}</td><td>${e[key]}</td></tr>`);
+            });
+
+            //Calculate speed in KM/h so its more understandable to the user.
+            html.push(`<tr><td>Speed (converted)</td><td>${Math.round(atlas.math.convertSpeed(e.speed, 'metersPerSecond', 'kilometersPerHour')* 100)/100} km/h</td></tr>`);
+            html.push('</table>');
+            
+            infoPanel.innerHTML = html.join('');
+        }
+
+        function updateAnimation(fn){
+            if(animation && animation[fn]){
+                animation[fn]();
+            }
+        }
+
+        function toggleFollow(){
+            if(animation){
+                animation.setOptions({
+                    map: (animation.getOptions().map)? null : map
+                });
+            }
+        }
+
+        function setSpeed(e){
+            speed = parseFloat(e.value);
+
+            if(animation){
+                animation.setOptions({
+                    speedMultiplier: speed
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;border-radius:5px;padding:5px;background-color:white;">
+        <b>Datasets:</b>
+        <br/><br/>
+        <div id="datasetList"></div>
+        <br/>
+        <div id="controls" style="display:none">
+            <b>Animation controls:</b>
+            <br/><br/>        
+            <input type="button" value="Play" onclick="updateAnimation('play')" />
+            <input type="button" value="Pause" onclick="updateAnimation('pause')" />
+            <input type="button" value="Stop" onclick="updateAnimation('stop')"/>        
+            <input type="button" value="Reset" onclick="updateAnimation('reset')"/> 
+            <br/><br/>
+
+            <b>Follow:</b> <input id="followSymbol" type="checkbox" checked onclick="toggleFollow()" title="Follow"/>
+            <br/><br/>
+            
+            <b>Speed:</b>       
+            <select onchange="setSpeed(this)" title="Speed">
+                <option value="0.5">0.5x</option>
+                <option value="1">1x</option>
+                <option value="2">2x</option>
+                <option value="5">5x</option>
+                <option value="15" selected="selected">15x</option>
+                <option value="30">30x</option>
+                <option value="60">60x</option>
+                <option value="100">100x</option>
+                <option value="3600">3600x</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="infoPanel" style="position:absolute;top:15px;right:15px;border-radius:5px;padding:5px;background-color:white;max-width:300px;overflow:hidden;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Animate a GPS trace</legend>
+        This sample shows how to smoothly animate a symbol along a route path taking into consideration timestamps for each point in the route path. 
+        This sample uses the <a href="https://docs.microsoft.com/en-us/azure/azure-maps/how-to-use-spatial-io-module" target="_blank" title="Azure Maps Spatial IO module">Azure Maps Spatial IO module</a> 
+        and the open source <a href="https://github.com/Azure-Samples/azure-maps-animations" target="_blank" title="Azure Maps Animation module">Azure Maps Animation module</a>
+    </fieldset>
+</body>
+</html>

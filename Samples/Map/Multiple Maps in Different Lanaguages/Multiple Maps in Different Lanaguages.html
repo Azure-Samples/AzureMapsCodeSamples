@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Multiple Maps in Different Languages - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows two maps rendered on the same page, displaying maps in different languages. Press one of the buttons to change the language of the second map instantly." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, multiple, language, localization, culture" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, map2;
+
+        function GetMap() {
+            var zoom = 3, center = [20, 50];
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                language: 'en-US',
+                center: center,
+                zoom: zoom,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Initialize a second map instance.
+            map2 = new atlas.Map('myMap2', {
+                language: 'fr-FR',
+                center: center,
+                zoom: zoom,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+        }
+
+        function setMapLanguage(lang) {
+            //Update the language of the second map.
+            map2.setStyle({
+                language: lang
+            });
+        }
+    </script>
+    <style>
+        #myMap, #myMap2 {
+            position: relative;
+            width: calc(50% - 5px);
+            min-width: 170px;
+            height: 400px;
+            float: left;
+        }
+
+        #myMap2 {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+
+    <div id="myMap2"></div>
+
+    <div style="clear:both;padding-top:10px;">
+        Second Map language:
+        <input type="button" value="French" onclick="setMapLanguage('fr-FR')" />
+        <input type="button" value="German" onclick="setMapLanguage('de-DE')" />
+        <input type="button" value="Spanish" onclick="setMapLanguage('es-ES')" />
+        <input type="button" value="Italian" onclick="setMapLanguage('it-IT')" />
+        <input type="button" value="Russian" onclick="setMapLanguage('ru-RU')" />
+    </div>    
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Multiple Maps in Different Languages</legend>
+        This sample shows two maps rendered on the same page, displaying maps in different languages. Press one of the buttons to change the language of the second map instantly.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Polygon masks - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create polygon masks for both regular Polygon and MultiPolygon geometries." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, multipolygon, polygon mask, restrict map view" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, maskLayer;
+
+        //A polygon ring that covers the full globe.
+        var worldPolygonRing = [[-180, 90], [-180, -90], [0, -90], [180, -90], [180, 90], [0, 90], [-180, 90]];
+
+        //The polygon area to use to create a mask.
+        var polygonMaskArea = {
+			"type": "MultiPolygon",
+			"coordinates": [
+			  [
+				[[-47.90039,-14.94478],[-51.59179,-19.91138],[-41.11083,-21.30984],[-43.39599,-15.39013],[-47.90039,-14.94478]],
+				[[-46.62597,-17.14079],[-47.54882,-16.80454],[-46.23046,-16.69934],[-45.35156,-19.31114],[-46.62597,-17.14079]],
+				[[-44.40673,-18.37537],[-43.52783,-17.60213],[-42.93457,-18.97902],[-44.42871,-20.09720],[-44.40673,-18.37537]]
+			  ],
+			  [[[-40.58349,-18.33366],[-38.36425,-17.99963],[-38.49609,-11.22151],[-42.56103,-14.75363],[-40.58349,-18.33366]]]
+			]
+		};
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-43.3081, -17.56],
+                zoom: 4,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source to add your data to.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create and add the polygon mask to the data source.
+                datasource.add(createMask(polygonMaskArea));
+
+                //Create a layer to render the polygon mask with a solid color and add it to the map.
+                maskLayer = new atlas.layer.PolygonLayer(datasource, null, {
+					fillColor: 'black',
+                    fillOpacity: 0.75
+                });
+
+                map.layers.add(maskLayer);
+            });
+        }
+
+        function createMask(geometry) {
+            if (geometry.type === 'Polygon') {
+                //Copy the polygon mask coordinates.
+                var coords = JSON.parse(JSON.stringify(geometry.coordinates));
+
+                //Add the world polygon ring as the first ring of the polygon mask area. This will cause rendering of the polygon to become inverted. 
+                coords.unshift(worldPolygonRing);
+
+                return new atlas.data.Polygon(coords);
+            } else if (geometry.type === 'MultiPolygon') {
+                var mask = new atlas.data.MultiPolygon([[worldPolygonRing]]);
+
+                //Loop through polygons in MultiPolygon
+                for (var i = 0, len = geometry.coordinates.length; i < len; i++) {
+                    var p = geometry.coordinates[i];
+
+                    //Loop through rings
+                    for (var j = 0, cnt = p.length; j < cnt; j++) {
+                        if (j === 0) {
+                            //Subtract the first ring from each first polygon in the mask (rings 1+ in a polygon are holes).
+                            mask.coordinates[0].push(p[j]);
+                        } else {
+                            //Create new polygons from the hole rings by wrapping them with an array.
+                            mask.coordinates.push([p[j]]);
+                        }
+                    }
+                }
+
+                return mask;
+            }
+
+            return null;
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Polygon masks</legend>
+        This sample shows how to create polygon masks for both regular Polygon and MultiPolygon geometries.
+        Polygon masks limit the viewable area of the map to a polygon area, allowing the user to better focus on a specific area.
+    </fieldset>
+</body>
+</html>

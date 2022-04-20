@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Popups with leader lines - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add events to Popups." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, popups, infobox, infowindow, events, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, popup, events = ['drag', 'dragstart', 'dragend', 'open', 'close'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+
+                //Only render one copy of the world. Lines are replecated multiple times when there is more than one copy of the world, but popups aren't.
+                renderWorldCopies: false,
+
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource(null, {
+                    lineMetrics: true   //Enable line metrics on the data source. This is needed to enable support for strokeGradient.
+                });
+                map.sources.add(datasource);
+
+                //Create a line layer to render the leader line.
+                map.layers.add(new atlas.layer.LineLayer(datasource));
+
+                //Create 5 popups in random positions.
+                for (var i = 0; i < 5; i++) {
+
+                    //Create a random position.
+                    var position = [
+                        Math.random() * 380 - 180,
+                        Math.random() * 170 - 85
+                    ];
+
+                    //Create a popup and add to the map.
+                    popup = new atlas.Popup({
+                        content: '<div style="padding:10px;">Drag me</div>',
+                        position: position,
+                        closeButton: false, //Optional.
+                        draggable: true
+                    });
+
+                    //Create a leader line for the popup.
+                    createLeaderLine(popup);
+
+                    //Open the popup.
+                    popup.open(map);
+                }
+            });
+        }
+
+        function createLeaderLine(popup) {
+            //Get the position of the popup.
+            var position = popup.getOptions().position;
+
+            //Create a line that connects the position to the popup. Wrap it with the Shape class to make it easy to update.
+            var leaderLine = new atlas.Shape(new atlas.data.LineString([position, position]));
+
+            //Add the line to the data source.
+            datasource.add(leaderLine);
+
+            //Add the line to a custom property of the popup so we can easily retrieve it later.
+            popup.leaderLine = leaderLine;
+
+            //Add a drag event to the popup to monitor its movement.
+            map.events.add('drag', popup, popupDragged);
+        }
+
+        function updateLeaderLine(popup) {
+            //Get the leader line coordinates, and update the second coordinate with the position of the popup.
+            var c = popup.leaderLine.getCoordinates();
+            c[1] = popup.getOptions().position;
+            popup.leaderLine.setCoordinates(c);
+        }
+
+        function popupDragged(e) {
+            if (e.target.leaderLine) {
+                updateLeaderLine(e.target);
+            }
+        }
+    </script>
+</head>
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Popups with leader lines</legend>
+        This sample shows how to create a leader line that connects a position to a popup. 
+        This allows the popup to be moved anywhere on the map but still be connected to its main position.
+    </fieldset>
+</body>
+</html>

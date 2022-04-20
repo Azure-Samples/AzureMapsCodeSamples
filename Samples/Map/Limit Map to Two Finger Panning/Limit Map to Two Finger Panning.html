@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Limit Map to Two Finger Panning - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to limit the map drag functionality such that the user is only able to drag the map when using two fingers. This is useful when using the map API inside of mobile apps where the user is likely to scroll the page using a single finger." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, two finger panning, dragging, panning, map, user interaction, dragPanInteraction" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Restrict the map to two finger panning only.
+            RestrictMapToTwoFingerPan(map);
+        }
+
+        function RestrictMapToTwoFingerPan(map) {
+            var pointerCount = 0;
+
+            //Create a message dialog to tell the user how to zoom the map if they use the scroll wheel on the map without CTRL.
+            var msgDialog = document.createElement('div');
+            Object.assign(msgDialog.style, {
+                display: 'none',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                color: 'white',
+                fontSize: '24px',
+                fontWeight: 'bold',
+                transition: 'visibility 0s linear 0s opacity 500ms'
+            });
+            msgDialog.innerHTML = '<div style="position:relative;float:left;top:50%;left:50%;transform:translate(-50%,-50%);">Use two fingers to move the map</div>'
+            map.getMapContainer().append(msgDialog);
+
+            //Show the message dialog for 2 seconds then fade out over 300ms.
+            var showMsgDialog = function () {
+                msgDialog.style.display = '';
+                msgDialog.style.opacity = 1;
+
+                setTimeout(function () {
+                    msgDialog.style.opacity = 0;
+
+                    setTimeout(function () {
+                        msgDialog.style.display = 'none';
+                    }, 300);
+                }, 2000);
+            };
+
+            //Monitor the drag start event.
+            map.events.add('dragstart', function (e) {
+                //Determine if the drag event is due to touch.
+                if (e.originalEvent && pointerCount === 1) {
+                    //If there is only one touch point, disable drag panning by disablling, then re-enabling to cancel the current pan request.
+                    //Disable then re-enable the drag panning. This will cancel the single touch drag functionality.
+                    map.setUserInteraction({ dragPanInteraction: false });
+                    map.setUserInteraction({ dragPanInteraction: true });
+                    showMsgDialog();
+                }
+            });
+
+            //Add touch events to the map container and monitor the movement and move the page accordingly when there is a single touch.
+
+            var pageX = 0;
+            var pageY = 0;
+            var scale = 1;
+
+            var mapDiv = map.getMapContainer();  
+
+            var touchStartHandler = function (e) {
+                var px, py;
+                if (window.PointerEvent) {
+                    if (e.pointerType !== 'touch') {
+                        return;
+                    }
+
+                    pointerCount++;
+                    px = e.pageX;
+                    py = e.pageY;
+                } else {
+                    pointerCount = e.touches.length;
+                    px = e.touches[0].pageX;
+                    py = e.touches[0].pageY;
+                }
+
+                if (pointerCount === 2) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    return;
+                }
+
+                pageX = px;
+                pageY = py;
+            };
+
+            var touchMoveHandler = function (e) {
+                var px, py;
+                if (window.PointerEvent) {
+                    if (e.pointerType !== 'touch') {
+                        return;
+                    }
+
+                    px = pageX - e.screenX;
+                    py = pageY - e.screenY;
+                } else {
+                    pointerCount = e.touches.length;
+                    px = pageX - e.touches[0].screenX;
+                    py = pageY - e.touches[0].screenY;
+                }
+
+                if (pointerCount === 2) {
+                    return;
+                }
+
+                if (scale === e.scale) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                }
+
+                scale = e.scale;
+
+                window.scrollTo(px, py);
+            };
+
+            //Add support for Pointer Events and fallback onto touch events. Edge only supports pointer events, and Safari only supports touch events. Chrome supports both.
+            if (window.PointerEvent) {
+                mapDiv.addEventListener('pointerdown', touchStartHandler, false);
+
+                mapDiv.addEventListener('pointerup', (e) => {
+                    if (e.pointerType === 'touch') {
+                        pointerCount--;
+                    }
+                }, false);
+
+                mapDiv.addEventListener('pointermove', touchMoveHandler, false);
+            } else {
+                mapDiv.addEventListener('touchstart', touchStartHandler, false);
+                mapDiv.addEventListener('touchmove', touchMoveHandler, false);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Limit Map to Two Finger Panning</legend>
+        This sample shows how to limit the map drag functionality such that the user is only able to drag the map when using two fingers.
+        This is useful when using the map API inside of mobile apps where the user is likely to scroll the page using a single finger.
+    </fieldset>
+
+    <br /><br />Adding several new lines so that the page can be scrolled.<br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</body>
+</html>

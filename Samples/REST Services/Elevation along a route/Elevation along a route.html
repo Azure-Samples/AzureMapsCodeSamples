@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Elevation along a route - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to retrieve elevation data along a route path, and then render each data point as a colored bubble based on its elevation." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, elevation, elevations" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        var map, searchURL, routeURL, datasource, popup;
+
+        var elevationLineUrl = 'https://{azMapsDomain}/elevation/line/json?api-version=1.0&samples={samples}';
+        var maxSampleSize = 2000;
+
+        //The color expression used to assign a color based on elevation.
+        var colorExp = [
+            "interpolate",
+            ["linear"],
+            ['get', 'elevation'],
+            0, "black",
+            25, "royalblue",
+            50, "cyan",
+            75, "lime",
+            100, "yellow",
+            125, "red"
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122, 47.5],
+                zoom: 8,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Create an instance of the RouteURL client.
+            routeURL = new atlas.service.RouteURL(pipeline, atlas.getDomain());
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup({
+                    closeButton: false
+                });
+
+                //Create a data source.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer that colors data points based on their elevation.
+                var layer = new atlas.layer.BubbleLayer(datasource, null, {
+                    color: colorExp,
+                    strokeWidth: 0,
+                    radius: 5,
+                    filter: ['==', ['geometry-type'], 'Point']
+                });
+
+                map.layers.add([
+                    //Add a line layer to render the route path.
+                    new atlas.layer.LineLayer(datasource),
+
+                    //Add the bubble layer to the map.
+                    layer
+                ], 'labels');
+
+                //When the user moves their mouse over a bubble, show the elevation data in a popup.
+                map.events.add('mousemove', layer, function (e) {
+                    var props = e.shapes[0].getProperties();
+
+                    popup.setOptions({
+                        //Update the content of the popup.
+                        content: `<div style="padding:10px;">Elevation: ${props.elevation}m</div>`,
+
+                        //Update the position of the popup with the symbols coordinate.
+                        position: e.position
+                    });
+
+                    //Open the popup.
+                    popup.open(map);
+                });
+
+                //Hide the popup when not hovering a bubble.
+                map.events.add('mouseleave', layer, function (e) {
+                    popup.close();
+                });
+
+                //Show loading icon.
+                document.getElementById('loadingIcon').style.display = '';
+
+                //Get the coordnates of the start and end points.
+                var coordinates = [
+                    [-122.33028, 47.60323], //Seattle, WA
+                    [-122.124, 47.67491]    //Redmond, WA
+                ];
+
+                //Calculate a route.
+                routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), coordinates).then((directions) => {
+                    //Get the route data as GeoJSON and add it to the data source.
+                    var data = directions.geojson.getFeatures();
+                    datasource.setShapes(data);
+
+                    //Update the map view to center over the route.
+                    map.setCamera({
+                        bounds: data.bbox,
+                        padding: 30 //Add a padding to account for the pixel size of bubbles.
+                    });
+
+                    getElevationAlongPolyline(data.features[0].geometry.coordinates[0]).then(response => {
+                        var shapes = [];
+
+                        //Create a point feature for each elevation data point.
+                        response.data.forEach(d => {
+                            shapes.push(new atlas.data.Feature(new atlas.data.Point([d.coordinate.longitude, d.coordinate.latitude]), {
+                                elevation: d.elevationInMeter
+                            }));
+                        });
+
+                        //Add the point features to the data source.
+                        datasource.add(shapes);
+
+                        //Hide loading icon.
+                        document.getElementById('loadingIcon').style.display = 'none';
+                    }, error => {
+                        alert(error);
+                    });
+                });
+            });
+
+            //Create legend for the elevation colors.
+            createLegend();
+        }
+
+        function getElevationAlongPolyline(pathPositions) {
+            //Gets elevation data for a route path.
+            return new Promise((resolve, reject) => {
+
+                var jsonBody = [];
+                var lastCoord;
+
+                //Create the JSON body for the path.
+                pathPositions.forEach(c => {
+                    //Ensure only unique coordinates are in the path.
+                    //Format the coordinates
+                    if (!lastCoord || !atlas.data.Position.areEqual(lastCoord, c)) {
+                        jsonBody.push({
+                            lon: c[0],
+                            lat: c[1]
+                        });
+                    }
+
+                    lastCoord = c;
+                });
+
+                if (jsonBody.length < 2) {
+                    alert('Not enough unique positions in the line.');
+                    return;
+                }
+
+                //Get the total length of the path.
+                var totalLength = atlas.math.getLengthOfPath(pathPositions);
+
+                //The elevation dataset has a 24 meter sample spacing, no need for smaller sample spacing.
+                //Elevation service requires a minimum of 2 samples.
+                var sampleSize = Math.max(2, Math.min(Math.round(totalLength / 24), maxSampleSize));
+
+                //If the length of the path is more than approximately 250KM the service will not allow any more than 100 samples.
+                if (totalLength > 250000) {
+                    sampleSize = 100;
+                }
+
+                var url = elevationLineUrl.replace('{samples}', sampleSize);
+
+                processPostRequest(url, jsonBody).then(response => {
+                    if (response.error) {
+                        var msg = response.error.message;
+
+                        if (response.error.details && response.error.details) {
+                            response.error.details.forEach(d => {
+                                msg += '\n' + d.message;
+                            });
+                        }
+
+                        reject(msg);
+                        return;
+                    }
+
+                    resolve(response);
+                });
+            });
+        }
+
+        function processPostRequest(url, jsonBody) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(url);
+                }
+
+                //Add content type of body to the headers.
+                requestParams.headers['Content-type'] = 'application/json; charset=UTF-8';
+
+                fetch(requestParams.url, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers),
+                    body: JSON.stringify(jsonBody)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
+        }
+
+        function createLegend() {
+            var canvas = document.createElement('canvas');
+            canvas.width = 150;
+            canvas.height = 15;
+
+            var ctx = canvas.getContext('2d');
+            var grd = ctx.createLinearGradient(0, 0, 150, 0);
+
+            var maxValue = colorExp[colorExp.length - 2];
+
+            if (colorExp[0] === 'interpolate' && colorExp[1][0] === 'linear') {
+                for (var j = 3; j < colorExp.length; j += 2) {
+                    grd.addColorStop(colorExp[j] / maxValue, colorExp[j + 1]);
+                }
+            } else if (colorExp[0] === 'step') {
+                grd.addColorStop(0, colorExp[2]);
+
+                for (var j = 3; j < colorExp.length - 1; j += 2) {
+                    grd.addColorStop(colorExp[j] / maxValue, colorExp[j + 1]);
+
+                    if ((j + 3) < colorExp.length && (colorExp[j] - 0.001) <= 1) {
+                        grd.addColorStop((colorExp[j + 2] - 0.001) / maxValue, colorExp[j + 1]);
+                    }
+                }
+
+                grd.addColorStop(1, colorExp[colorExp.length - 1]);
+            }
+
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, 150, 15);
+
+            document.getElementById('legendGradient').innerHTML = `<img src="${canvas.toDataURL()}" /><br/><span>0m</span><span style="float:right;">${maxValue}m</span>`;
+        }
+    </script>
+    <style>
+        .legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div class="legend">
+        <div style="font-size:14px;font-weight:bold;">Elevation</div>
+        <div id="legendGradient" style="float:left"></div>
+    </div>
+
+    <img id="loadingIcon" src="/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Elevation along a route</legend>
+        This sample shows how to retrieve elevation data along a route path, and then render each data point as a colored bubble based on its elevation.
+
+        Elevation data from the <a href="https://docs.microsoft.com/azure/azure-maps/how-to-request-elevation-data" target="_blank">Azure Maps Elevation services</a> © DLR 2011-2014 / © Airbus 2021.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Draw gridded polygon - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate a gridded pattern within a drawn polygon based on a physical distances. " />
+    <meta name="keywords" content="map, gis, api, sdk, drawing tools, circle, rectangle, polygon, paint, events" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='/scripts/turf.min.js'></script>
+
+    <script>
+        var map, datasource, drawingManager;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            map.events.add('ready', function () {
+                //Create a drawing manager and add the toolbar with the polygon drawing button to the input panel.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({
+                        buttons: ['draw-polygon'],
+                        containerId: 'drawingBtnContainer'
+                    })
+                });
+
+                map.events.add('drawingcomplete', drawingManager, function (evt) {
+                    var input = document.querySelector("#cellSize");
+
+                    if (input.valueAsNumber === NaN) {
+                        alert('Cell size not set.');
+                    } else if (evt && drawingManager.getOptions().mode !== 'idle') {
+                        //Get the drawn shape from the map and
+                        var feature = new atlas.data.Feature(evt.data.geometry);
+
+                        //Calculate the grid cells.
+                        calculateGrid(input.valueAsNumber, feature);
+
+                        //Remove the drawn shape from the map.
+                        drawingManager.getSource().clear();
+                    }
+                });
+
+                //Create a data source to store the grid cells.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create layers to render the grid cells.
+                map.layers.add([
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'black',
+                        strokeWidth: 1
+                    }),
+
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        fillOpacity: 0.5,
+                        fillColor: '#ff0000'
+                    })
+                ]);
+            });
+
+            //Add functionality for the clear button.
+            document.querySelector('#clear').addEventListener('click', function () {
+                datasource.clear();
+            });
+        }
+
+        function calculateGrid(cellSize, feature) {
+            //Put the drawing manager into an idle state.
+            drawingManager.setOptions({ mode: "idle" });
+
+            //Check for kinks in the drawn feature.
+            var kinks = turf.kinks(feature);
+
+            if (kinks.features.length > 0) {
+                //If there are self-intersections, buffer by 0 to get rid of them
+                feature = turf.buffer(feature, 0, { units: 'meters' });
+            }
+
+            //Calculate the bounding box of the feature.
+            var bb = atlas.data.BoundingBox.fromData(feature);
+
+            //Get the grid shape.
+            var gridShapeElm = document.getElementById('gridShape');
+            var gridShape = gridShapeElm.options[gridShapeElm.selectedIndex].innerText;
+
+            //Get the selected grid algorithm.
+            var gridAlgo = turf.squareGrid;
+
+            switch (gridShape) {
+                case 'triangle':
+                    gridAlgo = turf.triangleGrid;
+                    break;
+                case 'hexagon':
+                    gridAlgo = turf.hexGrid;
+                    break;
+                default:
+                    break;
+            }
+
+            //Get the cell size units.
+            var unitsElm = document.getElementById('units');
+            var units = unitsElm.options[unitsElm.selectedIndex].innerText;
+
+            //Convert meters or feet to a supported unit value.
+            if (units === 'meters') {
+                cellSize /= 1000;
+                units = 'kilometers';
+            } else if (units === 'feet') {
+                cellSize *= 0.0002;
+                units = 'miles';
+            }
+
+            //Buffer the bounding box to account for overlap at edges.
+            var bboxBuffer = 0;
+
+            switch (units) {
+                case 'miles':
+                    bboxBuffer = cellSize / 69 * 2; //Approximately 69 miles per degree at the equator.
+                    break;
+                case 'kilometers':
+                    bboxBuffer = cellSize / 111 * 2; //Approximately 111 KM's per degree at the equator.
+                    break;
+                case 'radians':
+                    bboxBuffer = cellSize * 360 / Math.PI;
+                    break;
+                case 'degrees':
+                    bboxBuffer = cellSize * 2;
+                    break;
+            }
+
+            var c = atlas.data.BoundingBox.getCenter(bb);
+            var height = atlas.data.BoundingBox.getHeight(bb);
+            var width = atlas.data.BoundingBox.getWidth(bb);
+
+            bb = atlas.data.BoundingBox.fromDimensions(c, width + bboxBuffer, height + bboxBuffer);
+
+            var intersections = [];
+
+            //Calculate the grid cells.
+            const grid = gridAlgo(bb, cellSize, {
+                mask: feature,
+                units: units
+            });
+
+            //Loop through and calculate the intersection of each grid cell with the feature.
+            if (grid.features.length > 0) {
+                for (var i = 0, len = grid.features.length; i < len; i++) {
+                    var intersection = turf.intersect(grid.features[i], feature);
+
+                    if (intersection) {
+                        intersections.push(intersection);
+                    }
+                }
+            }
+
+            //Add the grid cells to the data source.
+            if (intersections.length > 0) {
+                datasource.add(intersections);
+            } else {
+                datasource.add(feature);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="padding:1rem;position:absolute;top:1rem;left:1rem;background-color:white;border-radius:0.2rem;padding:10px; box-shadow: hsl(0, 0%, 80%) 0.2em 0.2em 0.2em;">
+        Grid cell shape:
+        <select id="gridShape" title="Grid cell shape">
+            <option>hexagon</option>
+            <option selected="selected">square</option>
+            <option>triangle</option>
+        </select>
+
+        <br /><br />
+
+        Cell size units:
+        <select id="units" title="Cell size units">
+            <option>degrees</option>
+            <option>feet</option>
+            <option>kilometers</option>
+            <option>meters</option>
+            <option selected="selected">miles</option>
+            <option>radians</option>
+        </select>
+
+        <br /><br />
+
+        Cell size <input placeholder="Cell size" type="number" id="cellSize" title="Cell size" />
+
+        <br /><br />
+
+        <button id="clear">Clear</button>
+        <span id="drawingBtnContainer" style="float:right;border:1px solid #ccc;"></span>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Draw gridded polygon</legend>
+        This sample shows how to calculate a gridded pattern within a drawn polygon based on a physical distances.
+        For gridded patterns that are based on pixel distances, use a fill pattern with a polygon.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Alternate routes with deviation constraints - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows the usage of alternative routes, alternative types and supporting points with minimum deviation time and distance constraints." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        var map, datasource, routeURL;
+
+        //Seattle
+        var start = [-122.33028, 47.60323];
+
+        //Redmond
+        var end = [-122.124, 47.67491];
+
+        //Colors for the different routes.
+        var routeColors = ['#2272B9', '#ff7b25', '#6b5b95', '#d64161', '#00cc66', '#000000'];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.335, 47.608],
+                zoom: 15,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer for rendering the route line under the road labels.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    //Get the route color using the resultIndex property of the route line. 
+                    strokeColor: ['to-color', ['at', ['get', 'resultIndex'], ['literal', routeColors]]],
+                    strokeWidth: 5,
+                    lineJoin: 'round',
+                    lineCap: 'round'
+                }), 'labels');
+
+                //Create a layer for rendering the start and end points of the route as symbols.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
+                    textOptions: {
+                        textField: ['get', 'title'],
+                        offset: [0, 1.2]
+                    },
+                    filter: ['any', ['==', ['geometry-type'], 'Point'], ['==', ['geometry-type'], 'MultiPoint']] //Only render Point or MultiPoints in this layer.
+                }));
+
+                calculateRoute();
+            });
+        }
+
+        function calculateRoute() {
+            datasource.clear();
+
+            //Create the GeoJSON objects which represent the start and end points of the route and add to data source.
+            datasource.add([
+                new atlas.data.Feature(new atlas.data.Point(start), { title: 'Start' }),
+                new atlas.data.Feature(new atlas.data.Point(end), { title: 'End' })
+            ]);
+
+            //Get the coordnates of the start and end points.
+            var coordinates = [
+               start,
+               end
+            ];
+
+            //Get the route options from the form.         
+            var options = {
+                maxAlternatives: parseInt(document.getElementById('alts').value),
+                minDeviationTime: parseInt(document.getElementById('mdt').value),
+                minDeviationDistance: parseInt(document.getElementById('mdd').value),
+                postBody: {
+                    "supportingPoints": {
+                        "type": "GeometryCollection",
+                        "geometries": [
+                            new atlas.data.Point(start),
+                            new atlas.data.Point([-122.27696, 47.589749]),//A supporitng point on the on I90.
+                            new atlas.data.Point(end)
+                        ]
+                    }
+                }
+            };
+
+            if (options.maxAlternatives > 0) {
+                var altTypeElm = document.getElementById('alternativeType');
+
+                options.alternativeType = altTypeElm.options[altTypeElm.selectedIndex].value;
+            }
+
+            //Calculate a route.
+            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), coordinates, options).then((directions) => {
+                //Get the route data as GeoJSON and add it to the data source.
+                var data = directions.geojson.getFeatures();
+                datasource.add(data);
+
+                //Create a table with the route travel time/distance information.
+                var html = ['<table><tr><td>Route</td><td>Distance</td><td>Time</td></tr>'];
+
+                for (var i = 0; i < directions.routes.length; i++) {
+                    var s = directions.routes[i].summary.travelTimeInSeconds % 60;
+
+                    html.push('<tr><td><div class="colorBlock" style="background-color:',
+                        routeColors[i], '"></div></td><td>',
+
+                        //Convert distance to meters and round to 1 decimal place.
+                        Math.round(directions.routes[i].summary.lengthInMeters / 1000 * 10) / 10, ' km</td><td>',
+
+                        //Format time as min:sec. If seconds less than 10, prepend a 0 to the second value.
+                        Math.round(directions.routes[i].summary.travelTimeInSeconds / 60), ':', 
+                        ((s < 10) ? '0' : ''), s, ' min</td></tr>');
+                }
+
+                html.push('</table>');
+                document.getElementById('resultsPanel').innerHTML = html.join('');
+
+                //Update the map view to center over the route.
+                map.setCamera({
+                    bounds: data.bbox,
+                    padding: 30 //Add a padding to account for the pixel size of symbols.
+                });
+            });
+        }
+    </script>
+    <style>
+        .sidePanel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 10px;
+            background-color: white;
+            padding: 10px;
+        }
+
+        #resultsPanel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 10px;
+            background-color: white;
+            padding: 10px;
+        }
+
+            #resultsPanel table {
+                border-collapse: collapse;
+            }
+
+            #resultsPanel td, #resultsPanel th {
+                border: 1px solid #ccc;
+                padding: 3px;
+            }
+
+        .colorBlock {
+            width: 30px;
+            height: 5px;
+            vertical-align: middle;
+            margin: auto;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div class="sidePanel">
+
+        <form oninput="alts.value=alternatives.value">
+            Alternatives: <output id="alts" for="alternatives">1</output>
+            <br />
+            <input id="alternatives" type="range" value="1" step="1" min="0" max="5" onchange="calculateRoute()"/>
+        </form>
+
+        Alternative Type:
+
+        <select id="alternativeType" onchange="calculateRoute()">
+            <option value="anyRoute" selected="selected">Any route</option>
+            <option value="betterRoute">Better route</option>
+        </select>
+        
+        <br /><br />
+
+        <form oninput="mdt.value=minDevTime.value">
+            Min. Deviation Time(s): <output id="mdt" for="minDevTime">0</output>
+            <br />
+            <input id="minDevTime" type="range" value="0" step="1" min="0" max="1000" onchange="calculateRoute()"/>
+        </form>
+
+        <form oninput="mdd.value=minDevDistance.value">
+            Min. Deviation Distance(m): <output id="mdd" for="minDevDistance">0</output>
+            <br />
+            <input id="minDevDistance" type="range" value="0" step="100" min="0" max="5000" onchange="calculateRoute()"/>
+        </form>
+    </div>
+
+    <div id="resultsPanel"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Alternate routes with deviation constraints</legend>
+        This sample shows the usage of alternative routes, <a href="https://docs.microsoft.com/en-us/rest/api/maps/route/postroutedirections#alternativeroutetype" target="_blank">alternative types</a> and <a href="https://docs.microsoft.com/en-us/rest/api/maps/route/postroutedirections#supportingpoints" target="_blank">supporting points</a> with minimum deviation time and distance constraints.
+        <br /><br />
+        To find alternatives to the main route simply change the number of alternatives in the form to see them on the map.
+        <br /><br />
+        For advanced alternative route calculation you can include supporting points along with min deviation time or distance constraints. When these constraints are used, the alternative routes will follow the reference route from the origin point for the given time or distance. In other words, the alternative routes just diverge from the referente route after the given constraints.
+        <br /><br />
+        Keep in mind that in order for these constraints to work you need to include in the supporting points the start and ending points of the desired route. If you just provide supporting points for the first 500 meters of the route, the min deviation constraints will only work for that section.
+        <br /><br />
+        <b>Alternative type</b>: By default the alternative type is 'Any route', which means that all the requested alternative routes will be returned. When 'Better route' is selected, the service will only return alternative routes that are better than the reference route.
+</fieldset>
+</body>
+</html>

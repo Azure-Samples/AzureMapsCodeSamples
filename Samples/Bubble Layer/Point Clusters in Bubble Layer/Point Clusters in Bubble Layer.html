@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Point Clusters in Bubble Layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to enable point based clustering on a data source and render them differently from individual points on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, earthquakes, USGS" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        //GeoJSON feed of all earthquakes from the past 30 days. Sourced from the USGS.
+        var earthquakeFeed = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
+
+        //Find more earthquake data feeds here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-97, 39],
+                zoom: 3,
+                style: 'night', 
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            }); 
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource(null, {
+                    //Tell the data source to cluster point data.
+                    cluster: true,
+
+                    //The radius in pixels to cluster points together.
+                    clusterRadius: 45,
+
+                    //The maximium zoom level in which clustering occurs.
+                    //If you zoom in more than this, all points are rendered as symbols.
+                    clusterMaxZoom: 15 
+                });
+                map.sources.add(datasource);
+                
+                //Create a bubble layer for rendering clustered data points.
+                var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    //Scale the size of the clustered bubble based on the number of points in the cluster.
+                    radius: [
+                        'step',
+                        ['get', 'point_count'],
+                        20,         //Default of 20 pixel radius.
+                        100, 30,    //If point_count >= 100, radius is 30 pixels.
+                        750, 40     //If point_count >= 750, radius is 40 pixels.
+                    ],
+       
+                    //Change the color of the cluster based on the value on the point_cluster property of the cluster.
+                    color: [
+                        'step',
+                        ['get', 'point_count'],
+                        'rgba(0,255,0,0.8)',            //Default to green. 
+                        100, 'rgba(255,255,0,0.8)',     //If the point_count >= 100, color is yellow.
+                        750, 'rgba(255,0,0,0.8)'        //If the point_count >= 100, color is red.
+                    ],
+                    strokeWidth: 0,
+                    filter: ['has', 'point_count'] //Only rendered data points which have a point_count property, which clusters do.
+                });
+
+                //Add a click event to the layer so we can zoom in when a user clicks a cluster.
+                map.events.add('click', clusterBubbleLayer, clusterClicked);
+
+                //Add mouse events to change the mouse cursor when hovering over a cluster.
+                map.events.add('mouseenter', clusterBubbleLayer, function () {
+                    map.getCanvasContainer().style.cursor = 'pointer';
+                });
+
+                map.events.add('mouseleave', clusterBubbleLayer, function () {
+                    map.getCanvasContainer().style.cursor = 'grab';
+                });
+
+                //Add the clusterBubbleLayer and two additional layers to the map.
+                map.layers.add([
+                    clusterBubbleLayer,
+
+                    //Create a symbol layer to render the count of locations in a cluster.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            image: 'none' //Hide the icon image.
+                        },
+                        textOptions: {
+                            textField: ['get' , 'point_count_abbreviated'],
+                            offset: [0, 0.4]
+                        }
+                    }),
+
+                    //Create a layer to render the individual locations.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                    })
+                ]);
+
+                //Retrieve a GeoJSON data set and add it to the data source. 
+                datasource.importDataFromUrl(earthquakeFeed);
+            });
+        }
+
+        function clusterClicked(e) {
+            if (e && e.shapes && e.shapes.length > 0 && e.shapes[0].properties.cluster) {
+                //Get the clustered point from the event.
+                var cluster = e.shapes[0];
+
+                //Get the cluster expansion zoom level. This is the zoom level at which the cluster starts to break apart.
+                datasource.getClusterExpansionZoom(cluster.properties.cluster_id).then(function (zoom) {
+
+                    //Update the map camera to be centered over the cluster. 
+                    map.setCamera({
+                        center: cluster.geometry.coordinates,
+                        zoom: zoom,
+                        type: 'ease',
+                        duration: 200
+                    });
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Point Clusters in Bubble Layer</legend>
+        This sample shows how to enable point based clustering on a data source and render them differently from individual points on the map. Clustered points have four properties; 
+
+        <ul>
+            <li>cluster - A boolean value indicating that it is a cluster.</li>
+            <li>cluster_id - A unique id for the cluster which can be used with the DataSource getClusterExpansionZoom, getClusterChildren, and getClusterLeaves functions.</li>
+            <li>point_count - The number of points the cluster contains.</li>
+            <li>point_count_abbreviated - A string that abbreviates the point_count value if it is long. (i.e. 4,000 becomes 4K)</li>
+        </ul>
+    </fieldset>
+</body>
+</html>

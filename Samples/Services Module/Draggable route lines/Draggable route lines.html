@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Draggable route lines - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate a simple route and display it on the map using the Services module for Azure Maps." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        var map, routeDS, previewDS, routeURL;
+
+        //Some intial waypoints for a route.
+        var waypoints = [
+            //Seattle
+            [-122.33028, 47.60323],
+
+            //Redmond
+            [-122.124, 47.67491]
+        ];
+
+        var activeWaypointIdx;
+
+        var waypointLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        var routePath = [];
+
+        //Flag to monitor if the mouse is down on the route line or not.
+        var mouseDownOnRoute = false;
+
+        //Flat to skip the addition of a mid point when a mouse event occurs on both the route line and an overlapping marker.
+        var skipMidPointAdd = false;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.22595, 47.63437],
+                zoom: 11,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create two data sources, one for the calculated route, and one for the preview data that will be updated frequently.
+                routeDS = new atlas.source.DataSource();
+                map.sources.add(routeDS);
+
+                previewDS = new atlas.source.DataSource();
+                map.sources.add(previewDS);
+
+                //Create a layer for rendering the route line.
+                var routeLayer = new atlas.layer.LineLayer(routeDS, null, {
+                    strokeColor: '#2272B9',
+                    strokeWidth: 5,
+                    lineJoin: 'round',
+                    lineCap: 'round'
+                });
+
+                //Add a mouse down event to the route line layer so that mid-point waypoints can be added to the route.
+                map.events.add('mousedown', routeLayer, routeMouseDown);
+
+                //When the mouse is over the route layer, change the cursor to be a pointer.
+                map.events.add('mouseover', routeLayer, function () {
+                    map.getCanvasContainer().style.cursor = 'pointer';
+                });
+
+                //When the mouse leaves the item on the route layer, change the cursor back to the default which is grab.
+                map.events.add('mouseout', routeLayer, function () {
+                    map.getCanvasContainer().style.cursor = 'grab';
+                });
+
+                //Create lines layers under the road labels.
+                map.layers.add([
+                    routeLayer,
+
+                    //Create a layer for rendering the route preview line.
+                    new atlas.layer.LineLayer(previewDS, null, {
+                        strokeColor: 'red',
+                        strokeWidth: 3,
+                        lineJoin: 'round',
+                        lineCap: 'round'
+                    })
+                ], 'labels');
+
+                //Track the movement of the mouse on the map for better dragging of the route line with a new mid-point.
+                map.events.add('mousemove', mouseMoved);
+
+                //Track when the mouse event fires to clear the mouseDownOnRoute flag.
+                map.events.add('mouseup', mouseUp);
+
+                //Calculate initial directions.
+                calculateDirections();
+            });
+        }
+
+        function renderWaypointMarkers() {            
+
+            //Create a marker for each waypoint.
+            var markers = [];
+
+            for (var i = 0; i < waypoints.length; i++) {
+                var color = 'blue';
+                var routeIdx = 0;
+
+                //Make the first marker green, the last marker red, and all mid-point markers, blue and smaller.
+                //Add the same time, calculate the nearest point in the route line to each marker and store that within the marker.
+                if (i === 0) {
+                    color = 'green';
+                } else if (i === waypoints.length - 1) {
+                    color = 'red';
+                    routeIdx = routePath.length - 1;
+                } else {
+                    routeIdx = getNearestRouteIdx(waypoints[i]);
+                }
+
+                var marker = new atlas.HtmlMarker({
+                    color: color,
+                    text: waypointLabels[i],
+                    position: waypoints[i],
+                    draggable: true
+                });
+
+                marker.properties = {
+                    //Store the waypoint index so we can update it's position if it is dragged.
+                    wpIdx: i,
+
+                    //Store the nearest position index to make it easier to determine where new mid-points should be added within the waypoint array.
+                    routeIdx: routeIdx
+                };
+
+                //Optionally, delete the waypoint when right clicked.
+                map.events.add('contextmenu', marker, markerRightClicked);
+
+                //Add mouse down event to preview bubbling of event to line layers.
+                map.events.add('mousedown', marker, markerMouseDown);
+
+                //Add a drag event to each marker to render a preview.
+                map.events.add('drag', marker, markerDragged);
+
+                //Add a drag end event to each marker to calculate the new route line.
+                map.events.add('dragend', marker, markerDragEnd);
+
+                //When the mouse is over the marker, change the cursor to be a pointer.
+                map.events.add('mouseover', marker, function () {
+                    map.getCanvasContainer().style.cursor = 'pointer';
+                });
+
+                //When the mouse leaves the item on the route layer, change the cursor back to the default which is grab.
+                map.events.add('mouseout', marker, function () {
+                    map.getCanvasContainer().style.cursor = 'grab';
+                });
+
+                markers.push(marker);
+            }
+
+            //Remove an markers already on the map.
+            var oldMarkers = map.markers.getMarkers();
+            map.markers.remove(oldMarkers);
+
+            //Add the new markers to the map.
+            map.markers.add(markers);
+        }
+
+        function markerMouseDown(e) {
+            //Disable event bubbling so that if marker overlaps line, a new mid-point isn't also added.
+            skipMidPointAdd = true;
+
+            //Track the active waypoint index.
+            activeWaypointIdx = e.target.properties.wpIdx;
+        }
+
+        function markerDragged(e) {
+            //Update the position of the corresponding waypoint.
+            waypoints[activeWaypointIdx] = e.target.getOptions().position;
+
+            //Update preview.
+            updatePreview();
+        }
+
+        function markerDragEnd(e) {
+            //Update the position of the corresponding waypoint.
+            waypoints[activeWaypointIdx] = e.target.getOptions().position;
+
+            skipMidPointAdd = false;
+            activeWaypointIdx = null;
+
+            //Calculate new route directions.
+            calculateDirections();
+        }
+
+        function markerRightClicked(e) {
+            if (waypoints.length > 2) {
+                //Remove the waypoint/marker.
+                waypoints.splice(e.target.properties.wpIdx, 1);
+                map.markers.remove(e.target);
+
+                skipMidPointAdd = true;
+
+                //Recalculate directions.
+                calculateDirections();
+            }
+        }
+
+        function routeMouseDown(e) {           
+
+            if (!skipMidPointAdd) {
+                //Calculate the nearest position index in the route line to the mouse position.
+                var routeIdx = getNearestRouteIdx(e.position);
+
+                //Determine where in the order of waypoints a new mid-point should be added.
+                var markers = map.markers.getMarkers();
+
+                //Don't want to compare to the last marker (end of the line) as new points should be added before it. 
+                for (var i = 0; i < markers.length - 1; i++) {
+                    if (routeIdx > markers[i].properties.routeIdx) {
+                        activeWaypointIdx = i + 1;
+                    }
+                }
+
+                if (activeWaypointIdx) {
+                    waypoints.splice(activeWaypointIdx, 0, e.position);
+                }
+
+                //Enable the mouseDownOnRoute flag.
+                mouseDownOnRoute = true;
+
+                //Disable the maps dragging capabilities.
+                map.setUserInteraction({ dragPanInteraction: false });
+            }
+        }
+
+        function mouseMoved(e) {
+            //If the mouse down event fired on the route line and dragged, update the preview waypoint.
+            if (mouseDownOnRoute) {
+                waypoints[activeWaypointIdx] = e.position;
+
+                //Update preview.
+                updatePreview();
+            }
+        }
+
+        function mouseUp() {
+            //If new mid-point added to line, calculate new directions.
+            if (mouseDownOnRoute) {
+                calculateDirections();
+            }
+
+            //Clear the mouseDownOnRoute flag.
+            mouseDownOnRoute = false;
+            activeWaypointIdx = null;
+            skipMidPointAdd = false;
+
+            //Enable the maps dragging capabilities.
+            map.setUserInteraction({ dragPanInteraction: true });           
+        }
+
+        function updatePreview() {
+            //Create a preview line between the waypoints on either side of the active point.
+            var wp = [];
+
+            if (activeWaypointIdx > 0) {
+                wp.push(waypoints[activeWaypointIdx - 1]);
+            }
+
+            wp.push(waypoints[activeWaypointIdx]);
+
+            if (activeWaypointIdx < waypoints.length - 1) {
+                wp.push(waypoints[activeWaypointIdx + 1]);
+            }
+
+            previewDS.setShapes([
+                new atlas.data.LineString(wp)
+            ]);
+        }
+
+        function calculateDirections() {
+            //Calculate a route.
+            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), waypoints).then((directions) => {
+                //Clear the preview lines.
+                previewDS.clear();
+
+                //Get the route data as GeoJSON and add it to the route data source.
+                var data = directions.geojson.getFeatures();
+                routeDS.setShapes(data);
+
+                //Extract the route path points for other calculations.
+                routePath = [];
+                data.features.forEach(f => {
+                    f.geometry.coordinates.forEach(c => {
+                        routePath = routePath.concat(c);
+                    });                    
+                });
+
+                //Redraw the markers.
+                renderWaypointMarkers();
+            });
+        }
+
+        function getNearestRouteIdx(position) {
+            var routeIdx = 0;
+            var maxDistance = Infinity;
+
+            for (var i = 0; i < routePath.length; i++) {
+                var d = atlas.math.getDistanceTo(position, routePath[i]);
+
+                if (d < maxDistance) {
+                    routeIdx = i;
+                    maxDistance = d;
+                }
+            }
+
+            return routeIdx;
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Draggable route lines</legend>
+        This sample shows how to make a route line draggable. 
+        This sample uses two data sources, one for rendering the route line, and one for rendering a out preview which is updated frequently on mouse move. 
+        HTML Markers are used for points as these are easy to drag around on the map.
+        An optional feature in this example deletes a waypoint when its right clicked.
+    </fieldset>
+</body>
+</html>

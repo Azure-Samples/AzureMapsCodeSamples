@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Weighted Heat Map Layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a heat map which defines the intensity of each data point based on a property." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, heatmap, heat map, heatmaps, heat maps, density, layer, thermatic, earthquakes, USGS" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]' // await fetch('https://samples.azuremaps.com/api/GetAzureMapsKey').then(r => r.text()).then(key => { return key })
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load a data set of points, in this case earthquake data from the USGS.
+                datasource.importDataFromUrl('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson');
+
+                //Create a heatmap and add it to the map.
+                map.layers.add(new atlas.layer.HeatMapLayer(datasource, null, {
+                    weight: [
+                        'interpolate',
+                        ['exponential', 2], //Using an exponential interpolation since earthquake magnitudes are on an exponential scale.
+                        ['get', 'mag'],
+                        0, 0,
+                        6, 1    //Any earthquake above a magnitude of 6 will have a weight of 1
+                    ],
+                    radius: [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        0, 2,
+                        22, 200
+                    ],
+                    color: [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0, 'rgba(33,102,172,0)',
+                        0.2, 'rgb(103,169,207)',
+                        0.4, 'rgb(209,229,240)',
+                        0.6, 'rgb(253,219,199)',
+                        0.8, 'rgb(239,138,98)',
+                        1, 'rgb(178,24,43)'
+                    ]
+                }), 'labels');
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Weighted Heat Map Layer</legend>
+        This sample shows how to create a heat map which defines the intensity of each data point based on a property.
+        In this case the "mag" property is used to specify the weight of each data point. 
+        Additionally ann expression has been added to the radius property so that it changes based on the zoom level of the map.
+        <br /><br />
+        <b>Tip:</b> When working with larger data sets, enable clustering on the data source and set the weight to ['get', 'point_count'] to get improved performance.
+    </fieldset>
+</body>
+</html>

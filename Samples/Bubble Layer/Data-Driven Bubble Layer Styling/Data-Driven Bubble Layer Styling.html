@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Data-Driven Bubble Layer Styling - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use data-driven styles on a BubbleLayer to define the radius and color of each circle based on the magnitude of each data point." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven styling, weather, earthquakes, USGS" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        //GeoJSON feed of significant earthquakes from the past 30 days. Sourced from the USGS.
+        var earthquakeFeed = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson';
+
+        //Find more earthquake data feeds here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+
+        function GetMap() {
+            //Add your Azure Maps s
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-180, 0], 
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load the earthquake data.
+                datasource.importDataFromUrl(earthquakeFeed);
+
+                map.layers.add([
+                    //Create a layer that defines how to render the shapes in the data source and add it to the map.
+                    new atlas.layer.BubbleLayer(datasource, 'earthquake-circles', {
+                        //Bubbles are made semi-transparent.
+                        opacity: 0.75,
+
+                        //Color of each bubble based on the value of "mag" property using a color gradient of green, yellow, orange, and red.
+                        color: [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'mag'],
+                            0, 'green',
+                            5, 'yellow',
+                            6, 'orange',
+                            7, 'red'
+                        ],
+
+                        /*
+                         * Radius for each data point scaled based on the value of "mag" property.
+                         * When "mag" = 0, radius will be 2 pixels.
+                         * When "mag" = 8, radius will be 40 pixels.
+                         * All other "mag" values will be a linear interpolation between these values.
+                         */
+                        radius: [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'mag'],
+                            0, 2,
+                            8, 40
+                        ]
+                    }),
+
+                    //Create a symbol layer using the same data source to render the magnitude as text above each bubble and add it to the map.
+                    new atlas.layer.SymbolLayer(datasource, 'earthquake-labels', {
+                        iconOptions: {
+                            //Hide the icon image.
+                            image: 'none'
+                        },
+                        textOptions: {
+                            //An expression is used to concerte the "mag" property value into a string and appends the letter "m" to the end of it.
+                            textField: ['concat', ['to-string', ['get', 'mag']], 'm'],
+                            textSize: 12
+                        }
+                    })
+                ]);
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Data-Driven Bubble Layer Styling</legend>
+        This sample shows how to use data-driven styles on a BubbleLayer to define the radius and color of each circle based on the magnitude of each data point. 
+        The data in this sample consists of point based data that represents significant earthquakes that have occurred in the last 30 days. 
+        This data is sourced from the <a href="https://earthquake.usgs.gov/" target="_blank">USGS Earthquake Hazards Program</a>.
+    </fieldset>
+</body>
+</html>

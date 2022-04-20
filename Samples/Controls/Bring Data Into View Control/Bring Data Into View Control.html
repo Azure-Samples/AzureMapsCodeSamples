@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bring Data Into View Control - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, " />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the bring data into view control module. -->
+    <script src="/lib/azure-maps-bring-data-into-view-control.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Add the bring data into view control to the map.
+                map.controls.add(new atlas.control.BringDataIntoViewControl(), {
+                    position: 'top-left'
+                });
+
+                //Load some test data.
+                loadTestData();
+            });
+        }
+
+        function loadTestData() {
+
+            //Create a data source to add your data to.
+            datasource = new atlas.source.DataSource(null, {
+                //Tell the data source to cluster point data.
+                cluster: true,
+
+                //The radius in pixels to cluster points together.
+                clusterRadius: 45,
+
+                //The maximium zoom level in which clustering occurs.
+                //If you zoom in more than this, all points are rendered as symbols.
+                clusterMaxZoom: 15
+            });
+            map.sources.add(datasource);
+
+            //Load some point data into the data source.
+            datasource.importDataFromUrl('/data/geojson/SamplePoiDataSet.json');
+
+            //Add a layer for rendering point data as symbols.
+            map.layers.add(new atlas.layer.SymbolLayer(datasource));
+
+            //Create a HTML marker and add it to the map.
+            map.markers.add(new atlas.HtmlMarker({
+                color: 'DodgerBlue',
+                text: '10',
+                position: [-122.33, 47.6]
+            }));
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Bring Data Into View Control</legend>
+        This sample shows how to create a simple custom control that centers and zooms the map to fit any data that is loaded on the map. 
+        This works with data in a HtmlMarkers, DataSource and ImageLayers. Does not support TileLayers and VectorTileSources.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-bring-data-into-view-control" target="_blank">Azure Maps Bing Data into View Control module</a>.
+    </fieldset>
+</body>
+</html>

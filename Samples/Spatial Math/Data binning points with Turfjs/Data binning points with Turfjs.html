@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Data binning points with Turfjs - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a hexagon grid and perform an aggregate to determine how many points are within each cell of a hexagon grid." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, bivariate, data binning, data bin, gridding, hexbins, hexgrid, hexagon bins, tessellations" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='/scripts/turf.min.js'></script>
+
+    <script>
+        var map, datasource;
+
+        var pointDataUrl = '/data/geojson/US_farmers_markets.json';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-95, 38],
+                zoom: 3,
+                style: 'grayscale_light',
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                map.layers.add([
+                    //Create a layer to render polygon data.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        //Use a data-driven expression based on a property on each polygon to assign a color.
+                        fillColor: [
+                            'step',
+                            ['get', 'count'],
+                            '#ffffcc',  //If value is less than 25, make it transparent.
+                            25, '#a1dab4', //25 - 49 color
+                            50, '#7fcdbb', //50 - 99 color
+                            100, '#41b6c4', //100 - 149 color
+                            150, '#2c7fb8', //150 - 199 color
+                            200, '#253494' //200+ color
+                        ],
+                        fillOpacity: 1// 0.5
+                    }),
+
+                    //Create a layer to color the outline of each polygon.
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'grey'
+                    })
+                ], 'labels');
+
+                //Load the point data.
+                fetch(pointDataUrl).then(r => r.json()).then(fc => {
+                    //We need a value to interpolate. Since we only care about the count, we can add an arbitrary value to each feature with a value of 1.
+                    fc.features.forEach(f => f.properties.value = 1);
+
+                    //Calculate the bounding box of the data.
+                    var bbox = atlas.data.BoundingBox.fromData(fc);
+
+                    //Define the length of each cell edge.
+                    var cellSide = 75;
+
+                    //Define the units of the cell side.
+                    var options = { units: 'miles' };
+
+                    //Calculate a hexagon grid. There is also turf.triangleGrid, turf.squareGrid and turf.pointGrid
+                    var grid = turf.hexGrid(bbox, cellSide, options);
+
+                    //Grids generated by turf share a common property object which makes it difficult to aggregate and assign values.
+                    //Give each grid a unique property object.
+                    grid.features.forEach(f => f.properties = {});
+
+                    //Cross reference the points with the hexagons.
+                    var collected = turf.collect(grid, fc, 'value', 'values');
+
+                    //Aggregate the values in each grid.
+                    collected.features.forEach(f => {
+                        f.properties.count = f.properties.values.reduce((total, val) => { return total + val }, 0)
+                    });
+
+                    //Remove any hexagons that have no value.
+                    collected.features = collected.features.filter(f => f.properties.count > 0);
+
+                    //Add the hexagons to the map.
+                    datasource.add(collected);
+                });
+            });
+        }
+    </script>
+    <style>
+        .legend {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .colorcell {
+            width: 15px;
+            height: 15px;
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div class="legend">
+        # of farmer markets
+        <table>
+            <tr><td><div class="colorcell" style="background-color:#253494"></div></td><td>200</td></tr>
+            <tr><td><div class="colorcell" style="background-color:#2c7fb8"></div></td><td>150</td></tr>
+            <tr><td><div class="colorcell" style="background-color:#41b6c4"></div></td><td>100</td></tr>
+            <tr><td><div class="colorcell" style="background-color:#7fcdbb"></div></td><td>50</td></tr>
+            <tr><td><div class="colorcell" style="background-color:#a1dab4"></div></td><td>25</td></tr>
+            <tr><td><div class="colorcell" style="background-color:#ffffcc"></div></td><td>1</td></tr>
+        </table>
+    </div>  
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Data binning points with Turfjs</legend>
+        This sample shows how to create a hexagon grid and perform an aggregate to determine how many points are within each cell of a hexagon grid.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to perform the difference calculation.
+        Also take a look at the <a href="/index.html?search=gridded%20data%20source">Gridded Data Source samples</a> for a more robust solution.
+    </fieldset>
+</body>
+</html>

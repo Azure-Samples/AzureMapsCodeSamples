@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search for boundaries - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Services module for Azure Maps to search for locations that have boundaries and display them on the map. Azure Maps provides boundary data for administrative areas such as states, countries, cities, postal codes, and other boundaries such as industrial areas." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, geocode, geocoding, adminstrative boundaries, boundary, boundaries, polygon" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        var map, searchURL, datasource, layer, popup;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                style: 'grayscale_light',
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layers for rendering the boundaries as polygons.
+                layer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'hotpink'
+                });
+                map.layers.add(layer, 'labels');
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+
+                //Add a click event to the layer.
+                map.events.add('click', layer, layerClicked);
+            });
+        }
+
+        function search() {
+            var query = document.getElementById('input').value;
+
+            //Remove any previous results from the map.
+            datasource.clear();
+            document.getElementById('resultList').innerHTML = '';
+            popup.close();
+
+            //Show the loading icon.
+            document.getElementById('loadingIcon').style.display = '';
+
+            //Search for locatoins.
+            searchURL.searchAddress(atlas.service.Aborter.timeout(10000), query, {
+                view: 'Auto'
+            }).then(results => {
+                var r = results.rawResponse.parsedBody.results;
+                var geomIds = [];
+                var html = ['<h3>Results</h3><ol>'];
+
+                //Loop through the results and extract the ones that have boundaries.
+                for (var i = 0; i < r.length; i++) {
+                    if (r[i].dataSources && r[i].dataSources.geometry && r[i].dataSources.geometry.id) {
+                        //Store the bounady id.
+                        geomIds.push(r[i].dataSources.geometry.id);
+
+                        //Create a link to select and zoom into the boundary.
+                        html.push(`<li><a href="javascript:void(0)" onclick="viewPolygon('${r[i].dataSources.geometry.id}');">${r[i].address.freeformAddress}</a><br/>${r[i].entityType}</li>`);
+                    }
+                }
+
+                html.push('</ol>');
+
+                if (geomIds.length > 0) {
+                    //Filter the polygon layer to the first polygon.
+                    layer.setOptions({ filter: ['==', ['get', 'providerID'], geomIds[0]] });
+
+                    //Retrieve the boudary polygons. The response may be large, so allow a longer abort time.
+                    searchURL.searchPolygon(atlas.service.Aborter.timeout(60000), geomIds).then(boundaries => {
+                        html.push(`Response size: ${Math.round(boundaries.rawResponse.bodyAsText.length/1024/1024 * 100)/100}MB`);
+
+                        //Get the results in GeoJSON format and add it to the data source.
+                        var data = boundaries.geojson.getFeatures();
+                        datasource.add(data);
+
+                        //Focus on the first polygon in the list.
+                        viewPolygon(data.features[0].properties.providerID);
+
+                        //Display the list of boundaries.
+                        document.getElementById('resultList').innerHTML = html.join('');
+
+                        //Hide the loading icon.
+                        document.getElementById('loadingIcon').style.display = 'none';
+                    });
+                } else {
+                    alert('No boundary found.');
+
+                    //Hide the loading icon.
+                    document.getElementById('loadingIcon').style.display = 'none';
+                }
+            });
+        }
+
+        function viewPolygon(geomId) {
+            popup.close();
+
+            //Filter the polygon layer to only display the boundary with the specified geometry id.
+            layer.setOptions({ filter: ['==', ['get', 'providerID'], geomId] });
+
+            //Retrieve the boundary shape from the data source that has the required geometry id.
+            var s = datasource.getShapes().find(x => x.getProperties().providerID === geomId);
+
+            //Update the map camera so that it focuses on the geometry.
+            map.setCamera({
+                bounds: atlas.data.BoundingBox.fromData(s),
+                padding: 40
+            });
+        }
+
+        function layerClicked(e) {
+            //Get the GeoJSON version of the feature.
+            var f = e.shapes[0].toJson();
+
+            //Calculate stats for the boundary.
+            var numPos = 0, numPolygons = 0, i, j;
+
+            if (f.geometry.type === 'Polygon') {
+                numPolygons = 1;
+
+                 //Count the number of positions in the polygons.
+                for (i = 0; i < f.geometry.coordinates.length; i++) {
+                    numPos += f.geometry.coordinates[i].length;
+                }
+            } else {
+                //Must by MultiPolygon
+
+                //Count the number of polygons in the MultiPolygon
+                numPolygons = f.geometry.coordinates.length;
+
+                //Count the number of positions in all the polygons.
+                for (i = 0; i < f.geometry.coordinates.length; i++) {
+                    for (j = 0; j < f.geometry.coordinates[i].length; j++) {
+                        numPos += f.geometry.coordinates[i][j].length;
+                    }
+                }
+            }
+
+            //Set the popup options.
+            popup.setOptions({
+                //Update the content of the popup.
+                content: `<div style='padding:15px;'>Type: ${f.geometry.type}<br/># polygons: ${numPolygons.toLocaleString()}<br/># positions: ${numPos.toLocaleString()}</div>`,
+
+                //Place the popup where the user clicked.
+                position: e.position
+            });
+
+            //Open the popup.
+            popup.open(map);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
+        <input type="text" id="input" value="Sydney, NSW" />
+        <input type="button" onClick="search()" value="Search" />
+
+        <div id="resultList"></div>
+    </div>
+
+    <img id="loadingIcon" src="/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Search for boundaries</legend>
+        This sample shows how to use the Services module for Azure Maps to search for locations that have boundaries and display them on the map. 
+        Azure Maps provides boundary data for administrative areas such as states, countries, cities, postal codes, and other boundaries such as industrial areas.
+    </fieldset>
+</body>
+</html>

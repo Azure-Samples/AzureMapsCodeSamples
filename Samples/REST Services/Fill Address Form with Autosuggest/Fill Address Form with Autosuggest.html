@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fill Address Form with Autosuggest - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Azure Maps Search service with JQuery UI's autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, search, geocoding, geocode, autosuggest, autocomplete, jquery" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Load JQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        //Your Azure Maps Active Directory details for autheniticating the service.
+        var clientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+        var tokenService = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+        var token;
+
+        var addresssGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}&language={language}&countrySet={countrySet}&view=Auto';
+
+        async function PageLoaded() {
+            //Retrieve an Azure Active Directory token if there isn't one currently available.
+            if (!token) {
+                await initAzureAD();
+            }
+
+            //Create a jQuery autocomplete UI widget.
+            $("#searchBox").autocomplete({
+                minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed. This will reduce costs by not making requests that will likely not have much relevance.
+                source: function (request, response) {
+
+                    //Create a URL to the Azure Maps search service to perform the address search.
+                    var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
+                        .replace('{language}', 'en-US')
+                        .replace('{countrySet}', 'US'); //A comma seperated string of country codes to limit the suggestions to.
+
+                    //Proces the request.
+                    fetch(requestUrl, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'x-ms-client-id': clientId,
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json; charset=utf-8'
+                        }
+                    }).then(r => r.json()).then(data => {
+                        response(data.results);
+                    });
+                },
+                select: function (event, ui) {
+                    //When a suggestion has been selected.
+                    var selection = ui.item;
+
+                    //Populate the address textbox values.
+                    document.getElementById('addressLineTbx').value = (selection.address.streetNumber ? (selection.address.streetNumber  + ' ') : '') + (selection.address.streetName || '');
+                    document.getElementById('cityTbx').value = selection.address.municipality || '';
+                    document.getElementById('countyTbx').value = selection.address.countrySecondarySubdivision || '';
+                    document.getElementById('stateTbx').value = selection.address.countrySubdivision || '';
+                    document.getElementById('postalCodeTbx').value = selection.address.postalCode || '';
+                    document.getElementById('countryTbx').value = selection.address.countryCodeISO3 || '';
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                //Format the displayed suggestion to show the formatted suggestion string.
+                var suggestionLabel = item.address.freeformAddress;
+
+                if (item.poi && item.poi.name) {
+                    suggestionLabel = item.poi.name + ' (' + suggestionLabel + ')';
+                }
+
+                return $("<li>")
+                    .append("<a>" + suggestionLabel + "</a>")
+                    .appendTo(ul);
+            };
+        }
+
+        async function initAzureAD() {
+            //Get Azure Active Directory token.
+            token = await getAadToken();
+
+            // Create a repeating timeout that will renew the AAD token
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getAadToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            }
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getAadToken() {
+            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
+            const response = await fetch(tokenService);
+            return response.text();
+        }
+
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed
+            // Reduce the time until renew by 5 minutes to avoid using an expired token
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 300000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
+        }
+    </script>
+    <style>
+        #searchBox {
+            width: 400px;
+        }
+
+        .addressForm {
+            margin-top: 10px;
+            background-color: #008272;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+            .addressForm input {
+                width: 265px;
+            }
+    </style>
+</head>
+<body onload="PageLoaded()">
+    <input type='text' id='searchBox' />
+
+    <table class="addressForm">
+        <tr><td>Street Address:</td><td><input type="text" id="addressLineTbx" /></td></tr>
+        <tr><td>City:</td><td><input type="text" id="cityTbx" /></td></tr>
+        <tr><td>County:</td><td><input type="text" id="countyTbx" /></td></tr>
+        <tr><td>State:</td><td><input type="text" id="stateTbx" /></td></tr>
+        <tr><td>Zip Code:</td><td><input type="text" id="postalCodeTbx" /></td></tr>
+        <tr><td>Country:</td><td><input type="text" id="countryTbx" /></td></tr>
+    </table>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Fill Address Form with Autosuggest</legend>
+        This sample shows how to use the Azure Maps Search service with <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a> which provides address suggestions as the user types and which populates a form with the selected suggestion.
+    </fieldset>
+</body>
+</html>

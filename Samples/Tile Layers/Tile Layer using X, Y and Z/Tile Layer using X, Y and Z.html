@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tile Layer using X, Y, and Z - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a simple tile layer which points to a set of tiles which use the x, y, zoom tiling system." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, layer, nautical chart, OpenSeaMap" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map;
+        
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.426181, 47.608070],
+                zoom: 11,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a tile layer and add it to the map below the label layer.
+                //Tile layer from https://openseamap.org/index.php
+                map.layers.add(new atlas.layer.TileLayer({
+                    tileUrl: 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',
+                    opacity: 0.8,
+                    tileSize: 256,
+                    minSourceZoom: 7,
+                    maxSourceZoom: 17
+                }), 'labels');
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Tile Layer using X, Y, Zoom</legend>
+        This sample shows how to create a simple tile layer which points to a set of tiles which use the x, y, zoom tiling system.
+        The source of this tile layer is a nautical chart from the <a href="https://openseamap.org/index.php">OpenSeaMap project</a>, an OpenStreetMaps project licensed under ODbL.
+    </fieldset>
+</body>
+</html>

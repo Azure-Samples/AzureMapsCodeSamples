@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Spyglass module options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how all the options of the spyglass module can be used to customize the user experience." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spyglass, synchronized maps, magnifying glass" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    
+    <!-- Add reference to the spyglass window module. -->
+    <script src="/lib/azure-maps-spyglass.min.js"></script>
+
+    <script>
+        var primaryMap, spyMap, spyglassControl;
+
+        function GetMap() {
+            //Add authentication details for connecting to Azure Maps.
+            var authOptions = {
+                //Use Azure Active Directory authentication.
+                authType: 'anonymous',
+                clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                getToken: function (resolve, reject, map) {
+                    //URL to your authentication service that retrieves an Azure Active Directory Token.
+                    var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                    fetch(tokenServiceUrl).then(function (response) {
+                        return response.text();
+                    }).then(function (token) {
+                        resolve(token);
+                    });
+                }
+
+                //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //authType: 'subscriptionKey',
+                //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+            };
+
+            //Initialize a map instances
+            primaryMap = new atlas.Map('primaryMap', {
+                center: [-85, 44],
+                zoom: 4,
+                view: 'Auto',
+                authOptions: authOptions
+            });
+
+            spyMap = new atlas.Map('spyMap', {
+                style: 'satellite_road_labels',
+                view: 'Auto',
+                authOptions: authOptions
+            });
+
+            //Create an insteance of the spyglass.
+            spyglassControl = new atlas.Spyglass(primaryMap, spyMap);
+        }
+
+        function updateSwipeMapOptions() {
+            var opt = {
+                borderColor: document.getElementById('borderColorTbx').value,
+                borderWidth: parseFloat(document.getElementById('BorderWidth').value),
+                opacity: parseFloat(document.getElementById('Opacity').value),
+                shape: document.getElementById('shapeDD').selectedOptions[0].text,
+                size: parseFloat(document.getElementById('Size').value)
+            };
+
+            spyglassControl.setOptions(opt);
+        }
+    </script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 100%;
+            min-width:290px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="mapContainer">
+        <div id="primaryMap" class="mapContainer"></div>
+        <div id="spyMap"></div>
+    </div>
+
+    <div style="position:absolute;top:15px;left:15px;border-radius:5px;background-color:#fff;padding:5px;">
+        <table>
+            <tr title="The color of the border. Can eb any CSS3 color.">
+                <td>Border Color</td>
+                <td><input id="borderColorTbx" title="The color of the border. Can eb any CSS3 color." type="color" value="#555555" onchange="updateSwipeMapOptions()" /></td>
+            </tr>
+            <tr title="The width of the border in pixels.">
+                <td>Border Width:</td>
+                <td>
+                    <form oninput="bw.value=BorderWidth.value">
+                        <input type="range" id="BorderWidth" title="The width of the border in pixels." value="5" min="0" max="20" step="1" oninput="updateSwipeMapOptions()" onchange="updateSwipeMapOptions()" />
+                        <output name="bw" for="BorderWidth">5</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="The opacity of the map in the spyglass.">
+                <td>Opacity:</td>
+                <td>
+                    <form oninput="o.value=Opacity.value">
+                        <input type="range" id="Opacity" title="The opacity of the map in the spyglass." value="1" min="0" max="1" step="0.1" oninput="updateSwipeMapOptions()" onchange="updateSwipeMapOptions()" />
+                        <output name="o" for="Opacity">1</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="The shape of the spyglass. Can be 'circle' or 'square'.">
+                <td>Shape</td>
+                <td>
+                    <select id="shapeDD" onchange="updateSwipeMapOptions()" title="The shape of the spyglass. Can be 'circle' or 'square'.">
+                        <option selected="selected">circle</option>
+                        <option>square</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="Specifies the size width/height of the shape.">
+                <td>Size</td>
+                <td>
+                    <form oninput="sz.value=Size.value">
+                        <input type="range" title="Specifies the size width/height of the shape." id="Size" value="350" min="1" max="600" step="10" oninput="updateSwipeMapOptions()" onchange="updateSwipeMapOptions()" />
+                        <output name="sz" for="Size">350</output>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Spyglass module options</legend>
+        This sample shows how all the options of the spyglass module can be used to customize the user experience.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-spyglass" target="_blank" title="Azure Maps Spyglass module">Azure Maps Spyglass module</a>.
+    </fieldset>
+</body>
+</html>

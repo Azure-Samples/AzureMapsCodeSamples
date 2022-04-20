@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Spyglass map visualization - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add a spyglass data viewer to the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spyglass, synchronized maps, magnifying glass" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    
+    <!-- Add reference to the spyglass window module. -->
+    <script src="/lib/azure-maps-spyglass.min.js"></script>
+
+    <script>
+        var primaryMap, spyMap;
+
+        function GetMap() {
+            //Add authentication details for connecting to Azure Maps.
+            var authOptions = {
+                //Use Azure Active Directory authentication.
+                authType: 'anonymous',
+                clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                getToken: function (resolve, reject, map) {
+                    //URL to your authentication service that retrieves an Azure Active Directory Token.
+                    var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                    fetch(tokenServiceUrl).then(function (response) {
+                        return response.text();
+                    }).then(function (token) {
+                        resolve(token);
+                    });
+                }
+
+                //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                //authType: 'subscriptionKey',
+                //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+            };
+
+            //Initialize a map instances.
+            primaryMap = new atlas.Map('primaryMap', {
+                center: [-87.65, 41.87],
+                zoom: 11,
+                view: 'Auto',
+                authOptions: authOptions
+            });
+
+            spyMap = new atlas.Map('spyMap', {
+				view: 'Auto',
+                authOptions: authOptions
+            });
+
+            //Create an insteance of the spyglass.
+            new atlas.Spyglass(primaryMap, spyMap, {
+                size: 400,
+                borderColor: '#555555',
+                borderWidth: 8
+            });
+
+            //Wait until the spyMap resources are ready and then load some data into is.
+            spyMap.events.add('ready', function () {
+
+                //Add an overlay of an old map image to the spyglass map.
+                spyMap.layers.add(new atlas.layer.ImageLayer({
+                    url: '/images/image-overlays/Chicago_1872_Map.png',
+                    coordinates: [
+                        [-87.732, 41.938], //Top Left Corner
+                        [-87.592, 41.9381], //Top Right Corner
+                        [-87.589, 41.811], //Bottom Right Corner
+                        [-87.7298, 41.8105]  //Bottom Left Corner
+                    ]
+                }));
+            });
+        }
+    </script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 100%;
+            min-width: 290px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="mapContainer">
+        <div id="primaryMap" class="mapContainer"></div>
+        <div id="spyMap"></div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Spyglass map visualization</legend>
+        This sample shows how to add a spyglass data viewer to the map.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-spyglass" target="_blank" title="Azure Maps Spyglass module">Azure Maps Spyglass module</a>.
+
+        The old map image in this sample comes from <a href="https://commons.wikimedia.org/wiki/File:Chicago-warner-beers-1875.jpg" target="_blank" title="Wikimedia">Wikimedia</a> and is a map of Chicago from 1875 created by Warner and Beers.
+    </fieldset>
+</body>
+</html>

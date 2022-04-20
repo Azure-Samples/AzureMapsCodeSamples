@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Forecasted Air Quality - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to retrieve forecasted Air Quality data using the Azure Maps Weather REST API." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, layer, weather, AccuWeather" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, popup;
+
+        var weatherUrl = 'https://{azMapsDomain}/weather/airQuality/forecasts/daily/json?api-version=1.1&query={query}&duration={duration}';
+
+        var weatherTemplate = {
+            title: 'Forecasted Air Quality',
+            singleDescription: false,
+            numberFormat: {
+                maximumFractionDigits: 2
+            },
+
+            //Since we trust the data being retrieve, don't sandbox the content so that we can use CSS classes.
+            sandboxContent: false
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [0, 30],
+                zoom: 1,
+                view: 'Auto',
+                style: 'grayscale_dark',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+
+                //Add a click event to the map.
+                map.events.add('click', getWeatherForPoint);
+            });
+        }
+
+        function getWeatherForPoint(e) {
+            //Close the popup if it is open.
+            popup.close();
+
+            //Request the current conditions weather data and show it in the pop up.
+            var requestUrl = weatherUrl.replace('{query}', e.position[1] + ',' + e.position[0]);
+
+            requestUrl = requestUrl.replace('{duration}', document.getElementById('duration').value);
+
+            processRequest(requestUrl).then(response => {
+                var content;
+
+                if (response && response.results && response.results[0]) {
+                    //Use the weatherTemplate settings to create templated content for the popup.
+                    content = atlas.PopupTemplate.applyTemplate(response.results, weatherTemplate);
+                } else {
+                    content = '<div style="padding:10px;">Air Quality data not available for this location.</div>';
+                }
+
+                popup.setOptions({
+                    content: content,
+                    position: e.position
+                });
+
+                popup.open(map);
+            });
+        }
+
+        function processRequest(url) {
+            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
+            return new Promise((resolve, reject) => {
+                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
+                url = url.replace('{azMapsDomain}', atlas.getDomain());
+
+                //Get the authentication details from the map for use in the request.
+                var requestParams = map.authentication.signRequest({ url: url });
+
+                //Transform the request.
+                var transform = map.getServiceOptions().tranformRequest;
+                if (transform) {
+                    requestParams = transform(url);
+                }
+
+                fetch(requestParams.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers(requestParams.headers)
+                })
+                    .then(r => r.json(), e => reject(e))
+                    .then(r => {
+                        resolve(r);
+                    }, e => reject(e));
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:15px;left:15px;border-radius:5px;background-color:#fff;padding:5px;">
+        Click anywhere on the map to retrieve forecasted Air Quality conditions.
+        <table>
+            <tr>
+                <td>Forecast days:</td>
+                <td>
+                    <form oninput="o.value=duration.value">
+                        <input type="range" id="duration" value="3" min="1" max="7" step="1" />
+                        <output name="o" for="duration">3</output>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Get forecasted Air Quality at a location</legend>
+        This sample shows how to retrieve forecasted Air Quality data using the <a href="https://docs.microsoft.com/en-us/rest/api/maps/weather/get-air-quality-daily-forecasts" target="_blank">Azure Maps Weather - Get Air Quality Daily Forecast</a> REST API.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Show points of gridded data source - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to overlay a gridded data source on the map and the data points that are aggregated inside." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, earthquakes, USGS, bivariate, data binning, data bin, gridding, hexgrid, hexbins, hexagon bins, tessellations, thematic, choropleth, heatmap, heat map, polygon extrusion, extruded polygons" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add reference to the gridded data source module. -->
+    <script src="/lib/azure-maps-gridded-data-source.min.js"></script>
+
+    <script>
+        var map, datasource;
+
+        //GeoJSON feed of all earthquakes from the past 30 days. Sourced from the USGS.
+        var earthquakeFeed = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+
+        var defaultColor = '#2c9cea';
+        var colorScale = [
+            25, '#73ffdc',
+            50, '#f9ffb9',
+            75, '#ffb849',
+            100, '#ca0056'
+        ];
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                zoom: 1,
+                view: 'Auto',
+                style: 'grayscale_dark',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Create a legend.
+            createLegend();
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source to store point data.
+                pointDatasource = new atlas.source.DataSource();
+                map.sources.add(pointDatasource);
+
+                //Load earthquake data into the point data source. When it completes, copy the points into the gridded data source.
+                pointDatasource.importDataFromUrl(earthquakeFeed).then(() => {
+                    datasource.add(pointDatasource.toJson());
+                });
+
+                //Create an instance of the gridded data source.
+                datasource = new atlas.source.GriddedDataSource(null, {
+                    cellWidth: 300,
+                    distanceUnits: 'miles'
+                });
+                map.sources.add(datasource);
+
+                //Create a stepped expression based on the color scale.
+                var steppedExp = [
+                    'step',
+                    ['get', 'point_count'],
+                    defaultColor
+                ];
+                steppedExp = steppedExp.concat(colorScale);
+                
+                map.layers.add([
+                    //Create layers to render the polygon and outline of each grid cell.
+                    new atlas.layer.PolygonLayer(datasource, null, {
+                        fillColor: steppedExp,
+                        fillOpacity: 0.9
+                    }), 
+                
+                    new atlas.layer.LineLayer(datasource, null, {
+                        strokeColor: 'white',
+                        strokeWidth: 1,
+                    }),
+
+                    //Create a layer to render the individual points on the map.
+                    new atlas.layer.BubbleLayer(pointDatasource, null, {
+                        radius: 2,
+                        color: '#ff007f',
+                        strokeWidth: 0
+                    })
+                ], 'labels');
+            });
+        }
+
+        function changeGridType(elm) {
+            datasource.setOptions({ gridType: elm.options[elm.selectedIndex].value });
+        }
+
+        function createLegend() {
+            var html = [];
+            html.push('<i style="background:', defaultColor, '"></i> 1 - ', colorScale[0], '<br/>');
+
+            for (var i = 0; i < colorScale.length; i += 2) {
+                html.push(
+                    '<i style="background:', (colorScale[i + 1]), '"></i> ',
+                    colorScale[i], (colorScale[i + 2] ? ' - ' + colorScale[i + 2] + '<br/>' : '+')
+                );
+            }
+
+            document.getElementById('legendColors').innerHTML += html.join('');
+        }
+    </script>
+    <style>
+        #legend {
+            position: absolute;
+            top: 1px;
+            left: 5px;
+            font-family: Arial;
+            font-size: 12px;
+            background-color: white;
+            border-radius: 5px;
+            padding: 5px;
+            line-height: 20px;
+        }
+
+            #legend i {
+                width: 18px;
+                height: 18px;
+                float: left;
+                margin-right: 8px;
+            }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="legend">
+        <b>Earthquakes per cell</b><br/>
+        <div id="legendColors"></div><br/> 
+        <b>Grid type:</b><br/>
+        <select onchange="changeGridType(this);">
+            <option value="circle">Circle</option>
+            <option selected="selected" value="hexagon">Hexagon</option>
+            <option value="hexCircle">Hex Circle</option>
+            <option value="pointyHexagon">Pointy Hexagon</option>
+            <option value="square">Square</option>
+            <option value="triangle">Triangle</option>
+        </select>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Show points of gridded data source</legend>
+        This sample shows how to overlay a gridded data source on the map and the data points that are aggregated inside.
+        The data in this sample is all earthquakes that have occured in the past month.
+        This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-gridded-data-source" target="_blank">Azure Maps Gridded Data Source module</a>.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add a Context Menu to the Map - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to display a context menu when the user right clicks the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, context menu, popup, right click, mouse" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, contextMenu;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                var contextMenuHtml = [
+                    '<ul class="contextMenu">',
+                    '<li onmousedown="setStyle(event, \'road\');">Road</li>',
+                    '<li onmousedown="setStyle(event, \'satellite_road_labels\');">Satellite</li>',
+                    '<li onmousedown="changeZoom(event, 1);">Zoom In</li>',
+                    '<li onmousedown="changeZoom(event, -1);">Zoom Out</li>',
+                    '</ul>'
+                ];
+
+                //Create a context menu using a popup.
+                contextMenu = new atlas.Popup({
+                    //Hide the close button. Will close the context menu when the user selects an option or clicks anywhere else on the screen.
+                    closeButton: false,
+
+                    //Set content of the popup with HTML for the context menu.
+                    content: contextMenuHtml.join('')
+                });
+
+                //Close the context menu if the user presses the mouses down anywhere else on the screen.
+                document.body.onmousedown = function () {
+                    contextMenu.close();
+                };
+
+                //Add a right click event to the map.
+                map.events.add('contextmenu', function (e) {
+                    //Update the position of the popup context menu with the mouse position.
+                    contextMenu.setOptions({                        
+                        position: e.position
+                    });
+
+                    //Open the popup context menu.
+                    contextMenu.open(map);
+                });
+            });
+        }
+
+        function setStyle(event, style) {
+            //Set the map style.
+            map.setStyle({
+                style: style
+            });
+
+            //Prevent event from bubbling up.
+            event.preventDefault();
+        }
+
+        function changeZoom(event, zoomOffset) {
+            //Get the current zoom level of the map and offset it accordingly. 
+            map.setCamera({ zoom: map.getCamera().zoom + zoomOffset });
+
+            //Prevent event from bubbling up.
+            event.preventDefault();
+        }
+    </script>
+    <style>
+        .contextMenu {
+            border: 1px solid gray;
+            min-width: 125px;
+            list-style: none;
+            display: block;
+            list-style-position: outside;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .contextMenu li {
+                cursor: pointer;
+                display: block;
+                padding: 6px 12px;
+            }
+
+                .contextMenu li:focus, .contextMenu li:hover {
+                    background-color: rgba(0,0,0,.05);
+                }
+
+            .contextMenu a,
+            .contextMenu a:hover,
+            .contextMenu a:focus,
+            .contextMenu a:active {
+                text-decoration: none;
+                color: black;
+                font-size: 14px;
+            }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Add a Context Menu to the Map</legend>
+        This sample shows how to display a context menu when the user right clicks the map. In this case an popup is used as a context menu container.
+    </fieldset>
+</body>
+</html>

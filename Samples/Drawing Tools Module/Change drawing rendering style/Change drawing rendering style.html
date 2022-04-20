@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Change drawing rendering style - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to customize the rendering of the drawing shapes in the drawing manager by accessing the rendering layers using the drawingManager.getLayers() function." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, drawing manager, paint, customize" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js"></script>
+
+    <script>
+        var map, drawingManager;
+
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.33, 47.6],
+                zoom: 12,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create an instance of the drawing manager and display the drawing toolbar.
+                drawingManager = new atlas.drawing.DrawingManager(map, {
+                    toolbar: new atlas.control.DrawingToolbar({ position: 'top-right', style: 'light' })
+                });
+
+                //Get the rendering layers from the drawing manager and modify their options.
+                var layers = drawingManager.getLayers();
+                layers.pointLayer.setOptions({ iconOptions: { image: 'marker-blue', size: 1 } });
+                layers.lineLayer.setOptions({ strokeColor: 'red', strokeWidth: 4 });
+                layers.polygonLayer.setOptions({ fillColor: 'green' });
+                layers.polygonOutlineLayer.setOptions({ strokeColor: 'orange' });
+
+                //Get preview rendering layers from the drawing manager and modify line styles to be dashed.
+                var previewLayers = drawingManager.getPreviewLayers();
+                previewLayers.lineLayer.setOptions({ strokeColor: 'red', strokeWidth: 4, strokeDashArray: [3,3] });
+                previewLayers.polygonOutlineLayer.setOptions({ strokeColor: 'orange', strokeDashArray: [3, 3] });
+
+                //Drag handles that appear for coordinates when editting are HTML markers.
+                //HTML marker options can be passed to the drawing manager as options.
+                drawingManager.setOptions({
+                    //Primary drag handle that represents coordinates in the shape.
+                    dragHandleStyle: {
+                        anchor: 'center',
+                        htmlContent: '<svg width="15" height="15" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer"><rect x="0" y="0" width="15" height="15" style="stroke:black;fill:white;stroke-width:4px;"/></svg>',
+                        draggable: true
+                    },
+
+                    //Secondary drag hanle that represents mid-point coordinates that users can grab to add new cooridnates in the middle of segments.
+                    secondaryDragHandleStyle: {
+                        anchor: 'center',
+                        htmlContent: '<svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer"><rect x="0" y="0" width="10" height="10" style="stroke:white;fill:black;stroke-width:4px;"/></svg>',
+                        draggable: true
+                    }
+                });               
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Change drawing rendering style</legend>
+        This sample shows how to customize the rendering of the drawing shapes in the drawing manager by
+        accessing the rendering layers using the <b>drawingManager.getLayers()</b> and <b>drawingManager.getPreviewLayers()</b> functions.
+        Drag handles that appear for coordinates when editting are HTML markers, and can be styled by setting the <b>dragHandleStyle</b> and <b>secondaryDragHandleStyle</b> drawing manager options.
+    </fieldset>
+</body>
+</html>

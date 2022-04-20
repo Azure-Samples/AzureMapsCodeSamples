@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Travel time analysis of multiple locations - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, travel time, isochrone, route range, within, intersects, intersection, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <!-- Add reference to the Azure Maps Spatial IO module. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+
+    <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
+    <script src='/scripts/turf.min.js'></script>
+
+    <script>
+        var map, datasource, routeURL, layer;
+
+        var policeStationsUrl = '/data/SpatialCSV/Chicago_Police_Stations.csv';
+        var bikeRacksUrl = '/data/SpatialCSV/Chicago_Bike_Racks.csv';
+
+        function GetMap() {
+
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                style: 'grayscale_light',
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Construct the RouteURL object
+            routeURL = new atlas.service.RouteURL(pipeline);
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a popup but leave it closed so we can update it and display it later.
+                popup = new atlas.Popup();
+
+                //Create a data source ad add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a simple data layer for rendering the data.
+                layer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: [
+                        'step',
+                        ['get', 'totalBikeRacks'],
+                        'transparent',
+                        1, '#f0f9e8',
+                        2, '#bae4bc',
+                        3, '#7bccc4',
+                        4, '#43a2ca',
+                        5, '#0868ac'
+                    ],
+                    fillOpacity: 0.8
+                });
+                map.layers.add(layer, 'labels');
+
+                //Add a click event to the layers.
+                map.events.add('click', layer, showPopup);
+
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'black'
+                }));
+
+                //Add a bubble layer for displaying police stations.
+                map.layers.add(new atlas.layer.BubbleLayer(datasource, null, {
+                    filter: ['==', ['geometry-type'], 'Point']
+                }));
+
+                document.getElementById('statusPanel').innerHTML = '<br/>Downloading data...';
+
+                //Download the police station and crime data in parrallel.
+                Promise.all([
+                    atlas.io.read(policeStationsUrl),
+                    atlas.io.read(bikeRacksUrl)
+                ]).then(function (values) {
+                    var stations = values[0];
+                    var bikeRacks = values[1];
+
+                    //Update map view to display the area of bike racks.
+                    map.setCamera({
+                        bounds: bikeRacks.bbox
+                    });
+
+                    //Add the police station data to the map.
+                    datasource.add(stations);
+
+                    var routeRangePromises = [];
+
+                    //Calculate the travel time polygons from each station.
+                    for (var i = 0; i < stations.features.length; i++) {
+                        routeRangePromises.push(routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), stations.features[i].geometry.coordinates, {
+                            travelMode: 'pedestrian',
+                            timeBudgetInSec: 5 * 60 //5 minutes.
+                        }));
+                    }
+
+                    Promise.all(routeRangePromises).then(values => {
+                        var isochrones = [];
+
+                        for (var i = 0; i < values.length; i++) {
+                            var data = values[i].geojson.getFeatures();
+
+                            //Copy the properties of the police station to the travel time polygon.
+                            data.features[0].properties = stations.features[i].properties;
+
+                            //Spatially join the bike rack data with each travel time polygon, then use the total number of bike racks as the aggregate.
+                            var ptsWithin = turf.pointsWithinPolygon(bikeRacks, data.features[0]);
+                            data.features[0].properties.totalBikeRacks = ptsWithin.features.length;
+
+                            //The first feature is the polygon, the second is the origin point which we can leave out.
+                            //Close the polygon.
+                            data.features[0].geometry.coordinates[0].push(data.features[0].geometry.coordinates[0][0]);
+                            isochrones.push(data.features[0]);
+                        }
+
+                        datasource.add(isochrones);
+                    });
+
+                    document.getElementById('statusPanel').innerHTML = '';
+                });
+            });
+        }
+
+        function showPopup(e) {
+            if (e.shapes && e.shapes.length > 0) {
+                var properties = e.shapes[0].getProperties();
+
+                popup.setOptions({
+                    //Update the content of the popup.
+                    content: atlas.PopupTemplate.applyTemplate(properties, {
+                        title: '{totalBikeRacks} bike racks'
+                    }),
+
+                    //Update the position of the popup.
+                    position: (e.shapes[0].getType() === 'Point') ? e.shapes[0].getCoordinates() : e.position
+                });
+
+                //Open the popup.
+                popup.open(map);
+            }
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: 100%;
+            min-width: 290px;
+            height: 600px;
+        }
+
+        .legend {
+            font-family: Arial;
+            font-size: 12px;
+            position: absolute;
+            top: 480px;
+            background-color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+            .legend i {
+                width: 12px;
+                height: 12px;
+                float: left;
+                margin-right: 8px;
+                opacity: 0.7;
+            }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap"></div>
+
+    <div class="legend" style="left: 15px;">
+        <b>Number of Bike Racks</b>
+        <table>
+            <tr><td><i style='background:#0868ac' /></td><td>5+</td></tr>
+            <tr><td><i style='background:#43a2ca' /></td><td>4</td></tr>
+            <tr><td><i style='background:#7bccc4' /></td><td>3</td></tr>
+            <tr><td><i style='background:#bae4bc' /></td><td>2</td></tr>
+            <tr><td><i style='background:#f0f9e8' /></td><td>1</td></tr>
+        </table>
+        <div id="statusPanel"></div>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Travel time analysis of multiple locations</legend>
+        This sample shows how to add calculate travel times areas for multiple points, and then spatially join these travel time polygons with a secondary set of points to calculate aggregates.
+        This sample uses the Azure Maps Route Range service to calculate a 5 minute pedestrian (walking) travel time around police stations in Chicago, and then joins it with the location of bike racks.
+        This analysis tells us how many bike racks are within a 5 minute walk of a police station in Chicago.
+        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
+    </fieldset>
+</body>
+</html>

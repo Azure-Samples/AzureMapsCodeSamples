@@ -1,39 +1,26 @@
----
-page_type: sample
-description: A collection of over a hundred code samples for the Azure Maps Web SDK.
-languages:
-- javascript
-products:
-- azure
-- azure-maps
----
-
 # Azure Maps Code Samples
 
-A collection of over a hundred code samples for the [Azure Maps](https://azure.com/maps) Web SDK.
+A collection of over a hundred code samples for the [Azure Maps](https://azuremaps.com/) Web SDK.
 
-[Try it now](https://azuremapscodesamples.azurewebsites.net/)
+[Try it now](https://samples.azuremaps.com/)
 
-[![screenshot](Images/screenshot.png)](https://azuremapscodesamples.azurewebsites.net/)
-
-Code samples for the Government Cloud version of Azure can be found [here](https://github.com/Azure-Samples/AzureMapsGovCloudCodeSamples)
+[![screenshot](Static/images/screenshot.jpg)](https://samples.azuremaps.com/)
 
 ## Related Projects
 
 * [Azure Maps Web SDK Open modules](https://github.com/microsoft/Maps/blob/master/AzureMaps.md#open-web-sdk-modules) - A collection of open source modules that extend the Azure Maps Web SDK.
-* [Azure Maps Web SDK Samples](https://github.com/Azure-Samples/AzureMapsCodeSamples)
-* [Azure Maps Gov Cloud Web SDK Samples](https://github.com/Azure-Samples/AzureMapsGovCloudCodeSamples)
 * [Azure Maps & Azure Active Directory Samples](https://github.com/Azure-Samples/Azure-Maps-AzureAD-Samples)
 * [List of open-source Azure Maps projects](https://github.com/microsoft/Maps/blob/master/AzureMaps.md)
 
 ## Additional Resources
 
-* [Azure Maps (main site)](https://azure.com/maps)
-* [Azure Maps Documentation](https://docs.microsoft.com/azure/azure-maps/index)
-* [Azure Maps Blog](https://azure.microsoft.com/blog/topics/azure-maps/)
-* [Microsoft Q&A](https://docs.microsoft.com/en-us/answers/topics/azure-maps.html)
-* [MSDN Forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=azurelbs)
-* [Azure Maps feedback](https://feedback.azure.com/forums/909172-azure-maps)
+* [Azure Maps (main site)](https://azuremaps.com/)
+* [Azure Maps Documentation](https://docs.azuremaps.com/)
+* [Azure Maps Samples](https://samples.azuremaps.com/)
+* [Azure Maps Demo](https://demo.azuremaps.com/)
+* [Azure Maps Blog](https://blog.azuremaps.com/)
+* [Azure Maps Updates](https://updates.azuremaps.com/)
+* [Azure Maps Data feedback](https://feedback.azuremaps.com/)
 
 ## Contributing
 

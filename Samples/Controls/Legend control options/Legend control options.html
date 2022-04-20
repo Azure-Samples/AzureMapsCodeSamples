@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Legend control options - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how the different options of the legend control change the user experience." />
+    <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, legend, legend control" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Load in the JavaScript and CSS files that has our custom control. -->
+    <link rel="stylesheet" href="/lib/azure-maps-layer-legend.min.css" type="text/css" />
+    <script src="/lib/azure-maps-layer-legend.min.js"></script>
+
+    <script>
+        var map, legend;
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                     authType: 'anonymous',
+                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                     getToken: function (resolve, reject, map) {
+                         //URL to your authentication service that retrieves an Azure Active Directory Token.
+                         var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+ 
+                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                     }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+               //Add the custom control to the map.
+               legend = new atlas.control.LegendControl({
+                    //Two sample legend cards.
+                    legends: [                    
+                        {
+                            type: 'category',
+                            subtitle: 'Category',
+                            layout: 'column',
+                            itemLayout: 'row',
+                            footer: 'A category legend that uses a combination of shapes and icons.',
+                            strokeWidth: 2,
+                            items: [
+                                {
+                                    color: 'DodgerBlue',
+                                    label: 'Hello',
+                                    shape: '/images/icons/campfire.png'
+                                }, {
+                                    color: 'Yellow',
+                                    label: 'World',
+                                    shape: 'square'
+                                }, {
+                                    color: 'Orange',
+                                    label: 'Ricky',
+                                    shape: 'line'
+                                }, {
+                                    color: 'Red',
+                                    label: 'is',
+                                    shape: 'circle'
+                                }, {
+                                    color: 'purple',
+                                    label: 'awesome!',
+                                    shape: 'triangle'
+                                }
+                            ]
+                        },{
+                            type: 'gradient',
+                            subtitle: 'Gradient legend',
+                            footer: 'A gradient legend that uses multiple color stops, some having labels.',
+
+                            stops: [
+                                {
+                                    offset: 0,
+                                    color: 'royalblue',
+                                    label: 'low'
+                                },
+                                {
+                                    offset: 0.25,
+                                    color: 'cyan'
+                                },
+                                {
+                                    offset: 0.5,
+                                    color: 'lime',
+                                    label: 'medium'
+                                }, 
+                                {
+                                    offset: 0.75,
+                                    color: 'yellow'
+                                },{
+                                    offset: 1,
+                                    color: 'red',
+                                    label: 'high'
+                                }
+                            ]
+                        }
+                    ]
+                });
+
+                //Add the legend control to the map.
+                map.controls.add(legend, {
+                    position: 'bottom-left'
+                });          
+
+                // Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    mapStyles: 'all'
+                }), {
+                    position: 'top-left'
+                });
+            });
+        }
+
+        function setTitle(elm) {
+            legend.setOptions({
+                title: elm.value
+            });
+        }
+
+        function setLayout(elm){
+            legend.setOptions({
+                layout: elm.value
+            });
+        }
+
+        function setStyle(elm){
+            legend.setOptions({
+                style: elm.value
+            });
+        }
+
+        function setVisible(elm){
+            legend.setOptions({
+                visible: elm.checked
+            });
+        }
+
+        function setContainerId(elm) {
+            var containerId = null;
+
+            if (elm.checked) {
+                containerId = 'test';
+            }
+
+            legend.setOptions({
+                container: containerId
+            });
+        }
+
+        function showToggle(elm) {
+            legend.setOptions({
+                showToggle: elm.checked
+            });
+        }
+
+        function setMinimized(elm) {
+            legend.setOptions({
+                minimized: elm.checked
+            });
+        }
+    </script>
+    <style>
+        .sidePanel {
+            width: 350px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 360px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div class="sidePanel">
+        <fieldset style="width:320px;margin-bottom:10px;">
+            <legend>Legend control options</legend>
+            This sample shows how the different options of the legend control change the user experience.
+        </fieldset>
+        
+        <table>
+            <tr title="The global title of the legend control.">
+                <td>Title:</td>
+                <td>
+                   <input type="text" oninput="setTitle(this)" title="Title" />
+                </td>
+            </tr>
+            <tr title="How multiple legends are laid out.">
+                <td>Layout:</td>
+                <td>
+                    <select onchange="setLayout(this)" title="Layout">
+                        <option>accordion</option>
+                        <option selected="selected">carousel</option>
+                        <option>list</option>                        
+                    </select>
+                </td>
+            </tr>
+            <tr title="Specifies if the expand/collapse button show be displayed.">
+                <td>Show toggle:</td>
+                <td><input type="checkbox" onclick="showToggle(this)" checked="checked" title="Show toggle" /></td>
+            </tr>
+            <tr title="Specifies if the control should be minimized. Only works when showToggle is true.">
+                <td>Minimized:</td>
+                <td><input type="checkbox" onclick="setMinimized(this)" title="Minimized" /></td>
+            </tr>
+            <tr title="The style of the control.">
+                <td>Style:</td>
+                <td>
+                    <select onchange="setStyle(this)" title="Style">
+                        <option>auto</option>
+                        <option>auto-reverse</option>
+                        <option>dark</option>
+                        <option selected="selected">light</option>
+                    </select>
+                </td>
+            </tr>
+            <tr title="Specifies if the legend control is visible or not.">
+                <td>Visible:</td>
+                <td><input id="Visible" type="checkbox" onclick="setVisible(this)" checked="checked" title="Visible" /></td>
+            </tr>
+            <tr title="Specifies that the legend control should render in a element outside the map.">
+                <td>Container:</td>
+                <td><input type="checkbox" onclick="setContainerId(this)" title="Container" /> show in test area</td>
+            </tr>
+        </table>
+
+        <fieldset style="width:320px;margin-bottom:10px;">
+            <legend>Test area</legend>
+            <div id="test"></div>
+        </fieldset>
+
+        <p>
+            The LegendControl also has options for;
+            <ul>
+                <li>legends - legend cards to render inside the control.</li>
+                <li>resx - used specify localization strings.</li>
+                <li>zoomBehavior - how legends are rendered when outside of zoom range.</li>
+            </ul>
+        </p>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+</html>

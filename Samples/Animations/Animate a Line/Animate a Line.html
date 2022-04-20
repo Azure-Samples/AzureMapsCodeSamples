@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Animate a Line - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to animate the position of a line on the map by updating its coordinates and layer." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animate, animation, line, linestring, polyline" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, line;
+
+        var speedFactor = 30; //The number of frames per longitude degree.
+        var animation;
+        var startTime = 0;
+        var progress = 0; //Progress = timestamp - startTime
+        var resetTime = false; //Indicates if the animation time needs to be reset.
+        var pauseButton = document.getElementById('pause');
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer that defines how to render the line on the map.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'red',
+                    strokeWidth: 5
+                }));
+
+                //Create a line object and wrap it with the Shape class for easier updating.
+                line = new atlas.Shape(new atlas.data.Feature(new atlas.data.LineString([[0, 0], [0, 0]])));
+                datasource.add(line);
+
+                startTime = performance.now();
+
+                //Start the animation.
+                animateLine();
+
+                var pauseButton = document.getElementById('pause');
+                pauseButton.addEventListener('click', function () {
+                    pauseButton.classList.toggle('pause');
+                    if (pauseButton.classList.contains('pause')) {
+                        cancelAnimationFrame(animation);
+                    } else {
+                        resetTime = true;
+                        animateLine();
+                    }
+                });
+
+                //If the browser tab gains/losses focus, reset startTime and progress, and pause requestAnimationFrame.
+                document.addEventListener('visibilitychange', function () {
+                    resetTime = true;
+                });
+            });
+        }
+
+        function animateLine(timestamp) {
+            if (resetTime) {
+                //Resume previous progress.
+                startTime = performance.now() - progress;
+                resetTime = false;
+            } else if (timestamp) {
+                progress = timestamp - startTime;
+            } else {
+                progress = 0;
+            }
+
+            //Restart if it finishes a loop.
+            if (progress > speedFactor * 360) {
+                startTime = timestamp;
+                line.setCoordinates([[0, 0], [0, 0]]);
+            } else {
+                var x = progress / speedFactor;
+
+                //Draw a sine wave with some math.
+                var y = Math.sin(x * Math.PI / 90) * 40;
+
+                //Append new coordinates to the line.
+                var coords = line.getCoordinates();
+                coords.push([x, y]);
+
+                //Update the line on the map.
+                line.setCoordinates(coords);
+            }
+
+            // Request the next frame of the animation.
+            animation = requestAnimationFrame(animateLine);
+        }
+    </script>
+    <style>
+        #myMap {
+            position: relative;
+            width: 100%;
+            min-width:290px;
+            height: 600px;
+        }
+
+        #pause {
+            position: absolute;
+            top: 20PX;
+            left: 20PX;
+        }
+
+            #pause::after {
+                content: 'Pause';
+            }
+
+            #pause.pause::after {
+                content: 'Play';
+            }
+    </style>
+</head>
+<body onload='GetMap()'>
+    <div id='myMap'></div>
+
+    <button id="pause">pause</button>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Animate a Line</legend>
+        This sample shows how to animate the position of a line on the map by appending coordinates to it over time.
+    </fieldset>
+</body>
+</html>
