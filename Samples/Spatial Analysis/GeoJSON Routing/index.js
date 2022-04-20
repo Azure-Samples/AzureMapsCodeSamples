@@ -8,11 +8,11 @@ var crossAntiMeridian = true;
 
 var geoJsonFiles = {
     '':'',
-    'Ipswich (5.9MB)': '/Common/data/geojson/route-networks/Ipswich-Road-Network.json',
-    'Montreal (19.4MB)': '/Common/data/geojson/route-networks/montreal_roads.json',
-    'Niagra Region (10.7MB)': '/Common/data/geojson/route-networks/niagra_roads.json',
-    'San Diego Transit (3MB)': '/Common/data/geojson/route-networks/transit_routes_datasd.geojson',
-    'Maritime trade routes (2.2MB)': '/Common/data/geojson/route-networks/maritime-trade-routes.geojson'
+    'Ipswich (5.9MB)': '/data/geojson/route-networks/Ipswich-Road-Network.json',
+    'Montreal (19.4MB)': '/data/geojson/route-networks/montreal_roads.json',
+    'Niagra Region (10.7MB)': '/data/geojson/route-networks/niagra_roads.json',
+    'San Diego Transit (3MB)': '/data/geojson/route-networks/transit_routes_datasd.geojson',
+    'Maritime trade routes (2.2MB)': '/data/geojson/route-networks/maritime-trade-routes.geojson'
 };
 
 function GetMap() {
