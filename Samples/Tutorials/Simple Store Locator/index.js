@@ -3,10 +3,10 @@
 var maxClusterZoomLevel = 11;
 
 //The URL to the store location data.
-var storeLocationDataUrl = 'data/ContosoCoffee.txt';
+var storeLocationDataUrl = '/tutorials/simple-store-locator/data/ContosoCoffee.txt';
 
 //The URL to the icon image. 
-var iconImageUrl = 'images/CoffeeIcon.png';
+var iconImageUrl = '/tutorials/simple-store-locator/images/CoffeeIcon.png';
 
 //An array of country region ISO2 values to limit searches to.
 var countrySet = ['US', 'CA', 'GB', 'FR','DE','IT','ES','NL','DK'];      
@@ -25,21 +25,17 @@ function initialize() {
                 authOptions: {
                     //Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: '04ec075f-3827-4aed-9975-d56301a2d663', //Your Azure Maps Azure Active Directory account client id.
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://azuremapscodesamples.azurewebsites.net/Common/TokenService.ashx";
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
 
-                        fetch(tokenServiceUrl).then(function (response) {
-                            return response.text();
-                        }).then(function (token) {
-                            resolve(token);
-                        });
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
 
                     //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
-                    //subscriptionKey: '<Your Azure Maps Key>'
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
     });
 
@@ -458,7 +454,7 @@ function showPopup(shape) {
         //Add the distance information.  
         '<br/>', distance,
         ' miles away',
-        '<br /><img src="images/PhoneIcon.png" title="Phone Icon"/><a href="tel:',
+        '<br /><img src="/tutorials/simple-store-locator/images/PhoneIcon.png" title="Phone Icon"/><a href="tel:',
         properties['Phone'],
         '">', 
         properties['Phone'],
@@ -469,11 +465,11 @@ function showPopup(shape) {
         html.push('<br/>Amenities: ');
 
         if (properties['IsWiFiHotSpot']) {
-            html.push('<img src="images/WiFiIcon.png" title="Wi-Fi Hotspot"/>');
+            html.push('<img src="/tutorials/simple-store-locator/images/WiFiIcon.png" title="Wi-Fi Hotspot"/>');
         }
 
         if (properties['IsWheelchairAccessible']) {
-            html.push('<img src="images/WheelChair-small.png" title="Wheelchair Accessible"/>');
+            html.push('<img src="/tutorials/simple-store-locator/images/WheelChair-small.png" title="Wheelchair Accessible"/>');
         }
     }
 

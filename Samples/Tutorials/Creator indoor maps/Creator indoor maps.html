@@ -88,7 +88,7 @@
                 /* Upon a mouse click, log the feature properties to the browser's console. */
                 map.events.add("click", function (e) {
 
-                    var features = map.layers.getRenderedShapes(e.position, 'StateLayer');
+                    var features = map.layers.getRenderedShapes(e.position, 'unit');
 
                     writeToInfoPanel('Feature(s) clicked:', features);
 
