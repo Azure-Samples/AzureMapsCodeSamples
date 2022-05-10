@@ -50,6 +50,13 @@
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
+                //Add style control for measurements on satellite imagery.
+                map.controls.add(new atlas.control.StyleControl({
+                    //Alternatively, specify an array of all the map styles you would like displayed in the style picker.
+                    mapStyles: ['road', 'satellite', 'satellite_road_labels']
+                }), {
+                    position: 'top-left'
+                });
 
                 //Create an instance of the drawing manager and display the drawing toolbar.
                 drawingManager = new atlas.drawing.DrawingManager(map, {
