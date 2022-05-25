@@ -1,6 +1,4 @@
-﻿var pushToUrl = new pushToUrl();
-
-var data = [];
+﻿var data = [];
 
 async function Start() {
     data = await $.getJSON('/samples.json').fail(function () { showFailed(); });
@@ -17,8 +15,8 @@ function showFailed() {
 
 // Show all samples and categories
 function showSampleCards() {
-    var search = pushToUrl.get('search');
-    if (!search || search === '') {
+    var search = $.QueryString.search;
+    if (!search) {
         $('#sampleList').empty();
         $.each(data.Categories, function (index, value) {
             $('#sampleList').append(`<div class="w-100"><a name="${value.Id}"></a><h3 class="fw-light">${value.Title} <small class="text-muted">(${value.NumberOfSamples})</small></h3><p>${value.Description}</p></div>`);
@@ -31,9 +29,10 @@ function showSampleCards() {
 
 // Show sample search resiult from url if any
 function showSearchFromUrl() {
-    var search = pushToUrl.get('search');
-    if (search && search !== '') {
-        search = decodeURIComponent(search);
+    var search = $.QueryString.search;
+    if (search) {
+
+        search = search.replace(/[^a-zA-Z0-9 ]/g, '');
 
         $('#searchBox').val(search);
 
@@ -61,8 +60,8 @@ function showSearchFromUrl() {
 
 // Open sample from Url if any
 function openSampleFromUrl() {
-    var sample = pushToUrl.get('sample');
-    if (sample && sample !== '') {
+    var sample = $.QueryString.sample;
+    if (sample) {
         var found = false;
         $.each(data.Categories, function (index, value) {
             $.each(value.Samples, function (index, value) {
@@ -88,13 +87,15 @@ $('#sampleModal').on('show.bs.modal', function (event) {
         $('#sampleModalSource').attr('href', button.getAttribute('data-bs-source'));
         $('#sampleModalPath').attr('src', button.getAttribute('data-bs-path'));
 
-        pushToUrl.add({ key: 'sample', value: encodeURIComponent(button.getAttribute('data-bs-id')) });
+        $.QueryString.sample = button.getAttribute('data-bs-id');
+        history.replaceState({}, '', "?" + $.param($.QueryString));
     }
 });
 
 // handel closing sample model
 $('#sampleModal').on('hide.bs.modal', function () {
-    pushToUrl.remove('sample');
+    $.QueryString.sample = '';
+    history.replaceState({}, '', "?" + $.param($.QueryString));
 });
 
 // handel search input
@@ -106,10 +107,15 @@ $('input[type=search]').on('input', function () {
 }).on('search', function () {
     var search = $(this).val().trim();
     if (search) {
-        pushToUrl.add({ key: 'search', value: encodeURIComponent(search) });
+
+        $.QueryString.search = search;
+        history.replaceState({}, '', "?" + $.param($.QueryString));
+
         showSearchFromUrl();
     } else {
-        pushToUrl.remove('search');
+        $.QueryString.search = '';
+        history.replaceState({}, '', "?" + $.param($.QueryString));
+
         showSampleCards();
     }
 });
@@ -129,3 +135,21 @@ $('#sampleModalPath').on('load', function () {
     $(this).contents().find("body").css("font-family", "Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif");
     $(this).contents().find("body").css("font-size", "14px");
 });
+
+(function ($) {
+    $.QueryString = (function (paramsArray) {
+        let params = {};
+
+        for (let i = 0; i < paramsArray.length; ++i) {
+            let param = paramsArray[i]
+                .split('=', 2);
+
+            if (param.length !== 2)
+                continue;
+
+            params[param[0]] = decodeURIComponent(param[1].replace(/\+/g, " "));
+        }
+
+        return params;
+    })(window.location.search.substr(1).split('&'))
+})(jQuery);
