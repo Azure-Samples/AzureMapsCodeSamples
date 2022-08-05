@@ -22,7 +22,7 @@
     <script>
         var map, datasource, layer, imageLayers = [], imageIcons = [], loadingIcon, statsOuput;
 
-        var proxyServiceUrl = window.location.origin + '/CorsEnabledProxyService.ashx?url=';
+        var proxyServiceUrl = 'https://samples.azuremaps.com/api/GetDataFromUrl?url=';
 
         function GetMap() {
             loadingIcon = document.getElementById('loadingIcon');
@@ -64,7 +64,7 @@
 
         function loadData(url, isAbsolute) {
             if (!isAbsolute) {
-                url = window.location.origin + url;
+                url = 'https://samples.azuremaps.com' + url;
             }
 
             loadingIcon.style.display = '';
@@ -266,12 +266,12 @@
         <div id="External" class="tabcontent" style="display:block;">
             These files are hosted on other domains.
             <br /><br />
-            <b>Proxied feeds</b>
+            <!--<b>Proxied feeds</b>
             <br /><br />
             These feeds are hosted on endpoints that don't have CORs enabled. A proxy service is used to make the cross domain request possible.
             <ul>
                 <li><a href="javascript:void(0);" onclick="loadData('https://www.brianabbott.net/media/kml/NYC-Transit.kmz', true);">New York City Metro (KMZ)</a></li>
-            </ul>
+            </ul>-->
 
             <b>CORs enabled feeds</b>
             <ul>

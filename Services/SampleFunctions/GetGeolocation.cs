@@ -13,8 +13,8 @@ namespace SampleFunctions
 {
     public static class GetGeolocation
     {
-        private static readonly string[] allowd = { "https://samples.azuremaps.com/",
-                                                    "http://localhost"};
+        private static readonly string[] allowed = { "https://samples.azuremaps.com/",
+                                                     "http://localhost"};
 
         private static readonly HttpClient httpClient = new();
 
@@ -25,7 +25,7 @@ namespace SampleFunctions
             if (string.IsNullOrEmpty(referer))
                 return new UnauthorizedResult();
 
-            string result = Array.Find(allowd, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
+            string result = Array.Find(allowed, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
             if (string.IsNullOrEmpty(result))
                 return new UnauthorizedResult();
 

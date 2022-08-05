@@ -11,9 +11,9 @@ namespace SampleFunctions
 {
     public static class GetAzureMapsToken
     {
-        private static readonly string[] allowd = { "https://samples.azuremaps.com/",
-                                                    "https://demo.azuremaps.com/",
-                                                    "http://localhost"};
+        private static readonly string[] allowed = { "https://samples.azuremaps.com/",
+                                                     "https://demo.azuremaps.com/",
+                                                     "http://localhost"};
 
         [FunctionName("GetAzureMapsToken")]
         public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
@@ -22,7 +22,7 @@ namespace SampleFunctions
             if (string.IsNullOrEmpty(referer))
                 return new UnauthorizedResult();
 
-            string result = Array.Find(allowd, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
+            string result = Array.Find(allowed, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
             if (string.IsNullOrEmpty(result))
                 return new UnauthorizedResult();
 
