@@ -22,7 +22,7 @@
     <script>
         var map, datasource, layer;
 
-        var proxyServiceUrl = window.location.origin + '/CorsEnabledProxyService.ashx?url=';
+        var proxyServiceUrl = 'https://samples.azuremaps.com/api/GetDataFromUrl?url=';
 
         function GetMap() {
             //Initialize a map instance.
@@ -58,7 +58,7 @@
                 map.layers.add(layer);
 
                 //Read a KML file from a URL or pass in a raw KML string.
-                atlas.io.read(window.location.origin + '/data/KML/2007SanDiegoCountyFires.kml', {
+                atlas.io.read(window.location.origin + '/data/kml/2007SanDiegoCountyFires.kml', {
                     //Optionally provide a proxy service for accessing cross domain assets that may not have CORs enabled.
                     proxyService: proxyServiceUrl
                 }).then(async r => {

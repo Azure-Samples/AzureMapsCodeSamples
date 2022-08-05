@@ -22,7 +22,7 @@
     <script>
         var map, popup, layer, currentCapabilities;
 
-        var proxyServiceUrl = window.location.origin + '/CorsEnabledProxyService.ashx?url=';
+        var proxyServiceUrl = 'https://samples.azuremaps.com/api/GetDataFromUrl?url=';
 
         //Sample WMTS and WMS services to let users test with.
         var services = [
@@ -136,7 +136,7 @@
             var serviceIdx = parseInt(elm.options[elm.selectedIndex].value);
 
             if (serviceIdx >= 0) {
-                loadLayer(services[serviceIdx].url);
+                loadLayer(encodeURI(services[serviceIdx].url));
             } else {
                 clear();
             }
