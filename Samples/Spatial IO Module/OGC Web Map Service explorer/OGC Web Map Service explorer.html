@@ -136,7 +136,7 @@
             var serviceIdx = parseInt(elm.options[elm.selectedIndex].value);
 
             if (serviceIdx >= 0) {
-                loadLayer(encodeURI(services[serviceIdx].url));
+                loadLayer(services[serviceIdx].url);
             } else {
                 clear();
             }
