@@ -89,7 +89,7 @@
             //Read a data file from a URL or pass in a raw string.
             atlas.io.read(url, {
                 //Proxy service for accessing cross domain assets that may not have CORs enabled.
-                proxyService: proxyServiceUrl,
+                //proxyService: proxyServiceUrl,
                 capturePathWaypoints: true
             }).then(async r => {
                 if (r) {
@@ -282,69 +282,69 @@
 
         <div id="KML" class="tabcontent">
             <ul>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/2007SanDiegoCountyFires.kml');">2007 San Diego Fires</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/nhc_active.kml')">Active Tropical Cyclones</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/AWOIS_Wrecks.kml')">AWOIS Wrecks</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/BalloonStyle.kml')">Balloon Style</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/BalloonStyle2.kml')">Balloon Style 2</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/esfr-trip-track-20080407.xml');">Bike trip</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/GroundOverlay.kml');">Ground Overlay</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/internet_users_2005_choropleth.kml');">Internet Users 2005 Choropleth</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/internet_users_2005_choropleth_3D.kml')">Internet Users 2005 Choropleth 3D</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/LiquidTelcom.kml')">Liquid Telcom</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/London%20Tube%20Lines.kml');">London Tube Lines</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/London%20stations.kml');">London Tube Stations</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/Pentagon.kml')">Pentagon</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/PhotoPins.kml')">Photo pins</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kml/WMSGroundOverlay.kml')">WMS Ground Overlay</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/2007SanDiegoCountyFires.kml');">2007 San Diego Fires</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/nhc_active.kml')">Active Tropical Cyclones</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/AWOIS_Wrecks.kml')">AWOIS Wrecks</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/BalloonStyle.kml')">Balloon Style</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/BalloonStyle2.kml')">Balloon Style 2</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/esfr-trip-track-20080407.xml');">Bike trip</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/GroundOverlay.kml');">Ground Overlay</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/internet_users_2005_choropleth.kml');">Internet Users 2005 Choropleth</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/internet_users_2005_choropleth_3D.kml')">Internet Users 2005 Choropleth 3D</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/LiquidTelcom.kml')">Liquid Telcom</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/London%20Tube%20Lines.kml');">London Tube Lines</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/London%20stations.kml');">London Tube Stations</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/Pentagon.kml')">Pentagon</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/PhotoPins.kml')">Photo pins</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kml/WMSGroundOverlay.kml')">WMS Ground Overlay</a></li>
             </ul>
         </div>
 
         <div id="KMZ" class="tabcontent">
             <ul>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/RecreationSitePoint.kmz');">Recreation Site Point</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/shuckstack-fire-tower.kmz');">Shuckstack fire tower</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/CivilWarSites.kmz')">Civil War Sites</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/Hurricane_Evacuation_Routes.kmz')">Hurricane Evacuation Routes</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/internet_users_2005_bars.kmz')">Internet Users 2005 Bars</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/qfaults.kmz')">Earthquake Faults</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/kmz/QPF24hr_Day3_latest.kmz')">24hr Quantitative Precipitation Forecasts</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kmz/RecreationSitePoint.kmz');">Recreation Site Point</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kmz/shuckstack-fire-tower.kmz');">Shuckstack fire tower</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kmz/CivilWarSites.kmz')">Civil War Sites</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kmz/Hurricane_Evacuation_Routes.kmz')">Hurricane Evacuation Routes</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kmz/internet_users_2005_bars.kmz')">Internet Users 2005 Bars</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kmz/qfaults.kmz')">Earthquake Faults</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Kmz/QPF24hr_Day3_latest.kmz')">24hr Quantitative Precipitation Forecasts</a></li>
             </ul>
         </div>
 
         <div id="GPX" class="tabcontent">
             <ul>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/BikeRoute.xml');">Bike Route</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/Route66Attractions.xml');">Route 66 Attractions</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/Tourist_locations_UK-England.xml');">UK Tourist Locations</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/gps_points.xml')">GPS Points</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/gpx/race-gps-trace.gpx')">Race GPS trace</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Gpx/BikeRoute.xml');">Bike Route</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Gpx/Route66Attractions.xml');">Route 66 Attractions</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Gpx/Tourist_locations_UK-England.xml');">UK Tourist Locations</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Gpx/gps_points.xml')">GPS Points</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/Gpx/race-gps-trace.gpx')">Race GPS trace</a></li>
             </ul>
         </div>
 
         <div id="GeoRSS" class="tabcontent">
             <ul>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/georss/WifiLocations.xml');">Wifi Locations</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/georss/eqs7day-M2.5.xml')">Earthquakes</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/georss/SampleGeoRSS.xml');">Sample GeoRSS</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/GeoRSS/WifiLocations.xml');">Wifi Locations</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/GeoRSS/eqs7day-M2.5.xml')">Earthquakes</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/GeoRSS/SampleGeoRSS.xml');">Sample GeoRSS</a></li>
             </ul>
         </div>
 
         <div id="GML" class="tabcontent">
             <ul>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/gml/FEMA_Hazard_WFS_2.0.0.xml')">FEMA Hazard WFS</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/gml/USGS_FC_WFS_GML.xml')">USGS WFS GML</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/GML/FEMA_Hazard_WFS_2.0.0.xml')">FEMA Hazard WFS</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/GML/USGS_FC_WFS_GML.xml')">USGS WFS GML</a></li>
             </ul>
         </div>
 
         <div id="SpatialCSV" class="tabcontent">
             <ul>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Airports.pipe')">Airports (pipe)</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Chicago_Bike_Racks.csv')">Chicago Bike Racks (csv)</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Chicago_Narcotics.csv')">Chicago Narcotics (csv)</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/Chicago_Police_Stations.csv')">Chicago Police Stations (csv)</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/hurricane_barry_track.csv')">Hurricane Barry track (csv)</a></li>
-                <li><a href="javascript:void(0);" onclick="loadData('/data/spatialcsv/WAEcologicalSites.tab')">WA Ecological Sites (tab)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/SpatialCSV/Airports.pipe')">Airports (pipe)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/SpatialCSV/Chicago_Bike_Racks.csv')">Chicago Bike Racks (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/SpatialCSV/Chicago_Narcotics.csv')">Chicago Narcotics (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/SpatialCSV/Chicago_Police_Stations.csv')">Chicago Police Stations (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/SpatialCSV/hurricane_barry_track.csv')">Hurricane Barry track (csv)</a></li>
+                <li><a href="javascript:void(0);" onclick="loadData('/data/SpatialCSV/WAEcologicalSites.tab')">WA Ecological Sites (tab)</a></li>
             </ul>
         </div>
 

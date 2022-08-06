@@ -58,7 +58,7 @@
                 map.layers.add(layer);
 
                 //Read a KML file from a URL or pass in a raw KML string.
-                atlas.io.read(window.location.origin + '/data/kml/2007SanDiegoCountyFires.kml', {
+                atlas.io.read('https://samples.azuremaps.com/data/Kml/2007SanDiegoCountyFires.kml', {
                     //Optionally provide a proxy service for accessing cross domain assets that may not have CORs enabled.
                     proxyService: proxyServiceUrl
                 }).then(async r => {
