@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Web;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace SampleFunctions
 {
@@ -30,22 +32,24 @@ namespace SampleFunctions
         };
 
         [FunctionName("GetDataFromUrl")]
-        public static async Task Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
         {
+            string referer = req.Headers["Referer"];
+            if (string.IsNullOrEmpty(referer))
+                return new UnauthorizedResult();
+
+            string result = Array.Find(allowed, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
+            if (string.IsNullOrEmpty(result))
+                return new UnauthorizedResult();
+
             string url = HttpUtility.UrlDecode(req.Query["url"]);
             if (string.IsNullOrEmpty(url))
-            {
-                req.HttpContext.Response.StatusCode = 400;
-                return;
-            }
+                return new BadRequestObjectResult("Please pass a valid url address on the query string.");
 
             using var response = await httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
-            {
-                req.HttpContext.Response.StatusCode = 400;
-                return;
-            }
+                return new NotFoundObjectResult("The url your specified was unable to download.");
 
             // Pass on request headers that may have been added
             foreach (var header in response.Content.Headers)
@@ -59,13 +63,16 @@ namespace SampleFunctions
                 }
             }
 
+            // read the remote file
             var bytes = await response.Content.ReadAsByteArrayAsync();
 
-            req.HttpContext.Response.StatusCode = 200;
             req.HttpContext.Response.ContentLength = bytes.Length;
             req.HttpContext.Response.ContentType = response.Content.Headers.ContentType.MediaType;
 
+            // write the remote file back to the requster
             await req.HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+
+            return new OkResult();
         }
     }
 }
