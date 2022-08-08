@@ -18,8 +18,8 @@ namespace SampleFunctions
     {
         private static readonly HttpClient httpClient = new();
 
-        private static readonly string[] allowed = { "https://samples.azuremaps.com/",
-                                                     "http://localhost" };
+        //private static readonly string[] allowed = { "https://samples.azuremaps.com/",
+        //                                             "http://localhost" };
 
         private static readonly string[] headersToSkip = new string[] {
             "Cache-Control",
@@ -38,13 +38,13 @@ namespace SampleFunctions
         {
             try
             {
-                string referer = req.Headers["Referer"];
-                if (string.IsNullOrEmpty(referer))
-                    return new UnauthorizedResult();
+                //string referer = req.Headers["Referer"];
+                //if (string.IsNullOrEmpty(referer))
+                //    return new UnauthorizedResult();
 
-                string result = Array.Find(allowed, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
-                if (string.IsNullOrEmpty(result))
-                    return new UnauthorizedResult();
+                //string result = Array.Find(allowed, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
+                //if (string.IsNullOrEmpty(result))
+                //    return new UnauthorizedResult();
 
                 string url = HttpUtility.UrlDecode(req.Query["url"]);
                 if (string.IsNullOrEmpty(url))
