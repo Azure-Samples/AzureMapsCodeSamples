@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.0-beta1): scrollspy.js
+ * Bootstrap (v5.2.0): scrollspy.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -128,7 +128,7 @@ class ScrollSpy extends BaseComponent {
         const root = this._rootElement || window
         const height = observableSection.offsetTop - this._element.offsetTop
         if (root.scrollTo) {
-          root.scrollTo({ top: height })
+          root.scrollTo({ top: height, behavior: 'smooth' })
           return
         }
 

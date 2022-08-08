@@ -3,13 +3,12 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
-      "provider": "unpkg",
-      "library": "bootstrap@5.2.0-beta1",
-      "destination": "lib/bootstrap/"
-    },
-    {
       "library": "jquery@3.6.0",
       "destination": "lib/jquery/"
+    },
+    {
+      "library": "bootstrap@5.2.0",
+      "destination": "lib/bootstrap/"
     }
   ]
 }

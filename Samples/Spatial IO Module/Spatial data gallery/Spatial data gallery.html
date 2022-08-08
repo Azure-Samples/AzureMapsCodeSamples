@@ -89,7 +89,7 @@
             //Read a data file from a URL or pass in a raw string.
             atlas.io.read(url, {
                 //Proxy service for accessing cross domain assets that may not have CORs enabled.
-                //proxyService: proxyServiceUrl,
+                proxyService: proxyServiceUrl,
                 capturePathWaypoints: true
             }).then(async r => {
                 if (r) {
