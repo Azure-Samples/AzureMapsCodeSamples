@@ -28,6 +28,8 @@ namespace SampleFunctions
             // We recommend that you use the primary key as the subscription key when you use Shared Key authentication to call Azure Maps.
             // It's best to use the secondary key in scenarios like rolling key changes.
             string key = Environment.GetEnvironmentVariable("AZURE_MAPS_SUBSCRIPTION_KEY");
+            if (string.IsNullOrEmpty(key))
+                return new NotFoundResult();
 
             return new OkObjectResult(key);
         }

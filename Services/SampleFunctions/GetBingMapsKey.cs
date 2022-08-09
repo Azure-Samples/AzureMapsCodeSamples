@@ -28,6 +28,8 @@ namespace SampleFunctions
 
             // Get your Bing Maps key from https://www.bingmapsportal.com/
             string key = Environment.GetEnvironmentVariable("BING_MAPS_SUBSCRIPTION_KEY");
+            if (string.IsNullOrEmpty(key))
+                return new NotFoundResult();
 
             return new OkObjectResult(key);
         }
