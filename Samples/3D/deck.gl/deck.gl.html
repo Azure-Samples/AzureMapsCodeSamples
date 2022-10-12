@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Deck.gl custome WebGL layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a custome 3D layer with Deck.gl." />
+    <meta name="keywords" content="3D, Microsoft maps, map, gis, API, SDK, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.png" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- deck.gl is a WebGL-powered framework for visual exploratory data analysis of large datasets. -->
+    <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+
+    <script>
+        var map;
+
+        function GetMap() {
+            map = new atlas.Map("map", {
+                center: [-97.55859, 39.63953],
+                zoom: 3,
+                pitch: 60,
+                style: "grayscale_dark",
+                antialias: true,
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Use an Azure Maps key. Get an Azure Maps key at https://azuremaps.com/. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready
+            map.events.add("ready", function () {
+                // Load external data
+                fetch("https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/arc/counties.json")
+                    .then((response) => response.json())
+                    .then(({ features }) => {
+                        // Add the layer to the map
+                        map.layers.add(
+                            new DeckGLLayer({
+                                id: "arc",
+                                data: calculateArcs(features),
+                                getSourcePosition: (d) => d.source,
+                                getTargetPosition: (d) => d.target,
+                                getSourceColor: [255, 0, 0],
+                                getTargetColor: [0, 255, 0],
+                                getWidth: 2,
+                                type: deck.ArcLayer
+                            })
+                        );
+                    });
+
+                // Add controls
+                map.controls.add(
+                    [
+                        new atlas.control.ZoomControl(),
+                        new atlas.control.PitchControl(),
+                        new atlas.control.CompassControl(),
+                        new atlas.control.StyleControl({
+                            mapStyles: "all"
+                        })
+                    ],
+                    {
+                        position: "top-right"
+                    }
+                );
+            });
+        }
+
+        // Helper function to draw the arcs
+        function calculateArcs(data, selectedCounty) {
+            if (!data || !data.length) {
+                return null;
+            }
+            if (!selectedCounty) {
+                selectedCounty = data.find((f) => f.properties.name === "New York, NY");
+            }
+            const { flows, centroid } = selectedCounty.properties;
+
+            const arcs = Object.keys(flows).map((toId) => {
+                const f = data[toId];
+                return {
+                    source: centroid,
+                    target: f.properties.centroid,
+                    value: flows[toId]
+                };
+            });
+
+            const scale = Math.random();
+
+            arcs.forEach((a) => {
+                a.gain = Math.sign(a.value);
+                a.quantile = scale;
+            });
+
+            return arcs;
+        }
+
+        // A custom implementation of WebGLLayer
+        class DeckGLLayer extends atlas.layer.WebGLLayer {
+            constructor(options) {
+                super(options.id);
+                // Create an instance of deck.gl MapboxLayer what is compatible with Azure Maps
+                // https://deck.gl/docs/api-reference/mapbox/mapbox-layer
+                this._mbLayer = new deck.MapboxLayer(options);
+
+                // Create a renderer
+                const renderer = {
+                    renderingMode: "3d",
+                    onAdd: (map, gl) => {
+                        this._mbLayer.onAdd?.(map["map"], gl);
+                    },
+                    onRemove: (map, gl) => {
+                        this._mbLayer.onRemove?.(map["map"], gl);
+                    },
+                    prerender: (gl, matrix) => {
+                        this._mbLayer.prerender?.(gl, matrix);
+                    },
+                    render: (gl, matrix) => {
+                        this._mbLayer.render(gl, matrix);
+                    }
+                };
+                this.setOptions({ renderer });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Deck.gl custome WebGL layer</legend>
+        This sample creates a WebGL layer that integrates the layers from <a href="https://deck.gl/">Deck.gl</a>.
+        Deck.gl is a WebGL-powered framework for visual exploratory data analysis of large datasets.
+        Deck.gl allows complex visualizations to be constructed by composing existing layers and makes it easy to package and share new visualizations as reusable layers.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Three.js custome WebGL layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a custome 3D layer with Three.js." />
+    <meta name="keywords" content="3D, Microsoft maps, map, gis, API, SDK, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Use three.js to render the 3D model. -->
+    <script src="https://unpkg.com/three@latest/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@latest/examples/js/loaders/GLTFLoader.js"></script>
+
+    <script>
+        var map, layer;
+
+        // 3D model to render
+        var modelDetails = {
+            url: "parrot.glb",
+            origin: [-122.128929, 47.644042],
+            mercatorOrigin: atlas.data.MercatorPoint.fromPosition([-122.128929, 47.644042]),
+            rotateX: Math.PI / 2,
+            rotateY: 0,
+            rotateZ: 0,
+            scale: 1e-7,
+            animate: true
+        };
+
+        // Create a renderer that implements atlas.WebGLRenderer
+        var renderer = {
+            renderingMode: "3d",
+            loader: new THREE.GLTFLoader(),
+            modelDetails: modelDetails,
+
+            // Method called when the layer is added to the map
+            onAdd: function (map, gl) {
+                this.map = map;
+                this.camera = new THREE.Camera();
+                this.scene = new THREE.Scene();
+                this.clock = new THREE.Clock();
+
+                // Create lights to illuminate the model
+                var directionalLight = new THREE.DirectionalLight(0xffffff);
+                directionalLight.position.set(0, 70, 100).normalize();
+                this.scene.add(directionalLight);
+
+                var ambientLight = new THREE.AmbientLight(0x808080);
+                this.scene.add(ambientLight);
+
+                // Load the model
+                this.loadModel();
+
+                //Use the Azure Maps map canvas for three.js
+                this.renderer = new THREE.WebGLRenderer({
+                    canvas: map.getCanvas(),
+                    context: gl
+                });
+
+                this.renderer.autoClear = false;
+            },
+
+            // Method called on each animation frame
+            render: function (gl, matrix) {
+                var md = this.modelDetails;
+
+                if (md) {
+                    var rotationX = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), md.rotateX);
+                    var rotationY = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(0, 1, 0), md.rotateY);
+                    var rotationZ = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(0, 0, 1), md.rotateZ);
+
+                    var m = new THREE.Matrix4().fromArray(matrix);
+                    var l = new THREE.Matrix4()
+                        .makeTranslation(md.mercatorOrigin[0], md.mercatorOrigin[1], md.mercatorOrigin[2])
+                        .scale(new THREE.Vector3(md.scale, -md.scale, md.scale))
+                        .multiply(rotationX)
+                        .multiply(rotationY)
+                        .multiply(rotationZ);
+
+                    this.camera.projectionMatrix.elements = matrix;
+                    this.camera.projectionMatrix = m.multiply(l);
+                    this.renderer.resetState();
+                    this.renderer.render(this.scene, this.camera);
+                    this.renderer.resetState();
+                }
+
+                map.triggerRepaint();
+            },
+
+            loadModel: function () {
+                var md = this.modelDetails;
+                this.mixer = null;
+
+                if (md) {
+                    // Use the three.js GLTF loader to add the 3D model to the three.js scene
+                    this.loader.load(
+                        md.url,
+                        function (gltf) {
+                            this.gltfModelScene = gltf.scene;
+
+                            this.scene.add(gltf.scene);
+
+                            if (md.animate) {
+                                this.mixer = new THREE.AnimationMixer(gltf.scene);
+                                var action = this.mixer.clipAction(gltf.animations[0]);
+                                action.play();
+
+                                this.animate();
+                            }
+                        }.bind(this)
+                    );
+
+                    this.map.setCamera({
+                        center: md.origin
+                    });
+                }
+            },
+
+            animate: function () {
+                if (this.mixer) {
+                    this.mixer.update(this.clock.getDelta());
+                    this.renderer.render(this.scene, this.camera);
+                    requestAnimationFrame(() => {
+                        this.animate();
+                    });
+                }
+            }
+        };
+
+        function GetMap() {
+            map = new atlas.Map("map", {
+                zoom: 16,
+                pitch: 60,
+                bearing: -45,
+                antialias: true,
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Use an Azure Maps key. Get an Azure Maps key at https://azuremaps.com/. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready
+            map.events.add("ready", function () {
+                // Create a WebGL layer
+                layer = new atlas.layer.WebGLLayer("3d-model", { renderer });
+                // Add the layer to the map
+                map.layers.add(layer);
+
+                // Add controls
+                map.controls.add(
+                    [
+                        new atlas.control.ZoomControl(),
+                        new atlas.control.PitchControl(),
+                        new atlas.control.CompassControl(),
+                        new atlas.control.StyleControl({
+                            mapStyles: "all"
+                        })
+                    ],
+                    {
+                        position: "top-right"
+                    }
+                );
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Three.js custome WebGL layer</legend>
+        This sample shows how to load a 3D GLTF model using <a href="https://threejs.org/">three.js</a> as a WebGL layer within the Azure Maps Web SDK.
+        Three.js is an easy-to-use, lightweight, cross-browser, general-purpose 3D library.
+    </fieldset>
+</body>
+</html>

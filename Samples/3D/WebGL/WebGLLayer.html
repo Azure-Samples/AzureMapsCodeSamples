@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple 2D WebGL layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a simple 2D layer using WebGL." />
+    <meta name="keywords" content="3D, Microsoft maps, map, gis, API, SDK, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.png" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <script type="text/javascript">
+        var map, layer;
+
+        // Create a renderer that implements atlas.WebGLRenderer
+        var renderer = {
+            // Method called when the layer is added to the map
+            onAdd: function (map, gl) {
+                // Create GLSL source for vertex shader
+                var vertexSource =
+                    "" +
+                    "uniform mat4 u_matrix;" +
+                    "attribute vec2 a_pos;" +
+                    "void main() {" +
+                    "    gl_Position = u_matrix * vec4(a_pos, 0.0, 1.0);" +
+                    "}";
+
+                // Create GLSL source for fragment shader
+                var fragmentSource = "void main() { gl_FragColor = vec4(1.0, 0.0, 0.0, 0.5); }";
+
+                // Create a vertex shader
+                var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+                gl.shaderSource(vertexShader, vertexSource);
+                gl.compileShader(vertexShader);
+
+                // Create a fragment shader
+                var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+                gl.shaderSource(fragmentShader, fragmentSource);
+                gl.compileShader(fragmentShader);
+
+                // Link the two shaders into a WebGL program
+                this.program = gl.createProgram();
+                gl.attachShader(this.program, vertexShader);
+                gl.attachShader(this.program, fragmentShader);
+                gl.linkProgram(this.program);
+
+                this.aPos = gl.getAttribLocation(this.program, "a_pos");
+
+                // Define vertices of the triangle to be rendered in the custom style layer
+                var mercator = [
+                    ...atlas.data.MercatorPoint.fromPosition([25.004, 60.239]).slice(0, 2), // Helsinki
+                    ...atlas.data.MercatorPoint.fromPosition([13.403, 52.562]).slice(0, 2), // Berlin
+                    ...atlas.data.MercatorPoint.fromPosition([30.498, 50.541]).slice(0, 2) // Kyiv
+                ];
+
+                // Create and initialize a WebGLBuffer to store vertex and color data
+                this.buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mercator), gl.STATIC_DRAW);
+            },
+
+            // Method called on each animation frame
+            render: function (gl, matrix) {
+                gl.useProgram(this.program);
+                gl.uniformMatrix4fv(gl.getUniformLocation(this.program, "u_matrix"), false, matrix);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+                gl.enableVertexAttribArray(this.aPos);
+                gl.vertexAttribPointer(this.aPos, 2, gl.FLOAT, false, 0, 0);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 3);
+            }
+        };
+
+        function GetMap() {
+            map = new atlas.Map("map", {
+                zoom: 3,
+                center: [7.5, 58],
+                view: "Auto",
+                antialias: true,
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Use an Azure Maps key. Get an Azure Maps key at https://azuremaps.com/. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready
+            map.events.add("ready", function () {
+                // Create a WebGL layer
+                layer = new atlas.layer.WebGLLayer("highlight", { renderer });
+                // Add the layer below map labels
+                map.layers.add(layer, "labels");
+
+                // Add controls
+                map.controls.add(
+                    [
+                        new atlas.control.ZoomControl(),
+                        new atlas.control.PitchControl(),
+                        new atlas.control.CompassControl(),
+                        new atlas.control.StyleControl({
+                            mapStyles: "all"
+                        })
+                    ],
+                    {
+                        position: "top-right"
+                    }
+                );
+            });
+        }
+
+        // Update layer options
+        function setOptions() {
+            layer.setOptions({
+                minZoom: parseFloat(document.getElementById("MinZoom").value),
+                maxZoom: parseFloat(document.getElementById("MaxZoom").value),
+                visible: document.getElementById("Visible").checked
+            });
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+
+    <div id="panel">
+        <table>
+            <tr title="An integer specifying the minimum zoom level to render the layer at.">
+                <td>Min Zoom:</td>
+                <td>
+                    <form oninput="minz.value=MinZoom.value">
+                        <input type="range"
+                               id="MinZoom"
+                               value="0"
+                               min="0"
+                               max="24"
+                               step="1"
+                               onchange="setOptions()" />
+                        <output name="minz" for="MinZoom">0</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="An integer specifying the maximum zoom level to render the layer at.">
+                <td>Max Zoom:</td>
+                <td>
+                    <form oninput="maxz.value=MaxZoom.value">
+                        <input type="range"
+                               id="MaxZoom"
+                               value="24"
+                               min="0"
+                               max="24"
+                               step="1"
+                               onchange="setOptions()" />
+                        <output name="maxz" for="MaxZoom">24</output>
+                    </form>
+                </td>
+            </tr>
+            <tr title="Specifies if the layer is visible or not.">
+                <td>Visible:</td>
+                <td>
+                    <input id="Visible" type="checkbox" onclick="setOptions()" checked="checked" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Simple 2D WebGL layer</legend>
+        This sample creates a WebGL layer that draws a triangle using WebGL on the map.
+    </fieldset>
+</body>
+</html>
