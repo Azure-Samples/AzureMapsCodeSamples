@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Yellow Cab vs Green Cab Trips in Manhattan - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample creates a WebGL trips layer in Manhattan, NY using Deck.gl 3D framework for Azure Maps." />
+    <meta name="keywords" content="3D, Microsoft maps, map, gis, API, SDK, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- deck.gl is a WebGL-powered framework for visual exploratory data analysis of large datasets. -->
+    <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+
+    <script>
+        var map;
+
+        function GetMap() {
+            map = new atlas.Map("map", {
+                center: [-73.995893, 40.710164],
+                zoom: 14,
+                pitch: 45,
+                style: "grayscale_dark",
+                antialias: true,
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Use an Azure Maps key. Get an Azure Maps key at https://azuremaps.com/. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready
+            map.events.add("ready", function () {
+
+                animate();
+
+                // Add controls
+                map.controls.add(
+                    [
+                        new atlas.control.ZoomControl(),
+                        new atlas.control.PitchControl(),
+                        new atlas.control.CompassControl(),
+                        new atlas.control.StyleControl({
+                            mapStyles: "all"
+                        })
+                    ],
+                    {
+                        position: "top-right"
+                    }
+                );
+            });
+        }
+
+        const loopLength = 1800; // unit corresponds to the timestamp in source data
+
+        let trailColor0 = [250, 250, 93];
+        let trailColor1 = [50, 230, 50];
+        let animationSpeed = 5;
+        let trailLength = 180;
+        let time = 500;
+        let shouldRotate = true;
+        let rotation = 0;
+
+        const animate = () => {
+            time = (time + animationSpeed) % loopLength;
+            //remove("trips");
+            map.layers.add(
+                new DeckGLLayer({
+                    id: "trips",
+                    type: deck.TripsLayer,
+                    data: "/3d-layer/newyork/trips-v7.json",
+                    getPath: (d) => d.path,
+                    getTimestamps: (d) => d.timestamps,
+                    getColor: (d) => (d.vendor === 0 ? trailColor0 : trailColor1),
+                    opacity: 0.3,
+                    widthMinPixels: 2,
+                    rounded: true,
+                    trailLength,
+                    currentTime: time,
+                    shadowEnabled: false
+                })
+            );
+            if (shouldRotate) {
+                map["map"].rotateTo((rotation++ / 5) % 360, { duration: 0 });
+            }
+            window.requestAnimationFrame(animate);
+        };
+
+        const setOptions = () => {
+            animationSpeed = parseFloat(document.getElementById("AnimationSpeed").value);
+            trailLength = parseFloat(document.getElementById("TrailLength").value);
+        };
+
+        const toggleRotate = () => {
+            shouldRotate = !shouldRotate;
+        }
+
+        // A custom implementation of WebGLLayer
+        class DeckGLLayer extends atlas.layer.WebGLLayer {
+            constructor(options) {
+                super(options.id);
+                // Create an instance of deck.gl MapboxLayer what is compatible with Azure Maps
+                // https://deck.gl/docs/api-reference/mapbox/mapbox-layer
+                this._mbLayer = new deck.MapboxLayer(options);
+
+                // Create a renderer
+                const renderer = {
+                    renderingMode: "3d",
+                    onAdd: (map, gl) => {
+                        this._mbLayer.onAdd?.(map["map"], gl);
+                    },
+                    onRemove: (map, gl) => {
+                        this._mbLayer.onRemove?.(map["map"], gl);
+                    },
+                    prerender: (gl, matrix) => {
+                        this._mbLayer.prerender?.(gl, matrix);
+                    },
+                    render: (gl, matrix) => {
+                        this._mbLayer.render(gl, matrix);
+                    }
+                };
+                this.setOptions({ renderer });
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="map" onclick="toggleRotate()" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+
+    <div id="panel">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Speed:</td>
+                    <td>
+                        <form oninput="tspeed.value=AnimationSpeed.value">
+                            <input type="range" id="AnimationSpeed" value="5" min="1" max="10" step="1" onchange="setOptions()">
+                            <output name="tspeed" for="AnimationSpeed">5</output>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Length:</td>
+                    <td>
+                        <form oninput="tlength.value=TrailLength.value">
+                            <input type="range" id="TrailLength" value="180" min="0" max="180" step="1" onchange="setOptions()">
+                            <output name="tlength" for="TrailLength">180</output>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Yellow Cab vs Green Cab Trips in Manhattan</legend>
+        This sample creates a WebGL trips layer in Manhattan, NY using <a href="https://deck.gl/">Deck.gl</a> 3D framework for Azure Maps.
+        Trips are taken from June 16, 2016 21:00 to 21:30
+        Trip data source: <a href="http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml">NYC Taxi & Limousine Commission Trip Records</a>.
+    </fieldset>
+</body>
+</html>
