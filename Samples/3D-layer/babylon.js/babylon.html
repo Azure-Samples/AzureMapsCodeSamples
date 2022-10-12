@@ -16,114 +16,114 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
-    <!-- deck.gl is a WebGL-powered framework for visual exploratory data analysis of large datasets. -->
+    <!-- Babylon.js is a powerful, simple, real-time 3D and open game and rendering engine packed into a friendly framework, which Microsoft initially developed. -->
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 
     <script>
         var map, layer;
 
-            // Create a renderer that implements atlas.WebGLRenderer
-            var renderer = {
-                renderingMode: "3d",
+        // Create a renderer that implements atlas.WebGLRenderer
+        var renderer = {
+            renderingMode: "3d",
 
-                // Method called when the layer is added to the map
-                onAdd: (map, gl) => {
-                    this.map = map;
+            // Method called when the layer is added to the map
+            onAdd: (map, gl) => {
+                this.map = map;
 
-                    // Initialize the Babylon.js engine.
-                    const engine = new BABYLON.Engine(gl, true, { useHighPrecisionMatrix: true }, true);
+                // Initialize the Babylon.js engine.
+                const engine = new BABYLON.Engine(gl, true, { useHighPrecisionMatrix: true }, true);
 
-                    this.scene = new BABYLON.Scene(engine);
-                    this.scene.autoClear = false;
-                    this.scene.detachControl();
-                    this.scene.beforeRender = function () {
-                        engine.wipeCaches(true);
-                    };
-                    this.camera = new BABYLON.Camera("camera", new BABYLON.Vector3(), this.scene);
-                    const light = new BABYLON.HemisphericLight("light", BABYLON.Vector3.One(), this.scene);
+                this.scene = new BABYLON.Scene(engine);
+                this.scene.autoClear = false;
+                this.scene.detachControl();
+                this.scene.beforeRender = function () {
+                    engine.wipeCaches(true);
+                };
+                this.camera = new BABYLON.Camera("camera", new BABYLON.Vector3(), this.scene);
+                const light = new BABYLON.HemisphericLight("light", BABYLON.Vector3.One(), this.scene);
 
-                    BABYLON.SceneLoader.Append(
-                        "/3d-layer/babylon.js/34m_17/",
-                        "34M_17.gltf",
-                        this.scene
-                    );
+                BABYLON.SceneLoader.Append(
+                    "/3d-layer/babylon.js/34m_17/",
+                    "34M_17.gltf",
+                    this.scene
+                );
 
-                    // parameters to ensure the model is georeferenced correctly on the map
-                    const modelOrigin = [148.9819, -35.39847];
-                    const modelAltitude = 0;
-                    const modelRotate = [Math.PI / 2, 0, 0];
-                    const modelCoords = atlas.data.MercatorPoint.fromPosition([...modelOrigin, modelAltitude]);
-                    const modelScale = 2 * atlas.data.MercatorPoint.meterInMercatorUnits(-35.39847);
+                // parameters to ensure the model is georeferenced correctly on the map
+                const modelOrigin = [148.9819, -35.39847];
+                const modelAltitude = 0;
+                const modelRotate = [Math.PI / 2, 0, 0];
+                const modelCoords = atlas.data.MercatorPoint.fromPosition([...modelOrigin, modelAltitude]);
+                const modelScale = 2 * atlas.data.MercatorPoint.meterInMercatorUnits(-35.39847);
 
-                    this.modelMatrix = BABYLON.Matrix.Compose(
-                        new BABYLON.Vector3(modelScale, modelScale, modelScale),
-                        BABYLON.Quaternion.FromEulerAngles(modelRotate[0], modelRotate[1], modelRotate[2]),
-                        new BABYLON.Vector3(modelCoords[0], modelCoords[1], modelCoords[2])
-                    );
-                },
+                this.modelMatrix = BABYLON.Matrix.Compose(
+                    new BABYLON.Vector3(modelScale, modelScale, modelScale),
+                    BABYLON.Quaternion.FromEulerAngles(modelRotate[0], modelRotate[1], modelRotate[2]),
+                    new BABYLON.Vector3(modelCoords[0], modelCoords[1], modelCoords[2])
+                );
+            },
 
-                // Method called on each animation frame
-                render: (gl, matrix) => {
-                    // projection & view matrix
-                    const cameraMatrix = BABYLON.Matrix.FromArray(matrix);
-                    const mvpMatrix = this.modelMatrix.multiply(cameraMatrix);
-                    this.camera.freezeProjectionMatrix(mvpMatrix);
+            // Method called on each animation frame
+            render: (gl, matrix) => {
+                // projection & view matrix
+                const cameraMatrix = BABYLON.Matrix.FromArray(matrix);
+                const mvpMatrix = this.modelMatrix.multiply(cameraMatrix);
+                this.camera.freezeProjectionMatrix(mvpMatrix);
 
-                    this.scene.render(false);
-                    this.map.triggerRepaint();
-                }
-            };
-
-            function GetMap() {
-                map = new atlas.Map("map", {
-                    zoom: 18,
-                    pitch: 60,
-                    center: [148.9819, -35.3981],
-                    style: "satellite_road_labels",
-                    antialias: true,
-
-                    // Add authentication details for connecting to Azure Maps.
-                    authOptions: {
-                        // Use Azure Active Directory authentication.
-                        authType: 'anonymous',
-                        clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
-                        getToken: function (resolve, reject, map) {
-                            // URL to your authentication service that retrieves an Azure Active Directory Token.
-                            var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
-
-                            fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                        }
-
-                        // Use an Azure Maps key. Get an Azure Maps key at https://azuremaps.com/. NOTE: The primary key should be used as the key.
-                        //authType: 'subscriptionKey',
-                        //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
-                    }
-                });
-
-                // Wait until the map resources are ready
-                map.events.add("ready", function () {
-                    // Create a WebGL layer
-                    layer = new atlas.layer.WebGLLayer("babylon", { renderer });
-                    // Add the layer to the map
-                    map.layers.add(layer);
-
-                    // Add controls
-                    map.controls.add(
-                        [
-                            new atlas.control.ZoomControl(),
-                            new atlas.control.PitchControl(),
-                            new atlas.control.CompassControl(),
-                            new atlas.control.StyleControl({
-                                mapStyles: "all"
-                            })
-                        ],
-                        {
-                            position: "top-right"
-                        }
-                    );
-                });
+                this.scene.render(false);
+                this.map.triggerRepaint();
             }
+        };
+
+        function GetMap() {
+            map = new atlas.Map("map", {
+                zoom: 18,
+                pitch: 60,
+                center: [148.9819, -35.3981],
+                style: "satellite_road_labels",
+                antialias: true,
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Use an Azure Maps key. Get an Azure Maps key at https://azuremaps.com/. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready
+            map.events.add("ready", function () {
+                // Create a WebGL layer
+                layer = new atlas.layer.WebGLLayer("babylon", { renderer });
+                // Add the layer to the map
+                map.layers.add(layer);
+
+                // Add controls
+                map.controls.add(
+                    [
+                        new atlas.control.ZoomControl(),
+                        new atlas.control.PitchControl(),
+                        new atlas.control.CompassControl(),
+                        new atlas.control.StyleControl({
+                            mapStyles: "all"
+                        })
+                    ],
+                    {
+                        position: "top-right"
+                    }
+                );
+            });
+        }
     </script>
 </head>
 <body onload="GetMap()">
