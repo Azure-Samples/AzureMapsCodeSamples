@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Threebox custom WebGL layer - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to creat a custome 3D layer with Threebox." />
+    <meta name="keywords" content="3D, Microsoft maps, map, gis, API, SDK, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.gif" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Use Threebox https://github.com/jscastro76/threebox to render the 3D models. -->
+    <script src="https://unpkg.com/threebox-plugin/dist/threebox.min.js"></script>
+    <link href="https://unpkg.com/threebox-plugin/dist/threebox.css" rel="stylesheet" />
+
+    <script>
+        let map;
+
+        //starting location for both map and eventual sphere
+        var origin = [-122.4340, 37.7353];
+
+        function GetMap() {
+            map = new atlas.Map("map", {
+                center: origin,
+                zoom: 12,
+                pitch: 60,
+                bearing: 20,
+                antialias: true,
+                style: 'satellite',
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Use an Azure Maps key. Get an Azure Maps key at https://azuremaps.com/. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready
+            map.events.add("ready", function () {
+                // Add controls
+                map.controls.add(
+                    [
+                        new atlas.control.ZoomControl(),
+                        new atlas.control.PitchControl(),
+                        new atlas.control.CompassControl(),
+                        new atlas.control.StyleControl({
+                            mapStyles: "all"
+                        })
+                    ],
+                    {
+                        position: "top-right"
+                    }
+                );
+            });
+
+            let intMap = map.map;
+            window.tb = new Threebox(
+                intMap,
+                intMap.getCanvas().getContext('webgl'),
+                {
+                    defaultLights: true,
+                    enableSelectingObjects: true, //change this to false to disable 3D objects selection
+                    enableDraggingObjects: true, //change this to false to disable 3D objects drag & move once selected
+                    enableRotatingObjects: true, //change this to false to disable 3D objects rotation once selected
+                    enableTooltips: true // change this to false to disable default tooltips on fill-extrusion and 3D models
+                }
+            );
+
+            map.events.add("style.load", function (e) {
+
+                animate();
+
+                intMap.addLayer({
+                    id: 'custom_layer',
+                    type: 'custom',
+                    renderingMode: '3d',
+                    onAdd: function (map, context) {
+                        initMesh();
+                        animate();
+                    },
+
+                    render: function (gl, matrix) {
+                        tb.update();
+                    }
+                });
+
+            });
+        }
+
+        let geometry = false;
+        let meshes = [];
+
+        // gui
+        var Method = {
+            CLONED: 'CLONED',
+            NOCLONED: 'NO CLONED'
+        };
+
+        var api = {
+            method: Method.CLONED,
+            count: 200,
+            animation: true
+        };
+
+        // Creative Commons License attribution: Windmill animated model by https://sketchfab.com/data3anshow
+        // from https://sketchfab.com/3d-models/windmill-animated-6ce5667e8d5c47068ea13196036efd52
+        var model = { obj: './windmill_a/windmill_a.gltf', type: 'gltf', scale: 0.1 };
+
+        function initMesh() {
+
+            let diff = api.count - tb.world.children.length;
+            if (diff == 0) return;
+            console.log(api.count);
+
+            if (tb.world.children.length > api.count) {
+                console.time("(clear)");
+                for (let j = tb.world.children.length - 1; j >= api.count; j--) {
+                    var obj = tb.world.children[j];
+                    tb.remove(obj);
+                }
+
+                map.repaint = true;
+                console.timeEnd("(clear)");
+
+            } else {
+                var options = {
+                    obj: model.obj,
+                    type: model.type,
+                    scale: model.scale,
+                    units: 'meters',
+                    rotation: { x: 90, y: 90, z: 0 },
+                    anchor: 'center',
+                    cloned: (api.method == Method.CLONED ? true : false)
+                }
+                if (!processing) makeNaive(options, diff);
+
+            }
+
+        }
+
+        let processing = false;
+
+        function makeNaive(options, diff) {
+            processing = true;
+            let j = 0;
+            for (var i = 0; i < diff; i++) {
+
+                tb.loadObj(options, function (model) {
+                    if (j == 0) console.time(api.method + ' (build)');
+                    j++;
+                    if (!geometry) {
+                        model.traverse(function (object) {
+                            if (object.isMesh) meshes.push(object.geometry);
+                        });
+                        geometry = true;
+                    }
+
+                    let lng = origin[0] + Math.random() * 0.4 - 0.2;
+                    let lat = origin[1] + Math.random() * 0.4 - 0.2;
+                    let alt = origin[2] + Math.random() * 0.4 - 0.2;
+                    let obj = model.setCoords([lng, lat, alt]);
+
+                    tb.add(obj);
+
+                    if (api.animation) {
+                        // play default animation, for 5 min. = 300 seconds
+                        let opt = { animation: 0, duration: 300000 };
+                        obj.playDefault(opt);
+                    }
+
+                    if (j == diff) {
+                        console.timeEnd(api.method + ' (build)');
+                        console.log("Items: " + tb.world.children.length);
+                        processing = false;
+                    }
+                })
+
+            }
+            map.repaint = true;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Threebox custom WebGL layer</legend>
+        This sample shows how to load 200 models using <a href="https://github.com/jscastro76/threebox">Threebox</a> as a WebGL layer within the Azure Maps Web SDK.
+        Threebox is a fork from Three.js.
+    </fieldset>
+</body>
+</html>
