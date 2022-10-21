@@ -23,21 +23,21 @@
     <script>
         var map, indoorManager;
 
-        //Your tileset and stateset ID's for Azure Maps Creator.
+        // Your tileset and stateset ID's for Azure Maps Creator.
         const tilesetId = 'fd9261bb-e571-b5d6-a9ae-e7abece7a959';
         const statesetId = 'f972e790-f6dd-e305-0cad-6559343e64e3';
 
         function GetMap() {
-            //Initialize a map instance.
+            // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-122.13203, 47.63645],
                 zoom: 19,
                 style: 'grayscale_light',
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    // Use Azure Active Directory authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
@@ -47,24 +47,24 @@
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
 
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
 
-            //Wait until the map resources are ready.
+            // Wait until the map resources are ready.
             map.events.add('ready', function () {
-                //Add a map style selection control.
+                // Add a map style selection control.
                 map.controls.add(new atlas.control.StyleControl({ mapStyles: "all" }), { position: "top-right" });
 
-                //Create an indoor maps manager.
+                // Create an indoor maps manager.
                 indoorManager = new atlas.indoor.IndoorManager(map, {
                     tilesetId: tilesetId,
                     statesetId: statesetId // Optional
                 });
 
-                //Add a level control to the indoor manager.
+                // Add a level control to the indoor manager.
                 indoorManager.setOptions({
                     levelControl: new atlas.control.LevelControl({ position: 'top-right' })
                 });
@@ -73,15 +73,15 @@
                     indoorManager.setDynamicStyling(true);
                 }
 
-                //Add event for when the focused facility level changes.
+                // Add event for when the focused facility level changes.
                 map.events.add('levelchanged', indoorManager, (eventData) => {
-                    //code that you want to run after a level has been changed
+                    // code that you want to run after a level has been changed
                     writeToInfoPanel('The level has changed:', eventData);
                 });
 
-                //Add event for when the focused facility changes.
+                // Add event for when the focused facility changes.
                 map.events.add('facilitychanged', indoorManager, (eventData) => {
-                    //code that you want to run after a facility has been changed
+                    // code that you want to run after a facility has been changed
                     writeToInfoPanel('The facility has changed:', eventData);
                 });
 
@@ -104,7 +104,7 @@
         function writeToInfoPanel(msg, json) {            
             document.getElementById('infoPanel-msg').innerHTML = msg;
 
-            //Remove "map" object from json to prevent circular reference, and format JSON string.
+            // Remove "map" object from json to prevent circular reference, and format JSON string.
             document.getElementById('infoPanel-json').value = JSON.stringify(Object.assign({}, json, { map: undefined }), null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
         }
     </script>
