@@ -63,10 +63,10 @@
         var map, indoorManager, datasource, position;
 
         // Wayfinding REST API https://learn.microsoft.com/en-us/rest/api/maps-creator/
-        var wayfindingUrl = 'https://{azMapsDomain}/wayfinding/path?api-version=2022-09-01-preview&routesetId={routesetId}&facilityId={facilityId}&fromPoint={fromPoint}&fromLevel={fromLevel}&toPoint={toPoint}&toLevel={toLevel}&minWidth={minWidth}&avoidFeatures={avoidFeatures}';
+        const wayfindingUrl = 'https://{azMapsDomain}/wayfinding/path?api-version=2022-09-01-preview&routesetId={routesetId}&facilityId={facilityId}&fromPoint={fromPoint}&fromLevel={fromLevel}&toPoint={toPoint}&toLevel={toLevel}&minWidth={minWidth}&avoidFeatures={avoidFeatures}';
 
         // Your tileset ID's for Azure Maps Creator.
-        var indoor = {
+        const indoor = {
             tilesetId: 'fd9261bb-e571-b5d6-a9ae-e7abece7a959',
             statesetId: '', // not used in this sample
             routesetId: ''
@@ -89,7 +89,7 @@
             }
         };
 
-        var contextMenuHtml = [
+        const contextMenuHtml = [
             '<ul class="contextMenu">',
             '<li onmousedown="setRouteStart(event);">From here</li>',
             '<li onmousedown="setRouteEnd(event);">To here</li>',
@@ -114,9 +114,7 @@
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         // URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
-
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                        fetch("https://samples.azuremaps.com/api/GetAzureMapsToken").then(r => r.text()).then(token => resolve(token));
                     }
 
                     // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps.
@@ -235,7 +233,8 @@
             var facilityId = indoorManager.getCurrentFacility()[0];
 
             // DEBUG: https://us.atlas.microsoft.com/wayfinding/path?api-version=2022-09-01-preview&routesetId=&facilityId=FCL13&fromPoint=47.63642972613732,-122.13199563324484&fromLevel=0&toPoint=47.63643334085731,-122.1317260712388&toLevel=0&minWidth=0.25&avoidFeatures=
-            var wayfindingRequestUrl = wayfindingUrl.replace('{routesetId}', indoor.routesetId)
+            var wayfindingRequestUrl = wayfindingUrl
+                .replace('{routesetId}', indoor.routesetId)
                 .replace('{facilityId}', facilityId)
                 .replace('{fromPoint}', route.location.start[1] + ',' + route.location.start[0])
                 .replace('{fromLevel}', route.level.start)
@@ -291,9 +290,7 @@
                     headers: new Headers(requestParams.headers)
                 })
                     .then(r => r.json(), e => reject(e))
-                    .then(r => {
-                        resolve(r);
-                    }, e => reject(e));
+                    .then(r => resolve(r), e => reject(e));
             });
         }
 

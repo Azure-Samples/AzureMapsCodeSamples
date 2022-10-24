@@ -5,7 +5,7 @@
 
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This is a demo of the Azure Maps Creator indoor maps tutorial and the how-to implementation for the Azure Maps Web SDK." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Creator, indoor maps, indoor, building" />
@@ -13,21 +13,26 @@
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <link href="https://us.atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://us.atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add references to the Azure Maps Map Creator module JavaScript and CSS files. -->
-    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/indoor/0.1/atlas-indoor.min.css" type="text/css" />
-    <script src="https://atlas.microsoft.com/sdk/javascript/indoor/0.1/atlas-indoor.min.js"></script>
+    <link href="https://us.atlas.microsoft.com/sdk/javascript/indoor/0.1/atlas-indoor.min.css" rel="stylesheet" />
+    <script src="https://us.atlas.microsoft.com/sdk/javascript/indoor/0.1/atlas-indoor.min.js"></script>
 
     <script>
         var map, indoorManager;
 
-        // Your tileset and stateset ID's for Azure Maps Creator.
-        const tilesetId = 'fd9261bb-e571-b5d6-a9ae-e7abece7a959';
-        const statesetId = 'f972e790-f6dd-e305-0cad-6559343e64e3';
+        // Your tileset ID's for Azure Maps Creator.
+        const indoor = {
+            tilesetId: 'fd9261bb-e571-b5d6-a9ae-e7abece7a959',
+            statesetId: 'f972e790-f6dd-e305-0cad-6559343e64e3'
+        };
 
         function GetMap() {
+            // Set the map domain with a prefix matching the location of your Creator resource, US or EU, for example.
+            atlas.setDomain('us.atlas.microsoft.com');
+
             // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-122.13203, 47.63645],
@@ -41,13 +46,12 @@
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
-
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        fetch("https://samples.azuremaps.com/api/GetAzureMapsToken").then(r => r.text()).then(token => resolve(token));
                     }
 
-                    // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
@@ -55,13 +59,14 @@
 
             // Wait until the map resources are ready.
             map.events.add('ready', function () {
+
                 // Add a map style selection control.
                 map.controls.add(new atlas.control.StyleControl({ mapStyles: "all" }), { position: "top-right" });
 
                 // Create an indoor maps manager.
                 indoorManager = new atlas.indoor.IndoorManager(map, {
-                    tilesetId: tilesetId,
-                    statesetId: statesetId // Optional
+                    tilesetId: indoor.tilesetId,
+                    statesetId: indoor.statesetId
                 });
 
                 // Add a level control to the indoor manager.
@@ -69,14 +74,15 @@
                     levelControl: new atlas.control.LevelControl({ position: 'top-right' })
                 });
 
-                if (statesetId.length > 0) {
+                // Enable dynamic styling if we have a stateset
+                if (indoor.statesetId.length > 0) {
                     indoorManager.setDynamicStyling(true);
                 }
 
                 // Add event for when the focused facility level changes.
                 map.events.add('levelchanged', indoorManager, (eventData) => {
                     // code that you want to run after a level has been changed
-                    writeToInfoPanel('The level has changed:', eventData);
+                    writeToInfoPanel('The level has changed:', eventData)
                 });
 
                 // Add event for when the focused facility changes.
@@ -85,27 +91,30 @@
                     writeToInfoPanel('The facility has changed:', eventData);
                 });
 
-                /* Upon a mouse click, log the feature properties to the browser's console. */
+                // Upon a mouse click, write the feature properties to the info panel.
                 map.events.add("click", function (e) {
 
                     var features = map.layers.getRenderedShapes(e.position, 'unit');
 
-                    writeToInfoPanel('Feature(s) clicked:', features);
-
-                    features.forEach(function (feature) {
-                        if (feature.layer.id == 'indoor_unit_office') {
-                            console.log(feature);
-                        }
-                    });
+                    if (features.length > 0 && features[0].properties) {
+                        writeToInfoPanel('Feature clicked:', features[0].properties);
+                    }
                 });
             });
         }
 
-        function writeToInfoPanel(msg, json) {            
-            document.getElementById('infoPanel-msg').innerHTML = msg;
+        function writeToInfoPanel(message, details) {
+            // Remove "map" object from json to prevent circular reference
+            var obj = Object.assign({}, details, { map: undefined });
 
-            // Remove "map" object from json to prevent circular reference, and format JSON string.
-            document.getElementById('infoPanel-json').value = JSON.stringify(Object.assign({}, json, { map: undefined }), null, '\t').replace(/\"([^(\")"]+)\":/g, "$1:");
+            document.getElementById('infoPanel-msg').innerHTML = message;
+            document.getElementById('infoPanel-json').value = JSON.stringify(obj, null, 3);
+        }
+
+        function updateRoom(featureId, state) {
+            // trigger some backend process that updates the state
+            // you should see the color of the room update on the map about every 30 seconds
+            fetch(`https://samples.azuremaps.com/api/UpdateFeatureState?featureId=${featureId}&state=${state}`);
         }
     </script>
 </head>
@@ -117,10 +126,16 @@
         <textarea id="infoPanel-json" style="width:250px;height:550px;white-space:nowrap"></textarea>
     </div>
 
+    <div>
+        <button onclick="updateRoom('UNIT27', true)">Occupy Room 150</button>
+        <button onclick="updateRoom('UNIT27', false)">Free Room 150</button>
+    </div>
+
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Creator indoor maps</legend>
-        This is a demo of the <a href="https://docs.microsoft.com/en-us/azure/azure-maps/tutorial-creator-indoor-maps">Azure Maps Creator indoor maps tutorial</a> and the <a href="https://docs.microsoft.com/en-us/azure/azure-maps/how-to-use-indoor-module">how-to implementation for the Azure Maps Web SDK</a>.
+        This is a demo of the Azure Maps Creator <a href="https://docs.microsoft.com/en-us/azure/azure-maps/tutorial-creator-indoor-maps">indoor maps tutorial</a> and the <a href="https://docs.microsoft.com/en-us/azure/azure-maps/how-to-use-indoor-module">how-to implementation</a>.
         Click on the facility to make the level picker appear.
+        When you update room 150 you should see the color of the room update on the map about every <strong>30 seconds</strong>.
     </fieldset>
 </body>
 </html>
