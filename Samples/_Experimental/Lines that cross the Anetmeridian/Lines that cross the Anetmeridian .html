@@ -40,10 +40,20 @@
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 
-                //Add your Azure Maps subscription client ID to the map SDK. Get an Azure Maps client ID at https://azure.com/maps
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '[YOUR_AZURE_MAPS_KEY]' // await fetch('https://samples.azuremaps.com/api/GetAzureMapsKey').then(r => r.text()).then(key => { return key })
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        fetch("https://samples.azuremaps.com/api/GetAzureMapsToken").then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
 
