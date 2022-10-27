@@ -20,20 +20,19 @@
     <script src="https://unpkg.com/threebox-plugin/dist/threebox.min.js"></script>
     <link href="https://unpkg.com/threebox-plugin/dist/threebox.css" rel="stylesheet" />
 
+    <link href="/3d-layer/threebox/sample.css" rel="stylesheet" />
+
     <script>
         let map;
 
-        //starting location for both map and eventual sphere
-        var origin = [-122.4340, 37.7353];
-
         function GetMap() {
             map = new atlas.Map("map", {
-                center: origin,
-                zoom: 12,
+                center: [-118.30778, 35.02242],
+                zoom: 14.7,
                 pitch: 60,
-                bearing: 20,
-                antialias: true,
-                style: 'satellite',
+                bearing: 130.8,
+                showBuildingModels: true,
+                style: 'satellite_road_labels',
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
@@ -62,7 +61,7 @@
                         new atlas.control.PitchControl(),
                         new atlas.control.CompassControl(),
                         new atlas.control.StyleControl({
-                            mapStyles: "all"
+                            mapStyles: ["road", "grayscale_light", "grayscale_dark", "satellite", "satellite_road_labels"]
                         })
                     ],
                     {
@@ -71,16 +70,23 @@
                 );
             });
 
+            // Attach an event to capture when the map is moved
+            map.events.add('moveend', function () {
+                updateStatus();
+            });
+
+            updateStatus();
+
             let intMap = map.map;
             window.tb = new Threebox(
                 intMap,
                 intMap.getCanvas().getContext('webgl'),
                 {
                     defaultLights: true,
-                    enableSelectingObjects: true, //change this to false to disable 3D objects selection
-                    enableDraggingObjects: true, //change this to false to disable 3D objects drag & move once selected
-                    enableRotatingObjects: true, //change this to false to disable 3D objects rotation once selected
-                    enableTooltips: true // change this to false to disable default tooltips on fill-extrusion and 3D models
+                    enableSelectingObjects: false, //change this to false to disable 3D objects selection
+                    enableDraggingObjects: false, //change this to false to disable 3D objects drag & move once selected
+                    enableRotatingObjects: false, //change this to false to disable 3D objects rotation once selected
+                    enableTooltips: false // change this to false to disable default tooltips on fill-extrusion and 3D models
                 }
             );
 
@@ -108,38 +114,27 @@
         let geometry = false;
         let meshes = [];
 
-        // gui
-        var Method = {
-            CLONED: 'CLONED',
-            NOCLONED: 'NO CLONED'
-        };
-
         var api = {
-            method: Method.CLONED,
-            count: 200,
+            count: 212,
             animation: true
         };
 
         // Creative Commons License attribution: Windmill animated model by https://sketchfab.com/data3anshow
         // from https://sketchfab.com/3d-models/windmill-animated-6ce5667e8d5c47068ea13196036efd52
-        var model = { obj: '/3d-layer/threebox/windmill_a/windmill_a.gltf', type: 'gltf', scale: 0.1 };
+        var model = { obj: '/3d-layer/threebox/windmill_a/windmill_a.gltf', type: 'gltf', scale: 0.015 };
 
         function initMesh() {
 
             let diff = api.count - tb.world.children.length;
             if (diff == 0) return;
-            console.log(api.count);
 
             if (tb.world.children.length > api.count) {
-                console.time("(clear)");
                 for (let j = tb.world.children.length - 1; j >= api.count; j--) {
                     var obj = tb.world.children[j];
                     tb.remove(obj);
                 }
 
                 map.repaint = true;
-                console.timeEnd("(clear)");
-
             } else {
                 var options = {
                     obj: model.obj,
@@ -148,66 +143,75 @@
                     units: 'meters',
                     rotation: { x: 90, y: 90, z: 0 },
                     anchor: 'center',
-                    cloned: (api.method == Method.CLONED ? true : false)
+                    cloned: true
                 }
                 if (!processing) makeNaive(options, diff);
-
             }
-
         }
 
         let processing = false;
 
         function makeNaive(options, diff) {
-            processing = true;
-            let j = 0;
-            for (var i = 0; i < diff; i++) {
+            // Create a data source and add it to the map.
+            var dsWindmills = new atlas.source.DataSource();
+            map.sources.add(dsWindmills);
 
-                tb.loadObj(options, function (model) {
-                    if (j == 0) console.time(api.method + ' (build)');
-                    j++;
-                    if (!geometry) {
-                        model.traverse(function (object) {
-                            if (object.isMesh) meshes.push(object.geometry);
-                        });
-                        geometry = true;
-                    }
+            // Load some point data into the data source.
+            dsWindmills.importDataFromUrl('/3d-layer/threebox/windmill_locs.json').then(() => {
+                processing = true;
+                let j = 0;
+                for (var i = 0; i < diff; i++) {
+                    tb.loadObj(options, function (model) {
+                        j++;
+                        if (!geometry) {
+                            model.traverse(function (object) {
+                                if (object.isMesh) meshes.push(object.geometry);
+                            });
+                            geometry = true;
+                        }
 
-                    let lng = origin[0] + Math.random() * 0.4 - 0.2;
-                    let lat = origin[1] + Math.random() * 0.4 - 0.2;
-                    let alt = origin[2] + Math.random() * 0.4 - 0.2;
-                    let obj = model.setCoords([lng, lat, alt]);
+                        let lng = dsWindmills.getShapeById(j).getCoordinates()[0];
+                        let lat = dsWindmills.getShapeById(j).getCoordinates()[1];
+                        let obj = model.setCoords([lng, lat, 0]);
 
-                    tb.add(obj);
+                        tb.add(obj);
 
-                    if (api.animation) {
-                        // play default animation, for 5 min. = 300 seconds
-                        let opt = { animation: 0, duration: 300000 };
-                        obj.playDefault(opt);
-                    }
+                        if (api.animation) {
+                            // play default animation, for 5 min. = 300 seconds
+                            let opt = { animation: 0, duration: 300000 };
+                            obj.playDefault(opt);
+                        }
 
-                    if (j == diff) {
-                        console.timeEnd(api.method + ' (build)');
-                        console.log("Items: " + tb.world.children.length);
-                        processing = false;
-                    }
-                })
-
-            }
-            map.repaint = true;
+                        if (j == diff) {
+                            processing = false;
+                        }
+                    })
+                }
+                map.repaint = true;
+            });
         }
 
         function animate() {
             requestAnimationFrame(animate);
         }
+
+        function updateStatus() {
+            var camera = map.getCamera();
+            var zoom = camera.zoom;
+            var cp = camera.center;
+            var pitch = camera.pitch;
+            var bearing = camera.bearing;
+            document.getElementById("status").innerHTML = "Zoom: " + zoom.toFixed(1) + " / Lon: " + cp[0].toFixed(5) + " / Lat: " + cp[1].toFixed(5) + " / Pitch: " + pitch.toFixed(1) + " / Bearing: " + bearing.toFixed(1);
+        }
     </script>
 </head>
 <body onload="GetMap()">
-    <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+    <div id="map"></div>
+    <div id="status"></div>
 
-    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+    <fieldset id="description" >
         <legend>Threebox custom WebGL layer</legend>
-        This sample shows how to load 200 models using <a href="https://github.com/jscastro76/threebox">Threebox</a> as a WebGL layer within the Azure Maps Web SDK.
+        This sample shows how to load 212 windmills using <a href="https://github.com/jscastro76/threebox">Threebox</a> as a WebGL layer within the Azure Maps Web SDK.
         Threebox is a fork from Three.js.
     </fieldset>
 </body>
