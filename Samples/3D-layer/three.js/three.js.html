@@ -13,14 +13,19 @@
     <meta name="screenshot" content="screenshot.gif" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
-
-    <!-- Use three.js to render the 3D model. -->
-    <script src="https://unpkg.com/three@latest/build/three.min.js"></script>
-    <script src="https://unpkg.com/three@latest/examples/js/loaders/GLTFLoader.js"></script>
-
-    <script>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@latest/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@latest/examples/jsm/"
+          }
+        }
+    </script>
+      
+    <script type="module">
+      
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         var map, layer;
 
         // 3D model to render
@@ -38,7 +43,7 @@
         // Create a renderer that implements atlas.WebGLRenderer
         var renderer = {
             renderingMode: "3d",
-            loader: new THREE.GLTFLoader(),
+            loader: new GLTFLoader(),
             modelDetails: modelDetails,
 
             // Method called when the layer is added to the map
@@ -183,9 +188,11 @@
                 );
             });
         }
+        
+        window.GetMap = GetMap;
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="window.GetMap()">
     <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
