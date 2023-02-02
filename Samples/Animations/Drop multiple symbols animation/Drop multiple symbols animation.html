@@ -4,8 +4,8 @@
     <title>Drop multiple symbols animation - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to animate multiple points on the map as dropping symbols." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, animation, animate, animations, point, symbol, pushpin, marker, pin" />
@@ -57,11 +57,11 @@
                 //Add a layer for rendering point data. This could be any layer that supports rendering point data.
                 map.layers.add(new atlas.layer.SymbolLayer(datasource, null, {
                     iconOptions: {
-                        //Grab the offset from the shape. 
+                        //Grab the offset from the shape.
                         offset: ['get', 'offset'],
 
                         //Grab the opacity from the shape. Opacity will be used to hide the shape when progress of the animation is 0.
-                      //  opacity: ['get', 'opacity'],
+                        //  opacity: ['get', 'opacity'],
 
                         //For smoother animation, ignore the placement of the icon. This skips the label collision calculations and allows the icon to overlap map labels.
                         ignorePlacement: true,
@@ -72,18 +72,22 @@
                 }));
 
                 map.events.add('click', function (e) {
-                     //If animations are already loaded, play them.
-                     if (animation) {
+                    // If animations are already loaded, play them.
+                    if (animation) {
                         animation.play();
                     } else {
-                        //Create random points and animate them being dropped onto the map.
+                        // Create random points and animate them being dropped onto the map.
                         var points = [];
 
                         for (var i = 0; i < 15; i++) {
                             points.push(new atlas.data.Point([-122.3 + (Math.random() * 2 - 1), 47.5 + (Math.random() * 2 - 1)]));
                         }
 
-                        animation = atlas.animations.drop(points, datasource, null, { easing: 'easeOutBounce', duration: 1000, autoPlay: true });
+                        animation = atlas.animations.drop(points, datasource, null, {
+                            easing: 'easeOutBounce',
+                            duration: 1000,
+                            autoPlay: true
+                        });
                     }
                 });
             });
