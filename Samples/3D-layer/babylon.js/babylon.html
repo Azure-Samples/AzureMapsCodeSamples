@@ -23,6 +23,11 @@
     <script>
         var map, layer;
 
+        var scene;
+
+        //A list of the mesh names in the model that we want to limit interaction to when "picking" the scene, as some models will include items we to exclude, such as the background.
+        var interactiveMeshes = ['dish', 'dish_center', 'quad', 'truss_dish'];
+
         // Create a renderer that implements atlas.WebGLRenderer
         var renderer = {
             renderingMode: "3d",
@@ -40,14 +45,18 @@
                 this.scene.beforeRender = function () {
                     engine.wipeCaches(true);
                 };
+
+                //Store a reference to the scene so we can pick from it later.
+                scene = this.scene;
+
                 this.camera = new BABYLON.Camera("camera", new BABYLON.Vector3(), this.scene);
                 const light = new BABYLON.HemisphericLight("light", BABYLON.Vector3.One(), this.scene);
 
                 BABYLON.SceneLoader.Append(
-                    "/3d-layer/babylon.js/34m_17/",
+                    window.location.href.replace(/babylon.html/gi, '')+ "34m_17/",
                     "34M_17.gltf",
                     this.scene
-                );
+                )
 
                 // parameters to ensure the model is georeferenced correctly on the map
                 const modelOrigin = [148.9819, -35.39847];
@@ -122,7 +131,30 @@
                         position: "top-right"
                     }
                 );
+
+                //Add click event to the map.
+                map.events.add('click', mapClicked);
             });
+        }
+
+        function mapClicked(e) {
+            //Get the pixel location that was clicked.
+            var pixel = e.pixel;
+            
+            //Alternatively, if you can get a pixel for a geo-position and use that.
+            //var pixel = map.positionsToPixels([e.position])[0];
+
+            //Pick all meshes that intersect in the scene.
+            var pickResults = scene.multiPick(pixel[0], pixel[1]);
+
+            //Loop through and check to see if one of our prefered meshes was picked.
+            pickResults.forEach(pickResult => {
+                //Check that the pick has a hit and is one of the meshes we want to interact with.
+                if (pickResult.hit && interactiveMeshes.indexOf(pickResult.pickedMesh.name) !== -1) {
+                    //A mesh we allow to be interacted with in the model has been clicked!
+                    console.log(`The ${pickResult.pickedMesh.name} mesh of the model has been clicked!`);                     
+                }
+            })
         }
     </script>
 </head>
