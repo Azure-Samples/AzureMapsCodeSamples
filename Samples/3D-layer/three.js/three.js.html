@@ -13,19 +13,14 @@
     <meta name="screenshot" content="screenshot.gif" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <script type="importmap">
-        {
-          "imports": {
-            "three": "https://unpkg.com/three@latest/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@latest/examples/jsm/"
-          }
-        }
-    </script>
-      
-    <script type="module">
-      
-        import * as THREE from 'three';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Use Threebox https://github.com/jscastro76/threebox to render the 3D models. -->
+    <script src="https://unpkg.com/threebox-plugin/dist/threebox.min.js"></script>
+    <link href="https://unpkg.com/threebox-plugin/dist/threebox.css" rel="stylesheet" />
+
+    <script>
         var map, layer;
 
         // 3D model to render
