@@ -27,10 +27,6 @@
       ]
     },
     {
-      "library": "exif-js@2.3.0",
-      "destination": "lib/exif-js/"
-    },
-    {
       "library": "file-saver@2.0.5",
       "destination": "lib/file-saver/"
     }
