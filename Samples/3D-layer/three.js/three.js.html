@@ -16,7 +16,7 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
-   <!-- Use Threebox https://github.com/jscastro76/threebox to render the 3D models. -->
+    <!-- Use Threebox https://github.com/jscastro76/threebox to render the 3D models. -->
     <script src="https://unpkg.com/threebox-plugin/dist/threebox.min.js"></script>
     <link href="https://unpkg.com/threebox-plugin/dist/threebox.css" rel="stylesheet" />
 
@@ -38,7 +38,7 @@
         // Create a renderer that implements atlas.WebGLRenderer
         var renderer = {
             renderingMode: "3d",
-            loader: new THREE.GLTFLoader(),
+            loader: new GLTFLoader(),
             modelDetails: modelDetails,
 
             // Method called when the layer is added to the map
@@ -183,9 +183,11 @@
                 );
             });
         }
+        
+        window.GetMap = GetMap;
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="window.GetMap()">
     <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
