@@ -61,7 +61,7 @@ function GetMap() {
 
         //Create draggable HTML markers for the end points. They drag much smoother than symbols. 
         var fromImg = document.createElement('img');
-        fromImg.src = '/Common/images/icons/startPin.png';
+        fromImg.src = '/images/icons/startPin.png';
         fromImg.id = 'from';
 
         fromPin = new atlas.HtmlMarker({
@@ -79,7 +79,7 @@ function GetMap() {
         map.markers.add(fromPin);
 
         var toImg = document.createElement('img');
-        toImg.src = '/Common/images/icons/endPin.png';
+        toImg.src = '/images/icons/endPin.png';
         toImg.id = 'to';        
 
         toPin = new atlas.HtmlMarker({
