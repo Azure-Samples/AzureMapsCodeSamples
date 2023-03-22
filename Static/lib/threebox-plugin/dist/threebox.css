@@ -1,0 +1,78 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.helpDiv {
+	width: auto;
+	left: 50%;
+	top: 0px;
+	z-index: 2;
+	position: absolute;
+}
+
+.help {
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	position: relative;
+	text-align: center;
+	top: 10px;
+	left: -50%;
+	padding: 5px 10px;
+	margin: 0;
+	font-size: 11px;
+	line-height: 18px;
+	border-radius: 3px;
+	z-index: 1;
+	display: block;
+}
+
+/*these 3 clases will provide mapbox-like style for labels*/
+.toolTip {
+	border: 0.5px black solid;
+	display: inline-block;
+	background: white;
+	padding: 1px 6px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 11px !important;
+}
+
+.marker {
+	max-width: 240px;
+	display: flex;
+	margin-bottom: 5em;
+	text-align: center;
+	color: black;
+}
+
+.mapboxgl-popup-tip {
+	margin-top: -1px;
+}
+
+.top-right-tools {
+	display: flex;
+	right: 40px;
+	z-index: 10;
+}
+
+.tools-i.mapboxgl-ctrl {
+	margin: 10px 20px 0 0;
+	display: inline-flex;
+}
+
+#toolsControl {
+	margin: 10px 20px 0 0;
+	display: inline-flex;
+}
+
+#toolsControl.mapboxgl-ctrl-group button + button, #toolsControl.mapboxgl-ctrl-group div + div {
+	border-left: 1px solid #ddd;
+	border-top: 0px;
+}

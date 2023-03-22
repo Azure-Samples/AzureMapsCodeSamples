@@ -29,6 +29,26 @@
     {
       "library": "file-saver@2.0.5",
       "destination": "lib/file-saver/"
+    },
+    {
+      "library": "threebox-plugin@2.2.7",
+      "destination": "lib/threebox-plugin/",
+      "files": [
+        "dist/threebox.css",
+        "dist/threebox.js",
+        "dist/threebox.min.js"
+      ]
+    },
+    {
+      "library": "three@0.150.1",
+      "destination": "lib/three/",
+      "files": [
+        "build/three.cjs",
+        "build/three.js",
+        "build/three.min.js",
+        "build/three.module.js",
+        "examples/jsm/loaders/GLTFLoader.js"
+      ]
     }
   ]
 }

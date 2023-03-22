@@ -16,9 +16,9 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
-    <!-- Use Threebox https://github.com/jscastro76/threebox to render the 3D models. -->
-    <script src="https://unpkg.com/threebox-plugin/dist/threebox.min.js"></script>
-    <link href="https://unpkg.com/threebox-plugin/dist/threebox.css" rel="stylesheet" />
+    <!-- Use https://threejs.org/ to render the 3D models. -->
+    <script src="/lib/three/build/three.min.js"></script>
+    <script src="/lib/three/examples/jsm/loaders/GLTFLoader.js"></script>
 
     <script>
         var map, layer;
@@ -183,7 +183,7 @@
                 );
             });
         }
-        
+
         window.GetMap = GetMap;
     </script>
 </head>
