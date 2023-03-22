@@ -18,7 +18,7 @@
 
     <!-- Use https://threejs.org/ to render the 3D models. -->
     <script src="/lib/three/build/three.min.js"></script>
-    <script src="/lib/three/examples/jsm/loaders/GLTFLoader.js"></script>
+    <script src="/lib/three/examples/js/loaders/GLTFLoader.js"></script>
 
     <script>
         var map, layer;
@@ -38,7 +38,7 @@
         // Create a renderer that implements atlas.WebGLRenderer
         var renderer = {
             renderingMode: "3d",
-            loader: new GLTFLoader(),
+            loader: new THREE.GLTFLoader(),
             modelDetails: modelDetails,
 
             // Method called when the layer is added to the map
