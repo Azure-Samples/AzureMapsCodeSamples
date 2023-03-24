@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Creator indoor maps - Azure Maps Web SDK Samples</title>
+    <title>Creator Custom Styling - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This is a demo of the Azure Maps Creator indoor maps tutorial and the how-to implementation for the Azure Maps Web SDK." />
+    <meta name="description" content="This is a sample of customized styling options for Azure Maps Creator. You can apply your own unique style to your indoor map." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Creator, indoor maps, indoor, building" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -23,22 +23,20 @@
     <script>
         var map, indoorManager;
 
-        // Your tileset ID's for Azure Maps Creator.
-        const indoor = {
-            tilesetId: 'fd9261bb-e571-b5d6-a9ae-e7abece7a959',
-            statesetId: 'f972e790-f6dd-e305-0cad-6559343e64e3'
-        };
-
         function GetMap() {
-            // Set the map domain with a prefix matching the location of your Creator resource, US or EU, for example.
-            atlas.setDomain('us.atlas.microsoft.com');
-
             // Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-122.13203, 47.63645],
+                center: [-122.13316620420724, 47.63549703158648],
                 zoom: 19,
                 style: 'grayscale_light',
                 view: 'Auto',
+
+                // Set the map domain with a prefix matching the
+                // location of your Creator resource, for example US or EU.
+                domain: 'us.atlas.microsoft.com',
+
+                styleAPIVersion: '2022-09-01-preview',
+                mapConfiguration: '231dc898-32e5-38dd-2250-f69242ba5abe',
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
@@ -61,71 +59,37 @@
             map.events.add('ready', function () {
 
                 // Add a map style selection control.
-                map.controls.add(new atlas.control.StyleControl({ mapStyles: "all" }), { position: "top-right" });
+                map.controls.add(new atlas.control.StyleControl({ mapStyles: "all" }), { position: 'top-right' });
 
-                // Create an indoor maps manager.
+                // Create an indoor maps manager and add a level control to the indoor manager.
                 indoorManager = new atlas.indoor.IndoorManager(map, {
-                    tilesetId: indoor.tilesetId,
-                    statesetId: indoor.statesetId
-                });
-
-                // Add a level control to the indoor manager.
-                indoorManager.setOptions({
                     levelControl: new atlas.control.LevelControl({ position: 'top-right' })
                 });
 
-                // Enable dynamic styling if we have a stateset
-                if (indoor.statesetId.length > 0) {
-                    indoorManager.setDynamicStyling(true);
-                }
-
                 // Add event for when the focused facility level changes.
-                map.events.add('levelchanged', indoorManager, (eventData) => {
+                map.events.add('levelchanged', indoorManager, (e) => {
                     // code that you want to run after a level has been changed
-                    writeToInfoPanel('The level has changed:', eventData)
+                    console.log('The level has changed');
                 });
 
                 // Add event for when the focused facility changes.
-                map.events.add('facilitychanged', indoorManager, (eventData) => {
+                map.events.add('facilitychanged', indoorManager, (e) => {
                     // code that you want to run after a facility has been changed
-                    writeToInfoPanel('The facility has changed:', eventData);
-                });
-
-                // Upon a mouse click, write the feature properties to the info panel.
-                map.events.add("click", function (e) {
-
-                    var features = map.layers.getRenderedShapes(e.position, 'unit');
-
-                    if (features.length > 0 && features[0].properties) {
-                        writeToInfoPanel('Feature clicked:', features[0].properties);
-                    }
+                    console.log('The facility has changed');
                 });
             });
-        }
-
-        function writeToInfoPanel(message, details) {
-            // Remove "map" object from json to prevent circular reference
-            var obj = Object.assign({}, details, { map: undefined });
-
-            document.getElementById('infoPanel-msg').innerHTML = message;
-            document.getElementById('infoPanel-json').value = JSON.stringify(obj, null, 3);
         }
     </script>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
-    <div id="infoPanel" style="position:absolute;top:10px;left:10px;width:260px;height:580px;border:solid 1px #000;background-color:white;padding:5px;">
-        <div id="infoPanel-msg"></div>
-        <textarea id="infoPanel-json" style="width:250px;height:550px;white-space:nowrap"></textarea>
-    </div>
-
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Creator indoor maps</legend>
-        This is a demo of the Azure Maps Creator
-        <a href="https://docs.microsoft.com/en-us/azure/azure-maps/tutorial-creator-indoor-maps">indoor maps tutorial</a> and the
-        <a href="https://docs.microsoft.com/en-us/azure/azure-maps/how-to-use-indoor-module">how-to implementation</a>.
-        Click on the facility to make the level picker appear.
+        <legend>Creator Custom Styling</legend>
+        This is a sample of customized styling options for
+        <a href="https://aka.ms/azuremapscreator" target="_blank">Azure Maps Creator</a>.
+        You can apply your own unique style to your indoor map. To get started, follow these steps:
+        <a href="https://learn.microsoft.com/en-us/azure/azure-maps/how-to-create-custom-styles" target="_blank">Create custom styles for indoor maps</a>.
     </fieldset>
 </body>
 </html>

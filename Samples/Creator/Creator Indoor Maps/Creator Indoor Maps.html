@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Creator Custom Styling - Azure Maps Web SDK Samples</title>
+    <title>Creator Indoor Maps - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This is a demo of the Azure Maps Creator indoor maps tutorial and the how-to implementation for the Azure Maps Web SDK." />
+    <meta name="description" content="This is a demo of the Azure Maps Creator tutorial for indoor maps and how to implement it using the Azure Maps Web Control." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Creator, indoor maps, indoor, building" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -26,7 +26,7 @@
         function GetMap() {
             // Initialize a map instance.
             map = new atlas.Map('myMap', {
-                center: [-122.13355885, 47.63529901],
+                center: [-122.13203, 47.63645],
                 zoom: 19,
                 style: 'grayscale_light',
                 view: 'Auto',
@@ -36,7 +36,7 @@
                 domain: 'us.atlas.microsoft.com',
 
                 styleAPIVersion: '2022-09-01-preview',
-                mapConfiguration: 'config1',
+                mapConfiguration: '473dc913-f34c-6ec8-a477-6025f7a46493',
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
@@ -59,7 +59,7 @@
             map.events.add('ready', function () {
 
                 // Add a map style selection control.
-                map.controls.add(new atlas.control.StyleControl({ mapStyles: "all" }), { position: "top-right" });
+                map.controls.add(new atlas.control.StyleControl({ mapStyles: "all" }), { position: 'top-right' });
 
                 // Create an indoor maps manager and add a level control to the indoor manager.
                 indoorManager = new atlas.indoor.IndoorManager(map, {
@@ -67,26 +67,50 @@
                 });
 
                 // Add event for when the focused facility level changes.
-                map.events.add('levelchanged', indoorManager, (e) => {
+                map.events.add('levelchanged', indoorManager, (eventData) => {
                     // code that you want to run after a level has been changed
-                    console.log('The level has changed');
+                    writeToInfoPanel('The level has changed:', eventData)
                 });
 
                 // Add event for when the focused facility changes.
-                map.events.add('facilitychanged', indoorManager, (e) => {
+                map.events.add('facilitychanged', indoorManager, (eventData) => {
                     // code that you want to run after a facility has been changed
-                    console.log('The facility has changed');
+                    writeToInfoPanel('The facility has changed:', eventData);
+                });
+
+                // Upon a mouse click, write the feature properties to the info panel.
+                map.events.add('click', function (e) {
+
+                    var features = map.layers.getRenderedShapes(e.position, 'unit');
+                    if (features.length > 0 && features[0].properties) {
+                        writeToInfoPanel('Feature clicked:', features[0].properties);
+                    }
                 });
             });
+        }
+
+        function writeToInfoPanel(message, details) {
+            // Remove "map" object from json to prevent circular reference
+            var obj = Object.assign({}, details, { map: undefined });
+
+            document.getElementById('infoPanel-msg').innerHTML = message;
+            document.getElementById('infoPanel-json').value = JSON.stringify(obj, null, 3);
         }
     </script>
 </head>
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
+    <div id="infoPanel" style="position:absolute;top:10px;left:10px;width:260px;height:580px;border:solid 1px #000;background-color:white;padding:5px;">
+        <div id="infoPanel-msg"></div>
+        <textarea id="infoPanel-json" style="width:250px;height:550px;white-space:nowrap"></textarea>
+    </div>
+
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Creator Custom Styling</legend>
-        This is a demo of the Azure Maps Creator <a href="https://docs.microsoft.com/en-us/azure/azure-maps/tutorial-creator-indoor-maps">indoor maps tutorial</a> and the <a href="https://docs.microsoft.com/en-us/azure/azure-maps/how-to-use-indoor-module">how-to implementation</a>.
+        <legend>Creator Indoor Maps</legend>
+        This is a demo of the Azure Maps Creator
+        <a href="https://docs.microsoft.com/en-us/azure/azure-maps/tutorial-creator-indoor-maps">indoor maps tutorial</a> and the
+        <a href="https://docs.microsoft.com/en-us/azure/azure-maps/how-to-use-indoor-module">how-to implementation</a>.
         Click on the facility to make the level picker appear.
     </fieldset>
 </body>
