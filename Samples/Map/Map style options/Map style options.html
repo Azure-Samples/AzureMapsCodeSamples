@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how the different style options of the map affect rendering." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, style, logo, lighting, map options" />
-    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.5/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.5/atlas.min.js"></script>
 
     <script src="/lib/clipboard/dist/clipboard.min.js"></script>
 
@@ -98,7 +98,6 @@
             return {
                 autoResize: getPropertyValue('autoResize', document.getElementById('autoResize').checked),
                 renderWorldCopies: getPropertyValue('renderWorldCopies', document.getElementById('renderWorldCopies').checked),
-                showBuildingModels: getPropertyValue('showBuildingModels', document.getElementById('showBuildingModels').checked),
                 showFeedbackLink: getPropertyValue('showFeedbackLink', document.getElementById('showFeedbackLink').checked),
                 showLogo: getPropertyValue('showLogo', document.getElementById('showLogo').checked),
                 showTileBoundaries: getPropertyValue('showTileBoundaries', document.getElementById('showTileBoundaries').checked),
@@ -228,10 +227,6 @@
                 <tr title="Specifies if multiple copies of the world should be rendered when zoomed out. ">
                     <td>Render world copies:</td>
                     <td><input id="renderWorldCopies" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
-                </tr>
-                <tr title="Specifies if buildings will be rendered with their models. If false all buildings will be rendered as just their footprints.">
-                    <td>Show building models:</td>
-                    <td><input id="showBuildingModels" type="checkbox" onclick="updateStyles()" /></td>
                 </tr>
                 <tr title="Specifies if the feedback link should be displayed on the map or not.">
                     <td>Show feedback link:</td>
