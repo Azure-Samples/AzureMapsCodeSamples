@@ -138,17 +138,44 @@ namespace SampleBuilder
             string categoryList = "";
             foreach(var category in database.Categories)
             {
-                categoryList += $"<li><a class=\"dropdown-item\" href=\"#{category.Id}\">{category.Title}</a></li>";
+                categoryList += $"""
+                                <li>
+                                    <a class=\"dropdown-item\" href=\"#{category.Id}\">{category.Title}</a>
+                                </li>
+                                """;
             }
 
             string sampleList = "";
             foreach (var category in database.Categories)
             {
-                sampleList += $"<div class=\"w-100\"><a name=\"{category.Id}\"></a><h3 class=\"fw-light\">{category.Title} <small class=\"text-muted\">({category.NumberOfSamples})</small></h3><p>{category.Description}</p></div>";
+                sampleList += $"""
+                               <div class=\"w-100\">
+                                <a name=\"{category.Id}\"></a>
+                                <h3 class=\"fw-light\">{category.Title} <small class=\"text-muted\">({category.NumberOfSamples})</small></h3>
+                                <p>{category.Description}</p>
+                               </div>
+                               """;
 
                 foreach(var sample in category.Samples)
                 {
-                    sampleList += $"<div class=\"col\"><div class=\"card shadow-sm\"><img class=\"card-img-top\" src=\"{sample.Path}/{sample.Screenshot}\" loading=\"lazy\" alt=\"{sample.Title}\" /><div class=\"card-body\"><h5 class=\"card-title\">{sample.Title}</h5><p class=\"card-text\">{sample.Description}</p><div class=\"d-flex justify-content-between align-items-center\"><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-bs-toggle=\"modal\" data-bs-target=\"#sampleModal\" data-bs-id=\"{sample.Id}\" data-bs-title=\"{sample.Title}\" data-bs-path=\"{sample.Path}\" data-bs-source=\"{database.GitHub}{sample.Source}\" aria-description=\"Run the sample in a new popup\"><small>Run Sample</small></button><a href=\"{sample.Path}\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" role=\"button\" aria-description=\"Open the sample in a new Tab\"><small>Open In New Tab</small></a><a href=\"{database.GitHub}{sample.Source}\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" role=\"button\" aria-description=\"Show the source code of the sample\"><small>Source Code</small></a></div></div></div></div></div>";
+                    sampleList += $"""
+                                  <div class=\"col\">
+                                    <div class=\"card shadow-sm\">
+                                        <img class=\"card-img-top\" src=\"{sample.Path}/{sample.Screenshot}\" loading=\"lazy\" alt=\"{sample.Title}\" />
+                                        <div class=\"card-body\">
+                                            <h5 class=\"card-title\">{sample.Title}</h5>
+                                            <p class=\"card-text\">{sample.Description}</p>
+                                            <div class=\"d-flex justify-content-between align-items-center\">
+                                                <div class=\"btn-group\">
+                                                    <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-bs-toggle=\"modal\" data-bs-target=\"#sampleModal\" data-bs-id=\"{sample.Id}\" data-bs-title=\"{sample.Title}\" data-bs-path=\"{sample.Path}\" data-bs-source=\"{database.GitHub}{sample.Source}\" aria-describedby=\"Run the sample in a new popup\"><small>Run Sample</small></button>
+                                                    <a href=\"{sample.Path}\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" role=\"button\" aria-describedby=\"Open the sample in a new Tab\"><small>Open In New Tab</small></a>
+                                                    <a href=\"{database.GitHub}{sample.Source}\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" role=\"button\" aria-describedby=\"Show the source code of the sample\"><small>Source Code</small></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  """;
                 }
             }
 
@@ -261,6 +288,12 @@ namespace SampleBuilder
                 Exit($"Missing screenshot in file '{filename}'");
             else
                 sample.Screenshot = screenshot.Attributes["content"].Value;
+
+            var version = doc.DocumentNode.SelectSingleNode("//meta[@name='version']");
+            if (version == null)
+                Exit($"Missing version in file '{filename}'");
+            else
+                sample.Version = version.Attributes["content"].Value;
 
             return sample;
         }

@@ -4,12 +4,13 @@
     <title>Route Waypoint Optimization - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, route directions service, direcitons, travelling salesmen problem, route optimization, optimize, vehicle routing problem, VRP, TSP" />
     <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -133,7 +134,7 @@
                         pinOrder.push(r.optimizedWaypoints[i].optimizedIndex + 1);
                     }
 
-                    //Add the desintation index to the end. 
+                    //Add the desintation index to the end.
                     pinOrder.push(waypoints.length - 1);
 
                     output += 'Waypoint Order: ' + pinOrder.join(', ');
