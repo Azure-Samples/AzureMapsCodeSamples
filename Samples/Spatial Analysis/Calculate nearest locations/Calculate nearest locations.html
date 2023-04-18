@@ -106,6 +106,7 @@
 
                         //Render each address as a colored circle based on nearest fire station.
                         new atlas.layer.BubbleLayer(schoolSource, null, {
+                            createIndicators: true, // to enable bubble layer a11y feature
                             radius: 4,
                             strokeWidth: 0
                         })

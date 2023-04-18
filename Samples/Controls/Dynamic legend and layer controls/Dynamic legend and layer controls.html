@@ -157,6 +157,7 @@
                     new atlas.layer.BubbleLayer(earthquakeSource, 'Earthquake Circles', {
                         //Bubbles are made semi-transparent.
                         opacity: 0.75,
+                        createIndicators: true, // to enable bubble layer a11y feature
 
                         //Color of each bubble based on the value of "mag" property using a color gradient of green, yellow, orange, and red.
                         color: [

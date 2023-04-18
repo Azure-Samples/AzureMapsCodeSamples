@@ -132,6 +132,7 @@
 
             map.layers.add([
                 new atlas.layer.BubbleLayer(datasource, 'earthquake-circles', {
+                    createIndicators: true, // to enable bubble layer a11y feature
                     opacity: 0.75,
 
                     color: [

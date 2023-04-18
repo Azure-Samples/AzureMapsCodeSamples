@@ -101,6 +101,7 @@
 
                     //Create a layer to render the individual points on the map.
                     new atlas.layer.BubbleLayer(pointDatasource, null, {
+                        createIndicators: true, // to enable bubble layer a11y feature
                         radius: 2,
                         color: '#ff007f',
                         strokeWidth: 0

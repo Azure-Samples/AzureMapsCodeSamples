@@ -133,6 +133,7 @@
             //Add a layer to render the mock data.
             map.layers.add(new atlas.layer.BubbleLayer(source, null, {
                 radius: 5,
+                createIndicators: true, // to enable bubble layer a11y feature
                 color: [
                     'match',
                     ['get', 'dataset'],

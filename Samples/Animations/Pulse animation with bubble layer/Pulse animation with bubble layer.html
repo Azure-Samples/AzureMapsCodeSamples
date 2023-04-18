@@ -69,6 +69,7 @@
                 //A bubble layer that will have its radius scaled during animation to create a pulse.
                 bubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
                     color: 'rgb(0, 204, 255)',
+                    createIndicators: true, // to enable bubble layer a11y feature
 
                     //Hide the stroke of the bubble. 
                     strokeWidth: 0,

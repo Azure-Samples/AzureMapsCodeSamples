@@ -59,6 +59,8 @@
 
                 //Create a layer for clustered points.
                 var clusterLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    createIndicators: true, // to enable bubble layer a11y feature
+
                     //The name of the data layer within the data source to pass into this rendering layer.
                     sourceLayer: 'Traffic incident POI',
 
@@ -84,6 +86,8 @@
 
                 //Create a layer for individual incident points.
                 var incidentLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    createIndicators: true, // to enable bubble layer a11y feature
+
                     //The name of the data layer within the data source to pass into this rendering layer.
                     sourceLayer: 'Traffic incident POI',
 

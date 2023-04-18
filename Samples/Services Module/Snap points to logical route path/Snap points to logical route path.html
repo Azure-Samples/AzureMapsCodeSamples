@@ -71,6 +71,7 @@
 
                 //Create a layer for rendering the GPS points.
                 map.layers.add(new atlas.layer.BubbleLayer(datasource, null, {
+                    createIndicators: true, // to enable bubble layer a11y feature
                     radius: 3,
                     color: 'red',
                     strokeWidth: 1,
