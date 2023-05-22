@@ -3,12 +3,45 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
-      "library": "jquery@3.6.1",
+      "library": "jquery@3.6.3",
       "destination": "lib/jquery/"
     },
     {
-      "library": "bootstrap@5.2.2",
+      "library": "bootstrap@5.2.3",
       "destination": "lib/bootstrap/"
+    },
+    {
+      "library": "catiline@2.9.3",
+      "destination": "lib/catiline/",
+      "files": [
+        "dist/catiline.js",
+        "dist/catiline.min.js"
+      ]
+    },
+    {
+      "library": "clipboard@2.0.11",
+      "destination": "lib/clipboard/",
+      "files": [
+        "dist/clipboard.js",
+        "dist/clipboard.min.js"
+      ]
+    },
+    {
+      "library": "file-saver@2.0.5",
+      "destination": "lib/file-saver/"
+    },
+    {
+      "library": "threebox-plugin@2.2.7",
+      "destination": "lib/threebox-plugin/",
+      "files": [
+        "dist/threebox.css",
+        "dist/threebox.js",
+        "dist/threebox.min.js"
+      ]
+    },
+    {
+      "library": "three@0.150.1",
+      "destination": "lib/three/"
     }
   ]
 }

@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to load points of interest data on the map as the user moves the map." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, search, points of interest, POI" />
-    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
@@ -67,6 +67,7 @@
 
                 //Add a bubble layer to render the points of interests.
                 var poiLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    createIndicators: true, // to enable bubble layer a11y feature
                     minZoom: minSearchZoom,
 
                     //Set the color based on the category code: https://docs.microsoft.com/en-us/azure/azure-maps/supported-search-categories

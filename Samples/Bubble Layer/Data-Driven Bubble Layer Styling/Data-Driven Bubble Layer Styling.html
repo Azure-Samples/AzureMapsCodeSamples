@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to use data-driven styles on a BubbleLayer to define the radius and color of each circle based on the magnitude of each data point." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, circle, bubble, layer, data-driven, bubblelayer, geojson, data driven styling, weather, earthquakes, USGS" />
-    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.js"></script>
 
     <script>
         var map, datasource;
@@ -64,6 +64,8 @@
                     new atlas.layer.BubbleLayer(datasource, 'earthquake-circles', {
                         //Bubbles are made semi-transparent.
                         opacity: 0.75,
+
+                        createIndicators: true, // to enable bubble layer a11y feature
 
                         //Color of each bubble based on the value of "mag" property using a color gradient of green, yellow, orange, and red.
                         color: [

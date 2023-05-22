@@ -27,6 +27,8 @@ namespace SampleBuilder.Models
 
         public string Author { get; set; }
 
+        public string Version { get; set; }
+
         public DateTime LastChangeDate { get; set; }
     }
 }
