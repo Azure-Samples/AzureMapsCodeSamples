@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cluster aggregate average values - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to calculate an aggregate value over values in a cluster." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, markers, pins, pushpins, symbols, layer, bubbles, clustering, superclusterer, cluster aggregate" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.js"></script>
+
+    <script>
+        var map, datasource, popup;
+
+        //GeoJSON feed of all earthquakes from the past 30 days. Sourced from the USGS.
+        var earthquakeFeed = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                zoom: 2,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a reusable popup.
+                popup = new atlas.Popup();
+
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource(null, {
+                    cluster: true,
+
+                    //The radius in pixels to cluster points together.
+                    clusterRadius: 50,
+
+                    //Calculate the sum of the magnitudes.
+                    clusterProperties: {
+                        magnitudeSum: ['+', ['get', 'mag']]
+                    }
+                });
+                map.sources.add(datasource);
+
+                //Create a bubble layer for rendering clustered data points.
+                var clusterBubbleLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    radius: 20,
+
+                    //Set the color based on the average magnitude of all the points in the cluster.
+                    color: [
+                        'step',
+
+                        //Calculate the average by dividing the total magnitudes but the point count for the cluster.
+                        ['/', ['get', 'magnitudeSum'], ['get', 'point_count']],
+
+                        'limegreen',
+                        2, 'green',
+                        3, 'yellow',
+                        4, 'orange',
+                        5, 'red'
+                    ],
+                    strokeWidth: 0,
+                    filter: ['has', 'point_count'] //Only rendered data points which have a point_count property, which clusters do.
+                });
+
+                //Add a click event to the layer so a popup can be displayed to show details about the cluster.
+                map.events.add('click', clusterBubbleLayer, clusterClicked);
+
+                //Add the clusterBubbleLayer and two additional layers to the map.
+                map.layers.add([
+                    clusterBubbleLayer,
+
+                    //Create a symbol layer to render the count of locations in a cluster.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        iconOptions: {
+                            image: 'none' //Hide the icon image.
+                        },
+                        textOptions: {
+                            //Calculate the average and display it.
+                            textField: [
+                                'number-format',
+                                ['/', ['get', 'magnitudeSum'], ['get', 'point_count']],
+                                { 'max-fraction-digits': 2 }
+                            ],
+                            offset: [0, 0.4],
+                            color: 'white'
+                        }
+                    }),
+
+                    //Create a layer to render the individual locations.
+                    new atlas.layer.SymbolLayer(datasource, null, {
+                        filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                    })
+                ]);
+
+                //Import the GeoJSON data into the data source.
+                datasource.importDataFromUrl(earthquakeFeed);
+            });
+        }
+
+        function clusterClicked(e) {
+            if (e && e.shapes && e.shapes.length > 0 && e.shapes[0].properties.cluster) {
+                //Get the clustered point from the event.
+                var cluster = e.shapes[0];
+
+                //Update the options of the popup and open it on the map.
+                //Calculate the average value by dividing the aggreate value "magnitudeSum", but the number of points in the cluster "point_count".
+                popup.setOptions({
+                    position: cluster.geometry.coordinates,
+                    content: `<div style="padding:10px;">Average magnitude: ${cluster.properties.magnitudeSum / cluster.properties.point_count}</div>`
+                });
+
+                popup.open(map);
+            }
+        }
+    </script>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Cluster aggregate average values</legend>
+        This sample shows how to calculate an aggregate value over values in a cluster. 
+        To get an average value of an aggregate you must calculate the sum as an aggregate and then when you access this value, divide it by the number of points in the cluster. 
+        The average can be calculate in a data-driven style expression or by directly accessing the properties on a cluster.
+    </fieldset>
+</body>
+</html>

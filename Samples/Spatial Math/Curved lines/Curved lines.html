@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Curved lines - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows three different ways to create curved lines in Azure Maps." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, linestring, arrows, path, symbols, linelayer, curve, curves, geodesic" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to two additional line calculation classes. -->
+    <script src="js/CubicBezier.js"></script>
+    <script src="js/RoundedCorners.js"></script>
+
+    <script>
+        var map, datasource;
+
+        var originalLine = {
+            type: 'Feature',
+            geometry: {
+                type: 'LineString',
+                coordinates: [
+                    [-122.203812, 47.61456],
+                    [-122.203831, 47.615602],
+                    [-122.203945, 47.615593],
+                    [-122.20397, 47.616131],
+                    [-122.204831, 47.616122],
+                    [-122.204882, 47.616763],
+                    [-122.205356, 47.616754],
+                    [-122.205394, 47.617304],
+                    [-122.203482, 47.617317],
+                    [-122.203457, 47.616942],
+                    [-122.203318, 47.616805],
+                    [-122.203115, 47.616178],
+                    [-122.20183, 47.616203]
+                ]
+            },
+            properties: {
+                pathType: 'original'
+            }
+        };
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.204396, 47.615568],
+                zoom: 16,
+                view: 'Auto',
+
+                //Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    //Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                    getToken: function (resolve, reject, map) {
+                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Create a layer for visualizing the lines on the map.
+                map.layers.add(new atlas.layer.LineLayer(datasource, null, {
+                    strokeWidth: [
+                        'match',
+                        ['get', 'pathType'],
+                        'original', 10,
+                        4
+                    ],
+                    strokeColor: [
+                        'match',
+                        ['get', 'pathType'],
+                        'original', 'Black',
+                        'cardinalSpline', 'DodgerBlue',
+                        'cubicBezier', 'DeepPink',
+                        'roundedCorners', 'LightSeaGreen',
+                        'black'
+                    ]
+                }));
+
+                recalculateCurves();
+            });
+        }
+
+        function recalculateCurves() {
+            var tension = parseFloat(document.getElementById('Tension').value);
+            var nodeSize = parseInt(document.getElementById('Nodesize').value);
+
+            var lines = [originalLine];
+
+            //Create a line using the rounded corners method.
+            lines.push(new atlas.data.Feature(
+                new atlas.data.LineString(RoundedCorners(originalLine.geometry.coordinates, 5, nodeSize)), {
+                pathType: 'roundedCorners'
+            }));
+
+            //Create a line using the cardinal spline method.
+            lines.push(new atlas.data.Feature(
+                new atlas.data.LineString(atlas.math.getCardinalSpline(originalLine.geometry.coordinates, tension, nodeSize)), {
+                pathType: 'cardinalSpline'
+            }));
+
+            //Cretae a line using the cubic bezier method.
+            lines.push(new atlas.data.Feature(
+                CubicBezier.getLine(originalLine.geometry.coordinates, tension, nodeSize), {
+                pathType: 'cubicBezier'
+            }));
+
+            //Add lines to the data source.
+            datasource.setShapes(lines);
+        }
+    </script>
+    <style>
+        .panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div class="panel">
+        <table>
+            <tr>
+                <td>Tension:</td>
+                <td>
+                    <form oninput="tension.value=Tension.value">
+                        <input type="range" id="Tension" value="0.5" min="-1" max="1" step="0.05" oninput="recalculateCurves()" onchange="recalculateCurves()" />
+                        <output name="tension" for="Tension">0.5</output>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Node size:</td>
+                <td>
+                    <form oninput="nodeSize.value=Nodesize.value">
+                        <input type="range" id="Nodesize" value="15" min="2" max="100" step="1" oninput="recalculateCurves()" onchange="recalculateCurves()" />
+                        <output name="nodeSize" for="Nodesize">15</output>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><svg viewBox="0 0 20 5" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="2" x2="15" y2="2" stroke="Black" /></svg></td>
+                <td>Original line</td>
+            </tr>
+            <tr>
+                <td><svg viewBox="0 0 20 5" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="2" x2="15" y2="2" stroke="DodgerBlue" /></svg></td>
+                <td>Cardinal Spline</td>
+            </tr>
+            <tr>
+                <td><svg viewBox="0 0 20 5" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="2" x2="15" y2="2" stroke="DeepPink" /></svg></td>
+                <td>Cubic Bezier</td>
+            </tr>
+            <tr>
+                <td><svg viewBox="0 0 20 5" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="2" x2="15" y2="2" stroke="LightSeaGreen" /></svg></td>
+                <td>Rounded corners</td>
+            </tr>
+        </table>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Curved lines</legend>
+        This sample shows three different ways to create curved lines in Azure Maps. Note that there is no curved line class built into Azure Maps and instead you need to calculate points the approximate the path of a curved line. 
+        The following three types of line curves are demonstrated in this sample:
+        <ul>
+            <li>Cardinal Spline - A curve calculation built into the Azure Maps math library.</li>
+            <li>Cubic Bezier - Another type of line curve calculation.</li>
+            <li>Rounded corners - Where two lines join, a curved is calculated a set offset from the ends of the lines.</li>
+        </ul>
+        Another type of curved line that is not demonstrated in this sample is a great circle line, also known as a geodesic line. This is a line that follows the curvature of the earth and thus only noticable when lines cover a long distance. <a href="/Spatial Math/Introduction to spatial math/Introduction to spatial math.html">Here is an example of a geodesic curve.</a> 
+    </fieldset>
+</body>
+</html>

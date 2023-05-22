@@ -13,8 +13,8 @@
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
-    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
-    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.6/atlas.min.js"></script>
 
     <!-- Babylon.js is a powerful, simple, real-time 3D and open game and rendering engine packed into a friendly framework, which Microsoft initially developed. -->
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
@@ -94,7 +94,7 @@
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    // Use Azure Active Directory authentication.
+                    //Use Azure Active Directory authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
@@ -141,7 +141,7 @@
             //Get the pixel location that was clicked.
             var pixel = e.pixel;
             
-            //Alternatively, if you can get a pixel for a geo-position and use that.
+            //Alternatively, you can get a pixel for a geo-position and use that.
             //var pixel = map.positionsToPixels([e.position])[0];
 
             //Pick all meshes that intersect in the scene.
@@ -152,7 +152,7 @@
                 //Check that the pick has a hit and is one of the meshes we want to interact with.
                 if (pickResult.hit && interactiveMeshes.indexOf(pickResult.pickedMesh.name) !== -1) {
                     //A mesh we allow to be interacted with in the model has been clicked!
-                    console.log(`The ${pickResult.pickedMesh.name} mesh of the model has been clicked!`);                     
+                    alert(`The ${pickResult.pickedMesh.name} mesh of the model has been clicked!`);                     
                 }
             })
         }
@@ -165,6 +165,7 @@
         <legend>Babylon.js custome WebGL layer</legend>
         This sample shows how to render a 3D model using <a href="https://www.babylonjs.com/">babylon.js</a>.
         Babylon.js is a powerful, simple, real-time 3D and open game and rendering engine packed into a friendly framework, which Microsoft initially developed.
+        This sample allows a subset of meshes within the model to be interacted with.
     </fieldset>
 </body>
 </html>
