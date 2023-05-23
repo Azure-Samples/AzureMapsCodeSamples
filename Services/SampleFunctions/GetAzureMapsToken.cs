@@ -26,6 +26,7 @@ namespace SampleFunctions
                                                      "https://demo.azuremaps.com/",
                                                      "https://codepen.io/",
                                                      "https://cdpn.io/",
+                                                     "https://localhost",
                                                      "http://localhost"};
 
         [FunctionName("GetAzureMapsToken")]

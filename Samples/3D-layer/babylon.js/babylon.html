@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to create a custom 3D layer with Babylon.js." />
     <meta name="keywords" content="3D, Microsoft maps, map, gis, API, SDK, thematic, choropleth, heatmap, heat map, animation, animate, animations, county, population, data-driven, data driven styling, temporal, temporal analysis" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -53,8 +54,8 @@
                 const light = new BABYLON.HemisphericLight("light", BABYLON.Vector3.One(), this.scene);
 
                 BABYLON.SceneLoader.Append(
-                    window.location.href.replace(/babylon.html/gi, '')+ "34m_17/",
-                    "34M_17.gltf",
+                    '/3d-layer/babylon.js/34m_17/',
+                    '34M_17.gltf',
                     this.scene
                 )
 
@@ -140,7 +141,7 @@
         function mapClicked(e) {
             //Get the pixel location that was clicked.
             var pixel = e.pixel;
-            
+
             //Alternatively, you can get a pixel for a geo-position and use that.
             //var pixel = map.positionsToPixels([e.position])[0];
 
@@ -152,7 +153,7 @@
                 //Check that the pick has a hit and is one of the meshes we want to interact with.
                 if (pickResult.hit && interactiveMeshes.indexOf(pickResult.pickedMesh.name) !== -1) {
                     //A mesh we allow to be interacted with in the model has been clicked!
-                    alert(`The ${pickResult.pickedMesh.name} mesh of the model has been clicked!`);                     
+                    alert(`The ${pickResult.pickedMesh.name} mesh of the model has been clicked!`);
                 }
             })
         }
@@ -163,7 +164,8 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Babylon.js custome WebGL layer</legend>
-        This sample shows how to render a 3D model using <a href="https://www.babylonjs.com/">babylon.js</a>.
+        This sample shows how to render a 3D model using
+        <a href="https://www.babylonjs.com/">babylon.js</a>.
         Babylon.js is a powerful, simple, real-time 3D and open game and rendering engine packed into a friendly framework, which Microsoft initially developed.
         This sample allows a subset of meshes within the model to be interacted with.
     </fieldset>
