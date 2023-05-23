@@ -24,6 +24,8 @@ namespace SampleFunctions
 
         private static readonly string[] allowed = { "https://samples.azuremaps.com/",
                                                      "https://demo.azuremaps.com/",
+                                                     "https://codepen.io/",
+                                                     "https://cdpn.io/",
                                                      "http://localhost"};
 
         [FunctionName("GetAzureMapsToken")]
