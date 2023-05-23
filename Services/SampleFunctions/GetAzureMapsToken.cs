@@ -24,7 +24,8 @@ namespace SampleFunctions
 
         private static readonly string[] allowed = { "https://samples.azuremaps.com/",
                                                      "https://demo.azuremaps.com/",
-                                                     "http://localhost"};
+                                                     "http://localhost",
+                                                     "https://localhost"};
 
         [FunctionName("GetAzureMapsToken")]
         public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
