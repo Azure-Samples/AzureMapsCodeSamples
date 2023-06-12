@@ -15,6 +15,20 @@
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.8/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.8/atlas.min.js"></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div id="radius">
+        <div>Circle radius:</div>
+        <input align="center" type='range' min='1000' max='5000' value='1000' id='slider' onInput="getRadius()"></input>
+        <p id='text' style="font-family:Segoe UI"></p>
+    </div>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Make a geometry easy to update</legend>
+        This sample shows how to make a geometry easy to update.
+    </fieldset>
 
     <script>
         //Initialize a map instance.
@@ -50,13 +64,6 @@
             radius: 1000
         });
 
-        //Get radius value from the slider.
-        function getRadius() {
-            rad = parseInt(slider.value);
-            point.addProperty("radius", rad);
-            document.getElementById("text").innerHTML = rad;
-        }
-
         //Wait until the map resources are ready.
         map.events.add('ready', function () {
 
@@ -73,20 +80,13 @@
                 fillOpacity: 0.5
             }));
         });
+
+        //Get radius value from the slider.
+        function getRadius() {
+            rad = parseInt(slider.value);
+            point.addProperty("radius", rad);
+            document.getElementById("text").innerHTML = rad;
+        }
     </script>
-</head>
-<body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
-
-    <div id="radius">
-        <div>Circle radius:</div>
-        <input align="center" type='range' min='1000' max='5000' value='1000' id='slider' onInput="getRadius()"></input>
-        <p id='text' style="font-family:Segoe UI"></p>
-    </div>
-
-    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Make a geometry easy to update</legend>
-        This sample shows how to make a geometry easy to update.
-    </fieldset>
 </body>
 </html>
