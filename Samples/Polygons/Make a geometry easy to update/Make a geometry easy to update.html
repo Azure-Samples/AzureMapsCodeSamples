@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to make a geometry easy to update." />
+    <meta name="description" content="This sample shows how to wrap a circle GeoJSON object with a shape class. As the value of the radius changes in the shape, the circle renders automatically on the map." />
     <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, GIS, bivariate, data binning, data bin, gridding, hexbins, hexgrid, hexagon bins, tessellations" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="version" content="1.0" />
@@ -15,6 +15,35 @@
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.8/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3.0.0-preview.8/atlas.min.js"></script>
+
+    <style>
+        #radius {
+            position: absolute;
+            width: auto;
+            height: auto;
+            top: 15px;
+            left: 15px;
+            background-color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        #text {
+            position: relative;
+            margin: 0 auto;
+            padding: 3px;
+            top: -6px;
+            right: -5px;
+            float: right;
+        }
+
+        input[type="range"] {
+            position: relative;
+            margin: 0 auto;
+            float: left;
+        }
+    </style>
+
 </head>
 <body>
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
@@ -27,7 +56,7 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Make a geometry easy to update</legend>
-        This sample shows how to make a geometry easy to update.
+        This sample shows how to wrap a circle GeoJSON object with a shape class. As the value of the radius changes in the shape, the circle renders automatically on the map.
     </fieldset>
 
     <script>
