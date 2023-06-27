@@ -1,8 +1,14 @@
 [
   {
-    "outputFileName": "js/site.min.js",
+    "outputFileName": "samples.min.js",
     "inputFiles": [
-      "js/site.js"
+      "samples.js"
+    ]
+  },
+  {
+    "outputFileName": "samples.min.css",
+    "inputFiles": [
+      "samples.css"
     ]
   }
 ]
