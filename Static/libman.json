@@ -3,11 +3,11 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
-      "library": "jquery@3.6.4",
+      "library": "jquery@3.7.0",
       "destination": "lib/jquery/"
     },
     {
-      "library": "bootstrap@5.2.3",
+      "library": "bootstrap@5.3.0",
       "destination": "lib/bootstrap/"
     },
     {
