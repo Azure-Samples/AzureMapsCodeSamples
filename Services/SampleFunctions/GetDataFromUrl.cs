@@ -1,24 +1,14 @@
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http;
-using System.Web;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net;
-using System.Web.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace SampleFunctions
 {
-    // This is a very simple proxy for the sample site, do not use in production
-    // Please use YARP, see https://microsoft.github.io/reverse-proxy/
     public static class GetDataFromUrl
     {
-        private static readonly HttpClient httpClient = new();
-
-        private static readonly string[] headersToSkip = new string[] {
+        private static readonly HttpClient HttpClient = new();
+        private static readonly string[] HeadersToSkip =
+        {
             "Cache-Control",
             "Connection",
             "Accept",
@@ -30,59 +20,47 @@ namespace SampleFunctions
             "Sec-Fetch-Site"
         };
 
-        [FunctionName("GetDataFromUrl")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+        [Function("GetDataFromUrl")]
+        public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
-            try
+            var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
+
+            string url = Uri.UnescapeDataString(req.Query["url"]);
+            if (string.IsNullOrEmpty(url))
             {
-                string url = HttpUtility.UrlDecode(req.Query["url"]);
-                if (string.IsNullOrEmpty(url))
-                    return new BadRequestObjectResult("Please pass a valid url address on the query string.");
+                badRequest.WriteString("Please pass a valid URL address on the query string.");
+                return badRequest;
+            }
 
-                using var response = await httpClient.GetAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                    return new NotFoundObjectResult("The url your specified was unable to download.");
+            var result = await HttpClient.GetAsync(url);
 
-                // Pass on request headers that may have been added
-                foreach (var header in response.Content.Headers)
+            if (!result.IsSuccessStatusCode)
+            {
+                badRequest.WriteString("The URL you specified was unable to download.");
+                return badRequest;
+            }
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            foreach (var header in result.Content.Headers)
+            {
+                if (!HeadersToSkip.Contains(header.Key))
                 {
-                    if (!headersToSkip.Contains(header.Key))
+                    foreach (var value in header.Value)
                     {
-                        foreach (var value in header.Value)
-                        {
-                            req.HttpContext.Response.Headers.Add(header.Key, value);
-                        }
+                        response.Headers.Add(header.Key, value);
                     }
                 }
-
-                req.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-
-                // read the remote file
-                var bytes = await response.Content.ReadAsByteArrayAsync();
-
-                req.HttpContext.Response.ContentLength = bytes.Length;
-                req.HttpContext.Response.ContentType = response.Content.Headers.ContentType.MediaType;
-
-                // write the remote file back to the requster
-                await req.HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
-
-                return new OkResult();
-            }
-            catch (Exception ex)
-            {
-                return new StatusCodeObjectResult(HttpStatusCode.InternalServerError, ex);
             }
 
-        }
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-        public class StatusCodeObjectResult : ObjectResult
-        {
-            public StatusCodeObjectResult(HttpStatusCode httpStatusCode, object value = null)
-                : base(value)
-            {
-                base.StatusCode = (int)httpStatusCode;
-            }
+            byte[] bytes = await result.Content.ReadAsByteArrayAsync();
+            response.Headers.Add("Content-Type", result.Content.Headers.ContentType.MediaType);
+            response.WriteBytes(bytes);
+
+            return response;
         }
     }
 }

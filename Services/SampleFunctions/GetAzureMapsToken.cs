@@ -1,15 +1,12 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
+using System.Net;
 using Azure.Core;
 using Azure.Identity;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace SampleFunctions
 {
-    public static class GetAzureMapsToken
+    public class GetAzureMapsToken
     {
         /// <summary>
         /// This token provider simplifies access tokens for Azure Resources. It uses the Managed Identity of the deployed resource.
@@ -20,34 +17,27 @@ namespace SampleFunctions
         /// This tokenProvider will cache the token in memory, if you would like to reduce the dependency on Azure AD we recommend
         /// implementing a distributed cache combined with using the other methods available on tokenProvider.
         /// </remarks>
-        private static readonly DefaultAzureCredential tokenProvider = new();
+        private readonly DefaultAzureCredential TokenProvider = new();
 
-        private static readonly string[] allowed = { "https://samples.azuremaps.com/",
-                                                     "https://demo.azuremaps.com/",
-                                                     "https://codepen.io/",
-                                                     "https://cdpn.io/",
-                                                     "https://localhost",
-                                                     "http://localhost"};
-
-        [FunctionName("GetAzureMapsToken")]
-        public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+        private readonly string[] Scopes =
         {
-            string referer = req.Headers["Referer"];
-            if (string.IsNullOrEmpty(referer))
-                return new UnauthorizedResult();
+            "https://atlas.microsoft.com/.default"
+        };
 
-            string result = Array.Find(allowed, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
-            if (string.IsNullOrEmpty(result))
-                return new UnauthorizedResult();
-
+        [Function("GetAzureMapsToken")]
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+        {
             // Managed identities for Azure resources and Azure Maps
             // For the Web SDK to authorize correctly, you still must assign Azure role based access control for the managed identity
             // https://docs.microsoft.com/en-us/azure/azure-maps/how-to-manage-authentication
-            var accessToken = await tokenProvider.GetTokenAsync(
-                new TokenRequestContext(new[] { "https://atlas.microsoft.com/.default" })
-            );
+            AccessToken accessToken = await TokenProvider.GetTokenAsync(new TokenRequestContext(Scopes));
 
-            return new OkObjectResult(accessToken.Token);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+
+            response.WriteString(accessToken.Token);
+
+            return response;
         }
     }
 }

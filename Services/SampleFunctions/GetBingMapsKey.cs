@@ -1,37 +1,23 @@
 using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Net;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace SampleFunctions
 {
-    public static class GetBingMapsKey
+    public class GetBingMapsKey
     {
-        private static readonly string[] allowed = { "https://samples.bingmapsportal.com/",
-                                                     "http://localhost"};
-
-        [FunctionName("GetBingMapsKey")]
-        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+        [Function("GetBingMapsKey")]
+        public static HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
-            string referer = req.Headers["Referer"];
-            if (string.IsNullOrEmpty(referer))
-                return new UnauthorizedResult();
-
-            string result = Array.Find(allowed, site => referer.StartsWith(site, StringComparison.OrdinalIgnoreCase));
-            if (string.IsNullOrEmpty(result))
-                return new UnauthorizedResult();
-
             // Get your Bing Maps key from https://www.bingmapsportal.com/
-            string key = Environment.GetEnvironmentVariable("BING_MAPS_SUBSCRIPTION_KEY");
-            if (string.IsNullOrEmpty(key))
-                return new NotFoundResult();
+            string bingMapsKey = Environment.GetEnvironmentVariable("BING_MAPS_SUBSCRIPTION_KEY");
 
-            return new OkObjectResult(key);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+            response.WriteString(bingMapsKey);
+
+            return response;
         }
     }
 }
