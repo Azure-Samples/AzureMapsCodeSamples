@@ -4,21 +4,21 @@
     <Style id="sn_placemark_circle60">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/placemark_circle.png</href>
+          <href>https://samples.azuremaps.com/images/icons/placemark_circle.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sn_campground00">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/campground.png</href>
+          <href>https://samples.azuremaps.com/images/icons/campground.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sh_placemark_circle_highlight10">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/placemark_circle_highlight.png</href>
+          <href>https://samples.azuremaps.com/images/icons/placemark_circle_highlight.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -33,14 +33,14 @@
     <Style id="sh_campground00">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/campground.png</href>
+          <href>https://samples.azuremaps.com/images/icons/campground.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sh_ylw-pushpin">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/pushpin/ylw-pushpin.png</href>
+          <href>https://samples.azuremaps.com/images/icons/pushpin/ylw-pushpin.png</href>
         </Icon>
       </IconStyle>
       <LineStyle>
@@ -51,14 +51,14 @@
     <Style id="sh_ranger_station0">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+          <href>https://samples.azuremaps.com/images/icons/ranger_station.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sn_ranger_station0">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+          <href>https://samples.azuremaps.com/images/icons/ranger_station.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -78,7 +78,7 @@
     <Style id="sn_ylw-pushpin0">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ylw-pushpin.png</href>
+          <href>https://samples.azuremaps.com/images/icons/ylw-pushpin.png</href>
         </Icon>
       </IconStyle>
       <LineStyle>

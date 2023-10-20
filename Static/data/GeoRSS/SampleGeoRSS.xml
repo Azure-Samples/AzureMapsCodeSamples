@@ -14,21 +14,21 @@
       <description>This is where we started our hike, just down the road from the visitor center. You could also start at the visitor center.</description>
       <geo:lat>46.2913246</geo:lat>
       <geo:long>-122.2658157</geo:long>
-      <icon>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/Icon_hiking_32x32.png</icon>
+      <icon>https://samples.azuremaps.com/images/icons/Icon_hiking_32x32.png</icon>
     </item>
     <item>
       <title>Snow Lake Camp</title>
       <description>Our first night. Small, clear lake. Cold and without much sun, but a lovely spot!</description>
       <geo:lat>46.3321785</geo:lat>
       <geo:long>-122.15183258</geo:long>
-      <icon>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/Icon_hiking_32x32.png</icon>
+      <icon>https://samples.azuremaps.com/images/icons/Icon_hiking_32x32.png</icon>
     </item>
     <item>
       <title>Shovel Lake Camp</title>
       <description>A nice spot for lunch and quick dip (brrrr!).</description>
       <geo:lat>46.3316395</geo:lat>
       <geo:long>-122.133036</geo:long>
-      <icon>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/Icon_hiking_32x32.png</icon>
+      <icon>https://samples.azuremaps.com/images/icons/Icon_hiking_32x32.png</icon>
     </item>
     <item>
       <title>Panhandle Lake Camp</title>

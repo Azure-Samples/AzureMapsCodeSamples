@@ -4,14 +4,14 @@
     <Style id="style64">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/campfire.png</href>
+          <href>https://samples.azuremaps.com/images/icons/campfire.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="style37">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+          <href>https://samples.azuremaps.com/images/icons/ranger_station.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -46,7 +46,7 @@
     <Style id="style36">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+          <href>https://samples.azuremaps.com/images/icons/ranger_station.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -63,14 +63,14 @@
     <Style id="style49">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/ranger_station.png</href>
+          <href>https://samples.azuremaps.com/images/icons/ranger_station.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="style29">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/campfire.png</href>
+          <href>https://samples.azuremaps.com/images/icons/campfire.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -106,7 +106,7 @@
     <Style id="style73">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/homegardenbusiness.png</href>
+          <href>https://samples.azuremaps.com/images/icons/homegardenbusiness.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -120,7 +120,7 @@
     <Style id="style69">
       <IconStyle>
         <Icon>
-          <href>https://azuremapscodesamples.azurewebsites.net/Common/images/icons/hospitals.png</href>
+          <href>https://samples.azuremaps.com/images/icons/hospitals.png</href>
         </Icon>
       </IconStyle>
     </Style>

@@ -3,7 +3,7 @@
   <GroundOverlay>
     <name>Map of Chartres cathedral</name>
     <Icon>
-      <href>https://azuremapscodesamples.azurewebsites.net/Common/images/image-overlays/1600px-Chartres.svg.png</href>
+      <href>https://samples.azuremaps.com/images/image-overlays/1600px-Chartres.svg.png</href>
       <viewBoundScale>0.75</viewBoundScale>
     </Icon>
     <LatLonBox>
