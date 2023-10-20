@@ -4,6 +4,7 @@ using SampleBuilder.Models;
 using System.Reflection;
 using System.Text.Json;
 using X.Web.Sitemap;
+using X.Web.Sitemap.Extensions;
 
 namespace SampleBuilder
 {
