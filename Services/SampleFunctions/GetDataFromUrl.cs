@@ -2,68 +2,77 @@ using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 
-namespace SampleFunctions;
-
-public static class ProxyFunction
+namespace SampleFunctions
 {
-    private static readonly HttpClient _HttpClient = new();
-    private static readonly string[] _HeadersToSkip =
+    public static class ProxyFunction
     {
-        "Content-Type",
-        "Cache-Control",
-        "Connection",
-        "Accept",
-        "Accept-Encoding",
-        "Host",
-        "Referer",
-        "User-Agent",
-        "Sec-Fetch-Mode",
-        "Sec-Fetch-Site"
-    };
-
-    [Function("GetDataFromUrl")]
-    public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
-    {
-        var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-
-        // Get the URL from the query string
-        var url = Uri.UnescapeDataString(req.Query["url"]);
-        if (string.IsNullOrEmpty(url))
+        [Function("GetDataFromUrl")]
+        public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
-            badRequest.WriteString("Please pass a valid URL address in the query string.");
-            return badRequest;
-        }
+            var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
 
-        // Download the content from the URL
-        var result = await _HttpClient.GetAsync(url);
-        if (!result.IsSuccessStatusCode)
-        {
-            badRequest.WriteString("The URL you specified was unable to download.");
-            return badRequest;
-        }
-
-        // Create a new response
-        var response = req.CreateResponse(HttpStatusCode.OK);
-
-        // Copy the headers from the result to the response, except for the ones we want to skip
-        foreach (var header in result.Headers)
-        {
-            if (!_HeadersToSkip.Contains(header.Key))
+            // Get the URL from the query string
+            var url = Uri.UnescapeDataString(req.Query["url"]);
+            if (string.IsNullOrEmpty(url))
             {
-                response.Headers.Add(header.Key, header.Value.First());
+                badRequest.WriteString("Please pass a valid URL address in the query string.");
+                return badRequest;
             }
+
+            using var httpClient = new HttpClient();
+
+            // Download the content from the URL
+            var result = await httpClient.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                badRequest.WriteString("The URL you specified was unable to download.");
+                return badRequest;
+            }
+
+            // Create a new response
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            // Copy the headers from the result to the response, except for the ones we want to skip
+            foreach (var header in result.Headers)
+            {
+                if (!IsHeaderToSkip(header.Key))
+                {
+                    response.Headers.Add(header.Key, header.Value.First());
+                }
+            }
+
+            // Set the 'Content-Type' header in the response
+            response.Headers.Add("Content-Type", result.Content.Headers.ContentType.MediaType);
+
+            // Add the CORS header to the response
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+
+            // Copy the content from the result to the response
+            var content = await result.Content.ReadAsByteArrayAsync();
+            await response.Body.WriteAsync(content);
+
+            return response;
         }
 
-        // Set the 'Content-Type' header in the response
-        response.Headers.Add("Content-Type", result.Content.Headers.ContentType.MediaType);
+        private static bool IsHeaderToSkip(string headerName)
+        {
+            string[] headersToSkip =
+            {
+                "Content-Type",
+                "Access-Control-Allow-Origin",
+                "Cache-Control",
+                "Connection",
+                "Accept",
+                "Accept-Encoding",
+                "Host",
+                "Referer",
+                "User-Agent",
+                "Sec-Fetch-Mode",
+                "Sec-Fetch-Site"
+            };
 
-        // Add the CORS header to the response
-        response.Headers.Add("Access-Control-Allow-Origin", "*");
-
-        // Copy the content from the result to the response
-        var content = await result.Content.ReadAsByteArrayAsync();
-        await response.WriteBytesAsync (content);
-
-        return response;
+            return headersToSkip.Contains(headerName);
+        }
     }
 }
