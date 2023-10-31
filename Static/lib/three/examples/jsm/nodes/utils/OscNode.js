@@ -1,6 +1,6 @@
 import Node, { addNodeClass } from '../core/Node.js';
 import { timerLocal } from './TimerNode.js';
-import { nodeProxy } from '../shadernode/ShaderNode.js';
+import { nodeObject, nodeProxy } from '../shadernode/ShaderNode.js';
 
 class OscNode extends Node {
 
@@ -19,10 +19,10 @@ class OscNode extends Node {
 
 	}
 
-	construct() {
+	setup() {
 
 		const method = this.method;
-		const timeNode = this.timeNode;
+		const timeNode = nodeObject( this.timeNode );
 
 		let outputNode = null;
 
@@ -78,4 +78,4 @@ export const oscSquare = nodeProxy( OscNode, OscNode.SQUARE );
 export const oscTriangle = nodeProxy( OscNode, OscNode.TRIANGLE );
 export const oscSawtooth = nodeProxy( OscNode, OscNode.SAWTOOTH );
 
-addNodeClass( OscNode );
+addNodeClass( 'OscNode', OscNode );

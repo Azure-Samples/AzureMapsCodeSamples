@@ -31,12 +31,12 @@ import {
  * } );
  *
  * Custom properties outside of the defaults for position, uv, normal
- * and color attributes can be added using the setCustomPropertyMapping method.
+ * and color attributes can be added using the setCustomPropertyNameMapping method.
  * For example, the following maps the element properties “custom_property_a”
  * and “custom_property_b” to an attribute “customAttribute” with an item size of 2.
  * Attribute item sizes are set from the number of element properties in the property array.
  *
- * loader.setCustomPropertyMapping( {
+ * loader.setCustomPropertyNameMapping( {
  *	customAttribute: ['custom_property_a', 'custom_property_b'],
  * } );
  *
@@ -104,17 +104,15 @@ class PLYLoader extends Loader {
 
 	parse( data ) {
 
-		function parseHeader( data ) {
+		function parseHeader( data, headerLength = 0 ) {
 
 			const patternHeader = /^ply([\s\S]*)end_header(\r\n|\r|\n)/;
 			let headerText = '';
-			let headerLength = 0;
 			const result = patternHeader.exec( data );
 
 			if ( result !== null ) {
 
 				headerText = result[ 1 ];
-				headerLength = new Blob( [ result[ 0 ] ] ).size;
 
 			}
 
@@ -243,22 +241,24 @@ class PLYLoader extends Loader {
 
 		}
 
-		function parseASCIIElement( properties, line ) {
-
-			const values = line.split( /\s+/ );
+		function parseASCIIElement( properties, tokens ) {
 
 			const element = {};
 
 			for ( let i = 0; i < properties.length; i ++ ) {
 
+				if ( tokens.empty() ) return null;
+
 				if ( properties[ i ].type === 'list' ) {
 
 					const list = [];
-					const n = parseASCIINumber( values.shift(), properties[ i ].countType );
+					const n = parseASCIINumber( tokens.next(), properties[ i ].countType );
 
 					for ( let j = 0; j < n; j ++ ) {
 
-						list.push( parseASCIINumber( values.shift(), properties[ i ].itemType ) );
+						if ( tokens.empty() ) return null;
+
+						list.push( parseASCIINumber( tokens.next(), properties[ i ].itemType ) );
 
 					}
 
@@ -266,7 +266,7 @@ class PLYLoader extends Loader {
 
 				} else {
 
-					element[ properties[ i ].name ] = parseASCIINumber( values.shift(), properties[ i ].type );
+					element[ properties[ i ].name ] = parseASCIINumber( tokens.next(), properties[ i ].type );
 
 				}
 
@@ -285,6 +285,7 @@ class PLYLoader extends Loader {
 			  uvs: [],
 			  faceVertexUvs: [],
 			  colors: [],
+			  faceVertexColors: []
 			};
 
 			for ( const customProperty of Object.keys( scope.customPropertyMapping ) ) {
@@ -341,47 +342,35 @@ class PLYLoader extends Loader {
 
 			const buffer = createBuffer();
 
-			let result;
+			const patternBody = /end_header\s+(\S[\s\S]*\S|\S)\s*$/;
+			let body, matches;
 
-			const patternBody = /end_header\s([\s\S]*)$/;
-			let body = '';
-			if ( ( result = patternBody.exec( data ) ) !== null ) {
+			if ( ( matches = patternBody.exec( data ) ) !== null ) {
 
-				body = result[ 1 ];
+				body = matches[ 1 ].split( /\s+/ );
+
+			} else {
+
+				body = [ ];
 
 			}
 
-			const lines = body.split( /\r\n|\r|\n/ );
-			let currentElement = 0;
-			let currentElementCount = 0;
-			let elementDesc = header.elements[ currentElement ];
-			let attributeMap = mapElementAttributes( elementDesc.properties );
+			const tokens = new ArrayStream( body );
 
-			for ( let i = 0; i < lines.length; i ++ ) {
+			loop: for ( let i = 0; i < header.elements.length; i ++ ) {
 
-				let line = lines[ i ];
-				line = line.trim();
-				if ( line === '' ) {
+				const elementDesc = header.elements[ i ];
+				const attributeMap = mapElementAttributes( elementDesc.properties );
 
-					continue;
+				for ( let j = 0; j < elementDesc.count; j ++ ) {
 
-				}
+					const element = parseASCIIElement( elementDesc.properties, tokens );
 
-				if ( currentElementCount >= elementDesc.count ) {
+					if ( ! element ) break loop;
 
-					currentElement ++;
-					currentElementCount = 0;
-					elementDesc = header.elements[ currentElement ];
-
-					attributeMap = mapElementAttributes( elementDesc.properties );
+					handleElement( buffer, elementDesc.name, element, attributeMap );
 
 				}
-
-				const element = parseASCIIElement( elementDesc.properties, line );
-
-				handleElement( buffer, elementDesc.name, element, attributeMap );
-
-				currentElementCount ++;
 
 			}
 
@@ -423,10 +412,12 @@ class PLYLoader extends Loader {
 
 			}
 
-			if ( buffer.faceVertexUvs.length > 0 ) {
+			if ( buffer.faceVertexUvs.length > 0 || buffer.faceVertexColors.length > 0 ) {
 
 				geometry = geometry.toNonIndexed();
-				geometry.setAttribute( 'uv', new Float32BufferAttribute( buffer.faceVertexUvs, 2 ) );
+
+				if ( buffer.faceVertexUvs.length > 0 ) geometry.setAttribute( 'uv', new Float32BufferAttribute( buffer.faceVertexUvs, 2 ) );
+				if ( buffer.faceVertexColors.length > 0 ) geometry.setAttribute( 'color', new Float32BufferAttribute( buffer.faceVertexColors, 3 ) );
 
 			}
 
@@ -515,6 +506,21 @@ class PLYLoader extends Loader {
 
 					buffer.indices.push( vertex_indices[ 0 ], vertex_indices[ 1 ], vertex_indices[ 3 ] );
 					buffer.indices.push( vertex_indices[ 1 ], vertex_indices[ 2 ], vertex_indices[ 3 ] );
+
+				}
+
+				// face colors
+
+				if ( cacheEntry.attrR !== null && cacheEntry.attrG !== null && cacheEntry.attrB !== null ) {
+
+					_color.setRGB(
+						element[ cacheEntry.attrR ] / 255.0,
+						element[ cacheEntry.attrG ] / 255.0,
+						element[ cacheEntry.attrB ] / 255.0
+					).convertSRGBToLinear();
+					buffer.faceVertexColors.push( _color.r, _color.g, _color.b );
+					buffer.faceVertexColors.push( _color.r, _color.g, _color.b );
+					buffer.faceVertexColors.push( _color.r, _color.g, _color.b );
 
 				}
 
@@ -672,6 +678,9 @@ class PLYLoader extends Loader {
 			let line = '';
 			const lines = [];
 
+			const startLine = new TextDecoder().decode( bytes.subarray( 0, 5 ) );
+			const hasCRNL = /^ply\r\n/.test( startLine );
+
 			do {
 
 				const c = String.fromCharCode( bytes[ i ++ ] );
@@ -694,7 +703,10 @@ class PLYLoader extends Loader {
 
 			} while ( cont && i < bytes.length );
 
-			return lines.join( '\r' ) + '\r';
+			// ascii section using \r\n as line endings
+			if ( hasCRNL === true ) i ++;
+
+			return { headerText: lines.join( '\r' ) + '\r', headerLength: i };
 
 		}
 
@@ -706,8 +718,8 @@ class PLYLoader extends Loader {
 		if ( data instanceof ArrayBuffer ) {
 
 			const bytes = new Uint8Array( data );
-			const headerText = extractHeaderText( bytes );
-			const header = parseHeader( headerText );
+			const { headerText, headerLength } = extractHeaderText( bytes );
+			const header = parseHeader( headerText, headerLength );
 
 			if ( header.format === 'ascii' ) {
 
@@ -728,6 +740,29 @@ class PLYLoader extends Loader {
 		}
 
 		return geometry;
+
+	}
+
+}
+
+class ArrayStream {
+
+	constructor( arr ) {
+
+		this.arr = arr;
+		this.i = 0;
+
+	}
+
+	empty() {
+
+		return this.i >= this.arr.length;
+
+	}
+
+	next() {
+
+		return this.arr[ this.i ++ ];
 
 	}
 

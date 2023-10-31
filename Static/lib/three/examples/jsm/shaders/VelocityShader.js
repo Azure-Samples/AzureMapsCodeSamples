@@ -10,6 +10,8 @@ import {
 
 const VelocityShader = {
 
+	name: 'VelocityShader',
+
 	uniforms: UniformsUtils.merge( [
 		UniformsLib.common,
 		UniformsLib.displacementmap,
@@ -23,7 +25,7 @@ const VelocityShader = {
 	vertexShader: /* glsl */`
 #define NORMAL
 
-#if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( TANGENTSPACE_NORMALMAP )
+#if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
 
 	varying vec3 vViewPosition;
 

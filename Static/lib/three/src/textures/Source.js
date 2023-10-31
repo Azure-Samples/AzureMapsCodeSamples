@@ -1,11 +1,15 @@
 import { ImageUtils } from '../extras/ImageUtils.js';
 import * as MathUtils from '../math/MathUtils.js';
 
+let _sourceId = 0;
+
 class Source {
 
 	constructor( data = null ) {
 
 		this.isSource = true;
+
+		Object.defineProperty( this, 'id', { value: _sourceId ++ } );
 
 		this.uuid = MathUtils.generateUUID();
 

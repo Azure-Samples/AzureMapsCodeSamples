@@ -17,9 +17,9 @@ class FogRangeNode extends FogNode {
 
 	}
 
-	construct() {
+	setup() {
 
-		this.factorNode = smoothstep( this.nearNode, this.farNode, positionView.z.negate() );
+		return smoothstep( this.nearNode, this.farNode, positionView.z.negate() );
 
 	}
 
@@ -31,4 +31,4 @@ export const rangeFog = nodeProxy( FogRangeNode );
 
 addNodeElement( 'rangeFog', rangeFog );
 
-addNodeClass( FogRangeNode );
+addNodeClass( 'FogRangeNode', FogRangeNode );

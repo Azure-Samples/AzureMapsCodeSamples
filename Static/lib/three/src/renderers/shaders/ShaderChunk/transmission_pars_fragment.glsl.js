@@ -82,7 +82,7 @@ export default /* glsl */`
 
 	}
 
-	vec4 bicubic( sampler2D tex, vec2 uv, vec4 texelSize, vec2 fullSize, float lod ) {
+	vec4 bicubic( sampler2D tex, vec2 uv, vec4 texelSize, float lod ) {
 
 		uv = uv * texelSize.zw + 0.5;
 
@@ -100,8 +100,6 @@ export default /* glsl */`
 		vec2 p1 = ( vec2( iuv.x + h1x, iuv.y + h0y ) - 0.5 ) * texelSize.xy;
 		vec2 p2 = ( vec2( iuv.x + h0x, iuv.y + h1y ) - 0.5 ) * texelSize.xy;
 		vec2 p3 = ( vec2( iuv.x + h1x, iuv.y + h1y ) - 0.5 ) * texelSize.xy;
-		
-		vec2 lodFudge = pow( 1.95, lod ) / fullSize;
 
 		return g0( fuv.y ) * ( g0x * textureLod( tex, p0, lod ) + g1x * textureLod( tex, p1, lod ) ) +
 			g1( fuv.y ) * ( g0x * textureLod( tex, p2, lod ) + g1x * textureLod( tex, p3, lod ) );
@@ -114,9 +112,8 @@ export default /* glsl */`
 		vec2 cLodSize = vec2( textureSize( sampler, int( lod + 1.0 ) ) );
 		vec2 fLodSizeInv = 1.0 / fLodSize;
 		vec2 cLodSizeInv = 1.0 / cLodSize;
-		vec2 fullSize = vec2( textureSize( sampler, 0 ) );
-		vec4 fSample = bicubic( sampler, uv, vec4( fLodSizeInv, fLodSize ), fullSize, floor( lod ) );
-		vec4 cSample = bicubic( sampler, uv, vec4( cLodSizeInv, cLodSize ), fullSize, ceil( lod ) );
+		vec4 fSample = bicubic( sampler, uv, vec4( fLodSizeInv, fLodSize ), floor( lod ) );
+		vec4 cSample = bicubic( sampler, uv, vec4( cLodSizeInv, cLodSize ), ceil( lod ) );
 		return mix( fSample, cSample, fract( lod ) );
 
 	}
@@ -152,19 +149,19 @@ export default /* glsl */`
 
 	}
 
-	vec3 applyVolumeAttenuation( const in vec3 radiance, const in float transmissionDistance, const in vec3 attenuationColor, const in float attenuationDistance ) {
+	vec3 volumeAttenuation( const in float transmissionDistance, const in vec3 attenuationColor, const in float attenuationDistance ) {
 
 		if ( isinf( attenuationDistance ) ) {
 
 			// Attenuation distance is +∞, i.e. the transmitted color is not attenuated at all.
-			return radiance;
+			return vec3( 1.0 );
 
 		} else {
 
 			// Compute light attenuation using Beer's law.
 			vec3 attenuationCoefficient = -log( attenuationColor ) / attenuationDistance;
 			vec3 transmittance = exp( - attenuationCoefficient * transmissionDistance ); // Beer's law
-			return transmittance * radiance;
+			return transmittance;
 
 		}
 
@@ -187,12 +184,17 @@ export default /* glsl */`
 		// Sample framebuffer to get pixel the refracted ray hits.
 		vec4 transmittedLight = getTransmissionSample( refractionCoords, roughness, ior );
 
-		vec3 attenuatedColor = applyVolumeAttenuation( transmittedLight.rgb, length( transmissionRay ), attenuationColor, attenuationDistance );
+		vec3 transmittance = diffuseColor * volumeAttenuation( length( transmissionRay ), attenuationColor, attenuationDistance );
+		vec3 attenuatedColor = transmittance * transmittedLight.rgb;
 
 		// Get the specular component.
 		vec3 F = EnvironmentBRDF( n, v, specularColor, specularF90, roughness );
 
-		return vec4( ( 1.0 - F ) * attenuatedColor * diffuseColor, transmittedLight.a );
+		// As less light is transmitted, the opacity should be increased. This simple approximation does a decent job 
+		// of modulating a CSS background, and has no effect when the buffer is opaque, due to a solid object or clear color.
+		float transmittanceFactor = ( transmittance.r + transmittance.g + transmittance.b ) / 3.0;
+
+		return vec4( ( 1.0 - F ) * attenuatedColor, 1.0 - ( 1.0 - transmittedLight.a ) * transmittanceFactor );
 
 	}
 #endif

@@ -8,31 +8,105 @@ class NodeFrame {
 		this.deltaTime = 0;
 
 		this.frameId = 0;
+		this.renderId = 0;
 
 		this.startTime = null;
 
 		this.updateMap = new WeakMap();
+		this.updateBeforeMap = new WeakMap();
 
 		this.renderer = null;
 		this.material = null;
 		this.camera = null;
 		this.object = null;
+		this.scene = null;
+
+	}
+
+	_getMaps( referenceMap, nodeRef ) {
+
+		let maps = referenceMap.get( nodeRef );
+
+		if ( maps === undefined ) {
+
+			maps = {
+				renderMap: new WeakMap(),
+				frameMap: new WeakMap()
+			};
+
+			referenceMap.set( nodeRef, maps );
+
+		}
+
+		return maps;
+
+	}
+
+	updateBeforeNode( node ) {
+
+		const updateType = node.getUpdateBeforeType();
+		const reference = node.updateReference( this );
+
+		const { frameMap, renderMap } = this._getMaps( this.updateBeforeMap, reference );
+
+		if ( updateType === NodeUpdateType.FRAME ) {
+
+			if ( frameMap.get( node ) !== this.frameId ) {
+
+				frameMap.set( node, this.frameId );
+
+				node.updateBefore( this );
+
+			}
+
+		} else if ( updateType === NodeUpdateType.RENDER ) {
+
+			if ( renderMap.get( node ) !== this.renderId || frameMap.get( node ) !== this.frameId ) {
+
+				renderMap.set( node, this.renderId );
+				frameMap.set( node, this.frameId );
+
+				node.updateBefore( this );
+
+			}
+
+		} else if ( updateType === NodeUpdateType.OBJECT ) {
+
+			node.updateBefore( this );
+
+		}
 
 	}
 
 	updateNode( node ) {
 
-		if ( node.updateType === NodeUpdateType.FRAME ) {
+		const updateType = node.getUpdateType();
+		const reference = node.updateReference( this );
 
-			if ( this.updateMap.get( node ) !== this.frameId ) {
+		const { frameMap, renderMap } = this._getMaps( this.updateMap, reference );
 
-				this.updateMap.set( node, this.frameId );
+		if ( updateType === NodeUpdateType.FRAME ) {
+
+			if ( frameMap.get( node ) !== this.frameId ) {
+
+				frameMap.set( node, this.frameId );
 
 				node.update( this );
 
 			}
 
-		} else if ( node.updateType === NodeUpdateType.OBJECT ) {
+		} else if ( updateType === NodeUpdateType.RENDER ) {
+
+			if ( renderMap.get( node ) !== this.renderId || frameMap.get( node ) !== this.frameId ) {
+
+				renderMap.set( node, this.renderId );
+				frameMap.set( node, this.frameId );
+
+				node.update( this );
+
+			}
+
+		} else if ( updateType === NodeUpdateType.OBJECT ) {
 
 			node.update( this );
 

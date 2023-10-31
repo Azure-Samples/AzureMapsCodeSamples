@@ -8,14 +8,14 @@ import { tangentView } from '../accessors/TangentNode.js';
 import { uv } from '../accessors/UVNode.js';
 import { faceDirection } from './FrontFacingNode.js';
 import { addNodeClass } from '../core/Node.js';
-import { ShaderNode, nodeProxy, vec3, mat3 } from '../shadernode/ShaderNode.js';
+import { addNodeElement, tslFn, nodeProxy, vec3, mat3 } from '../shadernode/ShaderNode.js';
 
 import { TangentSpaceNormalMap, ObjectSpaceNormalMap } from 'three';
 
 // Normal Mapping Without Precomputed Tangents
 // http://www.thetenthplanet.de/archives/1180
 
-const perturbNormal2ArbNode = new ShaderNode( ( inputs ) => {
+const perturbNormal2Arb = tslFn( ( inputs ) => {
 
 	const { eye_pos, surf_norm, mapN, uv } = inputs;
 
@@ -33,7 +33,7 @@ const perturbNormal2ArbNode = new ShaderNode( ( inputs ) => {
 	const B = q1perp.mul( st0.y ).add( q0perp.mul( st1.y ) );
 
 	const det = T.dot( T ).max( B.dot( B ) );
-	const scale = faceDirection.mul( det.inversesqrt() );
+	const scale = faceDirection.mul( det.inverseSqrt() );
 
 	return add( T.mul( mapN.x, scale ), B.mul( mapN.y, scale ), N.mul( mapN.z ) ).normalize();
 
@@ -52,7 +52,7 @@ class NormalMapNode extends TempNode {
 
 	}
 
-	construct( builder ) {
+	setup( builder ) {
 
 		const { normalMapType, scaleNode } = this;
 
@@ -80,7 +80,7 @@ class NormalMapNode extends TempNode {
 
 			} else {
 
-				outputNode = perturbNormal2ArbNode.call( {
+				outputNode = perturbNormal2Arb( {
 					eye_pos: positionView,
 					surf_norm: normalView,
 					mapN: normalMap,
@@ -103,4 +103,6 @@ export const normalMap = nodeProxy( NormalMapNode );
 
 export const TBNViewMatrix = mat3( tangentView, bitangentView, normalView );
 
-addNodeClass( NormalMapNode );
+addNodeElement( 'normalMap', normalMap );
+
+addNodeClass( 'NormalMapNode', NormalMapNode );

@@ -43,7 +43,7 @@ class PositionNode extends Node {
 
 		} else if ( scope === PositionNode.WORLD ) {
 
-			const vertexPositionNode = modelWorldMatrix.transformDirection( positionLocal );
+			const vertexPositionNode = modelWorldMatrix.mul( positionLocal );
 			outputNode = varying( vertexPositionNode );
 
 		} else if ( scope === PositionNode.VIEW ) {
@@ -58,7 +58,7 @@ class PositionNode extends Node {
 
 		} else if ( scope === PositionNode.WORLD_DIRECTION ) {
 
-			const vertexPositionNode = positionWorld.negate();
+			const vertexPositionNode = positionLocal.transformDirection( modelWorldMatrix );
 			outputNode = normalize( varying( vertexPositionNode ) );
 
 		}
@@ -95,10 +95,10 @@ PositionNode.VIEW_DIRECTION = 'viewDirection';
 export default PositionNode;
 
 export const positionGeometry = nodeImmutable( PositionNode, PositionNode.GEOMETRY );
-export const positionLocal = nodeImmutable( PositionNode, PositionNode.LOCAL );
+export const positionLocal = nodeImmutable( PositionNode, PositionNode.LOCAL ).temp( 'Position' );
 export const positionWorld = nodeImmutable( PositionNode, PositionNode.WORLD );
 export const positionWorldDirection = nodeImmutable( PositionNode, PositionNode.WORLD_DIRECTION );
 export const positionView = nodeImmutable( PositionNode, PositionNode.VIEW );
 export const positionViewDirection = nodeImmutable( PositionNode, PositionNode.VIEW_DIRECTION );
 
-addNodeClass( PositionNode );
+addNodeClass( 'PositionNode', PositionNode );

@@ -33,10 +33,10 @@ class TempNode extends Node {
 
 				const snippet = super.build( builder, type );
 
-				const nodeVar = builder.getVarFromNode( this, type );
+				const nodeVar = builder.getVarFromNode( this, null, type );
 				const propertyName = builder.getPropertyName( nodeVar );
 
-				builder.addFlowCode( `${propertyName} = ${snippet}` );
+				builder.addLineFlowCode( `${propertyName} = ${snippet}` );
 
 				nodeData.snippet = snippet;
 				nodeData.propertyName = propertyName;
@@ -55,4 +55,4 @@ class TempNode extends Node {
 
 export default TempNode;
 
-addNodeClass( TempNode );
+addNodeClass( 'TempNode', TempNode );

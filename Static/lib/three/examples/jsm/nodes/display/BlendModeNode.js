@@ -1,35 +1,35 @@
 import TempNode from '../core/TempNode.js';
 import { EPSILON } from '../math/MathNode.js';
 import { addNodeClass } from '../core/Node.js';
-import { addNodeElement, ShaderNode, nodeProxy, vec3 } from '../shadernode/ShaderNode.js';
+import { addNodeElement, tslFn, nodeProxy, vec3 } from '../shadernode/ShaderNode.js';
 
-export const BurnNode = new ShaderNode( ( { base, blend } ) => {
+export const BurnNode = tslFn( ( { base, blend } ) => {
 
-	const fn = ( c ) => blend[ c ].lessThan( EPSILON ).cond( blend[ c ], base[ c ].invert().div( blend[ c ] ).invert().max( 0 ) );
-
-	return vec3( fn( 'x' ), fn( 'y' ), fn( 'z' ) );
-
-} );
-
-export const DodgeNode = new ShaderNode( ( { base, blend } ) => {
-
-	const fn = ( c ) => blend[ c ].equal( 1.0 ).cond( blend[ c ], base[ c ].div( blend[ c ].invert() ).max( 0 ) );
+	const fn = ( c ) => blend[ c ].lessThan( EPSILON ).cond( blend[ c ], base[ c ].oneMinus().div( blend[ c ] ).oneMinus().max( 0 ) );
 
 	return vec3( fn( 'x' ), fn( 'y' ), fn( 'z' ) );
 
 } );
 
-export const ScreenNode = new ShaderNode( ( { base, blend } ) => {
+export const DodgeNode = tslFn( ( { base, blend } ) => {
 
-	const fn = ( c ) => base[ c ].invert().mul( blend[ c ].invert() ).invert();
+	const fn = ( c ) => blend[ c ].equal( 1.0 ).cond( blend[ c ], base[ c ].div( blend[ c ].oneMinus() ).max( 0 ) );
 
 	return vec3( fn( 'x' ), fn( 'y' ), fn( 'z' ) );
 
 } );
 
-export const OverlayNode = new ShaderNode( ( { base, blend } ) => {
+export const ScreenNode = tslFn( ( { base, blend } ) => {
 
-	const fn = ( c ) => base[ c ].lessThan( 0.5 ).cond( base[ c ].mul( blend[ c ], 2.0 ), base[ c ].invert().mul( blend[ c ].invert() ).invert() );
+	const fn = ( c ) => base[ c ].oneMinus().mul( blend[ c ].oneMinus() ).oneMinus();
+
+	return vec3( fn( 'x' ), fn( 'y' ), fn( 'z' ) );
+
+} );
+
+export const OverlayNode = tslFn( ( { base, blend } ) => {
+
+	const fn = ( c ) => base[ c ].lessThan( 0.5 ).cond( base[ c ].mul( blend[ c ], 2.0 ), base[ c ].oneMinus().mul( blend[ c ].oneMinus() ).oneMinus() );
 
 	return vec3( fn( 'x' ), fn( 'y' ), fn( 'z' ) );
 
@@ -48,7 +48,7 @@ class BlendModeNode extends TempNode {
 
 	}
 
-	construct() {
+	setup() {
 
 		const { blendMode, baseNode, blendNode } = this;
 		const params = { base: baseNode, blend: blendNode };
@@ -57,19 +57,19 @@ class BlendModeNode extends TempNode {
 
 		if ( blendMode === BlendModeNode.BURN ) {
 
-			outputNode = BurnNode.call( params );
+			outputNode = BurnNode( params );
 
 		} else if ( blendMode === BlendModeNode.DODGE ) {
 
-			outputNode = DodgeNode.call( params );
+			outputNode = DodgeNode( params );
 
 		} else if ( blendMode === BlendModeNode.SCREEN ) {
 
-			outputNode = ScreenNode.call( params );
+			outputNode = ScreenNode( params );
 
 		} else if ( blendMode === BlendModeNode.OVERLAY ) {
 
-			outputNode = OverlayNode.call( params );
+			outputNode = OverlayNode( params );
 
 		}
 
@@ -96,4 +96,4 @@ addNodeElement( 'dodge', dodge );
 addNodeElement( 'overlay', overlay );
 addNodeElement( 'screen', screen );
 
-addNodeClass( BlendModeNode );
+addNodeClass( 'BlendModeNode', BlendModeNode );

@@ -82,7 +82,7 @@ class DRACOLoader extends Loader {
 
 	}
 
-	parse ( buffer, onLoad, onError ) {
+	parse( buffer, onLoad, onError ) {
 
 		this.decodeDracoFile( buffer, onLoad, null, null, SRGBColorSpace ).catch( onError );
 
@@ -208,6 +208,8 @@ class DRACOLoader extends Loader {
 			if ( name === 'color' ) {
 
 				this._assignVertexColorSpace( attribute, result.vertexColorSpace );
+
+				attribute.normalized = ( array instanceof Float32Array ) === false;
 
 			}
 

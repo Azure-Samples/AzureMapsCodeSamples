@@ -17,9 +17,11 @@ import {
 	NearestFilter,
 	RepeatWrapping,
 	TextureLoader,
-	sRGBEncoding
+	SRGBColorSpace
 } from 'three';
 import * as fflate from '../libs/fflate.module.js';
+
+const COLOR_SPACE_3MF = SRGBColorSpace;
 
 /**
  *
@@ -359,8 +361,7 @@ class ThreeMFLoader extends Loader {
 				const colorNode = colorNodes[ i ];
 				const color = colorNode.getAttribute( 'color' );
 
-				colorObject.setStyle( color.substring( 0, 7 ) );
-				colorObject.convertSRGBToLinear(); // color is in sRGB
+				colorObject.setStyle( color.substring( 0, 7 ), COLOR_SPACE_3MF );
 
 				colors.push( colorObject.r, colorObject.g, colorObject.b );
 
@@ -789,7 +790,7 @@ class ThreeMFLoader extends Loader {
 
 				} );
 
-				texture.encoding = sRGBEncoding;
+				texture.colorSpace = COLOR_SPACE_3MF;
 
 				// texture parameters
 
@@ -1066,7 +1067,11 @@ class ThreeMFLoader extends Loader {
 			geometry.setIndex( new BufferAttribute( meshData[ 'triangles' ], 1 ) );
 			geometry.setAttribute( 'position', new BufferAttribute( meshData[ 'vertices' ], 3 ) );
 
-			const material = new MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+			const material = new MeshPhongMaterial( {
+				name: Loader.DEFAULT_MATERIAL_NAME,
+				color: 0xffffff,
+				flatShading: true
+			} );
 
 			const mesh = new Mesh( geometry, material );
 
@@ -1281,8 +1286,7 @@ class ThreeMFLoader extends Loader {
 			const displaycolor = materialData.displaycolor;
 
 			const color = displaycolor.substring( 0, 7 );
-			material.color.setStyle( color );
-			material.color.convertSRGBToLinear(); // displaycolor is in sRGB
+			material.color.setStyle( color, COLOR_SPACE_3MF );
 
 			// process alpha if set
 

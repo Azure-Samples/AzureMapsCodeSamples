@@ -15,12 +15,12 @@ class FogExp2Node extends FogNode {
 
 	}
 
-	construct() {
+	setup() {
 
 		const depthNode = positionView.z.negate();
 		const densityNode = this.densityNode;
 
-		this.factorNode = densityNode.mul( densityNode, depthNode, depthNode ).negate().exp().invert();
+		return densityNode.mul( densityNode, depthNode, depthNode ).negate().exp().oneMinus();
 
 	}
 
@@ -32,4 +32,4 @@ export const densityFog = nodeProxy( FogExp2Node );
 
 addNodeElement( 'densityFog', densityFog );
 
-addNodeClass( FogExp2Node );
+addNodeClass( 'FogExp2Node', FogExp2Node );

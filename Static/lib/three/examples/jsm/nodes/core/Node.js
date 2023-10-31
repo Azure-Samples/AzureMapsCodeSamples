@@ -1,22 +1,26 @@
+import { EventDispatcher } from 'three';
 import { NodeUpdateType } from './constants.js';
-import { getNodesKeys, getCacheKey } from './NodeUtils.js';
+import { getNodeChildren, getCacheKey } from './NodeUtils.js';
 import { MathUtils } from 'three';
 
 const NodeClasses = new Map();
 
 let _nodeId = 0;
 
-class Node {
+class Node extends EventDispatcher {
 
 	constructor( nodeType = null ) {
 
-		this.isNode = true;
+		super();
 
 		this.nodeType = nodeType;
 
 		this.updateType = NodeUpdateType.NONE;
+		this.updateBeforeType = NodeUpdateType.NONE;
 
 		this.uuid = MathUtils.generateUUID();
+
+		this.isNode = true;
 
 		Object.defineProperty( this, 'id', { value: _nodeId ++ } );
 
@@ -24,7 +28,21 @@ class Node {
 
 	get type() {
 
-		return this.constructor.name;
+		return this.constructor.type;
+
+	}
+
+	getSelf() {
+
+		// Returns non-node object.
+
+		return this.self || this;
+
+	}
+
+	updateReference() {
+
+		return this;
 
 	}
 
@@ -36,55 +54,29 @@ class Node {
 
 	* getChildren() {
 
-		for ( const property in this ) {
+		const self = this;
 
-			const object = this[ property ];
+		for ( const { childNode } of getNodeChildren( this ) ) {
 
-			if ( Array.isArray( object ) === true ) {
-
-				for ( let i = 0; i < object.length; i++ ) {
-
-					const child = object[ i ];
-
-					if ( child && child.isNode === true ) {
-
-						yield { childNode: child, replaceNode( node ) { object[ i ] = node; } };
-
-					}
-
-				}
-
-			} else if ( object && object.isNode === true ) {
-
-				const self = this;
-				yield { childNode: object, replaceNode( node ) { self[ property ] = node; } };
-
-			} else if ( typeof object === 'object' ) {
-
-				for ( const property in object ) {
-
-					const child = object[ property ];
-
-					if ( child && child.isNode === true ) {
-
-						yield { childNode: child, replaceNode( node ) { object[ property ] = node; } };
-
-					}
-
-				}
-
-			}
+			yield childNode;
 
 		}
 
 	}
 
-	traverse( callback, replaceNode = null ) {
+	dispose() {
 
-		callback( this, replaceNode );
-		for ( const { childNode, replaceNode } of this.getChildren() ) {
+		this.dispatchEvent( { type: 'dispose' } );
 
-			childNode.traverse( callback, replaceNode );
+	}
+
+	traverse( callback ) {
+
+		callback( this );
+
+		for ( const childNode of this.getChildren() ) {
+
+			childNode.traverse( callback );
 
 		}
 
@@ -102,19 +94,33 @@ class Node {
 
 	}
 
-	getUpdateType( /*builder*/ ) {
+	getUpdateType() {
 
 		return this.updateType;
 
 	}
 
-	getNodeType( /*builder*/ ) {
+	getUpdateBeforeType() {
+
+		return this.updateBeforeType;
+
+	}
+
+	getNodeType( builder ) {
+
+		const nodeProperties = builder.getNodeProperties( this );
+
+		if ( nodeProperties.outputNode ) {
+
+			return nodeProperties.outputNode.getNodeType( builder );
+
+		}
 
 		return this.nodeType;
 
 	}
 
-	getReference( builder ) {
+	getShared( builder ) {
 
 		const hash = this.getHash( builder );
 		const nodeFromHash = builder.getNodeFromHash( hash );
@@ -123,11 +129,11 @@ class Node {
 
 	}
 
-	construct( builder ) {
+	setup( builder ) {
 
 		const nodeProperties = builder.getNodeProperties( this );
 
-		for ( const { childNode } of this.getChildren() ) {
+		for ( const childNode of this.getChildren() ) {
 
 			nodeProperties[ '_node' + childNode.id ] = childNode;
 
@@ -135,6 +141,14 @@ class Node {
 
 		// return a outputNode if exists
 		return null;
+
+	}
+
+	construct( builder ) { // @deprecated, r157
+
+		console.warn( 'THREE.Node: construct() is deprecated. Use setup() instead.' );
+
+		return this.setup( builder );
 
 	}
 
@@ -175,6 +189,12 @@ class Node {
 
 	}
 
+	updateBefore( /*frame*/ ) {
+
+		console.warn( 'Abstract function.' );
+
+	}
+
 	update( /*frame*/ ) {
 
 		console.warn( 'Abstract function.' );
@@ -183,7 +203,7 @@ class Node {
 
 	build( builder, output = null ) {
 
-		const refNode = this.getReference( builder );
+		const refNode = this.getShared( builder );
 
 		if ( this !== refNode ) {
 
@@ -192,10 +212,10 @@ class Node {
 		}
 
 		builder.addNode( this );
-		builder.addStack( this );
+		builder.addChain( this );
 
-		/* expected return:
-			- "construct"	-> Node
+		/* Build stages expected results:
+			- "setup"		-> Node
 			- "analyze"		-> null
 			- "generate"	-> String
 		*/
@@ -203,14 +223,22 @@ class Node {
 
 		const buildStage = builder.getBuildStage();
 
-		if ( buildStage === 'construct' ) {
+		if ( buildStage === 'setup' ) {
 
 			const properties = builder.getNodeProperties( this );
 
 			if ( properties.initialized !== true || builder.context.tempRead === false ) {
 
+				const stackNodesBeforeSetup = builder.stack.nodes.length;
+
 				properties.initialized = true;
-				properties.outputNode = this.construct( builder );
+				properties.outputNode = this.setup( builder );
+
+				if ( properties.outputNode !== null && builder.stack.nodes.length !== stackNodesBeforeSetup ) {
+
+					properties.outputNode = builder.stack;
+
+				}
 
 				for ( const childNode of Object.values( properties ) ) {
 
@@ -257,25 +285,45 @@ class Node {
 
 		}
 
-		builder.removeStack( this );
+		builder.removeChain( this );
 
 		return result;
 
 	}
 
+	getSerializeChildren() {
+
+		return getNodeChildren( this );
+
+	}
+
 	serialize( json ) {
 
-		const nodeKeys = getNodesKeys( this );
+		const nodeChildren = this.getSerializeChildren();
 
-		if ( nodeKeys.length > 0 ) {
+		const inputNodes = {};
 
-			const inputNodes = {};
+		for ( const { property, index, childNode } of nodeChildren ) {
 
-			for ( const property of nodeKeys ) {
+			if ( index !== undefined ) {
 
-				inputNodes[ property ] = this[ property ].toJSON( json.meta ).uuid;
+				if ( inputNodes[ property ] === undefined ) {
+
+					inputNodes[ property ] = Number.isInteger( index ) ? [] : {};
+
+				}
+
+				inputNodes[ property ][ index ] = childNode.toJSON( json.meta ).uuid;
+
+			} else {
+
+				inputNodes[ property ] = childNode.toJSON( json.meta ).uuid;
 
 			}
+
+		}
+
+		if ( Object.keys( inputNodes ).length > 0 ) {
 
 			json.inputNodes = inputNodes;
 
@@ -291,9 +339,39 @@ class Node {
 
 			for ( const property in json.inputNodes ) {
 
-				const uuid = json.inputNodes[ property ];
+				if ( Array.isArray( json.inputNodes[ property ] ) ) {
 
-				this[ property ] = nodes[ uuid ];
+					const inputArray = [];
+
+					for ( const uuid of json.inputNodes[ property ] ) {
+
+						inputArray.push( nodes[ uuid ] );
+
+					}
+
+					this[ property ] = inputArray;
+
+				} else if ( typeof json.inputNodes[ property ] === 'object' ) {
+
+					const inputObject = {};
+
+					for ( const subProperty in json.inputNodes[ property ] ) {
+
+						const uuid = json.inputNodes[ property ][ subProperty ];
+
+						inputObject[ subProperty ] = nodes[ uuid ];
+
+					}
+
+					this[ property ] = inputObject;
+
+				} else {
+
+					const uuid = json.inputNodes[ property ];
+
+					this[ property ] = nodes[ uuid ];
+
+				}
 
 			}
 
@@ -327,13 +405,13 @@ class Node {
 				type,
 				meta,
 				metadata: {
-					version: 4.5,
+					version: 4.6,
 					type: 'Node',
 					generator: 'Node.toJSON'
 				}
 			};
 
-			meta.nodes[ data.uuid ] = data;
+			if ( isRoot !== true ) meta.nodes[ data.uuid ] = data;
 
 			this.serialize( data );
 
@@ -379,12 +457,13 @@ class Node {
 
 export default Node;
 
-export function addNodeClass( nodeClass ) {
+export function addNodeClass( type, nodeClass ) {
 
-	if ( typeof nodeClass !== 'function' || ! nodeClass.name ) throw new Error( `Node class ${ nodeClass.name } is not a class` );
-	if ( NodeClasses.has( nodeClass.name ) ) throw new Error( `Redefinition of node class ${ nodeClass.name }` );
+	if ( typeof nodeClass !== 'function' || ! type ) throw new Error( `Node class ${ type } is not a class` );
+	if ( NodeClasses.has( type ) ) throw new Error( `Redefinition of node class ${ type }` );
 
-	NodeClasses.set( nodeClass.name, nodeClass );
+	NodeClasses.set( type, nodeClass );
+	nodeClass.type = type;
 
 }
 
@@ -398,4 +477,4 @@ export function createNodeFromType( type ) {
 
 	}
 
-};
+}
