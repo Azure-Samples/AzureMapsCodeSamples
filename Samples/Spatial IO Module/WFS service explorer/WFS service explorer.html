@@ -20,15 +20,10 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
 
     <script>
-        var map, client, layer, currentServiceUrl;
+        let map, client, layer, currentServiceUrl;
 
-        var proxyServiceUrl = 'https://samples.azuremaps.com/api/GetDataFromUrl?url=';
-
-        //Sample WFS services to let users test with.
+        // Sample WFS services to let users test with.
         var services = [
-            { name: 'NOAA Climate outlook', url: 'https://idpgis.ncep.noaa.gov/arcgis/services/NWS_Climate_Outlooks/cpc_mthly_precip_outlk/MapServer/WFSServer?request=GetCapabilities&service=WFS' },
-            { name: 'EPA - Snowfall indicators', url: 'https://gispub4.epa.gov/arcgis/services/OAR_OAP/Snowfall_Indicators/MapServer/WFSServer?' },
-            { name: 'Massachusetts GIS', url: 'https://giswebservices.massgis.state.ma.us/geoserver/wfs?request=GetCapabilities&service=WFS' },
             { name: 'NZ GNS Science', url: 'https://data.gns.cri.nz/webmaps/geology/wfs' },
             { name: 'CIESIN, Columbia University', url: 'https://sedac.ciesin.columbia.edu/geoserver/grump-v1/ows?request=getcapabilities&service=wfs' },
             { name: 'BC Recreation Polygons', url: 'https://openmaps.gov.bc.ca/geo/pub/WHSE_FOREST_TENURE.FTEN_RECREATION_POLY_SVW/wfs' },            
@@ -37,28 +32,24 @@
             { name: 'Geology of Hawaii (USGS)', url: 'https://mrdata.usgs.gov/wfs/hi?request=getcapabilities&service=WFS&version=1.1.0&' }
         ];
 
-        function GetMap() {
+        function initializeMap() {
 
-            //Initialize a map instance.
+            // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
-
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps Client Id for accessing your Azure Maps account.
+                    getToken: resolveToken // Function that returns a promise with the Azure Maps access token to use.
                 }
+
+                // Alternatively, use an Azure Maps key.
+                // Get an Azure Maps key at https://azure.com/maps.
+                // NOTE: The primary key should be used as the key.
+                //authType: 'subscriptionKey',
+                //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
             });
 
             //Wait until the map resources are ready.
@@ -82,6 +73,15 @@
             });
         }
 
+        // Function to retrieve an Azure Maps access token.
+        function resolveToken(resolve, reject, map) {
+            // URL to your authentication service that retrieves an Azure Active Directory Token.
+            fetch("https://samples.azuremaps.com/api/GetAzureMapsToken")
+                .then(response => response.text())
+                .then(token => resolve(token))
+                .catch(reject);
+        }
+
         function loadClient(url) {
             currentTypeName = null;
             currentServiceUrl = url;
@@ -93,8 +93,8 @@
 
             //Create the WFS client to access the service. 
             client = new atlas.io.ogc.WfsClient({
-                url: url,
-                proxyService: (document.getElementById('useProxyService').checked) ? proxyServiceUrl : null
+                url: url
+                //proxyService: ''
             });
 
             //Check the capabilities of the service.
@@ -205,7 +205,7 @@
         }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="initializeMap()">
     <fieldset class="sidePanel">
         <legend>WFS service explorer</legend>
         This is a simple tool for exploring WFS services on Azure Maps.
@@ -213,7 +213,7 @@
 
         WFS Service:<br /><select id="servicesDD" onchange="loadSelectInput()"></select><br /><br />
 
-        <input id="useProxyService" type="checkbox" onclick="proxyOptionChanged()" /> Use Proxy Service
+        <!--<input id="useProxyService" type="checkbox" onclick="proxyOptionChanged()" /> Use Proxy Service-->
         <br /><br />
 
         <b>Max features:</b>

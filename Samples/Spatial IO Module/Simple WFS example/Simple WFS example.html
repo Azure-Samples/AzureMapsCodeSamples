@@ -4,12 +4,13 @@
     <title>Simple WFS example - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to easily query a Web Feature Service (WFS) and overlay the results on a map." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, WFS, web feature service, ogc, spatial data, spatial io module" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -19,70 +20,87 @@
     <!-- Add reference to the Azure Maps Spatial IO module. -->
     <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
 
-
     <script>
-        var map, client, capabilities;
+        let map, datasource, client, capabilities;
 
-        function GetMap() {
-            //Initialize a map instance.
+        function initializeMap() {
+            // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
-
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps Client Id for accessing your Azure Maps account.
+                    getToken: resolveToken // Function that returns a promise with the Azure Maps access token to use.
                 }
+
+                // Alternatively, use an Azure Maps key.
+                // Get an Azure Maps key at https://azure.com/maps.
+                // NOTE: The primary key should be used as the key.
+                //authType: 'subscriptionKey',
+                //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
             });
 
-            //Wait until the map resources are ready.
             map.events.add('ready', function () {
-                //Create a data source and add it to the map.
+                // Create a data source and add it to the map.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
-                //Add a simple data layer for rendering the data.
+                // Add a simple data layer for rendering the data.
                 layer = new atlas.layer.SimpleDataLayer(datasource);
                 map.layers.add(layer);
 
-                //Create the WFS client to access the service. 
+                // Create the WFS client to access the service.
                 client = new atlas.io.ogc.WfsClient({
-                    url: 'https://idpgis.ncep.noaa.gov/arcgis/services/NWS_Climate_Outlooks/cpc_mthly_precip_outlk/MapServer/WFSServer?request=GetCapabilities&service=WFS'
+                    url: 'https://sedac.ciesin.columbia.edu/geoserver/grump-v1/ows?request=getcapabilities&service=wfs'
                 });
 
-                //Request features from the service.
-                client.getFeatures({
-                    typeNames: 'Monthly_Precipitation_Outlook',
-                    count: 50
-                }).then(fc => {
-                    if (fc) {
-                        //Add the returned features to the map.
-                        datasource.add(fc);
-
-                        //If there is a bounding box, update the map view.
-                        if (fc.bbox) {
-                            map.setCamera({ bounds: fc.bbox, padding: 50 });
-                        }
-                    }
-                }, error => {
-                    alert(error);
-                });
+                // Check the capabilities of the service.
+                client.getCapabilities()
+                    .then(processCapabilities)
+                    .catch(handleError);
             });
+        }
+
+        // Function to retrieve an Azure Maps access token.
+        function resolveToken(resolve, reject, map) {
+            // URL to your authentication service that retrieves an Azure Active Directory Token.
+            fetch("https://samples.azuremaps.com/api/GetAzureMapsToken")
+                .then(response => response.text())
+                .then(token => resolve(token))
+                .catch(reject);
+        }
+
+        // Function to process the capabilities of the WFS service.
+        function processCapabilities(cap) {
+            const currentTypeName = cap.featureTypes[0].name;
+
+            // Request features from the service.
+            client.getFeatures({ typeNames: currentTypeName, count: 500 })
+                .then(addFeaturesToMap)
+                .catch(handleError);
+        }
+
+        // Function to add the returned features to the map.
+        function addFeaturesToMap(fc) {
+            if (fc) {
+                // Add the returned features to the map.
+                datasource.add(fc);
+
+                // If there is a bounding box, update the map view.
+                if (fc.bbox) {
+                    map.setCamera({ bounds: fc.bbox, padding: 50 });
+                }
+            }
+        }
+
+        function handleError(error) {
+            alert(error);
         }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="initializeMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
