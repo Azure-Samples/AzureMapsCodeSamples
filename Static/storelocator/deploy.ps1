@@ -1,4 +1,4 @@
-# Azure Maps Store Locator (version 1.0-rc.1)
+# Azure Maps Store Locator (version 1.0-rc.2)
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # https://github.com/Azure-Samples/Azure-Maps-Locator
 #
@@ -73,7 +73,7 @@ try {
     # Create Webserver and Website
     echo "Creating a Webserver plan named '$webserverplan' for the Website '$webappname'..."
     az appservice plan create -g $group -n $webserverplan --location $Location | Out-Null
-    az webapp create -g $group -p $webserverplan -n $webappname -r "dotnet:7" | Out-Null
+    az webapp create -g $group -p $webserverplan -n $webappname -r "dotnet:8" | Out-Null
 
     # Use managed identities
     echo "- Utilizing managed identities for Azure Maps..."
