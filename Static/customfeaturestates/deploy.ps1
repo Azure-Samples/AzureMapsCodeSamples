@@ -1,4 +1,4 @@
-﻿#Requires -Version 7.0
+#Requires -Version 7.0
 
 [CmdletBinding()]
 param(
@@ -54,17 +54,17 @@ function Process-LRO
 
     if ($PSBoundParameters.ContainsKey("filePath"))
     {
-        $response = Invoke-RestMethod -Uri $uri -Method Post -InFile $filePath -ContentType $contentType -StatusCodeVariable scv -ResponseHeadersVariable responseHeader
+        $response = Invoke-RestMethod -Uri $uri -Method Post -InFile $filePath -ContentType $contentType -StatusCodeVariable scv -ResponseHeadersVariable responseHeader -SkipHttpErrorCheck
     }
     else
     {
-        $response = Invoke-RestMethod -Uri $uri -Method Post -StatusCodeVariable scv -ResponseHeadersVariable responseHeader -ContentType 'Application/json'
+        $response = Invoke-RestMethod -Uri $uri -Method Post -StatusCodeVariable scv -ResponseHeadersVariable responseHeader -ContentType 'Application/json' -SkipHttpErrorCheck
     }
 
     # Check if the response status code is 202 - Accepted
     if ($scv -ne 202)
     {
-        Write-Err "Failed to send $operationName request. Status code: $scv"
+        Write-Err "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response)"
         exit 1
     }
 
@@ -91,7 +91,7 @@ function Process-LRO
     # Check if the response JSON has a "status" field set to "Failed" for failed responses
     if ($status -eq "Failed")
     {
-        Write-Err "Failed to create artifact for $operationName request. Status: $($statusResponse.statusMessage), Code: $scv, Response :$statusResponse"
+        Write-Err "Failed to create artifact for $operationName request. Status: $($statusResponse.statusMessage), Code: $scv, Response: $(ConvertTo-Json $statusResponse)"
         exit 1
     }
 
@@ -99,7 +99,7 @@ function Process-LRO
 
     if ($resourceLocation -like '')
     {
-        Write-Err "Failed to determine resource location from response for $operationName request. Response: $statusResponse"
+        Write-Err "Failed to determine resource location from response for $operationName request. Response: $(ConvertTo-Json $statusResponse)"
         exit 1
     }
 
@@ -116,14 +116,19 @@ if ($Help.IsPresent)
 
 function CreateLogDirectory
 { 	
-    $TARGETDIR = "$env:HOMEDRIVE\Logs"
+    $TARGETDIR = If ($null -eq $env:AZUREPS_HOST_ENVIRONMENT) {"$env:HOMEDRIVE\Logs"} Else {"$env:HOME\Logs"}
     if ( -Not (Test-Path -Path $TARGETDIR ) ) {
         New-Item -ItemType directory -Path $TARGETDIR | Out-Null
     }
    
-   $TARGETDIR = $TARGETDIR + "\" + "customfeaturestates_deploy.tsv"
+   $TARGETDIR = $TARGETDIR + "\" + "customfeaturestates_deploy_log.tsv"
 
    return $TARGETDIR
+}
+
+function GetTempFile([string]$fileName)
+{
+    return [System.IO.Path]::GetTempPath() + "\" + $fileName
 }
 
 filter Out-Stream
@@ -150,13 +155,13 @@ filter Out-Debug
 
 function Write-Err([string]$message)
 {
-    echo $message
+    Write-Output $message
     Write-Log -Message "$message" -Logfile $logLocation -Severity Error
 }
 
 function Write-Info([string]$message)
 {
-    echo $message
+    Write-Output $message
     Write-Log -Message "$message" -Logfile $logLocation -Severity Information
 }
 
@@ -185,15 +190,15 @@ function Write-Log
     } | ConvertTo-Csv -Delimiter "`t" -NoTypeInformation | Select-Object -Skip 1 | Out-File -Append -FilePath $LogFile
 }
 
-echo "Starting..."
+Write-Output "Starting..."
 $ErrorActionPreference = "Stop"
 $logLocation = CreateLogDirectory
-echo "- Logs written to $logLocation"
+Write-Output "- Logs written to $logLocation"
 
 try
 {
     # Version check
-    [version]$azcliversion = $(az version --query '\"azure-cli\"' -o tsv)
+    [version]$azcliversion = $(-join (az version) | convertFrom-Json).'azure-cli'
     [version]$minversion = '2.52.0'
     if ($azcliversion -lt $minversion)
     {
@@ -204,7 +209,7 @@ try
     $Name = $Name.ToLower()
 
     # Generate a random suffix for resources
-    $suffix = If ($ResourceSuffix -ne $null) {$ResourceSuffix} Else {Get-Random}
+    $suffix = If ($null -ne $ResourceSuffix) {$ResourceSuffix} Else {Get-Random}
 
     # General Configuration
     $group = If ($ResourceGroup -ne "") {$ResourceGroup} Else {"rg-$Name"}
@@ -218,7 +223,7 @@ try
     # Azure Maps Configuration
     $azuremapsDrawingPackageUri = If ($DrawingPackageUri -ne "") {$DrawingPackageUri} Else {"https://github.com/Azure-Samples/am-creator-indoor-data-examples/raw/master/Drawing%20Package%202.0/Sample%20-%20Contoso%20Drawing%20Package.zip"}
     $azuremapsSourceLayer = "room" # this may be different for your own map
-    $azuremapsAPIVersion = "2023-07-01"
+    $azuremapsAPIVersion = "2023-03-01-preview"
 
     # Geography
     $geography = $(az account list-locations --query "[?name == '$Location'].{GG:metadata.geographyGroup}" -o tsv)
@@ -260,8 +265,8 @@ try
     $azuremapsDomain = "https://$azuremapsGeography.atlas.microsoft.com"
     Write-Info "- Uploading drawing package using creator account from '$azuremapsDrawingPackageUri' to '$azuremapsDomain'..."
     Write-Info "- This operation may take several minutes; please wait..."
-    $packageFilePath = "$env:TEMP\drawing_pacakage_$Name.zip"
-    iwr "$azuremapsDrawingPackageUri" -OutFile $packageFilePath
+    $packageFilePath = GetTempFile("drawing_package_$Name.zip")
+    Invoke-WebRequest "$azuremapsDrawingPackageUri" -OutFile $packageFilePath
     $authPart = "&subscription-key=$azuremapssubscriptionkey"
     $uduri = "$azuremapsDomain/mapData/upload?api-version=1.0&dataFormat=zip"
     $conversionUri = "$azuremapsDomain/conversions?api-version=$azuremapsAPIVersion&dwgPackageVersion=2.0"
@@ -335,11 +340,11 @@ try
 
     # Deploy Azure Maps Custom Feature States
     Write-Info "- Initiating the deployment of the Custom Feature States website..."
-    $deploymentPath = "$env:TEMP\customfeaturestates_binaries.zip"
+    $deploymentPath = GetTempFile("customfeaturestates_binaries.zip")
     if ($(Test-Path -path '.\FeatureStateService\Properties\PublishProfiles\FolderProfile.pubxml' -PathType Leaf))
     {
         Write-Info "- Building deployment zip from local sources..."
-        $tempPublishPath = "$env:TEMP\customfeaturestates_publish"
+        $tempPublishPath = GetTempFile("customfeaturestates_publish")
         dotnet publish FeatureStateService -o $tempPublishPath -p:PublishProfile=FolderProfile | Out-Debug
         Test-LastExitCode
         Compress-Archive $tempPublishPath\* $deploymentPath -Force | Out-Debug
@@ -349,7 +354,7 @@ try
     else
     {
         Write-Info "- Downloading deployment zip..."
-        iwr "https://samples.azuremaps.com/install/customfeaturestates.zip" -OutFile $deploymentPath
+        Invoke-WebRequest "https://samples.azuremaps.com/install/customfeaturestates.zip" -OutFile $deploymentPath
         Test-LastExitCode
     }
     az webapp deployment source config-zip -g $group -n $webappname --src $deploymentPath | Out-Stream
