@@ -39,7 +39,7 @@ if ($Help.IsPresent) {
     DisplayHelp
 }
 
-echo "Starting..."
+Write-Output "Starting..."
 
 try {
     # Generate a random suffix for the Cosmos DB and Web App
@@ -53,15 +53,15 @@ try {
     $webappname = "web-$Name$suffix"
 
     # Create a resource group
-    echo "- Creating a Resource Group named '$group' in the '$Location' location..."
+    Write-Output "- Creating a Resource Group named '$group' in the '$Location' location..."
     az group create --name $group --location $Location | Out-Null
 
     # Create Azure Maps account
-    echo "- Creating an Azure Maps account named '$azuremaps'..."
+    Write-Output "- Creating an Azure Maps account named '$azuremaps'..."
     az maps account create -g $group --account-name $azuremaps --sku G2 --kind Gen2 --accept-tos | Out-Null
 
     # Create Azure Cosmos DB
-    echo "- Creating an Azure Cosmos DB server named '$cosmosdb'..."
+    Write-Output "- Creating an Azure Cosmos DB server named '$cosmosdb'..."
     az cosmosdb create -g $group --name $cosmosdb --locations regionName=$Location --capabilities EnableServerless | Out-Null
 
     #echo "- Creating a database named '$DatabaseName'..."
@@ -71,12 +71,12 @@ try {
     $connectionString = $(az cosmosdb keys list -g $group --name $cosmosdb --type connection-strings --query 'connectionStrings[0].connectionString' -o tsv)
 
     # Create Webserver and Website
-    echo "Creating a Webserver plan named '$webserverplan' for the Website '$webappname'..."
+    Write-Output "- Creating a Webserver plan named '$webserverplan' for the Website '$webappname'..."
     az appservice plan create -g $group -n $webserverplan --location $Location | Out-Null
     az webapp create -g $group -p $webserverplan -n $webappname -r "dotnet:8" | Out-Null
 
     # Use managed identities
-    echo "- Utilizing managed identities for Azure Maps..."
+    Write-Output "- Utilizing managed identities for Azure Maps..."
     az webapp identity assign -n $webappname -g $group | Out-Null
 
     Start-Sleep -Seconds 5
@@ -90,10 +90,10 @@ try {
     $azuremaps = (az maps account show -n $azuremaps -g $group --query 'properties.uniqueId' --output tsv)
 
     # Creating AD App registration
-    echo "- Creating an Azure AD App registration..."
+    Write-Output "- Creating an Azure AD App registration..."
     az ad app create --display-name "Azure Maps Store Locator for $webappname" --web-redirect-uris https://$webappname.azurewebsites.net/signin-oidc https://localhost:7074/signin-oidc --enable-access-token-issuance true --enable-id-token-issuance true --sign-in-audience AzureADMyOrg | Out-Null
 
-    echo "- Storing App Settings..."
+    Write-Output "- Storing App Settings..."
     $clinetId = (az ad app list --display-name "Azure Maps Store Locator for $webappname" --query '[0].appId' -o tsv)
     $tenantId = (az account show --query 'tenantId' -o tsv)
     $email = (az rest --method get --url 'https://graph.microsoft.com/v1.0/me' --query 'userPrincipalName' -o tsv)
@@ -102,15 +102,15 @@ try {
     az webapp config appsettings set -g $group -n $webappname --settings AzureMaps:ClientId=$azuremaps AzureMaps:TokenUrl=/api/azuremaps/token Database:Name=$DatabaseName Database:ConnectionString=$connectionString AzureAd:Instance=https://login.microsoftonline.com/ AzureAd:Domain=$domain AzureAd:TenantId=$tenantId AzureAd:ClientId=$clinetId AzureAd:CallbackPath=/signin-oidc | Out-Null
 
     # Deploy Azure Maps Store Locator
-    echo "- Initiating the deployment of the Store Locator website..."
-    iwr "https://samples.azuremaps.com/storelocator/storelocator.zip" -o storelocator$suffix.zip
+    Write-Output "- Initiating the deployment of the Store Locator website..."
+    Invoke-WebRequest "https://samples.azuremaps.com/storelocator/storelocator.zip" -OutFile storelocator$suffix.zip
     az webapp deployment source config-zip -g $group -n $webappname --src storelocator$suffix.zip | Out-Null
     Remove-Item storelocator$suffix.zip | Out-Null
 
     # Done
-    echo "Open https://$webappname.azurewebsites.net/ to access your Store Locator."
-    echo "Done! Your Azure Maps Store Locator infrastructure and website are ready."
+    Write-Output "Open https://$webappname.azurewebsites.net/ to access your Store Locator."
+    Write-Output "Done! Your Azure Maps Store Locator infrastructure and website are ready."
 }
 catch {
-    echo "An error occurred: $($_.Exception.Message)"
+    Write-Output "An error occurred: $($_.Exception.Message)"
 }
