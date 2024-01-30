@@ -1,5 +1,12 @@
 #Requires -Version 7.0
 
+# Azure Maps Custom Feature States (version 1.0-rc.1)
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# https://github.com/Azure-Samples/Azure-Maps-Custom-Feature-States
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$false)]
@@ -44,13 +51,39 @@ function Test-LastExitCode
   }
 }
 
+
+function Process-Zip-Operation
+{
+    param ($uri, $authPartUri, $outputPath, $operationName)
+
+    Write-Log -Message "- Processing Zip Operation '$operationName' at '$uri'" -Logfile $logLocation -Severity Information
+    
+    $uri = $uri + $authPartUri
+
+    $zipPath = GetTempFile("customfeaturestates_zip_operation.zip")
+
+    $response = Invoke-RestMethod -Uri $uri -Method 'GET' -ContentType "application/zip" -StatusCodeVariable scv -ResponseHeadersVariable responseHeader -SkipHttpErrorCheck -OutFile $zipPath
+
+    if ($scv -ne 200)
+    {
+        Write-Err "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response -Depth 10)"
+        exit 1
+    }
+
+   Expand-Archive $zipPath -DestinationPath $outputPath -Force
+   Test-LastExitCode
+
+   Remove-Item $zipPath | Out-Debug
+   Test-LastExitCode
+}
+
 function Process-LRO
 {
     param ($uri, $filePath, $contentType, $responseHeader, $authPartUri, $operationName)
 
     Write-Log -Message "- Processing LRO '$operationName' at '$uri'" -Logfile $logLocation -Severity Information
 
-    $uri = $uri+$authPartUri
+    $uri = $uri + $authPartUri
 
     if ($PSBoundParameters.ContainsKey("filePath"))
     {
@@ -64,7 +97,7 @@ function Process-LRO
     # Check if the response status code is 202 - Accepted
     if ($scv -ne 202)
     {
-        Write-Err "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response)"
+        Write-Err "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response -Depth 10)"
         exit 1
     }
 
@@ -91,7 +124,7 @@ function Process-LRO
     # Check if the response JSON has a "status" field set to "Failed" for failed responses
     if ($status -eq "Failed")
     {
-        Write-Err "Failed to create artifact for $operationName request. Status: $($statusResponse.statusMessage), Code: $scv, Response: $(ConvertTo-Json $statusResponse)"
+        Write-Err "Failed to create artifact for $operationName request. Status: $($statusResponse.statusMessage), Code: $scv, Response: $(ConvertTo-Json $statusResponse -Depth 10)"
         exit 1
     }
 
@@ -99,7 +132,7 @@ function Process-LRO
 
     if ($resourceLocation -like '')
     {
-        Write-Err "Failed to determine resource location from response for $operationName request. Response: $(ConvertTo-Json $statusResponse)"
+        Write-Err "Failed to determine resource location from response for $operationName request. Response: $(ConvertTo-Json $statusResponse -Depth 10)"
         exit 1
     }
 
@@ -222,13 +255,18 @@ try
 
     # Azure Maps Configuration
     $azuremapsDrawingPackageUri = If ($DrawingPackageUri -ne "") {$DrawingPackageUri} Else {"https://github.com/Azure-Samples/am-creator-indoor-data-examples/raw/master/Drawing%20Package%202.0/Sample%20-%20Contoso%20Drawing%20Package.zip"}
-    $azuremapsSourceLayer = "room" # this may be different for your own map
     $azuremapsAPIVersion = "2023-03-01-preview"
+
+    # Map-specific configuration - these may be different for your map
+    $azureMapsFeatureLayer = "indoor_room_area" 
+    $azureMapsFeatureStatesToColor = @{"free"="green"; "occupied"="red"}
+    $azureMapsDefaultFeatureColor = "white"
+    $azureMapsStyleNames = @('light', 'dark')
 
     # Geography
     $geography = $(az account list-locations --query "[?name == '$Location'].{GG:metadata.geographyGroup}" -o tsv)
     $azuremapsGeography = If($geography -like  "*Europe*") {"eu"} Else {"us"}
-    Write-Info "- Assuming Azure maps geography '$azuremapsGeography' based on location '$location', geography '$geography' "
+    Write-Info "- Assuming Azure maps geography '$azuremapsGeography' based on location '$Location', geography '$geography' "
 
     # Create a resource group
     if ($(az group exists --name $group) -eq 'true')
@@ -257,7 +295,7 @@ try
     else
     {
         Write-Info "- Creating an Azure Maps creator account named '$azuremapsCreator'..."
-        az maps creator create -g $group --account-name $azuremaps --creator-name $azuremapsCreator --storage-units 2 | Out-Stream
+        az maps creator create -g $group --account-name $azuremaps --creator-name $azuremapsCreator --storage-units 2 --location $Location | Out-Stream
         Test-LastExitCode
     }
     
@@ -265,9 +303,12 @@ try
     $azuremapsDomain = "https://$azuremapsGeography.atlas.microsoft.com"
     Write-Info "- Uploading drawing package using creator account from '$azuremapsDrawingPackageUri' to '$azuremapsDomain'..."
     Write-Info "- This operation may take several minutes; please wait..."
+
+    $authPart = "&subscription-key=$azuremapssubscriptionkey"
+
     $packageFilePath = GetTempFile("drawing_package_$Name.zip")
     Invoke-WebRequest "$azuremapsDrawingPackageUri" -OutFile $packageFilePath
-    $authPart = "&subscription-key=$azuremapssubscriptionkey"
+    
     $uduri = "$azuremapsDomain/mapData/upload?api-version=1.0&dataFormat=zip"
     $conversionUri = "$azuremapsDomain/conversions?api-version=$azuremapsAPIVersion&dwgPackageVersion=2.0"
     $datasetUri = "$azuremapsDomain/datasets?api-version=$azuremapsAPIVersion"
@@ -278,6 +319,72 @@ try
     $datasetId = Process-LRO -responseHeader $rh -authPartUri $authPart  -uri $datasetUri"&conversionId=$conversionId" -operationName "Dataset"
     $tilesetId = Process-LRO -responseHeader $rh -authPartUri $authPart  -uri $tilesetUri"&datasetId=$datasetId" -operationName "Tileset"
     $mapConfigurationId = "default_$tilesetId"
+
+    # Create modified style with feature-state-based styling rule and associated map configuration
+    Write-Info "- Modifying map style with custom feature state rules..."
+    $mapConfigPath = GetTempFile("customfeaturestates_mapconfig")
+    Process-Zip-Operation -authPartUri $authPart -uri "$azuremapsDomain/styles/mapconfigurations/$($mapConfigurationId)?api-version=$($azuremapsAPIVersion)" -outputPath $mapConfigPath -operationName "MapConfiguration"
+    $mapConfigJson = Get-Content -Path "$mapConfigPath\configuration.json" | ConvertFrom-Json
+
+    foreach ($styleName in $azureMapsStyleNames)
+    {
+        $styleConfiguration = ($mapConfigJson.configurations | Where-Object { $_.name -eq $styleName} | Select-Object -first 1)
+        $styleId = $styleConfiguration.layers[0].styleId
+
+        $stylePath = GetTempFile("customfeaturestates_style")
+        Process-Zip-Operation -authPartUri $authPart -uri "$azuremapsDomain/styles/$($styleId)?api-version=$($azuremapsAPIVersion)" -outputPath $stylePath -operationName "Styles"
+        $styleJson = Get-Content -Path "$stylePath\style.json" | ConvertFrom-Json
+
+        $styleLayers = $styleJson.layers
+        $featureLayerIndex = ([Array]::FindIndex($styleLayers, [System.Predicate[pscustomobject]]{ $args[0].id -eq $azureMapsFeatureLayer } ))
+        $azuremapsSourceLayer = $styleLayers[$featureLayerIndex] | Select-Object -ExpandProperty "source-layer"
+
+        $jsonToAppend = '{
+            "id": ' + "`"$($azureMapsFeatureLayer)_fs`"," +
+            '"type": "fill",
+            "filter": [
+                "==",
+                "$type",
+                "Polygon"
+            ],
+            "layout": {
+                "visibility": "visible"
+            },
+            "minzoom": 16.0,
+            "paint": {
+                "fill-antialias": true,
+                "fill-color": [
+                    "match",
+                    ["feature-state", "customFeatureState"],' +
+                 ((($azureMapsFeatureStatesToColor.GetEnumerator() | ForEach-Object { "`"$($_.Key)`", `"$($_.Value)`"" }) -join ', ' ) + ", `"$azureMapsDefaultFeatureColor`"") +
+                 '],
+                "fill-opacity": 0.5,
+                "fill-outline-color": "rgba(120, 120, 120, 1)"
+            },
+            "source-layer":' +  "`"$azuremapsSourceLayer`"" +
+        '}'
+
+        $styleJson.layers = @($styleLayers[0..$featureLayerIndex]) + ($jsonToAppend | ConvertFrom-Json) + @($styleLayers[($featureLayerIndex + 1)..($styleLayers.length - 1)])
+        $styleJson | ConvertTo-Json -Compress -Depth 100 | Out-File "$stylePath\style.json"
+        Compress-Archive $stylePath\* "$stylePath.zip" -Force | Out-Debug
+        Test-LastExitCode
+
+        $styleUri = "$azuremapsDomain/styles?api-version=$azuremapsAPIVersion&dataFormat=zip"
+        $styleId = Process-LRO -responseHeader $rh -authPartUri $authPart -uri $styleUri"&alias=fs_$styleId" -filePath "$stylePath.zip" -contentType "application/zip" -operationName "Style"
+
+        $styleConfiguration.layers[0].styleId = $styleId
+
+        Remove-Item $stylePath -Recurse | Out-Debug
+        Remove-Item "$stylePath.zip" | Out-Debug
+    }
+
+    $mapConfigJson | ConvertTo-Json -Compress -Depth 100 | Out-File "$mapConfigPath\configuration.json"
+    Compress-Archive $mapConfigPath\* "$mapConfigPath.zip" -Force | Out-Debug
+    $mapConfigUri = "$azuremapsDomain/styles/mapconfigurations?api-version=$azuremapsAPIVersion&ContentType=application/zip"
+    $mapConfigurationId = Process-LRO -responseHeader $rh -authPartUri $authPart -uri $mapConfigUri"&alias=fs_$mapConfigurationId" -filePath "$mapConfigPath.zip" -contentType "application/zip" -operationName "MapConfiguration"
+     
+    Remove-Item $mapConfigPath -Recurse | Out-Debug
+    Remove-Item "$mapConfigPath.zip" | Out-Debug
 
     # Create SignalR service
     Write-Info "- Creating an Azure SignalR service named '$signalr'..."
@@ -315,10 +422,13 @@ try
     Start-Sleep -Seconds 5
 
     $principal = (az webapp identity show -g $group --name $webappname --query 'principalId' --output tsv)
+    $userId = (az ad signed-in-user show --query 'id' --output tsv)
     $scope = (az maps account show -g $group --name $azuremaps --query 'id' --output tsv)
 
-    Write-Info "- Assigning Azure Maps Data Reader role to principal..."
+    Write-Info "- Assigning Azure Maps Data Reader role to principal and current user..."
     az role assignment create --assignee $principal --role "Azure Maps Data Reader" --scope $scope | Out-Stream
+    Test-LastExitCode
+    az role assignment create --assignee $userId --role "Azure Maps Data Reader" --scope $scope | Out-Stream
     Test-LastExitCode
 
     # Get the Azure Maps Client Id
@@ -335,8 +445,44 @@ try
     $email = (az rest --method get --url 'https://graph.microsoft.com/v1.0/me' --query 'userPrincipalName' -o tsv)
     $domain = $email.Split('@')[1]
 
-    az webapp config appsettings set -g $group -n $webappname --settings Azure:SignalR:ConnectionString=$signalrconnectionstring AzureMaps:Domain=$azuremapsDomain AzureMaps:ClientId=$azuremapsClientId AzureMaps:TokenUrl=/api/azuremaps/token AzureMaps:APIVersion=$azuremapsAPIVersion AzureMaps:MapConfigurationId=$mapConfigurationId AzureMaps:DatasetId=$datasetId AzureMaps:SourceLayer=$azuremapsSourceLayer Database:Name=$DatabaseName Database:ConnectionString=$connectionString AzureAd:Instance=https://login.microsoftonline.com/ AzureAd:Domain=$domain AzureAd:TenantId=$tenantId AzureAd:ClientId=$clientId AzureAd:CallbackPath=/signin-oidc | Out-Stream
+    az webapp config appsettings set -g $group -n $webappname --settings Azure:SignalR:ConnectionString=$signalrconnectionstring AzureMaps:Domain=$azuremapsDomain AzureMaps:ClientId=$azuremapsClientId AzureMaps:TokenUrl=/api/azuremaps/token AzureMaps:APIVersion=$azuremapsAPIVersion AzureMaps:MapConfigurationId=$mapConfigurationId AzureMaps:DatasetId=$datasetId AzureMaps:TilesetId=$tilesetId AzureMaps:SourceLayer=$azuremapsSourceLayer AzureMaps:FeatureLayer=$azuremapsFeatureLayer Database:Name=$DatabaseName Database:ConnectionString=$connectionString AzureAd:Instance=https://login.microsoftonline.com/ AzureAd:Domain=$domain AzureAd:TenantId=$tenantId AzureAd:ClientId=$clientId AzureAd:CallbackPath=/signin-oidc AzureAd:SignedOutCallbackPath=/signout-oidc | Out-Stream
     Test-LastExitCode
+
+    # Write dev config
+    if ($(Test-Path -path '.\FeatureStateService\appsettings.json' -PathType Leaf))
+    {
+        $devConfigPath = ".\FeatureStateService\appsettings.Development.json"
+
+        Write-Info "- Writing dev config to $devConfigPath..."
+
+        $devConfigJson = [PSCustomObject]@{
+            AzureMaps = [PSCustomObject]@{
+                Domain = $azuremapsDomain
+                ClientId = $azuremapsClientId
+                TokenUrl = "/api/azuremaps/token"
+                APIVersion = $azuremapsAPIVersion
+                MapConfigurationId = $mapConfigurationId
+                DatasetId = $datasetId
+                TilesetId = $tilesetId
+                SourceLayer = $azuremapsSourceLayer
+                FeatureLayer = $azuremapsFeatureLayer
+            }
+            AzureAd = [PSCustomObject]@{
+                Instance = "https://login.microsoftonline.com/"
+                Domain = $domain
+                TenantId = $tenantId
+                ClientId = $clientId
+                CallbackPath= "/signin-oidc"
+                SignedOutCallbackPath = '/signout-oidc'
+            }
+            Database = [PSCustomObject]@{
+                Name = $DatabaseName
+                ConnectionString = $connectionString
+            }
+        }
+
+        $devConfigJson | ConvertTo-Json | Out-File  $devConfigPath
+    }
 
     # Deploy Azure Maps Custom Feature States
     Write-Info "- Initiating the deployment of the Custom Feature States website..."
@@ -354,7 +500,7 @@ try
     else
     {
         Write-Info "- Downloading deployment zip..."
-        Invoke-WebRequest "https://samples.azuremaps.com/install/customfeaturestates.zip" -OutFile $deploymentPath
+        Invoke-WebRequest "https://samples.azuremaps.com/customfeaturestates/customfeaturestates.zip" -OutFile $deploymentPath
         Test-LastExitCode
     }
     az webapp deployment source config-zip -g $group -n $webappname --src $deploymentPath | Out-Stream
