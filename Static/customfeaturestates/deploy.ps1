@@ -161,7 +161,7 @@ function CreateLogDirectory
 
 function GetTempFile([string]$fileName)
 {
-    return [System.IO.Path]::GetTempPath() + "\" + $fileName
+    return [System.IO.Path]::GetTempPath() + $fileName
 }
 
 filter Out-Stream
