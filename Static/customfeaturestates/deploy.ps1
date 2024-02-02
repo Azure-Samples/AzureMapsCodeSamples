@@ -46,11 +46,9 @@ function Test-LastExitCode
 {
   if ($LastExitCode -ne 0 )
   {
-    Write-Err "Operation failed with exit code $LastExitCode" -ErrorAction 'Stop'
-    exit $LastExitCode
+      throw "Operation failed with exit code $LastExitCode"
   }
 }
-
 
 function Process-Zip-Operation
 {
@@ -66,8 +64,7 @@ function Process-Zip-Operation
 
     if ($scv -ne 200)
     {
-        Write-Err "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response -Depth 10)"
-        exit 1
+        throw "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response -Depth 10)"
     }
 
    Expand-Archive $zipPath -DestinationPath $outputPath -Force
@@ -97,16 +94,14 @@ function Process-LRO
     # Check if the response status code is 202 - Accepted
     if ($scv -ne 202)
     {
-        Write-Err "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response -Depth 10)"
-        exit 1
+        throw "Failed to send $operationName request. Status code: $scv Response: $(ConvertTo-Json $response -Depth 10)"
     }
 
     # Read the response header named "Location" for UDID; "Operation-Location" for everything else
     $location = If ($responseHeader.Location -like '') {$responseHeader["Operation-Location"]} Else {$responseHeader.Location}
     if ($location -like '')
     {
-        Write-Err "Failed to determine location from response for $operationName request. Response header: $responseHeader"
-        exit 1
+        throw "Failed to determine location from response for $operationName request. Response header: $responseHeader"
     }
 
     $location = $location.Trim() + $authPartUri
@@ -124,16 +119,14 @@ function Process-LRO
     # Check if the response JSON has a "status" field set to "Failed" for failed responses
     if ($status -eq "Failed")
     {
-        Write-Err "Failed to create artifact for $operationName request. Status: $($statusResponse.statusMessage), Code: $scv, Response: $(ConvertTo-Json $statusResponse -Depth 10)"
-        exit 1
+        throw "Failed to create artifact for $operationName request. Status: $($statusResponse.statusMessage), Code: $scv, Response: $(ConvertTo-Json $statusResponse -Depth 10)"
     }
 
     $resourceLocation = If ($statusResponse.resourceLocation -like '') {$rh["Resource-Location"]} Else {$statusResponse.resourceLocation}
 
     if ($resourceLocation -like '')
     {
-        Write-Err "Failed to determine resource location from response for $operationName request. Response: $(ConvertTo-Json $statusResponse -Depth 10)"
-        exit 1
+        throw "Failed to determine resource location from response for $operationName request. Response: $(ConvertTo-Json $statusResponse -Depth 10)"
     }
 
     # Report the GUID after the last "/" as an output. That is the ID of the artifact that was created by this long running operation.
