@@ -87,13 +87,16 @@
                 //Create a layer for rendering the route line.
                 var routeLayer = new atlas.layer.LineLayer(routeDS, null, {
                     strokeColor: '#2272B9',
-                    strokeWidth: 5,
+                    strokeWidth: 10,
                     lineJoin: 'round',
                     lineCap: 'round'
                 });
 
                 //Add a mouse down event to the route line layer so that mid-point waypoints can be added to the route.
                 map.events.add('mousedown', routeLayer, routeMouseDown);
+				
+                //Use touch start event on map directly as it triggers faster than layer level touch events.
+                map.events.add('touchstart', mapTouchStart);
 
                 //When the mouse is over the route layer, change the cursor to be a pointer.
                 map.events.add('mouseover', routeLayer, function () {
@@ -120,9 +123,11 @@
 
                 //Track the movement of the mouse on the map for better dragging of the route line with a new mid-point.
                 map.events.add('mousemove', mouseMoved);
+                map.events.add('touchmove', mouseMoved);
 
                 //Track when the mouse event fires to clear the mouseDownOnRoute flag.
                 map.events.add('mouseup', mouseUp);
+                map.events.add('touchend', mouseUp);
 
                 //Calculate initial directions.
                 calculateDirections();
@@ -206,6 +211,14 @@
         }
 
         function markerDragged(e) {
+			//NOTE: The next two lines below are the same as markerMouseDown event, but needed here for touch support.
+		
+            //Disable event bubbling so that if marker overlaps line, a new mid-point isn't also added.
+            skipMidPointAdd = true;
+
+            //Track the active waypoint index.
+            activeWaypointIdx = e.target.properties.wpIdx;
+			
             //Update the position of the corresponding waypoint.
             waypoints[activeWaypointIdx] = e.target.getOptions().position;
 
@@ -346,6 +359,15 @@
             }
 
             return routeIdx;
+        }
+
+        function mapTouchStart(e) {
+            //Check that if a route path exists.
+            //Check to see if touch event occured on the route line.
+            if (routePath && e.shapes && e.shapes.length > 0 && e.shapes[0] && e.shapes[0] instanceof atlas.Shape && routeDS.getShapeById(e.shapes[0].getId())) {
+                //Now that we know the touch event happended on a route line, call the route mouse down event.
+                routeMouseDown(e);
+            }
         }
     </script>
 </head>
