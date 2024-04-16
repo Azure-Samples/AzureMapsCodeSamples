@@ -1,15 +1,18 @@
-using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace SampleFunctions;
 
-public static class ProxyFunction
+public class GetDataFromUrl(ILogger<GetDataFromUrl> logger)
 {
+    private readonly ILogger<GetDataFromUrl> _logger = logger;
+
     private static readonly HttpClient _HttpClient = new();
 
     [Function("GetDataFromUrl")]
-    public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+    public static async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
     {
         var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
 
