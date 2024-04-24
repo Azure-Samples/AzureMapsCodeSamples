@@ -22,7 +22,7 @@
         var map, layer, timer;
 
         //Base weather tile layer URL for radar data. {azMapsDomain} is a placeholder that is set automatically by the map, and will also automatically append the map credentials to the request.
-        var urlTemplate = 'https://{azMapsDomain}/map/tile?api-version=2.0&tilesetId={tilesetId}&zoom={z}&x={x}&y={y}&timeStamp={timestamp}&tileSize=256&view=Auto';
+        var urlTemplate = 'https://{azMapsDomain}/map/tile?api-version=2022-08-01&tilesetId={tilesetId}&zoom={z}&x={x}&y={y}&timeStamp={timeStamp}&tileSize=256&view=Auto';
 
         //Details on the availability of the different weather layers.
         var weatherLayers = {
@@ -144,7 +144,7 @@
 
             //Create a tile layer option for each timestamp.
             return {
-                tileUrl: urlTemplate.replace('{tilesetId}', tilesetId).replace('{timestamp}', timestamp),
+                tileUrl: urlTemplate.replace('{tilesetId}', tilesetId).replace('{timeStamp}', timestamp),
                 tileSize: 256,      //Weather tiles only available in 256 pixel size.
                 opacity: 0.9,
                 maxSourceZoom: 15   //Weather tiles only available to zoom level 15. If you zoom in closer, the map may pull tiles from level 15 to fill the map.

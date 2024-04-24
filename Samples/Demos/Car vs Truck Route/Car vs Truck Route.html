@@ -4,25 +4,29 @@
     <title>Car vs Truck Route - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample compares the route a truck has to take to the route a car can take." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, truck, car, routing, route, directions" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
     <script>
         var map, datasource, routePoints = [], currentScenario;
 
         var coordinateRx = /^-?[0-9]+\.?[0-9]*\s*,+\s*-?[0-9]+\.?[0-9]*$/;
-        var geocodeRequestUrl = 'https://{azMapsDomain}/search/address/json?api-version=1&query={query}&view=Auto';
-        var carRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
-        var truckRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&view=Auto';
+        var geocodeRequestUrl = 'https://{azMapsDomain}/geocode?api-version=2023-06-01&query={query}&view=Auto';
+        var carRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var truckRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&routeRepresentation=polyline&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleWeight={vehicleWeight}&travelMode=truck&view=Auto';
 
         var scenarios = [
             { from: '47.632241,-122.299189', to: '47.634676,-122.300302', height: '5', width: '3', length: '', weight: '', load: [], description: 'Low bridge', streetsideLink: 'https://binged.it/2oT6d4V' },
@@ -132,7 +136,7 @@
 
                     var carRequestUrl = carRoutingRequestUrl.replace('{query}', query);
 
-                    callRestService(carRequestUrl, function (r) {
+                    processRequest(carRequestUrl).then(r => {
                         addRouteToMap(r.routes[0], 'red');
                         document.getElementById('output').innerHTML += 'Car Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
                     });
@@ -146,7 +150,7 @@
 
                     truckRequestUrl = setValueOptions(truckRequestUrl, ['vehicleWeight', 'vehicleWidth', 'vehicleHeight', 'vehicleLength']);
 
-                    callRestService(truckRequestUrl, function (r) {
+                    processRequest(truckRequestUrl).then(r => {
                         addRouteToMap(r.routes[0], 'green');
                         document.getElementById('output').innerHTML += 'Truck Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
                     });
@@ -165,9 +169,9 @@
                 } else {
                     var requestUrl = geocodeRequestUrl.replace('{query}', encodeURIComponent(query));
 
-                    callRestService(requestUrl, function (r) {
-                        if (r && r.results && r.results.length > 0) {
-                            callback([r.results[0].position.lon, r.results[0].position.lat]);
+                    processRequest(requestUrl).then(r => {
+                        if (r && r.features && r.features.length > 0) {
+                            callback([r.features[0].geometry.coordinates[0], r.features[0].geometry.coordinates[1]]);
                         }
                     });
                 }
@@ -200,32 +204,6 @@
                 bounds: atlas.data.BoundingBox.fromPositions(routePoints),
                 padding: 50
             });
-        }
-
-        function callRestService(requestUrl, callback, errorCallback) {
-            if (callback) {
-                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
-                requestUrl = requestUrl.replace('{azMapsDomain}', atlas.getDomain());
-
-                //Get the authentication details from the map for use in the request.
-                var requestParams = map.authentication.signRequest({ url: requestUrl });
-
-                //Transform the request.
-                var transform = map.getServiceOptions().transformRequest;
-                if (transform) {
-                    requestParams = transform(url);
-                }
-
-                fetch(requestParams.url, {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: new Headers(requestParams.headers)
-                })
-                    .then(r => r.json(), e => reject(e))
-                    .then(r => {
-                        callback(r);
-                    }, e => errorCallback(e));
-            }
         }
 
         // Return a set of the selected opion value for a multi-select as a comma delimited string.
@@ -279,7 +257,7 @@
         #myMap {
             position: relative;
             width: calc(100% - 370px);
-            min-width:290px;
+            min-width: 290px;
             height: 600px;
             float: left;
         }
@@ -301,7 +279,9 @@
     <div class="sidePanel">
         <fieldset style="width:300px;margin-bottom:10px;">
             <legend>Car vs Truck Route</legend>
-            This sample compares the route a truck has to take <span style="color:green">(green)</span> to the route a car can take <span style="color: #e50000">(red)</span>.
+            This sample compares the route a truck has to take
+            <span style="color:green">(green)</span> to the route a car can take
+            <span style="color: #e50000">(red)</span>.
         </fieldset>
 
         <table>

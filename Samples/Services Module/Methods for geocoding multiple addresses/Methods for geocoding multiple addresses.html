@@ -4,12 +4,13 @@
     <title>Methods for geocoding multiple addresses - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows two different methods for geocoding a bunch of addresses quickly from within a web app." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -19,12 +20,15 @@
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
     <script>
         //Batch service documentation: https://docs.microsoft.com/en-us/rest/api/maps/search/postsearchaddressbatch
 
         var map, datasource, searchURL;
         var start, end, isBusy = false;
-               
+
         var results = [];
 
         var searchOptions = {
@@ -208,9 +212,8 @@
         async function syncBatchGeocode() {
             //Get the post body request that contains the addresses to batch geocode.
             var body = getBatchRequestBody();
-
-            var requestParams = signRequest('https://{azMapsDomain}/search/address/batch/sync/json?api-version=1.0');
-            var res = await processPostRequest(requestParams, body);
+            var requestUrl = 'https://{azMapsDomain}/search/address/batch/sync/json?api-version=1.0';
+            var res = await processPostRequest(requestUrl, body);
 
             var r = await res.json();
 
@@ -224,9 +227,8 @@
         async function asyncBatchGeocode() {
             //Get the post body request that contains the addresses to batch geocode.
             var body = getBatchRequestBody();
-
-            var requestParams = signRequest('https://{azMapsDomain}/search/address/batch/json?api-version=1.0');
-            var res = await processPostRequest(requestParams, body);
+            var requestUrl = 'https://{azMapsDomain}/search/address/batch/json?api-version=1.0';
+            var res = await processPostRequest(requestUrl, body);
 
             //Ge tthe batch status URL from the "location" response header.
             var batchStatusUrl = res.headers.get('location');
@@ -248,37 +250,9 @@
             }
         }
 
-        function signRequest(url) {
-            //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
-            url = url.replace('{azMapsDomain}', atlas.getDomain());
-
-            //Get the authentication details from the map for use in the request.
-            var requestParams = map.authentication.signRequest({ url: url });
-
-            //Transform the request.
-            var transform = map.getServiceOptions().transformRequest;
-            if (transform) {
-                requestParams = transform(url);
-            }
-
-            //Add content type of body to the headers.
-            requestParams.headers['Content-type'] = 'application/json; charset=UTF-8';
-
-            return requestParams;
-        }
-
-        function processPostRequest(requestParams, body) {
-            return fetch(requestParams.url, {
-                method: 'POST',
-                mode: 'cors',
-                headers: new Headers(requestParams.headers),
-                body: body
-            });
-        }
-
         function endSearch() {
             end = window.performance.now();
-            
+
             var t = end - start;
             var addPerSec = Math.round(addresses.length / t * 1000);
 
@@ -339,12 +313,12 @@
         }
 
         .sidePanel {
-            position:absolute;
+            position: absolute;
             top: 10px;
-            left:10px;
-            border-radius:10px;
+            left: 10px;
+            border-radius: 10px;
             background-color: white;
-            padding:10px;
+            padding: 10px;
         }
     </style>
 </head>
