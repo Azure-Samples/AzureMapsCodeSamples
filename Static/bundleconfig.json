@@ -10,5 +10,11 @@
     "inputFiles": [
       "samples.css"
     ]
+  },
+  {
+    "outputFileName": "lib/azure-maps/azure-maps-helper.min.js",
+    "inputFiles": [
+      "lib/azure-maps/azure-maps-helper.js"
+    ]
   }
 ]

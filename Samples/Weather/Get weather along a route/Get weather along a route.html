@@ -4,20 +4,24 @@
     <title>Get weather along a route - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to retrieve weather data for all the waypoints along a route." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, service, weather, AccuWeather, forecast, directions, route, routing" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
-    
+
     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, searchURL, routeURL, points, datasource, routeLine;
@@ -142,7 +146,7 @@
                             //Display the route line on the map.
                             datasource.add(routeLine);
 
-                            //Have the map focus on the route. 
+                            //Have the map focus on the route.
                             map.setCamera({
                                 bounds: atlas.data.BoundingBox.fromData(routeLine),
                                 padding: 40
@@ -198,33 +202,6 @@
                         }
                     });
                 });
-            });
-        }
-
-        function processRequest(url) {
-            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
-            return new Promise((resolve, reject) => {
-                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
-                url = url.replace('{azMapsDomain}', atlas.getDomain());
-
-                //Get the authentication details from the map for use in the request.
-                var requestParams = map.authentication.signRequest({ url: url });
-
-                //Transform the request.
-                var transform = map.getServiceOptions().transformRequest;
-                if (transform) {
-                    requestParams = transform(url);
-                }
-
-                fetch(requestParams.url, {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: new Headers(requestParams.headers)
-                })
-                    .then(r => r.json(), e => reject(e))
-                    .then(r => {
-                        resolve(r);
-                    }, e => reject(e));
             });
         }
 
