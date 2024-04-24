@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@azure/identity": "^4.1.0",
+    "@azure/maps-search": "^1.0.0-beta.2"
+  }
+}
