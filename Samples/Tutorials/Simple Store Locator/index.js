@@ -11,7 +11,7 @@ var iconImageUrl = '/tutorials/simple-store-locator/images/CoffeeIcon.png';
 //An array of country region ISO2 values to limit searches to.
 var countrySet = ['US', 'CA', 'GB', 'FR','DE','IT','ES','NL','DK'];      
 
-var map, popup, datasource, iconLayer, centerMarker, searchURL;
+var map, popup, datasource, iconLayer, centerMarker;
 var listItemTemplate = '<div class="listItem" onclick="itemSelected(\'{id}\')"><div class="listItem-title">{title}</div>{city}<br />Open until {closes}<br />{distance} miles away</div>';
 
 function initialize() {
@@ -41,12 +41,6 @@ function initialize() {
 
     //Create a popup but leave it closed so we can update it and display it later.
     popup = new atlas.Popup();
-
-    //Use MapControlCredential to share authentication between a map control and the service module.
-    var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-    //Create an instance of the SearchURL client.
-    searchURL = new atlas.service.SearchURL(pipeline);
 
     //If the user presses the search button, geocode the value they passed in.
     document.getElementById('searchBtn').onclick = performSearch;
@@ -226,19 +220,22 @@ function loadStoreData() {
 function performSearch() {
     var query = document.getElementById('searchTbx').value;
 
-    //Perform a fuzzy search on the users query.
-    searchURL.searchFuzzy(atlas.service.Aborter.timeout(3000), query, {
-        //Pass in the array of country ISO2 for which we want to limit the search to.
-        countrySet: countrySet,
-        view: 'Auto'
-    }).then(results => {
-        //Parse the response into GeoJSON so that the map can understand.
-        var data = results.geojson.getFeatures();
+    //Pass in the array of country/region ISO2 for which we want to limit the search to.
+    var url = `https://{azMapsDomain}/search/fuzzy/json?api-version=1.0&countrySet=${countrySet}&query=${query}&view=Auto`;
 
-        if (data.features.length > 0) {
-            //Set the camera to the bounds of the results.
+    //Perform a fuzzy search on the users query.
+    processRequest(url).then((response) => {
+        if (Array.isArray(response.results) && response.results.length > 0) {
+            var result = response.results[0];
+            var bbox = [
+                result.viewport.topLeftPoint.lon,
+                result.viewport.btmRightPoint.lat,
+                result.viewport.btmRightPoint.lon,
+                result.viewport.topLeftPoint.lat
+            ];
+            //Set the camera to the bounds of the first result.
             map.setCamera({
-                bounds: data.features[0].bbox,
+                bounds: bbox,
                 padding: 40
             });
         } else {
