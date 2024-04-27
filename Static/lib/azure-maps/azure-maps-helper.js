@@ -22,12 +22,18 @@ async function processRequest(url) {
 async function processPostRequest(url, body) {
     const requestParams = await signRequest(url);
 
-    return fetch(requestParams.url, {
+    const response = fetch(requestParams.url, {
         method: 'POST',
         mode: 'cors',
         headers: new Headers(requestParams.headers),
         body: body
     });
+
+    if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+    }
+
+    return response;
 }
 
 async function signRequest(url) {
