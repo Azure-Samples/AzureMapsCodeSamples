@@ -4,60 +4,71 @@
     <title>Filter Data Along Route - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to take a route line, calculate a buffer around it and then filter a set of points to find those that are within the buffer." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Turf.js, geospatial, math, points, buffer, within, intersects, intersection" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
     <script src='/lib/turf.min.js'></script>
 
     <script>
-        var map, searchURL, routeURL, points, datasource, routeLine;
+        var map, points, datasource, routeLine;
 
-        function GetMap() {
-            //Initialize a map instance.
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Azure Active Directory Token.
+        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+        // URL for the Azure Maps Route API.
+        var routeUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&maxAlternatives=0&instructionsType=text&traffic=true';
+
+        // URL for the Azure Maps Search Geocoder API.
+        var geocodeUrl = 'https://{azMapsDomain}/search/address/json?api-version=1.0&query={query}&limit=1';
+
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
+
+        function getMap() {
+            // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-122.25, 47.64],
                 zoom: 11,
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    // Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                    clientId: azureMapsClientId,
+                    getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
-
-            //Create an instance of the RouteURL client.
-            routeURL = new atlas.service.RouteURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -125,30 +136,32 @@
                         return;
                     }
 
-                    routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(3000), [startPoint, endPoint], {
-                        maxAlternatives: 0
-                    }).then(r => {
-                        if (r && r.routes && r.routes.length > 0) {
-                            var route = r.routes[0];
-                            var routeCoordinates = [];
-                            for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
-                                var leg = route.legs[legIndex];
+                    var routeRequestURL = routeUrl
+                        .replace('{query}', `${startPoint.lat},${startPoint.lon}:${endPoint.lat},${endPoint.lon}`);
 
-                                //Convert the route point data into a format that the map control understands.
-                                var legCoordinates = leg.points.map(function (point) {
-                                    return [point.longitude, point.latitude];
-                                });
+                    processRequest(routeRequestURL).then(directions => {
+                        // Extract the first route from the directions.
+                        const route = directions.routes[0];
 
-                                //Combine the route point data for each route leg together to form a single path.
-                                routeCoordinates = routeCoordinates.concat(legCoordinates);
-                            }
+                        // Combine all leg coordinates into a single array.
+                        const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
 
-                            //Create a line from the route path points and add it to the data source.
-                            routeLine = new atlas.data.LineString(routeCoordinates);
+                        // Create a LineString from the route path points.
+                        routeLine = new atlas.data.LineString(routeCoordinates);
 
-                            filterData();
-                        }
+                        // Add it to the data source.
+                        datasource.add(routeLine);
+
+                        //Have the map focus on the route.
+                        map.setCamera({
+                            bounds: atlas.data.BoundingBox.fromData(routeLine),
+                            padding: 40
+                        });
+
+                        filterData();
+
                     });
+                    //
                 });
             });
         }
@@ -181,14 +194,14 @@
 
         //Geocode the query and return the first coordinate.
         function geocodeQuery(query, callback) {
+
+            var geocodeRequestUrl = geocodeUrl
+                .replace('{query}', encodeURIComponent(query));
+
             if (callback) {
-                searchURL.searchAddress(atlas.service.Aborter.timeout(3000), query, {
-                    limit: 1,
-                    view: 'Auto'
-                }).then(results => {
-                    var data = results.geojson.getFeatures();
-                    if (data && data.features.length > 0) {
-                        callback(data.features[0].geometry.coordinates);
+                processRequest(geocodeRequestUrl).then(geocode => {
+                    if (geocode.results.length > 0) {
+                        callback(geocode.results[0].position);
                     } else {
                         callback(null);
                     }
@@ -197,7 +210,7 @@
         }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
@@ -230,7 +243,8 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Filter Data Along Route</legend>
         This sample shows how to take a route line and calculate a buffer around it and then filter a set of point data to find those that are within the buffer.
-        This sample uses the open source <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
+        This sample uses the open source
+        <a href="https://turfjs.org/" target="_blank">Turf.js</a> library to for some of the spatial calculation.
     </fieldset>
 </body>
 </html>
