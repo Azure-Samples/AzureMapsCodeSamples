@@ -5,12 +5,13 @@
     <title>Multiple routes by mode of travel - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This tutorial shows how to perform multiple routes for different modes of travel and display them on the map." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, tutorials, routing, directions, route, truck, commercial vehicle" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -21,10 +22,25 @@
     <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, client;
+        var map, datasource;
 
-        function GetMap() {
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
 
+        // URL to your authentication service that retrieves an Azure Active Directory Token.
+        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
+
+        function getMap() {
             // Create a new map
             map = new atlas.Map('myMap', {
                 view: 'Auto',
@@ -33,15 +49,12 @@
                 authOptions: {
                     //Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                    clientId: azureMapsClientId,
+                    getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
@@ -102,27 +115,26 @@
 
                 //Start and end point input to the search route request
                 var query = startPoint.geometry.coordinates[1] + "," +
-                            startPoint.geometry.coordinates[0] + ":" +
-                            endPoint.geometry.coordinates[1] + "," +
-                            endPoint.geometry.coordinates[0];
+                    startPoint.geometry.coordinates[0] + ":" +
+                    endPoint.geometry.coordinates[1] + "," +
+                    endPoint.geometry.coordinates[0];
 
                 //Make a search route request for a truck vehicle type
                 var truckRouteUrl = `https://{azMapsDomain}/route/directions/json?api-version=1.0&travelMode=truck&vehicleWidth=2&vehicleHeight=2&vehicleLength=5&vehicleLoadType=USHazmatClass2&query=${query}`;
-                processRequest(truckRouteUrl).then((response) => {
-                    var route = response.routes[0];
-                    //Create an array to store the coordinates of each turn
-                    var routeCoordinates = [];
-                    route.legs.forEach((leg) => {
-                        var legCoordinates = leg.points.map((point) => {
-                            return [point.longitude, point.latitude];
-                        });
-                        //Add each turn to the array
-                        routeCoordinates = routeCoordinates.concat(legCoordinates);
-                    });
+                processRequest(truckRouteUrl).then((directions) => {
+                    // Extract the first route from the directions.
+                    const route = directions.routes[0];
 
-                    //Add the route line to the data source. We want this to render below the car route which will likely be added to the data source faster, so insert it at index 0.
+                    // Combine all leg coordinates into a single array.
+                    const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
+
+                    // Create a LineString from the route path points.
+                    const routeLine = new atlas.data.LineString(routeCoordinates);
+
+                    // Add the route line to the data source.
+                    // We want this to render below the car route which will likely be added to the data source faster, so insert it at index 0.
                     datasource.add(
-                        new atlas.data.Feature(new atlas.data.LineString(routeCoordinates), {
+                        new atlas.data.Feature(routeLine, {
                             strokeColor: "#2272B9",
                             strokeWidth: 9
                         }),
@@ -130,22 +142,21 @@
                     );
                 });
 
-                var carRouteUrl = `https://atlas.microsoft.com/route/directions/json?api-version=1.0&query=${query}`;
-                processRequest(carRouteUrl).then((response) => {
-                    var route = response.routes[0];
-                    //Create an array to store the coordinates of each turn
-                    var routeCoordinates = [];
-                    route.legs.forEach((leg) => {
-                        var legCoordinates = leg.points.map((point) => {
-                            return [point.longitude, point.latitude];
-                        });
-                        //Add each turn to the array
-                        routeCoordinates = routeCoordinates.concat(legCoordinates);
-                    });
+                var carRouteUrl = `https://{azMapsDomain}/route/directions/json?api-version=1.0&query=${query}`;
+                processRequest(carRouteUrl).then((directions) => {
+                    // Extract the first route from the directions.
+                    const route = directions.routes[0];
 
-                    //Add the route line to the data source. This will add the car route after the truck route.
+                    // Combine all leg coordinates into a single array.
+                    const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
+
+                    // Create a LineString from the route path points.
+                    const routeLine = new atlas.data.LineString(routeCoordinates);
+
+                    // Add the route line to the data source.
+                    // This will add the car route after the truck route.
                     datasource.add(
-                        new atlas.data.Feature(new atlas.data.LineString(routeCoordinates), {
+                        new atlas.data.Feature(routeLine, {
                             strokeColor: "#B76DAB",
                             strokeWidth: 5
                         })
@@ -170,7 +181,7 @@
     </style>
 </head>
 
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap"></div>
 </body>
 

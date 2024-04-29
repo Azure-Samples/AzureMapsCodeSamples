@@ -4,73 +4,69 @@
     <title>Snap drawn line to roads - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
-    
+    <link rel="shortcut icon" href="/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content=" This sample shows how to snap a line drawn using the drawing tools to the road network. " />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
-    
+
     <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, routeURL, drawingManager;
+        var map, datasource, drawingManager;
+        var routeURL = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}';
 
         function GetMap() {
-            //Initialize a map instance.
+            // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-122.335, 47.608],
                 zoom: 15,
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    // Use Azure Active Directory authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
                         var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
 
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
 
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Construct the RouteURL object
-            routeURL = new atlas.service.RouteURL(pipeline);
-
-            //Wait until the map resources are ready.
+            // Wait until the map resources are ready.
             map.events.add('ready', function () {
-                //Create a data source for the route line.
+                // Create a data source for the route line.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
-                //Create a layer for rendering the route line under the road labels.
+                // Create a layer for rendering the route line under the road labels.
                 map.layers.add(new atlas.layer.LineLayer(datasource, null, {
                     strokeWidth: 5,
                     lineJoin: 'round',
                     lineCap: 'round'
                 }), 'labels');
 
-                //Create an instance of the drawing manager and display the line drawing option of the drawing toolbar.
+                // Create an instance of the drawing manager and display the line drawing option of the drawing toolbar.
                 drawingManager = new atlas.drawing.DrawingManager(map, {
                     toolbar: new atlas.control.DrawingToolbar({
                         buttons: ['draw-line'],
@@ -79,16 +75,16 @@
                     })
                 });
 
-                ///Clear the map and drawing canvas when the user enters into a drawing mode.
+                // Clear the map and drawing canvas when the user enters into a drawing mode.
                 map.events.add('drawingmodechanged', drawingManager, drawingModeChanged);
 
-                //Monitor for when a line drawing has been completed.
+                // Monitor for when a line drawing has been completed.
                 map.events.add('drawingcomplete', drawingManager, snapLineToRoute);
             });
         }
 
         function drawingModeChanged(mode) {
-            //Clear the drawing canvas and data source.
+            // Clear the drawing canvas and data source.
             if (mode.startsWith('draw')) {
                 drawingManager.getSource().clear();
                 datasource.clear();
@@ -96,41 +92,29 @@
         }
 
         function snapLineToRoute(line) {
-            //Exit drawing mode.
+            // Exit drawing mode.
             drawingManager.setOptions({ mode: 'idle' });
 
-            //Get the coordinates from the drawn line.
+            // Get the coordinates from the drawn line.
             var lineCoords = line.getCoordinates();
+            var query = lineCoords.map(coord => `${coord[1]},${coord[0]}`).join(':');
 
-            //Create an array of GeoJSON supporting points from the line coordinates.
-            var supportingPoints = lineCoords.map((val) => {
-                return new atlas.data.Point(val)
-            });
+            // Calculate a route.
+            var routeRequestURL = routeURL
+                .replace('{query}', encodeURIComponent(query));
 
-            //When reconstructing a route, the start and end coordinates must be specified in the query.
-            var coordinates = [lineCoords[0], lineCoords[lineCoords.length - 1]];
+            processRequest(routeRequestURL).then(directions => {
+                // Extract the first route from the directions.
+                const route = directions.routes[0];
 
-            //Pass all points to reconstruct the route and create a logical path as supporting points in the body of the request.
-            var options = {
-                postBody: {
-                    "supportingPoints": {
-                        "type": "GeometryCollection",
-                        "geometries": supportingPoints
-                    }
-                }
-            };
+                // Combine all leg coordinates into a single array.
+                const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
 
-            //Calculate a route.
-            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), coordinates, options).then((directions) => {
-                //Get the logical route path as GeoJSON and add it to the data source.
-                var data = directions.geojson.getFeatures();
-                datasource.add(data);
+                // Create a LineString from the route path points.
+                const routeLine = new atlas.data.LineString(routeCoordinates);
 
-                //Update the map view to center over the route.
-                map.setCamera({
-                    bounds: data.bbox,
-                    padding: 30 //Add a padding to account for the pixel size of symbols.
-                });
+                // Add it to the data source.
+                datasource.add(routeLine);
             });
         }
     </script>
@@ -140,13 +124,11 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Snap drawn line to roads</legend>
-        This sample shows how to snap a line drawn using the drawing tools to the road network. 
-        To run this sample, press the line drawing button in the top corner of the map and draw a line near roads. 
-        When you complete the drawing (double click, press ESC, or press the line drawing button again), 
+        This sample shows how to snap a line drawn using the drawing tools to the road network.
+        To run this sample, press the line drawing button in the top corner of the map and draw a line near roads.
+        When you complete the drawing (double click, press ESC, or press the line drawing button again),
         the Azure Maps route direction service will be used to calculate logical route path on the road network following the drawn line.
         The black line is the original drawn line and the blue line is the snapped line on the road network.
-        <br/><br/>
-        <b>Modules used:</b> Drawing, Services
     </fieldset>
 </body>
 </html>
