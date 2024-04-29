@@ -22,10 +22,30 @@
 
     <script>
         var map, datasource, layer, popup;
+
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Azure Active Directory Token.
+        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+        // URL for the Azure Maps Search Geocoder API.
         var geocodeUrl = 'https://{azMapsDomain}/search/address/json?api-version=1.0&query={query}';
+
+        // URL for the Azure Maps Search Polygon API.
         var polygonUrl = 'https://{azMapsDomain}/search/polygon/json?api-version=1.0&geometries={geometries}';
 
-        function GetMap() {
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
+
+        function getMap() {
             // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 style: 'grayscale_light',
@@ -35,15 +55,12 @@
                 authOptions: {
                     // Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        // URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                    clientId: azureMapsClientId,
+                    getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
@@ -199,7 +216,7 @@
         }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
