@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Multi-Itinerary Optimization - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to do a Multi-Itinerary Optimization with Azure Maps." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, fire, stop, route matrix, matrix, distance matrix, travel time, mio" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="2.0" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
+    <script>
+        var map, stopSource, depotSource, routeSource, stops, depots;
+
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+        // URL for making async calls to the Azure Maps Route Matrix service.
+        var routeMatrixAsyncUrl = 'https://{azMapsDomain}/route/matrix/json?api-version=1.0&waitForResults=true';
+
+        // URL for the Azure Maps Route API.
+        var routeUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
+
+        function getMap() {
+            // Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-105.076, 40.56],
+                zoom: 11,
+                style: 'grayscale_dark',
+                view: 'Auto',
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Microsoft Entra ID authentication.
+                    authType: 'anonymous',
+                    clientId: azureMapsClientId,
+                    getToken: getToken
+
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            // Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                // Load the custom image icon into the map resources.
+                map.imageSprite.add('fire-shield-icon', '/images/icons/fire_shield.png');
+
+                // Download stop and depot location GeoJSON data.
+                Promise.all([
+                    fetch('/data/geojson/mio_stops.json').then(response => response.json()),
+                    fetch('/data/geojson/mio_depots.json').then(response => response.json())
+                ]).then(results => {
+                    stops = results[0].features;
+                    depots = results[1].features;
+
+                    // Create a data source for stops.
+                    stopSource = new atlas.source.DataSource();
+                    map.sources.add(stopSource);
+                    stopSource.add(stops);
+
+                    // Create a data source for depots.
+                    depotSource = new atlas.source.DataSource();
+                    map.sources.add(depotSource);
+                    depotSource.add(depots);
+
+                    // Create a data source for routes.
+                    routeSource = new atlas.source.DataSource();
+                    map.sources.add(routeSource);
+
+                    // Add rendering layers below labels.
+                    map.layers.add([
+                        new atlas.layer.LineLayer(routeSource, null, {
+                            strokeColor: '#B97222',
+                            strokeWidth: 5,
+                            lineJoin: 'round',
+                            lineCap: 'round'
+                        }),
+                        new atlas.layer.BubbleLayer(stopSource, null, {
+                            createIndicators: true, // to enable bubble layer a11y feature
+                            radius: 4,
+                            strokeWidth: 0
+                        })
+                    ], 'labels');
+
+                    // Render an icon for each depot.
+                    map.layers.add(new atlas.layer.SymbolLayer(depotSource, null, {
+                        iconOptions: {
+                            image: 'fire-shield-icon',
+                            size: 0.5,
+                            anchor: "center",
+                            allowOverlap: true,
+                            ignorePlacement: true
+                        },
+                        textOptions: {
+                            textField: ['id'],
+                            color: 'white',
+                            size: 12,
+                            offset: [0, 0.4],
+                            allowOverlap: true,
+                            ignorePlacement: true
+                        }
+                    }));
+                });
+            });
+        }
+
+        async function itineraryOptimization() {
+
+            // Show loading icon.
+            document.getElementById('loadingIcon').style.display = '';
+
+            // We need all coordinates together depots + stops
+            var allCoordinates = depots.concat(stops);
+
+            // Create the request body to get a route matrix
+            var routeMatrixBody = {
+                origins: {
+                    type: 'MultiPoint',
+                    coordinates: allCoordinates.map(item => item.geometry.coordinates)
+                },
+                destinations: {
+                    type: 'MultiPoint',
+                    coordinates: allCoordinates.map(item => item.geometry.coordinates)
+                }
+            };
+
+            // Initiate an async route matrix request.
+            var responseRouteMatrix = await processPostRequest(routeMatrixAsyncUrl, JSON.stringify(routeMatrixBody));
+
+            var matrix = responseRouteMatrix.matrix;
+
+            // We use the NVIDIA optimizer service to calculate the Multi-Itinerary Optimization.
+            // more details: https://docs.nvidia.com/cuopt/user-guide/supported-features.html
+
+            // Create the request body for the Multi-Itinerary Optimization.
+            var optimizerBody = {
+                requestBody: {
+                    data: {
+                        cost_matrix_data:
+                        {
+                            data:
+                            {
+                                "1": matrix.map(row => row.map(item => item.response.routeSummary.lengthInMeters))
+                            }
+                        },
+                        travel_time_matrix_data:
+                        {
+                            data:
+                            {
+                                "1": matrix.map(row => row.map(item => item.response.routeSummary.travelTimeInSeconds))
+                            }
+                        },
+                        fleet_data: {
+                            // in this sample we have 4 vehicles,
+                            // 2 vehicles for each depot (we have 2 depots)
+                            vehicle_locations: [[0, 0], [0, 0], [1, 1], [1, 1]], // [start location in array Depot, stop location in array Depot]
+                            vehicle_ids: ["CarA", "CarB", "CarC", "CarD"], // the id for each vehicle
+                            vehicle_types: [1, 1, 1, 1], // cost_matrix_data & travel_time_matrix_data data id "1"
+                            capacities: [[75, 75, 75, 75]], // the capacity for each vehicle
+                            //vehicle_time_windows: [[8, 17], [8, 17], [8, 17], [10, 20], [10, 20]], // the time in seconds
+                            //vehicle_break_time_windows: [[[12, 14], [12, 14], [12, 14], [12, 14], [12, 14]]], // the time in seconds
+                            //vehicle_break_durations: [[0, 0, 0, 0, 0]] // the time in seconds
+                        },
+                        task_data: {
+                            task_locations: [2, 3, 4, 5, 6, 7, 8, 9], // the index in array Stops. the first 2 stops are the depots and does not count as tasks
+                            demand: [[30, 40, 40, 30, 30, 40, 40, 30]], // the demand for each task/stop
+                            //task_time_windows: [[8, 17], [8, 17], [8, 17], [17, 20]], // the time in seconds
+                            //service_times: [0, 0, 0, 0] // the time in seconds
+                        }
+                    },
+                    client_version: "custom"
+                }
+            };
+
+            // URL for making calls to the NVIDIA optimizer service.
+            var optimizerUrl = 'https://api.nvcf.nvidia.com/v2/nvcf/exec/functions/4bb2668d-c877-4b89-aabf-1630ed9b32c3/versions/471b94dc-931e-4aa1-99f4-935f5f352737';
+
+            // Bearer token for the NVIDIA optimizer service.
+            var token = '';
+
+            // Initiate an request to the NVIDIA optimizer service.
+            var optimizerResponse = await fetch(optimizerUrl, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(optimizerBody)
+            });
+
+            // Check if the response was successful.
+            if (!optimizerResponse.ok) {
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+            }
+
+            // Get the data from the response.
+            var data = await optimizerResponse.json();
+
+            // Wait until the optimization is complete
+            while (data.percentComplete < 100) {
+
+                // sleep for 2 seconds
+                await new Promise(r => setTimeout(r, 2000));
+
+                // Get the status of the optimization.
+                var statusResponse = await fetch(`https://api.nvcf.nvidia.com/v2/nvcf/exec/status/${data.reqId}`, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                // Check if the response was successful.
+                if (!statusResponse.ok) {
+                    throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+                }
+
+                // Get the data from the response.
+                data = statusResponse.json();
+            }
+
+            // Render the route on the map for each vehicle.
+            for (var vehicle in data.response.response.solver_response.vehicle_data) {
+
+                // Get the vehicle data.
+                var car = data.response.response.solver_response.vehicle_data[vehicle];
+
+                // Create a string of coordinates for the route.
+                var coordinateString = "";
+                car.route.forEach(i => {
+                    var coordinate = `${allCoordinates[i].geometry.coordinates[1]},${allCoordinates[i].geometry.coordinates[0]}`;
+                    coordinateString += `${coordinate}:`;
+                });
+
+                // Remove the trailing colon
+                coordinateString = coordinateString.slice(0, -1);
+
+                // Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
+                var routeRequestURL = routeUrl
+                    .replace('{query}', coordinateString);
+
+                // Process the request and render the route result on the map.
+                processRequest(routeRequestURL).then(directions => {
+                    // Extract the first route from the directions.
+                    const route = directions.routes[0];
+
+                    // Combine all leg coordinates into a single array.
+                    const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
+
+                    // Create a LineString from the route path points.
+                    const routeLine = new atlas.data.LineString(routeCoordinates);
+
+                    // Add it to the data source.
+                    routeSource.add(routeLine);
+                });
+            };
+
+            // Hide loading icon.
+            document.getElementById('loadingIcon').style.display = 'none';
+        }
+    </script>
+</head>
+<body onload="getMap()">
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+    <div style="position:absolute;top:10px;left:10px;background-color:#fff;padding:10px;border-radius:5px;">
+        <input type="button" value="Multi-Itinerary Optimization" onclick="itineraryOptimization()" />
+    </div>
+
+    <img id="loadingIcon" src="/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Multi-Itinerary Optimization</legend>
+        This sample shows how to do a Multi-Itinerary Optimization with Azure Maps.
+    </fieldset>
+</body>
+</html>
