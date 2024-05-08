@@ -27,7 +27,7 @@
         // Your Azure Maps client id for accessing your Azure Maps account.
         var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
 
-        // URL to your authentication service that retrieves an Azure Active Directory Token.
+        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
         var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
         // The minimum number of characters needed in the search input before a search is performed.
@@ -55,7 +55,7 @@
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    // Use Azure Active Directory authentication.
+                    // Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: azureMapsClientId,
                     getToken: getToken

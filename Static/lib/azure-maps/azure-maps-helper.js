@@ -33,7 +33,7 @@ async function processPostRequest(url, body) {
         throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
     }
 
-    return response;
+    return response.json();
 }
 
 async function signRequest(url) {
