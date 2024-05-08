@@ -5,56 +5,73 @@
 
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to do a spatial join between two sets of points based on the shortest stright line distance or travel time along roads using the route matrix service." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, fire, school, route matrix, matrix, distance matrix, travel time" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
     <script>
         var map, schoolSource, lineSource, fireStationSource, schools, fireStations, travelTimeMatrix;
 
-        //Formatted URL for making async calls to the route matrix service.
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Azure Active Directory Token.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+        // URL for making async calls to the route matrix service.
         var routeMatrixAsyncUrl = 'https://{azMapsDomain}/route/matrix/json?api-version=1.0';
 
-        function GetMap() {
-            //Initialize a map instance.
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
+
+        function getMap() {
+            // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-105.076, 40.56],
                 zoom: 11,
                 style: 'grayscale_dark',
                 view: 'Auto',
 
-                //Add your Azure Maps subscription client ID to the map SDK. Get an Azure Maps client ID at https://azure.com/maps
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    // Use Azure Active Directory authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                    clientId: azureMapsClientId,
+                    getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
 
-            //Wait until the map resources are ready.
+            // Wait until the map resources are ready.
             map.events.add('ready', function () {
 
-                //Load the custom image icon into the map resources.
+                // Load the custom image icon into the map resources.
                 map.imageSprite.add('fire-shield-icon', '/images/icons/fire_shield.png');
 
-                //Download school and fire station location GeoJSON data.
+                // Download school and fire station location GeoJSON data.
                 Promise.all([
                     fetch('/data/geojson/fort_collins_schools.json').then(response => response.json()),
                     fetch('/data/geojson/fort_collins_fire_stations.json').then(response => response.json())
@@ -62,27 +79,27 @@
                     schools = results[0].features;
                     fireStations = results[1].features;
 
-                    //Create a data source for shortest paths between schools and fire stations.
+                    // Create a data source for shortest paths between schools and fire stations.
                     lineSource = new atlas.source.DataSource();
                     map.sources.add(lineSource);
 
-                    //Create a data source for schools.
+                    // Create a data source for schools.
                     schoolSource = new atlas.source.DataSource();
                     map.sources.add(schoolSource);
                     schoolSource.add(schools);
 
-                    //Create a data source for fire stations.
+                    // Create a data source for fire stations.
                     fireStationSource = new atlas.source.DataSource();
                     map.sources.add(fireStationSource);
                     fireStationSource.add(fireStations);
 
-                    //Add rendering layers below labels.
+                    // Add rendering layers below labels.
                     map.layers.add([
 
-                        //Render the shortest paths between the schools and fire stations.
+                        // Render the shortest paths between the schools and fire stations.
                         new atlas.layer.LineLayer(lineSource, null, {
 
-                            //Clore the line differently based on the first station ID.
+                            // Clore the line differently based on the first station ID.
                             strokeColor: [
                                 'match',
                                 ['get', 'stationId'],
@@ -104,7 +121,7 @@
                             strokeWidth: 2
                         }),
 
-                        //Render each address as a colored circle based on nearest fire station.
+                        // Render each address as a colored circle based on nearest fire station.
                         new atlas.layer.BubbleLayer(schoolSource, null, {
                             createIndicators: true, // to enable bubble layer a11y feature
                             radius: 4,
@@ -112,7 +129,7 @@
                         })
                     ], 'labels');
 
-                    //Render an icon for each fire station.
+                    // Render an icon for each fire station.
                     map.layers.add(new atlas.layer.SymbolLayer(fireStationSource, null, {
                         iconOptions: {
                             image: 'fire-shield-icon',
@@ -143,7 +160,7 @@
                 var minStation;
 
                 fireStations.forEach(fs => {
-                    //Calculate the stright line distance to each fire station and find the closest one to the address.
+                    // Calculate the stright line distance to each fire station and find the closest one to the address.
                     var d = atlas.math.getDistanceTo(s.geometry, fs.geometry);
 
                     if (d < minDistance) {
@@ -163,14 +180,13 @@
         async function analyzeAlongRoads(metric) {
             if (travelTimeMatrix) {
                 showTravelMetric(metric);
-                return;
             } else {
-                //Show loading icon.
+                // Show loading icon.
                 document.getElementById('loadingIcon').style.display = '';
 
                 lineSource.clear();
 
-                //Create the request body to get a route matrix
+                // Create the request body to get a route matrix
                 var jsonBody = {
                     origins: {
                         type: 'MultiPoint',
@@ -182,50 +198,42 @@
                     }
                 };
 
-                //Initiate an async route matrix request.
-                var requestParams = signRequest(routeMatrixAsyncUrl);
-                var res = await processPostRequest(requestParams, JSON.stringify(jsonBody));
+                // Initiate an async route matrix request.
+                var res = await processPostRequest(routeMatrixAsyncUrl, JSON.stringify(jsonBody));
 
-                //Ge the status URL from the "location" response header.
+                // Get the status URL from the "location" response header.
                 var batchStatusUrl = res.headers.get('location');
 
-                //Check the status of the job.
-                var res2 = await fetch(batchStatusUrl, {
-                    headers: new Headers(requestParams.headers)
-                });
+                // Initiate an async request to get the route matrix status response.
+                var res2 = await processRequest(batchStatusUrl);
 
-                //Check to see if the process if complete.
-                if (res2.status === 200) {
-                    //Extraxt the route matrix response.
-                    var r = await res2.json();
+                // Cache the matrix so it is only calculated once.
+                travelTimeMatrix = res2.matrix;
 
-                    //Cache the matrix so it is only calculated once.
-                    travelTimeMatrix = r.matrix;
+                // Show the shortest travel metric.
+                showTravelMetric(metric);
 
-                    //Show the shortest travel metric.
-                    showTravelMetric(metric);
-
-                    ///Hide loading icon.
-                    document.getElementById('loadingIcon').style.display = 'none';
-                }
+                // Hide loading icon.
+                document.getElementById('loadingIcon').style.display = 'none';
             }
         }
 
+        // Function to show the shortest travel metric.
         function showTravelMetric(metric) {
             var lines = [];
 
             var prop = (metric === 'time') ? 'travelTimeInSeconds' : 'lengthInMeters';
 
-            //Loop through each schools can calculate the shortest path.
+            // Loop through each schools can calculate the shortest path.
             for (var i = 0, len = schools.length; i < len; i++) {
                 var minMetric = Infinity;
                 var minStation;
 
-                //Loop through each fire station and find which one is the shortest travel time or distance away from the address.
+                // Loop through each fire station and find which one is the shortest travel time or distance away from the address.
                 for (var j = 0, cnt = fireStations.length; j < cnt; j++) {
-                    //Get the travel time or distance for the schools/fire station pair.
+                    // Get the travel time or distance for the schools/fire station pair.
                     var m = travelTimeMatrix[j][i].response.routeSummary[prop];
-                    
+
                     if (m < minMetric) {
                         minMetric = m;
                         minStation = fireStations[j];
@@ -239,37 +247,9 @@
 
             lineSource.setShapes(lines);
         }
-
-        function signRequest(url) {
-            //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
-            url = url.replace('{azMapsDomain}', atlas.getDomain());
-
-            //Get the authentication details from the map for use in the request.
-            var requestParams = map.authentication.signRequest({ url: url });
-
-            //Transform the request.
-            var transform = map.getServiceOptions().transformRequest;
-            if (transform) {
-                requestParams = transform(url);
-            }
-
-            //Add content type of body to the headers.
-            requestParams.headers['Content-type'] = 'application/json; charset=UTF-8';
-
-            return requestParams;
-        }
-
-        function processPostRequest(requestParams, body) {
-            return fetch(requestParams.url, {
-                method: 'POST',
-                mode: 'cors',
-                headers: new Headers(requestParams.headers),
-                body: body
-            });
-        }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;background-color:#fff;padding:10px;border-radius:5px;">

@@ -24,7 +24,7 @@
 
         var proxyServiceUrl = 'https://samples.azuremaps.com/api/GetDataFromUrl?url=';
 
-        function GetMap() {
+        function getMap() {
             statusPanel = document.getElementById('statusPanel');
             dataPanel = document.getElementById('dataPanel');
             loadingIcon = document.getElementById('loadingIcon');
@@ -40,7 +40,7 @@
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -402,7 +402,7 @@
         }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <fieldset class="sidePanel">
         <legend>Drag and drop spatial files onto map</legend>
 

@@ -32,7 +32,7 @@
             { 'type': 'Feature', 'geometry': { 'type': 'LineString', 'coordinates': [[-121.673954, 46.872359], [-121.640995, 46.883623], [-121.645802, 46.885500], [-121.648549, 46.887378], [-121.655415, 46.886908], [-121.656788, 46.883154], [-121.661595, 46.882215], [-121.665715, 46.883623], [-121.665715, 46.886439], [-121.669835, 46.884092], [-121.669148, 46.880807], [-121.674641, 46.873767]] }, 'properties': { 'elevation': 2000 } },
         ];
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-121.768712, 46.854048],
@@ -47,7 +47,7 @@
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -181,7 +181,7 @@
         }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;background-color:white;border-radius:10px;padding:10px;">

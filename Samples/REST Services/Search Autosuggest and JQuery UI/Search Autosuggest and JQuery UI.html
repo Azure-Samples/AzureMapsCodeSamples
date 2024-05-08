@@ -31,7 +31,7 @@
         //Note that the typeahead parameter is set to true.
         var geocodeServiceUrlTemplate = 'https://{azMapsDomain}/search/{searchType}/json?typeahead=true&api-version=1.0&query={query}&language={language}&lon={lon}&lat={lat}&countrySet={countrySet}&view=Auto';
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
@@ -43,7 +43,7 @@
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -121,7 +121,7 @@
         }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     Search Type:
     <input type="radio" value="address" name="searchTypeGroup" checked="checked" /> Address
     <input type="radio" value="fuzzy" name="searchTypeGroup" /> Fuzzy

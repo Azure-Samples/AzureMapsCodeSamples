@@ -25,7 +25,7 @@
     <script>
         var primaryMap, secondaryMap, primaryDataSource, secondaryDataSource;
 
-        function GetMap() {
+        function getMap() {
             //Add authentication details for connecting to Azure Maps.
             var authOptions = {
                 //Use Azure Active Directory authentication.
@@ -33,7 +33,7 @@
                 clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                 getToken: function (resolve, reject, map) {
                     //URL to your authentication service that retrieves an Azure Active Directory Token.
-                    var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                    var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                     fetch(tokenServiceUrl).then(function (response) {
                         return response.text();
@@ -151,7 +151,7 @@
             }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div style="position: relative;height: 600px;">
         <div class="mapContainer">
             <div id="primaryMap" class="map"></div>

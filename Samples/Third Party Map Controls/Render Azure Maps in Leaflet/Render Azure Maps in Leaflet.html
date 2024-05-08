@@ -22,7 +22,7 @@
     <script>
         var map;
 
-        function GetMap() {
+        function getMap() {
             //Create a map instance.
             map = L.map('myMap', {
                 center: [0, 0],
@@ -36,7 +36,7 @@
                 clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                 getToken: function (resolve, reject, map) {
                     //URL to your authentication service that retrieves an Azure Active Directory Token.
-                    var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                    var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                     fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                 }
@@ -61,7 +61,7 @@
         }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">

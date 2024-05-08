@@ -15,7 +15,7 @@ var geoJsonFiles = {
     'Maritime trade routes (2.2MB)': '/data/geojson/route-networks/maritime-trade-routes.geojson'
 };
 
-function GetMap() {
+function getMap() {
 
     //Initialize a map instance.
     map = new atlas.Map('myMap', {
@@ -28,7 +28,7 @@ function GetMap() {
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }

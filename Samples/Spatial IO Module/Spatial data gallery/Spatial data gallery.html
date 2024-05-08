@@ -24,7 +24,7 @@
 
         var proxyServiceUrl = 'https://samples.azuremaps.com/api/GetDataFromUrl?url=';
 
-        function GetMap() {
+        function getMap() {
             loadingIcon = document.getElementById('loadingIcon');
             statsOuput = document.getElementById('statsOuput');
 
@@ -39,7 +39,7 @@
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
                         //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -245,7 +245,7 @@
         }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <fieldset class="sidePanel">
         <legend>Spatial data gallery</legend>
         This sample shows all the different types of spatial data files that can be read with the spatial IO module using the <b>atlas.io.read</b> function.

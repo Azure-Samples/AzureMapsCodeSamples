@@ -30,7 +30,7 @@
             [-122.34217, 47.60964]
         ];
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-122.3378, 47.6129],
@@ -85,7 +85,7 @@
         }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:0px;left:calc(50% - 100px);background-color:white;padding:5px;">Click the map to animate marker.</div>

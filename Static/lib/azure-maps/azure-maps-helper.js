@@ -22,7 +22,7 @@ async function processRequest(url) {
 async function processPostRequest(url, body) {
     const requestParams = await signRequest(url);
 
-    const response = fetch(requestParams.url, {
+    const response = await fetch(requestParams.url, {
         method: 'POST',
         mode: 'cors',
         headers: new Headers(requestParams.headers),
