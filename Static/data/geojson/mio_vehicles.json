@@ -1,42 +1,42 @@
 [
   {
-    "id": 11,
+    "id": 1,
     "name": "Car A",
-    "start_depot_id": 11,
-    "end_depot_id": 11,
+    "start_end_location_ids": [ 0, 0 ],
     "capacity": 75,
     "vehicle_type_id": 1,
-    "color": "red",
-    "break_duration": 0
+    "break_duration": 0,
+    "break_time_window": [ 12, 14 ],
+    "working_hours": [ 8, 17 ]
   },
   {
-    "id": 22,
+    "id": 2,
     "name": "Car B",
-    "start_depot_id": 11,
-    "end_depot_id": 11,
+    "start_end_location_ids": [ 0, 0 ],
     "capacity": 75,
     "vehicle_type_id": 1,
-    "color": "blue",
-    "break_duration": 0
+    "break_duration": 0,
+    "break_time_window": [ 12, 14 ],
+    "working_hours": [ 8, 17 ]
   },
   {
-    "id": 33,
+    "id": 3,
     "name": "Car C",
-    "start_depot_id": 22,
-    "end_depot_id": 22,
+    "start_end_location_ids": [ 1, 1 ],
     "capacity": 75,
     "vehicle_type_id": 1,
-    "color": "green",
-    "break_duration": 0
+    "break_duration": 0,
+    "break_time_window": [ 12, 14 ],
+    "working_hours": [ 8, 17 ]
   },
   {
-    "id": 44,
+    "id": 4,
     "name": "Car D",
-    "start_depot_id": 22,
-    "end_depot_id": 22,
+    "start_end_location_ids": [ 1, 1 ],
     "capacity": 75,
     "vehicle_type_id": 1,
-    "color": "yellow",
-    "break_duration": 0
+    "break_duration": 0,
+    "break_time_window": [ 12, 14 ],
+    "working_hours": [ 8, 17 ]
   }
 ]

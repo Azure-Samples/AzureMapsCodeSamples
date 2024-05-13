@@ -220,27 +220,35 @@
                         fleet_data: {
                             // in this sample we have 4 vehicles,
                             // 2 vehicles for each depot (we have 2 depots)
-                            vehicle_locations: [[0, 0], [0, 0], [1, 1], [1, 1]], // [start location in array Depot, stop location in array Depot]
-                            vehicle_ids: vehicles.map(vehicle => vehicle.name), // ["CarA", "CarB", "CarC", "CarD"], // the id for each vehicle
+                            vehicle_locations: vehicles.map(vehicle => vehicle.start_end_location_ids), // [start location in array Depot, stop location in array Depot]
+                            vehicle_ids: vehicles.map(vehicle => vehicle.name), // the id for each vehicle
                             vehicle_types: vehicles.map(vehicle => vehicle.vehicle_type_id), // cost_matrix_data & travel_time_matrix_data data id "1"
                             capacities: [vehicles.map(vehicle => vehicle.capacity)], // the capacity for each vehicle
-                            //vehicle_time_windows: [[8, 17], [8, 17], [8, 17], [10, 20], [10, 20]], // the time in seconds
-                            //vehicle_break_time_windows: [[[12, 14], [12, 14], [12, 14], [12, 14], [12, 14]]], // the time in seconds
-                            //vehicle_break_durations: [vehicles.map(vehicle => convertHoursToSeconds(vehicle.break_duration))] // the time in seconds
+                            vehicle_time_windows: vehicles.map(vehicle => {
+                                const workingHours = vehicle.working_hours;
+                                return workingHours.map(convertHoursToSeconds);
+                            }), // the time in seconds
+                            vehicle_break_time_windows: [vehicles.map(vehicle => {
+                                const breakHours = vehicle.break_time_window;
+                                return breakHours.map(convertHoursToSeconds);
+                            })], // the time in seconds
+                            vehicle_break_durations: [vehicles.map(vehicle => convertHoursToSeconds(vehicle.break_duration))] // the time in seconds
                         },
                         task_data: {
                             task_locations: Array.from({ length: stopslength }, (_, index) => depotslength + index), // the index in array Stops. the first 2 stops are the depots and does not count as tasks
                             demand: [stops.map(stop => stop.properties.demand)], // the demand for each task/stop
-                            // task_time_windows: [stops.map(stop => {
-                            //     const openingHours = stop.properties.opening_hours;
-                            //     return openingHours.map(convertHoursToSeconds);
-                            // })], // the time in seconds
+                            task_time_windows: stops.map(stop => {
+                                const openingHours = stop.properties.opening_hours;
+                                return openingHours.map(convertHoursToSeconds);
+                            }), // the time in seconds
                             service_times: stops.map(stop => convertHoursToSeconds(stop.properties.service_time)) // the time in seconds
                         }
                     },
                     client_version: "custom"
                 }
             };
+
+            console.log(optimizerBody);
 
             // URL for making calls to the NVIDIA optimizer service.
             var optimizerUrl = 'https://api.nvcf.nvidia.com/v2/nvcf/exec/functions/4bb2668d-c877-4b89-aabf-1630ed9b32c3/versions/471b94dc-931e-4aa1-99f4-935f5f352737';
@@ -267,6 +275,8 @@
 
             // Get the data from the response.
             var data = await optimizerResponse.json();
+
+            console.log(data);
 
             // Wait until the optimization is complete
             while (data.percentComplete < 100) {
