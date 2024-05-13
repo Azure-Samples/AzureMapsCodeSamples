@@ -7,8 +7,7 @@ namespace SampleFunctions;
 public class GetBingMapsKey()
 {
     private static readonly string[] AllowedDomains = [
-        "https://samples.bingmapsportal.com/",
-        "https://www.microsoft.com/"
+        "https://samples.bingmapsportal.com/"
     ];
 
     [Function("GetBingMapsKey")]
