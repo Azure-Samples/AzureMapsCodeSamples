@@ -4,22 +4,23 @@ using Microsoft.Azure.Functions.Worker;
 
 namespace SampleFunctions;
 
-public class GetBingMapsKey()
+public class GetMIOKey
 {
     private static readonly string[] AllowedDomains = [
-        "https://samples.bingmapsportal.com/",
-        "https://www.microsoft.com/"
+        "https://samples.azuremaps.com/",
+        "https://www.microsoft.com/",
+        "http://localhost:58745/" // For local testing
     ];
 
-    [Function("GetBingMapsKey")]
+    [Function("GetMIOKey")]
     public static IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
         // Check if the referer header is present and if the domain is allowed
         if (req.Headers.TryGetValue("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))
         {
-            // Bing Maps for Enterprise is now Azure Maps, get your key from https://azuremaps.com/
-            var key = Environment.GetEnvironmentVariable("BING_MAPS_SUBSCRIPTION_KEY");
+            // Get your NVIDIA cuOpt key from https://developer.nvidia.com/
+            var key = Environment.GetEnvironmentVariable("NVIDIA_SUBSCRIPTION_KEY");
 
             return new OkObjectResult(key);
         }

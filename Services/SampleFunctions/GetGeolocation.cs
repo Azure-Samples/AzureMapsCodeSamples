@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
 using SampleFunctions.Models;
 using System.Globalization;
 using System.Net.Http.Json;
@@ -9,37 +8,61 @@ using System.Text.Json;
 
 namespace SampleFunctions;
 
-public class GetGeolocation(ILogger<GetGeolocation> logger)
+public static class GeolocationService
 {
-    private readonly ILogger<GetGeolocation> _logger = logger;
+    private static readonly string[] AllowedDomains = [
+        "https://samples.azuremaps.com/",
+        "https://www.microsoft.com/"
+    ];
 
-    private static readonly HttpClient _HttpClient = new();
+    private static readonly HttpClient HttpClient = new();
 
     [Function("GetGeolocation")]
-    public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+    public static async Task<IActionResult> RunAsync(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
-        // Get the IP address from the query string
-        var ip = req.Query["ip"];
-        if (string.IsNullOrEmpty(ip))
+        // Check if the referer header is present and if the domain is allowed
+        if (req.Headers.TryGetValue("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))
         {
-            return new BadRequestObjectResult("Please pass a valid IP address on the query string.");
+            string ip = req.Query["ip"];
+            if (string.IsNullOrWhiteSpace(ip))
+            {
+                return new BadRequestObjectResult("Please pass a valid IP address on the query string.");
+            }
+
+            string azureMapsKey = Environment.GetEnvironmentVariable("AZURE_MAPS_SUBSCRIPTION_KEY");
+            if (string.IsNullOrWhiteSpace(azureMapsKey))
+            {
+                return new BadRequestObjectResult("Azure Maps Subscription Key is missing.");
+            }
+
+            string url = $"https://atlas.microsoft.com/geolocation/ip/json?subscription-key={azureMapsKey}&api-version=1.0&ip={ip}";
+            Geolocation result = await GetGeolocationFromAzureMaps(url);
+
+            if (result?.CountryRegion?.IsoCode == null)
+            {
+                return new BadRequestObjectResult("An error occurred. It was not possible to get the location of this IP address.");
+            }
+
+            RegionInfo region = new(result.CountryRegion.IsoCode);
+            string json = JsonSerializer.Serialize(region);
+
+            return new OkObjectResult(json);
         }
 
-        // Get the Azure Maps key from the environment variables
-        var azureMapsKey = Environment.GetEnvironmentVariable("AZURE_MAPS_SUBSCRIPTION_KEY");
-        var url = $"https://atlas.microsoft.com/geolocation/ip/json?subscription-key={azureMapsKey}&api-version=1.0&ip={ip}";
+        // Retrun access denied if the referer domain is not allowed
+        return new StatusCodeResult(StatusCodes.Status403Forbidden);
+    }
 
-        // Get the geolocation from Azure Maps
-        var result = await _HttpClient.GetFromJsonAsync<Geolocation>(url);
-        if (result == null)
+    private static async Task<Geolocation> GetGeolocationFromAzureMaps(string url)
+    {
+        try
         {
-            return new BadRequestObjectResult("An error occurred. It was not possible to get the location of this IP address.");
+            return await HttpClient.GetFromJsonAsync<Geolocation>(url);
         }
-
-        // Get the region from the geolocation
-        var region = new RegionInfo(result.CountryRegion.IsoCode);
-        var json = JsonSerializer.Serialize(region);
-
-        return new OkObjectResult(json);
+        catch
+        {
+            return null;
+        }
     }
 }
