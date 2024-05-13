@@ -3,66 +3,106 @@
   "features": [
     {
       "type": "Feature",
-      "id": 1,
+      "id": 11,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.0783007, 40.5601487 ]
+      },
+      "properties": {
+        "demand": 30,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     },
     {
       "type": "Feature",
-      "id": 2,
+      "id": 22,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.0573299, 40.5628491 ]
+      },
+      "properties": {
+        "demand": 40,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     },
     {
       "type": "Feature",
-      "id": 3,
+      "id": 33,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.0351322, 40.5679378 ]
+      },
+      "properties": {
+        "demand": 40,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     },
     {
       "type": "Feature",
-      "id": 4,
+      "id": 44,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.0332723, 40.550293 ]
+      },
+      "properties": {
+        "demand": 30,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     },
     {
       "type": "Feature",
-      "id": 5,
+      "id": 55,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.0306531, 40.5638493 ]
+      },
+      "properties": {
+        "demand": 30,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     },
     {
       "type": "Feature",
-      "id": 6,
+      "id": 66,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.1001173, 40.5472442 ]
+      },
+      "properties": {
+        "demand": 40,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     },
     {
       "type": "Feature",
-      "id": 7,
+      "id": 77,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.1212113, 40.5867356 ]
+      },
+      "properties": {
+        "demand": 40,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     },
     {
       "type": "Feature",
-      "id": 8,
+      "id": 88,
       "geometry": {
         "type": "Point",
         "coordinates": [ -105.1245675, 40.5897754 ]
+      },
+      "properties": {
+        "demand": 30,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
       }
     }
   ]

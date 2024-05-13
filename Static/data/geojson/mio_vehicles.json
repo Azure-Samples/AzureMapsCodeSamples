@@ -1,40 +1,42 @@
-{
-  "vehicles": [
-    {
-      "id": 1,
-      "name": "Car A",
-      "start_depot_id": 1,
-      "end_depot_id": 1,
-      "capacity": 10,
-      "vehicle_type_id": 1,
-      "color": "red"
-    },
-    {
-      "id": 2,
-      "name": "Car B",
-      "start_depot_id": 1,
-      "end_depot_id": 1,
-      "capacity": 10,
-      "vehicle_type_id": 1,
-      "color": "blue"
-    },
-    {
-      "id": 3,
-      "name": "Car C",
-      "start_depot_id": 2,
-      "end_depot_id": 2,
-      "capacity": 10,
-      "vehicle_type_id": 1,
-      "color": "green"
-    },
-    {
-      "id": 4,
-      "name": "Car D",
-      "start_depot_id": 2,
-      "end_depot_id": 2,
-      "capacity": 10,
-      "vehicle_type_id": 1,
-      "color": "yellow"
-    }
-  ]
-}
+[
+  {
+    "id": 11,
+    "name": "Car A",
+    "start_depot_id": 11,
+    "end_depot_id": 11,
+    "capacity": 75,
+    "vehicle_type_id": 1,
+    "color": "red",
+    "break_duration": 0
+  },
+  {
+    "id": 22,
+    "name": "Car B",
+    "start_depot_id": 11,
+    "end_depot_id": 11,
+    "capacity": 75,
+    "vehicle_type_id": 1,
+    "color": "blue",
+    "break_duration": 0
+  },
+  {
+    "id": 33,
+    "name": "Car C",
+    "start_depot_id": 22,
+    "end_depot_id": 22,
+    "capacity": 75,
+    "vehicle_type_id": 1,
+    "color": "green",
+    "break_duration": 0
+  },
+  {
+    "id": 44,
+    "name": "Car D",
+    "start_depot_id": 22,
+    "end_depot_id": 22,
+    "capacity": 75,
+    "vehicle_type_id": 1,
+    "color": "yellow",
+    "break_duration": 0
+  }
+]

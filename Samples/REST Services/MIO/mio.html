@@ -21,7 +21,11 @@
     <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, stopSource, depotSource, routeSource, stops, depots;
+        var map, stopDataSource, depotDataSource, routeDataSource;
+        var stops, depots, vehicles;
+
+        // Colors for the different routes.
+        var routeColors = ['#2272B9', '#ff7b25', '#6b5b95', '#d64161', '#00cc66', '#000000'];
 
         // Your Azure Maps client id for accessing your Azure Maps account.
         var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
@@ -50,7 +54,7 @@
             map = new atlas.Map('myMap', {
                 center: [-105.076, 40.56],
                 zoom: 11,
-                style: 'grayscale_dark',
+                style: 'grayscale_light',
                 view: 'Auto',
 
                 // Add authentication details for connecting to Azure Maps.
@@ -77,34 +81,37 @@
                 // Download stop and depot location GeoJSON data.
                 Promise.all([
                     fetch('/data/geojson/mio_stops.json').then(response => response.json()),
-                    fetch('/data/geojson/mio_depots.json').then(response => response.json())
+                    fetch('/data/geojson/mio_depots.json').then(response => response.json()),
+                    fetch('/data/geojson/mio_vehicles.json').then(response => response.json())
                 ]).then(results => {
                     stops = results[0].features;
                     depots = results[1].features;
+                    vehicles = results[2];
 
                     // Create a data source for stops.
-                    stopSource = new atlas.source.DataSource();
-                    map.sources.add(stopSource);
-                    stopSource.add(stops);
+                    stopDataSource = new atlas.source.DataSource();
+                    map.sources.add(stopDataSource);
+                    stopDataSource.add(stops);
 
                     // Create a data source for depots.
-                    depotSource = new atlas.source.DataSource();
-                    map.sources.add(depotSource);
-                    depotSource.add(depots);
+                    depotDataSource = new atlas.source.DataSource();
+                    map.sources.add(depotDataSource);
+                    depotDataSource.add(depots);
 
                     // Create a data source for routes.
-                    routeSource = new atlas.source.DataSource();
-                    map.sources.add(routeSource);
+                    routeDataSource = new atlas.source.DataSource();
+                    map.sources.add(routeDataSource);
 
                     // Add rendering layers below labels.
                     map.layers.add([
-                        new atlas.layer.LineLayer(routeSource, null, {
-                            strokeColor: '#B97222',
+                        new atlas.layer.LineLayer(routeDataSource, null, {
+                            strokeColor: ['get', 'strokeColor'],
                             strokeWidth: 5,
+                            strokeOpacity: 0.8,
                             lineJoin: 'round',
                             lineCap: 'round'
                         }),
-                        new atlas.layer.BubbleLayer(stopSource, null, {
+                        new atlas.layer.BubbleLayer(stopDataSource, null, {
                             createIndicators: true, // to enable bubble layer a11y feature
                             radius: 4,
                             strokeWidth: 0
@@ -112,7 +119,7 @@
                     ], 'labels');
 
                     // Render an icon for each depot.
-                    map.layers.add(new atlas.layer.SymbolLayer(depotSource, null, {
+                    map.layers.add(new atlas.layer.SymbolLayer(depotDataSource, null, {
                         iconOptions: {
                             image: 'fire-shield-icon',
                             size: 0.5,
@@ -143,11 +150,11 @@
             const allCoordinates = [...depots, ...stops];
 
             // Get the matrix for all coordinates
-            var matrix = await getMatrixAsync(allCoordinates);
+            const matrix = await getMatrixAsync(allCoordinates);
 
             // We use the NVIDIA cuOpt optimizer service to calculate the Multi-Itinerary Optimization.
             // more details: https://docs.nvidia.com/cuopt/user-guide/supported-features.html
-            var solver = await getOptimizedRouteAsync(matrix);
+            const solver = await getOptimizedRouteAsync(matrix);
 
             // Render the route on the map for each vehicle
             renderRoute(allCoordinates, solver);
@@ -175,7 +182,7 @@
                 }
             };
 
-            // Initiate an async route matrix request.
+            // Initiate an async route matrix request
             var responseRouteMatrix = await processPostRequest(routeMatrixAsyncUrl, JSON.stringify(routeMatrixBody));
 
             return responseRouteMatrix.matrix;
@@ -183,7 +190,14 @@
 
         // Function to get the optimized routes
         async function getOptimizedRouteAsync(matrix) {
-            // Create the request body for the Multi-Itinerary Optimization.
+
+            // Function to convert hours to seconds
+            const convertHoursToSeconds = (hours) => hours * 60 * 60;
+
+            const stopslength = stops.length;
+            const depotslength = depots.length;
+
+            // Create the request body for the Multi-Itinerary Optimization
             var optimizerBody = {
                 requestBody: {
                     data: {
@@ -191,6 +205,7 @@
                         {
                             data:
                             {
+                                // "1" = is the id for the vehicle_type_id
                                 "1": matrix.map(row => row.map(item => item.response.routeSummary.lengthInMeters))
                             }
                         },
@@ -198,6 +213,7 @@
                         {
                             data:
                             {
+                                // "1" = is the id for the vehicle_type_id
                                 "1": matrix.map(row => row.map(item => item.response.routeSummary.travelTimeInSeconds))
                             }
                         },
@@ -205,18 +221,21 @@
                             // in this sample we have 4 vehicles,
                             // 2 vehicles for each depot (we have 2 depots)
                             vehicle_locations: [[0, 0], [0, 0], [1, 1], [1, 1]], // [start location in array Depot, stop location in array Depot]
-                            vehicle_ids: ["CarA", "CarB", "CarC", "CarD"], // the id for each vehicle
-                            vehicle_types: [1, 1, 1, 1], // cost_matrix_data & travel_time_matrix_data data id "1"
-                            capacities: [[75, 75, 75, 75]], // the capacity for each vehicle
+                            vehicle_ids: vehicles.map(vehicle => vehicle.name), // ["CarA", "CarB", "CarC", "CarD"], // the id for each vehicle
+                            vehicle_types: vehicles.map(vehicle => vehicle.vehicle_type_id), // cost_matrix_data & travel_time_matrix_data data id "1"
+                            capacities: [vehicles.map(vehicle => vehicle.capacity)], // the capacity for each vehicle
                             //vehicle_time_windows: [[8, 17], [8, 17], [8, 17], [10, 20], [10, 20]], // the time in seconds
                             //vehicle_break_time_windows: [[[12, 14], [12, 14], [12, 14], [12, 14], [12, 14]]], // the time in seconds
-                            //vehicle_break_durations: [[0, 0, 0, 0, 0]] // the time in seconds
+                            //vehicle_break_durations: [vehicles.map(vehicle => convertHoursToSeconds(vehicle.break_duration))] // the time in seconds
                         },
                         task_data: {
-                            task_locations: [2, 3, 4, 5, 6, 7, 8, 9], // the index in array Stops. the first 2 stops are the depots and does not count as tasks
-                            demand: [[30, 40, 40, 30, 30, 40, 40, 30]], // the demand for each task/stop
-                            //task_time_windows: [[8, 17], [8, 17], [8, 17], [17, 20]], // the time in seconds
-                            //service_times: [0, 0, 0, 0] // the time in seconds
+                            task_locations: Array.from({ length: stopslength }, (_, index) => depotslength + index), // the index in array Stops. the first 2 stops are the depots and does not count as tasks
+                            demand: [stops.map(stop => stop.properties.demand)], // the demand for each task/stop
+                            // task_time_windows: [stops.map(stop => {
+                            //     const openingHours = stop.properties.opening_hours;
+                            //     return openingHours.map(convertHoursToSeconds);
+                            // })], // the time in seconds
+                            service_times: stops.map(stop => convertHoursToSeconds(stop.properties.service_time)) // the time in seconds
                         }
                     },
                     client_version: "custom"
@@ -279,6 +298,7 @@
 
         // Function to render the route on the map for each vehicle
         function renderRoute(allCoordinates, solver) {
+            var index = 0;
             for (var vehicle in solver.vehicle_data) {
 
                 // Get the vehicle data.
@@ -307,10 +327,15 @@
                     const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
 
                     // Create a LineString from the route path points.
-                    const routeLine = new atlas.data.LineString(routeCoordinates);
+                    var routeLine = new atlas.data.LineString(routeCoordinates);
 
                     // Add it to the data source.
-                    routeSource.add(routeLine);
+                    routeDataSource.add(new atlas.data.Feature(new atlas.data.LineString(routeCoordinates), {
+                        // Set the stroke color of the route based on the vehicle color.
+                        strokeColor: routeColors[index % routeColors.length]
+                    }));
+
+                    index++;
                 });
             };
         }
