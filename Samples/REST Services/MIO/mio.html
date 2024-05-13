@@ -133,14 +133,36 @@
             });
         }
 
-        async function itineraryOptimization() {
+        // Itinerary Optimization function
+        async function itineraryOptimizationClicked() {
 
-            // Show loading icon.
-            document.getElementById('loadingIcon').style.display = '';
+            // Show loading icon
+            showLoadingIcon(true);
 
             // We need all coordinates together depots + stops
-            var allCoordinates = depots.concat(stops);
+            const allCoordinates = [...depots, ...stops];
 
+            // Get the matrix for all coordinates
+            var matrix = await getMatrixAsync(allCoordinates);
+
+            // We use the NVIDIA cuOpt optimizer service to calculate the Multi-Itinerary Optimization.
+            // more details: https://docs.nvidia.com/cuopt/user-guide/supported-features.html
+            var solver = await getOptimizedRouteAsync(matrix);
+
+            // Render the route on the map for each vehicle
+            renderRoute(allCoordinates, solver);
+
+            // Hide loading icon
+            showLoadingIcon(false);
+        }
+
+        // Function to show/hide the loading icon
+        function showLoadingIcon(visible) {
+            document.getElementById('loadingIcon').style.display = visible ? '' : 'none';
+        };
+
+        // Function to get the route matrix for all coordinates
+        async function getMatrixAsync(allCoordinates) {
             // Create the request body to get a route matrix
             var routeMatrixBody = {
                 origins: {
@@ -156,11 +178,11 @@
             // Initiate an async route matrix request.
             var responseRouteMatrix = await processPostRequest(routeMatrixAsyncUrl, JSON.stringify(routeMatrixBody));
 
-            var matrix = responseRouteMatrix.matrix;
+            return responseRouteMatrix.matrix;
+        }
 
-            // We use the NVIDIA optimizer service to calculate the Multi-Itinerary Optimization.
-            // more details: https://docs.nvidia.com/cuopt/user-guide/supported-features.html
-
+        // Function to get the optimized routes
+        async function getOptimizedRouteAsync(matrix) {
             // Create the request body for the Multi-Itinerary Optimization.
             var optimizerBody = {
                 requestBody: {
@@ -205,7 +227,8 @@
             var optimizerUrl = 'https://api.nvcf.nvidia.com/v2/nvcf/exec/functions/4bb2668d-c877-4b89-aabf-1630ed9b32c3/versions/471b94dc-931e-4aa1-99f4-935f5f352737';
 
             // Bearer token for the NVIDIA optimizer service.
-            var token = '';
+            var tokenResponse = await fetch('https://samples.azuremaps.com/api/GetMIOKey');
+            var token = await tokenResponse.text();
 
             // Initiate an request to the NVIDIA optimizer service.
             var optimizerResponse = await fetch(optimizerUrl, {
@@ -251,11 +274,15 @@
                 data = statusResponse.json();
             }
 
-            // Render the route on the map for each vehicle.
-            for (var vehicle in data.response.response.solver_response.vehicle_data) {
+            return data.response.response.solver_response;
+        }
+
+        // Function to render the route on the map for each vehicle
+        function renderRoute(allCoordinates, solver) {
+            for (var vehicle in solver.vehicle_data) {
 
                 // Get the vehicle data.
-                var car = data.response.response.solver_response.vehicle_data[vehicle];
+                var car = solver.vehicle_data[vehicle];
 
                 // Create a string of coordinates for the route.
                 var coordinateString = "";
@@ -286,9 +313,6 @@
                     routeSource.add(routeLine);
                 });
             };
-
-            // Hide loading icon.
-            document.getElementById('loadingIcon').style.display = 'none';
         }
     </script>
 </head>
@@ -296,7 +320,7 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;background-color:#fff;padding:10px;border-radius:5px;">
-        <input type="button" value="Multi-Itinerary Optimization" onclick="itineraryOptimization()" />
+        <input type="button" value="Multi-Itinerary Optimization" onclick="itineraryOptimizationClicked()" />
     </div>
 
     <img id="loadingIcon" src="/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
