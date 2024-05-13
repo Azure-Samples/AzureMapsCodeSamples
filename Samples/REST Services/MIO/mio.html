@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to do a Multi-Itinerary Optimization with Azure Maps." />
+    <meta name="description" content="This sample shows how to do a Multi-Itinerary Optimization with Azure Maps and the NVIDIA cuOpt optimizer service." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, spatial analysis, spatial join, fire, stop, route matrix, matrix, distance matrix, travel time, mio" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="version" content="2.0" />
@@ -157,7 +157,7 @@
             const solver = await getOptimizedRouteAsync(matrix);
 
             // Render the route on the map for each vehicle
-            renderRoute(allCoordinates, solver);
+            renderRoutes(allCoordinates, solver);
 
             // Hide loading icon
             showLoadingIcon(false);
@@ -297,8 +297,12 @@
         }
 
         // Function to render the route on the map for each vehicle
-        function renderRoute(allCoordinates, solver) {
+        function renderRoutes(allCoordinates, solver) {
+
+            // Index for the route colors
             var index = 0;
+
+            // use the solver data to render the routes
             for (var vehicle in solver.vehicle_data) {
 
                 // Get the vehicle data.
@@ -352,7 +356,10 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Multi-Itinerary Optimization</legend>
-        This sample shows how to do a Multi-Itinerary Optimization with Azure Maps.
+        This example demonstrates the process of optimizing multiple itineraries using Azure Maps in conjunction with
+        <a href="https://www.nvidia.com/en-us/ai-data-science/products/cuopt/" target="_blank">NVIDIA's cuOpt</a> optimizer service.
+        <br />
+        The scenario outlined includes 8 delivery points, 4 transport units, with each of the 2 storage hubs providing 2 vehicles.
     </fieldset>
 </body>
 </html>
