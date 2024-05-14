@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "name": "Car A",
     "start_end_location_ids": [ 0, 0 ],
     "capacity": 75,
@@ -10,7 +10,7 @@
     "working_hours": [ 8, 17 ]
   },
   {
-    "id": 2,
+    "id": 1,
     "name": "Car B",
     "start_end_location_ids": [ 0, 0 ],
     "capacity": 75,
@@ -20,7 +20,7 @@
     "working_hours": [ 8, 17 ]
   },
   {
-    "id": 3,
+    "id": 2,
     "name": "Car C",
     "start_end_location_ids": [ 1, 1 ],
     "capacity": 75,
@@ -30,7 +30,7 @@
     "working_hours": [ 8, 17 ]
   },
   {
-    "id": 4,
+    "id": 3,
     "name": "Car D",
     "start_end_location_ids": [ 1, 1 ],
     "capacity": 75,

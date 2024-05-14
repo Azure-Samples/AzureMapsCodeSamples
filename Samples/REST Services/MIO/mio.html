@@ -204,6 +204,9 @@
             var optimizerBody = {
                 requestBody: {
                     data: {
+                        "solver_config": {
+                            "time_limit": 1 // This will limit the optimizer to give a response back in around a second reducing the processing time for this demo.
+                        },
                         cost_matrix_data:
                         {
                             data:
@@ -353,7 +356,34 @@
                 });
             };
         }
+
+        function loadText(url, elementId) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(elementId).value = data;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        loadText('/data/geojson/mio_stops.json', 'textArea1');
+        loadText('/data/geojson/mio_depots.json', 'textArea2');
+        loadText('/data/geojson/mio_vehicles.json', 'textArea3');
     </script>
+
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin: 0;
+        }
+
+        textarea {
+            width: 100%;
+            height: 400px;
+            margin: 0;
+        }
+    </style>
 </head>
 <body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
@@ -371,5 +401,21 @@
         <br />
         The scenario outlined includes 8 delivery points, 4 transport units, with each of the 2 storage hubs providing 2 vehicles.
     </fieldset>
+
+    <div class="container">
+        <div style="width: 33%;">
+            <h3>8 delivery points [stops]</h3>
+            <textarea id="textArea1"></textarea>
+        </div>
+        <div style="width: 33%;">
+            <h3>2 storage hubs [depots]</h3>
+            <textarea id="textArea2"></textarea>
+        </div>
+        <div style="width: 33%;">
+            <h3>4 transport units [vehicles]</h3>
+            <textarea id="textArea3"></textarea>
+        </div>
+    </div>
+
 </body>
 </html>
