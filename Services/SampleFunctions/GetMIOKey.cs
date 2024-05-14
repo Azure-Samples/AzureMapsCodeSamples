@@ -7,7 +7,8 @@ namespace SampleFunctions;
 public class GetMIOKey
 {
     private static readonly string[] AllowedDomains = [
-        "https://samples.azuremaps.com/"
+        "https://samples.azuremaps.com/",
+        "http://localhost:58745/" // For local testing
     ];
 
     [Function("GetMIOKey")]
