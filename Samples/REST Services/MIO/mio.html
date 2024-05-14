@@ -53,7 +53,7 @@
             // Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-105.076, 40.56],
-                zoom: 11,
+                zoom: 12,
                 style: 'grayscale_light',
                 view: 'Auto',
 
@@ -76,7 +76,8 @@
             map.events.add('ready', function () {
 
                 // Load the custom image icon into the map resources.
-                map.imageSprite.add('fire-shield-icon', '/images/icons/fire_shield.png');
+                map.imageSprite.add('home-icon', '/images/icons/home.png');
+                map.imageSprite.add('depot-icon', '/images/icons/factory.png');
 
                 // Download stop and depot location GeoJSON data.
                 Promise.all([
@@ -104,38 +105,39 @@
 
                     // Add rendering layers below labels.
                     map.layers.add([
-                        new atlas.layer.LineLayer(routeDataSource, null, {
+                        // Add a line layer for rendering the route.
+                        new atlas.layer.LineLayer(routeDataSource, 'routes', {
                             strokeColor: ['get', 'strokeColor'],
                             strokeWidth: 5,
                             strokeOpacity: 0.8,
                             lineJoin: 'round',
                             lineCap: 'round'
-                        }),
-                        new atlas.layer.BubbleLayer(stopDataSource, null, {
-                            createIndicators: true, // to enable bubble layer a11y feature
-                            radius: 4,
-                            strokeWidth: 0
                         })
                     ], 'labels');
 
-                    // Render an icon for each depot.
-                    map.layers.add(new atlas.layer.SymbolLayer(depotDataSource, null, {
-                        iconOptions: {
-                            image: 'fire-shield-icon',
-                            size: 0.5,
-                            anchor: "center",
-                            allowOverlap: true,
-                            ignorePlacement: true
-                        },
-                        textOptions: {
-                            textField: ['id'],
-                            color: 'white',
-                            size: 12,
-                            offset: [0, 0.4],
-                            allowOverlap: true,
-                            ignorePlacement: true
-                        }
-                    }));
+                    // Add rendering layers above labels.
+                    map.layers.add([
+                        // Render an icon for each depot.
+                        new atlas.layer.SymbolLayer(depotDataSource, 'depot', {
+                            iconOptions: {
+                                image: 'depot-icon',
+                                size: 0.2,
+                                anchor: "center",
+                                allowOverlap: true,
+                                ignorePlacement: true
+                            }
+                        }),
+                        // Render a red icon for each stop.
+                        new atlas.layer.SymbolLayer(stopDataSource, 'stops', {
+                            iconOptions: {
+                                image: 'home-icon',
+                                size: 0.2,
+                                anchor: "center",
+                                allowOverlap: true,
+                                ignorePlacement: true
+                            }
+                        })
+                    ]);
                 });
             });
         }
@@ -152,14 +154,14 @@
             // We need all coordinates together depots + stops
             const allCoordinates = [...depots, ...stops];
 
-            // Get the matrix for all coordinates
+            // Get the Azure Maps Matrix results for all coordinates
             const matrix = await getMatrixAsync(allCoordinates);
 
-            // We use the NVIDIA cuOpt optimizer service to calculate the Multi-Itinerary Optimization.
+            // We use the NVIDIA cuOpt optimizer service to calculate the Multi-Itinerary Optimization
             // more details: https://docs.nvidia.com/cuopt/user-guide/supported-features.html
             const solver = await getOptimizedRouteAsync(matrix);
 
-            // Render the route on the map for each vehicle
+            // Render the route on the map for each vehicle using Azure Maps Route API
             renderRoutes(allCoordinates, solver);
 
             // Hide loading icon
