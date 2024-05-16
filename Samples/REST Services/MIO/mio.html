@@ -79,6 +79,21 @@
                 map.imageSprite.add('home-icon', '/images/icons/home.png');
                 map.imageSprite.add('depot-icon', '/images/icons/factory.png');
 
+                // Add controls
+                map.controls.add(
+                    [
+                        new atlas.control.ZoomControl(),
+                        new atlas.control.PitchControl(),
+                        new atlas.control.CompassControl(),
+                        new atlas.control.StyleControl({
+                            mapStyles: "all"
+                        })
+                    ],
+                    {
+                        position: "top-right"
+                    }
+                );
+
                 // Download stop and depot location GeoJSON data.
                 Promise.all([
                     fetch('/data/geojson/mio_stops.json').then(response => response.json()),
@@ -398,24 +413,27 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Multi-Itinerary Optimization</legend>
-        This example demonstrates the process of optimizing multiple itineraries using Azure Maps in conjunction with
-        <a href="https://www.nvidia.com/en-us/ai-data-science/products/cuopt/" target="_blank">NVIDIA's cuOpt</a> optimizer service.
+        This example demonstrates the process of optimizing multiple itineraries using
+        <a href="https://azuremaps.com/" target="_blank">Azure Maps</a> in conjunction with
+        <a href="https://www.nvidia.com/en-us/ai-data-science/products/cuopt/" target="_blank">NVIDIA cuOpt</a>.
         <br />
-        The scenario outlined includes 8 delivery points, 4 transport units, with each of the 2 storage hubs providing 2 vehicles.
+        The scenario outlined includes 24 delivery points, 4 transport units, with each of the 2 storage hubs providing 2 vehicles.
+        <br />
+        <img src="/rest-services/mio/process.png" style="width:100%;" />
     </fieldset>
 
     <div class="container">
         <div style="width: 33%;">
-            <h3>8 delivery points [stops]</h3>
-            <textarea id="textArea1"></textarea>
+            <h3>24 delivery points [stops]</h3>
+            <textarea id="textArea1" readonly="readonly"></textarea>
         </div>
         <div style="width: 33%;">
             <h3>2 storage hubs [depots]</h3>
-            <textarea id="textArea2"></textarea>
+            <textarea id="textArea2" readonly="readonly"></textarea>
         </div>
         <div style="width: 33%;">
             <h3>4 transport units [vehicles]</h3>
-            <textarea id="textArea3"></textarea>
+            <textarea id="textArea3" readonly="readonly"></textarea>
         </div>
     </div>
 
