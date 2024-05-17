@@ -10,7 +10,7 @@
     <meta name="description" content="This sample shows how to use the drawing tools to search for points of interests within drawn areas." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, POI, within, intersects, intersection" />
     <meta name="author" content="Microsoft Azure Maps" />
-    <meta name="version" content="1.0" />
+    <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -21,11 +21,33 @@
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, searchURL, datasource, drawingManager, popup;
+        var map, datasource, drawingManager, popup;
+
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+        // URL for the Azure Maps Search POI API.
+        var searchPOIUrl = 'https://{azMapsDomain}/search/poi/json?api-version=1.0&query={query}&limit={limit}&lat={lat}&lon={lon}&radius={radius}&view=Auto';
+
+        // URL for the Azure Maps Search Inside Geometry API.
+        var searchGeometryUrl = 'https://{azMapsDomain}/search/geometry/json?api-version=1.0&query={query}&limit={limit}&view=Auto';
+
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
 
         function getMap() {
             //Initialize a map instance.
@@ -34,29 +56,20 @@
                 zoom: 12,
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
-                authOptions: {
-                    //Use Microsoft Entra ID authentication.
-                    authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
-                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+        // Add authentication details for connecting to Azure Maps.
+        authOptions: {
+            // Use Microsoft Entra ID authentication.
+            authType: 'anonymous',
+            clientId: azureMapsClientId,
+            getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
-                }
+            // Alternatively, use an Azure Maps key.
+            // Get an Azure Maps key at https://azure.com/maps.
+            // NOTE: The primary key should be used as the key.
+            //authType: 'subscriptionKey',
+            //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+        }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
