@@ -14,7 +14,7 @@ public class GetAzureMapsToken()
         "https://www.microsoft.com/",
         "https://microsoft.com/",
         "https://msmaps.azurewebsites.net/", // For local testing
-        "http://localhost:58745/" // For local testing
+        "http://localhost:58035/" // For local testing
     ];
 
     /// <summary>

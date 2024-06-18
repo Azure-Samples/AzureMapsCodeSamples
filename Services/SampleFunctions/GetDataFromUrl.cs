@@ -7,7 +7,8 @@ namespace SampleFunctions;
 public class GetDataFromUrl()
 {
     private static readonly string[] AllowedDomains = [
-        "https://samples.azuremaps.com/"
+        "https://samples.azuremaps.com/",
+        "http://localhost:58035/" // For local testing
     ];
 
     private static readonly HttpClient _HttpClient = new();
