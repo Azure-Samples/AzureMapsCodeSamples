@@ -17,11 +17,11 @@
 
         function LoadMapControl() {
             if (!LazyMapLoader.IsLoaded()) {
-                LazyMapLoader.LoadMapControl(GetMap, function (msg) {
+                LazyMapLoader.LoadMapControl(getMap, function (msg) {
                     alert(msg);
                 });
             } else if (map == null) {
-                GetMap();
+                getMap();
             }
         }
 

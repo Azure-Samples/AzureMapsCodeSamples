@@ -532,7 +532,7 @@ function parsePosition(posString) {
     return null;
 }
 
-window.onload = GetMap;
+window.onload = getMap;
 
 //TODO: 
 // - split out route code into seperate class to make more reusable. 

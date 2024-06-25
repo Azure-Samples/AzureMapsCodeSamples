@@ -129,15 +129,29 @@
                 var center = searchArea.getCoordinates();
 
                 //Search for POI's within a radius.
-                searchURL.searchPOI(atlas.service.Aborter.timeout(3000), query, {
-                    lon: center[0],
-                    lat: center[1],
-                    radius: searchArea.getProperties().radius,
-                    limit: 100,
-                    view: 'Auto'
-                }).then(showResults, error => {
+                var searchPOIRequest = searchPOIUrl
+                    .replace('{query}', query)
+                    .replace('{lon}', center[0])
+                    .replace('{lat}', center[1])
+                    .replace('{radius}', searchArea.getProperties().radius)
+                    .replace('{limit}', 100);
+
+                processRequest(searchPOIRequest).then((response) => {
+                    datasource.add(response);
+                }).catch((error) => {
                     alert(error);
                 });
+
+                
+                //searchURL.searchPOI(atlas.service.Aborter.timeout(3000), query, {
+                //    lon: center[0],
+                //    lat: center[1],
+                //    radius: searchArea.getProperties().radius,
+                //    limit: 100,
+                //    view: 'Auto'
+                //}).then(showResults, error => {
+                //    alert(error);
+                //});
             } else {
                 var body = searchArea.toJson();
 

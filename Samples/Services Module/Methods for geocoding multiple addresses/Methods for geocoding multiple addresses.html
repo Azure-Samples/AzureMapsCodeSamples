@@ -10,15 +10,12 @@
     <meta name="description" content="This sample shows two different methods for geocoding a bunch of addresses quickly from within a web app." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
     <meta name="author" content="Microsoft Azure Maps" />
-    <meta name="version" content="1.0" />
+    <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
-
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
     <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
@@ -115,34 +112,41 @@
             'Cnr Pitt St Mall and Market St, Sydney, NSW, AU'
         ];
 
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
+
         function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Microsoft Entra ID authentication.
+                    // Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
-                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+                    clientId: azureMapsClientId,
+                    getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -330,7 +334,7 @@
         <br /><br />
         <input type="button" value="Parallel" onclick="startSearch('parallel')" />
         <input type="button" value="Batch (Sync)" onclick="startSearch('batchSync')" />
-        <input type="button" value="Batch (Async)" onclick="startSearch('batchAsync')" />        
+        <input type="button" value="Batch (Async)" onclick="startSearch('batchAsync')" />
         <br /><br />
         <div id="status"></div>
     </div>
@@ -340,7 +344,7 @@
         This sample shows three different methods for geocoding a bunch of addresses quickly from within a web app.
         The first method makes multiple parallel requests to the address search service. This generates a high number of queries per second and only recommended when working with a small set of addresses.
         The second method uses the synchronous batch address search service and can process up to 100 addresses in a single request.
-        The third method uses the asynchronous batch address search service and can process up to 10,000 addresses. 
+        The third method uses the asynchronous batch address search service and can process up to 10,000 addresses.
         The batch services are great ways to geocode a large number of addresses while keeping the volume of queries per second low.
     </fieldset>
 </body>

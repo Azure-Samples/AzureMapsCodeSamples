@@ -10,7 +10,7 @@
     <meta name="description" content="This sample shows how to calculate an isochrone (drive time polygon) using the Azure Maps Route Reachable Range service and display it on the map. " />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, service, directions, route, routing, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis" />
     <meta name="author" content="Microsoft Azure Maps" />
-    <meta name="version" content="1.0" />
+    <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -22,7 +22,24 @@
 
     <script>
         var map, datasource;
+
         var reachableRangeUrlTemplate = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query={lat},{lon}&timeBudgetInSec={time}&view=Auto';
+
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
 
         function getMap() {
             //Initialize a map instance.
@@ -31,19 +48,16 @@
                 zoom: 12,
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Microsoft Entra ID authentication.
+                    // Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
-                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+                    clientId: azureMapsClientId,
+                    getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }

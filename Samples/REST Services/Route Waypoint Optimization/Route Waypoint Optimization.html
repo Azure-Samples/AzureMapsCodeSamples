@@ -10,7 +10,7 @@
     <meta name="description" content="This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, route directions service, direcitons, travelling salesmen problem, route optimization, optimize, vehicle routing problem, VRP, TSP" />
     <meta name="author" content="Microsoft Azure Maps" />
-    <meta name="version" content="1.0" />
+    <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -35,6 +35,22 @@
             [-122.360861, 47.495472]
         ];
 
+        // Your Azure Maps client id for accessing your Azure Maps account.
+        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
+
+        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+
+        // Function to retrieve an Azure Maps access token.
+        function getToken(resolve, reject, map) {
+            fetch(tokenServiceUrl).then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Failed to retrieve Azure Maps token.');
+            }).then(token => resolve(token)).catch(error => reject(error));
+        }
+
         function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -42,19 +58,16 @@
                 zoom: 9,
                 view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
+                // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Microsoft Entra ID authentication.
+                    // Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
-                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+                    clientId: azureMapsClientId,
+                    getToken: getToken
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
-
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
                     //authType: 'subscriptionKey',
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
@@ -182,7 +195,9 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Route Waypoint Optimization</legend>
-        This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API.<br /><br />
+        This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API.
+        <br />
+        <br />
         <b>Note:</b> The optimized waypoint order information from the routing service provides a set of indices.
         These exclude the origin and destination indices.
         You need to increase all of these values by 1 to account for the origin and then add your destination to the end to get the complete ordered waypoint list.
