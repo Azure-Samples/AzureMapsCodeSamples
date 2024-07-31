@@ -26,10 +26,10 @@
         //Create an array of point features with timestamp information to define a route to animate along.
         //To animate a route, there must be a _timestamp property that has a value from Date.getTime().
         var routePoints = [
-            new atlas.data.Feature(new atlas.data.Point([-122.34758, 47.62155]), { _timestamp: new Date('Tue, 18 Aug 2020 00:53:53 GMT').getTime() }),
-            new atlas.data.Feature(new atlas.data.Point([-122.34764, 47.61859]), { _timestamp: new Date('Tue, 18 Aug 2020 00:54:53 GMT').getTime() }),
-            new atlas.data.Feature(new atlas.data.Point([-122.33787, 47.61295]), { _timestamp: new Date('Tue, 18 Aug 2020 00:56:53 GMT').getTime() }),
-            new atlas.data.Feature(new atlas.data.Point([-122.34217, 47.60964]), { _timestamp: new Date('Tue, 18 Aug 2020 00:59:53 GMT').getTime() })
+            new atlas.data.Feature(new atlas.data.Point([-122.34758, 47.62155]), { timestamp: new Date('Tue, 18 Aug 2020 00:53:53 GMT').getTime() }),
+            new atlas.data.Feature(new atlas.data.Point([-122.34764, 47.61859]), { timestamp: new Date('Tue, 18 Aug 2020 00:54:53 GMT').getTime() }),
+            new atlas.data.Feature(new atlas.data.Point([-122.33787, 47.61295]), { timestamp: new Date('Tue, 18 Aug 2020 00:56:53 GMT').getTime() }),
+            new atlas.data.Feature(new atlas.data.Point([-122.34217, 47.60964]), { timestamp: new Date('Tue, 18 Aug 2020 00:59:53 GMT').getTime() })
         ];
 
         function GetMap() {
@@ -119,10 +119,13 @@
                     pin = new atlas.Shape(routePoints[0]);
                     pinSource.add(pin);
 
+					//Extract timestamp information from a custom property of the point features. 
+                    //By default the `moveAlongRoute` function looks for a `_timestamp` property on the point features that is a Date.getTime() value. 
+                    //If your points already have a `_timestamp` property with the correct value type, you can skip this extraction step.
+                    routePoints = atlas.animations.extractRoutePoints(route, 'timestamp');
+
                     //Create the animation.
                     animation = atlas.animations.moveAlongRoute(routePoints, pin, { 
-                        //Specify the property that contains the timestamp.
-                        timestampProperty: 'timestamp',
 
                         //Capture metadata so that data driven styling can be done.
                         captureMetadata: true,
