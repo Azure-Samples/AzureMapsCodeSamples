@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.62" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-    <PackageReference Include="X.Web.Sitemap" Version="2.10.1" />
+    <PackageReference Include="X.Web.Sitemap" Version="2.10.3" />
   </ItemGroup>
 
   <ItemGroup>
