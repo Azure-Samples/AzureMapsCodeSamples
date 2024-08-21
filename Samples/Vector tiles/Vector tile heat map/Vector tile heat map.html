@@ -57,8 +57,8 @@
                 });
                 map.sources.add(datasource);
 
-                //Create a layer for traffic flow lines.
-                var flowLayer = new atlas.layer.HeatMapLayer(datasource, null, {
+                //Create a layer for a traffic flow heat map.
+                var heatMapLayer = new atlas.layer.HeatMapLayer(datasource, null, {
                     //The name of the data layer within the data source to pass into this rendering layer.
                     sourceLayer: 'Traffic flow',
 
@@ -73,11 +73,8 @@
 					filter: ['<', ['get', 'traffic_level'], 0.80]
                 });
 
-                //Add the traffic flow layer below the labels to make the map clearer.
-                map.layers.add(flowLayer, 'labels');
-
-                //Add a click event to the layer to display details about the traffic flow line.
-                map.events.add('click', flowLayer, featureClicked);
+                //Add the traffic flow heat map layer below the labels to make the map clearer.
+                map.layers.add(heatMapLayer, 'labels');
             });
         }
 
