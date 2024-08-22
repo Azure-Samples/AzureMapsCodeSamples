@@ -90,7 +90,7 @@
 
                 secondaryDataSource.importDataFromUrl('/data/geojson/US_County_Unemployment_2017.geojson');
 
-                //Choropleth based on suze of labor force in the US counties.
+                //Choropleth based on size of the labor force in the US counties.
                 secondaryMap.layers.add(new atlas.layer.PolygonLayer(secondaryDataSource, null, {
                     fillColor: [
                         'step',

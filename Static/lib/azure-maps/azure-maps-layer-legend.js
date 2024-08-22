@@ -376,7 +376,8 @@ MIT License
         Utils.getMapLayers = function (map, layerFilter) {
             var userLayers = [];
             if (map) {
-                var mapLayers = map.layers.getLayers();
+                //Workaround: get user defined layers, not all layers (including basemap layers).
+                var mapLayers = map.layers['_getUserLayers']().map(function (l) { return l.layer; });
                 var layers_1 = [];
                 var filter_1 = [];
                 if (layerFilter && layerFilter.length > 0) {
@@ -1843,14 +1844,14 @@ MIT License
                     container.setAttribute('aria-expanded', !minimized + '');
                     var classList = container.classList;
                     if (showBtnBg) {
-                        if (!classList.contains(btnCss)) {
-                            classList.add(btnCss);
-                        }
+                        classList.remove(btnCss);
                         btn.style.display = '';
                         container.style.cursor = '';
                     }
                     else {
-                        classList.remove(btnCss);
+                        if (!classList.contains(btnCss)) {
+                            classList.add(btnCss);
+                        }
                         btn.style.display = 'none';
                         if (minimized) {
                             container.style.cursor = 'pointer';
