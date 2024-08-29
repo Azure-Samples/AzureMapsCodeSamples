@@ -93,7 +93,7 @@
                     //Extract GeoJSON feature collection from the response and add it to the datasource
                     var data = response.results.map((result) => {
                         var position = [result.position.lon, result.position.lat];
-                        bounds.push(position);
+                        bounds.push([result.position.lat, result.position.lon]);
                         return new atlas.data.Feature(new atlas.data.Point(position), { ...result });
                     });
                     datasource.add(data);
