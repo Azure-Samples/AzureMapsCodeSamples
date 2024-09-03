@@ -21,7 +21,7 @@
     <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, layer, popup;
+        var map, datasource, layer, popup, displayedLocation;
 
         // Your Azure Maps client id for accessing your Azure Maps account.
         var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
@@ -30,10 +30,18 @@
         var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
         // URL for the Azure Maps Search Geocoder API.
-        var geocodeUrl = 'https://{azMapsDomain}/search/address/json?api-version=1.0&query={query}';
+        var geocodeUrl = 'https://{azMapsDomain}/geocode?api-version=2023-06-01&top=10&view=Auto&query={query}';
 
         // URL for the Azure Maps Search Polygon API.
-        var polygonUrl = 'https://{azMapsDomain}/search/polygon/json?api-version=1.0&geometries={geometries}';
+        var polygonUrl = 'https://{azMapsDomain}/search/polygon?api-version=2023-06-01&coordinates={coordinates}&view=Auto&resultType={resultType}&resolution={resolution}';
+
+        //A list of entity types that the boundary service supports.
+        var boundaryEntityTypes = ['adminDistrict', 'adminDistrict2', 'countryRegion', 'locality', 'neighborhood', 'postalCode', 'postalCode2', 'postalCode3', 'postalCode4'];
+
+        //A simple local-cache to store information about boundaries for this sample.
+        // Format: { id: { position: [], entityType: '', bbox: [] } } where the id is a pipe delimited formatted address and entity type since many places could have the same formatted address.
+        //Not caching boundary polygon for this sample as we want to be able to switch between resolutions.
+        var boundaryCache = {};
 
         // Function to retrieve an Azure Maps access token.
         function getToken(resolve, reject, map) {
@@ -61,8 +69,8 @@
                     // Alternatively, use an Azure Maps key.
                     // Get an Azure Maps key at https://azure.com/maps.
                     // NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                    // authType: 'subscriptionKey',
+                    // subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
 
@@ -101,56 +109,82 @@
             var geocodeRequestUrl = geocodeUrl
                 .replace('{query}', encodeURIComponent(query));
 
-            processRequest(geocodeRequestUrl).then(geocode => {
-                var r = geocode.results;
-                var geomIds = [];
+            processRequest(geocodeRequestUrl).then(fc => {
+                var r = fc.features;
                 var html = ['<h3>Results</h3><ol>'];
+                var hasBoundaries = false;
+                var firstResult;
 
-                // Loop through the results and extract the ones that have boundaries.
+                // Loop through the results and extract the ones that might have boundaries.
                 for (var i = 0; i < r.length; i++) {
-                    if (r[i].dataSources && r[i].dataSources.geometry && r[i].dataSources.geometry.id) {
-                        // Store the bounady id.
-                        geomIds.push(r[i].dataSources.geometry.id);
+                    var t = r[i].properties.type;
+
+                    //Convert the type property to a boundary Entity type value as it seems these values differ between services.
+                    switch (t) {
+                        case 'CountryRegion':
+                            t = 'countryRegion';
+                            break;
+                        case 'AdminDivision1':
+                            t = 'adminDistrict';
+                            break;
+                        case 'AdminDivision2':
+                            t = 'adminDistrict2';
+                            break;
+                        case 'Postcode1':
+                            t = 'postalCode';
+                            break;
+                        case 'Postcode2':
+                            t = 'postalCode2';
+                            break;
+                        case 'Postcode3':
+                            t = 'postalCode3';
+                            break;
+                        case 'Postcode4':
+                            t = 'postalCode4';
+                            break;
+                        case 'PopulatedPlace':
+                            t = 'locality';
+                            break;
+                        case 'Neighborhood':
+                            t = 'neighborhood';
+                            break;
+                    }
+
+
+                    //Check to see if the search result could have a boundary.
+                    if (boundaryEntityTypes.indexOf(t) != -1) {
+                        var id = `${r[i].properties.address.formattedAddress}|${t}`;
+
+                        //Cache some basic information about the location.
+                        boundaryCache[id] = {
+                            position: r[i].geometry.coordinates,
+                            entityType: t
+                        };
+
+                        if (!firstResult) {
+                            firstResult = id;
+                        }
 
                         // Create a link to select and zoom into the boundary.
-                        html.push(`<li><a href="javascript:void(0)" onclick="viewPolygon('${r[i].dataSources.geometry.id}');">${r[i].address.freeformAddress}</a><br/>${r[i].entityType}</li>`);
+                        html.push(`<li><a href="javascript:void(0)" onclick="getPolygon('${id}');">${r[i].properties.address.formattedAddress}</a> (${t}, Confidence: ${r[i].properties.confidence})</li>`);
+
+                        hasBoundaries = true;
                     }
                 }
 
                 html.push('</ol>');
 
-                if (geomIds.length > 0) {
-                    // Filter the polygon layer to the first polygon.
-                    layer.setOptions({ filter: ['==', ['get', 'providerID'], geomIds[0]] });
+                if (hasBoundaries) {
+                    // Focus on the first polygon in the list.
+                    getPolygon(firstResult);
 
-                    // Retrieve the boudary polygons. The response may be large, so allow a longer abort time.
-                    var polygonRequestUrl = polygonUrl
-                        .replace('{geometries}', geomIds.join());
+                    // Display the list of results.
+                    document.getElementById('resultList').innerHTML = html.join('');
 
-                    processRequest(polygonRequestUrl).then(boundaries => {
-                        html.push(`Response size: ${Math.round(JSON.stringify(boundaries).length / 1024 / 1024 * 100) / 100}MB`);
-
-                        // Get the results in GeoJSON format and add it to the data source.
-                        for (var j = 0; j < boundaries.additionalData.length; j++) {
-                            var geojson = boundaries.additionalData[j].geometryData;
-                            for (var f = 0; f < geojson.features.length; f++) {
-                                geojson.features[f].properties.providerID = geojson.features[f].id;
-                            }
-
-                            datasource.add(geojson);
-                        }
-
-                        // Focus on the first polygon in the list.
-                        viewPolygon(boundaries.additionalData[0].geometryData.features[0].id);
-
-                        // Display the list of boundaries.
-                        document.getElementById('resultList').innerHTML = html.join('');
-
-                        // Hide the loading icon.
-                        document.getElementById('loadingIcon').style.display = 'none';
-                    });
+                    // Hide the loading icon.
+                    document.getElementById('loadingIcon').style.display = 'none';
                 } else {
-                    alert('No boundary found.');
+                    document.getElementById('resultList').innerHTML = 'No boundary found.';
 
                     // Hide the loading icon.
                     document.getElementById('loadingIcon').style.display = 'none';
@@ -158,20 +192,62 @@
             });
         }
 
-        function viewPolygon(geomId) {
+        function getPolygon(id) {
             popup.close();
 
-            // Filter the polygon layer to only display the boundary with the specified geometry id.
-            layer.setOptions({ filter: ['==', ['get', 'providerID'], geomId] });
+            //Make sure we have information in the cache for the provided ID.
+            if (boundaryCache[id]) {
+                displayedLocation = id;
 
-            // Retrieve the boundary shape from the data source that has the required geometry id.
-            var s = datasource.getShapes().find(x => x.getProperties().providerID === geomId);
+                var b = boundaryCache[id];
 
-            // Update the map camera so that it focuses on the geometry.
-            map.setCamera({
-                bounds: atlas.data.BoundingBox.fromData(s),
-                padding: 40
-            });
+                //Get the selected resolution type.
+                var resolution = document.getElementById('resolutionSelector').value;
+
+                //Retrieve the boundary from Azure Maps.
+
+                // Show the loading icon.
+                document.getElementById('loadingIcon').style.display = '';
+
+                // Retrieve the boudary polygons. The response may be large, so allow a longer abort time.
+                var polygonRequestUrl = polygonUrl
+                    .replace('{coordinates}', b.position.join(','))
+                    .replace('{resultType}', b.entityType)
+                    .replace('{resolution}', resolution);
+
+                processRequest(polygonRequestUrl).then(f => {
+                    console.log(`Response size for '${id}' boundary: ${Math.round(JSON.stringify(f).length / 1024 / 1024 * 100) / 100}MB`);
+
+                    //Cache the boundary.
+                    b.boundary = f;
+
+                    //Add the boundary to the map.
+                    datasource.setShapes(f);
+
+                    //Caclaulte and cache the bounding box of the boundary.
+                    b.bbox = atlas.data.BoundingBox.fromData(f);
+
+                    //Update the map camera so that it focuses on the geometry.
+                    map.setCamera({ bounds: b.bbox, padding: 40 });
+
+                    // Hide the loading icon.
+                    document.getElementById('loadingIcon').style.display = 'none';
+                }, e => {
+                    //An error occurred, clear the data source.
+                    alert('Unable to retrieve boundary for this location.');
+
+                    datasource.clear();
+
+                    // Hide the loading icon.
+                    document.getElementById('loadingIcon').style.display = 'none';
+                });
+            }
+        }
+
+        function reloadBoundary() {
+            if (displayedLocation) {
+                getPolygon(displayedLocation);
+            }
         }
 
         function layerClicked(e) {
@@ -220,8 +296,16 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:15px;left:15px;background-color:white;padding:10px;border-radius:10px;">
-        <input type="text" id="input" value="Sydney, NSW" />
+        <input type="text" id="input" value="London" />
         <input type="button" onClick="search()" value="Search" />
+
+        Resolution:
+        <select id="resolutionSelector" onchange="reloadBoundary()">
+            <option value="small">Small</option>
+            <option value="medium" selected>Medium</option>
+            <option value="large">Large</option>
+            <option value="huge">Huge</option>
+        </select>
 
         <div id="resultList"></div>
     </div>
