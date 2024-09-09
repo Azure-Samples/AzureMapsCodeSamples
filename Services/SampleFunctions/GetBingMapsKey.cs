@@ -12,8 +12,7 @@ public class GetBingMapsKey()
     ];
 
     [Function("GetBingMapsKey")]
-    public static IActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+    public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
         // Check if the referer header is present and if the domain is allowed
         if (req.Headers.TryGetValue("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))

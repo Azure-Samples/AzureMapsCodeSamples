@@ -14,8 +14,7 @@ public class GetDataFromUrl()
     private static readonly HttpClient _HttpClient = new();
 
     [Function("GetDataFromUrl")]
-    public static async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+    public static async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
     {
         // Check if the referer header is present and if the domain is allowed
         if (req.Headers.TryGetValues("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))

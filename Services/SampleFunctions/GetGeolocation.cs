@@ -18,8 +18,7 @@ public static class GeolocationService
     private static readonly HttpClient HttpClient = new();
 
     [Function("GetGeolocation")]
-    public static async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+    public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
         // Check if the referer header is present and if the domain is allowed
         if (req.Headers.TryGetValue("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))

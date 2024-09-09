@@ -2,7 +2,7 @@
   "profiles": {
     "SampleFunctions": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7273",
+      "commandLineArgs": "--port 7231",
       "launchBrowser": false
     }
   }
