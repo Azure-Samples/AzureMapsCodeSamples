@@ -22,7 +22,7 @@
     <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map;
+        var map, popup;
 
         // Your Azure Maps client id for accessing your Azure Maps account.
         var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
@@ -88,19 +88,19 @@
                 var url = `https://{azMapsDomain}/search/poi/json?api-version=1.0&query=${query}&lat=${lat}&lon=${lon}&radius=${radius}`;
 
                 processRequest(url).then((response) => {
-                    var bounds = [];
+                    var positions = [];
 
                     //Extract GeoJSON feature collection from the response and add it to the datasource
                     var data = response.results.map((result) => {
                         var position = [result.position.lon, result.position.lat];
-                        bounds.push(position);
+                        positions.push(position);
                         return new atlas.data.Feature(new atlas.data.Point(position), { ...result });
                     });
                     datasource.add(data);
 
                     //Set camera to bounds to show the results
                     map.setCamera({
-                        bounds: new atlas.data.BoundingBox.fromLatLngs(bounds),
+                        bounds: atlas.data.BoundingBox.fromPositions(positions),
                         zoom: 10,
                         padding: 15
                     });
@@ -111,28 +111,28 @@
 
                 //Add a mouse over event to the result layer and display a popup when this event fires.
                 map.events.add('mouseover', resultLayer, showPopup);
-
-                function showPopup(e) {
-                    //Get the properties and coordinates of the first shape that the event occurred on.
-
-                    var p = e.shapes[0].getProperties();
-                    var position = e.shapes[0].getCoordinates();
-
-                    //Create HTML from properties of the selected result.
-                    var html = ['<div style="padding:5px"><div><b>', p.poi.name,
-                        '</b></div><div>', p.address.freeformAddress,
-                        '</div><div>', position[1], ', ', position[0], '</div></div>'];
-
-                    //Update the content and position of the popup.
-                    popup.setPopupOptions({
-                        content: html.join(''),
-                        position: position
-                    });
-
-                    //Open the popup.
-                    popup.open(map);
-                }
             });
+        }
+
+        function showPopup(e) {
+            //Get the properties and coordinates of the first shape that the event occurred on.
+
+            var p = e.shapes[0].getProperties();
+            var position = e.shapes[0].getCoordinates();
+
+            //Create HTML from properties of the selected result.
+            var html = ['<div style="padding:5px"><div><b>', p.poi.name,
+                '</b></div><div>', p.address.freeformAddress,
+                '</div><div>', position[1], ', ', position[0], '</div></div>'];
+
+            //Update the content and position of the popup.
+            popup.setPopupOptions({
+                content: html.join(''),
+                position: position
+            });
+
+            //Open the popup.
+            popup.open(map);
         }
     </script>
 
