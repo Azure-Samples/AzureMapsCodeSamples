@@ -39,8 +39,8 @@
                     }
 
                     //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                    // authType: 'subscriptionKey',
+                    // subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
 
@@ -92,6 +92,13 @@
                 layout: pickerLayout
             }));
 
+            //Create a scale control and add it to the map.
+            controls.push(new atlas.control.ScaleControl({
+                maxWidth: parseFloat(getSelectValue('scaleMaxWidth')),
+                unit: getSelectValue('scaleUnit'),
+                style: controlStyle
+            }));
+
             //Add controls to the map.
             map.controls.add(controls, {
                 position: positionOption
@@ -106,7 +113,7 @@
     <style>
         .sidePanel {
             width: 350px;
-            height: 580px;
+            height: 640px;
             float: left;
             margin-right: 10px;
         }
@@ -221,6 +228,29 @@
                     <select id="pickerLayout" onchange="addControls()" title="Style Picker Layout">
                         <option selected="selected">icons</option>
                         <option>list</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr title="The maximum length of the scale control in pixels.">
+                <td>Scale Max Width:</td>
+                <td>
+                    <select id="scaleMaxWidth" onchange="addControls()" title="Scale Max Width">
+                        <option>50</option>
+                        <option selected="selected">100</option>
+                        <option>200</option>
+                        <option>400</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr title="The unit of the distance shown on scale control.">
+                <td>Scale Unit:</td>
+                <td>
+                    <select id="scaleUnit" onchange="addControls()" title="Scale Unit">
+                        <option>imperial</option>
+                        <option selected="selected">metric</option>
+                        <option>nautical</option>
                     </select>
                 </td>
             </tr>
