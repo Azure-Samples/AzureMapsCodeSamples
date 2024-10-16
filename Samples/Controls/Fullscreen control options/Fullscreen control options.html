@@ -77,71 +77,80 @@
         }
     </script>
     <style>
-        .testContainer {
-            background-color: white;
-        }
+      .testContainer {
+        background-color: white;
+      }
 
-        .sidePanel {
-            width: 325px;
-            height: 580px;
-            float: left;
-            margin-right: 10px;
-        }
+      .sidePanel {
+        width: 325px;
+        height: 580px;
+        float: left;
+        margin-right: 10px;
+      }
 
-        #myMap {
-            position: relative;
-            width: calc(100% - 375px);
-            min-width: 290px;
-            height: 600px;
-            float: left;
-        }
-
-        #eventInfo {
-            width: 300px;
-            height: 420px;
-            overflow-y: auto;
-        }
-
+      #myMap {
+        position: relative;
+        width: calc(100% - 375px);
+        min-width: 290px;
+        height: 600px;
+        float: left;
+      }
     </style>
-</head>
-<body onload="getMap()">
-
+  </head>
+  <body onload="getMap()">
     <div class="testContainer">
-        <fieldset class="sidePanel">
-            <legend>Fullscreen control options</legend>
-            This sample shows how to create a fullscreen control and all of its options. 
-            <br /><br />
-        
-            <div id="Options" class="tabcontent" style="display:block;">
-                <table>                
-                    <tr title="The HTML element that should be made fullscreen.">
-                        <td>Container:</td>
-                        <td>
-                            <select id="container" onchange="addFullscreenControl()" title="Container">
-                                <option>HTML element</option>
-                                <option selected="selected">map</option>
-                            </select>
-                        </td>
-                    </tr>                
-                    <tr title="Specifies if the control should be hidden if fullscreen is not supported by the browser. ">
-                        <td>Hide if unsupported:</td>
-                        <td><input id="hideIfUnsupported" title="Hide if unsupported" type="checkbox" checked="checked" onclick="update()" /></td>
-                    </tr>
-                    <tr title="The style of the control.">
-                            <td>Style:</td>
-                            <td>
-                                <select id="style" onchange="addFullscreenControl()" title="Style">
-                                    <option>auto</option>
-                                    <option>dark</option>
-                                    <option selected="selected">light</option>
-                                </select>
-                            </td>
-                        </tr>
-                </table>
-            </div>
+      <div class="sidePanel">
+        <fieldset style="width: 320px; margin-bottom: 10px">
+          <legend>Fullscreen control options</legend>
+          This sample shows how to create a fullscreen control and all of its
+          options.
         </fieldset>
+        <table>
+          <tr title="The HTML element that should be made fullscreen.">
+            <td>Container:</td>
+            <td>
+              <select
+                id="container"
+                onchange="addFullscreenControl()"
+                title="Container"
+              >
+                <option>HTML element</option>
+                <option selected="selected">map</option>
+              </select>
+            </td>
+          </tr>
+          <tr
+            title="Specifies if the control should be hidden if fullscreen is not supported by the browser. "
+          >
+            <td>Hide if unsupported:</td>
+            <td>
+              <input
+                id="hideIfUnsupported"
+                title="Hide if unsupported"
+                type="checkbox"
+                checked="checked"
+                onclick="addFullscreenControl()"
+              />
+            </td>
+          </tr>
+          <tr title="The style of the control.">
+            <td>Style:</td>
+            <td>
+              <select
+                id="style"
+                onchange="addFullscreenControl()"
+                title="Style"
+              >
+                <option>auto</option>
+                <option>dark</option>
+                <option selected="selected">light</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
 
-        <div id="myMap"></div>
+      <div id="myMap"></div>
     </div>
 </body>
 </html>
