@@ -16,6 +16,9 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
+    <!-- Add reference to the fullscreen control module. -->
+    <script src="/lib/azure-maps/azure-maps-fullscreen-control.min.js"></script>
+
     <script>
         var map, fullscreenControl;
 
@@ -44,31 +47,42 @@
 
             //Wait for map resources to be ready before loading controls.
             map.events.add('ready', function () {
+                fullscreenControl = new atlas.control.FullscreenControl();
+
+                //Add events to the control.
+                map.events.add('fullscreenchanged', fullscreenControl, displayEventInfo);
+
                 //Add control and a style control to the map.
-                addFullscreenControl();
-                map.controls.add(new atlas.control.StyleControl(), {
+                map.controls.add([new atlas.control.StyleControl(), fullscreenControl], {
                     position: 'top-right'
                 });
             });
-            
         }
 
-        function addFullscreenControl() {
-            map.controls.remove(fullscreenControl);
+        function displayEventInfo(isFullscreen) {
+            document.getElementById('eventInfo').value = (isFullscreen) ? 'Not in fullscreen mode' : 'Is in fullscreen mode';
+        }
 
-            var style = getSelectValue('style');
-            var hideIfUnsupported = document.getElementById('hideIfUnsupported').checked;
-            var container = (getSelectValue('container') === 'map') ? null : '.testContainer';
-
-            fullscreenControl = new atlas.control.FullscreenControl({
-                style: style,
-                hideIfUnsupported: hideIfUnsupported,
-                container: container
+        function update() {
+            fullscreenControl.setOptions({
+                style: getSelectValue('style'),
+                hideIfUnsupported: document.getElementById('hideIfUnsupported').checked,
+                container: (getSelectValue('container') === 'map') ? null : '.testContainer'
             });
+        }
 
-            map.controls.add(fullscreenControl, {
-                position: 'top-right'
-            });
+        function openTab(elm, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            elm.className += " active";
         }
 
         function getSelectValue(id) {
@@ -77,80 +91,113 @@
         }
     </script>
     <style>
-      .testContainer {
-        background-color: white;
-      }
+        .testContainer {
+            background-color: white;
+        }
 
-      .sidePanel {
-        width: 325px;
-        height: 580px;
-        float: left;
-        margin-right: 10px;
-      }
+        .sidePanel {
+            width: 325px;
+            height: 580px;
+            float: left;
+            margin-right: 10px;
+        }
 
-      #myMap {
-        position: relative;
-        width: calc(100% - 375px);
-        min-width: 290px;
-        height: 600px;
-        float: left;
-      }
+        #myMap {
+            position: relative;
+            width: calc(100% - 375px);
+            min-width: 290px;
+            height: 600px;
+            float: left;
+        }
+
+        #eventInfo {
+            width: 300px;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 6px 8px;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
     </style>
-  </head>
-  <body onload="getMap()">
-    <div class="testContainer">
-      <div class="sidePanel">
-        <fieldset style="width: 320px; margin-bottom: 10px">
-          <legend>Fullscreen control options</legend>
-          This sample shows how to create a fullscreen control and all of its
-          options.
-        </fieldset>
-        <table>
-          <tr title="The HTML element that should be made fullscreen.">
-            <td>Container:</td>
-            <td>
-              <select
-                id="container"
-                onchange="addFullscreenControl()"
-                title="Container"
-              >
-                <option>HTML element</option>
-                <option selected="selected">map</option>
-              </select>
-            </td>
-          </tr>
-          <tr
-            title="Specifies if the control should be hidden if fullscreen is not supported by the browser. "
-          >
-            <td>Hide if unsupported:</td>
-            <td>
-              <input
-                id="hideIfUnsupported"
-                title="Hide if unsupported"
-                type="checkbox"
-                checked="checked"
-                onclick="addFullscreenControl()"
-              />
-            </td>
-          </tr>
-          <tr title="The style of the control.">
-            <td>Style:</td>
-            <td>
-              <select
-                id="style"
-                onchange="addFullscreenControl()"
-                title="Style"
-              >
-                <option>auto</option>
-                <option>dark</option>
-                <option selected="selected">light</option>
-              </select>
-            </td>
-          </tr>
-        </table>
-      </div>
+</head>
+<body onload="getMap()">
 
-      <div id="myMap"></div>
+    <div class="testContainer">
+        <fieldset class="sidePanel">
+            <legend>Fullscreen control options</legend>
+            This sample shows all the options of the fullscreen control. 
+            This samples uses the open source <a href="https://github.com/Azure-Samples/azure-maps-fullscreen-control" target="_blank">Azure Maps Fullscreen Control module</a>.
+            <br /><br />
+                
+            <div class="tab">
+                <button class="tablinks active" onclick="openTab(this, 'Options')">Options</button>
+                <button class="tablinks" onclick="openTab(this, 'EventInfo')">Event info</button>
+            </div>
+        
+            <div id="Options" class="tabcontent" style="display:block;">
+                <table>                
+                    <tr title="The HTML element that should be made fullscreen.">
+                        <td>Container:</td>
+                        <td>
+                            <select id="container" onchange="update()" title="Container">
+                                <option>HTML element</option>
+                                <option selected="selected">map</option>
+                            </select>
+                        </td>
+                    </tr>                
+                    <tr title="Specifies if the control should be hidden if fullscreen is not supported by the browser. ">
+                        <td>Hide if unsupported:</td>
+                        <td><input id="hideIfUnsupported" title="Hide if unsupported" type="checkbox" checked="checked" onclick="update()" /></td>
+                    </tr>
+                    <tr title="The style of the control.">
+                            <td>Style:</td>
+                            <td>
+                                <select id="style" onchange="update()" title="Style">
+                                    <option>auto</option>
+                                    <option>dark</option>
+                                    <option selected="selected">light</option>
+                                </select>
+                            </td>
+                        </tr>
+                </table>
+            </div>
+
+            <div id="EventInfo" class="tabcontent">
+                <b>Event info</b><br/>
+                <textarea id="eventInfo" title="Event info"></textarea>
+            </div>
+        </fieldset>
+
+        <div id="myMap"></div>
     </div>
 </body>
 </html>
