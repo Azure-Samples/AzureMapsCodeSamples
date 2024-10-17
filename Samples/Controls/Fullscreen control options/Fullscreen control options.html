@@ -17,140 +17,141 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <script>
-        var map, fullscreenControl;
+      var map, fullscreenControl = new atlas.control.FullscreenControl();
 
-        function getMap() {
-            //Initialize a map instance.
-            map = new atlas.Map("myMap", {
-                view: 'Auto',
+      function getMap() {
+          //Initialize a map instance.
+          map = new atlas.Map("myMap", {
+              view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
-                authOptions: {
-                    //Use Microsoft Entra ID authentication.
-                    authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
-                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+              //Add authentication details for connecting to Azure Maps.
+              authOptions: {
+                  //Use Microsoft Entra ID authentication.
+                  authType: 'anonymous',
+                  clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+                  getToken: function (resolve, reject, map) {
+                      //URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                      var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
+                      fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                  }
 
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
-                }
-            });
+                  //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                  //authType: 'subscriptionKey',
+                  //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+              }
+          });
 
-            //Wait for map resources to be ready before loading controls.
-            map.events.add('ready', function () {
-                //Add control and a style control to the map.
-                addFullscreenControl();
-                map.controls.add(new atlas.control.StyleControl(), {
-                    position: 'top-right'
-                });
-            });
-            
-        }
-
-        function addFullscreenControl() {
-            map.controls.remove(fullscreenControl);
-
-            var style = getSelectValue('style');
-            var hideIfUnsupported = document.getElementById('hideIfUnsupported').checked;
-            var container = (getSelectValue('container') === 'map') ? null : '.testContainer';
-
-            fullscreenControl = new atlas.control.FullscreenControl({
-                style: style,
-                hideIfUnsupported: hideIfUnsupported,
-                container: container
-            });
-
-            map.controls.add(fullscreenControl, {
-                position: 'top-right'
-            });
-        }
-
-        function getSelectValue(id) {
-            var elm = document.getElementById(id);
-            return elm.options[elm.selectedIndex].value;
-        }
-    </script>
-    <style>
-      .testContainer {
-        background-color: white;
+          //Wait for map resources to be ready before loading controls.
+          map.events.add('ready', function () {
+              //Add control and a style control to the map.
+              map.controls.add(new atlas.control.StyleControl(), {
+                  position: 'top-right'
+              });
+              addFullscreenControl();
+          });
+          
       }
 
-      .sidePanel {
-        width: 325px;
-        height: 580px;
-        float: left;
-        margin-right: 10px;
+      function addFullscreenControl() {
+          map.controls.remove(fullscreenControl);
+
+          var style = getSelectValue('style');
+          var hideIfUnsupported = document.getElementById('hideIfUnsupported').checked;
+          var container = (getSelectValue('container') === 'map') ? null : document.getElementById('testContainer');
+
+          fullscreenControl = new atlas.control.FullscreenControl({
+              style: style,
+              hideIfUnsupported: hideIfUnsupported,
+              container: container
+          });
+
+          map.controls.add(fullscreenControl, {
+              position: 'top-right'
+          });
       }
 
-      #myMap {
-        position: relative;
-        width: calc(100% - 375px);
-        min-width: 290px;
-        height: 600px;
-        float: left;
+      function getSelectValue(id) {
+          var elm = document.getElementById(id);
+          return elm.options[elm.selectedIndex].value;
       }
-    </style>
-  </head>
-  <body onload="getMap()">
-    <div class="testContainer">
-      <div class="sidePanel">
-        <fieldset style="width: 320px; margin-bottom: 10px">
-          <legend>Fullscreen control options</legend>
-          This sample shows how to create a fullscreen control and all of its
-          options.
-        </fieldset>
-        <table>
-          <tr title="The HTML element that should be made fullscreen.">
-            <td>Container:</td>
-            <td>
-              <select
-                id="container"
-                onchange="addFullscreenControl()"
-                title="Container"
-              >
-                <option>HTML element</option>
-                <option selected="selected">map</option>
-              </select>
-            </td>
-          </tr>
-          <tr
-            title="Specifies if the control should be hidden if fullscreen is not supported by the browser. "
-          >
-            <td>Hide if unsupported:</td>
-            <td>
-              <input
-                id="hideIfUnsupported"
-                title="Hide if unsupported"
-                type="checkbox"
-                checked="checked"
-                onclick="addFullscreenControl()"
-              />
-            </td>
-          </tr>
-          <tr title="The style of the control.">
-            <td>Style:</td>
-            <td>
-              <select
-                id="style"
-                onchange="addFullscreenControl()"
-                title="Style"
-              >
-                <option>auto</option>
-                <option>dark</option>
-                <option selected="selected">light</option>
-              </select>
-            </td>
-          </tr>
-        </table>
-      </div>
+  </script>
+  <style>
+    #testContainer {
+      background-color: white;
+    }
 
-      <div id="myMap"></div>
+    .sidePanel {
+      width: 350px;
+      height: 580px;
+      float: left;
+      margin-right: 10px;
+    }
+
+    #myMap {
+      position: relative;
+      width: calc(100% - 360px);
+      min-width: 290px;
+      height: 600px;
+      float: left;
+    }
+  </style>
+</head>
+<body onload="getMap()">
+  <div id="testContainer">
+    <div class="sidePanel">
+      <fieldset style="width: 320px; margin-bottom: 10px">
+        <legend>Fullscreen control options</legend>
+        This sample shows how to create a fullscreen control and all of its
+        options.
+      </fieldset>
+      
+      <table>
+        <tr title="The HTML element that should be made fullscreen.">
+          <td>Container:</td>
+          <td>
+            <select
+              id="container"
+              onchange="addFullscreenControl()"
+              title="Container"
+            >
+              <option>HTML element</option>
+              <option selected="selected">map</option>
+            </select>
+          </td>
+        </tr>
+        <tr
+          title="Specifies if the control should be hidden if fullscreen is not supported by the browser. "
+        >
+          <td>Hide if unsupported:</td>
+          <td>
+            <input
+              id="hideIfUnsupported"
+              title="Hide if unsupported"
+              type="checkbox"
+              checked="checked"
+              onclick="addFullscreenControl()"
+            />
+          </td>
+        </tr>
+        <tr title="The style of the control.">
+          <td>Style:</td>
+          <td>
+            <select
+              id="style"
+              onchange="addFullscreenControl()"
+              title="Style"
+            >
+              <option>auto</option>
+              <option>dark</option>
+              <option selected="selected">light</option>
+            </select>
+          </td>
+        </tr>
+      </table>
     </div>
+
+    <div id="myMap"></div>
+  </div>
 </body>
 </html>
