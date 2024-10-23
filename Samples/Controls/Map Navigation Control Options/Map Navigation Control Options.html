@@ -17,7 +17,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <script>
-        var map, controls = [];
+        var map, controls = [], scaleControl = new atlas.control.ScaleControl();
 
         function getMap() {
             //Initialize a map instance.
@@ -39,8 +39,8 @@
                     }
 
                     //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                    // authType: 'subscriptionKey',
-                    // subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
 
@@ -51,6 +51,7 @@
         function addControls() {
             //Remove all controls on the map.
             map.controls.remove(controls);
+            map.controls.remove(scaleControl);
             controls = [];
 
             //Get input options.
@@ -92,16 +93,19 @@
                 layout: pickerLayout
             }));
 
-            //Create a scale control and add it to the map.
-            controls.push(new atlas.control.ScaleControl({
-                maxWidth: parseFloat(getSelectValue('scaleMaxWidth')),
-                unit: getSelectValue('scaleUnit'),
-                style: controlStyle
-            }));
-
             //Add controls to the map.
             map.controls.add(controls, {
                 position: positionOption
+            });
+
+            //Create a scale control and add it to the map.
+            scaleControl = new atlas.control.ScaleControl({
+                maxWidth: parseFloat(getSelectValue('scaleMaxWidth')),
+                unit: getSelectValue('scaleUnit'),
+                style: controlStyle
+            });
+            map.controls.add(scaleControl, {
+                position: getSelectValue('scaleControlPosition')
             });
         }
 
@@ -113,7 +117,7 @@
     <style>
         .sidePanel {
             width: 350px;
-            height: 640px;
+            height: 580px;
             float: left;
             margin-right: 10px;
         }
@@ -135,6 +139,7 @@
             This sample shows all the map navigation controls on the map and how they react with different option settings. <br /><br />
             To test the zoom delta, simply press the zoom button to see how the map zoom per click changes, moving several levels at a time when the delta is greater than one. <br /><br />
             To test the pitch and compass rotation deltas, hover over the appropriate control and use the addition buttons that appear to see how the new delta has changed the behavior of the button. <br /><br />
+            The control postition only applies to the zoom, pitch, compass and style controls. You can test the scale control's position options seperately to create a better layout. <br /><br />
             See the <a href="https://docs.microsoft.com/azure/azure-maps/map-add-controls" target="_blank">Add map controls</a> and <a href="https://docs.microsoft.com/azure/azure-maps/choose-map-style" target="_blank">Choose map style</a> documentation for more examples using the map navigation controls.
         </fieldset>
         
@@ -253,6 +258,17 @@
                     </select>
                 </td>
             </tr>
+            <tr title="The position the scale control will be placed on the map.">
+                <td>Scale Control Position:</td>
+                <td>
+                    <select id="scaleControlPosition" onchange="addControls()" title="Scale Position">
+                        <option>bottom-left</option>
+                        <option  selected="selected">bottom-right</option>
+                        <option>non-fixed</option>
+                        <option>top-left</option>
+                        <option>top-right</option>
+                    </select>
+                </td>
         </table>
     </div>
 
