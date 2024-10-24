@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+    <title>PMTiles Places - Azure Maps Web SDK Samples</title>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <title>PMTiles - Places</title>
-    <meta name="description" content="This sample shows how to leverage PMTiles as custom protocol to create data layers using Overture place dataset" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to leverage PMTiles as custom protocol to create data layers using Overture Places dataset." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, pmtiles, pmtile, Overture, place" />
     <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+
+    <!-- Add references to the PMTiles lib. -->
     <script src="https://unpkg.com/pmtiles@3.0.5/dist/pmtiles.js"></script>
 
     <style>
@@ -44,18 +52,18 @@
   <body>
     <div id="map"></div>
     <div id="panel">
-      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'coffee_shop')" id="coffee" ><label for="coffee">Coffee</label></input><br />
-      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'gym')" id="gym" ><label for="gym">Gym</label></input><br />
-      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'library')" id="library" ><label for="library">Library</label></input><br />
-      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'museum')" id="museum" ><label for="museum">Museum</label></input><br />
-      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'park')" id="park" ><label for="park">Park</label></input><br />
-      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'parking')" id="parking" ><label for="parking">Parking</label></input><br />
-      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'shopping')" id="shopping" ><label for="shopping">Shopping</label></input><br />
+      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'coffee_shop')" id="coffee" ><label for="coffee">Coffee</label><br />
+      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'gym')" id="gym" ><label for="gym">Gym</label><br />
+      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'library')" id="library" ><label for="library">Library</label><br />
+      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'museum')" id="museum" ><label for="museum">Museum</label><br />
+      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'park')" id="park" ><label for="park">Park</label><br />
+      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'parking')" id="parking" ><label for="parking">Parking</label><br />
+      <input type="checkbox" checked="checked" onclick="filterSymbols(this, 'shopping')" id="shopping" ><label for="shopping">Shopping</label><br />
     </div>
 
     <fieldset id="info">
       <legend>PMTiles - Places</legend>
-      This sample showcases the use of <a href="https://protomaps.com/">Protomaps</a> to display <a href="https://overturemaps.org/" target="_blank">Overture</a> places data on a map.
+      This sample showcases the use of <a href="https://protomaps.com/" target="_blank">Protomaps</a> to display <a href="https://overturemaps.org/" target="_blank">Overture</a> places data on a map.
       The data is stored in a PMTiles file that contains a vector tileset of places data. The data is filtered by category and displayed as symbols on the map.
       Click on a symbol to view more information about the place.
     </fieldset>
