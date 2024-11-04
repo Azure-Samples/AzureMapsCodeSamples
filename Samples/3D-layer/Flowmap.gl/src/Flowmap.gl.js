@@ -4,9 +4,6 @@ import {getViewStateForLocations} from "@flowmap.gl/data";
 import {csv} from "d3-fetch";
 import atlas from "azure-maps-control";
 
-// Import BIXI rides data
-const DATA_PATH = `https://gist.githubusercontent.com/ilyabo/68d3dba61d86164b940ffe60e9d36931/raw/a72938b5d51b6df9fa7bba9aa1fb7df00cd0f06a`;
-
 let deck, locations, flows;
 let map;
 
@@ -97,19 +94,20 @@ function onload () {
 }
 
 async function fetchData() {
-  return await Promise.all([
-      csv(`${DATA_PATH}/locations.csv`, (row) => ({
-          id: row.id,
-          name: row.name,
-          lat: Number(row.lat),
-          lon: Number(row.lon),
-      })),
-      csv(`${DATA_PATH}/flows.csv`, (row) => ({
-          origin: row.origin,
-          dest: row.dest,
-          count: Number(row.count),
-      })),
-  ]).then(([locations, flows]) => ({locations, flows}));
+    const [locations, flows] = await Promise.all([
+        csv('/data/flowmap/locations.csv', (row) => ({
+            id: row.id,
+            name: row.name,
+            lat: +row.lat,
+            lon: +row.lon,
+        })),
+        csv('/data/flowmap/flows.csv', (row) => ({
+            origin: row.origin,
+            dest: row.dest,
+            count: +row.count,
+        })),
+    ]);
+    return { locations, flows };
 }
 
 function addLayer() {
