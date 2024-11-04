@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Integration with Flowmap.gl - Azure Maps Web SDK Samples</title>
+        
+        <meta charset="UTF-8" />
+        <link rel="shortcut icon" href="/favicon.ico"/>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="This sample shows a flow map on top of Azure Maps using the flowmap.gl module." />
+        <meta name="keywords" content="Microsoft maps, maps, map, API, SDK, flow map, flowmap, routing, data movement" />
+        <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+        <meta name="screenshot" content="screenshot.jpg" />
+
+        <!-- Add reference to the Azure Maps Map control CSS file. -->
+        <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+
+        <!-- Add reference to the JavaScript file that integrates the Flowmap.gl module. -->
+        <script type="module" crossorigin src="./build/index-b5d16182.js"></script>
+
+        <style>
+            .sidePanel {
+                width: 350px;
+                height: 580px;
+                float: left;
+                margin-right: 10px;
+            }
+
+            #container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: #000;
+                position: relative;
+                width: calc(100% - 360px);
+                min-width:290px;
+                height: 600px;
+                float: left;
+            }
+
+            #container > * {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .atlas-map-canvas-container {
+                opacity: 0.5;
+            }
+
+            canvas#deck-canvas {
+                mix-blend-mode: screen;
+            }
+
+            #tooltip {
+                width: auto;
+                height: auto;
+                display: none;
+                position: absolute;
+                font-size: 14px;
+                border-radius: 5px;
+                border: 1px solid #000;
+                background-color: rgba(255, 255, 255, 0.75);
+                padding: 0.6em;
+                color: rgb(0, 0, 0);
+                pointer-events: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidePanel">
+            <fieldset style="width:320px;margin-bottom:10px;">
+                <legend>Integrate with Flowmap.gl</legend>
+                This sample shows a flow map on top of Azure Maps using the Flowmap.gl module.<br/>
+                A flow map is useful for visualizing movement data between two geometry points. 
+                The data is displayed as arcs between the geometry points, and the thickness of the arcs represents the volume of movement (or any other meaningful information) between the points.<br/><br/>
+                The sample uses data from BIXI, a public bike share system in Montreal. The flow map layer visualizes the movement of bikes between stations. 
+                Hover over the dots and arcs to see information about the locations and movements.<br/><br/>
+                The code references Flowmap.gl's
+                <a href="https://github.com/visgl/flowmap.gl/blob/main/examples/react-app" target="_blank">example</a>.
+            </fieldset>
+            
+            <table>
+                <tr title="Dark Mode">
+                    <td>Dark Mode:</td>
+                    <td>
+                      <input type="checkbox" class="control" id="darkMode" checked title="Dark Mode" />
+                    </td>
+                </tr>
+                <tr title="Color Scheme">
+                    <td>Color Scheme:</td>
+                    <td>
+                          <select class="control" id="colorScheme" title="Color Scheme">
+                              <option>Blues</option>
+                              <option>Cool</option>
+                              <option>Peach</option>
+                              <option>Magenta</option>
+                              <option selected>Teal</option>
+                          </select>
+                    </td>
+                </tr>
+                <tr title="Clustering Enabled">
+                    <td>Clustering Enabled:</td>
+                    <td>
+                        <input type="checkbox" class="control" id="clusteringEnabled" checked title="Clustering Enabled" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="container">
+            <div id="myMap"></div>
+            <canvas id="deck-canvas"></canvas>
+            <div id="tooltip"></div>
+        </div>
+        
+    </body>
+</html>
