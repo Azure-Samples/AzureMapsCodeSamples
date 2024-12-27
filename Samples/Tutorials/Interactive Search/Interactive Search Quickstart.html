@@ -1,4 +1,41 @@
-﻿<!DOCTYPE html>
+﻿<var map = new atlas.Map('myMap', {
+  center: [-118.270293, 34.039737],
+ : 14,
+  view: 'Auto',
+  authOptions: {
+    authType: 'anonymous',
+    clientId: azureMapsClientId,
+    getToken: getToken
+  }
+});
+
+searchInput.addEventListener('keyup', searchInputKeyup);
+
+function getToken(resolve, reject, map) {
+  fetch(tokenServiceUrl).then(response => {
+    if (response.ok) {
+      return response.text();
+    } else {
+      throw new Error('Failed to retrieve Azure Maps token.');
+    }
+  }).then => resolve(token)).catch(error => reject(error));
+}
+
+function search() {
+  // ... 搜索逻辑 ...
+}
+
+function itemClicked(id) {
+  // ... 点击结果逻辑 ...
+}
+
+function itemHovered(id) {
+  // ... 鼠标悬停逻辑 ...
+}
+
+function showPopup(shape) {
+  // ... 显示弹出窗口逻辑 ...
+}!DOCTYPE html>
 <html lang="en">
 
 <head>
