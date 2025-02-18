@@ -41,6 +41,7 @@ function showSearchFromUrl() {
 
         var query = search.toLowerCase();
         var found = false;
+        var count = 0;
 
         $.each(data.Categories, function (index, value) {
             $.each(value.Samples, function (index, value) {
@@ -50,11 +51,14 @@ function showSearchFromUrl() {
                     $('#sampleList').append(`<div class="col"><div class="card shadow-sm"><img class="card-img-top" src="${value.Path}/${value.Screenshot}" loading="lazy" alt="${value.Title}" /><div class="card-body"><h5 class="card-title">${value.Title}</h5><p class="card-text">${value.Description}</p><div class="d-flex justify-content-between align-items-center"><div class="btn-group"><button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#sampleModal" data-bs-id="${value.Id}" data-bs-title="${value.Title}" data-bs-path="${value.Path}" data-bs-source="${data.GitHub}${value.Source}")"><small>Run Sample</small></button><a href="${value.Path}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button"><small>Open In New Tab</small></a><a href="${data.GitHub}${value.Source}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button"><small>Source Code</small></a></div></div></div></div></div>`);
 
                     found = true;
+                    count += 1;
                 }
             });
         });
 
         if (!found) $("#sampleList").append('<div class="w-100"><div class="alert alert-warning" role="alert">Sorry, no samples matching your search criteria were found.</div></div>');
+
+        $('#resultsCount').html(count > 0 ? `<p>${count} result${count == 1 ? ' is' :'s are'} available, use tab key to navigate.</p>`: '');
     }
 }
 
