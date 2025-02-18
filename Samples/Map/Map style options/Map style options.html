@@ -43,6 +43,10 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
+            
+            //Add events to update the map-info panel.
+            map.events.add("dragend", () => updateState());
+            map.events.add("zoomend", () => updateState());
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -50,6 +54,7 @@
 
                 //Update the map with the options in the input fields.
                 updateStyles();
+                updateState();
             });
 
             new ClipboardJS('.copyBtn');
@@ -152,6 +157,14 @@
             document.getElementById(tabName).style.display = "block";
             elm.className += " active";
         }
+
+        function updateState() {
+            var camera = map.getCamera();
+            document.getElementById("map-info").innerText = 
+            `Zoom: ${camera.zoom.toFixed(1)} / ` +
+            `Lat: ${camera.center[1].toFixed(5)} / ` +
+            `Lng: ${camera.center[0].toFixed(5)}`;
+        }
     </script>
     <style>
         #myMap {
@@ -160,6 +173,15 @@
             min-width: 290px;
             height: 600px;
             float: left;
+        }
+
+        #panel {
+            position: absolute;
+            top: 14px;
+            left: 378px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
         }
 
         .sidePanel {
@@ -372,5 +394,8 @@
     </fieldset>
 
     <div id="myMap"></div>
+    <div id="panel">
+        <div id="map-info"></div>
+    </div>
 </body>
 </html>
