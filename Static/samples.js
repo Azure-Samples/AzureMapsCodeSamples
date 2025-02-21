@@ -58,7 +58,7 @@ function showSearchFromUrl() {
 
         if (!found) $("#sampleList").append('<div class="w-100"><div class="alert alert-warning" role="alert">Sorry, no samples matching your search criteria were found.</div></div>');
 
-        $('#resultsCount').html(count > 0 ? `<p>${count} result${count == 1 ? ' is' :'s are'} available, use tab key to navigate.</p>`: '');
+        $('#resultsCount').html(count > 0 ? `<p>${count} result${count === 1 ? ' is' : 's are'} available. Use the tab key to navigate.</p>`: '');
     }
 }
 
