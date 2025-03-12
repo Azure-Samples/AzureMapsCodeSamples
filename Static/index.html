@@ -29,36 +29,36 @@
             z-index: -2
         }
 
-            a.m-skip-to-main:hover {
-                left: -999px;
-                position: absolute;
-                top: auto;
-                width: 1px;
-                height: 1px;
-                overflow: hidden;
-                z-index: -2
-            }
+        a.m-skip-to-main:hover {
+            left: -999px;
+            position: absolute;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: -2
+        }
 
-            a.m-skip-to-main:focus, a.m-skip-to-main:active {
-                background: #e6e6e6;
-                color: #0067b8;
-                position: fixed;
-                top: 0;
-                left: 0;
-                padding: 24px;
-                width: auto;
-                height: auto;
-                overflow: auto;
-                right: 0;
-                text-decoration: underline;
-                text-align: center;
-                z-index: 800;
-                outline: none
-            }
+        a.m-skip-to-main:focus, a.m-skip-to-main:active {
+            background: #e6e6e6;
+            color: #0067b8;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 24px;
+            width: auto;
+            height: auto;
+            overflow: auto;
+            right: 0;
+            text-decoration: underline;
+            text-align: center;
+            z-index: 800;
+            outline: none
+        }
 
-            a.m-skip-to-main:focus {
-                border: 1px dashed #000
-            }
+        a.m-skip-to-main:focus {
+            border: 1px dashed #000
+        }
 
         @media (max-width: 575.98px) {
             .carousel-caption {
@@ -77,6 +77,11 @@
             .carousel-indicators {
                 margin-bottom: 0.2rem !important;
             }
+        }
+
+        .form-control:focus-visible {
+            outline-style: solid;
+            outline-width: .125rem;
         }
     </style>
 </head>
@@ -150,7 +155,7 @@
         <div class="container px-4 py-5">
             <div class="row flex-lg-row-reverse row-cols-lg-2 row-cols-xl-2 align-items-center g-5 py-5 row-cols-1">
                 <div class="col">
-                    <div id="carouselIndicators" class="carousel slide border rounded-3 shadow-lg slide" data-bs-ride="carousel" >
+                    <div id="carouselIndicators" class="carousel slide border rounded-3 shadow-lg slide" data-bs-ride="carousel" data-bs-interval="false" >
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Store Locator" ></button>
                             <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="3D Layer" ></button>
