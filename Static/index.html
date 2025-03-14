@@ -15,6 +15,14 @@
             min-height: 350px
         }
 
+        /* Adjust the focus style for high contrast theme */
+        @media (forced-colors: active) {
+            .btn:focus {
+                outline: 2px solid #25cff2;
+                outline-offset: 0px;
+            }
+        }
+
         a.m-skip-to-main {
             left: -999px;
             position: absolute;
