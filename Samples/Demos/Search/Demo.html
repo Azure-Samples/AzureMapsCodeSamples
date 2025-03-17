@@ -1,0 +1,1187 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <title>Search Demo - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This is the Azure Maps demo website." />
+    <meta name="keywords" content="Microsoft maps, map, search, demo" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Atlas Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+
+    <!-- bootstrap 5 -->
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
+    <!-- Deprecated! -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
+    <script>
+        // Global
+        var map, datasource, popup;
+        var radarLayer, infraredLayer, contourNumbersLayer, contourLayer;
+        var searchInput, locateMeButton, resultsPanel, searchInputLength, radarButton, infraredButton, contoursButton, clearButton;
+
+        // Default location: Tower of London
+        var userPosition = [-0.076083, 51.508120];
+        var userPositionUpdated = false;
+        var layerStyle = 'road';
+        var centerMapOnResults = false;
+
+        // Azure Maps API REST Services
+        var weatherUrl = 'https://{azMapsDomain}/weather/currentConditions/json?api-version=1.1&query={query}';
+        var tileUrl = 'https://{azMapsDomain}/map/tile?api-version=2022-08-01&tilesetId={tilesetId}&zoom={z}&x={x}&y={y}&tileSize={tileSize}&view=Auto';
+        var airQualityUrl = 'https://{azMapsDomain}/weather/airQuality/current/json?api-version=1.1&query={query}';
+        var routeURL;
+        var searchURL;
+
+        function getMap() {
+            // Initialize a map instance.
+            map = new atlas.Map('demoMap', {
+                center: userPosition,
+                zoom: 16,
+                view: 'Auto',
+                style: layerStyle,
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use Azure Active Directory authentication.
+                    authType: 'anonymous',
+                    // Your Azure Maps client id for accessing your Azure Maps account.
+                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0',
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR AZURE MAPS KEY]'
+                }
+            });
+
+            // Store a reference to the Search Info Panel.
+            resultsPanel = document.getElementById("results-panel");
+
+            // Add key up event to the search box.
+            searchInput = document.getElementById("search-input");
+            searchInput.addEventListener("keyup", searchInputKeyup);
+            searchInput.addEventListener('search', function () {
+                if (searchInput.value.trim().length < 3) {
+                    resultsPanel.innerHTML = '';
+                }
+            });
+
+            var elm = document.getElementById('search-country');
+            elm.addEventListener("change", search);
+
+            // Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+            routeURL = new atlas.service.RouteURL(pipeline);
+            searchURL = new atlas.service.SearchURL(pipeline);
+
+            // Add click events
+            locateMeButton = document.getElementById("locate-me-button");
+            locateMeButton.addEventListener("click", locateMe);
+
+            radarButton = document.getElementById("radar-button");
+            radarButton.addEventListener("click", loadRadarLayer);
+
+            infraredButton = document.getElementById("infrared-button");
+            infraredButton.addEventListener("click", loadInfraredLayer);
+
+            clearButton = document.getElementById("clearmap-button");
+            clearButton.addEventListener("click", function () {
+                clearSearch();
+                searchInput.value = '';
+            });
+
+            // Create a popup which we can reuse for each result.
+            popup = new atlas.Popup();
+
+            // Wait until the map resources are ready.
+            map.events.add('ready', function () {
+
+                // Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                // Icons from https://icons.getbootstrap.com/
+                map.imageSprite.add('geo-icon', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iIzUxN0NFRCIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik04IDFhMyAzIDAgMSAwIDAgNiAzIDMgMCAwIDAgMC02ek00IDRhNCA0IDAgMSAxIDQuNSAzLjk2OVYxMy41YS41LjUgMCAwIDEtMSAwVjcuOTdBNCA0IDAgMCAxIDQgMy45OTl6bTIuNDkzIDguNTc0YS41LjUgMCAwIDEtLjQxMS41NzVjLS43MTIuMTE4LTEuMjguMjk1LTEuNjU1LjQ5M2ExLjMxOSAxLjMxOSAwIDAgMC0uMzcuMjY1LjMwMS4zMDEgMCAwIDAtLjA1Ny4wOVYxNGwuMDAyLjAwOGEuMTQ3LjE0NyAwIDAgMCAuMDE2LjAzMy42MTcuNjE3IDAgMCAwIC4xNDUuMTVjLjE2NS4xMy40MzUuMjcuODEzLjM5NS43NTEuMjUgMS44Mi40MTQgMy4wMjQuNDE0czIuMjczLS4xNjMgMy4wMjQtLjQxNGMuMzc4LS4xMjYuNjQ4LS4yNjUuODEzLS4zOTVhLjYxOS42MTkgMCAwIDAgLjE0Ni0uMTUuMTQ4LjE0OCAwIDAgMCAuMDE1LS4wMzNMMTIgMTR2LS4wMDRhLjMwMS4zMDEgMCAwIDAtLjA1Ny0uMDkgMS4zMTggMS4zMTggMCAwIDAtLjM3LS4yNjRjLS4zNzYtLjE5OC0uOTQzLS4zNzUtMS42NTUtLjQ5M2EuNS41IDAgMSAxIC4xNjQtLjk4NmMuNzcuMTI3IDEuNDUyLjMyOCAxLjk1Ny41OTRDMTIuNSAxMyAxMyAxMy40IDEzIDE0YzAgLjQyNi0uMjYuNzUyLS41NDQuOTc3LS4yOS4yMjgtLjY4LjQxMy0xLjExNi41NTgtLjg3OC4yOTMtMi4wNTkuNDY1LTMuMzQuNDY1LTEuMjgxIDAtMi40NjItLjE3Mi0zLjM0LS40NjUtLjQzNi0uMTQ1LS44MjYtLjMzLTEuMTE2LS41NThDMy4yNiAxNC43NTIgMyAxNC40MjYgMyAxNGMwLS41OTkuNS0xIC45NjEtMS4yNDMuNTA1LS4yNjYgMS4xODctLjQ2NyAxLjk1Ny0uNTk0YS41LjUgMCAwIDEgLjU3NS40MTF6IiAvPjwvc3ZnPg==');
+                map.imageSprite.add('signpost-icon', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iIzA0MjU3QyIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNyAxLjQxNFY0SDJhMSAxIDAgMCAwLTEgMXY0YTEgMSAwIDAgMCAxIDFoNXY2aDJ2LTZoMy41MzJhMSAxIDAgMCAwIC43NjgtLjM2bDEuOTMzLTIuMzJhLjUuNSAwIDAgMCAwLS42NEwxMy4zIDQuMzZhMSAxIDAgMCAwLS43NjgtLjM2SDlWMS40MTRhMSAxIDAgMCAwLTIgMHpNMTIuNTMyIDVsMS42NjYgMi0xLjY2NiAySDJWNWgxMC41MzJ6IiAvPjwvc3ZnPg==');
+                map.imageSprite.add('signpost2-icon', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iIzg2MkE2RiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNNyA3VjEuNDE0YTEgMSAwIDAgMSAyIDBWMmg1YTEgMSAwIDAgMSAuOC40bC45NzUgMS4zYS41LjUgMCAwIDEgMCAuNkwxNC44IDUuNmExIDEgMCAwIDEtLjguNEg5djEwSDd2LTVIMmExIDEgMCAwIDEtLjgtLjRMLjIyNSA5LjNhLjUuNSAwIDAgMSAwLS42TDEuMiA3LjRBMSAxIDAgMCAxIDIgN2g1em0xIDNWOEgybC0uNzUgMUwyIDEwaDZ6bTAtNWg2bC43NS0xTDE0IDNIOHYyeiIgLz48L3N2Zz4=');
+                map.imageSprite.add('map-icon', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iIzQyNEY4NSIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNS44MTcuMTEzQS41LjUgMCAwIDEgMTYgLjV2MTRhLjUuNSAwIDAgMS0uNDAyLjQ5bC01IDFhLjUwMi41MDIgMCAwIDEtLjE5NiAwTDUuNSAxNS4wMWwtNC45MDIuOThBLjUuNSAwIDAgMSAwIDE1LjV2LTE0YS41LjUgMCAwIDEgLjQwMi0uNDlsNS0xYS41LjUgMCAwIDEgLjE5NiAwTDEwLjUuOTlsNC45MDItLjk4YS41LjUgMCAwIDEgLjQxNS4xMDN6TTEwIDEuOTFsLTQtLjh2MTIuOThsNCAuOFYxLjkxem0xIDEyLjk4IDQtLjhWMS4xMWwtNCAuOHYxMi45OHptLTYtLjhWMS4xMWwtNCAuOHYxMi45OGw0LS44eiIgLz48L3N2Zz4=');
+                map.imageSprite.add('compass-icon', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0iI0M4NUVBRSIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOCAxNi4wMTZhNy41IDcuNSAwIDAgMCAxLjk2Mi0xNC43NEExIDEgMCAwIDAgOSAwSDdhMSAxIDAgMCAwLS45NjIgMS4yNzZBNy41IDcuNSAwIDAgMCA4IDE2LjAxNnptNi41LTcuNWE2LjUgNi41IDAgMSAxLTEzIDAgNi41IDYuNSAwIDAgMSAxMyAweiIgLz48cGF0aCBkPSJtNi45NCA3LjQ0IDQuOTUtMi44My0yLjgzIDQuOTUtNC45NDkgMi44MyAyLjgyOC00Ljk1eiIgLz48L3N2Zz4=');
+
+                // Add layers for rendering the search results.
+                var searchLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: ['get', 'icon'],
+                        anchor: 'center',
+                        allowOverlap: true
+                    },
+                    filter: ['==', 'layer', 'searchLayer']
+                });
+
+                // Add layers for rendering the car and truck routes.
+                var routeLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: ['get', 'strokeColor'],
+                    strokeWidth: ['get', 'strokeWidth'],
+                    strokeOpacity: 1.0,
+                    lineJoin: 'round',
+                    lineCap: 'round',
+                    filter: ['==', 'layer', 'routeLayer']
+                });
+
+                // Isochrone layers
+                var isochroneLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(0, 200, 0, 0.4)',
+                    filter: ['==', 'layer', 'isochroneLayer']
+                });
+                var isochroneLineLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'green',
+                    filter: ['==', 'layer', 'isochroneLayer']
+                });
+
+                // Create a polygon layer to render the filled in area of the accuracy circle for the users position.
+                var loacteMeLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(0, 153, 255, 0.5)',
+                    filter: ['==', 'layer', 'locateMe']
+                });
+                // Create a symbol layer to render the users position on the map.
+                var loacteMeSymbolLayer = new atlas.layer.SymbolLayer(datasource, null, {
+                    iconOptions: {
+                        image: 'marker-red',
+                        anchor: 'center',
+                        allowOverlap: true
+                    },
+                    filter: ['==', 'layer', 'locateMe']
+                });
+
+                // Add layers to the map
+                map.layers.add([loacteMeSymbolLayer, loacteMeLayer, searchLayer, isochroneLayer, isochroneLineLayer]);
+                map.layers.add(routeLayer, 'labels');
+
+                // Add a click event to the search layer and show a popup when a result is clicked.
+                map.events.add("click", searchLayer, function (e) {
+                    if (e.shapes && e.shapes.length > 0) {
+                        showPopupPOI(e.shapes[0]);
+                    }
+                });
+
+                map.events.add("click", function (e) {
+                    if (e.shapes && e.shapes.length > 0 && e.shapes[0].source) {
+                        showPopup(e.position);
+                    }
+                });
+
+                // Map Controls
+                map.controls.add([
+                    new atlas.control.StyleControl({
+                        autoSelectionMode: true,
+                        mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels', 'high_contrast_dark']
+                    }),
+                    new atlas.control.TrafficControl(),
+                    new atlas.control.ZoomControl(),
+                    new atlas.control.PitchControl(),
+                    new atlas.control.CompassControl(),
+
+                ], {
+                    position: 'top-right'
+                });
+
+                map.controls.add(new atlas.control.TrafficLegendControl(), {
+                    position: 'bottom-left'
+                });
+
+                // Redraw the map to fix a scaling issue.
+                map.resize();
+            });
+        }
+
+        function clearSearch() {
+            resultsPanel.innerHTML = '';
+            datasource.clear();
+            popup.close();
+        }
+
+        function locateMe(e) {
+
+            var locateMeIcon = document.getElementById("locate-me-icon");
+            var locateMeSpinner = document.getElementById("locate-me-spinner");
+
+            locateMeButton.disabled = true;
+            locateMeButton.className = 'btn btn-warning';
+            locateMeIcon.style.display = 'none';
+            locateMeSpinner.style.display = 'block';
+
+            //User position
+            navigator.geolocation.getCurrentPosition(function (position) {
+
+                userPositionUpdated = true;
+                userPosition = [position.coords.longitude, position.coords.latitude];
+
+                //Center the map on the users position.
+                map.setCamera({
+                    center: userPosition,
+                    zoom: 15,
+                    pitch: 0,
+                    bearing: 0
+                });
+
+                searchURL.searchAddressReverse(atlas.service.Aborter.timeout(10000), userPosition, {
+                    view: 'Auto'
+                }).then((result) => {
+
+                    if (result.addresses.length > 0) {
+                        document.querySelector('.form-select').value = result.addresses[0].address.countryCode;
+                        search();
+                    }
+
+                    //Create a circle from a Point feature by providing it a subType property set to "Circle" and radius property.
+                    var userPoint = new atlas.data.Point(userPosition);
+                    //Add a point feature with Circle properties to the data source for the users position. This will be rendered as a polygon.
+                    datasource.add(new atlas.data.Feature(userPoint, {
+                        layer: "locateMe",
+                        subType: "Circle",
+                        radius: position.coords.accuracy
+                    }));
+
+                    locateMeButton.disabled = false;
+                    locateMeButton.className = 'btn btn-outline-secondary';
+                    locateMeIcon.style.display = 'block';
+                    locateMeSpinner.style.display = 'none';
+                });
+
+            }, function (error) {
+                //If an error occurs when trying to access the users position information, display an error message.
+                alert('Sorry, your position information is unavailable!');
+
+                locateMeButton.disabled = false;
+                locateMeButton.className = 'btn btn-outline-secondary';
+                locateMeIcon.style.display = 'block';
+                locateMeSpinner.style.display = 'none';
+            });
+        }
+
+        function searchInputKeyup(e) {
+            const minSearchInputLength = 3;
+            const keyStrokeDelay = 250;
+
+            centerMapOnResults = false;
+
+            if (searchInput.value.length >= minSearchInputLength) {
+                if (e.keyCode === 13) {
+                    centerMapOnResults = true;
+                }
+
+                setTimeout(function () {
+                    if (searchInputLength === searchInput.value.length) {
+                        search();
+                    }
+                }, keyStrokeDelay);
+            } else {
+                resultsPanel.innerHTML = '';
+            }
+
+            searchInputLength = searchInput.value.length;
+        }
+
+        function search() {
+
+            clearSearch();
+
+            var query = searchInput.value.trim();
+            var elm = document.getElementById('search-country');
+            var countryIso = elm.options[elm.selectedIndex].value;
+
+            if (!query) return;
+
+            searchURL.searchFuzzy(atlas.service.Aborter.timeout(10000), query, {
+                lon: map.getCamera().center[0],
+                lat: map.getCamera().center[1],
+                countrySet: [countryIso],
+                typeahead: true,
+                view: 'Auto'
+            }).then((results) => {
+
+                data = results.geojson.getFeatures();
+
+                //Create the HTML for the results list.
+                var html = "";
+                var count = 0;
+                for (var i = 0; i < data.features.length; i++) {
+                    var r = data.features[i];
+
+                    var icon = 'map-icon';
+                    var name = 'Location';
+                    var dist = r.properties.dist < 1 ? 0 : (r.properties.dist / 1000).toFixed(1);
+
+                    switch (r.properties.type) {
+                        case 'POI':
+                            icon = 'geo-icon';
+                            name = r.properties.poi.name;
+                            break;
+                        case 'Street':
+                        case 'Point Address':
+                            icon = 'signpost-icon';
+                            name = r.properties.address.streetName;
+                            break;
+                        case 'Geography':
+                            icon = 'compass-icon';
+                            name = r.properties.address.country;
+                            break;
+                        case 'Address Range':
+                            icon = 'map-icon';
+                            name = 'Address Range';
+                            break;
+                        case 'Cross Street':
+                            icon = 'signpost2-icon';
+                            name = r.properties.address.streetName;
+                            break;
+                    }
+
+                    r.properties.icon = icon;
+                    r.properties.layer = 'searchLayer';
+
+                    var tbid = 230 + i;
+
+                    html += `<a href="#" tabindex="${tbid}" class="list-group-item list-group-item-action d-flex gap-3 py-3" onclick="itemClicked('${r.id}')" onmouseover="itemHovered('${r.id}')"><svg class="flex-shrink-0" width="2.0em" height="2.0em"><use xlink:href="#${icon}" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">${name}</h6><p class="mb-0 opacity-75">${r.properties.address.freeformAddress}</p></div><small class="text-nowrap">${dist} km</small></div></a>`;
+                    count++;
+                }
+                resultsPanel.innerHTML = html;
+                document.getElementById('resultsCount').innerHTML = count > 0 ? `<p>${count} result${count === 1 ? ' is' : 's are'} available. Use the tab key to navigate.</p>` : `<p>Sorry, we couldn't find any results that match your search criteria.</p>`;
+
+                datasource.add(data);
+
+                if (centerMapOnResults) {
+                    map.setCamera({
+                        bounds: data.bbox
+                    });
+                }
+            });
+        }
+
+        function itemClicked(id) {
+
+            var shape = datasource.getShapeById(id);
+            var coordinates = shape.getCoordinates();
+
+            //Center the map over the clicked item from the result list.
+            map.setCamera({
+                center: coordinates,
+                zoom: 16
+            });
+
+            showPopupPOI(shape);
+        }
+
+        function itemHovered(id) {
+            //Show a popup when hovering an item in the result list.
+            var shape = datasource.getShapeById(id);
+
+            showPopupPOI(shape);
+        }
+
+        function addressClicked(id) {
+            //Center the map over the clicked item from the result list.
+            var shape = datasource.getShapeById(id);
+            var endPoint = shape.getCoordinates();
+            var startPoint = userPosition;
+
+            //Calculate a route.
+            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), [startPoint, endPoint], {
+                traffic: true,
+                travelMode: 'car'
+            }).then((directions) => {
+                //Get data features from response
+                var data = directions.geojson.getFeatures();
+
+                //Get the route line and add some style properties to it.
+                var routeLine = data.features[0];
+                routeLine.properties.strokeColor = '#B76DAB';
+                routeLine.properties.strokeWidth = 5;
+                routeLine.properties.layer = 'routeLayer';
+
+                datasource.add(routeLine);
+            }, reason => {
+                alert('Sorry, it was not possible to route to this location.');
+            });
+
+            popup.close(map);
+        }
+
+        function truckClicked(id) {
+            // Center the map over the clicked item from the result list.
+            var shape = datasource.getShapeById(id);
+            var endPoint = shape.getCoordinates();
+            var startPoint = userPosition;
+
+            // Calculate a route.
+            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), [startPoint, endPoint], {
+                traffic: true,
+                travelMode: 'truck'
+            }).then((directions) => {
+                // Get data features from response
+                var data = directions.geojson.getFeatures();
+
+                // Get the route line and add some style properties to it.
+                var routeLine = data.features[0];
+                routeLine.properties.strokeColor = '#2272B9';
+                routeLine.properties.strokeWidth = 9;
+                routeLine.properties.layer = 'routeLayer';
+
+                // Add the route line to the data source.
+                // We want this to render below the car route which will likely be added to the data source faster,
+                // so insert it at index 0.
+                datasource.add(routeLine, 0);
+            }, reason => {
+                alert('Sorry, it was not possible to route to this location.');
+            });
+
+            popup.close(map);
+        }
+
+        function startpositionClicked(position) {
+
+            userPosition = position;
+            var userPoint = new atlas.data.Point(userPosition);
+
+            datasource.add(new atlas.data.Feature(userPoint, {
+                layer: "locateMe",
+            }));
+
+            // Center the map on the users position.
+            map.setCamera({
+                center: userPosition,
+            });
+
+            userPositionUpdated = true;
+
+            popup.close();
+        }
+
+        function isochroneClicked(position) {
+
+            var userPoint = new atlas.data.Point(position);
+
+            datasource.add(new atlas.data.Feature(userPoint, {
+                layer: "locateMe",
+            }));
+
+            map.setCamera({
+                center: position,
+                zoom: 11,
+                pitch: 0,
+                bearing: 0
+            });
+
+            Promise.all([
+                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), position, {
+                    traffic: true,
+                    timeBudgetInSec: 15 * 60
+                }),
+                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), position, {
+                    traffic: true,
+                    timeBudgetInSec: 30 * 60
+                })
+            ]).then(values => {
+                for (var i = 0; i < values.length; i++) {
+                    var f = values[i].geojson.getFeatures().features[0];
+                    f.properties.layer = 'isochroneLayer';
+
+                    datasource.add(f);
+                }
+            }, reason => {
+                alert('Sorry, it was not possible to calculate travel time for this location.');
+            });
+
+            popup.close();
+        }
+
+        function showPopup(position) {
+            popup.close();
+
+            searchURL.searchAddressReverse(atlas.service.Aborter.timeout(10000), position, {
+                view: 'Auto'
+            }).then((result) => {
+
+                if (result.addresses.length > 0) {
+                    var p = result.addresses[0];
+
+                    var name = p.address.street ? p.address.street : p.address.freeformAddress;
+                    var html = `<div class="card" style="width:420px;"><div class="card-header"><h5 class="card-title text-wrap">${name}</h5></div><div class="card-body"><div class="list-group"><a href="#" onclick="startpositionClicked([${position[0]},${position[1]}])" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true"><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#bullseye-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Use as starting point</h6><p class="mb-0 opacity-75 text-wrap">${p.address.freeformAddress}</p></div><small class="text-nowrap">Geocoding</small></div></a><a href="#" onclick="isochroneClicked([${position[0]},${position[1]}])" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true"><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#clock-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Travel time around this point</h6><p class="mb-0 opacity-75 text-wrap">How far can you drive in 15 and 30 minutes from this location including traffic conditions?</p></div><small class="text-nowrap">Isochrone</small></div></a></div></div></div></div>`;
+
+                    popup.setOptions({
+                        position: position,
+                        content: html
+                    });
+
+                    popup.open(map);
+                }
+            }, reason => {
+                alert('Sorry, we where unable to find address details for this location.');
+            });
+        }
+
+        async function showPopupPOI(shape) {
+            popup.close();
+
+            var properties = shape.getProperties();
+            var position = shape.getCoordinates();
+
+            var name = 'Location';
+            var dist = properties.dist < 1 ? 0 : (properties.dist / 1000).toFixed(1);
+            var phone = '';
+            var url = '';
+
+            switch (properties.type) {
+                case 'POI':
+                    name = properties.poi.name;
+                    if (properties.poi.phone) phone = properties.poi.phone;
+                    if (properties.poi.url) url = properties.poi.url;
+                    break;
+                case 'Street':
+                case 'Point Address':
+                case 'Cross Street':
+                    name = properties.address.streetName;
+                    break;
+                case 'Geography':
+                    name = properties.address.country;
+                    break;
+                case 'Address Range':
+                    name = 'Address Range';
+                    break;
+            }
+
+            // Get Weather data
+            var weatherRequestUrl = weatherUrl.replace('{query}', position[1] + ',' + position[0]);
+            var weather = await processRequest(weatherRequestUrl).then(response => {
+                if (response && response.results && response.results[0]) {
+                    return response.results[0];
+                }
+                return null;
+            });
+
+            // Get Air Quality data
+            var airQualityRequestUrl = airQualityUrl.replace('{query}', position[1] + ',' + position[0]);
+            var airQuality = await processRequest(airQualityRequestUrl).then(response => {
+                if (response && response.results && response.results[0]) {
+                    return response.results[0];
+                }
+                return null;
+            });
+
+            var html = `<div class="card" style="width:420px;"><div class="card-header"><h5 class="card-title text-wrap">${name}</h5></div><div class="card-body"><div class="list-group"><a href="#" onclick="addressClicked('${shape.data.id}')" class="list-group-item list-group-item-action d-flex gap-3 py-3" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#cursor-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Address</h6><p class="mb-0 opacity-75 text-wrap">${properties.address.freeformAddress}</p></div></div><small class="text-nowrap">Directions</small></a><a href="#" onclick="truckClicked('${shape.data.id}')" class="list-group-item list-group-item-action d-flex gap-3 py-3" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#truck-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Truck Route</h6><p class="mb-0 opacity-75 text-wrap">Route that is optimized for commercial vehicles, like for trucks.</p></div></div><small class="text-nowrap">Directions</small></a><a target="_blank" href="tel:${phone.replace(/\s/g, '')}" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${phone === '' ? 'd-none' : ''}" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#phone-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Phone</h6><p class="mb-0 opacity-75">${phone}</p></div><small class="text-nowrap">POI</small></div></a><a target="_blank" href="http://${url.replace(/^https?\:\/\//i, '')}" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${url === '' ? 'd-none' : ''}" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#link-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Website</h6><p class="mb-0 opacity-75">${url.replace(/^https?\:\/\//i, '')}</p></div><small class="text-nowrap">POI</small></div></a><a target="_blank" href="https://docs.microsoft.com/rest/api/maps/weather/get-current-conditions" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${!weather ? 'd-none' : ''}" ><img width="32" height="32" alt="Weather" aria-label="Weather" class="flex-shrink-0" src="/images/icons/weather-black/${weather.iconCode}.png"/><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">${weather.phrase}</h6><p class="mb-0 opacity-75 text-wrap">Temperature ${weather.temperature.value}&#176;${weather.temperature.unit} and feels like ${weather.realFeelTemperature.value}&#176;${weather.realFeelTemperature.unit}</p></div><small class="text-nowrap">Weather</small></div></a><a target="_blank" href="https://docs.microsoft.com//rest/api/maps/weather/get-current-air-quality" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${!airQuality ? 'd-none' : ''}" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#balloon-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">${airQuality.category}</h6><p class="mb-0 opacity-75 text-wrap">${airQuality.description}</p></div><small class="text-nowrap">Air Quality</small></div></a></div></div><div class="card-footer text-muted">${dist} km away from ${userPositionUpdated === true ? 'you' : 'the Tower of London'}</div></div>`;
+
+            popup.setOptions({
+                position: position,
+                content: html
+            });
+
+            popup.open(map);
+        }
+
+        function loadRadarLayer() {
+
+            if (!radarLayer) {
+                radarButton.className = 'btn btn-warning';
+
+                layerStyle = map.getStyle().style;
+
+                map.setStyle({
+                    style: 'grayscale_dark'
+                });
+
+                map.setCamera({
+                    zoom: 6,
+                    pitch: 0,
+                    bearing: 0
+                });
+
+                //Create a tile layer and add it to the map below the label layer.
+                radarLayer = new atlas.layer.TileLayer({
+                    tileUrl: tileUrl.replace('{tilesetId}', 'microsoft.weather.radar.main').replace('{tileSize}', '256'),
+                    opacity: 0.8,
+                    tileSize: 256
+                });
+
+                map.layers.add(radarLayer, 'labels');
+            } else {
+                radarButton.className = 'btn btn-outline-secondary';
+
+                map.layers.remove(radarLayer);
+                radarLayer = null;
+
+                map.setStyle({
+                    style: layerStyle
+                });
+            }
+        }
+
+        function loadInfraredLayer() {
+
+            if (!infraredLayer) {
+                infraredButton.className = 'btn btn-warning';
+
+                layerStyle = map.getStyle().style;
+
+                map.setStyle({
+                    style: 'grayscale_dark'
+                });
+
+                map.setCamera({
+                    zoom: 6,
+                    pitch: 0,
+                    bearing: 0
+                });
+
+                //Create a tile layer and add it to the map below the label layer.
+                infraredLayer = new atlas.layer.TileLayer({
+                    tileUrl: tileUrl.replace('{tilesetId}', 'microsoft.weather.infrared.main').replace('{tileSize}', '256'),
+                    opacity: 0.8,
+                    tileSize: 256
+                });
+
+                map.layers.add(infraredLayer, 'labels');
+            } else {
+                infraredButton.className = 'btn btn-outline-secondary';
+
+                map.layers.remove(infraredLayer);
+                infraredLayer = null;
+
+                map.setStyle({
+                    style: layerStyle
+                });
+            }
+        }
+    </script>
+
+    <style>
+        #search {
+            position: absolute;
+            background: #fff;
+            left: 0px;
+            top: 56px;
+            width: 350px;
+            box-shadow: 0px 24px 74px 0px rgba(0, 0, 0, .32);
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        #results-panel {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            overflow-y: auto;
+            max-height: calc(100vh - 480px);
+        }
+
+        @media only screen and (max-width: 640px) {
+            #demoMap {
+                height: 80vh !important;
+            }
+
+            #search {
+                position: static;
+                max-width: 100vw;
+            }
+
+            #results-panel {
+                max-height: 320px;
+            }
+
+            footer {
+                display: none;
+            }
+        }
+
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+            .nav-scroller .nav {
+                display: flex;
+                flex-wrap: nowrap;
+                padding-bottom: 1rem;
+                margin-top: -1px;
+                overflow-x: auto;
+                text-align: center;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+        li.nav-item a.nav-link:focus {
+            outline: 2px solid #4382DF;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+
+            .bd-mode-toggle .dropdown-menu .active .bi {
+                display: block !important;
+            }
+
+        a.m-skip-to-main {
+            left: -999px;
+            position: absolute;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: -2
+        }
+
+            a.m-skip-to-main:hover {
+                left: -999px;
+                position: absolute;
+                top: auto;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                z-index: -2
+            }
+
+            a.m-skip-to-main:focus, a.m-skip-to-main:active {
+                background: #e6e6e6;
+                color: #0067b8;
+                position: fixed;
+                top: 0;
+                left: 0;
+                padding: 24px;
+                width: auto;
+                height: auto;
+                overflow: auto;
+                right: 0;
+                text-decoration: underline;
+                text-align: center;
+                z-index: 800;
+                outline: none
+            }
+
+            a.m-skip-to-main:focus {
+                border: 1px dashed #000
+            }
+    </style>
+</head>
+<body onload="getMap()" class="d-flex flex-column h-100">
+    <!-- Icons from https://icons.getbootstrap.com/ -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="search-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+        </symbol>
+        <symbol id="phone-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z" />
+            <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+        </symbol>
+        <symbol id="link-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z" />
+            <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z" />
+        </symbol>
+        <symbol id="bullseye-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10zm0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
+            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
+            <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+        </symbol>
+        <symbol id="cursor-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z" />
+        </symbol>
+        <symbol id="truck-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+        </symbol>
+        <symbol id="geo-icon" viewBox="0 0 16 16" fill="#517CED">
+            <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z" />
+        </symbol>
+        <symbol id="signpost-icon" viewBox="0 0 16 16" fill="#04257C">
+            <path d="M7 1.414V4H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h5v6h2v-6h3.532a1 1 0 0 0 .768-.36l1.933-2.32a.5.5 0 0 0 0-.64L13.3 4.36a1 1 0 0 0-.768-.36H9V1.414a1 1 0 0 0-2 0zM12.532 5l1.666 2-1.666 2H2V5h10.532z" />
+        </symbol>
+        <symbol id="signpost2-icon" viewBox="0 0 16 16" fill="#862A6F">
+            <path d="M7 7V1.414a1 1 0 0 1 2 0V2h5a1 1 0 0 1 .8.4l.975 1.3a.5.5 0 0 1 0 .6L14.8 5.6a1 1 0 0 1-.8.4H9v10H7v-5H2a1 1 0 0 1-.8-.4L.225 9.3a.5.5 0 0 1 0-.6L1.2 7.4A1 1 0 0 1 2 7h5zm1 3V8H2l-.75 1L2 10h6zm0-5h6l.75-1L14 3H8v2z" />
+        </symbol>
+        <symbol id="map-icon" viewBox="0 0 16 16" fill="#424F85">
+            <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103zM10 1.91l-4-.8v12.98l4 .8V1.91zm1 12.98 4-.8V1.11l-4 .8v12.98zm-6-.8V1.11l-4 .8v12.98l4-.8z" />
+        </symbol>
+        <symbol id="compass-icon" viewBox="0 0 16 16" fill="#C85EAE">
+            <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+            <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z" />
+        </symbol>
+        <symbol id="balloon-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path fill-rule="evenodd" d="M8 9.984C10.403 9.506 12 7.48 12 5a4 4 0 0 0-8 0c0 2.48 1.597 4.506 4 4.984ZM13 5c0 2.837-1.789 5.227-4.52 5.901l.244.487a.25.25 0 1 1-.448.224l-.008-.017c.008.11.02.202.037.29.054.27.161.488.419 1.003.288.578.235 1.15.076 1.629-.157.469-.422.867-.588 1.115l-.004.007a.25.25 0 1 1-.416-.278c.168-.252.4-.6.533-1.003.133-.396.163-.824-.049-1.246l-.013-.028c-.24-.48-.38-.758-.448-1.102a3.177 3.177 0 0 1-.052-.45l-.04.08a.25.25 0 1 1-.447-.224l.244-.487C4.789 10.227 3 7.837 3 5a5 5 0 0 1 10 0Zm-6.938-.495a2.003 2.003 0 0 1 1.443-1.443C7.773 2.994 8 2.776 8 2.5c0-.276-.226-.504-.498-.459a3.003 3.003 0 0 0-2.46 2.461c-.046.272.182.498.458.498s.494-.227.562-.495Z" />
+        </symbol>
+        <symbol id="thermometer-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M5 12.5a1.5 1.5 0 1 1-2-1.415V2.5a.5.5 0 0 1 1 0v8.585A1.5 1.5 0 0 1 5 12.5z" />
+            <path d="M1 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM3.5 1A1.5 1.5 0 0 0 2 2.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0L5 10.486V2.5A1.5 1.5 0 0 0 3.5 1zm5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm4.243 1.757a.5.5 0 0 1 0 .707l-.707.708a.5.5 0 1 1-.708-.708l.708-.707a.5.5 0 0 1 .707 0zM8 5.5a.5.5 0 0 1 .5-.5 3 3 0 1 1 0 6 .5.5 0 0 1 0-1 2 2 0 0 0 0-4 .5.5 0 0 1-.5-.5zM12.5 8a.5.5 0 0 1 .5-.5h1a.5.5 0 1 1 0 1h-1a.5.5 0 0 1-.5-.5zm-1.172 2.828a.5.5 0 0 1 .708 0l.707.708a.5.5 0 0 1-.707.707l-.708-.707a.5.5 0 0 1 0-.708zM8.5 12a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z" />
+        </symbol>
+        <symbol id="cloud-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973zM8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4.002 4.002 0 0 1 8.5 2z" />
+        </symbol>
+        <symbol id="clock-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+        </symbol>
+        <symbol id="trash-icon" viewBox="0 0 16 16" fill="red">
+            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+        </symbol>
+    </svg>
+
+    <div id="resultsCount" aria-live="polite" style="opacity: 0; width: 0.1px; height: 0.1px;"></div>
+
+    <main class="flex-fill" id="main" tabindex="200">
+
+        <div id="demoMap" tabindex="201" class="container-fluid p-0 m-0 w-100 h-100" role="application"></div>
+
+        <div id="search" tabindex="210">
+            <div class="card-body m-3">
+                <div class="d-flex gap-2 w-100 mb-3 pb-3 justify-content-between border-bottom">
+                    <button title="Locate Me" tabindex="211" id="locate-me-button" type="button" class="btn btn-outline-secondary">
+                        <svg id="locate-me-icon" width="1.0em" height="1.0em"><use xlink:href="#bullseye-icon" /></svg>
+                        <span id="locate-me-spinner" class="spinner-grow spinner-grow-sm" style="display:none" role="status" aria-hidden="true"></span>
+                    </button>
+                    <button title="Weather Radar" tabindex="212" id="radar-button" type="button" data-bs-toggle="button" class="btn btn-outline-secondary">
+                        <svg width="1.0em" height="1.0em"><use xlink:href="#cloud-icon" /></svg>
+                    </button>
+                    <button title="Weather Infrared" tabindex="213" id="infrared-button" type="button" data-bs-toggle="button" class="btn btn-outline-secondary">
+                        <svg width="1.0em" height="1.0em"><use xlink:href="#thermometer-icon" /></svg>
+                    </button>
+                    <button title="Clear the map" tabindex="214" id="clearmap-button" type="button" class="btn btn-outline-danger">
+                        <svg width="1.0em" height="1.0em"><use xlink:href="#trash-icon" /></svg>
+                    </button>
+                </div>
+                <label for="search-input" class="form-label">Search for point of interest</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">
+                        <svg class="flex-shrink-0" width="1.0em" height="1.0em"><use xlink:href="#search-icon" /></svg>
+                    </span>
+                    <input id="search-input" tabindex="215" type="search" class="form-control form-control-lg" placeholder="like restaurant or hotels...">
+                </div>
+                <label for="search-country" class="form-label">Filter the results for the country</label>
+                <div class="input-group mb-3">
+                    <select id="search-country" tabindex="216" class="form-select form-select-lg" aria-label="Filter the results for the country">
+                        <option value="AF">Afghanistan</option>
+                        <option value="AX">Åland Islands</option>
+                        <option value="AL">Albania</option>
+                        <option value="DZ">Algeria</option>
+                        <option value="AS">American Samoa</option>
+                        <option value="AD">Andorra</option>
+                        <option value="AO">Angola</option>
+                        <option value="AI">Anguilla</option>
+                        <option value="AQ">Antarctica</option>
+                        <option value="AG">Antigua and Barbuda</option>
+                        <option value="AR">Argentina</option>
+                        <option value="AM">Armenia</option>
+                        <option value="AW">Aruba</option>
+                        <option value="AU">Australia</option>
+                        <option value="AT">Austria</option>
+                        <option value="AZ">Azerbaijan</option>
+                        <option value="BS">Bahamas</option>
+                        <option value="BH">Bahrain</option>
+                        <option value="BD">Bangladesh</option>
+                        <option value="BB">Barbados</option>
+                        <option value="BY">Belarus</option>
+                        <option value="BE">Belgium</option>
+                        <option value="BZ">Belize</option>
+                        <option value="BJ">Benin</option>
+                        <option value="BM">Bermuda</option>
+                        <option value="BT">Bhutan</option>
+                        <option value="BO">Bolivia (Plurinational State of)</option>
+                        <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                        <option value="BA">Bosnia and Herzegovina</option>
+                        <option value="BW">Botswana</option>
+                        <option value="BV">Bouvet Island</option>
+                        <option value="BR">Brazil</option>
+                        <option value="IO">British Indian Ocean Territory</option>
+                        <option value="BN">Brunei Darussalam</option>
+                        <option value="BG">Bulgaria</option>
+                        <option value="BF">Burkina Faso</option>
+                        <option value="BI">Burundi</option>
+                        <option value="CV">Cabo Verde</option>
+                        <option value="KH">Cambodia</option>
+                        <option value="CM">Cameroon</option>
+                        <option value="CA">Canada</option>
+                        <option value="KY">Cayman Islands</option>
+                        <option value="CF">Central African Republic</option>
+                        <option value="TD">Chad</option>
+                        <option value="CL">Chile</option>
+                        <option value="CN">China</option>
+                        <option value="CX">Christmas Island</option>
+                        <option value="CC">Cocos (Keeling) Islands</option>
+                        <option value="CO">Colombia</option>
+                        <option value="KM">Comoros</option>
+                        <option value="CG">Congo</option>
+                        <option value="CD">Congo, Democratic Republic of the</option>
+                        <option value="CK">Cook Islands</option>
+                        <option value="CR">Costa Rica</option>
+                        <option value="CI">Côte d'Ivoire</option>
+                        <option value="HR">Croatia</option>
+                        <option value="CU">Cuba</option>
+                        <option value="CW">Curaçao</option>
+                        <option value="CY">Cyprus</option>
+                        <option value="CZ">Czechia</option>
+                        <option value="DK">Denmark</option>
+                        <option value="DJ">Djibouti</option>
+                        <option value="DM">Dominica</option>
+                        <option value="DO">Dominican Republic</option>
+                        <option value="EC">Ecuador</option>
+                        <option value="EG">Egypt</option>
+                        <option value="SV">El Salvador</option>
+                        <option value="GQ">Equatorial Guinea</option>
+                        <option value="ER">Eritrea</option>
+                        <option value="EE">Estonia</option>
+                        <option value="SZ">Eswatini</option>
+                        <option value="ET">Ethiopia</option>
+                        <option value="FK">Falkland Islands (Malvinas)</option>
+                        <option value="FO">Faroe Islands</option>
+                        <option value="FJ">Fiji</option>
+                        <option value="FI">Finland</option>
+                        <option value="FR">France</option>
+                        <option value="GF">French Guiana</option>
+                        <option value="PF">French Polynesia</option>
+                        <option value="TF">French Southern Territories</option>
+                        <option value="GA">Gabon</option>
+                        <option value="GM">Gambia</option>
+                        <option value="GE">Georgia</option>
+                        <option value="DE">Germany</option>
+                        <option value="GH">Ghana</option>
+                        <option value="GI">Gibraltar</option>
+                        <option value="GR">Greece</option>
+                        <option value="GL">Greenland</option>
+                        <option value="GD">Grenada</option>
+                        <option value="GP">Guadeloupe</option>
+                        <option value="GU">Guam</option>
+                        <option value="GT">Guatemala</option>
+                        <option value="GG">Guernsey</option>
+                        <option value="GN">Guinea</option>
+                        <option value="GW">Guinea-Bissau</option>
+                        <option value="GY">Guyana</option>
+                        <option value="HT">Haiti</option>
+                        <option value="HM">Heard Island and McDonald Islands</option>
+                        <option value="VA">Holy See</option>
+                        <option value="HN">Honduras</option>
+                        <option value="HK">Hong Kong</option>
+                        <option value="HU">Hungary</option>
+                        <option value="IS">Iceland</option>
+                        <option value="IN">India</option>
+                        <option value="ID">Indonesia</option>
+                        <option value="IR">Iran (Islamic Republic of)</option>
+                        <option value="IQ">Iraq</option>
+                        <option value="IE">Ireland</option>
+                        <option value="IM">Isle of Man</option>
+                        <option value="IL">Israel</option>
+                        <option value="IT">Italy</option>
+                        <option value="JM">Jamaica</option>
+                        <option value="JP">Japan</option>
+                        <option value="JE">Jersey</option>
+                        <option value="JO">Jordan</option>
+                        <option value="KZ">Kazakhstan</option>
+                        <option value="KE">Kenya</option>
+                        <option value="KI">Kiribati</option>
+                        <option value="KP">Korea (Democratic People's Republic of)</option>
+                        <option value="KR">Korea, Republic of</option>
+                        <option value="KW">Kuwait</option>
+                        <option value="KG">Kyrgyzstan</option>
+                        <option value="LA">Lao People's Democratic Republic</option>
+                        <option value="LV">Latvia</option>
+                        <option value="LB">Lebanon</option>
+                        <option value="LS">Lesotho</option>
+                        <option value="LR">Liberia</option>
+                        <option value="LY">Libya</option>
+                        <option value="LI">Liechtenstein</option>
+                        <option value="LT">Lithuania</option>
+                        <option value="LU">Luxembourg</option>
+                        <option value="MO">Macao</option>
+                        <option value="MK">Macedonia, the former Yugoslav Republic of</option>
+                        <option value="MG">Madagascar</option>
+                        <option value="MW">Malawi</option>
+                        <option value="MY">Malaysia</option>
+                        <option value="MV">Maldives</option>
+                        <option value="ML">Mali</option>
+                        <option value="MT">Malta</option>
+                        <option value="MH">Marshall Islands</option>
+                        <option value="MQ">Martinique</option>
+                        <option value="MR">Mauritania</option>
+                        <option value="MU">Mauritius</option>
+                        <option value="YT">Mayotte</option>
+                        <option value="MX">Mexico</option>
+                        <option value="FM">Micronesia (Federated States of)</option>
+                        <option value="MD">Moldova, Republic of</option>
+                        <option value="MC">Monaco</option>
+                        <option value="MN">Mongolia</option>
+                        <option value="ME">Montenegro</option>
+                        <option value="MS">Montserrat</option>
+                        <option value="MA">Morocco</option>
+                        <option value="MZ">Mozambique</option>
+                        <option value="MM">Myanmar</option>
+                        <option value="NA">Namibia</option>
+                        <option value="NR">Nauru</option>
+                        <option value="NP">Nepal</option>
+                        <option value="NL">Netherlands</option>
+                        <option value="NC">New Caledonia</option>
+                        <option value="NZ">New Zealand</option>
+                        <option value="NI">Nicaragua</option>
+                        <option value="NE">Niger</option>
+                        <option value="NG">Nigeria</option>
+                        <option value="NU">Niue</option>
+                        <option value="NF">Norfolk Island</option>
+                        <option value="MP">Northern Mariana Islands</option>
+                        <option value="NO">Norway</option>
+                        <option value="OM">Oman</option>
+                        <option value="PK">Pakistan</option>
+                        <option value="PW">Palau</option>
+                        <option value="PS">Palestine, State of</option>
+                        <option value="PA">Panama</option>
+                        <option value="PG">Papua New Guinea</option>
+                        <option value="PY">Paraguay</option>
+                        <option value="PE">Peru</option>
+                        <option value="PH">Philippines</option>
+                        <option value="PN">Pitcairn</option>
+                        <option value="PL">Poland</option>
+                        <option value="PT">Portugal</option>
+                        <option value="PR">Puerto Rico</option>
+                        <option value="QA">Qatar</option>
+                        <option value="RE">Réunion</option>
+                        <option value="RO">Romania</option>
+                        <option value="RU">Russian Federation</option>
+                        <option value="RW">Rwanda</option>
+                        <option value="BL">Saint Barthélemy</option>
+                        <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+                        <option value="KN">Saint Kitts and Nevis</option>
+                        <option value="LC">Saint Lucia</option>
+                        <option value="MF">Saint Martin (French part)</option>
+                        <option value="PM">Saint Pierre and Miquelon</option>
+                        <option value="VC">Saint Vincent and the Grenadines</option>
+                        <option value="WS">Samoa</option>
+                        <option value="SM">San Marino</option>
+                        <option value="ST">Sao Tome and Principe</option>
+                        <option value="SA">Saudi Arabia</option>
+                        <option value="SN">Senegal</option>
+                        <option value="RS">Serbia</option>
+                        <option value="SC">Seychelles</option>
+                        <option value="SL">Sierra Leone</option>
+                        <option value="SG">Singapore</option>
+                        <option value="SX">Sint Maarten (Dutch part)</option>
+                        <option value="SK">Slovakia</option>
+                        <option value="SI">Slovenia</option>
+                        <option value="SB">Solomon Islands</option>
+                        <option value="SO">Somalia</option>
+                        <option value="ZA">South Africa</option>
+                        <option value="GS">South Georgia and the South Sandwich Islands</option>
+                        <option value="SS">South Sudan</option>
+                        <option value="ES">Spain</option>
+                        <option value="LK">Sri Lanka</option>
+                        <option value="SD">Sudan</option>
+                        <option value="SR">Suriname</option>
+                        <option value="SJ">Svalbard and Jan Mayen</option>
+                        <option value="SE">Sweden</option>
+                        <option value="CH">Switzerland</option>
+                        <option value="SY">Syrian Arab Republic</option>
+                        <option value="TW">Taiwan, Province of China</option>
+                        <option value="TJ">Tajikistan</option>
+                        <option value="TZ">Tanzania, United Republic of</option>
+                        <option value="TH">Thailand</option>
+                        <option value="TL">Timor-Leste</option>
+                        <option value="TG">Togo</option>
+                        <option value="TK">Tokelau</option>
+                        <option value="TO">Tonga</option>
+                        <option value="TT">Trinidad and Tobago</option>
+                        <option value="TN">Tunisia</option>
+                        <option value="TR">Turkey</option>
+                        <option value="TM">Turkmenistan</option>
+                        <option value="TC">Turks and Caicos Islands</option>
+                        <option value="TV">Tuvalu</option>
+                        <option value="UG">Uganda</option>
+                        <option value="UA">Ukraine</option>
+                        <option value="AE">United Arab Emirates</option>
+                        <option value="GB" selected="selected">United Kingdom</option>
+                        <option value="UM">United States Minor Outlying Islands</option>
+                        <option value="US">United States of America</option>
+                        <option value="UY">Uruguay</option>
+                        <option value="UZ">Uzbekistan</option>
+                        <option value="VU">Vanuatu</option>
+                        <option value="VE">Venezuela (Bolivarian Republic of)</option>
+                        <option value="VN">Viet Nam</option>
+                        <option value="VG">Virgin Islands (British)</option>
+                        <option value="VI">Virgin Islands (U.S.)</option>
+                        <option value="WF">Wallis and Futuna</option>
+                        <option value="EH">Western Sahara</option>
+                        <option value="YE">Yemen</option>
+                        <option value="ZM">Zambia</option>
+                        <option value="ZW">Zimbabwe</option>
+                    </select>
+                </div>
+            </div>
+            <div id="results-panel" class="list-group"></div>
+        </div>
+
+    </main>
+</body>
+</html>
