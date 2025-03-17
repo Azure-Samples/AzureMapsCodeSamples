@@ -27,7 +27,7 @@ function showSampleCards() {
     }
 }
 
-// Show sample search resiult from url if any
+// Show sample search result from url if any
 function showSearchFromUrl() {
     var search = $.QueryString.search;
     if (search) {
