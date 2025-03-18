@@ -10,7 +10,7 @@ param(
     [Parameter(Mandatory=$false)]
     [switch]$Help,
 
-    [string]$Location = "eastus",
+    [string]$Location = "uksouth",
     [string]$Name = "storelocator",
     [string]$DatabaseName = "storelocator"
 )
@@ -73,7 +73,7 @@ try {
     # Create Webserver and Website
     Write-Output "- Creating a Webserver plan named '$webserverplan' for the Website '$webappname'..."
     az appservice plan create -g $group -n $webserverplan --location $Location | Out-Null
-    az webapp create -g $group -p $webserverplan -n $webappname -r "dotnet:8" | Out-Null
+    az webapp create -g $group -p $webserverplan -n $webappname -r "dotnet:9" | Out-Null
 
     # Use managed identities
     Write-Output "- Utilizing managed identities for Azure Maps..."
