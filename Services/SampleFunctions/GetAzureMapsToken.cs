@@ -10,10 +10,6 @@ public class GetAzureMapsToken()
 {
     private static readonly string[] AllowedDomains = [
         "https://samples.azuremaps.com/",
-        "https://demo.azuremaps.com/",
-        "https://www.microsoft.com/",
-        "https://microsoft.com/",
-        "https://msmaps.azurewebsites.net/", // For local testing
         "http://localhost:58035/" // For local testing
     ];
 
