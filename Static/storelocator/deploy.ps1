@@ -1,4 +1,4 @@
-# Azure Maps Store Locator (version 1.0)
+# Azure Maps Store Locator (version 1.1)
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # https://github.com/Azure-Samples/Azure-Maps-Locator
 #
@@ -104,7 +104,8 @@ try {
     # Deploy Azure Maps Store Locator
     Write-Output "- Initiating the deployment of the Store Locator website..."
     Invoke-WebRequest "https://samples.azuremaps.com/storelocator/storelocator.zip" -OutFile storelocator$suffix.zip
-    az webapp deployment source config-zip -g $group -n $webappname --src storelocator$suffix.zip | Out-Null
+    #az webapp deployment source config-zip -g $group -n $webappname --src storelocator$suffix.zip | Out-Null
+    az webapp deploy --resource-group $group --name $webappname --src-path storelocator$suffix.zip --type zip  | Out-Null
     Remove-Item storelocator$suffix.zip | Out-Null
 
     # Done
