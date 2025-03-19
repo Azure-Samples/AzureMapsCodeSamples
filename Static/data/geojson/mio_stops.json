@@ -66,11 +66,19 @@
         "opening_hours": [ 8, 17 ]
       }
     },
-
-
-
-
-
+    {
+      "type": "Feature",
+      "id": 5,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.1001173, 40.5472442 ]
+      },
+      "properties": {
+        "demand": 4,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
     {
       "type": "Feature",
       "id": 6,
