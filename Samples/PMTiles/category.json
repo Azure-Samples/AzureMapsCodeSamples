@@ -1,0 +1,4 @@
+{
+  "Title": "PMTiles Layer",
+  "Description": "PMTiles is an open specification for single-file tile pyramids built on compressed Hilbert ordering and queryable via HTTP Range Requests."
+}

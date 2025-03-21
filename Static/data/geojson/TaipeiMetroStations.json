@@ -1,0 +1,2813 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.579338,
+                    24.998197
+                ]
+            },
+            "properties": {
+                "id": "BR01",
+                "primaryName": "動物園",
+                "name": "Taipei Zoo",
+                "latitude": 24.998197,
+                "longitude": 121.579338,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.573145,
+                    24.998241
+                ]
+            },
+            "properties": {
+                "id": "BR02",
+                "primaryName": "木柵",
+                "name": "Muzha",
+                "latitude": 24.998241,
+                "longitude": 121.573145,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.568102,
+                    24.998585
+                ]
+            },
+            "properties": {
+                "id": "BR03",
+                "primaryName": "萬芳社區",
+                "name": "Wanfang Community",
+                "latitude": 24.998585,
+                "longitude": 121.568102,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.558152,
+                    24.999386
+                ]
+            },
+            "properties": {
+                "id": "BR04",
+                "primaryName": "萬芳醫院",
+                "name": "Wanfang Hospital",
+                "latitude": 24.999386,
+                "longitude": 121.558152,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.557107,
+                    25.005475
+                ]
+            },
+            "properties": {
+                "id": "BR05",
+                "primaryName": "辛亥",
+                "name": "Xinhai",
+                "latitude": 25.005475,
+                "longitude": 121.557107,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.558791,
+                    25.018535
+                ]
+            },
+            "properties": {
+                "id": "BR06",
+                "primaryName": "麟光",
+                "name": "Linguang",
+                "latitude": 25.018535,
+                "longitude": 121.558791,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.553115,
+                    25.023777
+                ]
+            },
+            "properties": {
+                "id": "BR07",
+                "primaryName": "六張犁",
+                "name": "Liuzhangli",
+                "latitude": 25.023777,
+                "longitude": 121.553115,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.543437,
+                    25.026125
+                ]
+            },
+            "properties": {
+                "id": "BR08",
+                "primaryName": "科技大樓",
+                "name": "Technology Building",
+                "latitude": 25.026125,
+                "longitude": 121.543437,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.543551,
+                    25.032943
+                ]
+            },
+            "properties": {
+                "id": "BR09",
+                "primaryName": "大安",
+                "name": "Daan",
+                "latitude": 25.032943,
+                "longitude": 121.543551,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.543767,
+                    25.041629
+                ]
+            },
+            "properties": {
+                "id": "BR10",
+                "primaryName": "忠孝復興",
+                "name": "Zhongxiao Fuxing",
+                "latitude": 25.041629,
+                "longitude": 121.543767,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.544011,
+                    25.052319
+                ]
+            },
+            "properties": {
+                "id": "BR11",
+                "primaryName": "南京復興",
+                "name": "Nanjing Fuxing",
+                "latitude": 25.052319,
+                "longitude": 121.544011,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.544227,
+                    25.060849
+                ]
+            },
+            "properties": {
+                "id": "BR12",
+                "primaryName": "中山國中",
+                "name": "Zhongshan Junior High School",
+                "latitude": 25.060849,
+                "longitude": 121.544227,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.551996,
+                    25.063
+                ]
+            },
+            "properties": {
+                "id": "BR13",
+                "primaryName": "松山機場",
+                "name": "Songshan Airport",
+                "latitude": 25.063,
+                "longitude": 121.551996,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.546895,
+                    25.079477
+                ]
+            },
+            "properties": {
+                "id": "BR14",
+                "primaryName": "大直",
+                "name": "Dazhi",
+                "latitude": 25.079477,
+                "longitude": 121.546895,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.555592,
+                    25.084853
+                ]
+            },
+            "properties": {
+                "id": "BR15",
+                "primaryName": "劍南路",
+                "name": "Jiannan Rd.",
+                "latitude": 25.084853,
+                "longitude": 121.555592,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.567213,
+                    25.082133
+                ]
+            },
+            "properties": {
+                "id": "BR16",
+                "primaryName": "西湖",
+                "name": "Xihu",
+                "latitude": 25.082133,
+                "longitude": 121.567213,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.575081,
+                    25.080028
+                ]
+            },
+            "properties": {
+                "id": "BR17",
+                "primaryName": "港墘",
+                "name": "Gangqian",
+                "latitude": 25.080028,
+                "longitude": 121.575081,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.584761,
+                    25.078532
+                ]
+            },
+            "properties": {
+                "id": "BR18",
+                "primaryName": "文德",
+                "name": "Wende",
+                "latitude": 25.078532,
+                "longitude": 121.584761,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.594408,
+                    25.083661
+                ]
+            },
+            "properties": {
+                "id": "BR19",
+                "primaryName": "內湖",
+                "name": "Neihu",
+                "latitude": 25.083661,
+                "longitude": 121.594408,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.602141,
+                    25.083845
+                ]
+            },
+            "properties": {
+                "id": "BR20",
+                "primaryName": "大湖公園",
+                "name": "Dahu Park",
+                "latitude": 25.083845,
+                "longitude": 121.602141,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.607158,
+                    25.072701
+                ]
+            },
+            "properties": {
+                "id": "BR21",
+                "primaryName": "葫洲",
+                "name": "Huzhou",
+                "latitude": 25.072701,
+                "longitude": 121.607158,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.611445,
+                    25.067147
+                ]
+            },
+            "properties": {
+                "id": "BR22",
+                "primaryName": "東湖",
+                "name": "Donghu",
+                "latitude": 25.067147,
+                "longitude": 121.611445,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.615953,
+                    25.059905
+                ]
+            },
+            "properties": {
+                "id": "BR23",
+                "primaryName": "南港軟體園區",
+                "name": "Nangang Software Park",
+                "latitude": 25.059905,
+                "longitude": 121.615953,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.6175001,
+                    25.055288
+                ]
+            },
+            "properties": {
+                "id": "BR24",
+                "primaryName": "南港展覽館",
+                "name": "Taipei Nangang Exhibition Center",
+                "latitude": 25.055288,
+                "longitude": 121.6175001,
+                "marker-color": "#c48c31"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.569576,
+                    25.03283
+                ]
+            },
+            "properties": {
+                "id": "R02",
+                "primaryName": "象山",
+                "name": "Xiangshan",
+                "latitude": 25.03283,
+                "longitude": 121.569576,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.563292,
+                    25.033102
+                ]
+            },
+            "properties": {
+                "id": "R03",
+                "primaryName": "台北101/世貿",
+                "name": "Taipei 101/World Trade Center",
+                "latitude": 25.033102,
+                "longitude": 121.563292,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.553526,
+                    25.033326
+                ]
+            },
+            "properties": {
+                "id": "R04",
+                "primaryName": "信義安和",
+                "name": "Xinyi Anhe",
+                "latitude": 25.033326,
+                "longitude": 121.553526,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.543551,
+                    25.032943
+                ]
+            },
+            "properties": {
+                "id": "R05",
+                "primaryName": "大安",
+                "name": "Daan",
+                "latitude": 25.032943,
+                "longitude": 121.543551,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.534882,
+                    25.033396
+                ]
+            },
+            "properties": {
+                "id": "R06",
+                "primaryName": "大安森林公園",
+                "name": "Daan Park",
+                "latitude": 25.033396,
+                "longitude": 121.534882,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.528739,
+                    25.033847
+                ]
+            },
+            "properties": {
+                "id": "R07",
+                "primaryName": "東門",
+                "name": "Dongmen",
+                "latitude": 25.033847,
+                "longitude": 121.528739,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.51827,
+                    25.032729
+                ]
+            },
+            "properties": {
+                "id": "R08",
+                "primaryName": "中正紀念堂",
+                "name": "Chiang Kai-Shek Memorial Hall",
+                "latitude": 25.032729,
+                "longitude": 121.51827,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.51604,
+                    25.041256
+                ]
+            },
+            "properties": {
+                "id": "R09",
+                "primaryName": "台大醫院",
+                "name": "NTU Hospital",
+                "latitude": 25.041256,
+                "longitude": 121.51604,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.517532,
+                    25.046255
+                ]
+            },
+            "properties": {
+                "id": "R10",
+                "primaryName": "台北車站",
+                "name": "Taipei Main Station",
+                "latitude": 25.046255,
+                "longitude": 121.517532,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.520392,
+                    25.052685
+                ]
+            },
+            "properties": {
+                "id": "R11",
+                "primaryName": "中山",
+                "name": "Zhongshan",
+                "latitude": 25.052685,
+                "longitude": 121.520392,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.520627,
+                    25.057805
+                ]
+            },
+            "properties": {
+                "id": "R12",
+                "primaryName": "雙連",
+                "name": "Shuanglian",
+                "latitude": 25.057805,
+                "longitude": 121.520627,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.51932,
+                    25.062905
+                ]
+            },
+            "properties": {
+                "id": "R13",
+                "primaryName": "民權西路",
+                "name": "Minquan W. Rd.",
+                "latitude": 25.062905,
+                "longitude": 121.51932,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.520118,
+                    25.071353
+                ]
+            },
+            "properties": {
+                "id": "R14",
+                "primaryName": "圓山",
+                "name": "Yuanshan",
+                "latitude": 25.071353,
+                "longitude": 121.520118,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.525078,
+                    25.084873
+                ]
+            },
+            "properties": {
+                "id": "R15",
+                "primaryName": "劍潭",
+                "name": "Jiantan",
+                "latitude": 25.084873,
+                "longitude": 121.525078,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.52623,
+                    25.093535
+                ]
+            },
+            "properties": {
+                "id": "R16",
+                "primaryName": "士林",
+                "name": "Shilin",
+                "latitude": 25.093535,
+                "longitude": 121.52623,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.522514,
+                    25.10306
+                ]
+            },
+            "properties": {
+                "id": "R17",
+                "primaryName": "芝山",
+                "name": "Zhishan",
+                "latitude": 25.10306,
+                "longitude": 121.522514,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.518848,
+                    25.109721
+                ]
+            },
+            "properties": {
+                "id": "R18",
+                "primaryName": "明德",
+                "name": "Mingde",
+                "latitude": 25.109721,
+                "longitude": 121.518848,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.515559,
+                    25.114523
+                ]
+            },
+            "properties": {
+                "id": "R19",
+                "primaryName": "石牌",
+                "name": "Shipai",
+                "latitude": 25.114523,
+                "longitude": 121.515559,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.506252,
+                    25.120872
+                ]
+            },
+            "properties": {
+                "id": "R20",
+                "primaryName": "唭哩岸",
+                "name": "Qilian",
+                "latitude": 25.120872,
+                "longitude": 121.506252,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.501132,
+                    25.125491
+                ]
+            },
+            "properties": {
+                "id": "R21",
+                "primaryName": "奇岩",
+                "name": "Qiyan",
+                "latitude": 25.125491,
+                "longitude": 121.501132,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.498633,
+                    25.131841
+                ]
+            },
+            "properties": {
+                "id": "R22",
+                "primaryName": "北投",
+                "name": "Beitou",
+                "latitude": 25.131841,
+                "longitude": 121.498633,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.50253,
+                    25.136933
+                ]
+            },
+            "properties": {
+                "id": "R22A",
+                "primaryName": "新北投",
+                "name": "Xinbeitou",
+                "latitude": 25.136933,
+                "longitude": 121.50253,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.485444,
+                    25.137474
+                ]
+            },
+            "properties": {
+                "id": "R23",
+                "primaryName": "復興崗",
+                "name": "Fuxinggang",
+                "latitude": 25.137474,
+                "longitude": 121.485444,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.47341,
+                    25.130969
+                ]
+            },
+            "properties": {
+                "id": "R24",
+                "primaryName": "忠義",
+                "name": "Zhongyi",
+                "latitude": 25.130969,
+                "longitude": 121.47341,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.467102,
+                    25.125633
+                ]
+            },
+            "properties": {
+                "id": "R25",
+                "primaryName": "關渡",
+                "name": "Guandu",
+                "latitude": 25.125633,
+                "longitude": 121.467102,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.459479,
+                    25.13694
+                ]
+            },
+            "properties": {
+                "id": "R26",
+                "primaryName": "竹圍",
+                "name": "Zhuwei",
+                "latitude": 25.13694,
+                "longitude": 121.459479,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.458872,
+                    25.154042
+                ]
+            },
+            "properties": {
+                "id": "R27",
+                "primaryName": "紅樹林",
+                "name": "Hongshulin",
+                "latitude": 25.154042,
+                "longitude": 121.458872,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.445561,
+                    25.167818
+                ]
+            },
+            "properties": {
+                "id": "R28",
+                "primaryName": "淡水",
+                "name": "Tamsui",
+                "latitude": 25.167818,
+                "longitude": 121.445561,
+                "marker-color": "#e3002c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.537584,
+                    24.957855
+                ]
+            },
+            "properties": {
+                "id": "G01",
+                "primaryName": "新店",
+                "name": "Xindian",
+                "latitude": 24.957855,
+                "longitude": 121.537584,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.54131,
+                    24.967393
+                ]
+            },
+            "properties": {
+                "id": "G02",
+                "primaryName": "新店區公所",
+                "name": "Xindian District Office",
+                "latitude": 24.967393,
+                "longitude": 121.54131,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.542942,
+                    24.975169
+                ]
+            },
+            "properties": {
+                "id": "G03",
+                "primaryName": "七張",
+                "name": "Qizhang",
+                "latitude": 24.975169,
+                "longitude": 121.542942,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.530339,
+                    24.971907
+                ]
+            },
+            "properties": {
+                "id": "G03A",
+                "primaryName": "小碧潭",
+                "name": "Xiaobitan",
+                "latitude": 24.971907,
+                "longitude": 121.530339,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.541352,
+                    24.982899
+                ]
+            },
+            "properties": {
+                "id": "G04",
+                "primaryName": "大坪林",
+                "name": "Dapinglin",
+                "latitude": 24.982899,
+                "longitude": 121.541352,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.5406037,
+                    24.9921276
+                ]
+            },
+            "properties": {
+                "id": "G05",
+                "primaryName": "景美",
+                "name": "Jingmei",
+                "latitude": 24.9921276,
+                "longitude": 121.5406037,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.539051,
+                    25.001853
+                ]
+            },
+            "properties": {
+                "id": "G06",
+                "primaryName": "萬隆",
+                "name": "Wanlong",
+                "latitude": 25.001853,
+                "longitude": 121.539051,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.534216,
+                    25.014908
+                ]
+            },
+            "properties": {
+                "id": "G07",
+                "primaryName": "公館",
+                "name": "Gongguan",
+                "latitude": 25.014908,
+                "longitude": 121.534216,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.528168,
+                    25.020725
+                ]
+            },
+            "properties": {
+                "id": "G08",
+                "primaryName": "台電大樓",
+                "name": "Taipower Building",
+                "latitude": 25.020725,
+                "longitude": 121.528168,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.522873,
+                    25.026357
+                ]
+            },
+            "properties": {
+                "id": "G09",
+                "primaryName": "古亭",
+                "name": "Guting",
+                "latitude": 25.026357,
+                "longitude": 121.522873,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.51827,
+                    25.032729
+                ]
+            },
+            "properties": {
+                "id": "G10",
+                "primaryName": "中正紀念堂",
+                "name": "Chiang Kai-Shek Memorial Hall",
+                "latitude": 25.032729,
+                "longitude": 121.51827,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.510857,
+                    25.035547
+                ]
+            },
+            "properties": {
+                "id": "G11",
+                "primaryName": "小南門",
+                "name": "Xiaonanmen",
+                "latitude": 25.035547,
+                "longitude": 121.510857,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.508303,
+                    25.04209
+                ]
+            },
+            "properties": {
+                "id": "G12",
+                "primaryName": "西門",
+                "name": "Ximen",
+                "latitude": 25.04209,
+                "longitude": 121.508303,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.510184,
+                    25.049554
+                ]
+            },
+            "properties": {
+                "id": "G13",
+                "primaryName": "北門",
+                "name": "Beimen",
+                "latitude": 25.049554,
+                "longitude": 121.510184,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.520392,
+                    25.052685
+                ]
+            },
+            "properties": {
+                "id": "G14",
+                "primaryName": "中山",
+                "name": "Zhongshan",
+                "latitude": 25.052685,
+                "longitude": 121.520392,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.533075,
+                    25.052015
+                ]
+            },
+            "properties": {
+                "id": "G15",
+                "primaryName": "松江南京",
+                "name": "Songjiang Nanjing",
+                "latitude": 25.052015,
+                "longitude": 121.533075,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.544011,
+                    25.052319
+                ]
+            },
+            "properties": {
+                "id": "G16",
+                "primaryName": "南京復興",
+                "name": "Nanjing Fuxing",
+                "latitude": 25.052319,
+                "longitude": 121.544011,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.55153,
+                    25.051836
+                ]
+            },
+            "properties": {
+                "id": "G17",
+                "primaryName": "台北小巨蛋",
+                "name": "Taipei Arena",
+                "latitude": 25.051836,
+                "longitude": 121.55153,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.564708,
+                    25.051652
+                ]
+            },
+            "properties": {
+                "id": "G18",
+                "primaryName": "南京三民",
+                "name": "Nanjing Sanmin",
+                "latitude": 25.051652,
+                "longitude": 121.564708,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.577706,
+                    25.050118
+                ]
+            },
+            "properties": {
+                "id": "G19",
+                "primaryName": "松山",
+                "name": "Songshan",
+                "latitude": 25.050118,
+                "longitude": 121.577706,
+                "marker-color": "#008659"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.509237,
+                    24.990045
+                ]
+            },
+            "properties": {
+                "id": "O01",
+                "primaryName": "南勢角",
+                "name": "Nanshijiao",
+                "latitude": 24.990045,
+                "longitude": 121.509237,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.505113,
+                    24.993905
+                ]
+            },
+            "properties": {
+                "id": "O02",
+                "primaryName": "景安",
+                "name": "Jingan",
+                "latitude": 24.993905,
+                "longitude": 121.505113,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.511231,
+                    25.002876
+                ]
+            },
+            "properties": {
+                "id": "O03",
+                "primaryName": "永安市場",
+                "name": "Yongan Market",
+                "latitude": 25.002876,
+                "longitude": 121.511231,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.515485,
+                    25.013821
+                ]
+            },
+            "properties": {
+                "id": "O04",
+                "primaryName": "頂溪",
+                "name": "Dingxi",
+                "latitude": 25.013821,
+                "longitude": 121.515485,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.522873,
+                    25.026357
+                ]
+            },
+            "properties": {
+                "id": "O05",
+                "primaryName": "古亭",
+                "name": "Guting",
+                "latitude": 25.026357,
+                "longitude": 121.522873,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.528739,
+                    25.033847
+                ]
+            },
+            "properties": {
+                "id": "O06",
+                "primaryName": "東門",
+                "name": "Dongmen",
+                "latitude": 25.033847,
+                "longitude": 121.528739,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.532905,
+                    25.042356
+                ]
+            },
+            "properties": {
+                "id": "O07",
+                "primaryName": "忠孝新生",
+                "name": "Zhongxiao Xinsheng",
+                "latitude": 25.042356,
+                "longitude": 121.532905,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.533075,
+                    25.052015
+                ]
+            },
+            "properties": {
+                "id": "O08",
+                "primaryName": "松江南京",
+                "name": "Songjiang Nanjing",
+                "latitude": 25.052015,
+                "longitude": 121.533075,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.533185,
+                    25.059718
+                ]
+            },
+            "properties": {
+                "id": "O09",
+                "primaryName": "行天宮",
+                "name": "Xingtian Temple",
+                "latitude": 25.059718,
+                "longitude": 121.533185,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.526419,
+                    25.062694
+                ]
+            },
+            "properties": {
+                "id": "O10",
+                "primaryName": "中山國小",
+                "name": "Zhongshan Elementary School",
+                "latitude": 25.062694,
+                "longitude": 121.526419,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.51932,
+                    25.062905
+                ]
+            },
+            "properties": {
+                "id": "O11",
+                "primaryName": "民權西路",
+                "name": "Minquan W. Rd.",
+                "latitude": 25.062905,
+                "longitude": 121.51932,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.51272,
+                    25.063256
+                ]
+            },
+            "properties": {
+                "id": "O12",
+                "primaryName": "大橋頭",
+                "name": "Daqiaotou",
+                "latitude": 25.063256,
+                "longitude": 121.51272,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.500762,
+                    25.063274
+                ]
+            },
+            "properties": {
+                "id": "O13",
+                "primaryName": "台北橋",
+                "name": "Taipei Bridge",
+                "latitude": 25.063274,
+                "longitude": 121.500762,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.492156,
+                    25.060274
+                ]
+            },
+            "properties": {
+                "id": "O14",
+                "primaryName": "菜寮",
+                "name": "Cailiao",
+                "latitude": 25.060274,
+                "longitude": 121.492156,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.484725,
+                    25.055791
+                ]
+            },
+            "properties": {
+                "id": "O15",
+                "primaryName": "三重",
+                "name": "Sanchong",
+                "latitude": 25.055791,
+                "longitude": 121.484725,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.471916,
+                    25.046493
+                ]
+            },
+            "properties": {
+                "id": "O16",
+                "primaryName": "先嗇宮",
+                "name": "Xianse Temple",
+                "latitude": 25.046493,
+                "longitude": 121.471916,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.461746,
+                    25.039705
+                ]
+            },
+            "properties": {
+                "id": "O17",
+                "primaryName": "頭前庄",
+                "name": "Touqianzhuang",
+                "latitude": 25.039705,
+                "longitude": 121.461746,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.452468,
+                    25.036125
+                ]
+            },
+            "properties": {
+                "id": "O18",
+                "primaryName": "新莊",
+                "name": "Xinzhuang",
+                "latitude": 25.036125,
+                "longitude": 121.452468,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.43547,
+                    25.032718
+                ]
+            },
+            "properties": {
+                "id": "O19",
+                "primaryName": "輔大",
+                "name": "Fu Jen University",
+                "latitude": 25.032718,
+                "longitude": 121.43547,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.4227079,
+                    25.0288671
+                ]
+            },
+            "properties": {
+                "id": "O20",
+                "primaryName": "丹鳳",
+                "name": "Danfeng",
+                "latitude": 25.0288671,
+                "longitude": 121.4227079,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.41127,
+                    25.021862
+                ]
+            },
+            "properties": {
+                "id": "O21",
+                "primaryName": "迴龍",
+                "name": "Huilong",
+                "latitude": 25.021862,
+                "longitude": 121.41127,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.496904,
+                    25.070319
+                ]
+            },
+            "properties": {
+                "id": "O50",
+                "primaryName": "三重國小",
+                "name": "Sanchong Elementary School",
+                "latitude": 25.070319,
+                "longitude": 121.496904,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.486347,
+                    25.076859
+                ]
+            },
+            "properties": {
+                "id": "O51",
+                "primaryName": "三和國中",
+                "name": "Sanhe Junior High School",
+                "latitude": 25.076859,
+                "longitude": 121.486347,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.479673,
+                    25.080728
+                ]
+            },
+            "properties": {
+                "id": "O52",
+                "primaryName": "徐匯中學",
+                "name": "St. Ignatius High School",
+                "latitude": 25.080728,
+                "longitude": 121.479673,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.473389,
+                    25.085456
+                ]
+            },
+            "properties": {
+                "id": "O53",
+                "primaryName": "三民高中",
+                "name": "Sanmin Senior High School",
+                "latitude": 25.085456,
+                "longitude": 121.473389,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.464471,
+                    25.091554
+                ]
+            },
+            "properties": {
+                "id": "O54",
+                "primaryName": "蘆洲",
+                "name": "Luzhou",
+                "latitude": 25.091554,
+                "longitude": 121.464471,
+                "marker-color": "#f8b61c"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.4205,
+                    24.96012
+                ]
+            },
+            "properties": {
+                "id": "BL01",
+                "primaryName": "頂埔",
+                "name": "Dingpu",
+                "latitude": 24.96012,
+                "longitude": 121.4205,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.436072,
+                    24.966726
+                ]
+            },
+            "properties": {
+                "id": "BL02",
+                "primaryName": "永寧",
+                "name": "Yongning",
+                "latitude": 24.966726,
+                "longitude": 121.436072,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.444362,
+                    24.973094
+                ]
+            },
+            "properties": {
+                "id": "BL03",
+                "primaryName": "土城",
+                "name": "Tucheng",
+                "latitude": 24.973094,
+                "longitude": 121.444362,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.448786,
+                    24.985339
+                ]
+            },
+            "properties": {
+                "id": "BL04",
+                "primaryName": "海山",
+                "name": "Haishan",
+                "latitude": 24.985339,
+                "longitude": 121.448786,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.452514,
+                    24.998037
+                ]
+            },
+            "properties": {
+                "id": "BL05",
+                "primaryName": "亞東醫院",
+                "name": "Far Eastern Hospital",
+                "latitude": 24.998037,
+                "longitude": 121.452514,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.459409,
+                    25.008619
+                ]
+            },
+            "properties": {
+                "id": "BL06",
+                "primaryName": "府中",
+                "name": "Fuzhong",
+                "latitude": 25.008619,
+                "longitude": 121.459409,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.462302,
+                    25.013618
+                ]
+            },
+            "properties": {
+                "id": "BL07",
+                "primaryName": "板橋",
+                "name": "Banqiao",
+                "latitude": 25.013618,
+                "longitude": 121.462302,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.468361,
+                    25.023738
+                ]
+            },
+            "properties": {
+                "id": "BL08",
+                "primaryName": "新埔",
+                "name": "Xinpu",
+                "latitude": 25.023738,
+                "longitude": 121.468361,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.47239,
+                    25.03001
+                ]
+            },
+            "properties": {
+                "id": "BL09",
+                "primaryName": "江子翠",
+                "name": "Jianzicui",
+                "latitude": 25.03001,
+                "longitude": 121.47239,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.499826,
+                    25.03528
+                ]
+            },
+            "properties": {
+                "id": "BL10",
+                "primaryName": "龍山寺",
+                "name": "Longshan Temple",
+                "latitude": 25.03528,
+                "longitude": 121.499826,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.508303,
+                    25.04209
+                ]
+            },
+            "properties": {
+                "id": "BL11",
+                "primaryName": "西門",
+                "name": "Ximen",
+                "latitude": 25.04209,
+                "longitude": 121.508303,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.517532,
+                    25.046255
+                ]
+            },
+            "properties": {
+                "id": "BL12",
+                "primaryName": "台北車站",
+                "name": "Taipei Main Station",
+                "latitude": 25.046255,
+                "longitude": 121.517532,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.523208,
+                    25.044823
+                ]
+            },
+            "properties": {
+                "id": "BL13",
+                "primaryName": "善導寺",
+                "name": "Shandao Temple",
+                "latitude": 25.044823,
+                "longitude": 121.523208,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.532905,
+                    25.042356
+                ]
+            },
+            "properties": {
+                "id": "BL14",
+                "primaryName": "忠孝新生",
+                "name": "Zhongxiao Xinsheng",
+                "latitude": 25.042356,
+                "longitude": 121.532905,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.543767,
+                    25.041629
+                ]
+            },
+            "properties": {
+                "id": "BL15",
+                "primaryName": "忠孝復興",
+                "name": "Zhongxiao Fuxing",
+                "latitude": 25.041629,
+                "longitude": 121.543767,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.551098,
+                    25.041478
+                ]
+            },
+            "properties": {
+                "id": "BL16",
+                "primaryName": "忠孝敦化",
+                "name": "Zhongxiao Dunhua",
+                "latitude": 25.041478,
+                "longitude": 121.551098,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.557802,
+                    25.041349
+                ]
+            },
+            "properties": {
+                "id": "BL17",
+                "primaryName": "國父紀念館",
+                "name": "Sun Yat-Sen Memorial Hall",
+                "latitude": 25.041349,
+                "longitude": 121.557802,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.565228,
+                    25.041171
+                ]
+            },
+            "properties": {
+                "id": "BL18",
+                "primaryName": "市政府",
+                "name": "Taipei City Hall",
+                "latitude": 25.041171,
+                "longitude": 121.565228,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.576293,
+                    25.040859
+                ]
+            },
+            "properties": {
+                "id": "BL19",
+                "primaryName": "永春",
+                "name": "Yongchun",
+                "latitude": 25.040859,
+                "longitude": 121.576293,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.582522,
+                    25.045055
+                ]
+            },
+            "properties": {
+                "id": "BL20",
+                "primaryName": "後山埤",
+                "name": "Houshanpi",
+                "latitude": 25.045055,
+                "longitude": 121.582522,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.593268,
+                    25.050461
+                ]
+            },
+            "properties": {
+                "id": "BL21",
+                "primaryName": "昆陽",
+                "name": "Kunyang",
+                "latitude": 25.050461,
+                "longitude": 121.593268,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.606686,
+                    25.052116
+                ]
+            },
+            "properties": {
+                "id": "BL22",
+                "primaryName": "南港",
+                "name": "Nangang",
+                "latitude": 25.052116,
+                "longitude": 121.606686,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.6175001,
+                    25.055288
+                ]
+            },
+            "properties": {
+                "id": "BL23",
+                "primaryName": "南港展覽館",
+                "name": "Taipei Nangang Exhibition Center",
+                "latitude": 25.055288,
+                "longitude": 121.6175001,
+                "marker-color": "#0070bd"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.541352,
+                    24.982899
+                ]
+            },
+            "properties": {
+                "id": "Y07",
+                "primaryName": "大坪林",
+                "name": "Dapinglin",
+                "latitude": 24.982899,
+                "longitude": 121.541352,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.5340099,
+                    24.9829302
+                ]
+            },
+            "properties": {
+                "id": "Y08",
+                "primaryName": "十四張",
+                "name": "Shisizhang",
+                "latitude": 24.9829302,
+                "longitude": 121.5340099,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.5250505,
+                    24.9905493
+                ]
+            },
+            "properties": {
+                "id": "Y09",
+                "primaryName": "秀朗橋",
+                "name": "Xiulang Bridge",
+                "latitude": 24.9905493,
+                "longitude": 121.5250505,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.5165532,
+                    24.9919681
+                ]
+            },
+            "properties": {
+                "id": "Y10",
+                "primaryName": "景平",
+                "name": "Jingping",
+                "latitude": 24.9919681,
+                "longitude": 121.5165532,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.505113,
+                    24.993905
+                ]
+            },
+            "properties": {
+                "id": "Y11",
+                "primaryName": "景安",
+                "name": "Jingan",
+                "latitude": 24.993905,
+                "longitude": 121.505113,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.4960519,
+                    25.0019806
+                ]
+            },
+            "properties": {
+                "id": "Y12",
+                "primaryName": "中和",
+                "name": "Zhonghe",
+                "latitude": 25.0019806,
+                "longitude": 121.4960519,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.4904608,
+                    25.0044131
+                ]
+            },
+            "properties": {
+                "id": "Y13",
+                "primaryName": "橋和",
+                "name": "Qiaohe",
+                "latitude": 25.0044131,
+                "longitude": 121.4904608,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.4841593,
+                    25.0084104
+                ]
+            },
+            "properties": {
+                "id": "Y14",
+                "primaryName": "中原",
+                "name": "Zhongyuan",
+                "latitude": 25.0084104,
+                "longitude": 121.4841593,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.4722124,
+                    25.0144914
+                ]
+            },
+            "properties": {
+                "id": "Y15",
+                "primaryName": "板新",
+                "name": "Banxin",
+                "latitude": 25.0144914,
+                "longitude": 121.4722124,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.464825,
+                    25.015156
+                ]
+            },
+            "properties": {
+                "id": "Y16",
+                "primaryName": "板橋",
+                "name": "Banqiao",
+                "latitude": 25.015156,
+                "longitude": 121.464825,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.466839,
+                    25.026125
+                ]
+            },
+            "properties": {
+                "id": "Y17",
+                "primaryName": "新埔民生",
+                "name": "Xinpu Minsheng",
+                "latitude": 25.026125,
+                "longitude": 121.466839,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.461655,
+                    25.039735
+                ]
+            },
+            "properties": {
+                "id": "Y18",
+                "primaryName": "頭前庄",
+                "name": "Touqianzhuang",
+                "latitude": 25.039735,
+                "longitude": 121.461655,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.460216,
+                    25.050282
+                ]
+            },
+            "properties": {
+                "id": "Y19",
+                "primaryName": "幸福",
+                "name": "Xingfu",
+                "latitude": 25.050282,
+                "longitude": 121.460216,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.4599257,
+                    25.0615483
+                ]
+            },
+            "properties": {
+                "id": "Y20",
+                "primaryName": "新北產業園區",
+                "name": "New Taipei Industrial Park",
+                "latitude": 25.0615483,
+                "longitude": 121.4599257,
+                "marker-color": "#fddb00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.515245,
+                    25.0491868
+                ]
+            },
+            "properties": {
+                "id": "A1",
+                "primaryName": "台北車站",
+                "name": "Taipei Main Station",
+                "latitude": 25.0491868,
+                "longitude": 121.515245,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.48263905211192,
+                    25.054750403757854
+                ]
+            },
+            "properties": {
+                "id": "A2",
+                "primaryName": "三重",
+                "name": "Sanchong",
+                "latitude": 25.0552963,
+                "longitude": 121.4813901,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.45889747817299,
+                    25.061644830883584
+                ]
+            },
+            "properties": {
+                "id": "A3",
+                "primaryName": "新北產業園區",
+                "name": "New Taipei Industrial Park",
+                "latitude": 25.061716,
+                "longitude": 121.4567028,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.44570806984062,
+                    25.059197964394556
+                ]
+            },
+            "properties": {
+                "id": "A4",
+                "primaryName": "新莊副都心",
+                "name": "Xinzhuang Fuduxin",
+                "latitude": 25.0591305,
+                "longitude": 121.4434732,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.43948370847497,
+                    25.053214248141945
+                ]
+            },
+            "properties": {
+                "id": "A5",
+                "primaryName": "泰山",
+                "name": "Taishan",
+                "latitude": 25.0532726,
+                "longitude": 121.4373407,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.42261868069963,
+                    25.033168578461424
+                ]
+            },
+            "properties": {
+                "id": "A6",
+                "primaryName": "泰山貴和",
+                "name": "Taishan Guihe",
+                "latitude": 25.0334752,
+                "longitude": 121.4201443,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.38534119120342,
+                    25.041233246719376
+                ]
+            },
+            "properties": {
+                "id": "A7",
+                "primaryName": "體育大學",
+                "name": "National Taiwan Sport University",
+                "latitude": 25.041246,
+                "longitude": 121.3832453,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.37068700058227,
+                    25.06051441495752
+                ]
+            },
+            "properties": {
+                "id": "A8",
+                "primaryName": "長庚醫院",
+                "name": "Chang Gung Memorial Hospital",
+                "latitude": 25.0604363,
+                "longitude": 121.3679403,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.36112889039548,
+                    25.06576012664709
+                ]
+            },
+            "properties": {
+                "id": "A9",
+                "primaryName": "林口",
+                "name": "Linkou",
+                "latitude": 25.0665023,
+                "longitude": 121.3590943,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.28470015537852,
+                    25.080746607799536
+                ]
+            },
+            "properties": {
+                "id": "A10",
+                "primaryName": "山鼻",
+                "name": "Shanbi",
+                "latitude": 25.0803514,
+                "longitude": 121.2834868,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.26593005669848,
+                    25.08654765543889
+                ]
+            },
+            "properties": {
+                "id": "A11",
+                "primaryName": "坑口",
+                "name": "Kengkou",
+                "latitude": 25.086516,
+                "longitude": 121.2642601,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.2385178805428,
+                    25.082102153582408
+                ]
+            },
+            "properties": {
+                "id": "A12",
+                "primaryName": "機場第一航廈",
+                "name": "Airport Terminal 1",
+                "latitude": 25.081385,
+                "longitude": 121.2353293,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.23200011262489,
+                    25.077377112581612
+                ]
+            },
+            "properties": {
+                "id": "A13",
+                "primaryName": "機場第二航廈",
+                "name": "Airport Terminal 2",
+                "latitude": 25.0772703,
+                "longitude": 121.230063,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.22163069256281,
+                    25.069848251561524
+                ]
+            },
+            "properties": {
+                "id": "A14a",
+                "primaryName": "機場旅館",
+                "name": "Airport Hotel",
+                "latitude": 25.0692598,
+                "longitude": 121.2187503,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.21056431194587,
+                    25.055985522250232
+                ]
+            },
+            "properties": {
+                "id": "A15",
+                "primaryName": "大園",
+                "name": "Dayuan",
+                "latitude": 25.0560465,
+                "longitude": 121.2082923,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.21568720140381,
+                    25.036700708990676
+                ]
+            },
+            "properties": {
+                "id": "A16",
+                "primaryName": "橫山",
+                "name": "Hengshan",
+                "latitude": 25.0460284,
+                "longitude": 121.2045017,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.22097929643837,
+                    25.02420694586257
+                ]
+            },
+            "properties": {
+                "id": "A17",
+                "primaryName": "領航",
+                "name": "Linghang",
+                "latitude": 25.0189695,
+                "longitude": 121.2136874,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.21414811557139,
+                    25.013703423270794
+                ]
+            },
+            "properties": {
+                "id": "A18",
+                "primaryName": "高鐵桃園站",
+                "name": "Taoyuan HSR Station",
+                "latitude": 25.013762,
+                "longitude": 121.2119733,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.20348916365315,
+                    25.002005969518418
+                ]
+            },
+            "properties": {
+                "id": "A19",
+                "primaryName": "桃園體育園區",
+                "name": "Taoyuan Sports Park",
+                "latitude": 25.001996,
+                "longitude": 121.2013063,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.21626482508199,
+                    24.98024275453435
+                ]
+            },
+            "properties": {
+                "id": "A20",
+                "primaryName": "興南",
+                "name": "Xingnan",
+                "latitude": 24.9802492,
+                "longitude": 121.2140726,
+                "marker-color": "#8246af"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.22083641897571,
+                    24.96719382622243
+                ]
+            },
+            "properties": {
+                "id": "A21",
+                "primaryName": "環北",
+                "name": "Huanbei",
+                "latitude": 24.967381,
+                "longitude": 121.2197492,
+                "marker-color": "#8246af"
+            }
+        }
+    ]
+}

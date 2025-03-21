@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PMTiles Transportation - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to leverage PMTiles as custom protocol to create data layers using Overture Transportation dataset." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, pmtiles, pmtile, Overture, Transportation" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+
+    <!-- Add references to the PMTiles lib. -->
+    <script src="https://unpkg.com/pmtiles@3.0.5/dist/pmtiles.js"></script>
+
+    <style>
+      #map {
+        width: 100%;
+        height: 600px;
+      }
+
+      #info {
+        margin-top: 15px;
+      }
+
+      #legend {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-family: Arial;
+        font-size: 12px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        padding: 5px;
+        line-height: 18px;
+      }
+
+      #legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+      }
+
+      .atlas-map .azure-maps-control-popup-template-content {
+        overflow-x: hidden;
+      }
+
+      .atlas-map .azure-maps-control-popup-template {
+        padding: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <div id="legend">Metro Lines<br /></div>
+    <fieldset id="info">
+      <legend>PMTiles - Transportation</legend>
+      This sample showcases the use of <a href="https://protomaps.com/" target="_blank">Protomaps</a> to display <a href="https://overturemaps.org/" target="_blank">Overture</a> transportation data on a map. 
+      The data is stored in a PMTiles file that contains a vector tileset of transportation data.
+      The data is filtered by the rail subtype and name to show Taipei's metro lines on a line layer.
+      Stations are displayed on a symbol layer using a pre-generated GeoJSON file. Click on a line or station for more details.
+    </fieldset>
+
+    <script>
+      var map, popup;
+
+      var metroLines = {
+        "MRT Tamsui-Xinyi Line": "#e3002c",
+        "MRT Bannan Line": "#0070bd",
+        "MRT Wenhu Line": "#c48c31",
+        "MRT Songshan-Xindian Line": "#008659",
+        "MRT Zhonghe-Xinlu Line": "#f8b61c",
+        "MRT Circular Line": "#fddb00",
+        "MRT Xinbeitou Branch Line": "#f48b9a",
+        "Xiaobitan Branch Line": "#cfdb00",
+        "Taoyuan Airport MRT": "#8246af",
+      };
+
+      //Initialize the plugin.
+      const protocol = new pmtiles.Protocol();
+      atlas.addProtocol("pmtiles", (request) => {
+        return new Promise((resolve, reject) => {
+          const callback = (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve({ data });
+            }
+          };
+          protocol.tile(request, callback);
+        });
+      });
+
+      const PMTILES_URL = "https://overturemaps-tiles-us-west-2-beta.s3.amazonaws.com/2024-07-22/transportation.pmtiles";
+      protocol.add(new pmtiles.PMTiles(PMTILES_URL));
+
+      //Initialize the map.
+      map = new atlas.Map("map", {
+        //Add authentication details for connecting to Azure Maps.
+        authOptions: {
+            //Use Azure Active Directory authentication.
+            authType: 'anonymous',
+            clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+            getToken: function (resolve, reject, map) {
+                //URL to your authentication service that retrieves an Azure Active Directory Token.
+                var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+            }
+
+            //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+            //authType: 'subscriptionKey',
+            //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+        },
+        language: "en-US",
+        style: "grayscale_dark",
+        center: [121.51166, 25.04085],
+        zoom: 12,
+      });
+
+      //Wait until the map resources are ready.
+      map.events.add("ready", function () {
+  
+        //Load image sprites for the stations.
+        Object.keys(metroLines).forEach((line) => {
+          map.imageSprite.createFromTemplate(
+            metroLines[line],
+            "pin-round",
+            metroLines[line],
+            "#fff",
+            1
+          );
+        });
+
+        //Add the pmtiles source.
+        map.sources.add(
+          new atlas.source.VectorTileSource("pmtiles", {
+            type: "vector",
+            url: `pmtiles://${PMTILES_URL}`,
+          })
+        );
+
+        //Add the stations source.
+        //Create a data source to add your data to.
+        const stations = new atlas.source.DataSource();
+        map.sources.add(stations);
+
+        //Load a dataset of taipei metro stations.
+        stations.importDataFromUrl('/data/geojson/TaipeiMetroStations.json');
+
+
+        //Create a case expression for the line colors.
+        const cases = [];
+        Object.keys(metroLines).forEach((line) => {
+          cases.push([">=", ["index-of", line, ["get", "names"]], 0]);
+          cases.push(metroLines[line]);
+        });
+
+        //Create a line layer.
+        const lineLayer = new atlas.layer.LineLayer("pmtiles", "lines", {
+          sourceLayer: "segment",
+          strokeColor: ["case", ...cases, "transparent"],
+          strokeWidth: 4,
+          filter: [
+            "all",
+            ["has", "names"],
+            ["==", ["get", "subtype"], "rail"],
+            ["==", ["geometry-type"], "LineString"],
+          ],
+        });
+
+        //Create a symbol layer
+        var symbolLayer = new atlas.layer.SymbolLayer(stations, "stations", {
+          iconOptions: {
+            image: ["get", "marker-color"],
+            anchor: "center",
+            allowOverlap: true,
+          },
+        });
+
+        //Add a click event to the layers.
+        map.events.add("click", lineLayer, featureClicked);
+        map.events.add("click", symbolLayer, featureClicked);
+
+        //Add the layer to the map.
+        map.layers.add([lineLayer, symbolLayer]);
+
+        //Create a popup but leave it closed so we can update it and display it later.
+        popup = new atlas.Popup({ position: [0, 0] });
+
+        //Add map controls.
+        map.controls.add(
+          [
+            new atlas.control.ZoomControl(),
+            new atlas.control.PitchControl(),
+            new atlas.control.CompassControl(),
+            new atlas.control.StyleControl({
+              mapStyles: [
+                "road",
+                "satellite",
+                "satellite_road_labels",
+                "night",
+                "grayscale_light",
+                "grayscale_dark",
+                "road_shaded_relief",
+                "high_contrast_light",
+                "high_contrast_dark",
+              ],
+            }),
+          ],
+          {
+            position: "top-right",
+          }
+        );
+      });
+
+      function featureClicked(e) {
+        //Make sure the event occurred on a shape feature.
+        if (e.shapes && e.shapes.length > 0) {
+          //By default, show the popup where the mouse event occurred.
+          var pos = e.position;
+          var offset = [0, 0];
+          var properties = e.shapes[0].properties;
+
+          if (e.shapes[0] instanceof atlas.Shape) {
+            properties = e.shapes[0].getProperties();
+
+            //If the shape is a point feature, show the popup at the points coordinate.
+            if (e.shapes[0].getType() === "Point") {
+              pos = e.shapes[0].getCoordinates();
+              offset = [0, -18];
+            }
+          } else {
+            properties = e.shapes[0].properties;
+
+            //If the shape is a point feature, show the popup at the points coordinate.
+            if (e.shapes[0].type === "Point") {
+              pos = e.shapes[0].geometry.coordinates;
+              offset = [0, -18];
+            }
+          }
+
+          //Parse the JSON properties.
+          properties.names = properties.names ? JSON.parse(properties.names) : undefined;
+          properties.sources = properties.sources ? JSON.parse(properties.sources) : undefined;
+
+          //Remove the connector_ids property as it is not needed.
+          if (properties["connector_ids"]) {
+            properties["connector_ids"] = undefined;
+          }
+
+          //Update the content and position of the popup.
+          popup.setOptions({
+            //Create a table from the properties in the feature.
+            content: atlas.PopupTemplate.applyTemplate(properties, {
+              sandboxContent: false,
+            }),
+            position: pos,
+            pixelOffset: offset,
+          });
+
+          //Open the popup.
+          popup.open(map);
+        }
+      }
+
+      function drawLegend() {
+        //Create a legend for the metro lines.
+        var legend = document.getElementById("legend");
+        for (var line in metroLines) {
+          var div = document.createElement("div");
+          div.innerHTML =
+            '<i style="background:' + metroLines[line] + '"></i>' + line;
+          legend.appendChild(div);
+        }
+      }
+
+      drawLegend();
+    </script>
+  </body>
+</html>

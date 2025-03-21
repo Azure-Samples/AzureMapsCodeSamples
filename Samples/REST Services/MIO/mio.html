@@ -273,10 +273,10 @@
 
             // URL for making calls to the NVIDIA optimizer service.
             //var optimizerUrl = 'https://api.nvcf.nvidia.com/v2/nvcf/exec/functions/4bb2668d-c877-4b89-aabf-1630ed9b32c3/versions/471b94dc-931e-4aa1-99f4-935f5f352737';
-            var optimizerUrl = 'https://samples.azuremaps.com/api/optimizer'; // this is just demo data, use the real NVIDIA optimizer service
+            var optimizerUrl = 'https://samples.azuremaps.com/api/Optimizer'; // this is just demo data, use the real NVIDIA optimizer service
 
             // Bearer token for the NVIDIA optimizer service.
-            var tokenResponse = await fetch('https://samples.azuremaps.com/api/GetMIOKey');
+            var tokenResponse = await fetch('https://samples.azuremaps.com/api/OptimizerKey');
             var token = await tokenResponse.text();
 
             // Initiate an request to the NVIDIA optimizer service.

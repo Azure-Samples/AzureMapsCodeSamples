@@ -11,12 +11,88 @@
     <link href="/favicon.ico" rel="shortcut icon">
     <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .col { min-height: 350px }
+        .col {
+            min-height: 350px
+        }
+        
+        li.nav-item a.nav-link:focus {
+            outline: 2px solid #4382DF;
+        }
+
+        /* Adjust the focus style for high contrast theme */
+        @media (forced-colors: active) {
+            .btn:focus {
+                outline: 2px solid #25cff2;
+                outline-offset: 0px;
+            }
+        }
+
+        a.m-skip-to-main {
+            left: -999px;
+            position: absolute;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: -2
+        }
+
+        a.m-skip-to-main:hover {
+            left: -999px;
+            position: absolute;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: -2
+        }
+
+        a.m-skip-to-main:focus, a.m-skip-to-main:active {
+            background: #e6e6e6;
+            color: #0067b8;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 24px;
+            width: auto;
+            height: auto;
+            overflow: auto;
+            right: 0;
+            text-decoration: underline;
+            text-align: center;
+            z-index: 800;
+            outline: none
+        }
+
+        a.m-skip-to-main:focus {
+            border: 1px dashed #000
+        }
+
+        @media (max-width: 575.98px) {
+            .carousel-caption {
+                padding-bottom: 0 !important;
+            }
+
+            .carousel-caption p {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .carousel-caption p a.btn {
+                font-size: 0.9rem !important;
+                padding: 0.2rem 0.4rem !important;
+            }
+
+            .carousel-indicators {
+                margin-bottom: 0.2rem !important;
+            }
+        }
     </style>
 </head>
 <body onload="Start()" class="d-flex flex-column h-100">
 
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a href="#main" class="m-skip-to-main">Skip to main content</a>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: black;">
         <div class="container-fluid">
             <a class="navbar-brand" href="/" title="Azure Maps Samples">
                 <svg width="20" height="20" class="me-2 mb-1" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,32 +116,29 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://azuremaps.com" title="About Azure Maps" tabindex="100">About</a>
+                        <a class="nav-link" target="_blank" href="https://azuremaps.com" title="About Azure Maps" >About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://docs.azuremaps.com" title="Azure Maps Documentation" tabindex="101">Docs</a>
+                        <a class="nav-link" target="_blank" href="https://docs.azuremaps.com" title="Azure Maps Documentation" >Docs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://demo.azuremaps.com" title="Azure Maps Demo" tabindex="102">Demo</a>
+                        <a class="nav-link" target="_blank" href="https://blog.azuremaps.com" title="Azure Maps Blog" >Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://blog.azuremaps.com" title="Azure Maps Blog" tabindex="103">Blog</a>
+                        <a class="nav-link" target="_blank" href="https://updates.azuremaps.com" title="Azure Maps Updates" >Updates</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://updates.azuremaps.com" title="Azure Maps Updates" tabindex="104">Updates</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" tabindex="105">
+                   <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
                             Categories
                         </a>
                         <ul id="categoryList" class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown" style="max-height: calc(100vh - 100px); overflow-y: auto;">
                             {categoryList}
                         </ul>
-                    </li>
+                    </li> -->
                 </ul>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" id="searchBox" placeholder="Search" aria-label="Search" aria-autocomplete="list" aria-controls="sampleList" tabindex="150">
-                    <button class="btn btn-outline-info" type="submit" tabindex="151">Search</button>
+                    <input class="form-control me-2" type="search" id="searchBox" placeholder="Search" aria-label="Search" aria-autocomplete="list" aria-controls="sampleList" >
+                    <button class="btn btn-outline-info" type="submit" >Search</button>
                 </form>
             </div>
         </div>
@@ -75,26 +148,28 @@
         <div id="cookie-banner"></div>
     </div>
 
-    <main>
+    <div id="resultsCount" aria-live="polite" style="opacity: 0; width: 0.1px; height: 0.1px"></div>
+
+    <main id="main">
 
         <div class="container px-4 py-5">
             <div class="row flex-lg-row-reverse row-cols-lg-2 row-cols-xl-2 align-items-center g-5 py-5 row-cols-1">
                 <div class="col">
-                    <div id="carouselIndicators" class="carousel slide border rounded-3 shadow-lg slide" data-bs-ride="carousel" tabindex="250">
+                    <div id="carouselIndicators" class="carousel slide border rounded-3 shadow-lg slide" data-bs-interval="false" >
                         <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Store Locator" tabindex="251"></button>
-                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="3D Layer" tabindex="252"></button>
-                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2" aria-label="Weather" tabindex="253"></button>
-                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="3" aria-label="Satellite Images" tabindex="254"></button>
-                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="4" aria-label="Traffic" tabindex="255"></button>
-                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="5" aria-label="Travel Times" tabindex="256"></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Store Locator" ></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="3D Layer" ></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2" aria-label="Weather" ></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="3" aria-label="Satellite Images" ></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="4" aria-label="Traffic" ></button>
+                            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="5" aria-label="Travel Times" ></button>
                         </div>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="/images/azuremapsdemo0.jpg" class="d-block w-100" alt="Store Locator">
                                 <div class="container">
                                     <div class="carousel-caption text-start text-black">
-                                        <h1>Store Locator</h1>
+                                        <h5>Store Locator</h5>
                                         <p><strong>Help customers find your business locations.</strong></p>
                                         <p><a class="btn btn-info" target="_blank" href="https://github.com/Azure-Samples/Azure-Maps-Locator">Azure Maps Store Locator</a></p>
                                     </div>
@@ -104,9 +179,8 @@
                                 <img src="/images/azuremapsdemo1.jpg" class="d-block w-100" alt="3D layer">
                                 <div class="container">
                                     <div class="carousel-caption text-start text-white">
-                                        <h1>3D Layer</h1>
+                                        <h5>3D Layer</h5>
                                         <p><strong>Add 2D and 3D layers to the map using WebGL.</strong></p>
-                                        <p><a class="btn btn-info" target="_blank" href="https://demo.azuremaps.com">Azure Maps Demo</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -114,9 +188,8 @@
                                 <img src="/images/azuremapsdemo2.jpg" class="d-block w-100" alt="Weather">
                                 <div class="container">
                                     <div class="carousel-caption text-start text-white">
-                                        <h1>Weather</h1>
+                                        <h5>Weather</h5>
                                         <p><strong>Use current or historical weather information.</strong></p>
-                                        <p><a class="btn btn-info" target="_blank" href="https://demo.azuremaps.com">Azure Maps Demo</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -124,9 +197,8 @@
                                 <img src="/images/azuremapsdemo4.jpg" class="d-block w-100" alt="Satellite Images">
                                 <div class="container">
                                     <div class="carousel-caption text-start text-black">
-                                        <h1>Satellite Images</h1>
+                                        <h5>Satellite Images</h5>
                                         <p><strong>See the world in high resolution.</strong></p>
-                                        <p><a class="btn btn-info" target="_blank" href="https://demo.azuremaps.com">Azure Maps Demo</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -134,9 +206,8 @@
                                 <img src="/images/azuremapsdemo5.jpg" class="d-block w-100" alt="Traffic">
                                 <div class="container">
                                     <div class="carousel-caption text-start text-black">
-                                        <h1>Traffic</h1>
+                                        <h5>Traffic</h5>
                                         <p><strong>Live traffic and accident information.</strong></p>
-                                        <p><a class="btn btn-info" target="_blank" href="https://demo.azuremaps.com">Azure Maps Demo</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -144,9 +215,8 @@
                                 <img src="/images/azuremapsdemo6.jpg" class="d-block w-100" alt="Travel Times">
                                 <div class="container">
                                     <div class="carousel-caption text-start text-white">
-                                        <h1>Travel Times</h1>
+                                        <h5>Travel Times</h5>
                                         <p><strong>Calculate travel time using an isochrone.</strong></p>
-                                        <p><a class="btn btn-info" target="_blank" href="https://demo.azuremaps.com">Azure Maps Demo</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -167,8 +237,8 @@
                         Welcome to the Azure Maps Web Control V3 Code Sample Gallery. This is a collection of <strong>{numberOfSamples}</strong> code samples that have been made open source on GitHub. Build your location-aware solutions with a seamless development experience. Easily integrate open source and other map controls, as well as Open Geospatial Consortium standards, such as GeoJSON and KML.
                     </p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <a href="https://github.com/Azure-Samples/AzureMapsCodeSamples/" target="_blank" class="btn btn-info btn-lg px-4 me-md-2" tabindex="200">Open GitHub Project</a>
-                        <a href="https://aka.ms/AzureMapsGettingStarted" target="_blank" class="btn btn-outline-secondary btn-lg px-4" tabindex="201">Getting Started</a>
+                        <a href="https://github.com/Azure-Samples/AzureMapsCodeSamples/" target="_blank" class="btn btn-info btn-lg px-4 me-md-2" >Open GitHub Project</a>
+                        <a href="https://aka.ms/AzureMapsGettingStarted" target="_blank" class="btn btn-outline-secondary btn-lg px-4" >Getting Started</a>
                     </div>
                 </div>
             </div>
@@ -187,14 +257,14 @@
     <footer class="footer mt-auto py-2 pt-0 bg-white">
         <div class="container pt-1">
             <ul class="nav float-end">
-                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?LinkId=206977" class="nav-link px-2 text-black" title="Terms of use" tabindex="450">Terms of use</a></li>
-                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?LinkID=521839" class="nav-link px-2 text-black" title="Privacy" tabindex="451">Privacy</a></li>
-                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?linkid=2259814" class="nav-link px-2 text-black" title="Consumer Health Privacy" tabindex="452">Consumer Health Privacy</a></li>
-                <li class="nav-item"><a href="#" onclick="siteConsent.manageConsent()" class="nav-link px-2 text-black" title="Manage cookies" tabindex="453">Manage cookies</a></li>
-                
+                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?LinkId=206977" class="nav-link px-2 text-black" title="Terms of use" >Terms of use</a></li>
+                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?LinkID=521839" class="nav-link px-2 text-black" title="Privacy" >Privacy</a></li>
+                <li class="nav-item"><a href="https://go.microsoft.com/fwlink/?linkid=2259814" class="nav-link px-2 text-black" title="Consumer Health Privacy" >Consumer Health Privacy</a></li>
+                <li class="nav-item"><a href="#" onclick="siteConsent.manageConsent()" class="nav-link px-2 text-black" title="Manage cookies" >Manage cookies</a></li>
+
             </ul>
-            <p class="mb-0">Azure Maps &copy; <a href="https://www.microsoft.com/" title="Microsoft Corporation" class="link-secondary" tabindex="400">Microsoft</a>, but please <a href="https://github.com/Azure-Samples/AzureMapsCodeSamples/" title="GitHub" tabindex="401" class="link-secondary">download</a> and customize it for yourself!</p>
-            <p class="mb-0">New to Azure Maps? <a href="https://azuremaps.com" tabindex="402" title="About Azure Maps" class="link-secondary">Visit the homepage</a> or read our <a href="https://aka.ms/AzureMapsGettingStarted" tabindex="404" title="Getting started guide">getting started guide</a>.</p>
+            <p class="mb-0">Azure Maps &copy; <a href="https://www.microsoft.com/" title="Microsoft Corporation" class="link-secondary" >Microsoft</a>, but please <a href="https://github.com/Azure-Samples/AzureMapsCodeSamples/" title="GitHub" class="link-secondary">download</a> and customize it for yourself!</p>
+            <p class="mb-0">New to Azure Maps? <a href="https://azuremaps.com" title="About Azure Maps" class="link-secondary">Visit the homepage</a> or read our <a href="https://aka.ms/AzureMapsGettingStarted" title="Getting started guide">getting started guide</a>.</p>
         </div>
     </footer>
 

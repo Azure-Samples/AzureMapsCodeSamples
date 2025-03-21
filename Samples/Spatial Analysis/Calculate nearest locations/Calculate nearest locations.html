@@ -30,7 +30,7 @@
         var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
         // URL for making async calls to the route matrix service.
-        var routeMatrixAsyncUrl = 'https://{azMapsDomain}/route/matrix/json?api-version=1.0';
+        var routeMatrixAsyncUrl = 'https://{azMapsDomain}/route/matrix/json?api-version=1.0&waitForResults=true';
 
         // Function to retrieve an Azure Maps access token.
         function getToken(resolve, reject, map) {
