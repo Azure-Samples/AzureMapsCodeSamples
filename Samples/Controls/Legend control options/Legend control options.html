@@ -177,6 +177,12 @@
                 minimized: elm.checked
             });
         }
+
+        function updateMaxWidth(elm) {
+            legend.setOptions({
+                maxWidth: parseFloat(elm.value)
+            });
+        }
     </script>
     <style>
         .sidePanel {
@@ -206,7 +212,7 @@
             <tr title="The global title of the legend control.">
                 <td>Title:</td>
                 <td>
-                   <input type="text" oninput="setTitle(this)" title="Title" />
+                    <input type="text" oninput="setTitle(this)" title="Title" />
                 </td>
             </tr>
             <tr title="How multiple legends are laid out.">
@@ -215,7 +221,7 @@
                     <select onchange="setLayout(this)" title="Layout">
                         <option>accordion</option>
                         <option selected="selected">carousel</option>
-                        <option>list</option>                        
+                        <option>list</option>
                     </select>
                 </td>
             </tr>
@@ -245,6 +251,15 @@
             <tr title="Specifies that the legend control should render in a element outside the map.">
                 <td>Container:</td>
                 <td><input type="checkbox" onclick="setContainerId(this)" title="Container" /> show in test area</td>
+            </tr>
+            <tr title='Specifies the maximium width the legend control can expand to. If greater than the width of the map, the legend control will have a max width of the maps width minus 20 pixels.'>
+                <td>Max width:</td>
+                <td>
+                    <form oninput="maxWidth.value=MaxWidth.value">
+                        <input type="range" id="MaxWidth" value="1000" min="50" max="1000" step="50" oninput="updateMaxWidth(this)" />
+                        <output name="maxWidth" for="MaxWidth">1000</output>
+                    </form>
+                </td>
             </tr>
         </table>
 

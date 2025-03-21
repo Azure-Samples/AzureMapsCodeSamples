@@ -17,7 +17,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <script>
-        var map, datasource, infopane, completed = 0, featureCnt = 0, totalFileSize = 0;
+        var map, datasource, popup, infopane, completed = 0, featureCnt = 0, totalFileSize = 0;
         var geoJsonData = [
             { name: 'Parcel Boundaries', url: '/data/geojson/parcels.json', fileSizeMB: 80, geomType: 'polygons' },
             { name: 'Streets', url: '/data/geojson/streets.json', fileSizeMB: 16, geomType: 'lines' },
@@ -53,6 +53,9 @@
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
+				//Create a popup.
+                popup = new atlas.Popup();
+				
                 //Create a data source to store the data in.
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);

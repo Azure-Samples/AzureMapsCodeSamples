@@ -376,7 +376,8 @@ MIT License
         Utils.getMapLayers = function (map, layerFilter) {
             var userLayers = [];
             if (map) {
-                var mapLayers = map.layers.getLayers();
+                //Workaround: get user defined layers, not all layers (including basemap layers).
+                var mapLayers = map.layers['_getUserLayers']().map(function (l) { return l.layer; });
                 var layers_1 = [];
                 var filter_1 = [];
                 if (layerFilter && layerFilter.length > 0) {
@@ -1513,6 +1514,10 @@ MIT License
                 opt.layout = options.layout;
                 self._needsRebuild = true;
             }
+            if (options.maxWidth > 0 && opt.maxWidth !== options.maxWidth) {
+                opt.maxWidth = options.maxWidth;
+                self._adjustSize();
+            }
             if (options.showToggle !== undefined && opt.showToggle !== options.showToggle) {
                 opt.showToggle = options.showToggle;
                 if (!options.showToggle) {
@@ -1577,13 +1582,13 @@ MIT License
             var opt = self._baseOptions;
             var container = self._container;
             if (self._map) {
-                var maxWidth_1 = 'unset';
+                var maxWidth_1 = opt.maxWidth ? opt.maxWidth + 'px' : 'unset';
                 var maxHeight_1 = 'unset';
                 //When legend is displayed within the map, need to restrict the size of the legend content.
                 if (!opt.container) {
                     var rect = self._map.getCanvasContainer().getClientRects()[0];
-                    //Subtract 20 pixels to account for padding around controls in the map.
-                    maxWidth_1 = (rect.width - 20) + 'px';
+                    //Subtract 20 pixels to account for padding around controls in the map.               
+                    maxWidth_1 = Math.min(opt.maxWidth || 10000, rect.width - 20) + 'px';
                     var maxContainerHeight = rect.height - 20;
                     var cp = self._controlPosition;
                     if (cp && cp !== '' && cp !== 'non-fixed') {
@@ -1843,14 +1848,14 @@ MIT License
                     container.setAttribute('aria-expanded', !minimized + '');
                     var classList = container.classList;
                     if (showBtnBg) {
-                        if (!classList.contains(btnCss)) {
-                            classList.add(btnCss);
-                        }
+                        classList.remove(btnCss);
                         btn.style.display = '';
                         container.style.cursor = '';
                     }
                     else {
-                        classList.remove(btnCss);
+                        if (!classList.contains(btnCss)) {
+                            classList.add(btnCss);
+                        }
                         btn.style.display = 'none';
                         if (minimized) {
                             container.style.cursor = 'pointer';
@@ -1992,6 +1997,7 @@ MIT License
                         case 'container':
                         case 'layout':
                         case 'zoomBehavior':
+                        case 'maxWidth':
                             //@ts-ignore
                             opt[key] = val;
                             break;
@@ -2496,6 +2502,12 @@ MIT License
                 var textStyle = void 0;
                 var barWidth = void 0;
                 var barHeight = void 0;
+                //Ensure all stops have an offset value.
+                legendType.stops.forEach(function (item) {
+                    if (typeof item.offset !== 'number') {
+                        item.offset = 0;
+                    }
+                });
                 //Ensure stops are sorted by offset.
                 legendType.stops.sort(function (a, b) {
                     return a.offset - b.offset;
@@ -2720,6 +2732,7 @@ MIT License
                         case 'container':
                         case 'layout':
                         case 'zoomBehavior':
+                        case 'maxWidth':
                             //@ts-ignore
                             opt[key] = val;
                             break;
