@@ -23,12 +23,12 @@
     <script>
         //Add authentication details for connecting to Azure Maps.
         var authOptions = {
-            //Use Azure Active Directory authentication.
+            //Use Microsoft Entra ID authentication.
             authType: 'anonymous',
             clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
             getToken: function (resolve, reject, map) {
-                //URL to your authentication service that retrieves an Azure Active Directory Token.
-                var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                //URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                 fetch(tokenServiceUrl).then(function (response) {
                     return response.text();
@@ -44,7 +44,7 @@
 
         var maps = [], syncMap;
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             maps.push(new atlas.Map('map1', {
                 center: [-122.33, 47.6],
@@ -74,7 +74,7 @@
     </script>
 </head>
 
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="map1" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
     <div id="map2" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>
     <div id="map3" style="position:relative;float:left;width:33%;min-width:100px;height:600px;"></div>

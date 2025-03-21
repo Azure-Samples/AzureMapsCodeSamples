@@ -1,13 +1,18 @@
-using System.Net;
 using Azure.Core;
 using Azure.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
 
 namespace SampleFunctions;
 
-public class GetAzureMapsToken
+public class GetAzureMapsToken()
 {
+    private static readonly string[] AllowedDomains = [
+        "https://samples.azuremaps.com/",
+        "http://localhost:58035/" // For local testing
+    ];
+
     /// <summary>
     /// This token provider simplifies access tokens for Azure Resources. It uses the Managed Identity of the deployed resource.
     /// For instance if this application was deployed to Azure App Service or Azure Virtual Machine, you can assign an Azure AD
@@ -21,23 +26,25 @@ public class GetAzureMapsToken
 
     // The scopes for the access token
     private readonly string[] _Scopes =
-    {
+    [
         "https://atlas.microsoft.com/.default"
-    };
+    ];
 
     [Function("GetAzureMapsToken")]
-    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+    public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
-        // Managed identities for Azure resources and Azure Maps
-        // For the Web SDK to authorize correctly, you still must assign Azure role based access control for the managed identity
-        // https://docs.microsoft.com/en-us/azure/azure-maps/how-to-manage-authentication
-        AccessToken accessToken = await _TokenProvider.GetTokenAsync(new TokenRequestContext(_Scopes));
+        // Check if the referer header is present and if the domain is allowed
+        if (req.Headers.TryGetValue("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))
+        {
+            // Managed identities for Azure resources and Azure Maps
+            // For the Web SDK to authorize correctly, you still must assign Azure role based access control for the managed identity
+            // https://docs.microsoft.com/en-us/azure/azure-maps/how-to-manage-authentication
+            AccessToken accessToken = await _TokenProvider.GetTokenAsync(new TokenRequestContext(_Scopes));
 
-        // Create a new response
-        var response = req.CreateResponse(HttpStatusCode.OK);
-        response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-        response.WriteString(accessToken.Token);
+            return new OkObjectResult(accessToken.Token);
+        }
 
-        return response;
+        // Retrun access denied if the referer domain is not allowed
+        return new StatusCodeResult(StatusCodes.Status403Forbidden);
     }
 }

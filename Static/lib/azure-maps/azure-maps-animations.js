@@ -688,9 +688,9 @@ MIT License
                 case 'MultiPoint':
                     if (feature.properties[timestampProperty] &&
                         Array.isArray(feature.properties[timestampProperty]) &&
-                        feature.geometry.coordinates.length === feature.properties[timestampProperty]) {
+                        feature.geometry.coordinates.length === feature.properties[timestampProperty].length) {
                         for (var i = 0, len = feature.geometry.coordinates.length; i < len; i++) {
-                            t = azmaps.math.parseTimestamp(feature.properties[timestampProperty]);
+                            t = azmaps.math.parseTimestamp(feature.properties[timestampProperty][i]);
                             if (t) {
                                 pts.push(new azmaps.data.Feature(new azmaps.data.Point(feature.geometry.coordinates[i]), {
                                     _timestamp: t.getTime()
@@ -1189,7 +1189,7 @@ MIT License
             self._curFrameIdx = frameIdx;
             if (frameIdx !== -1) {
                 self._invokeEvent('onframe', {
-                    type: 'onFrame',
+                    type: 'onframe',
                     frameIdx: frameIdx,
                     animation: self,
                     numFrames: self._numFrames
@@ -1246,14 +1246,14 @@ MIT License
             var self = _this;
             self._id = AnimationManager.instance.add(self);
             var numFrames = 0;
-            if (options) {
-                self.setOptions(options);
-                if (options.tileLayerOptions) {
-                    numFrames = options.tileLayerOptions.length;
-                }
+            if (options && options.tileLayerOptions) {
+                numFrames = options.tileLayerOptions.length;
             }
             self._animation = new FrameBasedAnimationTimer(numFrames, self._onFrame, options);
             self._onComplete = self._animation._onComplete;
+            if (options) {
+                self.setOptions(options);
+            }
             return _this;
         }
         /**************************
@@ -1352,6 +1352,9 @@ MIT License
                         animation.setNumberOfFrames(opt.tileLayerOptions.length);
                     }
                     var frameIdx = (animation) ? self._animation.getCurrentFrameIdx() : 0;
+                    if ((frameIdx == -1 || frameIdx > tileLayers.length)) {
+                        frameIdx = 0;
+                    }
                     if (frameIdx >= 0) {
                         self._currentTileLayer = tileLayers[frameIdx];
                         self._currentTileLayer.setOptions({ fadeDuration: 0, visible: true });
@@ -1359,17 +1362,9 @@ MIT License
                 }
                 if (typeof options.visible === 'boolean') {
                     opt.visible = options.visible;
-                    if (options.visible) {
-                        var frameIdx = animation.getCurrentFrameIdx();
-                        if (options.tileLayerOptions.length > 0) {
-                            self._currentTileLayer.setOptions({ fadeDuration: 0, opacity: options.tileLayerOptions[frameIdx].opacity });
-                        }
-                    }
-                    else {
-                        tileLayers.forEach(function (l) { return l.setOptions({
-                            opacity: 0
-                        }); });
-                    }
+                    tileLayers.forEach(function (l) { return l.setOptions({
+                        visible: options.visible
+                    }); });
                 }
             }
             if (animation) {

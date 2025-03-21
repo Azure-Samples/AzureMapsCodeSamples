@@ -26275,8 +26275,6 @@ MIT License
     	"axleWeight",
     	"car",
     	"truck",
-    	"pedestrian",
-    	"bicycle",
     	"selectOrigin",
     	"time",
     	"travelTime",
@@ -26344,8 +26342,6 @@ MIT License
     		"Axle weight",
     		"Car",
     		"Truck",
-    		"Pedestrian",
-    		"Bicycle",
     		"Drag marker to select origin location",
     		"Time",
     		"Travel time (minutes)",
@@ -29725,13 +29721,11 @@ MIT License
                 /*
                     <select>
                         <option value="car" selected>Car</option>
-                        <option value="bicycle">Bicycle</option>
-                        <option value="pedestrian">Pedestrian</option>
                         <option value="truck">Truck</option>
                     </select>
                 */
                 var travelMode = createElm('select', {
-                    selectVals: ['car', 'bicycle', 'pedestrian', 'truck'],
+                    selectVals: ['car', 'truck'],
                     selected: 'car',
                     propName: 'travelMode',
                     bindingChanged: function (val) {

@@ -1,4 +1,4 @@
-# Azure Maps Store Locator (version 1.0-rc.2)
+# Azure Maps Store Locator (version 1.1)
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # https://github.com/Azure-Samples/Azure-Maps-Locator
 #
@@ -10,7 +10,7 @@ param(
     [Parameter(Mandatory=$false)]
     [switch]$Help,
 
-    [string]$Location = "westeurope",
+    [string]$Location = "uksouth",
     [string]$Name = "storelocator",
     [string]$DatabaseName = "storelocator"
 )
@@ -73,7 +73,7 @@ try {
     # Create Webserver and Website
     Write-Output "- Creating a Webserver plan named '$webserverplan' for the Website '$webappname'..."
     az appservice plan create -g $group -n $webserverplan --location $Location | Out-Null
-    az webapp create -g $group -p $webserverplan -n $webappname -r "dotnet:8" | Out-Null
+    az webapp create -g $group -p $webserverplan -n $webappname -r "dotnet:9" | Out-Null
 
     # Use managed identities
     Write-Output "- Utilizing managed identities for Azure Maps..."
@@ -104,7 +104,8 @@ try {
     # Deploy Azure Maps Store Locator
     Write-Output "- Initiating the deployment of the Store Locator website..."
     Invoke-WebRequest "https://samples.azuremaps.com/storelocator/storelocator.zip" -OutFile storelocator$suffix.zip
-    az webapp deployment source config-zip -g $group -n $webappname --src storelocator$suffix.zip | Out-Null
+    #az webapp deployment source config-zip -g $group -n $webappname --src storelocator$suffix.zip | Out-Null
+    az webapp deploy --resource-group $group --name $webappname --src-path storelocator$suffix.zip --type zip  | Out-Null
     Remove-Item storelocator$suffix.zip | Out-Null
 
     # Done

@@ -9,19 +9,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Get information of tropical storms, this includes; location coordinates, geometry, basin ID, date, wind details and wind radii." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tiles, layer, weather, AccuWeather" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
     <script>
         var map, datasource, popup;
 
         var weatherUrl = 'https://{azMapsDomain}/weather/tropical/storms/locations/json?api-version=1.1&year=2021&basinId=NP&govId=2';
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [135, 17],
@@ -31,12 +35,12 @@
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    //Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -128,36 +132,9 @@
 
             return circles;
         }
-
-        function processRequest(url) {
-            //This is a reusable function that sets the Azure Maps platform domain, sings the request, and makes use of any transformRequest set on the map.
-            return new Promise((resolve, reject) => {
-                //Replace the domain placeholder to ensure the same Azure Maps cloud is used throughout the app.
-                url = url.replace('{azMapsDomain}', atlas.getDomain());
-
-                //Get the authentication details from the map for use in the request.
-                var requestParams = map.authentication.signRequest({ url: url });
-
-                //Transform the request.
-                var transform = map.getServiceOptions().transformRequest;
-                if (transform) {
-                    requestParams = transform(url);
-                }
-
-                fetch(requestParams.url, {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: new Headers(requestParams.headers)
-                })
-                    .then(r => r.json(), e => reject(e))
-                    .then(r => {
-                        resolve(r);
-                    }, e => reject(e));
-            });
-        }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">

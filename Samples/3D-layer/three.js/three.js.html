@@ -145,7 +145,7 @@
             }
         };
 
-        function GetMap() {
+        function getMap() {
             map = new atlas.Map("map", {
                 zoom: 16,
                 pitch: 60,
@@ -154,12 +154,12 @@
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    // Use Azure Active Directory authentication.
+                    // Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', // Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        // URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -194,10 +194,10 @@
             });
         }
 
-        window.GetMap = GetMap;
+        window.getMap = getMap;
     </script>
 </head>
-<body onload="window.GetMap()">
+<body onload="window.getMap()">
     <div id="map" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">

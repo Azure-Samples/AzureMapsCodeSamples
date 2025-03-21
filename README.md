@@ -9,7 +9,7 @@ A collection of over a hundred code samples for the [Azure Maps](https://azurema
 ## Related Projects
 
 * [Azure Maps Web SDK Open modules](https://github.com/microsoft/Maps/blob/master/AzureMaps.md#open-web-sdk-modules) - A collection of open source modules that extend the Azure Maps Web SDK.
-* [Azure Maps & Azure Active Directory Samples](https://github.com/Azure-Samples/Azure-Maps-AzureAD-Samples)
+* [Azure Maps & Microsoft Entra ID Samples](https://github.com/Azure-Samples/Azure-Maps-AzureAD-Samples)
 * [List of open-source Azure Maps projects](https://github.com/microsoft/Maps/blob/master/AzureMaps.md)
 
 ## Additional Resources

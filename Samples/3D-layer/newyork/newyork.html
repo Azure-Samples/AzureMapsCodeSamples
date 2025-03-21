@@ -44,7 +44,7 @@
             shadowEnabled: false
         };
 
-        function GetMap() {
+        function getMap() {
             map = new atlas.Map("map", {
                 center: [-73.995893, 40.710164],
                 zoom: 14,
@@ -54,12 +54,12 @@
 
                 //Add your Azure Maps subscription client ID to the map SDK. Get an Azure Maps client ID at https://azure.com/maps
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    //Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -179,7 +179,7 @@
 
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="map" onclick="toggleRotate()" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
 
     <div id="panel">

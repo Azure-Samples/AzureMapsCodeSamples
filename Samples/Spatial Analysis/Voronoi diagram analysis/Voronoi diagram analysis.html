@@ -28,7 +28,7 @@
         var policeStationUrl = '/data/SpatialCSV/Chicago_Police_Stations.csv';
         var crimeDataUrl = '/data/SpatialCSV/Chicago_Narcotics.csv';
 
-        function GetMap() {
+        function getMap() {
 
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -37,12 +37,12 @@
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    //Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -178,7 +178,7 @@
             }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap"></div>
 
     <div class="legend" style="left: 15px;">

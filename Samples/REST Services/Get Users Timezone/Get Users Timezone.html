@@ -22,7 +22,7 @@
         var timezoneRequestUrl = 'https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&options=all&query={latitude},{longitude}&view=Auto';
 
         async function getTimezone() {
-            //Retrieve an Azure Active Directory token if there isn't one currently available.
+            //Retrieve an Microsoft Entra ID token if there isn't one currently available.
             if (!token) {
                 await initAzureAD();
             }
@@ -119,7 +119,7 @@
         }
 
         async function initAzureAD() {
-            //Get Azure Active Directory token.
+            //Get Microsoft Entra ID token.
             token = await getAadToken();
 
             // Create a repeating timeout that will renew the AAD token

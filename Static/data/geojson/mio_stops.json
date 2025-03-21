@@ -1,0 +1,317 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0783007, 40.5601487 ]
+      },
+      "properties": {
+        "demand": 3,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0573299, 40.5628491 ]
+      },
+      "properties": {
+        "demand": 4,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0351322, 40.5679378 ]
+      },
+      "properties": {
+        "demand": 4,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0332723, 40.550293 ]
+      },
+      "properties": {
+        "demand": 3,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 4,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0306531, 40.5638493 ]
+      },
+      "properties": {
+        "demand": 3,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 5,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.1001173, 40.5472442 ]
+      },
+      "properties": {
+        "demand": 4,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 6,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.1212113, 40.5867356 ]
+      },
+      "properties": {
+        "demand": 4,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 7,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.1245675, 40.5897754 ]
+      },
+      "properties": {
+        "demand": 3,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 8,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.1046965, 40.5276185 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 9,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0238679, 40.5185113 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 10,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.11177529999998, 40.57828689999999 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.1061185, 40.5994244 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 12,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0659091, 40.5681418 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.02168879999999, 40.5042999 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.1436876, 40.6269554 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 15,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0627723, 40.5425555 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 16,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.007176, 40.5081922 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 17,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.06645300000002, 40.5127219 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 18,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.026599, 40.5187669 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 19,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -104.9831195, 40.532558 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 20,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0563852, 40.6152574 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 21,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.0508481, 40.5419566 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 22,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.05266280000001, 40.5635807 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 23,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.10208740000002, 40.5918091 ]
+      },
+      "properties": {
+        "demand": 1,
+        "service_time": 0,
+        "opening_hours": [ 8, 17 ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PMTiles Buildings - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to leverage PMTiles as custom protocol to create data layers using Overture building dataset." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, pmtiles, pmtile, Overture, building, polygon extrusions, 3d buildings" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+
+    <!-- Add references to the PMTiles lib. -->
+    <script src="https://unpkg.com/pmtiles@3.0.5/dist/pmtiles.js"></script>
+
+    <style>
+      #map {
+        width: 100%;
+        height: 600px;
+      }
+
+      #legend {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-family: Arial;
+        font-size: 12px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        padding: 5px;
+        line-height:18px;
+      }
+
+      #legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+      }
+
+      #info {
+        margin-top: 15px;
+      }
+
+      .atlas-map .azure-maps-control-popup-template-content {
+        overflow-x: hidden;
+      }
+
+      .atlas-map .azure-maps-control-popup-template {
+        padding: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <div id="legend">Subtype<br/>
+      <i style="background:wheat"></i>Agricultural<br/>
+      <i style="background:teal"></i>Civic<br/>
+      <i style="background:blue"></i>Commercial<br/>
+      <i style="background:aqua"></i>Education<br/>
+      <i style="background:pink"></i>Entertainment<br/>
+      <i style="background:yellow"></i>Industrial<br/>
+      <i style="background:red"></i>Medical<br/>
+      <i style="background:darkgreen"></i>Military<br/>
+      <i style="background:white"></i>Outbuilding<br/>
+      <i style="background:khaki"></i>Religious<br/>
+      <i style="background:green"></i>Residential<br/>
+      <i style="background:gold"></i>Service<br/>
+      <i style="background:orange"></i>Transportation<br/>
+    </div>
+    <fieldset id="info">
+      <legend>PMTiles - Buildings</legend>
+      This sample showcases the use of <a href="https://protomaps.com/" target="_blank">Protomaps</a> to display <a href="https://overturemaps.org/" target="_blank">Overture</a> buildings data on a map.
+      The data is stored in a PMTiles file that contains a vector tileset of buildings data. The data is filtered by the building subtype and displayed as polygons on the map.
+      Click on a polygon to view more information about the building.
+    </fieldset>
+
+    <script>
+      var map, layer, popup;
+     
+      //Initialize the plugin.
+      const protocol = new pmtiles.Protocol();
+      atlas.addProtocol("pmtiles", (request) => {
+        return new Promise((resolve, reject) => {
+          const callback = (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve({ data });
+            }
+          };
+          protocol.tile(request, callback);
+        });
+      });
+
+      const PMTILES_URL = "https://overturemaps-tiles-us-west-2-beta.s3.amazonaws.com/2024-07-22/buildings.pmtiles";
+      protocol.add(new pmtiles.PMTiles(PMTILES_URL));
+
+      //Initialize the map.
+      map = new atlas.Map("map", {
+        //Add authentication details for connecting to Azure Maps.
+        authOptions: {
+            //Use Azure Active Directory authentication.
+            authType: 'anonymous',
+            clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
+            getToken: function (resolve, reject, map) {
+                //URL to your authentication service that retrieves an Azure Active Directory Token.
+                var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+
+                fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+            }
+
+            //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+            //authType: 'subscriptionKey',
+            //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+        },
+	style: "night",
+        center: [-73.97721, 40.76982],
+        bearing: 162,
+        pitch: 60,
+        zoom: 14,
+      });
+
+      //Wait until the map resources are ready.
+      map.events.add("ready", function () {
+
+        //Add the source to the map.
+        map.sources.add(
+          new atlas.source.VectorTileSource("pmtiles", {
+            type: "vector",
+            url: `pmtiles://${PMTILES_URL}`,
+          })
+        );
+       
+        //Create a polygon extrusion layer.
+        layer = new atlas.layer.PolygonExtrusionLayer(
+          "pmtiles",
+          "building",
+          {
+            sourceLayer: "building",
+            height: ["get", "height"],
+            fillOpacity: 0.5,
+            fillColor: [
+              "case",
+              ['==', ['get', 'subtype'], 'agricultural'],
+              "wheat",
+              ['==', ['get', 'subtype'], 'civic'],
+              "teal",
+              ['==', ['get', 'subtype'], 'commercial'],
+              "blue",
+              ['==', ['get', 'subtype'], 'education'],
+              "aqua",
+              ['==', ['get', 'subtype'], 'entertainment'],
+              "pink",
+              ['==', ['get', 'subtype'], 'industrial'],
+              "yellow",
+              ['==', ['get', 'subtype'], 'medical'],
+              "red",
+              ['==', ['get', 'subtype'], 'military'],
+              "darkgreen",
+              ['==', ['get', 'subtype'], 'outbuilding'],
+              "white",
+              ['==', ['get', 'subtype'], 'religious'],
+              "khaki",
+              ['==', ['get', 'subtype'], 'residential'],
+              "green",
+              ['==', ['get', 'subtype'], 'service'],
+              "gold",
+              ['==', ['get', 'subtype'], 'transportation'],
+              "orange",
+              "grey",
+            ],
+            filter: ['any', ['==', ['geometry-type'], 'Polygon'], ['==', ['geometry-type'], 'MultiPolygon']]
+          }
+        );
+
+        //Add a click event to the layer.
+        map.events.add("click", layer, featureClicked);
+
+        //Add the layer to the map.
+        map.layers.add([layer]);
+
+        //Create a popup but leave it closed so we can update it and display it later.
+        popup = new atlas.Popup({ position: [0, 0] });
+
+        //Add map controls.
+        map.controls.add([
+          new atlas.control.ZoomControl(),
+          new atlas.control.PitchControl(),
+          new atlas.control.CompassControl(),
+          new atlas.control.StyleControl({
+            mapStyles: ['road', 'satellite', 'satellite_road_labels', 'night', 'grayscale_light', 'grayscale_dark', 'road_shaded_relief', 'high_contrast_light', 'high_contrast_dark']
+          })
+        ], {
+          position: 'top-right'
+        });
+      });
+
+      map.events.add("stylechanged", function (e) {
+        //Hide the default buildings layer.
+        map._getMap().setLayoutProperty("microsoft.bing.maps.buildings.buildings", "visibility", "none");
+      });
+
+      function featureClicked(e) {
+        //Make sure the event occurred on a shape feature.
+        if (e.shapes && e.shapes.length > 0) {
+          //By default, show the popup where the mouse event occurred.
+          var pos = e.position;
+          var offset = [0, 0];
+          var properties = e.shapes[0].properties;
+
+          //Parse the JSON properties.
+          properties.names = properties.names ? JSON.parse(properties.names) : undefined;
+          properties.sources = properties.sources ? JSON.parse(properties.sources) : undefined;
+
+          //Update the content and position of the popup.
+          popup.setOptions({
+              //Create a table from the properties in the feature.
+              content: atlas.PopupTemplate.applyTemplate(properties, { sandboxContent: false }),
+              position: pos,
+              pixelOffset: offset
+          });
+
+          //Open the popup.
+          popup.open(map);
+        }
+      }
+    </script>
+  </body>
+</html>

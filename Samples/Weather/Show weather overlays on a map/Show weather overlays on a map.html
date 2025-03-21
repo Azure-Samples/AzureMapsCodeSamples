@@ -19,9 +19,9 @@
     <script>
         var map, tileLayer;
 
-        var weatherTileUrl = 'https://{azMapsDomain}/map/tile?api-version=2.0&tilesetId={layerName}&zoom={z}&x={x}&y={y}';
+        var weatherTileUrl = 'https://{azMapsDomain}/map/tile?api-version=2022-08-01&tilesetId={layerName}&zoom={z}&x={x}&y={y}';
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-99.47, 40.75],
@@ -31,12 +31,12 @@
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    //Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -83,7 +83,7 @@
         }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;padding:10px;background-color:white;border-radius:10px;">

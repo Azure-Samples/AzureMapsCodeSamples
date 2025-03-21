@@ -21,19 +21,19 @@
     <script>
         var map, defaultOptions, removeDefaults;
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 view: 'Auto',
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Azure Active Directory authentication.
+                    //Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Azure Active Directory Token.
-                        var tokenServiceUrl = "https://samples.azuremaps.com/api/GetAzureMapsToken";
+                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
 
                         fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
                     }
@@ -43,6 +43,10 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
+            
+            //Add events to update the map-info panel.
+            map.events.add("dragend", () => updateState());
+            map.events.add("zoomend", () => updateState());
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -50,6 +54,7 @@
 
                 //Update the map with the options in the input fields.
                 updateStyles();
+                updateState();
             });
 
             new ClipboardJS('.copyBtn');
@@ -100,9 +105,17 @@
                 renderWorldCopies: getPropertyValue('renderWorldCopies', document.getElementById('renderWorldCopies').checked),
                 showFeedbackLink: getPropertyValue('showFeedbackLink', document.getElementById('showFeedbackLink').checked),
                 showLogo: getPropertyValue('showLogo', document.getElementById('showLogo').checked),
+                showLabels: getPropertyValue('showLabels', document.getElementById('showLabels').checked),
                 showTileBoundaries: getPropertyValue('showTileBoundaries', document.getElementById('showTileBoundaries').checked),
                 style: getPropertyValue('style', getSelectValue('style')),
-                light: (Object.keys(light).length > 0)? light: undefined
+                light: (Object.keys(light).length > 0)? light: undefined,
+                styleOverrides: (obj => Object.keys(obj).length > 0 ? obj : undefined)(Object.fromEntries([
+                    ['countryRegion', { borderVisible: document.getElementById('showCountryBorders').checked }],
+                    ['adminDistrict', { borderVisible: document.getElementById('showAdminDistrictBorders').checked }],
+                    ['adminDistrict2', { borderVisible: document.getElementById('showSecondAdminDistrictBorders').checked }],
+                    ['buildingFootprint', { visible: document.getElementById('showBuildingFootprints').checked }],
+                    ['roadDetails', { visible: document.getElementById('showRoadDetails').checked }]
+                ].filter(([_, v]) => !removeDefaults || !v.visible))),
             };
         }
 
@@ -144,6 +157,14 @@
             document.getElementById(tabName).style.display = "block";
             elm.className += " active";
         }
+
+        function updateState() {
+            var camera = map.getCamera();
+            document.getElementById("map-info").innerText = 
+            `Zoom: ${camera.zoom.toFixed(1)} / ` +
+            `Lat: ${camera.center[1].toFixed(5)} / ` +
+            `Lng: ${camera.center[0].toFixed(5)}`;
+        }
     </script>
     <style>
         #myMap {
@@ -152,6 +173,15 @@
             min-width: 290px;
             height: 600px;
             float: left;
+        }
+
+        #panel {
+            position: absolute;
+            top: 14px;
+            left: 378px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
         }
 
         .sidePanel {
@@ -165,6 +195,7 @@
             width: 290px;
             height: 390px;
             overflow-y: auto;
+            tab-size: 4;
         }
 
         .copyBtn {
@@ -206,7 +237,7 @@
         }
     </style>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <fieldset class="sidePanel">
         <legend>Map style options</legend>
         This sample shows how the different style options of the map affect rendering.
@@ -235,6 +266,30 @@
                 <tr title="Specifies if the Microsoft logo should be hidden or not. If set to true a Microsoft copyright string will be added to the map.">
                     <td>Show logo:</td>
                     <td><input id="showLogo" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if the map should display labels.">
+                    <td>Show labels:</td>
+                    <td><input id="showLabels" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if the map should display country borders.">
+                    <td>Show country borders:</td>
+                    <td><input id="showCountryBorders" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if the map should display admin district borders.">
+                    <td>Show admin district borders:</td>
+                    <td><input id="showAdminDistrictBorders" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if the map should display second admin district borders.">
+                    <td>Show second admin district borders:</td>
+                    <td><input id="showSecondAdminDistrictBorders" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if the map should display building footprints.">
+                    <td>Show building footprints:</td>
+                    <td><input id="showBuildingFootprints" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
+                </tr>
+                <tr title="Specifies if the map should display road details.">
+                    <td>Show road details:</td>
+                    <td><input id="showRoadDetails" type="checkbox" onclick="updateStyles()" checked="checked" /></td>
                 </tr>
                 <tr title="Specifies if the map should render an outline around each tile and the tile ID. These tile boundaries are useful for debugging. The uncompressed file size of the first vector source is drawn in the top left corner of each tile, next to the tile ID. ">
                     <td>Show tile boundaries:</td>
@@ -339,5 +394,8 @@
     </fieldset>
 
     <div id="myMap"></div>
+    <div id="panel">
+        <div id="map-info"></div>
+    </div>
 </body>
 </html>

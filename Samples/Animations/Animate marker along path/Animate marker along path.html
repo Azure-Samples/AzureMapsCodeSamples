@@ -30,7 +30,7 @@
             [-122.34217, 47.60964]
         ];
 
-        function GetMap() {
+        function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-122.3378, 47.6129],
@@ -39,11 +39,11 @@
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    // Use Azure Active Directory authentication.
+                    // Use Microsoft Entra ID authentication.
                     authType: 'anonymous',
                     clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
                     getToken: function (resolve, reject, map) {
-                        // URL to your authentication service that retrieves an Azure Active Directory Token.
+                        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
                         fetch("https://samples.azuremaps.com/api/GetAzureMapsToken").then(r => r.text()).then(token => resolve(token));
                     }
 
@@ -85,7 +85,7 @@
         }
     </script>
 </head>
-<body onload="GetMap()">
+<body onload="getMap()">
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:0px;left:calc(50% - 100px);background-color:white;padding:5px;">Click the map to animate marker.</div>

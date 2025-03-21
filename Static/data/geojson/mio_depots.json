@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.072334, 40.581108 ]
+      },
+      "properties": {
+        "name": "Depot 1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -105.040072, 40.542962 ]
+      },
+      "properties": {
+        "name": "Depot 2"
+      }
+    }
+  ]
+}

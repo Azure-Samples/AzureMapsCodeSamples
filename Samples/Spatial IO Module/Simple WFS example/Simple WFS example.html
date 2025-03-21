@@ -65,7 +65,7 @@
 
         // Function to retrieve an Azure Maps access token.
         function resolveToken(resolve, reject, map) {
-            // URL to your authentication service that retrieves an Azure Active Directory Token.
+            // URL to your authentication service that retrieves an Microsoft Entra ID Token.
             fetch("https://samples.azuremaps.com/api/GetAzureMapsToken")
                 .then(response => response.text())
                 .then(token => resolve(token))

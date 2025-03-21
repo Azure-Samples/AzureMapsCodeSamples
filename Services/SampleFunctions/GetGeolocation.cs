@@ -1,51 +1,67 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
+using SampleFunctions.Models;
 using System.Globalization;
-using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
-using SampleFunctions.Models;
 
 namespace SampleFunctions;
 
-public static class GetGeolocation
+public static class GeolocationService
 {
-    private static readonly HttpClient _HttpClient = new();
+    private static readonly string[] AllowedDomains = [
+        "https://samples.azuremaps.com/",
+        "http://localhost:58035/" // For local testing
+    ];
+
+    private static readonly HttpClient HttpClient = new();
 
     [Function("GetGeolocation")]
-    public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+    public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
-        var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-
-        // Get the IP address from the query string
-        var ip = req.Query["ip"];
-        if (string.IsNullOrEmpty(ip))
+        // Check if the referer header is present and if the domain is allowed
+        if (req.Headers.TryGetValue("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))
         {
-            badRequest.WriteString("Please pass a valid IP address on the query string.");
-            return badRequest;
+            string ip = req.Query["ip"];
+            if (string.IsNullOrWhiteSpace(ip))
+            {
+                return new BadRequestObjectResult("Please pass a valid IP address on the query string.");
+            }
+
+            string azureMapsKey = Environment.GetEnvironmentVariable("AZURE_MAPS_SUBSCRIPTION_KEY");
+            if (string.IsNullOrWhiteSpace(azureMapsKey))
+            {
+                return new BadRequestObjectResult("Azure Maps Subscription Key is missing.");
+            }
+
+            string url = $"https://atlas.microsoft.com/geolocation/ip/json?subscription-key={azureMapsKey}&api-version=1.0&ip={ip}";
+            Geolocation result = await GetGeolocationFromAzureMaps(url);
+
+            if (result?.CountryRegion?.IsoCode == null)
+            {
+                return new BadRequestObjectResult("An error occurred. It was not possible to get the location of this IP address.");
+            }
+
+            RegionInfo region = new(result.CountryRegion.IsoCode);
+            string json = JsonSerializer.Serialize(region);
+
+            return new OkObjectResult(json);
         }
 
-        // Get the Azure Maps key from the environment variables
-        var azureMapsKey = Environment.GetEnvironmentVariable("AZURE_MAPS_SUBSCRIPTION_KEY");
-        var url = $"https://atlas.microsoft.com/geolocation/ip/json?subscription-key={azureMapsKey}&api-version=1.0&ip={ip}";
+        // Retrun access denied if the referer domain is not allowed
+        return new StatusCodeResult(StatusCodes.Status403Forbidden);
+    }
 
-        // Get the geolocation from Azure Maps
-        var result = await _HttpClient.GetFromJsonAsync<Geolocation>(url);
-        if (result == null)
+    private static async Task<Geolocation> GetGeolocationFromAzureMaps(string url)
+    {
+        try
         {
-            badRequest.WriteString("An error occurred. It was not possible to get the location of this IP address.");
-            return badRequest;
+            return await HttpClient.GetFromJsonAsync<Geolocation>(url);
         }
-
-        // Get the region from the geolocation
-        var region = new RegionInfo(result.CountryRegion.IsoCode);
-        var json = JsonSerializer.Serialize(region);
-
-        // Create a new response
-        var response = req.CreateResponse(HttpStatusCode.OK);
-        response.Headers.Add("Content-Type", "text/json; charset=utf-8");
-        response.WriteString(json);
-
-        return response;
+        catch
+        {
+            return null;
+        }
     }
 }
