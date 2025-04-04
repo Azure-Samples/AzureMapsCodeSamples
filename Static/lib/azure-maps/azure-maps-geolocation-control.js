@@ -156,6 +156,10 @@ MIT License
             _this._hclStyle = null;
             _this._isActive = false;
             _this._updateMapCamera = true;
+            //When the page is unloaded, stop tracking the user location.
+            _this._pageUnload = function () {
+                _this._stopTracking();
+            };
             /****************************
              * Private Methods
              ***************************/
@@ -223,31 +227,33 @@ MIT License
                         pos = lastKnownPosition.geometry.coordinates;
                     }
                     if (self._isActive) {
-                        var icon = self._getMarkerIcon();
                         if (options.showUserLocation) {
                             if (!gpsMarker) {
+                                var icon = self._getMarkerIcon();
                                 self._gpsMarker = new azmaps.HtmlMarker({
                                     position: pos,
                                     htmlContent: icon,
-                                    color: options.markerColor
+                                    anchor: 'center'
                                 });
+                                //@ts-ignore
+                                self._gpsMarker.marker.setPitchAlignment('map');
+                                //@ts-ignore
+                                self._gpsMarker.marker.setRotationAlignment('map');
                                 map.markers.add(self._gpsMarker);
                             }
                             else {
                                 gpsMarker.setOptions({
                                     position: pos,
-                                    htmlContent: icon,
                                     visible: self._isActive && options.showUserLocation
                                 });
                             }
+                            self._updateMarkerHeading();
                         }
                         else {
                             gpsMarker.setOptions({
                                 visible: false
                             });
                         }
-                        //@ts-ignore
-                        self._gpsMarker.marker.setPitchAlignment('map');
                         if (self._updateMapCamera) {
                             var opt = {
                                 center: pos
@@ -386,6 +392,7 @@ MIT License
             self._map.events.add('movestart', self._mapMoveStarted);
             self._map.events.add('moveend', self._mapMoveEnded);
             self.setOptions(self._options);
+            addEventListener('beforeunload', self._pageUnload, false);
             return c;
         };
         /**
@@ -408,6 +415,7 @@ MIT License
                 self._map.markers.remove(self._gpsMarker);
             }
             self._map = null;
+            removeEventListener('beforeunload', self._pageUnload);
         };
         /** Gets the options of the geolocation control. */
         GeolocationControl.prototype.getOptions = function () {
@@ -449,9 +457,8 @@ MIT License
                 if (options.markerColor) {
                     o.markerColor = options.markerColor;
                     if (self._gpsMarker) {
-                        self._gpsMarker.setOptions({
-                            color: options.markerColor
-                        });
+                        //@ts-ignore
+                        self._gpsMarker.getOptions().htmlContent.querySelector('.gps-dot').style.backgroundColor = options.markerColor;
                     }
                 }
                 if (typeof options.maxZoom === 'number') {
@@ -593,15 +600,37 @@ MIT License
         };
         /** Generates the mark icon HTML */
         GeolocationControl.prototype._getMarkerIcon = function () {
-            var icon = GeolocationControl._gpsDotIcon;
-            var h = this._lastKnownPosition.properties.heading;
-            if (this._options.trackUserLocation && h !== null && !isNaN(h)) {
-                h = Math.round(h);
-                //TODO: update when markers support rotation.
-                var transform = "-webkit-transform:rotate(" + h + "deg);transform:rotate(" + h + "deg)";
-                icon = GeolocationControl._gpsArrowIcon.replace('{transform}', transform);
-            }
+            var icon = document.createElement('div');
+            icon.className = 'gps-container';
+            icon.innerHTML = GeolocationControl._gpsDotIcon.replace('{color}', 'dodgerBlue');
             return icon;
+        };
+        GeolocationControl.prototype._updateMarkerHeading = function () {
+            var self = this;
+            var h = self._lastKnownPosition.properties.heading;
+            var clipPath = 'none';
+            var animate = true;
+            if (!isNaN(h)) {
+                h = Math.round(h);
+                //@ts-ignore
+                self._gpsMarker.marker.setRotation(h);
+                clipPath = 'polygon(50% 50%, 0% 0%, 100% 0%)';
+                animate = false;
+            }
+            //@ts-ignore
+            var gpsPluseElm = self._gpsMarker.getOptions().htmlContent.querySelector('.gps-pulse');
+            gpsPluseElm.style.clipPath = clipPath;
+            var animationClass = 'gps-pulse-animation';
+            var cl = gpsPluseElm.classList;
+            var hasClass = cl.contains(animationClass);
+            if (animate) {
+                if (!hasClass) {
+                    cl.add(animationClass);
+                }
+            }
+            else if (hasClass) {
+                cl.remove(animationClass);
+            }
         };
         /**
          * Returns the set of translation text resources needed for the control for a given language.
@@ -620,15 +649,19 @@ MIT License
             }
             return r;
         };
-        GeolocationControl._gpsArrowIcon = '<div style="{transform}"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><g transform="translate(2 2)"><polygon points="12,0 0,24 12,17 24,24" stroke-width="2" stroke="white" fill="{color}"/></g></svg></div>';
-        GeolocationControl._gpsDotIcon = '<div class="azmaps-gpsPulseIcon" style="background-color:{color}"></div>';
+        GeolocationControl._gpsDotIcon = '<div class="gps-dot" style="background-color:{color}"></div><div class="gps-wedge"><div class="gps-pulse"></div></div>';
         GeolocationControl._iconTemplate = "data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' x='0' y='0' viewBox='0 0 561 561' xml:space='preserve'><g fill='{color}'><path d='M280.5,178.5c-56.1,0-102,45.9-102,102c0,56.1,45.9,102,102,102c56.1,0,102-45.9,102-102C382.5,224.4,336.6,178.5,280.5,178.5z M507.45,255C494.7,147.9,410.55,63.75,306,53.55V0h-51v53.55C147.9,63.75,63.75,147.9,53.55,255H0v51h53.55C66.3,413.1,150.45,497.25,255,507.45V561h51v-53.55C413.1,494.7,497.25,410.55,507.45,306H561v-51H507.45z M280.5,459C181.05,459,102,379.95,102,280.5S181.05,102,280.5,102S459,181.05,459,280.5S379.95,459,280.5,459z'/></g></svg>";
         GeolocationControl._gpsBtnCss = '.azmaps-gpsBtn{margin:0;padding:0;border:none;border-collapse:collapse;width:32px;height:32px;text-align:center;cursor:pointer;line-height:32px;background-repeat:no-repeat;background-size:20px;background-position:center center;z-index:200;box-shadow:0px 0px 4px rgba(0,0,0,0.16);}' +
             '.azmaps-gpsDisabled{background-image:url("{grayIcon}");}' +
             '.azmaps-gpsDisabled:hover{background-image:url("{blueIcon}");filter:brightness(90%);}' +
             '.azmaps-gpsEnabled{background-image:url("{blueIcon}");}' +
             '.azmaps-gpsEnabled:hover{background-image:url("{blueIcon}");filter:brightness(90%);}' +
-            '.azmaps-gpsPulseIcon{display:block;width:15px;height:15px;border-radius:50%;background:orange;border:2px solid white;cursor:pointer;box-shadow:0 0 0 rgba(0, 204, 255, 0.6);animation:pulse 2s infinite;}@keyframes pulse {0% {box-shadow:0 0 0 0 rgba(0, 204, 255, 0.6);}70% {box-shadow:0 0 0 20px rgba(0, 204, 255, 0);}100% {box-shadow:0 0 0 0 rgba(0, 204, 255, 0);}}';
+            '.gps-container{position:relative;width:16px;height:16px;}' +
+            '.gps-dot{width:12px;height:12px;background-color:dodgerBlue;border:2px white solid;border-radius:50%;position:absolute;top:50%;left:50%;transform: translate(-50%, -50%);z-index:100000;}' +
+            '.gps-wedge{width:16px;height:16px;position:absolute;top:0;left:0;z-index:99999;}' +
+            '.gps-pulse{width:100%;height:100%;border-radius:50%;background-image: radial-gradient(rgba(30,144,255,1),rgba(30,144,255,0.5));position:absolute;transform-origin:center;transform:scale(2.5);}' +
+            '.gps-pulse-animation{animation:gps-pulse-animation-key 2s infinite ease-out;}' +
+            '@keyframes gps-pulse-animation-key { 0% {transform:scale(0.5);opacity:1;} 100% {transform: scale(2.5);opacity:0.5;}}';
         GeolocationControl._translations = {
             //Afrikaans
             'af': ['begin dop', 'stop die dop', 'my plek', 'ligginggewing beheer'],
