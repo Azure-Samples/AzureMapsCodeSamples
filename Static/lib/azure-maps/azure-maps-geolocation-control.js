@@ -1,4 +1,6 @@
 /*
+azure-maps-geolocation-control Version: 0.0.3
+
 MIT License
 
     Copyright (c) Microsoft Corporation.
@@ -602,7 +604,7 @@ MIT License
         GeolocationControl.prototype._getMarkerIcon = function () {
             var icon = document.createElement('div');
             icon.className = 'gps-container';
-            icon.innerHTML = GeolocationControl._gpsDotIcon.replace('{color}', 'dodgerBlue');
+            icon.innerHTML = GeolocationControl._gpsDotIcon.replace('{color}', this._options.markerColor);
             return icon;
         };
         GeolocationControl.prototype._updateMarkerHeading = function () {
