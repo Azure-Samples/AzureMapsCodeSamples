@@ -1,5 +1,5 @@
 /*
-azure-maps-geolocation-control Version: 0.0.3
+azure-maps-geolocation-control Version: 0.0.4
 
 MIT License
 
@@ -27,19 +27,39 @@ MIT License
 (function (exports, azmaps) {
     'use strict';
 
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () { return e[k]; }
+                    });
+                }
+            });
+        }
+        n["default"] = e;
+        return Object.freeze(n);
+    }
+
+    var azmaps__namespace = /*#__PURE__*/_interopNamespace(azmaps);
+
     /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
+    Copyright (c) Microsoft Corporation.
 
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
 
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
     /* global Reflect, Promise */
 
@@ -143,25 +163,27 @@ MIT License
             _this._options = {
                 style: 'light',
                 positionOptions: {
-                    enableHighAccuracy: false,
-                    maximumAge: 0,
-                    timeout: 6000
+                    enableHighAccuracy: true,
+                    maximumAge: Infinity,
+                    timeout: 10000
                 },
                 showUserLocation: true,
-                trackUserLocation: false,
+                trackUserLocation: true,
                 markerColor: 'DodgerBlue',
                 maxZoom: 15,
                 calculateMissingValues: false,
-                updateMapCamera: true
+                updateMapCamera: true,
+                enableCompass: true,
+                compassEventThrottleDelay: 100
             };
             _this._darkColor = '#011c2c';
             _this._hclStyle = null;
             _this._isActive = false;
             _this._updateMapCamera = true;
-            //When the page is unloaded, stop tracking the user location.
-            _this._pageUnload = function () {
-                _this._stopTracking();
-            };
+            _this._lastCompassHeading = Number.NaN;
+            _this._compassEnabled = false;
+            _this._compassUpdateScheduled = false;
+            _this._compassEventUpdateScheduled = false;
             /****************************
              * Private Methods
              ***************************/
@@ -214,14 +236,21 @@ MIT License
                     if (options.calculateMissingValues && lastKnownPosition) {
                         if (typeof position.coords.speed !== 'number') {
                             var dt = position.timestamp - lastKnownPosition.properties._timestamp;
-                            var dx = azmaps.math.getDistanceTo(lastKnownPosition.geometry.coordinates, pos);
+                            var dx = azmaps__namespace.math.getDistanceTo(lastKnownPosition.geometry.coordinates, pos);
                             geopos.speed = dx / (dt * 0.001);
                         }
                         if (typeof position.coords.heading !== 'number') {
-                            geopos.heading = azmaps.math.getHeading(lastKnownPosition.geometry.coordinates, pos);
+                            geopos.heading = azmaps__namespace.math.getHeading(lastKnownPosition.geometry.coordinates, pos);
+                            geopos.headingType = 'calculated';
                         }
                     }
-                    lastKnownPosition = new azmaps.data.Feature(new azmaps.data.Point(pos), geopos);
+                    else if (!isNaN(geopos.heading)) {
+                        geopos.headingType = 'geolocation';
+                    }
+                    if (!isNaN(self._lastCompassHeading)) {
+                        geopos.compassHeading = self._lastCompassHeading;
+                    }
+                    lastKnownPosition = new azmaps__namespace.data.Feature(new azmaps__namespace.data.Point(pos), geopos);
                     self._lastKnownPosition = lastKnownPosition;
                 }
                 if (lastKnownPosition) {
@@ -232,7 +261,7 @@ MIT License
                         if (options.showUserLocation) {
                             if (!gpsMarker) {
                                 var icon = self._getMarkerIcon();
-                                self._gpsMarker = new azmaps.HtmlMarker({
+                                self._gpsMarker = new azmaps__namespace.HtmlMarker({
                                     position: pos,
                                     htmlContent: icon,
                                     anchor: 'center'
@@ -264,6 +293,10 @@ MIT License
                             if (map.getCamera().zoom < 15) {
                                 opt.zoom = 15;
                             }
+                            //Rotate the map to align with the compass heading.
+                            if (self._options.syncMapCompassHeading && !isNaN(self._lastCompassHeading)) {
+                                opt.bearing = self._lastCompassHeading;
+                            }
                             map.setCamera(opt);
                         }
                     }
@@ -275,14 +308,60 @@ MIT License
              * @param error The error that occured.
              */
             _this._onGpsError = function (error) {
+                //Don't do anything other than report the error. Often it will be that there was a timeout when getting the users location.
+                _this._invokeEvent('geolocationerror', error);
+            };
+            /**
+             * An event handler for when the device orientation changes. This is used to update the compass heading.
+             * @param e The device orientation event.
+             */
+            _this._onOrientationChanged = function (e) {
                 var self = _this;
-                self._watchId = null;
-                self._isActive = false;
-                self._updateState();
-                self._invokeEvent('geolocationerror', error);
+                //Check to see if there is an update already scheduled. If so, ignore this event (throttle).
+                if (!self._compassEventUpdateScheduled || !self._compassUpdateScheduled) {
+                    var h_1 = null;
+                    if (e.absolute) {
+                        //Calculate the compass heading based on the device orientation using Euler angles.
+                        h_1 = self._eulerAnglesToCompassHeading(e.alpha, e.beta, e.gamma);
+                    }
+                    //@ts-ignore
+                    else if (e.webkitCompassHeading) {
+                        //@ts-ignore
+                        h_1 = e.webkitCompassHeading;
+                    }
+                    if (!isNaN(h_1)) {
+                        self._lastCompassHeading = h_1;
+                        if (!self._compassUpdateScheduled) {
+                            self._compassUpdateScheduled = true;
+                            //Update the marker heading no faster than every 100ms.
+                            setTimeout(function () {
+                                //Rotate the map to align with the compass heading.
+                                if (self._options.syncMapCompassHeading) {
+                                    self._map.setCamera({ bearing: self._lastCompassHeading });
+                                }
+                                self._updateMarkerHeading();
+                                self._compassUpdateScheduled = false;
+                            }, 100);
+                        }
+                        if (!self._compassEventUpdateScheduled) {
+                            self._compassEventUpdateScheduled = true;
+                            //Throttle.
+                            setTimeout(function () {
+                                self._invokeEvent('compassheadingchanged', h_1);
+                                self._compassEventUpdateScheduled = false;
+                            }, self._options.compassEventThrottleDelay);
+                        }
+                    }
+                }
+            };
+            //When the page is unloaded, stop tracking the user location.
+            _this._pageUnload = function () {
+                _this._stopTracking();
+                _this._disableCompass();
             };
             if (options) {
-                var opt = _this._options;
+                var self_1 = _this;
+                var opt = self_1._options;
                 if (options.positionOptions) {
                     opt.positionOptions = Object.assign(opt.positionOptions, options.positionOptions);
                 }
@@ -306,7 +385,17 @@ MIT License
                 }
                 if (typeof options.updateMapCamera === 'boolean') {
                     opt.updateMapCamera = options.updateMapCamera;
-                    _this._updateMapCamera = options.updateMapCamera;
+                    self_1._updateMapCamera = options.updateMapCamera;
+                }
+                if (typeof options.enableCompass === 'boolean') {
+                    opt.enableCompass = options.enableCompass;
+                    options.enableCompass ? self_1._enableCompass() : self_1._disableCompass();
+                }
+                if (typeof options.syncMapCompassHeading === 'boolean') {
+                    opt.syncMapCompassHeading = options.syncMapCompassHeading;
+                }
+                if (typeof options.compassEventThrottleDelay === 'number' && options.compassEventThrottleDelay >= 100) {
+                    opt.compassEventThrottleDelay = options.compassEventThrottleDelay;
                 }
             }
             return _this;
@@ -410,6 +499,7 @@ MIT License
             }
             self._map.events.remove('movestart', self._mapMoveStarted);
             self._map.events.remove('moveend', self._mapMoveEnded);
+            self._disableCompass();
             if (typeof self._watchId !== 'undefined') {
                 navigator.geolocation.clearWatch(self._watchId);
             }
@@ -504,6 +594,24 @@ MIT License
                         self._updateState();
                     }
                 }
+                if (typeof options.enableCompass === 'boolean') {
+                    o.enableCompass = options.enableCompass;
+                    options.enableCompass ? self._enableCompass() : self._disableCompass();
+                    //If the compass is not enabled, reset the map heading to 0.
+                    if (!o.enableCompass) {
+                        self._map.setCamera({ bearing: 0 });
+                    }
+                }
+                if (typeof options.syncMapCompassHeading === 'boolean') {
+                    o.syncMapCompassHeading = options.syncMapCompassHeading;
+                    //If the compass heading syncing is not enabled, reset the map heading to 0.
+                    if (!o.syncMapCompassHeading) {
+                        self._map.setCamera({ bearing: 0 });
+                    }
+                }
+                if (typeof options.compassEventThrottleDelay === 'number' && options.compassEventThrottleDelay >= 100) {
+                    o.compassEventThrottleDelay = options.compassEventThrottleDelay;
+                }
             }
         };
         /**
@@ -575,18 +683,13 @@ MIT License
                 addClass = 'azmaps-gpsEnabled';
                 if (self._options.trackUserLocation) {
                     if (typeof self._watchId !== 'number') {
-                        self._watchId = navigator.geolocation.watchPosition(self._onGpsSuccess, function () {
-                            //Fallback to low accuracy results.
-                            navigator.geolocation.getCurrentPosition(self._onGpsSuccess, self._onGpsError, Object.assign({}, self._options.positionOptions, { enableHighAccuracy: false }));
-                        }, Object.assign({}, self._options.positionOptions, { enableHighAccuracy: true }));
+                        self._watchId = navigator.geolocation.watchPosition(self._onGpsSuccess, self._onGpsError, self._options.positionOptions);
                     }
                     ariaLabel = self._resource[1];
                 }
                 else {
                     //True high accuracy first then fall back if needed.
-                    navigator.geolocation.getCurrentPosition(self._onGpsSuccess, function () {
-                        navigator.geolocation.getCurrentPosition(self._onGpsSuccess, self._onGpsError, Object.assign({}, self._options.positionOptions, { enableHighAccuracy: false }));
-                    }, Object.assign({}, self._options.positionOptions, { enableHighAccuracy: true }));
+                    navigator.geolocation.getCurrentPosition(self._onGpsSuccess, self._onGpsError, self._options.positionOptions);
                 }
             }
             else {
@@ -607,32 +710,108 @@ MIT License
             icon.innerHTML = GeolocationControl._gpsDotIcon.replace('{color}', this._options.markerColor);
             return icon;
         };
+        /**
+         * Updates the marker heading based on the last known compass heading.
+         */
         GeolocationControl.prototype._updateMarkerHeading = function () {
             var self = this;
-            var h = self._lastKnownPosition.properties.heading;
-            var clipPath = 'none';
-            var animate = true;
-            if (!isNaN(h)) {
-                h = Math.round(h);
+            if (self._gpsMarker) {
+                var h = self._lastCompassHeading;
+                var clipPath = 'none';
+                var animate = true;
+                if (isNaN(h)) {
+                    var props = self._lastKnownPosition.properties;
+                    var h2 = props.heading;
+                    //If a heading value is set and is either from the geolocation API, or calculated when in user tracking mode, use that.
+                    if (!isNaN(h2) && (props.headingType === 'geolocation' || (self._options.trackUserLocation && self._options.calculateMissingValues))) {
+                        h = h2;
+                    }
+                }
+                if (!isNaN(h)) {
+                    h = Math.round(h);
+                    //@ts-ignore
+                    self._gpsMarker.marker.setRotation(h);
+                    clipPath = 'polygon(50% 50%, 0% 0%, 100% 0%)';
+                    animate = false;
+                }
                 //@ts-ignore
-                self._gpsMarker.marker.setRotation(h);
-                clipPath = 'polygon(50% 50%, 0% 0%, 100% 0%)';
-                animate = false;
-            }
-            //@ts-ignore
-            var gpsPluseElm = self._gpsMarker.getOptions().htmlContent.querySelector('.gps-pulse');
-            gpsPluseElm.style.clipPath = clipPath;
-            var animationClass = 'gps-pulse-animation';
-            var cl = gpsPluseElm.classList;
-            var hasClass = cl.contains(animationClass);
-            if (animate) {
-                if (!hasClass) {
-                    cl.add(animationClass);
+                var gpsPluseElm = self._gpsMarker.getOptions().htmlContent.querySelector('.gps-pulse');
+                gpsPluseElm.style.clipPath = clipPath;
+                var animationClass = 'gps-pulse-animation';
+                var cl = gpsPluseElm.classList;
+                var hasClass = cl.contains(animationClass);
+                if (animate) {
+                    if (!hasClass) {
+                        cl.add(animationClass);
+                    }
+                }
+                else if (hasClass) {
+                    cl.remove(animationClass);
                 }
             }
-            else if (hasClass) {
-                cl.remove(animationClass);
+        };
+        /**
+         * Enable the compass by adding the event listener for device orientation changes.
+         */
+        GeolocationControl.prototype._enableCompass = function () {
+            var self = this;
+            if (!self._compassEnabled) {
+                if ('ondeviceorientationabsolute' in window) {
+                    window.addEventListener('deviceorientationabsolute', self._onOrientationChanged, false);
+                }
+                else if ('ondeviceorientation' in window &&
+                    ('DeviceOrientationEvent' in window && 'webkitCompassHeading' in DeviceOrientationEvent.prototype)) {
+                    //@ts-ignore
+                    window.addEventListener('deviceorientation', self._onOrientationChanged, false);
+                }
+                self._compassEnabled = true;
             }
+        };
+        /**
+         * Disables the compass by removing the event listener for device orientation changes.
+         */
+        GeolocationControl.prototype._disableCompass = function () {
+            var self = this;
+            if (self._compassEnabled) {
+                if ('ondeviceorientationabsolute' in window) {
+                    window.removeEventListener('deviceorientationabsolute', self._onOrientationChanged, false);
+                }
+                else if ('ondeviceorientation' in window &&
+                    ('DeviceOrientationEvent' in window && 'webkitCompassHeading' in DeviceOrientationEvent.prototype)) {
+                    //@ts-ignore
+                    window.removeEventListener('deviceorientation', self._onOrientationChanged, false);
+                }
+            }
+            self._compassEnabled = false;
+            self._lastCompassHeading = Number.NaN;
+        };
+        /**
+         * Computes the compass-heading from the device-orientation euler-angles.
+         * Source: https://w3c.github.io/deviceorientation/#example-cad08fa0
+         */
+        GeolocationControl.prototype._eulerAnglesToCompassHeading = function (alpha, beta, gamma) {
+            var degtorad = Math.PI / 180;
+            var _x = beta ? beta * degtorad : 0; // beta value
+            var _y = gamma ? gamma * degtorad : 0; // gamma value
+            var _z = alpha ? alpha * degtorad : 0; // alpha value
+            var cY = Math.cos(_y);
+            var cZ = Math.cos(_z);
+            var sX = Math.sin(_x);
+            var sY = Math.sin(_y);
+            var sZ = Math.sin(_z);
+            // Calculate Vx and Vy components
+            var Vx = -cZ * sY - sZ * sX * cY;
+            var Vy = -sZ * sY + cZ * sX * cY;
+            // Calculate compass heading
+            var compassHeading = Math.atan(Vx / Vy);
+            // Convert compass heading to use whole unit circle
+            if (Vy < 0) {
+                compassHeading += Math.PI;
+            }
+            else if (Vx < 0) {
+                compassHeading += 2 * Math.PI;
+            }
+            return compassHeading * (180 / Math.PI); // Compass Heading (in degrees)
         };
         /**
          * Returns the set of translation text resources needed for the control for a given language.
@@ -747,9 +926,7 @@ MIT License
             'en': ['Start tracking', 'Stop tracking', 'My location', 'Geolocation control']
         };
         return GeolocationControl;
-    }(azmaps.internal.EventEmitter));
-
-
+    }(azmaps__namespace.internal.EventEmitter));
 
     var baseControl = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -760,4 +937,6 @@ MIT License
 
     exports.control = control;
 
-}(this.atlas = this.atlas || {}, atlas));
+    Object.defineProperty(exports, '__esModule', { value: true });
+
+})(this.atlas = this.atlas || {}, atlas);

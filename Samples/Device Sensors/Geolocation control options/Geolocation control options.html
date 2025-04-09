@@ -52,6 +52,9 @@
                 //Add events to the control.
                 map.events.add('geolocationerror', geolocationControl, displayEventInfo);
                 map.events.add('geolocationsuccess', geolocationControl, displayEventInfo);
+                map.events.add('compassheadingchanged', geolocationControl, (e) => {
+                    displayEventInfo(`Compass heading: ${e}`);
+                });
 
                 //Add control and a style control to the map.
                 map.controls.add([new atlas.control.StyleControl(), geolocationControl], {
@@ -77,7 +80,11 @@
                     timeout: parseFloat(document.getElementById('timeout').value)
                 },
                 calculateMissingValues: document.getElementById('calculateMissingValues').checked,
-                maxZoom: parseFloat(document.getElementById('maxZoom').value)
+                maxZoom: parseFloat(document.getElementById('maxZoom').value),
+
+                enableCompass: document.getElementById('enableCompass').checked,
+                compassEventThrottleDelay: parseFloat(document.getElementById('compassEventThrottleDelay').value),
+                syncMapCompassHeading: document.getElementById('syncMapCompassHeading').checked
             });
         }
 
@@ -117,8 +124,8 @@
         }
 
         #eventInfo {
-            width: 300px;
-            height: 420px;
+            width: 290px;
+            height: 370px;
             overflow-y: auto;
         }
 
@@ -152,6 +159,8 @@
             padding: 6px 12px;
             border: 1px solid #ccc;
             border-top: none;
+            overflow-y: auto;
+            max-height: 400px;
         }
     </style>
 </head>
@@ -187,6 +196,23 @@
                 <tr title="Shows the users current location on the map and updates it as they move.">
                     <td>Track user location:</td>
                     <td><input id="trackUserLocation" type="checkbox" onclick="update()" title="Track user location" /></td>
+                </tr>
+				<tr>
+                    <td>Enable Compass</td>
+                    <td><input id="enableCompass" type="checkbox" checked="true" onclick="update()" /></td>
+                </tr>
+                <tr>
+                    <td>Sync Map Compass Heading</td>
+                    <td><input id="syncMapCompassHeading" type="checkbox" onclick="update()" /></td>
+                </tr>
+                <tr>
+                    <td>Compass Event Throttle Delay</td>
+                    <td>
+                        <form oninput="ceth.value=compassEventThrottleDelay.value">
+                            <input type="range" id="compassEventThrottleDelay" value="100" min="0" max="5000" step="100" onchange="update()" />
+                            <output name="ceth" for="compassEventThrottleDelay">100</output>
+                        </form>
+                    </td>
                 </tr>
                 <tr title="Specifies that if the speed or heading values are missing in the geolocation position, it will calculate these values based on the last known position.">
                     <td>Calculate missing values:</td>
