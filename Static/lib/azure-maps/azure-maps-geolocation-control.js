@@ -1,5 +1,5 @@
 /*
-azure-maps-geolocation-control Version: 0.0.4
+azure-maps-geolocation-control Version: 1.0.0
 
 MIT License
 
@@ -300,7 +300,14 @@ MIT License
                             map.setCamera(opt);
                         }
                     }
-                    self._invokeEvent('geolocationsuccess', lastKnownPosition);
+                    var args = {
+                        type: 'geolocationsuccess',
+                        feature: lastKnownPosition,
+                    };
+                    if (!isNaN(self._lastCompassHeading)) {
+                        args.compassHeading = self._lastCompassHeading;
+                    }
+                    self._invokeEvent('geolocationsuccess', args);
                 }
             };
             /**
@@ -309,7 +316,10 @@ MIT License
              */
             _this._onGpsError = function (error) {
                 //Don't do anything other than report the error. Often it will be that there was a timeout when getting the users location.
-                _this._invokeEvent('geolocationerror', error);
+                _this._invokeEvent('geolocationerror', {
+                    type: 'geolocationerror',
+                    error: error
+                });
             };
             /**
              * An event handler for when the device orientation changes. This is used to update the compass heading.
@@ -347,7 +357,14 @@ MIT License
                             self._compassEventUpdateScheduled = true;
                             //Throttle.
                             setTimeout(function () {
-                                self._invokeEvent('compassheadingchanged', h_1);
+                                var args = {
+                                    type: 'compassheadingchanged',
+                                    compassHeading: h_1
+                                };
+                                if (self._lastKnownPosition) {
+                                    args.feature = self._lastKnownPosition;
+                                }
+                                self._invokeEvent('compassheadingchanged', args);
                                 self._compassEventUpdateScheduled = false;
                             }, self._options.compassEventThrottleDelay);
                         }
@@ -472,11 +489,14 @@ MIT License
                     //Device doesn't support getting position.
                     //@ts-ignore
                     self._invokeEvent('geolocationerror', {
-                        code: 2,
-                        message: 'Geolocation API not supported by device.',
-                        PERMISSION_DENIED: 1,
-                        POSITION_UNAVAILABLE: 2,
-                        TIMEOUT: 3
+                        type: 'geolocationerror',
+                        error: {
+                            code: 2,
+                            message: 'Geolocation API not supported by device.',
+                            PERMISSION_DENIED: 1,
+                            POSITION_UNAVAILABLE: 2,
+                            TIMEOUT: 3
+                        }
                     });
                 }
             });

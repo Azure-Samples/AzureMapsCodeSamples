@@ -52,9 +52,7 @@
                 //Add events to the control.
                 map.events.add('geolocationerror', geolocationControl, displayEventInfo);
                 map.events.add('geolocationsuccess', geolocationControl, displayEventInfo);
-                map.events.add('compassheadingchanged', geolocationControl, (e) => {
-                    displayEventInfo(`Compass heading: ${e}`);
-                });
+                map.events.add('compassheadingchanged', geolocationControl, displayEventInfo);
 
                 //Add control and a style control to the map.
                 map.controls.add([new atlas.control.StyleControl(), geolocationControl], {
