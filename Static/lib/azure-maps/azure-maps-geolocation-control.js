@@ -475,6 +475,25 @@ MIT License
             b.setAttribute('alt', self._resource[0]);
             b.setAttribute('type', 'button');
             b.addEventListener('click', self._toggleBtn);
+            if (self._hclStyle) {
+                if (self._hclStyle === 'dark') {
+                    b.style.backgroundColor = self._darkColor;
+                }
+            }
+            else {
+                switch (self._options.style) {
+                    case 'dark':
+                        b.style.backgroundColor = self._darkColor;
+                        break;
+                    case 'auto':
+                        //Color will change between light and dark depending on map style.
+                        self._map.events.add('styledata', self._mapStyleChanged);
+                        b.style.backgroundColor = self._getColorFromMapStyle();
+                        break;
+                    //case 'light':
+                    //break;
+                }
+            }
             self._button = b;
             self._updateState();
             self.setOptions(self._options);
@@ -541,31 +560,33 @@ MIT License
             var self = this;
             var o = self._options;
             if (options) {
-                var color = 'white';
-                if (self._hclStyle) {
-                    if (self._hclStyle === 'dark') {
-                        color = self._darkColor;
-                    }
-                }
-                else {
-                    if (o.style === 'auto') {
-                        self._map.events.remove('styledata', self._mapStyleChanged);
-                    }
-                    o.style = options.style;
-                    switch (options.style) {
-                        case 'dark':
+                if (options.style) {
+                    var color = 'white';
+                    if (self._hclStyle) {
+                        if (self._hclStyle === 'dark') {
                             color = self._darkColor;
-                            break;
-                        case 'auto':
-                            //Color will change between light and dark depending on map style.
-                            self._map.events.add('styledata', self._mapStyleChanged);
-                            color = self._getColorFromMapStyle();
-                            break;
-                        //case 'light':
-                        //break;
+                        }
                     }
+                    else {
+                        if (o.style === 'auto') {
+                            self._map.events.remove('styledata', self._mapStyleChanged);
+                        }
+                        o.style = options.style;
+                        switch (options.style) {
+                            case 'dark':
+                                color = self._darkColor;
+                                break;
+                            case 'auto':
+                                //Color will change between light and dark depending on map style.
+                                self._map.events.add('styledata', self._mapStyleChanged);
+                                color = self._getColorFromMapStyle();
+                                break;
+                            //case 'light':
+                            //break;
+                        }
+                    }
+                    self._button.style.backgroundColor = color;
                 }
-                self._button.style.backgroundColor = color;
                 if (options.markerColor) {
                     o.markerColor = options.markerColor;
                     if (self._gpsMarker) {
