@@ -560,6 +560,7 @@ MIT License
             var self = this;
             var o = self._options;
             if (options) {
+                var trackingChanged = false;
                 if (options.style) {
                     var color = 'white';
                     if (self._hclStyle) {
@@ -615,9 +616,6 @@ MIT License
                         self._onGpsSuccess();
                     }
                 }
-                if (typeof options.trackUserLocation === 'boolean') {
-                    o.trackUserLocation = options.trackUserLocation;
-                }
                 if (options.positionOptions) {
                     var opt = {};
                     if (options.positionOptions.enableHighAccuracy) {
@@ -631,8 +629,7 @@ MIT License
                     }
                     if (Object.keys(opt).length > 0) {
                         o.positionOptions = Object.assign(o.positionOptions, opt);
-                        self._stopTracking();
-                        self._updateState();
+                        trackingChanged = true;
                     }
                 }
                 if (typeof options.enableCompass === 'boolean') {
@@ -652,6 +649,14 @@ MIT License
                 }
                 if (typeof options.compassEventThrottleDelay === 'number' && options.compassEventThrottleDelay >= 100) {
                     o.compassEventThrottleDelay = options.compassEventThrottleDelay;
+                }
+                if (typeof options.trackUserLocation === 'boolean') {
+                    o.trackUserLocation = options.trackUserLocation;
+                    trackingChanged = true;
+                }
+                if (o.trackUserLocation && trackingChanged) {
+                    self._stopTracking();
+                    self._updateState();
                 }
             }
         };
