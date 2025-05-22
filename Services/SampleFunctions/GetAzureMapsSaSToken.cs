@@ -35,12 +35,6 @@ public class GetAzureMapsSaSToken()
     /// </remarks>
     private readonly DefaultAzureCredential _TokenProvider = new();
 
-    // The scopes for the access token
-    private readonly string[] _Scopes =
-    [
-        "https://atlas.microsoft.com/.default"
-    ];
-
     private ArmClient armClient;
 
     [Function("GetAzureMapsSaSToken")]
@@ -88,9 +82,9 @@ public class GetAzureMapsSaSToken()
 
         // Create the SAS token content
         // The MapsSigningKey is used to specify the type of signing key to use for the SAS token
-        // In this case, we are using a managed identity
+        // In this case, we are using primary key as the signing key
         MapsAccountSasContent sasContent = new MapsAccountSasContent(
-            MapsSigningKey.ManagedIdentity,
+            MapsSigningKey.PrimaryKey,
             principalId,
             maxRatePerSecond,
             start.ToString("O"),
