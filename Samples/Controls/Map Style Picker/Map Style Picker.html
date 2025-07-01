@@ -28,14 +28,17 @@
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    //Use Microsoft Entra ID authentication.
-                    authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
-                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
-
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    // Use SAS token for authentication
+                    authType: 'sas',
+                    getToken: (resolve, reject) => {
+                        // URL to your authentication service that retrieves a SAS Token
+                        fetch('https://samples.azuremaps.com/api/GetAzureMapsSasToken')
+                            .then(function (response) {
+                                resolve(response);
+                            })
+                            .catch(function (error) {
+                                reject(new Error(`Failed to fetch Azure Maps SAS token: ${error.message}`));
+                            });
                     }
 
                     //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
