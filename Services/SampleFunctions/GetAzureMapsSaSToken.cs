@@ -7,13 +7,6 @@ using Azure.ResourceManager.Maps.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using System;
-using System.Globalization;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace SampleFunctions;
 
