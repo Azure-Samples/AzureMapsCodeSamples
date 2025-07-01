@@ -33,7 +33,12 @@ public class GetAzureMapsSaSToken()
     /// This tokenProvider will cache the token in memory, if you would like to reduce the dependency on Azure AD we recommend
     /// implementing a distributed cache combined with using the other methods available on tokenProvider.
     /// </remarks>
-    private readonly DefaultAzureCredential _TokenProvider = new();
+    private readonly DefaultAzureCredential _TokenProvider = new(new DefaultAzureCredentialOptions
+    {
+        TenantId = Environment.GetEnvironmentVariable("MAPS_SAS_TENANT_ID") ?? "",
+        ExcludeInteractiveBrowserCredential = true,
+        ExcludeEnvironmentCredential = true
+    });
 
     private ArmClient armClient;
 
@@ -64,9 +69,9 @@ public class GetAzureMapsSaSToken()
     /// <returns>The SAS token string</returns>
     private string GenerateAzureMapsSasToken(ArmClient armClient, int expiryInSeconds = 600, int maxRatePerSecond = 50)
     {
-        string subscriptionId = Environment.GetEnvironmentVariable("AZURE_MAPS_SUBSCRIPTION_ID");
-        string resourceGroupName = Environment.GetEnvironmentVariable("AZURE_MAPS_RESOURCE_GROUP_NAME");
-        string accountName = Environment.GetEnvironmentVariable("AZURE_MAPS_ACCOUNT_NAME");
+        string subscriptionId = Environment.GetEnvironmentVariable("AZURE_MAPS_SUBSCRIPTION_ID") ?? "";
+        string resourceGroupName = Environment.GetEnvironmentVariable("AZURE_MAPS_RESOURCE_GROUP_NAME") ?? "";
+        string accountName = Environment.GetEnvironmentVariable("AZURE_MAPS_ACCOUNT_NAME") ?? "";
 
         // Get maps account resource
         ResourceIdentifier mapsAccountResourceId = MapsAccountResource.CreateResourceIdentifier(subscriptionId, resourceGroupName, accountName);
@@ -74,7 +79,7 @@ public class GetAzureMapsSaSToken()
 
         // Assign SAS token information
         // Every time you want to SAS token, update the principal ID, max rate, start and expiry time
-        string principalId = Environment.GetEnvironmentVariable("AZURE_MAPS_PRINCIPAL_ID");
+        string principalId = Environment.GetEnvironmentVariable("AZURE_MAPS_PRINCIPAL_ID") ?? "";
 
         // Set start and expiry time for the SAS token in round-trip date/time format
         DateTime start = DateTime.Now;
@@ -84,7 +89,7 @@ public class GetAzureMapsSaSToken()
         // The MapsSigningKey is used to specify the type of signing key to use for the SAS token
         // In this case, we are using primary key as the signing key
         MapsAccountSasContent sasContent = new MapsAccountSasContent(
-            MapsSigningKey.PrimaryKey,
+            MapsSigningKey.ManagedIdentity,
             principalId,
             maxRatePerSecond,
             start.ToString("O"),
@@ -93,10 +98,7 @@ public class GetAzureMapsSaSToken()
         // Get SAS token
         Response<MapsAccountSasToken> sas = mapsAccount.GetSas(sasContent);
 
-        // Create a SearchClient that will authenticate via SAS token
-        AzureSasCredential sasCredential = new(sas.Value.AccountSasToken);
-
         // Return SAS token signature in string format
-        return sasCredential.Signature;
+        return sas.Value.AccountSasToken;
     }
 }
