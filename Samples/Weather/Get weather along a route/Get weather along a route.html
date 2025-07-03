@@ -23,12 +23,6 @@
     <script>
         var map, points, datasource, routeLine;
 
-        // Your Azure Maps client id for accessing your Azure Maps account.
-        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
-
-        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
-        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
-
         // URL for the Azure Maps Weather Along Route API.
         var weatherAlongRouteUrl = 'https://{azMapsDomain}/weather/route/json?api-version=1.0&query={query}';
 
@@ -37,16 +31,6 @@
 
         // URL for the Azure Maps Search Geocoder API.
         var geocodeUrl = 'https://{azMapsDomain}/search/address/json?api-version=1.0&query={query}&limit=1';
-
-        // Function to retrieve an Azure Maps access token.
-        function getToken(resolve, reject, map) {
-            fetch(tokenServiceUrl).then(response => {
-                if (response.ok) {
-                    return response.text();
-                }
-                throw new Error('Failed to retrieve Azure Maps token.');
-            }).then(token => resolve(token)).catch(error => reject(error));
-        }
 
         function getMap() {
             // Initialize a map instance.
@@ -57,16 +41,14 @@
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    // Use Microsoft Entra ID authentication.
-                    authType: 'anonymous',
-                    clientId: azureMapsClientId,
-                    getToken: getToken
+                    // Use SAS token for authentication
+                    authType: 'sas',
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves a SAS Token
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
 
-                    // Alternatively, use an Azure Maps key.
-                    // Get an Azure Maps key at https://azure.com/maps.
-                    // NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
                 }
             });
 

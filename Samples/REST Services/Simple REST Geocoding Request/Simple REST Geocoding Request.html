@@ -14,8 +14,7 @@
 
     <script>
         //Your Azure Maps Active Directory details for autheniticating the service.
-        var clientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
-        var tokenService = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+        var tokenService = 'https://samples.azuremaps.com/api/GetAzureMapsSASToken';
 
         var token;
 
@@ -24,7 +23,7 @@
         async function geocode() {
             //Retrieve an Microsoft Entra ID token if there isn't one currently available.
             if (!token) {
-                await initAzureAD();
+                await initSasToken();
             }
 
             var query = document.getElementById('input').value;
@@ -39,13 +38,12 @@
                 .replace('{language}', languageCode)
                 .replace('{countrySet}', countryIso);
 
-            //Proces the request.
+            //Process the request.
             var res = await fetch(geocodeRequest, {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
-                    'x-ms-client-id': clientId,
-                    'Authorization': 'Bearer ' + token,
+                    'Authorization': 'jwt-sas ' + token,
                     'Content-Type': 'application/json; charset=utf-8'
                 }
             });
@@ -73,17 +71,17 @@
             }
         }
 
-        async function initAzureAD() {
-            //Get Microsoft Entra ID token.
-            token = await getAadToken();
+        async function initSasToken() {
+            //Get Azure Maps SAS token.
+            token = await getSasToken();
 
-            // Create a repeating timeout that will renew the AAD token
+            // Create a repeating timeout that will renew the SAS token
             // This timeout must be cleared once the TokenCredential object is no longer needed
             // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
             const renewToken = async () => {
                 try {
                     console.log("Renewing token");
-                    token = await getAadToken();
+                    token = await getSasToken();
                     tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
                 } catch (error) {
                     console.log("Caught error when renewing token");
@@ -94,8 +92,8 @@
             tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
         }
 
-        async function getAadToken() {
-            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
+        async function getSasToken() {
+            //Fetch a SAS token from an endpoint using a client credential secret to authenticate.
             const response = await fetch(tokenService);
             return response.text();
         }

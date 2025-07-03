@@ -27,27 +27,11 @@
     <script>
         var map, datasource, drawingManager, popup;
 
-        // Your Azure Maps client id for accessing your Azure Maps account.
-        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
-
-        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
-        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
-
         // URL for the Azure Maps Search POI API.
         var searchPOIUrl = 'https://{azMapsDomain}/search/poi/json?api-version=1.0&query={query}&limit={limit}&lat={lat}&lon={lon}&radius={radius}&view=Auto';
 
         // URL for the Azure Maps Search Inside Geometry API.
         var searchGeometryUrl = 'https://{azMapsDomain}/search/geometry/json?api-version=1.0&query={query}&limit={limit}&view=Auto';
-
-        // Function to retrieve an Azure Maps access token.
-        function getToken(resolve, reject, map) {
-            fetch(tokenServiceUrl).then(response => {
-                if (response.ok) {
-                    return response.text();
-                }
-                throw new Error('Failed to retrieve Azure Maps token.');
-            }).then(token => resolve(token)).catch(error => reject(error));
-        }
 
         function getMap() {
             //Initialize a map instance.
@@ -58,10 +42,14 @@
 
         // Add authentication details for connecting to Azure Maps.
         authOptions: {
-            // Use Microsoft Entra ID authentication.
-            authType: 'anonymous',
-            clientId: azureMapsClientId,
-            getToken: getToken
+            // Use SAS token for authentication 
+            authType: 'sas',
+            getToken: function (resolve, reject, map) {
+                // URL to your authentication service that retrieves a SAS Token
+                var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
+
+                fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+            }
 
             // Alternatively, use an Azure Maps key.
             // Get an Azure Maps key at https://azure.com/maps.

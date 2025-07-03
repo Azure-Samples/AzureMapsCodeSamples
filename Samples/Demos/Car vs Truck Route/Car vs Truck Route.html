@@ -34,12 +34,6 @@
             { from: '40.429993,-79.998690', to: '40.414211,-80.009550', height: '', width: '', length: '', weight: '', load: ['USHazmatClass3'], description: 'Flammable load', streetsideLink: 'https://binged.it/2hd6P3s' }
         ];
 
-        // Your Azure Maps client id for accessing your Azure Maps account.
-        var azureMapsClientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
-
-        // URL to your authentication service that retrieves an Microsoft Entra ID Token.
-        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
-
         // Function to retrieve an Azure Maps access token.
         function getToken(resolve, reject, map) {
             fetch(tokenServiceUrl).then(response => {
@@ -57,10 +51,14 @@
 
                 // Add authentication details for connecting to Azure Maps.
                 authOptions: {
-                    // Use Microsoft Entra ID authentication.
-                    authType: 'anonymous',
-                    clientId: azureMapsClientId,
-                    getToken: getToken
+                    // Use SAS token for authentication 
+                    authType: 'sas',
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves a SAS Token
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
 
                     // Alternatively, use an Azure Maps key.
                     // Get an Azure Maps key at https://azure.com/maps.
