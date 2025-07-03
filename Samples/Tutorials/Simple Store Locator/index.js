@@ -21,22 +21,21 @@ function initialize() {
         zoom: 2,
         view: 'Auto',
 
-                //Add authentication details for connecting to Azure Maps.
-                authOptions: {
-                    //Use Microsoft Entra ID authentication.
-                    authType: 'anonymous',
-                    clientId: 'e6b6ab59-eb5d-4d25-aa57-581135b927f0', //Your Azure Maps client id for accessing your Azure Maps account.
-                    getToken: function (resolve, reject, map) {
-                        //URL to your authentication service that retrieves an Microsoft Entra ID Token.
-                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+        //Add authentication details for connecting to Azure Maps.
+        authOptions: {
+            // Use SAS token for authentication 
+            authType: 'sas',
+            getToken: function (resolve, reject, map) {
+                // URL to your authentication service that retrieves a SAS Token
+                var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
 
-                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
-                    }
+                fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+            }
 
-                    //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-                    //authType: 'subscriptionKey',
-                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
-                }
+            //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+            //authType: 'subscriptionKey',
+            //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+        }
     });
 
     //Create a popup but leave it closed so we can update it and display it later.

@@ -13,25 +13,24 @@
     <meta name="screenshot" content="screenshot.png" />
 
     <script>
-        //Your Azure Maps Active Directory details for autheniticating the service.
-        var clientId = 'e6b6ab59-eb5d-4d25-aa57-581135b927f0';
-        var tokenService = 'https://samples.azuremaps.com/api/GetAzureMapsToken';
+        //Your Azure Maps SAS token service URL for authenticating the service.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
 
         var token;
 
         var timezoneRequestUrl = 'https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&options=all&query={latitude},{longitude}&view=Auto';
 
         async function getTimezone() {
-            //Retrieve an Microsoft Entra ID token if there isn't one currently available.
+            //Retrieve a SAS token if there isn't one currently available.
             if (!token) {
-                await initAzureAD();
+                await initSasToken();
             }
 
             var output = document.getElementById('output');
 
             output.innerHTML = '<img src="/images/loadingIcon.gif" title="Loading"/>';
 
-            //Request the users location from the browser, this will display a prompt to the user to share their location.
+            //Request the user's location from the browser, this will display a prompt to the user to share their location.
             navigator.geolocation.getCurrentPosition(function (position) {
                 //Create a URL request to the Azure Maps Timezone service.
                 //Coordinates only need 5 decimal places to represent a high accuracy location.
@@ -44,8 +43,7 @@
                     method: 'GET',
                     mode: 'cors',
                     headers: {
-                        'x-ms-client-id': clientId,
-                        'Authorization': 'Bearer ' + token,
+                        'Authorization': 'jwt-sas ' + token,
                         'Content-Type': 'application/json; charset=utf-8'
                     }
                 }).then(function (response) {
@@ -100,7 +98,7 @@
                         }
                     });
             }, function (error) {
-                //If an error occurs when trying to access the users location information, display an error message.
+                //If an error occurs when trying to access the user's location information, display an error message.
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
                         output.innerHTML = 'User denied the request for Geolocation.';
@@ -118,43 +116,10 @@
             });
         }
 
-        async function initAzureAD() {
-            //Get Microsoft Entra ID token.
-            token = await getAadToken();
-
-            // Create a repeating timeout that will renew the AAD token
-            // This timeout must be cleared once the TokenCredential object is no longer needed
-            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
-            const renewToken = async () => {
-                try {
-                    console.log("Renewing token");
-                    token = await getAadToken();
-                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
-                } catch (error) {
-                    console.log("Caught error when renewing token");
-                    clearTimeout(tokenRenewalTimer);
-                    throw error;
-                }
-            }
-            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
-        }
-
-        async function getAadToken() {
-            //Fetch an AAD token from an endpoint using a client credential secret to authenticate.
-            const response = await fetch(tokenService);
-            return response.text();
-        }
-
-        function getExpiration(jwtToken) {
-            // Decode the JWT token to get the expiration timestamp
-            const json = atob(jwtToken.split(".")[1]);
-            const decode = JSON.parse(json);
-
-            // Return the milliseconds until the token needs renewed
-            // Reduce the time until renew by 5 minutes to avoid using an expired token
-            // The exp property is the timestamp of the expiration in seconds
-            const renewSkew = 300000;
-            return (1000 * decode.exp) - Date.now() - renewSkew;
+        async function initSasToken() {
+            //Fetch a SAS token from the token service.
+            const response = await fetch(tokenServiceUrl);
+            token = await response.text();
         }
     </script>
 </head>
