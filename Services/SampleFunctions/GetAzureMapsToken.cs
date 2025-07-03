@@ -6,7 +6,7 @@ using Microsoft.Azure.Functions.Worker;
 
 namespace SampleFunctions;
 
-public class GetAzureMapsToken()
+public class GetAzureMapsToken
 {
     private static readonly string[] AllowedDomains = [
         "https://samples.azuremaps.com/",

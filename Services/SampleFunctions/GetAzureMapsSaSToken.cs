@@ -10,7 +10,7 @@ using Microsoft.Azure.Functions.Worker;
 
 namespace SampleFunctions;
 
-public class GetAzureMapsSaSToken()
+public class GetAzureMapsSaSToken
 {
     private static readonly string[] AllowedDomains = [
         "https://samples.azuremaps.com/",
@@ -26,7 +26,7 @@ public class GetAzureMapsSaSToken()
     /// This tokenProvider will cache the token in memory, if you would like to reduce the dependency on Azure AD we recommend
     /// implementing a distributed cache combined with using the other methods available on tokenProvider.
     /// </remarks>
-    private readonly DefaultAzureCredential _TokenProvider = new(new DefaultAzureCredentialOptions
+    private readonly DefaultAzureCredential _tokenProvider = new(new DefaultAzureCredentialOptions
     {
         TenantId = Environment.GetEnvironmentVariable("MAPS_SAS_TENANT_ID") ?? "",
         ExcludeInteractiveBrowserCredential = true,
@@ -41,7 +41,7 @@ public class GetAzureMapsSaSToken()
         // Check if the referer header is present and if the domain is allowed
         if (req.Headers.TryGetValue("Referer", out var referer) && AllowedDomains.Any(domain => referer.ToString().StartsWith(domain)))
         {
-            armClient = new ArmClient(_TokenProvider);
+            armClient = new ArmClient(_tokenProvider);
 
             // Generate SAS token for Azure Maps
             string sasToken = GenerateAzureMapsSasToken(armClient);
@@ -57,7 +57,7 @@ public class GetAzureMapsSaSToken()
     /// Generates a Shared Access Signature (SAS) token for Azure Maps authentication.
     /// </summary>
     /// <param name="armClient">The ArmClient instance to use for authentication</param>
-    /// <param name="expiryInMinutes">Token expiry time in seconds (default: 600)</param>
+    /// <param name="expiryInSeconds">Token expiry time in seconds (default: 600)</param>
     /// <param name="maxRatePerSecond">Maximum rate per second (default: 100)</param>
     /// <returns>The SAS token string</returns>
     private string GenerateAzureMapsSasToken(ArmClient armClient, int expiryInSeconds = 600, int maxRatePerSecond = 50)
@@ -75,7 +75,7 @@ public class GetAzureMapsSaSToken()
         string principalId = Environment.GetEnvironmentVariable("AZURE_MAPS_PRINCIPAL_ID") ?? "";
 
         // Set start and expiry time for the SAS token in round-trip date/time format
-        DateTime start = DateTime.Now;
+        DateTime start = DateTime.UtcNow;
         DateTime expiry = start.AddSeconds(expiryInSeconds);
 
         // Create the SAS token content
