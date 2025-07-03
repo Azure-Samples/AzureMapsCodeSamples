@@ -52,7 +52,6 @@
 
                         if (response.TimeZones && response.TimeZones.length > 0) {
                             var timeZoneInfo = response.TimeZones[0];
-
                             var html = [];
 
                             html.push('IANA Id: ', timeZoneInfo.Id, '<br/>');
@@ -94,7 +93,7 @@
 
                             output.innerHTML = html.join('');
                         } else {
-                            output.innerHTML = "No timezone information found."
+                            output.innerHTML = "No timezone information found.";
                         }
                     });
             }, function (error) {
@@ -116,10 +115,43 @@
             });
         }
 
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp.
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed.
+            // Reduce the time until renew by 2 minutes to avoid using an expired token.
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 120000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
+        }
+
         async function initSasToken() {
             //Fetch a SAS token from the token service.
+            token = await getSasToken();
+
+            // Create a repeating timeout that will renew the SAS token.
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getSasToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            };
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getSasToken() {
+            //Fetch a SAS token from the token service.
             const response = await fetch(tokenServiceUrl);
-            token = await response.text();
+            return await response.text();
         }
     </script>
 </head>
