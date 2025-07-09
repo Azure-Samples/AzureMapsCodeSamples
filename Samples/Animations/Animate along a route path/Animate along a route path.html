@@ -122,7 +122,7 @@
 					//Extract timestamp information from a custom property of the point features. 
                     //By default the `moveAlongRoute` function looks for a `_timestamp` property on the point features that is a Date.getTime() value. 
                     //If your points already have a `_timestamp` property with the correct value type, you can skip this extraction step.
-                    routePoints = atlas.animations.extractRoutePoints(route, 'timestamp');
+                    routePoints = atlas.animations.extractRoutePoints(routePoints, 'timestamp');
 
                     //Create the animation.
                     animation = atlas.animations.moveAlongRoute(routePoints, pin, { 
