@@ -25,7 +25,7 @@
         var map, datasource;
 
         // URL for the Azure Maps Route API.
-        var routeUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var routeUrl = 'https://{azMapsDomain}/route/directions?api-version=2025-01-01';
 
         function getMap() {
             // Initialize a map instance.
@@ -85,13 +85,17 @@
                 var startPosition = [-122.33028, 47.60323];
                 var startPoint = new atlas.data.Feature(new atlas.data.Point(startPosition), {
                     title: 'Seattle',
-                    iconImage: 'pin-blue'
+                    iconImage: 'pin-blue',
+                    pointIndex: 0,
+                    pointType: "waypoint"
                 });
 
                 var endPosition = [-122.124, 47.67491];
                 var endPoint = new atlas.data.Feature(new atlas.data.Point(endPosition), {
                     title: 'Redmond',
-                    iconImage: 'pin-red'
+                    iconImage: 'pin-red',
+                    pointIndex: 1,
+                    pointType: "waypoint"
                 });
 
                 // Add the data to the data source.
@@ -103,23 +107,20 @@
                     padding: 50
                 });
 
-                // Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
-                var routeRequestURL = routeUrl
-                    .replace('{query}', `${startPosition[1]},${startPosition[0]}:${endPosition[1]},${endPosition[0]}`);
+                // Create the route request body using GeoJSON FeatureCollection.
+                var routeRequestBody = {
+                    type: 'FeatureCollection',
+                    features: [startPoint, endPoint],
+                    optimizeRoute: 'fastestWithTraffic',
+                    routeOutputOptions: ['routePath'],
+                    maxRouteCount: 1,
+                    travelMode: 'driving'
+                };
 
-                // Process the request and render the route result on the map.
-                processRequest(routeRequestURL).then(directions => {
-                    // Extract the first route from the directions.
-                    const route = directions.routes[0];
-
-                    // Combine all leg coordinates into a single array.
-                    const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
-
-                    // Create a LineString from the route path points.
-                    const routeLine = new atlas.data.LineString(routeCoordinates);
-
-                    // Add it to the data source.
-                    datasource.add(routeLine);
+                // Process the POST request and render the route result on the map.
+                processPostRequest(routeUrl, JSON.stringify(routeRequestBody)).then(directions => {
+                    // Add directions to the data source.
+                    datasource.add(directions);
                 });
             });
         }
