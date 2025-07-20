@@ -207,10 +207,8 @@
             var requestUrl = 'https://{azMapsDomain}/search/address/batch/sync/json?api-version=1.0';
             var res = await processPostRequest(requestUrl, body);
 
-            var r = await res.json();
-
             //Process the response.
-            processBatchResponse(r);
+            processBatchResponse(res);
 
             //Done.
             endSearch();
