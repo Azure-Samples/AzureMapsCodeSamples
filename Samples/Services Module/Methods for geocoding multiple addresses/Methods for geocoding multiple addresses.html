@@ -145,6 +145,9 @@
                 //Add a layer for rendering data.
                 map.layers.add(new atlas.layer.BubbleLayer(datasource));
             });
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline, atlas.getDomain());
         }
 
         var searchMethod;
