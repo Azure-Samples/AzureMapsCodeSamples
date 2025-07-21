@@ -86,7 +86,8 @@
 
         function getExpiration(jwtToken) {
             // Decode the JWT token to get the expiration timestamp
-            const json = atob(jwtToken.split(".")[1]);                                                                                                                                                                                                                                 -            const decode = JSON.parse(json);
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
 
             // Return the milliseconds until the token needs renewed
             // Reduce the time until renew by 2 minutes to avoid using an expired token
@@ -102,14 +103,16 @@
             // Create a repeating timeout that will renew the SAS token
             // This timeout must be cleared once the TokenCredential object is no longer needed
             // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
-            const renewToken = async () => {                                                                                                                                                                                                                                           -                try {
+            const renewToken = async () => {
+                try {
                     console.log("Renewing token");
                     token = await getSasToken();
                     tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
-                } catch (error) {                         
-                    console.log("Caught error when renewing token");                                                                                                                                                                                                                             -                    console.log("Caught error when renewing token");
+                } catch (error) {
+                    console.log("Caught error when renewing token");
                     clearTimeout(tokenRenewalTimer);
-                    throw error;                                                                                                                                                                                                                                                       -                }
+                    throw error;
+                }
             }
             tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
         }

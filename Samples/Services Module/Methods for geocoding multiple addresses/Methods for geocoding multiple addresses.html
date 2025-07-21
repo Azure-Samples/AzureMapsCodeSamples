@@ -17,6 +17,9 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
     <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
 
@@ -145,6 +148,12 @@
                 //Add a layer for rendering data.
                 map.layers.add(new atlas.layer.BubbleLayer(datasource));
             });
+
+            //Use MapControlCredential to share authentication between a map control and the service module.
+            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
+
+            //Create an instance of the SearchURL client.
+            searchURL = new atlas.service.SearchURL(pipeline);
         }
 
         var searchMethod;
@@ -207,10 +216,8 @@
             var requestUrl = 'https://{azMapsDomain}/search/address/batch/sync/json?api-version=1.0';
             var res = await processPostRequest(requestUrl, body);
 
-            var r = await res.json();
-
             //Process the response.
-            processBatchResponse(r);
+            processBatchResponse(res);
 
             //Done.
             endSearch();
@@ -222,12 +229,13 @@
             var requestUrl = 'https://{azMapsDomain}/search/address/batch/json?api-version=1.0';
             var res = await processPostRequest(requestUrl, body);
 
-            //Ge tthe batch status URL from the "location" response header.
+            //Get the batch status URL from the "location" response header.
             var batchStatusUrl = res.headers.get('location');
+            var signedRequest = await signRequest(requestUrl);
 
-            //Check the statuc of the batch job.
+            //Check the status of the batch job.
             var res2 = await fetch(batchStatusUrl, {
-                headers: new Headers(requestParams.headers)
+                headers: new Headers(signedRequest.headers)
             });
 
             //Check to see if batch process if complete.
