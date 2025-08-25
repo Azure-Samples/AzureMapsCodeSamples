@@ -1,11 +1,12 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
 
 export default defineConfig({
   build: {
     lib: {
-      entry: 'src/Flowmap.gl.js',
-      name: 'FlowmapGL',            
-      fileName: () => 'Flowmapgl.bundle.js' 
+      entry: "src/Flowmap.gl.js",
+      name: "FlowmapGL",
+      fileName: () => "Flowmapgl.bundle.js",
     },
   },
-})
+  define: { "process.env": {} },
+});
