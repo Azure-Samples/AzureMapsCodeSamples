@@ -55,7 +55,9 @@
                             'Content-Type': 'application/json; charset=utf-8'
                         }
                     }).then(r => r.json()).then(data => {
-                        response(data.results);
+                        // Only filter the "real address", exclude streets, municipalities, or other item types
+                        var results = data.results.filter(item => item.type === "Point Address");
+                        response(results);
                     });
                 },
                 select: function (event, ui) {
@@ -109,7 +111,6 @@
                     token = await getSasToken();
                     tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
                 } catch (error) {
-                    console.log("Caught error when renewing token");
                     console.log("Caught error when renewing token");
                     clearTimeout(tokenRenewalTimer);
                     throw error;

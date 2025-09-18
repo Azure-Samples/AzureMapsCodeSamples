@@ -33,6 +33,13 @@ async function processPostRequest(url, body) {
         throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
     }
 
+    // If the response body is empty, return the response directly to avoid JSON parsing errors.
+    // This can happen if the request was successful but there is no content to return.
+    // e.g., 204 No Content or 202 Accepted
+    if (response.status === 204 || response.status === 202) {
+        return response;
+    }
+
     return response.json();
 }
 
