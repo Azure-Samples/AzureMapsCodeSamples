@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Autocomplete</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="A sample that shows how to create an address input autocomplete experience using Azure Maps Geocode API." />
+    <meta name="keywords" content="Microsoft Azure Maps, geocoding, autocomplete, autosuggest, address, suggestions" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="1.0" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <link rel="icon" href="https://samples.azuremaps.com/favicon.ico" type="image/x-icon" />
+
+    <!-- Add references to the Azure Maps Web SDK -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.css"
+        type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.js"></script>
+
+    <!-- Add reference to JQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
+    <script>
+        /*
+         * This sample demonstrates how to create an address input autocomplete experience using Azure Maps Geocode API.
+         * As the user types in the search input, geocode autocomplete suggestions are returned and displayed in a dropdown list.
+         * When the user selects a suggestion, it is geocoded and the location is displayed as a marker on the map.
+         * 
+         * This sample uses the Azure Maps REST services to search for autocomplete suggestions and geocode addresses.
+         */
+    </script>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            background-color: white;
+            color: black;
+        }
+
+        #myMap {
+            position: absolute;
+            top: 0px;
+            left: 370px;
+            width: calc(100vw - 370px);
+            height: 100vh;
+        }
+
+        .sidePanel {
+            position: absolute;
+            top: 0px;
+            left: 10px;
+            width: 350px;
+            height: calc(100vh - 25px);
+            padding: 5px;
+            padding-bottom: 140px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .tab {
+            overflow: hidden;
+        }
+
+        .tab input {
+            border: 1px solid #ccc;
+            width: 100%;
+            max-width: 330px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .tab button {
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            padding: 6px 8px;
+            transition: 0.3s;
+            font-size: 14px;
+            width: auto;
+            min-width: 100px;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            position: relative;
+            top: 20px;
+            display: block;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+        }
+
+        .dropdown {
+            width: 100%;
+            max-width: 330px;
+            box-sizing: border-box;
+        }
+
+        /* unvisited link */
+        a:link {
+            color: green;
+        }
+
+        /* visited link */
+        a:visited {
+            color: green;
+        }
+
+        /* mouse over link */
+        a:hover {
+            color: green;
+        }
+
+        /* selected link */
+        a:active {
+            color: green;
+        }
+    </style>
+
+    <script>
+        var map, datasource;
+        // Track the last context signature (bbox + options) to know when to invalidate autocomplete cache.
+        var lastContextSignature = null;
+
+        // Note that the typeahead parameter is set to true.
+        var geocodeServiceUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={lon},{lat}&bbox={bbox}&top=10&resultTypeGroups={resultTypeGroups}&countryRegion={countryRegion}';
+        
+        // Geocoding API to get coordinates for selected autocomplete item
+        var geocodeUrlTemplate = 'https://{azMapsDomain}/geocode?api-version=2025-06-01-preview&query={selectedEntity}';
+
+        // Mapping Part
+        function getMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-122.130493, 47.641724],
+                zoom: 10,
+                view: 'Auto',
+
+                // Add authentication details for connecting to Azure Maps.
+                authOptions: {
+                    // Use SAS token for authentication 
+                    authType: 'sas',
+                    getToken: function (resolve, reject, map) {
+                        // URL to your authentication service that retrieves a SAS Token
+                        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
+
+                        fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
+                    }
+
+                    // Alternatively, use an Azure Maps key.
+                    // Get an Azure Maps key at https://azure.com/maps.
+                    // NOTE: The primary key should be used as the key.
+                    //authType: 'subscriptionKey',
+                    //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //Add controls to the map.
+                map.controls.add([
+                    new atlas.control.ZoomControl(),
+                    new atlas.control.CompassControl(),
+                    new atlas.control.PitchControl(),
+                    new atlas.control.StyleControl({
+                        mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels']
+                    }),
+                    new atlas.control.TrafficControl()
+                ], {
+                    position: 'top-right'
+                }
+                );
+
+                map.controls.add([
+                    //Add a imperial scale bar to the map.
+                    new atlas.control.ScaleControl({
+                        unit: 'imperial'
+                    }),
+
+                    //Add a metric scale bar to the map.
+                    new atlas.control.ScaleControl({
+                        unit: 'metric'
+                    })], {
+                    position: 'bottom-left'
+                });
+
+                map.controls.add(new atlas.control.TrafficLegendControl(), { position: 'top-left' });
+
+                //Create a data source to store the data in.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Add a layer for rendering point data as markers.
+                map.layers.add(new atlas.layer.SymbolLayer(datasource));
+
+                // Add a move end event to update the map view and invalidate cache if context changed.
+                map.events.add('moveend', function () {
+                    updateStatus();
+
+                    // Build a signature of current context (bbox + options only).
+                    const normalizeLongitude = (lon) => ((lon + 180) % 360 + 360) % 360 - 180;
+                    var bbox = map.getCamera().bounds;
+                    var countryIso = document.getElementById('countrySelector').value;
+                    var rtg = document.querySelector('input[name="resultTypeGroups"]:checked').value;
+                    var bboxStr = `${normalizeLongitude(bbox[0])},${bbox[1]},${normalizeLongitude(bbox[2])},${bbox[3]}`;
+                    var ctxSignature = `${bboxStr}|${countryIso}|${rtg}`;
+
+                    if (ctxSignature !== lastContextSignature) {
+                        lastContextSignature = ctxSignature;
+                        // Invalidate autocomplete internal cache so the next keystroke (even same char) will trigger a new request.
+                        var ac = $("#searchBox").autocomplete("instance");
+                        if (ac) { ac.term = ""; }
+                    }
+                });
+
+                // Also invalidate cache when view/country or result types change.
+                document.getElementById('countrySelector').addEventListener('change', function () {
+                    var ac = $("#searchBox").autocomplete("instance");
+                    if (ac) { ac.term = ""; }
+                    lastContextSignature = null; // force recalculation next move/change
+                });
+                Array.from(document.querySelectorAll('input[name="resultTypeGroups"]')).forEach(function (el) {
+                    el.addEventListener('change', function () {
+                        var ac = $("#searchBox").autocomplete("instance");
+                        if (ac) { ac.term = ""; }
+                        lastContextSignature = null;
+                    });
+                });
+
+                updateStatus();
+            });
+
+            // Create a jQuery autocomplete UI widget.
+            $("#searchBox").autocomplete({
+                minLength: 3,   //Don't ask for suggestions until at least 3 characters have been typed.
+                source: function (request, response) {
+
+                    const normalizeLongitude = (lon) => ((lon + 180) % 360 + 360) % 360 - 180;
+
+                    var center = map.getCamera().center;
+                    var bbox = map.getCamera().bounds;
+
+                    var elm = document.getElementById('countrySelector');
+                    var countryIso = elm.options[elm.selectedIndex].value;
+
+                    //Create a URL to the Azure Maps search service to perform the search.
+                    var requestUrl = geocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
+                        .replace('{azMapsDomain}', atlas.getDomain())
+                        .replace('{lon}', center[0])    //Use a lat and lon value of the center the map to bias the results to the current map view.
+                        .replace('{lat}', center[1])    //Use a lat and lon value of the center the map to bias the results to the current map view.
+                        .replace('{bbox}', `${normalizeLongitude(bbox[0])},${bbox[1]},${normalizeLongitude(bbox[2])},${bbox[3]}`) //Use the current map view bounds to bias the results to the current map view.
+                        .replace('{resultTypeGroups}', document.querySelector('input[name="resultTypeGroups"]:checked').value);
+                    
+                    // Handle country region parameter - remove it entirely if None is selected
+                    if (countryIso) {
+                        requestUrl = requestUrl.replace('{countryRegion}', countryIso);
+                    } else {
+                        requestUrl = requestUrl.replace('&countryRegion={countryRegion}', '');
+                    }
+
+                    processRequest(requestUrl).then(data => {
+                        response(data.features);
+                    });
+                },
+                select: function (event, ui) {
+                    //Remove any previous added data from the map.
+                    datasource.clear();
+
+                    //Clean previous popup model
+                    clearMap();
+
+                    // Get the selected entity string for geocoding
+                    var selectedEntity = "";
+                    if (ui.item.properties.name) {
+                        selectedEntity = ui.item.properties.name;
+                    } else {
+                        selectedEntity = ui.item.properties.address.formattedAddress;
+                    }
+
+                    // Call geocoding API to get coordinates
+                    geocodeSelected(selectedEntity, ui.item);
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                //Format the displayed suggestion to show the formatted suggestion string.
+                var suggestionLabel = item.properties.address.formattedAddress;
+                if (item.properties.name) {
+                    suggestionLabel = item.properties.name + ' (' + suggestionLabel + ')';
+                }
+
+                return $("<li>")
+                    .append("<a>" + suggestionLabel + "</a>")
+                    .appendTo(ul);
+            };
+        }
+
+        // Geocode the selected autocomplete item to get coordinates
+        async function geocodeSelected(selectedEntity, autocompleteItem) {
+            try {
+                var uri = geocodeUrlTemplate.replace('{selectedEntity}', encodeURIComponent(selectedEntity))
+                                          .replace('{azMapsDomain}', atlas.getDomain());
+                
+                const json = await processRequest(uri);
+
+                if (json.features && json.features.length > 0) {
+                    var coordinates = json.features[0].geometry.coordinates;
+                    var lon = coordinates[0];
+                    var lat = coordinates[1];
+
+                    // Create a point feature to mark the selected location.
+                    var locationFeature = new atlas.data.Feature(new atlas.data.Point([lon, lat]), {
+                        name: autocompleteItem.properties.name || autocompleteItem.properties.address.formattedAddress,
+                        autocompleteItem: autocompleteItem
+                    });
+                    datasource.add(locationFeature);
+
+                    //Zoom the map to the selected location
+                    map.setCamera({
+                        center: [lon, lat],
+                        zoom: 15
+                    });
+
+                    updateStatus();
+                } else {
+                    console.warn('No geocoding results found for:', selectedEntity);
+                    updateStatus();
+                }
+            } catch (error) {
+                console.error('Geocoding error:', error);
+                updateStatus();
+            }
+        }
+
+        // Clear the Map
+        function clearMap() {
+            datasource.clear();
+        }
+
+        // Update Status
+        function updateStatus() {
+            var camera = map.getCamera();
+            var cp = camera.center;
+            var zoom = camera.zoom;
+
+            document.getElementById("cpLat").innerHTML = cp[1].toFixed(5);
+            document.getElementById("cpLon").innerHTML = cp[0].toFixed(5);
+            document.getElementById("mapZoom").innerHTML = zoom.toFixed(1);
+            document.getElementById("mapBearing").innerHTML = camera.bearing.toFixed(1);
+            document.getElementById("mapPitch").innerHTML = camera.pitch.toFixed(1);
+        }
+    </script>
+</head>
+
+<body onload="getMap()">
+    <div class="sidePanel">
+        <!-- Top Control Panel - No border fieldset -->
+        <fieldset style="border: none; padding: 0; margin: 0;">
+            <a>Search Type:</a><br>
+            <input type="radio" value="" name="resultTypeGroups" checked="checked" /> Address+Place
+            <input type="radio" value="Address" name="resultTypeGroups" /> Address
+            <input type="radio" value="Place" name="resultTypeGroups" /> Place
+            <br /><br />
+
+            <a>Country to limit results to:</a><br>
+            <select id="countrySelector" class="dropdown">
+                <option value="">None</option>
+                <option value="AF">Afghanistan</option>
+                <option value="AX">Åland Islands</option>
+                <option value="AL">Albania</option>
+                <option value="DZ">Algeria</option>
+                <option value="AS">American Samoa</option>
+                <option value="AD">Andorra</option>
+                <option value="AO">Angola</option>
+            <option value="AI">Anguilla</option>
+            <option value="AQ">Antarctica</option>
+            <option value="AG">Antigua and Barbuda</option>
+            <option value="AR">Argentina</option>
+            <option value="AM">Armenia</option>
+            <option value="AW">Aruba</option>
+            <option value="AU">Australia</option>
+            <option value="AT">Austria</option>
+            <option value="AZ">Azerbaijan</option>
+            <option value="BS">Bahamas</option>
+            <option value="BH">Bahrain</option>
+            <option value="BD">Bangladesh</option>
+            <option value="BB">Barbados</option>
+            <option value="BY">Belarus</option>
+            <option value="BE">Belgium</option>
+            <option value="BZ">Belize</option>
+            <option value="BJ">Benin</option>
+            <option value="BM">Bermuda</option>
+            <option value="BT">Bhutan</option>
+            <option value="BO">Bolivia (Plurinational State of)</option>
+            <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+            <option value="BA">Bosnia and Herzegovina</option>
+            <option value="BW">Botswana</option>
+            <option value="BV">Bouvet Island</option>
+            <option value="BR">Brazil</option>
+            <option value="IO">British Indian Ocean Territory</option>
+            <option value="BN">Brunei Darussalam</option>
+            <option value="BG">Bulgaria</option>
+            <option value="BF">Burkina Faso</option>
+            <option value="BI">Burundi</option>
+            <option value="CV">Cabo Verde</option>
+            <option value="KH">Cambodia</option>
+            <option value="CM">Cameroon</option>
+            <option value="CA">Canada</option>
+            <option value="KY">Cayman Islands</option>
+            <option value="CF">Central African Republic</option>
+            <option value="TD">Chad</option>
+            <option value="CL">Chile</option>
+            <option value="CN">China</option>
+            <option value="CX">Christmas Island</option>
+            <option value="CC">Cocos (Keeling) Islands</option>
+            <option value="CO">Colombia</option>
+            <option value="KM">Comoros</option>
+            <option value="CG">Congo</option>
+            <option value="CD">Congo, Democratic Republic of the</option>
+            <option value="CK">Cook Islands</option>
+            <option value="CR">Costa Rica</option>
+            <option value="CI">Côte d'Ivoire</option>
+            <option value="HR">Croatia</option>
+            <option value="CU">Cuba</option>
+            <option value="CW">Curaçao</option>
+            <option value="CY">Cyprus</option>
+            <option value="CZ">Czechia</option>
+            <option value="DK">Denmark</option>
+            <option value="DJ">Djibouti</option>
+            <option value="DM">Dominica</option>
+            <option value="DO">Dominican Republic</option>
+            <option value="EC">Ecuador</option>
+            <option value="EG">Egypt</option>
+            <option value="SV">El Salvador</option>
+            <option value="GQ">Equatorial Guinea</option>
+            <option value="ER">Eritrea</option>
+            <option value="EE">Estonia</option>
+            <option value="SZ">Eswatini</option>
+            <option value="ET">Ethiopia</option>
+            <option value="FK">Falkland Islands (Malvinas)</option>
+            <option value="FO">Faroe Islands</option>
+            <option value="FJ">Fiji</option>
+            <option value="FI">Finland</option>
+            <option value="FR">France</option>
+            <option value="GF">French Guiana</option>
+            <option value="PF">French Polynesia</option>
+            <option value="TF">French Southern Territories</option>
+            <option value="GA">Gabon</option>
+            <option value="GM">Gambia</option>
+            <option value="GE">Georgia</option>
+            <option value="DE">Germany</option>
+            <option value="GH">Ghana</option>
+            <option value="GI">Gibraltar</option>
+            <option value="GR">Greece</option>
+            <option value="GL">Greenland</option>
+            <option value="GD">Grenada</option>
+            <option value="GP">Guadeloupe</option>
+            <option value="GU">Guam</option>
+            <option value="GT">Guatemala</option>
+            <option value="GG">Guernsey</option>
+            <option value="GN">Guinea</option>
+            <option value="GW">Guinea-Bissau</option>
+            <option value="GY">Guyana</option>
+            <option value="HT">Haiti</option>
+            <option value="HM">Heard Island and McDonald Islands</option>
+            <option value="VA">Holy See</option>
+            <option value="HN">Honduras</option>
+            <option value="HK">Hong Kong</option>
+            <option value="HU">Hungary</option>
+            <option value="IS">Iceland</option>
+            <option value="IN">India</option>
+            <option value="ID">Indonesia</option>
+            <option value="IR">Iran (Islamic Republic of)</option>
+            <option value="IQ">Iraq</option>
+            <option value="IE">Ireland</option>
+            <option value="IM">Isle of Man</option>
+            <option value="IL">Israel</option>
+            <option value="IT">Italy</option>
+            <option value="JM">Jamaica</option>
+            <option value="JP">Japan</option>
+            <option value="JE">Jersey</option>
+            <option value="JO">Jordan</option>
+            <option value="KZ">Kazakhstan</option>
+            <option value="KE">Kenya</option>
+            <option value="KI">Kiribati</option>
+            <option value="KP">Korea (Democratic People's Republic of)</option>
+            <option value="KR">Korea, Republic of</option>
+            <option value="KW">Kuwait</option>
+            <option value="KG">Kyrgyzstan</option>
+            <option value="LA">Lao People's Democratic Republic</option>
+            <option value="LV">Latvia</option>
+            <option value="LB">Lebanon</option>
+            <option value="LS">Lesotho</option>
+            <option value="LR">Liberia</option>
+            <option value="LY">Libya</option>
+            <option value="LI">Liechtenstein</option>
+            <option value="LT">Lithuania</option>
+            <option value="LU">Luxembourg</option>
+            <option value="MO">Macao</option>
+            <option value="MK">Macedonia, the former Yugoslav Republic of</option>
+            <option value="MG">Madagascar</option>
+            <option value="MW">Malawi</option>
+            <option value="MY">Malaysia</option>
+            <option value="MV">Maldives</option>
+            <option value="ML">Mali</option>
+            <option value="MT">Malta</option>
+            <option value="MH">Marshall Islands</option>
+            <option value="MQ">Martinique</option>
+            <option value="MR">Mauritania</option>
+            <option value="MU">Mauritius</option>
+            <option value="YT">Mayotte</option>
+            <option value="MX">Mexico</option>
+            <option value="FM">Micronesia (Federated States of)</option>
+            <option value="MD">Moldova, Republic of</option>
+            <option value="MC">Monaco</option>
+            <option value="MN">Mongolia</option>
+            <option value="ME">Montenegro</option>
+            <option value="MS">Montserrat</option>
+            <option value="MA">Morocco</option>
+            <option value="MZ">Mozambique</option>
+            <option value="MM">Myanmar</option>
+            <option value="NA">Namibia</option>
+            <option value="NR">Nauru</option>
+            <option value="NP">Nepal</option>
+            <option value="NL">Netherlands</option>
+            <option value="NC">New Caledonia</option>
+            <option value="NZ">New Zealand</option>
+            <option value="NI">Nicaragua</option>
+            <option value="NE">Niger</option>
+            <option value="NG">Nigeria</option>
+            <option value="NU">Niue</option>
+            <option value="NF">Norfolk Island</option>
+            <option value="MP">Northern Mariana Islands</option>
+            <option value="NO">Norway</option>
+            <option value="OM">Oman</option>
+            <option value="PK">Pakistan</option>
+            <option value="PW">Palau</option>
+            <option value="PS">Palestine, State of</option>
+            <option value="PA">Panama</option>
+            <option value="PG">Papua New Guinea</option>
+            <option value="PY">Paraguay</option>
+            <option value="PE">Peru</option>
+            <option value="PH">Philippines</option>
+            <option value="PN">Pitcairn</option>
+            <option value="PL">Poland</option>
+            <option value="PT">Portugal</option>
+            <option value="PR">Puerto Rico</option>
+            <option value="QA">Qatar</option>
+            <option value="RE">Réunion</option>
+            <option value="RO">Romania</option>
+            <option value="RU">Russian Federation</option>
+            <option value="RW">Rwanda</option>
+            <option value="BL">Saint Barthélemy</option>
+            <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+            <option value="KN">Saint Kitts and Nevis</option>
+            <option value="LC">Saint Lucia</option>
+            <option value="MF">Saint Martin (French part)</option>
+            <option value="PM">Saint Pierre and Miquelon</option>
+            <option value="VC">Saint Vincent and the Grenadines</option>
+            <option value="WS">Samoa</option>
+            <option value="SM">San Marino</option>
+            <option value="ST">Sao Tome and Principe</option>
+            <option value="SA">Saudi Arabia</option>
+            <option value="SN">Senegal</option>
+            <option value="RS">Serbia</option>
+            <option value="SC">Seychelles</option>
+            <option value="SL">Sierra Leone</option>
+            <option value="SG">Singapore</option>
+            <option value="SX">Sint Maarten (Dutch part)</option>
+            <option value="SK">Slovakia</option>
+            <option value="SI">Slovenia</option>
+            <option value="SB">Solomon Islands</option>
+            <option value="SO">Somalia</option>
+            <option value="ZA">South Africa</option>
+            <option value="GS">South Georgia and the South Sandwich Islands</option>
+            <option value="SS">South Sudan</option>
+            <option value="ES">Spain</option>
+            <option value="LK">Sri Lanka</option>
+            <option value="SD">Sudan</option>
+            <option value="SR">Suriname</option>
+            <option value="SJ">Svalbard and Jan Mayen</option>
+            <option value="SE">Sweden</option>
+            <option value="CH">Switzerland</option>
+            <option value="SY">Syrian Arab Republic</option>
+            <option value="TW">Taiwan</option>
+            <option value="TJ">Tajikistan</option>
+            <option value="TZ">Tanzania, United Republic of</option>
+            <option value="TH">Thailand</option>
+            <option value="TL">Timor-Leste</option>
+            <option value="TG">Togo</option>
+            <option value="TK">Tokelau</option>
+            <option value="TO">Tonga</option>
+            <option value="TT">Trinidad and Tobago</option>
+            <option value="TN">Tunisia</option>
+            <option value="TR">Turkey</option>
+            <option value="TM">Turkmenistan</option>
+            <option value="TC">Turks and Caicos Islands</option>
+            <option value="TV">Tuvalu</option>
+            <option value="UG">Uganda</option>
+            <option value="UA">Ukraine</option>
+            <option value="AE">United Arab Emirates</option>
+            <option value="GB">United Kingdom of Great Britain and Northern Ireland</option>
+            <option value="UM">United States Minor Outlying Islands</option>
+            <option value="US" selected="selected">United States of America</option>
+            <option value="UY">Uruguay</option>
+            <option value="UZ">Uzbekistan</option>
+            <option value="VU">Vanuatu</option>
+            <option value="VE">Venezuela (Bolivarian Republic of)</option>
+            <option value="VN">Viet Nam</option>
+            <option value="VG">Virgin Islands (British)</option>
+            <option value="VI">Virgin Islands (U.S.)</option>
+            <option value="WF">Wallis and Futuna</option>
+            <option value="EH">Western Sahara</option>
+            <option value="YE">Yemen</option>
+            <option value="ZM">Zambia</option>
+            <option value="ZW">Zimbabwe</option>
+        </select>
+        <br /><br />
+
+        <div class="tab">
+            <a>Query:</a>
+            <input type="text" id="searchBox" value="" />
+        </div>
+        <br>
+
+        <div id="mapView" class="tabcontent">
+            <table>
+                <tr>
+                    <td>Center Lat</td>
+                    <td><a id="cpLat"></a></td>
+                </tr>
+                <td>Center Lon</td>
+                <td><a id="cpLon"></a></td>
+                </tr>
+                <tr>
+                    <td>Zoom</td>
+                    <td><a id="mapZoom"></a></td>
+                </tr>
+                <tr>
+                    <td>Bearing</td>
+                    <td><a id="mapBearing"></a></td>
+                </tr>
+                <tr>
+                    <td>Pitch</td>
+                    <td><a id="mapPitch"></a></td>
+                </tr>
+            </table>
+        </div>
+        <br><br>
+
+        <div class="tab">
+            <button onclick="clearMap()">Clear Map</button>
+        </div>
+        </fieldset>
+
+        <!-- Bottom Info Panel -->
+        <fieldset style="position: absolute; bottom: 10px; left: 10px; right: 10px; padding: 10px;">
+            <legend>Autocomplete</legend>
+            <p style="margin: 5px 0; font-size: 14px; line-height: 1.4;">This sample shows how to create a custom input UI for suggesting possible results for queries against the Azure Maps Search Geocoding Autocomplete services.
+            The UI is managed using <a href="https://jqueryui.com/autocomplete/" target="_blank" style="color: blue;">JQuery UI's autocomplete widget</a>.</p>
+        </fieldset>
+    </div>
+
+    <div id="myMap"></div>
+</body>
+
+</html>
