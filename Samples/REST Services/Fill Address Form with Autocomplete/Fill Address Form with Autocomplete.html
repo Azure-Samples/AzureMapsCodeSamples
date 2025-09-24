@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Fill Address Form with Autocomplete - Azure Maps Web SDK Samples</title>
@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to use the Azure Maps Search service with JQuery UI's autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, search, geocoding, geocode, autocomplete, autosuggest, jquery" />
-    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="2.0" />
+    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
     <!-- Load JQuery UI -->
@@ -28,7 +28,7 @@
 
         var token;
 
-        var addressGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={coordinates}&language={language}&countrySet={countrySet}';
+        var addressGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={coordinates}&language={language}&resultTypeGroups={resultTypeGroups}&resultTypes={resultTypes}&countryRegion={countryRegion}&top={top}';
 
         async function PageLoaded() {
             //Retrieve a SAS token if there isn't one currently available.
@@ -45,7 +45,10 @@
                     var requestUrl = addressGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
                         .replace('{coordinates}', '-95.712891,37.09024') // Default set to US center coordinates
                         .replace('{language}', 'en-US')
-                        .replace('{countrySet}', 'US'); //A comma-separated string of country codes to limit the suggestions to.
+                        .replace('{resultTypeGroups}', 'Address')
+                        .replace('{resultTypes}', 'Address')
+                        .replace('{countryRegion}', 'US')
+                        .replace('{top}', '10'); // Limit to top 10 results
 
                     //Process the request.
                     fetch(requestUrl, {
@@ -57,11 +60,8 @@
                             'Accept-Language': 'en-US'
                         }
                     }).then(r => r.json()).then(data => {
-                        // New API returns features array instead of results
-                        // Filter for Address type items only
-                        var results = data.features ? data.features.filter(item => 
-                            item.properties && item.properties.typeGroup === "Address"
-                        ) : [];
+                        // API already filters for Address type items with resultTypeGroups and resultTypes parameters
+                        var results = data.features || [];
                         response(results);
                     });
                 },
@@ -168,5 +168,4 @@
         This sample shows how to use the Azure Maps Search service with <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a> which provides address suggestions as the user types and which populates a form with the selected suggestion.
     </fieldset>
 </body>
-
 </html>
