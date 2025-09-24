@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Store Locator</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This tutorial shows how to create a simple store locator." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, tutorials, store locator, locator, coffee, contoso, clustering, autocomplete" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <meta name="version" content="2.0" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+
+    <!-- Add reference to jQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+    <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
+    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+
+    <!-- Add local CSS and JS files -->
+    <link rel="stylesheet" href="/tutorials/simple-store-locator/index.css" />
+</head>
+<body>
+    <header>
+        <img src="/tutorials/simple-store-locator/images/Logo.png" />
+        <span>Contoso Coffee</span>
+    </header>
+    <main>
+        <div class="searchPanel">
+            <div>
+                <input id="searchTbx" type="search" placeholder="Find a store" />
+                <button id="searchBtn" title="Search"></button>
+            </div>
+        </div>
+
+        <div id="listPanel"></div>
+
+        <div id="myMap"></div>
+
+        <button id="myLocationBtn" title="My Location"></button>
+    </main>
+
+    <script src="/tutorials/simple-store-locator/index.js"></script>
+</body>
+</html>
