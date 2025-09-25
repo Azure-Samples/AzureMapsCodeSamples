@@ -38,9 +38,6 @@ function initialize() {
             //authType: 'subscriptionKey',
             //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
         }
-            //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
-            //authType: 'subscriptionKey',
-            //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
     });
 
     //Create a popup but leave it closed so we can update it and display it later.
@@ -601,3 +598,4 @@ function getAddressLine2(properties) {
 
 //Initialize the application when the page is loaded.
 window.onload = initialize;
+
