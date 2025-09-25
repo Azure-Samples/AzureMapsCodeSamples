@@ -28,10 +28,19 @@ function initialize() {
             // Use SAS token for authentication 
             authType: 'sas',
             getToken: function (resolve, reject, map) {
+                // URL to your authentication service that retrieves a SAS Token
                 var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
+
                 fetch(tokenServiceUrl).then(r => r.text()).then(token => resolve(token));
             }
+
+            //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+            //authType: 'subscriptionKey',
+            //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
         }
+            //Alternatively, use an Azure Maps key. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+            //authType: 'subscriptionKey',
+            //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
     });
 
     //Create a popup but leave it closed so we can update it and display it later.
@@ -273,12 +282,11 @@ async function geocodeSelectedLocation(selectedEntity, autocompleteItem) {
             var result = json.features[0];
             var coordinates = result.geometry.coordinates;
             
-            var radius = 0.1;
             var bbox = [
-                coordinates[0] - radius,
-                coordinates[1] - radius,
-                coordinates[0] + radius,
-                coordinates[1] + radius
+                coordinates[0] - 0.1,
+                coordinates[1] - 0.1,
+                coordinates[0] + 0.1,
+                coordinates[1] + 0.1
             ];
             
             map.setCamera({
@@ -334,12 +342,15 @@ function performSearch() {
 }
 
 function setMapToUserLocation() {
+    //Request the user's location.
     navigator.geolocation.getCurrentPosition(function (position) {
+        //Convert the geolocation API position into a longitude/latitude position value the map can understand and center the map over it.
         map.setCamera({
             center: [position.coords.longitude, position.coords.latitude],
             zoom: maxClusterZoomLevel + 1
         });
     }, function (error) {
+        //If an error occurs when trying to access the users position information, display an error message.
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 alert('User denied the request for Geolocation.');
@@ -375,19 +386,36 @@ function updateListItems() {
 
         listPanel.innerHTML = '<div class="statusMessage">Search for a location, zoom the map, or press the "My Location" button to see individual locations.</div>';
     } else {
+        //Update the location of the centerMarker.
         centerMarker.setOptions({
             position: camera.center,
             visible: true
         });
 
+        //List the ten closest locations in the side panel.
         var html = [], properties;
 
+        /*
+            Generating HTML for each item that looks like this:
+         
+            <div class="listItem" onclick="itemSelected('id')">
+                <div class="listItem-title">1 Microsoft Way</div>
+                Redmond, WA 98052<br />
+                Open until 9:00 PM<br />
+                0.7 miles away
+            </div>
+         */
+
+        //Get all the shapes that have been rendered in the bubble layer. 
         var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);
 
+        //Create an index of the distances of each shape.
         var distances = {};
 
         data.forEach(function (shape) {
             if (shape instanceof atlas.Shape) {
+
+                //Calculate the distance from the center of the map to each shape and store in the index. Round to 2 decimals.
                 distances[shape.getId()] = Math.round(atlas.math.getDistanceTo(camera.center, shape.getCoordinates(), 'miles') * 100) / 100;
             }
         });
@@ -459,14 +487,19 @@ function getOpenTillTime(properties) {
     return 'Open until ' + sTime;
 }
 
+//When a user clicks on a result in the side panel, look up the shape by its id value and show popup.
 function itemSelected(id) {
+    //Get the shape from the data source using it's id. 
     var shape = datasource.getShapeById(id);
     showPopup(shape);
 
+    //Center the map over the shape on the map.
     var center = shape.getCoordinates();
     var offset;
 
+    //If the map is less than 700 pixels wide, then the layout is set for small screens.
     if (map.getCanvas().width < 700) {
+        //When the map is small, offset the center of the map relative to the shape so that there is room for the popup to appear.
         offset = [0, -80];
     }
 
@@ -479,6 +512,26 @@ function itemSelected(id) {
 function showPopup(shape) {
     var properties = shape.getProperties();
 
+    /*
+        Generating HTML for the popup that looks like this:
+
+         <div class="storePopup">
+                <div class="popupTitle">
+                    3159 Tongass Avenue
+                    <div class="popupSubTitle">Ketchikan, AK 99901</div>
+                </div>
+                <div class="popupContent">
+                    Open until 22:00 PM<br/>
+                    <img title="Phone Icon" src="images/PhoneIcon.png">
+                    <a href="tel:1-800-XXX-XXXX">1-800-XXX-XXXX</a>
+                    <br>Amenities:
+                    <img title="Wi-Fi Hotspot" src="images/WiFiIcon.png">
+                    <img title="Wheelchair Accessible" src="images/WheelChair-small.png">
+                </div>
+            </div>
+     */
+
+    //Calculate the distance from the center of the map to the shape in miles, round to 2 decimals.
     var distance = Math.round(atlas.math.getDistanceTo(map.getCamera().center, shape.getCoordinates(), 'miles') * 100)/100;
 
     var html = ['<div class="storePopup">'];
@@ -516,14 +569,18 @@ function showPopup(shape) {
 
     html.push('</div></div>');
 
+    //Update the content and position of the popup for the specified shape information.
     popup.setOptions({
+        //Create a table from the properties in the feature.
         content: html.join(''),
         position: shape.getCoordinates()
     });
 
+    //Open the popup.
     popup.open(map);
 }
 
+//Creates an addressLine2 string consisting of City, Municipality, AdminDivision, and PostCode.
 function getAddressLine2(properties) {
     var html = [properties['City']];
 
