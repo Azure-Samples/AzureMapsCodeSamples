@@ -7,7 +7,7 @@
 	<link rel="shortcut icon" href="/favicon.ico"/>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to use the Azure Maps Search service with JQuery UI's autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion." />
+    <meta name="description" content="This sample shows how to use the Azure Maps Search Geocoding Autocomplete service with JQuery UI's autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, search, geocoding, geocode, autocomplete, autosuggest, jquery" />
     <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -15,8 +15,8 @@
     <!-- Load JQuery UI -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
@@ -28,7 +28,7 @@
 
         var token;
 
-        var addressGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={coordinates}&language={language}&resultTypeGroups={resultTypeGroups}&resultTypes={resultTypes}&countryRegion={countryRegion}&top={top}';
+        var addressGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={coordinates}&resultTypeGroups={resultTypeGroups}&resultTypes={resultTypes}&countryRegion={countryRegion}&top={top}';
 
         async function PageLoaded() {
             //Retrieve a SAS token if there isn't one currently available.
@@ -44,7 +44,6 @@
                     //Create a URL to the Azure Maps search service to perform the address search.
                     var requestUrl = addressGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
                         .replace('{coordinates}', '-95.712891,37.09024') // Default set to US center coordinates
-                        .replace('{language}', 'en-US')
                         .replace('{resultTypeGroups}', 'Address')
                         .replace('{resultTypes}', 'Address')
                         .replace('{countryRegion}', 'US')
@@ -71,13 +70,12 @@
                     var address = selection.properties.address;
 
                     //Populate the address textbox values - mapping new API structure to old fields
-                    document.getElementById('addressLineTbx').value = address.addressLine || 
-                        ((address.streetNumber ? (address.streetNumber + ' ') : '') + (address.streetName || ''));
+                    document.getElementById('addressLineTbx').value =  `${address.streetNumber} ${address.streetName}`.trim() || address.addressLine || '';
                     document.getElementById('cityTbx').value = address.locality || '';
                     document.getElementById('countyTbx').value = address.adminDistricts && address.adminDistricts[1] ? address.adminDistricts[1].name : '';
                     document.getElementById('stateTbx').value = address.adminDistricts && address.adminDistricts[0] ? address.adminDistricts[0].name : '';
                     document.getElementById('postalCodeTbx').value = address.postalCode || '';
-                    document.getElementById('countryTbx').value = address.countryRegion ? address.countryRegion.ISO : '';
+                    document.getElementById('countryTbx').value = address.countryRegions ? address.countryRegions.name : '';
                 }
             }).autocomplete("instance")._renderItem = function (ul, item) {
                 //Format the displayed suggestion to show the formatted suggestion string.
@@ -165,7 +163,7 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Fill Address Form with Autocomplete</legend>
-        This sample shows how to use the Azure Maps Search service with <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a> which provides address suggestions as the user types and which populates a form with the selected suggestion.
+        This sample shows how to use the Azure Maps Search Geocoding Autocomplete service with <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a> which provides address suggestions as the user types and which populates a form with the selected suggestion.
     </fieldset>
 </body>
 </html>
