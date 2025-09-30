@@ -280,10 +280,10 @@ async function geocodeSelectedLocation(selectedEntity, autocompleteItem) {
             var coordinates = result.geometry.coordinates;
             
             var bbox = [
-                coordinates[0] - 0.1,
-                coordinates[1] - 0.1,
-                coordinates[0] + 0.1,
-                coordinates[1] + 0.1
+                coordinates[0] ,
+                coordinates[1] ,
+                coordinates[0] ,
+                coordinates[1] 
             ];
             
             map.setCamera({
@@ -598,4 +598,3 @@ function getAddressLine2(properties) {
 
 //Initialize the application when the page is loaded.
 window.onload = initialize;
-
