@@ -8,7 +8,7 @@ var storeLocationDataUrl = '/tutorials/simple-store-locator/data/ContosoCoffee.t
 var iconImageUrl = '/tutorials/simple-store-locator/images/CoffeeIcon.png';      
 
 // Azure Maps Geocode API endpoints
-var geocodeAutocompleteUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={lon},{lat}&bbox={bbox}&top=10&resultTypeGroups=Place&top=10';
+var geocodeAutocompleteUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={lon},{lat}&bbox={bbox}&resultTypeGroups=Place&top={top}';
 
 // Geocoding API to get coordinates for selected autocomplete item  
 var geocodeUrlTemplate = 'https://{azMapsDomain}/geocode?api-version=2025-06-01-preview&query={selectedEntity}';
@@ -236,7 +236,8 @@ function initializeAutocomplete() {
                 .replace('{azMapsDomain}', atlas.getDomain())
                 .replace('{lon}', center[0])
                 .replace('{lat}', center[1])
-                .replace('{bbox}', bboxStr);
+                .replace('{bbox}', bboxStr)
+                .replace('{top}', '10');
 
             processRequest(requestUrl, {
                 headers: {
@@ -321,7 +322,8 @@ function performSearch() {
         .replace('{azMapsDomain}', atlas.getDomain())
         .replace('{lon}', center[0])
         .replace('{lat}', center[1])
-        .replace('{bbox}', bboxStr);
+        .replace('{bbox}', bboxStr)
+        .replace('{top}', '10');
 
     processRequest(autocompleteUrl, {
         headers: {
