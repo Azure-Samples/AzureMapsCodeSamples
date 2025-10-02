@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fill Address Form with Autocomplete - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the Azure Maps Search Geocoding Autocomplete service with JQuery UI's autocomplete widget which provides address suggestions as the user types and which populates a form with the selected suggestion." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, search, geocoding, geocode, autocomplete, autosuggest, jquery" />
+    <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Load JQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/smoothness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+
+    <script>
+        //Your Azure Maps SAS token service URL for authenticating the service.
+        var tokenServiceUrl = 'https://samples.azuremaps.com/api/GetAzureMapsSasToken';
+
+        var token;
+
+        var addressGeocodeServiceUrlTemplate = 'https://atlas.microsoft.com/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={coordinates}&resultTypeGroups={resultTypeGroups}&resultTypes={resultTypes}&countryRegion={countryRegion}&top={top}';
+
+        async function PageLoaded() {
+            //Retrieve a SAS token if there isn't one currently available.
+            if (!token) {
+                await initSasToken();
+            }
+
+            //Create a jQuery autocomplete UI widget.
+            $("#searchBox").autocomplete({
+                minLength: 3,   //Don't ask for suggestions until at least 3 characters have been typed. This will reduce costs by not making requests that will likely not have much relevance.
+                source: function (request, response) {
+
+                    //Create a URL to the Azure Maps search service to perform the address search.
+                    var requestUrl = addressGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(request.term))
+                        .replace('{coordinates}', '-95.712891,37.09024') // Default set to US center coordinates
+                        .replace('{resultTypeGroups}', 'Address')
+                        .replace('{resultTypes}', 'Address')
+                        .replace('{countryRegion}', 'US')
+                        .replace('{top}', '10'); // Limit to top 10 results
+
+                    //Process the request.
+                    fetch(requestUrl, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'Authorization': 'jwt-sas ' + token,
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'Accept-Language': 'en-US'
+                        }
+                    }).then(r => r.json()).then(data => {
+                        // API already filters for Address type items with resultTypeGroups and resultTypes parameters
+                        var results = data.features || [];
+                        response(results);
+                    });
+                },
+                select: function (event, ui) {
+                    //When a suggestion has been selected.
+                    var selection = ui.item;
+                    var address = selection.properties.address;
+
+                    //Populate the address textbox values - mapping new API structure to old fields
+                    document.getElementById('addressLineTbx').value =  `${address.streetNumber} ${address.streetName}`.trim() || address.addressLine || '';
+                    document.getElementById('cityTbx').value = address.locality || '';
+                    document.getElementById('countyTbx').value = address.adminDistricts && address.adminDistricts[1] ? address.adminDistricts[1].name : '';
+                    document.getElementById('stateTbx').value = address.adminDistricts && address.adminDistricts[0] ? address.adminDistricts[0].name : '';
+                    document.getElementById('postalCodeTbx').value = address.postalCode || '';
+                    document.getElementById('countryTbx').value = address.countryRegions ? address.countryRegions.name : '';
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                //Format the displayed suggestion to show the formatted suggestion string.
+                var address = item.properties.address;
+                var suggestionLabel = address.formattedAddress || address.addressLine || '';
+
+                if (item.properties.name) {
+                    suggestionLabel = item.properties.name + ' (' + suggestionLabel + ')';
+                }
+
+                return $("<li>")
+                    .append("<a>" + suggestionLabel + "</a>")
+                    .appendTo(ul);
+            };
+        }
+
+        function getExpiration(jwtToken) {
+            // Decode the JWT token to get the expiration timestamp
+            const json = atob(jwtToken.split(".")[1]);
+            const decode = JSON.parse(json);
+
+            // Return the milliseconds until the token needs renewed
+            // Reduce the time until renew by 2 minutes to avoid using an expired token
+            // The exp property is the timestamp of the expiration in seconds
+            const renewSkew = 120000;
+            return (1000 * decode.exp) - Date.now() - renewSkew;
+        }
+
+        async function initSasToken() {
+            //Get Azure Maps SAS token.
+            token = await getSasToken();
+
+            // Create a repeating timeout that will renew the SAS token
+            // This timeout must be cleared once the TokenCredential object is no longer needed
+            // If the timeout is not cleared the memory used by the TokenCredential will never be reclaimed.
+            const renewToken = async () => {
+                try {
+                    console.log("Renewing token");
+                    token = await getSasToken();
+                    tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+                } catch (error) {
+                    console.log("Caught error when renewing token");
+                    clearTimeout(tokenRenewalTimer);
+                    throw error;
+                }
+            }
+            tokenRenewalTimer = setTimeout(renewToken, getExpiration(token));
+        }
+
+        async function getSasToken() {
+            //Fetch a SAS token from the token service.
+            const response = await fetch(tokenServiceUrl);
+            return await response.text();
+        }
+    </script>
+    <style>
+        #searchBox {
+            width: 400px;
+        }
+
+        .addressForm {
+            margin-top: 10px;
+            background-color: #008272;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+            .addressForm input {
+                width: 265px;
+            }
+    </style>
+</head>
+<body onload="PageLoaded()">
+    <input type='text' id='searchBox' />
+
+    <table class="addressForm">
+        <tr><td>Street Address:</td><td><input type="text" id="addressLineTbx" /></td></tr>
+        <tr><td>City:</td><td><input type="text" id="cityTbx" /></td></tr>
+        <tr><td>County:</td><td><input type="text" id="countyTbx" /></td></tr>
+        <tr><td>State:</td><td><input type="text" id="stateTbx" /></td></tr>
+        <tr><td>Zip Code:</td><td><input type="text" id="postalCodeTbx" /></td></tr>
+        <tr><td>Country:</td><td><input type="text" id="countryTbx" /></td></tr>
+    </table>
+
+    <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+        <legend>Fill Address Form with Autocomplete</legend>
+        This sample shows how to use the Azure Maps Search Geocoding Autocomplete service with <a href="https://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a> which provides address suggestions as the user types and which populates a form with the selected suggestion.
+    </fieldset>
+</body>
+</html>

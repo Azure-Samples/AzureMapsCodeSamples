@@ -1,4 +1,3 @@
-﻿
 //The maximum zoom level to cluster data point data on the map.
 var maxClusterZoomLevel = 11;
 
@@ -6,10 +5,13 @@ var maxClusterZoomLevel = 11;
 var storeLocationDataUrl = '/tutorials/simple-store-locator/data/ContosoCoffee.txt';
 
 //The URL to the icon image. 
-var iconImageUrl = '/tutorials/simple-store-locator/images/CoffeeIcon.png';
+var iconImageUrl = '/tutorials/simple-store-locator/images/CoffeeIcon.png';      
 
-//An array of country region ISO2 values to limit searches to.
-var countrySet = ['US', 'CA', 'GB', 'FR','DE','IT','ES','NL','DK'];      
+// Azure Maps Geocode API endpoints
+var geocodeAutocompleteUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={lon},{lat}&bbox={bbox}&resultTypeGroups=Place&top={top}';
+
+// Geocoding API to get coordinates for selected autocomplete item  
+var geocodeUrlTemplate = 'https://{azMapsDomain}/geocode?api-version=2025-06-01-preview&query={selectedEntity}';
 
 var map, popup, datasource, iconLayer, centerMarker;
 var listItemTemplate = '<div class="listItem" onclick="itemSelected(\'{id}\')"><div class="listItem-title">{title}</div>{city}<br />Open until {closes}<br />{distance} miles away</div>';
@@ -156,6 +158,9 @@ function initialize() {
                 //Give the map a chance to move and render data before updating the list.
                 updateListItems();
             });
+
+            // Initialize jQuery UI autocomplete for the search textbox
+            initializeAutocomplete();
         });
     });
 }
@@ -216,30 +221,122 @@ function loadStoreData() {
         });
 }
 
-function performSearch() {
-    var query = document.getElementById('searchTbx').value;
+function initializeAutocomplete() {
+    $("#searchTbx").autocomplete({
+        minLength: 3,
+        source: function (request, response) {
+            const normalizeLongitude = (lon) => ((lon + 180) % 360 + 360) % 360 - 180;
 
-    //Pass in the array of country/region ISO2 for which we want to limit the search to.
-    var url = `https://{azMapsDomain}/search/fuzzy/json?api-version=1.0&countrySet=${countrySet}&query=${query}&view=Auto`;
+            var center = map.getCamera().center;
+            var bbox = map.getCamera().bounds;
+            var bboxStr = `${normalizeLongitude(bbox[0])},${bbox[1]},${normalizeLongitude(bbox[2])},${bbox[3]}`;
 
-    //Perform a fuzzy search on the users query.
-    processRequest(url).then((response) => {
-        if (Array.isArray(response.results) && response.results.length > 0) {
-            var result = response.results[0];
+            var requestUrl = geocodeAutocompleteUrlTemplate
+                .replace('{query}', encodeURIComponent(request.term))
+                .replace('{azMapsDomain}', atlas.getDomain())
+                .replace('{lon}', center[0])
+                .replace('{lat}', center[1])
+                .replace('{bbox}', bboxStr)
+                .replace('{top}', '10');
+
+            processRequest(requestUrl, {
+                headers: {
+                    'Accept-Language': 'en-US'
+                }
+            }).then(data => {
+                response(data.features);
+            });
+        },
+        select: function (event, ui) {
+            var selectedEntity = ui.item.properties.address.formattedAddress;
+            geocodeSelectedLocation(selectedEntity, ui.item);
+            return false;
+        }
+    }).autocomplete("instance")._renderItem = function (ul, item) {
+        var suggestionLabel = item.properties.address.formattedAddress;
+        if (item.properties.name) {
+            suggestionLabel = item.properties.name + ' (' + suggestionLabel + ')';
+        }
+
+        return $("<li>")
+            .append("<a>" + suggestionLabel + "</a>")
+            .appendTo(ul);
+    };
+}
+
+async function geocodeSelectedLocation(selectedEntity, autocompleteItem) {
+    try {
+        var geocodeUrl = geocodeUrlTemplate
+            .replace('{selectedEntity}', encodeURIComponent(selectedEntity))
+            .replace('{azMapsDomain}', atlas.getDomain());
+        
+        const json = await processRequest(geocodeUrl, {
+            headers: {
+                'Accept-Language': 'en-US'
+            }
+        });
+
+        if (json.features && json.features.length > 0) {
+            var result = json.features[0];
+            var coordinates = result.geometry.coordinates;
+            
             var bbox = [
-                result.viewport.topLeftPoint.lon,
-                result.viewport.btmRightPoint.lat,
-                result.viewport.btmRightPoint.lon,
-                result.viewport.topLeftPoint.lat
+                coordinates[0] ,
+                coordinates[1] ,
+                coordinates[0] ,
+                coordinates[1] 
             ];
-            //Set the camera to the bounds of the first result.
+            
             map.setCamera({
                 bounds: bbox,
-                padding: 40
+                padding: 50
             });
-        } else {
-            document.getElementById('listPanel').innerHTML = '<div class="statusMessage">Unable to find the location you searched for.</div>';
-        } 
+
+            centerMarker.setOptions({
+                position: coordinates
+            });
+
+            updateListItems();
+        }
+    } catch (error) {
+        console.error('Geocoding error:', error);
+    }
+}
+
+function performSearch() {
+    var query = document.getElementById('searchTbx').value;
+    
+    if (!query || query.trim().length === 0) {
+        return;
+    }
+
+    var camera = map.getCamera();
+    var center = camera.center;
+    var bbox = camera.bounds;
+    
+    const normalizeLongitude = (lon) => ((lon + 180) % 360 + 360) % 360 - 180;
+    var bboxStr = `${normalizeLongitude(bbox[0])},${bbox[1]},${normalizeLongitude(bbox[2])},${bbox[3]}`;
+    
+    var autocompleteUrl = geocodeAutocompleteUrlTemplate
+        .replace('{query}', encodeURIComponent(query))
+        .replace('{azMapsDomain}', atlas.getDomain())
+        .replace('{lon}', center[0])
+        .replace('{lat}', center[1])
+        .replace('{bbox}', bboxStr)
+        .replace('{top}', '10');
+
+    processRequest(autocompleteUrl, {
+        headers: {
+            'Accept-Language': 'en-US'
+        }
+    }).then((autocompleteResponse) => {
+        if (Array.isArray(autocompleteResponse.features) && autocompleteResponse.features.length > 0) {
+            var firstSuggestion = autocompleteResponse.features[0];
+            var selectedEntity = firstSuggestion.properties.address.formattedAddress;
+            
+            document.getElementById('searchTbx').value = selectedEntity;
+            geocodeSelectedLocation(selectedEntity, firstSuggestion);
+        }
     });
 }
 
@@ -474,7 +571,7 @@ function showPopup(shape) {
     //Update the content and position of the popup for the specified shape information.
     popup.setOptions({
         //Create a table from the properties in the feature.
-        content:  html.join(''),
+        content: html.join(''),
         position: shape.getCoordinates()
     });
 
