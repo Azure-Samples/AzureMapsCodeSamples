@@ -137,7 +137,7 @@
         var lastContextSignature = null;
 
         // Note that the typeahead parameter is set to true.
-        var geocodeServiceUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={lon},{lat}&bbox={bbox}&top=10&resultTypeGroups={resultTypeGroups}&countryRegion={countryRegion}';
+        var geocodeServiceUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={lon},{lat}&bbox={bbox}&top={top}&resultTypeGroups={resultTypeGroups}&countryRegion={countryRegion}';
         
         // Geocoding API to get coordinates for selected autocomplete item
         var geocodeUrlTemplate = 'https://{azMapsDomain}/geocode?api-version=2025-06-01-preview&query={selectedEntity}';
@@ -263,6 +263,7 @@
                         .replace('{lon}', center[0])    //Use a lat and lon value of the center the map to bias the results to the current map view.
                         .replace('{lat}', center[1])    //Use a lat and lon value of the center the map to bias the results to the current map view.
                         .replace('{bbox}', `${normalizeLongitude(bbox[0])},${bbox[1]},${normalizeLongitude(bbox[2])},${bbox[3]}`) //Use the current map view bounds to bias the results to the current map view.
+                        .replace('{top}', '10')
                         .replace('{resultTypeGroups}', document.querySelector('input[name="resultTypeGroups"]:checked').value);
                     
                     // Handle country region parameter - remove it entirely if None is selected
