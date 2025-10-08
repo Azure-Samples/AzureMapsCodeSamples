@@ -60,6 +60,8 @@
                 //Read a CSV file from a URL or pass in a raw string.
                 atlas.io.read(delimitedFileUrl).then(r => {
                     if (r) {
+                        //Limit the number of features to be shown.
+                        r.features = r.features.slice(0, 1000);
                         //Add the feature data to the data source.
                         datasource.add(r);
 
