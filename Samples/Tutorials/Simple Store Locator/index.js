@@ -249,6 +249,10 @@ function initializeAutocomplete() {
         },
         select: function (event, ui) {
             var selectedEntity = ui.item.properties.address.formattedAddress;
+            
+            // Update the search textbox with the selected suggestion
+            document.getElementById('searchTbx').value = selectedEntity;
+            
             geocodeSelectedLocation(selectedEntity, ui.item);
             return false;
         }
@@ -278,30 +282,122 @@ async function geocodeSelectedLocation(selectedEntity, autocompleteItem) {
 
         if (json.features && json.features.length > 0) {
             var result = json.features[0];
-            var coordinates = result.geometry.coordinates;
-            
-            var bbox = [
-                coordinates[0] ,
-                coordinates[1] ,
-                coordinates[0] ,
-                coordinates[1] 
-            ];
-            
-            map.setCamera({
-                bounds: bbox,
-                padding: 50
-            });
+            var coordinates = result.geometry && result.geometry.coordinates;
 
+            if (!coordinates) {
+                return;
+            }
+
+            // Update center marker position
             centerMarker.setOptions({
-                position: coordinates
+                position: coordinates,
+                visible: true
             });
 
-            updateListItems();
+            // Adjust map view to include the center and nearest stores
+            fitMapToNearestStores(coordinates, 5);
         }
     } catch (error) {
         console.error('Geocoding error:', error);
     }
 }
+
+function fitMapToNearestStores(center, nearestCount = 5) {
+    // Get all shapes (stores) from datasource
+    var shapes = datasource && datasource.getShapes ? datasource.getShapes() : [];
+
+    if (!shapes || shapes.length === 0) {
+        // Fallback if data not yet loaded
+        map.setCamera({
+            center: center,
+            zoom: 10
+        });
+        return;
+    }
+
+    // Collect non-cluster store shapes
+    var storeShapes = [];
+    for (var i = 0; i < shapes.length; i++) {
+        var s = shapes[i];
+        if (s instanceof atlas.Shape) {
+            var props = s.getProperties() || {};
+            // Exclude clusters (those that have point_count)
+            if (!props.point_count) {
+                storeShapes.push(s);
+            }
+        }
+    }
+
+    if (storeShapes.length === 0) {
+        map.setCamera({
+            center: center,
+            zoom: 10
+        });
+        return;
+    }
+
+    // Compute distance to each store from the geocoded center
+    var centerPos = center;
+    storeShapes.sort(function (a, b) {
+        var da = atlas.math.getDistanceTo(centerPos, a.getCoordinates(), 'miles');
+        var db = atlas.math.getDistanceTo(centerPos, b.getCoordinates(), 'miles');
+        return da - db;
+    });
+
+    // Check distance to nearest store
+    var nearestDistance = atlas.math.getDistanceTo(centerPos, storeShapes[0].getCoordinates(), 'miles');
+    
+    // If nearest store is more than 10 miles away, use default geocode zoom view
+    if (nearestDistance > 10) {
+        map.setCamera({
+            center: center,
+            zoom: 12  // Default geocode zoom level
+        });
+        return;
+    }
+
+    // If nearest stores are within 10 miles, continue with the existing logic
+    var selected = storeShapes.slice(0, Math.min(nearestCount, storeShapes.length));
+
+    // Include center in bounds computation
+    var minLon = centerPos[0], maxLon = centerPos[0],
+        minLat = centerPos[1], maxLat = centerPos[1];
+
+    for (var j = 0; j < selected.length; j++) {
+        var c = selected[j].getCoordinates();
+        if (c[0] < minLon) minLon = c[0];
+        if (c[0] > maxLon) maxLon = c[0];
+        if (c[1] < minLat) minLat = c[1];
+        if (c[1] > maxLat) maxLat = c[1];
+    }
+
+    // Add padding in degrees (ensures not too tight)
+    var lonSpan = maxLon - minLon;
+    var latSpan = maxLat - minLat;
+
+    var padLon = lonSpan * 0.15;
+    var padLat = latSpan * 0.15;
+
+    // If span is extremely small (e.g., all points same), enforce a minimal span
+    if (lonSpan < 0.01) padLon = 0.01;
+    if (latSpan < 0.01) padLat = 0.01;
+
+    var bounds = [
+        minLon - padLon,
+        minLat - padLat,
+        maxLon + padLon,
+        maxLat + padLat
+    ];
+
+    map.setCamera({
+        bounds: bounds,
+        padding: 60
+    });
+
+    // The render event will trigger updateListItems; optionally force an early update
+    setTimeout(updateListItems, 100);
+}
+
 
 function performSearch() {
     var query = document.getElementById('searchTbx').value;
