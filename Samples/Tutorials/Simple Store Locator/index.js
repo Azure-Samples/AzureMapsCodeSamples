@@ -8,10 +8,10 @@ var storeLocationDataUrl = '/tutorials/simple-store-locator/data/ContosoCoffee.t
 var iconImageUrl = '/tutorials/simple-store-locator/images/CoffeeIcon.png';      
 
 // Azure Maps Geocode API endpoints
-var geocodeAutocompleteUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2025-06-01-preview&query={query}&coordinates={lon},{lat}&bbox={bbox}&resultTypeGroups=Place&top={top}';
+var geocodeAutocompleteUrlTemplate = 'https://{azMapsDomain}/geocode:autocomplete?api-version=2026-01-01&query={query}&coordinates={lon},{lat}&bbox={bbox}&resultTypeGroups=Place&top={top}';
 
 // Geocoding API to get coordinates for selected autocomplete item  
-var geocodeUrlTemplate = 'https://{azMapsDomain}/geocode?api-version=2025-06-01-preview&query={selectedEntity}';
+var geocodeUrlTemplate = 'https://{azMapsDomain}/geocode?api-version=2026-01-01&query={selectedEntity}';
 
 var map, popup, datasource, iconLayer, centerMarker;
 var listItemTemplate = '<div class="listItem" onclick="itemSelected(\'{id}\')"><div class="listItem-title">{title}</div>{city}<br />Open until {closes}<br />{distance} miles away</div>';
