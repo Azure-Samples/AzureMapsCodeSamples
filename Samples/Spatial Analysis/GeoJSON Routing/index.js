@@ -19,7 +19,8 @@ function getMap() {
 
     //Initialize a map instance.
     map = new atlas.Map('myMap', {
-        view: 'Auto',
+                view: 'Auto',
+                language: 'Auto',
 
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {

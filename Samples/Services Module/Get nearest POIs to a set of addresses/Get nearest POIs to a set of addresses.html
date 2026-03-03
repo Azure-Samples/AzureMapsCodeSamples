@@ -24,6 +24,7 @@
         var maxSearchResults = 300; //The maximum number of points of interests that will be queried on each update.
         var searchOptions = {
             view: 'Auto',
+            language: 'Auto',
             limit: 1    //Only need one result per address.
         };
 
@@ -97,7 +98,8 @@
         function getMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
-                view: 'Auto',
+            view: 'Auto',
+            language: 'Auto',
                 //Add authentication details for connecting to Azure Maps.
                 authOptions: {
                     // Use SAS token for authentication 
