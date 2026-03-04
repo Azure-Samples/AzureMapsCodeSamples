@@ -61,7 +61,7 @@
     "q": "1.5.1",
     "qunit": "2.9.2",
     "raw-body": "2.3.3",
-    "requirejs": "2.3.6",
+    "requirejs": "2.3.7",
     "sinon": "2.3.7",
     "strip-json-comments": "2.0.1",
     "testswarm": "1.1.2",
