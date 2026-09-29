@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows two different methods for geocoding a bunch of addresses quickly from within a web app." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
+    <meta name="description" content="This sample shows three different methods for geocoding a bunch of addresses quickly from within a web app." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -17,19 +17,17 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
-
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         //Batch service documentation: https://docs.microsoft.com/en-us/rest/api/maps/search/postsearchaddressbatch
 
-        var map, datasource, searchURL;
+        var map, datasource;
         var start, end, isBusy = false;
 
         var results = [];
+        var failures = [];
 
         var searchOptions = {
             view: 'Auto',
@@ -151,35 +149,46 @@
                 map.layers.add(new atlas.layer.BubbleLayer(datasource));
             });
 
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
         }
 
         var searchMethod;
 
-        function startSearch(method) {
+        async function startSearch(method) {
+            if (!datasource) {
+                alert('Please wait for the map to finish loading.');
+                return;
+            }
             if (!isBusy) {
                 isBusy = true;
                 searchMethod = method;
 
                 datasource.clear();
                 results = [];
+                failures = [];
+                document.getElementById('status').textContent = 'Processing...';
 
                 start = window.performance.now();
 
-                switch (method) {
-                    case 'parallel':
-                        parallelGeocode();
-                        break;
-                    case 'batchSync':
-                        syncBatchGeocode();
-                        break;
-                    default:
-                        asyncBatchGeocode();
-                        break;
+                try {
+                    switch (method) {
+                        case 'parallel':
+                            await parallelGeocode();
+                            break;
+                        case 'batchSync':
+                            await syncBatchGeocode();
+                            break;
+                        default:
+                            await asyncBatchGeocode();
+                            break;
+                    }
+                    endSearch();
+                    if (failures.length) {
+                        alert(failures.join('\n'));
+                    }
+                } catch (error) {
+                    document.getElementById('status').textContent = 'Search failed: ' + error.message;
+                } finally {
+                    isBusy = false;
                 }
             }
         }
@@ -193,63 +202,90 @@
 
             //Create the request promises.
             for (var i = 0; i < addresses.length; i++) {
-                requests.push(searchURL.searchAddress(atlas.service.Aborter.timeout(10000), addresses[i], searchOptions));
+                var url = 'https://{azMapsDomain}/search/address/json?api-version=1.0&query=' +
+                    encodeURIComponent(addresses[i]) + '&' + getSearchOptionsQueryParams();
+                requests.push(processRequest(url, { timeout: 10000 }));
             }
 
             //Process the promises in parallel.
-            var responses = await Promise.all(requests);
+            var responses = await Promise.allSettled(requests);
 
             //Extract the GeoJSON feature results.
-            responses.forEach(r => {
-                var fc = r.geojson.getFeatures();
+            responses.forEach((response, index) => {
+                if (response.status === 'rejected') {
+                    failures.push(addresses[index] + ': ' + response.reason.message);
+                    return;
+                }
+                var fc = searchResultsToGeoJson(response.value.results);
 
                 if (fc.features.length > 0) {
+                    if (response.value.results[0].id === undefined) {
+                        fc.features[0].id = 'address-' + index;
+                    }
                     results.push(fc.features[0]);
+                } else {
+                    failures.push(addresses[index] + ': No address found.');
                 }
             });
-
-            //Done.
-            endSearch();
         }
 
         async function syncBatchGeocode() {
             //Get the post body request that contains the addresses to batch geocode.
             var body = getBatchRequestBody();
             var requestUrl = 'https://{azMapsDomain}/search/address/batch/sync/json?api-version=1.0';
-            var res = await processPostRequest(requestUrl, body);
+            var res = await processPostRequest(requestUrl, body, { timeout: 60000 });
 
             //Process the response.
-            processBatchResponse(res);
-
-            //Done.
-            endSearch();
+            processBatchResponse(await waitForBatch(res));
         }
 
         async function asyncBatchGeocode() {
             //Get the post body request that contains the addresses to batch geocode.
             var body = getBatchRequestBody();
             var requestUrl = 'https://{azMapsDomain}/search/address/batch/json?api-version=1.0';
-            var res = await processPostRequest(requestUrl, body);
+            var res = await processPostRequest(requestUrl, body, { timeout: 60000 });
+            processBatchResponse(await waitForBatch(res));
+        }
 
-            //Get the batch status URL from the "location" response header.
-            var batchStatusUrl = res.headers.get('location');
-            var signedRequest = await signRequest(requestUrl);
-
-            //Check the status of the batch job.
-            var res2 = await fetch(batchStatusUrl, {
-                headers: new Headers(signedRequest.headers)
-            });
-
-            //Check to see if batch process if complete.
-            if (res2.status === 200) {
-                var r = await res2.json();
-
-                //Process the response.
-                processBatchResponse(r);
-
-                //Done.
-                endSearch();
+        async function waitForBatch(response) {
+            var deadline = Date.now() + 120000;
+            var statusUrl;
+            while (response.status === 202) {
+                var location = response.headers.get('location');
+                if (location) {
+                    statusUrl = location;
+                }
+                if (!statusUrl) {
+                    throw new Error('Batch response did not include a Location header.');
+                }
+                if (Date.now() >= deadline) {
+                    throw new Error('Batch processing timed out. Please try again.');
+                }
+                document.getElementById('status').textContent = 'Batch pending...';
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                //Keep the raw 202 response and its headers while the batch is pending.
+                var signedRequest = await signRequest(statusUrl);
+                var controller = new AbortController();
+                var timer = setTimeout(() => controller.abort(), Math.min(10000, Math.max(1, deadline - Date.now())));
+                try {
+                    response = await fetch(signedRequest.url, {
+                        headers: new Headers(signedRequest.headers),
+                        signal: controller.signal
+                    });
+                    if (!response.ok) {
+                        throw new Error('Batch request failed: ' + response.status + ' ' + response.statusText);
+                    }
+                    if (response.status === 200) {
+                        return await response.json();
+                    }
+                    if (response.status !== 202) {
+                        throw new Error('Unexpected batch status: ' + response.status);
+                    }
+                } finally {
+                    clearTimeout(timer);
+                }
             }
+            return response;
         }
 
         function endSearch() {
@@ -260,17 +296,17 @@
 
             var qps = (searchMethod.indexOf('batch') > -1) ? 1 : addPerSec;
 
-            document.getElementById('status').innerHTML = `<b>Status:</b><br/><ul><li>Processing time: ${Math.round(t)}ms</li><li>QPS: ${qps}</li><li>Addresses per second: ${addPerSec}</li></ul>`;
+            document.getElementById('status').innerHTML = `<b>Status:</b><br/><ul><li>Processing time: ${Math.round(t)}ms</li><li>QPS: ${qps}</li><li>Addresses per second: ${addPerSec}</li><li>Results: ${results.length}; failed or unmatched addresses: ${failures.length}</li></ul>`;
 
             datasource.setShapes(results);
 
             //Set the camera to the bounds of the results.
-            map.setCamera({
-                bounds: atlas.data.BoundingBox.fromData(results),
-                padding: 40
-            });
-
-            isBusy = false;
+            if (results.length) {
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromData(results),
+                    padding: 40
+                });
+            }
         }
 
         function getSearchOptionsQueryParams() {
@@ -293,16 +329,27 @@
         }
 
         function processBatchResponse(r) {
+            if (!r || !Array.isArray(r.batchItems) || r.batchItems.length !== addresses.length) {
+                throw new Error('Invalid or incomplete batch response.');
+            }
             //Convert the response into GeoJSON objects.
             for (var i = 0; i < r.batchItems.length; i++) {
-                for (var j = 0; j < r.batchItems[i].response.results.length; j++) {
-                    var l = r.batchItems[i].response.results[j];
-
-                    results.push(new atlas.data.Feature(new atlas.data.Point([
-                        l.position.lon,
-                        l.position.lat
-                    ]), l));
+                var item = r.batchItems[i];
+                if (item.statusCode !== 200 || !item.response || !Array.isArray(item.response.results)) {
+                    var error = item.response && item.response.error;
+                    failures.push(addresses[i] + ': ' + (error && error.message || 'Batch item failed (' + item.statusCode + ').'));
+                    continue;
                 }
+                var fc = searchResultsToGeoJson(item.response.results);
+                if (!fc.features.length) {
+                    failures.push(addresses[i] + ': No address found.');
+                }
+                fc.features.forEach((feature, index) => {
+                    if (item.response.results[index].id === undefined) {
+                        feature.id = 'address-' + i + '-' + index;
+                    }
+                    results.push(feature);
+                });
             }
         }
     </script>

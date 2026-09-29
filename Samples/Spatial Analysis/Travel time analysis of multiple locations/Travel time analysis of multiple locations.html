@@ -16,8 +16,8 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <!-- Add reference to the Azure Maps Spatial IO module. -->
     <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
@@ -26,7 +26,7 @@
     <script src='/lib/turf.min.js'></script>
 
     <script>
-        var map, datasource, routeURL, layer;
+        var map, datasource, layer, popup;
 
         var policeStationsUrl = '/data/SpatialCSV/Chicago_Police_Stations.csv';
         var bikeRacksUrl = '/data/SpatialCSV/Chicago_Bike_Racks.csv';
@@ -55,12 +55,6 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Construct the RouteURL object
-            routeURL = new atlas.service.RouteURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -104,7 +98,7 @@
                 document.getElementById('statusPanel').innerHTML = '<br/>Downloading data...';
 
                 //Download the police station and crime data in parrallel.
-                Promise.all([
+                return Promise.all([
                     atlas.io.read(policeStationsUrl),
                     atlas.io.read(bikeRacksUrl)
                 ]).then(function (values) {
@@ -120,38 +114,47 @@
                     datasource.add(stations);
 
                     var routeRangePromises = [];
+                    document.getElementById('statusPanel').textContent = 'Calculating travel time areas...';
 
                     //Calculate the travel time polygons from each station.
                     for (var i = 0; i < stations.features.length; i++) {
-                        routeRangePromises.push(routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), stations.features[i].geometry.coordinates, {
-                            travelMode: 'car',
-                            timeBudgetInSec: 5 * 60 //5 minutes.
+                        var origin = stations.features[i].geometry.coordinates;
+                        var url = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query=' +
+                            encodeURIComponent(origin[1] + ',' + origin[0]) + '&travelMode=car&timeBudgetInSec=300';
+                        routeRangePromises.push(processRequest(url, { timeout: 10000 }).then(response => {
+                            return routeRangeToGeoJson(response.reachableRange);
                         }));
                     }
 
-                    Promise.all(routeRangePromises).then(values => {
+                    return Promise.allSettled(routeRangePromises).then(values => {
                         var isochrones = [];
+                        var failures = [];
 
                         for (var i = 0; i < values.length; i++) {
-                            var data = values[i].geojson.getFeatures();
+                            if (values[i].status === 'rejected') {
+                                failures.push('Station ' + (i + 1) + ': ' + values[i].reason.message);
+                                continue;
+                            }
+
+                            var polygon = values[i].value;
 
                             //Copy the properties of the police station to the travel time polygon.
-                            data.features[0].properties = stations.features[i].properties;
+                            polygon.properties = Object.assign({}, stations.features[i].properties);
 
                             //Spatially join the bike rack data with each travel time polygon, then use the total number of bike racks as the aggregate.
-                            var ptsWithin = turf.pointsWithinPolygon(bikeRacks, data.features[0]);
-                            data.features[0].properties.totalBikeRacks = ptsWithin.features.length;
+                            var ptsWithin = turf.pointsWithinPolygon(bikeRacks, polygon);
+                            polygon.properties.totalBikeRacks = ptsWithin.features.length;
 
-                            //The first feature is the polygon, the second is the origin point which we can leave out.
-                            //Close the polygon.
-                            data.features[0].geometry.coordinates[0].push(data.features[0].geometry.coordinates[0][0]);
-                            isochrones.push(data.features[0]);
+                            isochrones.push(polygon);
                         }
 
                         datasource.add(isochrones);
+                        document.getElementById('statusPanel').textContent = failures.length > 0
+                            ? 'Unable to calculate some travel time areas. ' + failures.join(' ')
+                            : '';
                     });
-
-                    document.getElementById('statusPanel').innerHTML = '';
+                }).catch(error => {
+                    document.getElementById('statusPanel').textContent = 'Unable to analyze travel times: ' + error.message;
                 });
             });
         }

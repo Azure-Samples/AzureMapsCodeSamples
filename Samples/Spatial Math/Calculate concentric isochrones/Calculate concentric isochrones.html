@@ -8,7 +8,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to calculate concentric isochrones and cut out overlapping areas so that they are nicely displayed." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, isochrone, isodistance, drive time polygon, reachable range, temporal, temporal analysis" />
     <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
@@ -16,14 +16,15 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
     <script src='/lib/turf.min.js'></script>
 
     <script>
-        var map, datasource, routeURL, marker;
+        var map, datasource, marker;
+        var rangeRequestId = 0;
 
         var colors = ['LawnGreen', 'Yellow', 'Orange', 'Red'];
 
@@ -52,12 +53,6 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Construct the RouteURL object
-            routeURL = new atlas.service.RouteURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -93,46 +88,39 @@
         }
 
         function calculateIsochrones() {
+            var requestId = ++rangeRequestId;
             datasource.clear();
+            document.getElementById('statusPanel').textContent = 'Calculating travel time areas...';
 
             var origin = marker.getOptions().position;
+            var url = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query=' +
+                encodeURIComponent(origin[1] + ',' + origin[0]);
 
-            Promise.all([
-                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
-                    timeBudgetInSec: 10 * 60
-                }),
-                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
-                    timeBudgetInSec: 15 * 60
-                }),
-                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
-                    timeBudgetInSec: 20 * 60
-                }),
-                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), origin, {
-                    timeBudgetInSec: 25 * 60
-                })
-            ]).then(values => {
+            return Promise.all([600, 900, 1200, 1500].map(timeBudget => {
+                return processRequest(url + '&timeBudgetInSec=' + timeBudget, { timeout: 10000 });
+            })).then(values => {
+                if (requestId !== rangeRequestId) {
+                    return;
+                }
+
                 //The values are order from shortest time to longest time, based on how we passed in the queries.
                 //Loop through each polygon isochrone and cut out the difference from the previous icochrone. Since the time increases with each isochrone, it should cover all area of the previous isochrone.
 
                 //The first isochrone is unchanged.
-                var prev = values[0].geojson.getFeatures().features[0];
+                var prev = routeRangeToGeoJson(values[0].reachableRange);
                 prev.properties.color = colors[0];
-
-                //Ensure polygon rings are closed.
-                closePolygonRings(prev);
 
                 var polygons = [prev];
 
                 for (var i = 1; i < values.length; i++) {
-                    var f = values[i].geojson.getFeatures().features[0];
-
-                    //Ensure polygon rings are closed.
-                    closePolygonRings(f);
+                    var f = routeRangeToGeoJson(values[i].reachableRange);
 
                     //Subtract the previous isochrone from the current one.
                     var difference = turf.difference(f, prev);
-                    difference.properties.color = colors[i];
-                    polygons.push(difference);
+                    if (difference) {
+                        difference.properties.color = colors[i];
+                        polygons.push(difference);
+                    }
 
                     prev = f;
                 }
@@ -143,21 +131,15 @@
 
                     //Update the map camera to display the largest isochrone area.
                     map.setCamera({
-                        bounds: atlas.data.BoundingBox.fromData(polygons[polygons.length - 1])
+                        bounds: atlas.data.BoundingBox.fromData(prev)
                     });
                 }
-            });
-        }
-
-        function closePolygonRings(polygon) {
-            //Ensure the first and last coordinate of each polygon ring are identical to form a closed polygon ring.
-            for (var i = 0; i < polygon.geometry.coordinates.length; i++) {
-                var ring = polygon.geometry.coordinates[i];
-
-                if (!atlas.data.Position.areEqual(ring[0], ring[ring.length - 1])) {
-                    ring.push(ring[0]);
+                document.getElementById('statusPanel').textContent = '';
+            }).catch(error => {
+                if (requestId === rangeRequestId) {
+                    document.getElementById('statusPanel').textContent = 'Unable to calculate travel time areas: ' + error.message;
                 }
-            }
+            });
         }
     </script>
     <style>

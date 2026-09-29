@@ -22,16 +22,14 @@
     <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
-
-    <!-- Deprecated! -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         // Global
         var map, datasource, popup;
         var radarLayer, infraredLayer, contourNumbersLayer, contourLayer;
-        var searchInput, locateMeButton, resultsPanel, searchInputLength, radarButton, infraredButton, contoursButton, clearButton;
+        var searchInput, locateMeButton, resultsPanel, searchTimer, radarButton, infraredButton, contoursButton, clearButton;
+        var requests = {};
 
         // Default location: Tower of London
         var userPosition = [-0.076083, 51.508120];
@@ -43,8 +41,10 @@
         var weatherUrl = 'https://{azMapsDomain}/weather/currentConditions/json?api-version=1.1&query={query}';
         var tileUrl = 'https://{azMapsDomain}/map/tile?api-version=2022-08-01&tilesetId={tilesetId}&zoom={z}&x={x}&y={y}&tileSize={tileSize}&view=Auto';
         var airQualityUrl = 'https://{azMapsDomain}/weather/airQuality/current/json?api-version=1.1&query={query}';
-        var routeURL;
-        var searchURL;
+        var searchUrl = 'https://{azMapsDomain}/search/fuzzy/json?api-version=1.0';
+        var reverseUrl = 'https://{azMapsDomain}/search/address/reverse/json?api-version=1.0';
+        var directionsUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0';
+        var rangeUrl = 'https://{azMapsDomain}/route/range/json?api-version=1.0';
 
         function getMap() {
             // Initialize a map instance.
@@ -81,17 +81,15 @@
             searchInput.addEventListener("keyup", searchInputKeyup);
             searchInput.addEventListener('search', function () {
                 if (searchInput.value.trim().length < 3) {
+                    clearTimeout(searchTimer);
+                    cancelRequest('search');
                     resultsPanel.innerHTML = '';
+                    document.getElementById('resultsCount').innerHTML = '';
                 }
             });
 
             var elm = document.getElementById('search-country');
             elm.addEventListener("change", search);
-
-            // Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-            routeURL = new atlas.service.RouteURL(pipeline);
-            searchURL = new atlas.service.SearchURL(pipeline);
 
             // Add click events
             locateMeButton = document.getElementById("locate-me-button");
@@ -212,16 +210,46 @@
             });
         }
 
+        function cancelRequest(name) {
+            if (requests[name]) {
+                requests[name].abort();
+            }
+        }
+
+        function beginRequest(name) {
+            cancelRequest(name);
+            var controller = new AbortController();
+            requests[name] = controller;
+            return controller;
+        }
+
         function clearSearch() {
+            clearTimeout(searchTimer);
+            ['search', 'car', 'truck', 'range', 'popup', 'locate'].forEach(cancelRequest);
             resultsPanel.innerHTML = '';
+            document.getElementById('resultsCount').innerHTML = '';
             datasource.clear();
             popup.close();
         }
 
         function locateMe(e) {
+            var controller = beginRequest('locate');
 
             var locateMeIcon = document.getElementById("locate-me-icon");
             var locateMeSpinner = document.getElementById("locate-me-spinner");
+
+            function restoreLocateButton() {
+                controller.signal.removeEventListener('abort', restoreLocateButton);
+                if (requests.locate !== controller) {
+                    return;
+                }
+                locateMeButton.disabled = false;
+                locateMeButton.className = 'btn btn-outline-secondary';
+                locateMeIcon.style.display = 'block';
+                locateMeSpinner.style.display = 'none';
+            }
+
+            controller.signal.addEventListener('abort', restoreLocateButton, { once: true });
 
             locateMeButton.disabled = true;
             locateMeButton.className = 'btn btn-warning';
@@ -230,6 +258,9 @@
 
             //User position
             navigator.geolocation.getCurrentPosition(function (position) {
+                if (controller.signal.aborted) {
+                    return;
+                }
 
                 userPositionUpdated = true;
                 userPosition = [position.coords.longitude, position.coords.latitude];
@@ -242,9 +273,13 @@
                     bearing: 0
                 });
 
-                searchURL.searchAddressReverse(atlas.service.Aborter.timeout(10000), userPosition, {
-                    view: 'Auto'
+                processRequest(reverseUrl + '&query=' + encodeURIComponent(userPosition[1] + ',' + userPosition[0]) + '&view=Auto', {
+                    timeout: 10000,
+                    signal: controller.signal
                 }).then((result) => {
+                    if (controller.signal.aborted) {
+                        return;
+                    }
 
                     if (result.addresses.length > 0) {
                         document.querySelector('.form-select').value = result.addresses[0].address.countryCode;
@@ -260,20 +295,20 @@
                         radius: position.coords.accuracy
                     }));
 
-                    locateMeButton.disabled = false;
-                    locateMeButton.className = 'btn btn-outline-secondary';
-                    locateMeIcon.style.display = 'block';
-                    locateMeSpinner.style.display = 'none';
-                });
+                }).catch(function () {
+                    if (!controller.signal.aborted) {
+                        alert('Sorry, we were unable to find address details for your position.');
+                    }
+                }).finally(restoreLocateButton);
 
             }, function (error) {
+                if (controller.signal.aborted) {
+                    return;
+                }
                 //If an error occurs when trying to access the users position information, display an error message.
                 alert('Sorry, your position information is unavailable!');
 
-                locateMeButton.disabled = false;
-                locateMeButton.className = 'btn btn-outline-secondary';
-                locateMeIcon.style.display = 'block';
-                locateMeSpinner.style.display = 'none';
+                restoreLocateButton();
             });
         }
 
@@ -281,6 +316,8 @@
             const minSearchInputLength = 3;
             const keyStrokeDelay = 250;
 
+            clearTimeout(searchTimer);
+            cancelRequest('search');
             centerMapOnResults = false;
 
             if (searchInput.value.length >= minSearchInputLength) {
@@ -288,16 +325,11 @@
                     centerMapOnResults = true;
                 }
 
-                setTimeout(function () {
-                    if (searchInputLength === searchInput.value.length) {
-                        search();
-                    }
-                }, keyStrokeDelay);
+                searchTimer = setTimeout(search, keyStrokeDelay);
             } else {
                 resultsPanel.innerHTML = '';
+                document.getElementById('resultsCount').innerHTML = '';
             }
-
-            searchInputLength = searchInput.value.length;
         }
 
         function search() {
@@ -308,17 +340,26 @@
             var elm = document.getElementById('search-country');
             var countryIso = elm.options[elm.selectedIndex].value;
 
-            if (!query) return;
+            if (!query) {
+                return;
+            }
 
-            searchURL.searchFuzzy(atlas.service.Aborter.timeout(10000), query, {
-                lon: map.getCamera().center[0],
-                lat: map.getCamera().center[1],
-                countrySet: [countryIso],
-                typeahead: true,
-                view: 'Auto'
+            var controller = beginRequest('search');
+            var centerResults = centerMapOnResults;
+            var center = map.getCamera().center;
+            var url = searchUrl + '&query=' + encodeURIComponent(query) +
+                '&lon=' + center[0] + '&lat=' + center[1] +
+                '&countrySet=' + encodeURIComponent(countryIso) + '&typeahead=true&view=Auto';
+
+            return processRequest(url, {
+                timeout: 10000,
+                signal: controller.signal
             }).then((results) => {
+                if (controller.signal.aborted) {
+                    return;
+                }
 
-                data = results.geojson.getFeatures();
+                var data = searchResultsToGeoJson(results.results);
 
                 //Create the HTML for the results list.
                 var html = "";
@@ -367,10 +408,14 @@
 
                 datasource.add(data);
 
-                if (centerMapOnResults) {
+                if (centerResults && data.features.length > 0 && data.bbox) {
                     map.setCamera({
                         bounds: data.bbox
                     });
+                }
+            }).catch(function () {
+                if (!controller.signal.aborted) {
+                    alert('Sorry, it was not possible to complete your search.');
                 }
             });
         }
@@ -403,12 +448,22 @@
             var startPoint = userPosition;
 
             //Calculate a route.
-            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), [startPoint, endPoint], {
-                traffic: true,
-                travelMode: 'car'
+            var controller = beginRequest('car');
+            cancelRequest('popup');
+            var url = directionsUrl + '&query=' + encodeURIComponent(startPoint[1] + ',' + startPoint[0] + ':' + endPoint[1] + ',' + endPoint[0]) +
+                '&traffic=true&travelMode=car';
+            var request = processRequest(url, {
+                timeout: 10000,
+                signal: controller.signal
             }).then((directions) => {
+                if (controller.signal.aborted) {
+                    return;
+                }
                 //Get data features from response
-                var data = directions.geojson.getFeatures();
+                var data = routeResultsToGeoJson(directions.routes);
+                if (data.features.length === 0) {
+                    throw new Error('No route was returned.');
+                }
 
                 //Get the route line and add some style properties to it.
                 var routeLine = data.features[0];
@@ -417,11 +472,14 @@
                 routeLine.properties.layer = 'routeLayer';
 
                 datasource.add(routeLine);
-            }, reason => {
-                alert('Sorry, it was not possible to route to this location.');
+            }).catch(function () {
+                if (!controller.signal.aborted) {
+                    alert('Sorry, it was not possible to route to this location.');
+                }
             });
 
             popup.close(map);
+            return request;
         }
 
         function truckClicked(id) {
@@ -431,12 +489,22 @@
             var startPoint = userPosition;
 
             // Calculate a route.
-            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), [startPoint, endPoint], {
-                traffic: true,
-                travelMode: 'truck'
+            var controller = beginRequest('truck');
+            cancelRequest('popup');
+            var url = directionsUrl + '&query=' + encodeURIComponent(startPoint[1] + ',' + startPoint[0] + ':' + endPoint[1] + ',' + endPoint[0]) +
+                '&traffic=true&travelMode=truck';
+            var request = processRequest(url, {
+                timeout: 10000,
+                signal: controller.signal
             }).then((directions) => {
+                if (controller.signal.aborted) {
+                    return;
+                }
                 // Get data features from response
-                var data = directions.geojson.getFeatures();
+                var data = routeResultsToGeoJson(directions.routes);
+                if (data.features.length === 0) {
+                    throw new Error('No route was returned.');
+                }
 
                 // Get the route line and add some style properties to it.
                 var routeLine = data.features[0];
@@ -448,14 +516,18 @@
                 // We want this to render below the car route which will likely be added to the data source faster,
                 // so insert it at index 0.
                 datasource.add(routeLine, 0);
-            }, reason => {
-                alert('Sorry, it was not possible to route to this location.');
+            }).catch(function () {
+                if (!controller.signal.aborted) {
+                    alert('Sorry, it was not possible to route to this location.');
+                }
             });
 
             popup.close(map);
+            return request;
         }
 
         function startpositionClicked(position) {
+            cancelRequest('popup');
 
             userPosition = position;
             var userPoint = new atlas.data.Point(userPosition);
@@ -475,6 +547,8 @@
         }
 
         function isochroneClicked(position) {
+            var controller = beginRequest('range');
+            cancelRequest('popup');
 
             var userPoint = new atlas.data.Point(position);
 
@@ -489,35 +563,50 @@
                 bearing: 0
             });
 
-            Promise.all([
-                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), position, {
-                    traffic: true,
-                    timeBudgetInSec: 15 * 60
+            var url = rangeUrl + '&query=' + encodeURIComponent(position[1] + ',' + position[0]) + '&traffic=true';
+            var request = Promise.all([
+                processRequest(url + '&timeBudgetInSec=' + (15 * 60), {
+                    timeout: 10000,
+                    signal: controller.signal
                 }),
-                routeURL.calculateRouteRange(atlas.service.Aborter.timeout(10000), position, {
-                    traffic: true,
-                    timeBudgetInSec: 30 * 60
+                processRequest(url + '&timeBudgetInSec=' + (30 * 60), {
+                    timeout: 10000,
+                    signal: controller.signal
                 })
             ]).then(values => {
-                for (var i = 0; i < values.length; i++) {
-                    var f = values[i].geojson.getFeatures().features[0];
-                    f.properties.layer = 'isochroneLayer';
-
-                    datasource.add(f);
+                if (controller.signal.aborted) {
+                    return;
                 }
-            }, reason => {
-                alert('Sorry, it was not possible to calculate travel time for this location.');
+                var features = values.map(function (value) {
+                    if (!value.reachableRange || !value.reachableRange.boundary || value.reachableRange.boundary.length < 3) {
+                        throw new Error('No reachable range was returned.');
+                    }
+                    var f = routeRangeToGeoJson(value.reachableRange);
+                    f.properties.layer = 'isochroneLayer';
+                    return f;
+                });
+                datasource.add(features);
+            }).catch(function () {
+                if (!controller.signal.aborted) {
+                    alert('Sorry, it was not possible to calculate travel time for this location.');
+                }
             });
 
             popup.close();
+            return request;
         }
 
         function showPopup(position) {
+            var controller = beginRequest('popup');
             popup.close();
 
-            searchURL.searchAddressReverse(atlas.service.Aborter.timeout(10000), position, {
-                view: 'Auto'
+            return processRequest(reverseUrl + '&query=' + encodeURIComponent(position[1] + ',' + position[0]) + '&view=Auto', {
+                timeout: 10000,
+                signal: controller.signal
             }).then((result) => {
+                if (controller.signal.aborted) {
+                    return;
+                }
 
                 if (result.addresses.length > 0) {
                     var p = result.addresses[0];
@@ -532,12 +621,15 @@
 
                     popup.open(map);
                 }
-            }, reason => {
-                alert('Sorry, we where unable to find address details for this location.');
+            }).catch(function () {
+                if (!controller.signal.aborted) {
+                    alert('Sorry, we were unable to find address details for this location.');
+                }
             });
         }
 
         async function showPopupPOI(shape) {
+            var controller = beginRequest('popup');
             popup.close();
 
             var properties = shape.getProperties();
@@ -551,8 +643,12 @@
             switch (properties.type) {
                 case 'POI':
                     name = properties.poi.name;
-                    if (properties.poi.phone) phone = properties.poi.phone;
-                    if (properties.poi.url) url = properties.poi.url;
+                    if (properties.poi.phone) {
+                        phone = properties.poi.phone;
+                    }
+                    if (properties.poi.url) {
+                        url = properties.poi.url;
+                    }
                     break;
                 case 'Street':
                 case 'Point Address':
@@ -567,23 +663,37 @@
                     break;
             }
 
-            // Get Weather data
-            var weatherRequestUrl = weatherUrl.replace('{query}', position[1] + ',' + position[0]);
-            var weather = await processRequest(weatherRequestUrl).then(response => {
-                if (response && response.results && response.results[0]) {
-                    return response.results[0];
+            var weather, airQuality;
+            try {
+                // Get Weather data
+                var weatherRequestUrl = weatherUrl.replace('{query}', position[1] + ',' + position[0]);
+                weather = await processRequest(weatherRequestUrl, { signal: controller.signal }).then(response => {
+                    if (response && response.results && response.results[0]) {
+                        return response.results[0];
+                    }
+                    return null;
+                });
+                if (controller.signal.aborted) {
+                    return;
                 }
-                return null;
-            });
 
-            // Get Air Quality data
-            var airQualityRequestUrl = airQualityUrl.replace('{query}', position[1] + ',' + position[0]);
-            var airQuality = await processRequest(airQualityRequestUrl).then(response => {
-                if (response && response.results && response.results[0]) {
-                    return response.results[0];
+                // Get Air Quality data
+                var airQualityRequestUrl = airQualityUrl.replace('{query}', position[1] + ',' + position[0]);
+                airQuality = await processRequest(airQualityRequestUrl, { signal: controller.signal }).then(response => {
+                    if (response && response.results && response.results[0]) {
+                        return response.results[0];
+                    }
+                    return null;
+                });
+                if (controller.signal.aborted) {
+                    return;
                 }
-                return null;
-            });
+            } catch (error) {
+                if (!controller.signal.aborted) {
+                    alert('Sorry, we were unable to retrieve weather or air quality: ' + error.message);
+                }
+                return;
+            }
 
             var html = `<div class="card" style="width:420px;"><div class="card-header"><h5 class="card-title text-wrap">${name}</h5></div><div class="card-body"><div class="list-group"><a href="#" onclick="addressClicked('${shape.data.id}')" class="list-group-item list-group-item-action d-flex gap-3 py-3" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#cursor-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Address</h6><p class="mb-0 opacity-75 text-wrap">${properties.address.freeformAddress}</p></div></div><small class="text-nowrap">Directions</small></a><a href="#" onclick="truckClicked('${shape.data.id}')" class="list-group-item list-group-item-action d-flex gap-3 py-3" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#truck-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Truck Route</h6><p class="mb-0 opacity-75 text-wrap">Route that is optimized for commercial vehicles, like for trucks.</p></div></div><small class="text-nowrap">Directions</small></a><a target="_blank" href="tel:${phone.replace(/\s/g, '')}" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${phone === '' ? 'd-none' : ''}" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#phone-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Phone</h6><p class="mb-0 opacity-75">${phone}</p></div><small class="text-nowrap">POI</small></div></a><a target="_blank" href="http://${url.replace(/^https?\:\/\//i, '')}" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${url === '' ? 'd-none' : ''}" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#link-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">Website</h6><p class="mb-0 opacity-75">${url.replace(/^https?\:\/\//i, '')}</p></div><small class="text-nowrap">POI</small></div></a><a target="_blank" href="https://docs.microsoft.com/rest/api/maps/weather/get-current-conditions" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${!weather ? 'd-none' : ''}" ><img width="32" height="32" alt="Weather" aria-label="Weather" class="flex-shrink-0" src="/images/icons/weather-black/${weather.iconCode}.png"/><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">${weather.phrase}</h6><p class="mb-0 opacity-75 text-wrap">Temperature ${weather.temperature.value}&#176;${weather.temperature.unit} and feels like ${weather.realFeelTemperature.value}&#176;${weather.realFeelTemperature.unit}</p></div><small class="text-nowrap">Weather</small></div></a><a target="_blank" href="https://docs.microsoft.com//rest/api/maps/weather/get-current-air-quality" class="list-group-item list-group-item-action d-flex gap-3 py-3 ${!airQuality ? 'd-none' : ''}" ><svg width="32" height="32" class="flex-shrink-0"><use xlink:href="#balloon-icon" /></svg><div class="d-flex gap-2 w-100 justify-content-between"><div><h6 class="mb-0">${airQuality.category}</h6><p class="mb-0 opacity-75 text-wrap">${airQuality.description}</p></div><small class="text-nowrap">Air Quality</small></div></a></div></div><div class="card-footer text-muted">${dist} km away from ${userPositionUpdated === true ? 'you' : 'the Tower of London'}</div></div>`;
 

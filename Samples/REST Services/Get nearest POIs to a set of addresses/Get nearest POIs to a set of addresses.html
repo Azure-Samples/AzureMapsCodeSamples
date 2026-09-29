@@ -7,7 +7,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows the nearest POIs to a set of addresses" />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places, batch, batch geocode" />
     <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
     
@@ -15,11 +15,11 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, poidatasource, searchURL, points;
+        var map, datasource, poidatasource, popup;
         var results = [];
         var maxSearchResults = 300; //The maximum number of points of interests that will be queried on each update.
         var searchOptions = {
@@ -117,12 +117,6 @@
                 }
             });
 
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
-
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
                 //Create a data source to add your geocode data to.
@@ -161,9 +155,9 @@
                 //Add a click event to the poi layer.
 
                 map.events.add('click', poiLayer, poiClicked);
-            });
 
-            parallelGeocode();
+                parallelGeocode();
+            });
         }
 
         /**
@@ -171,61 +165,80 @@
          * The browser will limit the number of concurrent requests to the same domain.
          */
         async function parallelGeocode() {
+            results = [];
+            datasource.clear();
+            poidatasource.clear();
             var requests = [];
             //Create the request promises.
             for (var i = 0; i < addresses.length; i++) {
-                requests.push(searchURL.searchAddress(atlas.service.Aborter.timeout(10000), addresses[i], searchOptions));
+                var url = 'https://{azMapsDomain}/search/address/json?api-version=1.0&query=' + encodeURIComponent(addresses[i]) +
+                    '&' + new URLSearchParams(searchOptions).toString();
+                requests.push(processRequest(url, { timeout: 10000 }));
             }
             //Process the promises in parallel.
-            var responses = await Promise.all(requests);
+            var responses = await Promise.allSettled(requests);
+            var failures = [];
 
             //Extract the GeoJSON feature results.
-            responses.forEach(r => {
-                var fc = r.geojson.getFeatures();
+            responses.forEach((response, index) => {
+                if (response.status === 'rejected') {
+                    failures.push(addresses[index] + ': ' + response.reason.message);
+                    return;
+                }
+                var fc = searchResultsToGeoJson(response.value.results);
                 if (fc.features.length > 0) {
+                    if (response.value.results[0].id === undefined) {
+                        fc.features[0].id = 'address-' + index;
+                    }
                     results.push(fc.features[0]);
                     //For each address geocoded it will perform the search of POI that are close to that location.
                     performPOISearch(fc.features[0].geometry.coordinates, 0);
+                } else {
+                    failures.push(addresses[index] + ': No address found.');
                 }
             });
             //Done.
             endSearch();
+            if (failures.length) {
+                alert(failures.join('\n'));
+            }
         }
 
         function endSearch() {
             datasource.setShapes(results);
             //Set the camera to the bounds of the results.
-            map.setCamera({
-                bounds: atlas.data.BoundingBox.fromData(results),
-                padding: 40
-            });
+            if (results.length) {
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromData(results),
+                    padding: 40
+                });
+            }
         }
 
         function performPOISearch(center, offset) {
             //Make a query for nearby points of interest.
-            searchURL.searchNearby(atlas.service.Aborter.timeout(3000), center, {
-                ofs: offset * 100,
-                limit: 100,
-                radius: 5000,
-                view: 'Auto'
-            }).then(r => {
-                var data = r.geojson.getFeatures();
-                //If offset is 0, remove previous data, check the response to see if there are more results to page through.
+            var url = 'https://{azMapsDomain}/search/nearby/json?api-version=1.0&limit=100&radius=5000&view=Auto' +
+                '&lat=' + center[1] + '&lon=' + center[0] + '&ofs=' + offset * 100;
+            return processRequest(url, { timeout: 3000 }).then(r => {
+                var data = searchResultsToGeoJson(r.results);
+                data.features.forEach((feature, index) => {
+                    if (r.results[index].id === undefined) {
+                        feature.id = center.join(',') + '-' + (offset * 100 + index);
+                    }
+                });
+                //Append each address's results so concurrent searches do not replace one another.
+                poidatasource.add(data);
                 if (r.summary.offset == 0) {
-                    //Replace all data on the map with the new data.
-                    poidatasource.setShapes(data);
-
                     //Calculate the number of pages
                     var maxPages = Math.ceil(Math.min(maxSearchResults, r.summary.totalResults) / 100);
 
                     //Make requests for the other pages.
-                    for (var oft = 1; oft <= maxPages; oft++) {
+                    for (var oft = 1; oft < maxPages; oft++) {
                         performPOISearch(center, oft);
                     }
-                } else {
-                    //Add the results to the data source.
-                    poidatasource.add(data);
                 }
+            }).catch(error => {
+                alert('POI search at ' + center.join(', ') + ' failed: ' + error.message);
             });
         }
 

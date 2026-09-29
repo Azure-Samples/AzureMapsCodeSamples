@@ -9,7 +9,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This tutorial shows how to create an interactive search experience." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, tutorials, search, point of interest, POI" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, tutorials, search, point of interest, POI" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -18,11 +18,12 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, popup, searchInput, resultsPanel, searchInputLength, centerMapOnResults;
+        var map, datasource, popup, searchInput, resultsPanel, centerMapOnResults, searchTimer;
+        var searchId = 0;
 
         // The minimum number of characters needed in the search input before a search is performed.
         var minSearchInputLength = 3;
@@ -99,53 +100,49 @@
             });
         }
         function searchInputKeyup(e) {
-            centerMapOnResults = false;
+            ++searchId;
+            clearTimeout(searchTimer);
+            centerMapOnResults = e.keyCode === 13;
             if (searchInput.value.length >= minSearchInputLength) {
-                if (e.keyCode === 13) {
-                    centerMapOnResults = true;
-                }
-                //Wait 100ms and see if the input length is unchanged before performing a search.
-                //This will reduce the number of queries being made on each character typed.
-                setTimeout(function () {
-                    if (searchInputLength == searchInput.value.length) {
-                        search();
-                    }
-                }, keyStrokeDelay);
+                searchTimer = setTimeout(search, keyStrokeDelay);
             } else {
                 resultsPanel.innerHTML = '';
+                if (datasource) {
+                    datasource.clear();
+                }
+                popup.close();
             }
-            searchInputLength = searchInput.value.length;
         }
         function search() {
+            var requestId = ++searchId;
+            var centerResults = centerMapOnResults;
+            var query = document.getElementById("search-input").value;
+            if (!datasource || query.length < minSearchInputLength) {
+                return;
+            }
             //Remove any previous results from the map.
             datasource.clear();
             popup.close();
             resultsPanel.innerHTML = '';
 
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Construct the SearchURL object
-            var searchURL = new atlas.service.SearchURL(pipeline);
-
-            var query = document.getElementById("search-input").value;
-            searchURL.searchPOI(atlas.service.Aborter.timeout(10000), query, {
-                lon: map.getCamera().center[0],
-                lat: map.getCamera().center[1],
-                maxFuzzyLevel: 4,
-                view: 'Auto'
-            }).then((results) => {
+            var center = map.getCamera().center;
+            // Fuzzy Search supports maxFuzzyLevel; restrict the search to POIs.
+            var url = 'https://{azMapsDomain}/search/fuzzy/json?api-version=1.0&idxSet=POI&maxFuzzyLevel=4&view=Auto&query=' +
+                encodeURIComponent(query) + '&lon=' + center[0] + '&lat=' + center[1];
+            return processRequest(url, { timeout: 10000 }).then((results) => {
+                if (requestId !== searchId) {
+                    return;
+                }
 
                 //Extract GeoJSON feature collection from the response and add it to the datasource
-                var data = results.geojson.getFeatures();
+                var data = searchResultsToGeoJson(results.results);
                 datasource.add(data);
 
-                if (centerMapOnResults) {
+                if (centerResults && data.features.length) {
                     map.setCamera({
                         bounds: data.bbox
                     });
                 }
-                console.log(data);
                 //Create the HTML for the results list.
                 var html = [];
                 for (var i = 0; i < data.features.length; i++) {
@@ -167,9 +164,12 @@
                         }
                     }
                     html.push('</li>');
-                    resultsPanel.innerHTML = html.join('');
                 }
-
+                resultsPanel.innerHTML = html.length ? html.join('') : '<li>No results found.</li>';
+            }).catch(error => {
+                if (requestId === searchId) {
+                    resultsPanel.textContent = 'Search failed: ' + error.message;
+                }
             });
         }
         function itemHovered(id) {

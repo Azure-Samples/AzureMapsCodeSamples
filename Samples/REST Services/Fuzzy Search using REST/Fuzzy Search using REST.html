@@ -1,14 +1,14 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Fuzzy Search with Services Module - Azure Maps Web SDK Samples</title>
+    <title>Fuzzy Search with REST - Azure Maps Web SDK Samples</title>
 
     <meta charset="utf-8" />
 	<link rel="shortcut icon" href="/favicon.ico"/>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to use the Services module for Azure Maps to perform a fuzzy search for points of interests, address, and places. Providing user location information allows the search service choose results that are more local to the user." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places" />
+    <meta name="description" content="This sample shows how to use the REST API for Azure Maps to perform a fuzzy search for points of interests, address, and places. Providing user location information allows the search service choose results that are more local to the user." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, geolocation, search, fuzzy, geocode, geocoding, points of interest, POI, address, addresses, places" />
     <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
@@ -16,11 +16,12 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, searchURL, datasource, popup;
+        var map, datasource, popup;
+        var searchId = 0;
 
         function getMap() {
             //Initialize a map instance.
@@ -44,12 +45,6 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -77,37 +72,55 @@
         }
 
         function search(userLatitude, userLongitude) {
+            var requestId = ++searchId;
             var query = document.getElementById('input').value;
 
             //Remove any previous results from the map.
             datasource.clear();
+            popup.close();
 
-            searchURL.searchFuzzy(atlas.service.Aborter.timeout(10000), query, {
-                lat: userLatitude,
-                lon: userLongitude,
-                radius: 100000,
-                view: 'Auto'
-            }).then(results => {
+            var url = 'https://{azMapsDomain}/search/fuzzy/json?api-version=1.0&radius=100000&view=Auto&query=' + encodeURIComponent(query);
+            if (userLatitude !== undefined && userLongitude !== undefined) {
+                url += '&lat=' + userLatitude + '&lon=' + userLongitude;
+            }
+
+            return processRequest(url, { timeout: 10000 }).then(results => {
+                if (requestId !== searchId) {
+                    return;
+                }
                 //Get the results in GeoJSON format and add it to the data source.
-                var data = results.geojson.getFeatures();  
+                var data = searchResultsToGeoJson(results.results);
                 datasource.add(data);
              
                 //Set the camera to the bounds of the results.
-                map.setCamera({
-                    bounds: data.bbox,
-                    padding: 40
-                });
+                if (data.features.length) {
+                    map.setCamera({
+                        bounds: data.bbox,
+                        padding: 40
+                    });
+                } else {
+                    alert('No results found.');
+                }
+            }).catch(error => {
+                if (requestId === searchId) {
+                    alert(error.message);
+                }
             });
         }
 
         function searchWithUserLocation() {
+            var requestId = ++searchId;
             //Using the HTML5 geolocation API, request the users location from the browser, this will display a prompt to the user to share their location.
             navigator.geolocation.getCurrentPosition(function (position) {
                 //Pass in the user location into the search.
-                search(position.coords.latitude, position.coords.longitude);
+                if (requestId === searchId) {
+                    search(position.coords.latitude, position.coords.longitude);
+                }
             }, function (error) {
                 //If unable to get the users location, fall back to a search without their location information.
-                search();
+                if (requestId === searchId) {
+                    search();
+                }
             });
         }
 
@@ -186,8 +199,8 @@
     </div>
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
-        <legend>Fuzzy Search with Services Module</legend>
-        This sample shows how to use the Services module for Azure Maps to perform a fuzzy search for points of interests, address, and places. 
+        <legend>Fuzzy Search with REST</legend>
+        This sample shows how to use the REST API for Azure Maps to perform a fuzzy search for points of interests, address, and places.
         Providing user location information allows the search service choose results that are more local to the user. 
         Click any results to see a popup with details for that result.
     </fieldset>

@@ -16,11 +16,12 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, searchURL, totalResults, query;
+        var map, datasource, popup, totalResults, query;
+        var searchId = 0;
 
         //The current page index.
         var pageIdx = 0;
@@ -60,12 +61,6 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -119,16 +114,26 @@
         }
 
         function getNearbyPoi() {
+            var requestId = ++searchId;
+            var requestedPage = pageIdx;
             //Close popup.
             popup.close();
+            datasource.clear();
+            document.getElementById('resultList').innerHTML = '';
+            document.getElementById('pageInfo').innerText = 'Loading...';
 
             updatePageBtns();
 
             //Update the query options to skip results based on the page index and size.
-            queryOptions.ofs = pageIdx * pageSize,
+            queryOptions.ofs = requestedPage * pageSize;
 
             //Make a query for nearby points of interest.
-            searchURL.searchPOI(atlas.service.Aborter.timeout(3000), query, queryOptions).then(results => {
+            var url = 'https://{azMapsDomain}/search/poi/json?api-version=1.0&query=' + encodeURIComponent(query) +
+                '&' + new URLSearchParams(queryOptions).toString();
+            return processRequest(url, { timeout: 3000 }).then(results => {
+                if (requestId !== searchId) {
+                    return;
+                }
         
                 //If the initial search has just been performed, capture the total number of results available for the query.
                 if (results.summary.offset === 0) {
@@ -137,14 +142,14 @@
                 }
 
                 //Calculate the start and end result index.
-                var start = pageIdx * pageSize + 1;
-                var end = start + results.summary.numResults - 1;
+                var start = results.summary.numResults ? requestedPage * pageSize + 1 : 0;
+                var end = results.summary.numResults ? start + results.summary.numResults - 1 : 0;
 
                 //Display details on the number of results and result index.
                 document.getElementById('pageInfo').innerText = `Results: ${start} - ${end} of ${totalResults} results`;
 
                 //Get GeoJSON versions of the results.
-                var data = results.geojson.getFeatures();
+                var data = searchResultsToGeoJson(results.results);
 
                 //Loop through and create a list of the results.
                 var listHTML = ['<table>'];
@@ -175,10 +180,17 @@
                 datasource.setShapes(data);
 
                 //Have the map camera fit the data.
-                map.setCamera({
-                    bounds: atlas.data.BoundingBox.fromData(data),
-                    padding: 50
-                });
+                if (data.features.length) {
+                    map.setCamera({
+                        bounds: data.bbox,
+                        padding: 50
+                    });
+                }
+            }).catch(error => {
+                if (requestId === searchId) {
+                    document.getElementById('pageInfo').innerText = 'Search failed: ' + error.message;
+                    updatePageBtns();
+                }
             });
         }
 

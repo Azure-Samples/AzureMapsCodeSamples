@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to calculate a simple route and display it on the map using the Services module for Azure Maps." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions" />
+    <meta name="description" content="This sample shows how to calculate a simple route and display it on the map using the Azure Maps REST Route API." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, route, directions" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -18,7 +18,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, datasource;
@@ -103,7 +103,7 @@
                     padding: 50
                 });
 
-                // Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
+                // The REST query uses latitude,longitude pairs, unlike GeoJSON coordinates.
                 var routeRequestURL = routeUrl
                     .replace('{query}', `${startPosition[1]},${startPosition[0]}:${endPosition[1]},${endPosition[0]}`);
 

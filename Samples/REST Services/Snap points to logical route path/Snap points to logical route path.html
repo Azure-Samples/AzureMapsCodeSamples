@@ -8,7 +8,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to snap points to the road network to form a logical path using the Azure Maps rest directions service." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
     <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
@@ -16,11 +16,11 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, routeURL;
+        var map, datasource;
 
         //Sample data set to snap to roads.
         var gpsTrace = '/data/geojson/GpsTrace.json';
@@ -51,12 +51,6 @@
                 }
             });
 
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Construct the RouteURL object
-            routeURL = new atlas.service.RouteURL(pipeline);
-
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
                 datasource = new atlas.source.DataSource();
@@ -79,15 +73,22 @@
                 }));
 
                 //Load the GPS trace data into the map, then run the snapping logic.
-                datasource.importDataFromUrl(gpsTrace).then(() => {
-                    snapPointsToRoute();
+                return datasource.importDataFromUrl(gpsTrace).then(() => {
+                    return snapPointsToRoute();
+                }).catch(error => {
+                    alert('Unable to load the GPS trace: ' + error.message);
                 });
             });
         }
 
         function snapPointsToRoute() {
             //Get all the GPS trace data from the datasource as GeoJSON and create an array.
-            var points = datasource.toJson().features;
+            var points = datasource.toJson().features.filter(feature => feature.geometry.type === 'Point');
+
+            if (points.length < 2) {
+                alert('At least two GPS points are required to reconstruct a route.');
+                return;
+            }
 
             //Extract the Point geometries from the array of features and use them as supporting points in the route request.
             var supportingPoints = points.map((val) => {
@@ -98,19 +99,23 @@
             var coordinates = [points[0].geometry.coordinates, points[points.length - 1].geometry.coordinates];
 
             //Pass all coordinates to reconstruct the route and create a logical path as supporting points in the body of the request.
-            var options = {
-                postBody: {
-                    "supportingPoints": {
-                        "type": "GeometryCollection",
-                        "geometries": supportingPoints
-                    }
+            var body = {
+                "supportingPoints": {
+                    "type": "GeometryCollection",
+                    "geometries": supportingPoints
                 }
             };
 
             //Calculate a route.
-            routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), coordinates, options).then((directions) => {
+            var query = coordinates.map(position => position[1] + ',' + position[0]).join(':');
+            return processPostRequest('https://{azMapsDomain}/route/directions/json?api-version=1.0&query=' + encodeURIComponent(query),
+                JSON.stringify(body), { timeout: 10000 }).then((directions) => {
+                if (!directions.routes || directions.routes.length === 0) {
+                    throw new Error('No route was found.');
+                }
+
                 //Get the logical route path as GeoJSON and add it to the data source.
-                var data = directions.geojson.getFeatures();
+                var data = routeResultsToGeoJson(directions.routes);
                 datasource.add(data);
 
                 //Update the map view to center over the route.
@@ -118,6 +123,8 @@
                     bounds: data.bbox,
                     padding: 30 //Add a padding to account for the pixel size of symbols.
                 });
+            }).catch(error => {
+                alert('Unable to snap the GPS trace to a route: ' + error.message);
             });
         }
     </script>

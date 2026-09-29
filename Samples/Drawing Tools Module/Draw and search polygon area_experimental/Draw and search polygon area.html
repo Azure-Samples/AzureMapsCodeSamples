@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to use the drawing tools to search for points of interests within drawn areas." />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events, services, module, search, points of interest, POI, within, intersects, intersection" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, drawing tools, circle, rectangle, polygon, paint, events, REST, search, points of interest, POI, within, intersects, intersection" />
     <meta name="author" content="Microsoft Azure Maps" />
     <meta name="version" content="2.0" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -22,10 +22,11 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/drawing/2/atlas-drawing.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, datasource, drawingManager, popup;
+        var searchId = 0;
 
         // URL for the Azure Maps Search POI API.
         var searchPOIUrl = 'https://{azMapsDomain}/search/poi/json?api-version=1.0&query={query}&limit={limit}&lat={lat}&lon={lon}&radius={radius}&view=Auto';
@@ -100,6 +101,7 @@
         function drawingModeChanged(mode) {
             //Clear the drawing canvas when the user enters into a drawing mode.
             if (mode.startsWith('draw')) {
+                ++searchId;
                 popup.close();
                 datasource.clear();
                 drawingManager.getSource().clear();
@@ -107,11 +109,13 @@
         }
 
         function searchPolygon(searchArea) {
+            var requestId = ++searchId;
             //Exit drawing mode.
             drawingManager.setOptions({ mode: 'idle' });
 
             //Get the POI query value.
             var query = document.getElementById('queryTbx').value;
+            var request;
 
             //If the search area is a circle, use its center and radius to search.
             if (searchArea.isCircle()) {
@@ -119,46 +123,40 @@
 
                 //Search for POI's within a radius.
                 var searchPOIRequest = searchPOIUrl
-                    .replace('{query}', query)
+                    .replace('{query}', encodeURIComponent(query))
                     .replace('{lon}', center[0])
                     .replace('{lat}', center[1])
                     .replace('{radius}', searchArea.getProperties().radius)
                     .replace('{limit}', 100);
 
-                processRequest(searchPOIRequest).then((response) => {
-                    datasource.add(response);
-                }).catch((error) => {
-                    alert(error);
-                });
-
-                
-                //searchURL.searchPOI(atlas.service.Aborter.timeout(3000), query, {
-                //    lon: center[0],
-                //    lat: center[1],
-                //    radius: searchArea.getProperties().radius,
-                //    limit: 100,
-                //    view: 'Auto'
-                //}).then(showResults, error => {
-                //    alert(error);
-                //});
+                request = processRequest(searchPOIRequest, { timeout: 3000 });
             } else {
-                var body = searchArea.toJson();
+                //The v1 endpoint expects a geometry wrapper, not the drawing Feature.
+                var body = JSON.stringify({ geometry: searchArea.toJson().geometry });
 
                 //Search for points of interest inside the search area.
-                searchURL.searchInsideGeometry(atlas.service.Aborter.timeout(3000), query, body, {
-                    limit: 100,
-                    view: 'Auto'
-                }).then(showResults, error => {
-                    alert(error);
-                });
+                var url = searchGeometryUrl.replace('{query}', encodeURIComponent(query)).replace('{limit}', 100);
+                request = processPostRequest(url, body, { timeout: 3000 });
             }
+            return request.then(results => {
+                if (requestId === searchId) {
+                    showResults(results);
+                }
+            }).catch(error => {
+                if (requestId === searchId) {
+                    alert(error.message);
+                }
+            });
         }
 
         function showResults(results) {
-            var data = results.geojson.getFeatures();
+            var data = searchResultsToGeoJson(results.results);
 
             //Add the results to the data source.
-            datasource.add(data);
+            datasource.setShapes(data);
+            if (!data.features.length) {
+                alert('No results found.');
+            }
         }
 
         function poiClicked(e) {

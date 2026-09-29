@@ -8,7 +8,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This sample shows how to retrieve traffic information along a route using the <b>sectionType</b> option, and color the sections on the map. " />
-    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, services, module, route, directions, route sections, traffic" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, route, directions, route sections, traffic" />
     <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
 
@@ -16,11 +16,12 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, popup, searchURL, routeURL;
+        var map, datasource, popup;
+        var routeRequestId = 0;
 
         function getMap() {
             //Initialize a map instance.
@@ -44,15 +45,6 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Construct the RouteURL object
-            routeURL = new atlas.service.RouteURL(pipeline);
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline);
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -130,7 +122,9 @@
         }
 
         async function calculateRoute() {
+            var requestId = ++routeRequestId;
             datasource.clear();
+            closePopup();
 
             var start = document.getElementById('startTbx').value;
             var end = document.getElementById('endTbx').value;
@@ -140,77 +134,85 @@
                 return;
             }
 
-            var geocodeOptions = {
-                limit: 1,
-                view: 'Auto'
-            };
+            try {
+                var searchUrl = 'https://{azMapsDomain}/search/address/json?api-version=1.0&limit=1&view=Auto&query=';
 
-            //Geocode the start location.
-            var startResult = await searchURL.searchAddress(atlas.service.Aborter.timeout(3000), start, geocodeOptions);
-
-            if (startResult.results && startResult.results.length > 0) {
+                //Geocode the start location.
+                var startResult = await processRequest(searchUrl + encodeURIComponent(start), { timeout: 3000 });
+                if (requestId !== routeRequestId) {
+                    return;
+                }
+                if (!startResult.results || startResult.results.length === 0) {
+                    throw new Error('Unable to geocode start waypoint.');
+                }
                 var startPoint = [startResult.results[0].position.lon, startResult.results[0].position.lat];
 
                 //Geocode the end location.
-                var endResult = await searchURL.searchAddress(atlas.service.Aborter.timeout(3000), end, geocodeOptions);
+                var endResult = await processRequest(searchUrl + encodeURIComponent(end), { timeout: 3000 });
+                if (requestId !== routeRequestId) {
+                    return;
+                }
+                if (!endResult.results || endResult.results.length === 0) {
+                    throw new Error('Unable to geocode end waypoint.');
+                }
+                var endPoint = [endResult.results[0].position.lon, endResult.results[0].position.lat];
 
-                if (endResult.results && endResult.results.length > 0) {
-                    var endPoint = [endResult.results[0].position.lon, endResult.results[0].position.lat];
+                //Calculate a route, including traffic sections.
+                var query = [startPoint, endPoint].map(position => position[1] + ',' + position[0]).join(':');
+                var directions = await processRequest('https://{azMapsDomain}/route/directions/json?api-version=1.0&query=' +
+                    encodeURIComponent(query) + '&sectionType=traffic&maxAlternatives=0', { timeout: 10000 });
+                if (requestId !== routeRequestId) {
+                    return;
+                }
+                if (!directions.routes || directions.routes.length === 0) {
+                    throw new Error('No route was found.');
+                }
 
-                    //Calculate a route.
-                    var directions = await routeURL.calculateRouteDirections(atlas.service.Aborter.timeout(10000), [startPoint, endPoint], {
-                        sectionType: 'traffic', //Route option to return traffic sections.
-                        maxAlternatives: 0
-                    });
+                //Get the route data as GeoJSON and add it to the data source.
+                var data = routeResultsToGeoJson(directions.routes);
+                var route = data.features[0];
 
-                    //Get the route data as GeoJSON and add it to the data source.
-                    var data = directions.geojson.getFeatures();
-                    var route = data.features[0];
+                datasource.add([route,
+                    new atlas.data.Feature(new atlas.data.Point(startPoint), {
+                        title: start,
+                        iconImage: 'pin-blue'
+                    }),
+                    new atlas.data.Feature(new atlas.data.Point(endPoint), {
+                        title: end,
+                        iconImage: 'pin-red'
+                    })
+                ]);
 
-                    datasource.add([route,
-                        new atlas.data.Feature(new atlas.data.Point(startPoint), {
-                            title: start,
-                            iconImage: 'pin-blue'
-                        }),
-                        new atlas.data.Feature(new atlas.data.Point(endPoint), {
-                            title: end,
-                            iconImage: 'pin-red'
-                        })
-                    ]);
+                //Extract the traffic section data.
+                if (route.properties.sections) {
+                    var sections = route.properties.sections;
+                    var sectionLines = [];
 
-                    //Extract the traffic section data.
-                    if (route.properties.sections) {
-                        var sections = route.properties.sections;
+                    //Section indices refer to the route points across all legs, in order.
+                    var routePath = route.geometry.coordinates.flat();
 
-                        var sectionLines = [];
-
-                        //Route path could be a MultiLineString as multiple route legs (specify 3 or more waypoints) can result in multiple lines. 
-                        var routePath = route.geometry.coordinates[0];
-
-                        for (var i = 0; i < sections.length; i++) {
-                            //Only worry about traffic sections with a magnitude delay of 1 (minor) or higher.
-                            if (sections[i].sectionType === 'TRAFFIC' && sections[i].magnitudeOfDelay >= 1) {
-                                //Create a line for the traffic section.
-                                sectionLines.push(new atlas.data.Feature(new atlas.data.LineString(
-                                    //Get the coordinates from the route path for the section, startPointIndex...endPointIndex - add 1 as the end index is not included
-                                    routePath.slice(sections[i].startPointIndex, sections[i].endPointIndex + 1)
-                                ), sections[i]));
-                            }
+                    for (var i = 0; i < sections.length; i++) {
+                        //Only worry about traffic sections with a magnitude delay of 1 (minor) or higher.
+                        if (sections[i].sectionType === 'TRAFFIC' && sections[i].magnitudeOfDelay >= 1) {
+                            sectionLines.push(new atlas.data.Feature(new atlas.data.LineString(
+                                //The end point index is inclusive.
+                                routePath.slice(sections[i].startPointIndex, sections[i].endPointIndex + 1)
+                            ), sections[i]));
                         }
-
-                        datasource.add(sectionLines);
                     }
 
-                    //Update the map view to center over the route.
-                    map.setCamera({
-                        bounds: data.bbox,
-                        padding: 30 //Add a padding to account for the pixel size of symbols.
-                    });
-                } else {
-                    alert('Unable to geocode end waypoint.');
+                    datasource.add(sectionLines);
                 }
-            } else {
-                alert('Unable to geocode start waypoint.');
+
+                //Update the map view to center over the route.
+                map.setCamera({
+                    bounds: data.bbox,
+                    padding: 30 //Add a padding to account for the pixel size of symbols.
+                });
+            } catch (error) {
+                if (requestId === routeRequestId) {
+                    alert('Unable to calculate traffic along the route: ' + error.message);
+                }
             }
         }
 
@@ -224,7 +226,7 @@
                 //Update the content and position of the popup.
                 popup.setOptions({
                     //Create the content of the popup.
-                    content: `<div style="padding:10px;"><b>${properties.simpleCategory}</b><br/>Speed: ${Math.round(properties.effectiveSpeedInKmh * 0.62137119)} mph</div`,
+                    content: `<div style="padding:10px;"><b>${properties.simpleCategory}</b><br/>Speed: ${Math.round(properties.effectiveSpeedInKmh * 0.62137119)} mph</div>`,
                     position: e.position
                 });
 

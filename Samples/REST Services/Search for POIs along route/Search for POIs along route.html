@@ -16,12 +16,12 @@
     <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
-    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
-    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+    <!-- Add a reference to the Azure Maps REST helper. -->
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, searchURL, routeURL, points, datasource, routeLine;
-        var aborter = atlas.service.Aborter.timeout(3000);
+        var map, datasource, routeLine, popup;
+        var searchId = 0;
 
         function getMap() {
             //Initialize a map instance.
@@ -47,15 +47,6 @@
                     //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
                 }
             });
-
-            //Use MapControlCredential to share authentication between a map control and the service module.
-            var pipeline = atlas.service.MapsURL.newPipeline(new atlas.service.MapControlCredential(map));
-
-            //Create an instance of the SearchURL client.
-            searchURL = new atlas.service.SearchURL(pipeline, atlas.getDomain());
-
-            //Create an instance of the RouteURL client.
-            routeURL = new atlas.service.RouteURL(pipeline, atlas.getDomain());
 
             //Wait until the map resources are ready.
             map.events.add('ready', function () {
@@ -91,94 +82,106 @@
         }
 
         async function calculateRoute() {
+            var requestId = ++searchId;
             datasource.clear();
+            popup.close();
 
             var start = document.getElementById('startTbx').value;
             var end = document.getElementById('endTbx').value;
+            var query = document.getElementById('queryTbx').value;
+            var maxDetourTime = parseInt(document.getElementById('maxDetourTimeSlider').value);
 
             if (start == '' || end == '') {
                 alert('Invalid waypoint point specified.');
                 return;
             }
 
-            //Geocode the start waypoint.
-            var startLocation = await searchURL.searchAddress(aborter, start, {
-                limit: 1,
-                view: 'Auto'
-            });
+            try {
+                //Geocode the start waypoint.
+                var addressUrl = 'https://{azMapsDomain}/search/address/json?api-version=1.0&limit=1&view=Auto&query=';
+                var startLocation = await processRequest(addressUrl + encodeURIComponent(start), { timeout: 3000 });
+                if (requestId !== searchId) {
+                    return;
+                }
 
-            if (!startLocation || startLocation.results.length === 0) {
-                alert('Unable to geocode start waypoint.');
-                return;
-            }
+                if (!startLocation || startLocation.results.length === 0) {
+                    alert('Unable to geocode start waypoint.');
+                    return;
+                }
 
-            var startPoint = [startLocation.results[0].position.lon, startLocation.results[0].position.lat];
+                var startPoint = [startLocation.results[0].position.lon, startLocation.results[0].position.lat];
 
-            //Geocode the end waypoint.
-            var endLocation = await searchURL.searchAddress(aborter, end, {
-                limit: 1,
-                view: 'Auto'
-            });
+                //Geocode the end waypoint.
+                var endLocation = await processRequest(addressUrl + encodeURIComponent(end), { timeout: 3000 });
+                if (requestId !== searchId) {
+                    return;
+                }
 
-            if (!endLocation || endLocation.results.length === 0) {
-                alert('Unable to geocode end waypoint.');
-                return;
-            }
+                if (!endLocation || endLocation.results.length === 0) {
+                    alert('Unable to geocode end waypoint.');
+                    return;
+                }
 
-            var endPoint = [endLocation.results[0].position.lon, endLocation.results[0].position.lat];
+                var endPoint = [endLocation.results[0].position.lon, endLocation.results[0].position.lat];
 
-            //Calculate route.
-            var routeResponse = await routeURL.calculateRouteDirections(aborter, [startPoint, endPoint], {
-                maxAlternatives: 0,
-                instructionsType: 'text',
-                traffic: true
-            });
+                //Calculate route.
+                var routeUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&maxAlternatives=0&instructionsType=text&traffic=true&query=' +
+                    encodeURIComponent(startPoint[1] + ',' + startPoint[0] + ':' + endPoint[1] + ',' + endPoint[0]);
+                var routeResponse = await processRequest(routeUrl, { timeout: 3000 });
+                if (requestId !== searchId) {
+                    return;
+                }
 
-            if (!routeResponse || routeResponse.routes.length === 0) {
-                alert('Unable to calculate route.');
-                return;
-            }
+                if (!routeResponse || routeResponse.routes.length === 0) {
+                    alert('Unable to calculate route.');
+                    return;
+                }
 
-            var route = routeResponse.routes[0];
+                var route = routeResponse.routes[0];
 
-            var routeCoordinates = [];
-            for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
-                var leg = route.legs[legIndex];
+                var routeCoordinates = [];
+                for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
+                    var leg = route.legs[legIndex];
 
-                //Convert the route point data into a format that the map control understands.
-                var legCoordinates = leg.points.map(function (point) {
-                    return [point.longitude, point.latitude];
+                    //Convert the route point data into a format that the map control understands.
+                    var legCoordinates = leg.points.map(function (point) {
+                        return [point.longitude, point.latitude];
+                    });
+
+                    //Combine the route point data for each route leg together to form a single path.
+                    routeCoordinates = routeCoordinates.concat(legCoordinates);
+                }
+
+                //Create a line from the route path points and add it to the data source.
+                routeLine = new atlas.data.LineString(routeCoordinates);
+
+                //Display the route line on the map.
+                datasource.add(routeLine);
+
+                //Have the map focus on the route.
+                map.setCamera({
+                    bounds: atlas.data.BoundingBox.fromData(routeLine),
+                    padding: 40
                 });
 
-                //Combine the route point data for each route leg together to form a single path.
-                routeCoordinates = routeCoordinates.concat(legCoordinates);
+                //Search for POIs along route.
+                var poiUrl = 'https://{azMapsDomain}/search/alongRoute/json?api-version=1.0&limit=20&query=' +
+                    encodeURIComponent(query) + '&maxDetourTime=' + maxDetourTime;
+                var poiResponse = await processPostRequest(poiUrl, JSON.stringify({ route: routeLine }), { timeout: 3000 });
+                if (requestId !== searchId) {
+                    return;
+                }
+
+                //Render the waypoints on the map.
+                datasource.add(searchResultsToGeoJson(poiResponse.results));
+                if (!poiResponse.results.length) {
+                    alert('No points of interest found along this route.');
+                }
+            } catch (error) {
+                if (requestId === searchId) {
+                    alert(error.message);
+                }
             }
-
-            //Create a line from the route path points and add it to the data source.
-            routeLine = new atlas.data.LineString(routeCoordinates);
-
-            //Display the route line on the map.
-            datasource.add(routeLine);
-
-            //Have the map focus on the route.
-            map.setCamera({
-                bounds: atlas.data.BoundingBox.fromData(routeLine),
-                padding: 40
-            });
-
-            //Get search query options.
-            var query = document.getElementById('queryTbx').value;
-            var maxDetourTime = parseInt(document.getElementById('maxDetourTimeSlider').value);
-
-            //Search for POIs along route.
-            var poiResponse = await searchURL.searchAlongRoute(aborter, query, maxDetourTime, {
-                route: routeLine
-            }, {
-                limit: 20
-            });
-
-            //Render the waypoints on the map.
-            datasource.add(poiResponse.geojson.getFeatures());
         }
 
         function featureClicked(e) {
