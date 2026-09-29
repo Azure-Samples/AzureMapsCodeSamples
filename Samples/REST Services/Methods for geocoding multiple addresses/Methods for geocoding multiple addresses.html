@@ -182,7 +182,9 @@
                             break;
                     }
                     endSearch();
-                    if (failures.length) alert(failures.join('\n'));
+                    if (failures.length) {
+                        alert(failures.join('\n'));
+                    }
                 } catch (error) {
                     document.getElementById('status').textContent = 'Search failed: ' + error.message;
                 } finally {
@@ -217,7 +219,9 @@
                 var fc = searchResultsToGeoJson(response.value.results);
 
                 if (fc.features.length > 0) {
-                    if (response.value.results[0].id === undefined) fc.features[0].id = 'address-' + index;
+                    if (response.value.results[0].id === undefined) {
+                        fc.features[0].id = 'address-' + index;
+                    }
                     results.push(fc.features[0]);
                 } else {
                     failures.push(addresses[index] + ': No address found.');
@@ -248,9 +252,15 @@
             var statusUrl;
             while (response.status === 202) {
                 var location = response.headers.get('location');
-                if (location) statusUrl = location;
-                if (!statusUrl) throw new Error('Batch response did not include a Location header.');
-                if (Date.now() >= deadline) throw new Error('Batch processing timed out. Please try again.');
+                if (location) {
+                    statusUrl = location;
+                }
+                if (!statusUrl) {
+                    throw new Error('Batch response did not include a Location header.');
+                }
+                if (Date.now() >= deadline) {
+                    throw new Error('Batch processing timed out. Please try again.');
+                }
                 document.getElementById('status').textContent = 'Batch pending...';
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 //Keep the raw 202 response and its headers while the batch is pending.
@@ -262,9 +272,15 @@
                         headers: new Headers(signedRequest.headers),
                         signal: controller.signal
                     });
-                    if (!response.ok) throw new Error('Batch request failed: ' + response.status + ' ' + response.statusText);
-                    if (response.status === 200) return await response.json();
-                    if (response.status !== 202) throw new Error('Unexpected batch status: ' + response.status);
+                    if (!response.ok) {
+                        throw new Error('Batch request failed: ' + response.status + ' ' + response.statusText);
+                    }
+                    if (response.status === 200) {
+                        return await response.json();
+                    }
+                    if (response.status !== 202) {
+                        throw new Error('Unexpected batch status: ' + response.status);
+                    }
                 } finally {
                     clearTimeout(timer);
                 }
@@ -325,9 +341,13 @@
                     continue;
                 }
                 var fc = searchResultsToGeoJson(item.response.results);
-                if (!fc.features.length) failures.push(addresses[i] + ': No address found.');
+                if (!fc.features.length) {
+                    failures.push(addresses[i] + ': No address found.');
+                }
                 fc.features.forEach((feature, index) => {
-                    if (item.response.results[index].id === undefined) feature.id = 'address-' + i + '-' + index;
+                    if (item.response.results[index].id === undefined) {
+                        feature.id = 'address-' + i + '-' + index;
+                    }
                     results.push(feature);
                 });
             }

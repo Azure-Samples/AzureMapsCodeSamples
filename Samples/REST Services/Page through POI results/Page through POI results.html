@@ -131,7 +131,9 @@
             var url = 'https://{azMapsDomain}/search/poi/json?api-version=1.0&query=' + encodeURIComponent(query) +
                 '&' + new URLSearchParams(queryOptions).toString();
             return processRequest(url, { timeout: 3000 }).then(results => {
-                if (requestId !== searchId) return;
+                if (requestId !== searchId) {
+                    return;
+                }
         
                 //If the initial search has just been performed, capture the total number of results available for the query.
                 if (results.summary.offset === 0) {

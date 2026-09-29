@@ -187,7 +187,9 @@
                 }
                 var fc = searchResultsToGeoJson(response.value.results);
                 if (fc.features.length > 0) {
-                    if (response.value.results[0].id === undefined) fc.features[0].id = 'address-' + index;
+                    if (response.value.results[0].id === undefined) {
+                        fc.features[0].id = 'address-' + index;
+                    }
                     results.push(fc.features[0]);
                     //For each address geocoded it will perform the search of POI that are close to that location.
                     performPOISearch(fc.features[0].geometry.coordinates, 0);
@@ -197,7 +199,9 @@
             });
             //Done.
             endSearch();
-            if (failures.length) alert(failures.join('\n'));
+            if (failures.length) {
+                alert(failures.join('\n'));
+            }
         }
 
         function endSearch() {
@@ -218,7 +222,9 @@
             return processRequest(url, { timeout: 3000 }).then(r => {
                 var data = searchResultsToGeoJson(r.results);
                 data.features.forEach((feature, index) => {
-                    if (r.results[index].id === undefined) feature.id = center.join(',') + '-' + (offset * 100 + index);
+                    if (r.results[index].id === undefined) {
+                        feature.id = center.join(',') + '-' + (offset * 100 + index);
+                    }
                 });
                 //Append each address's results so concurrent searches do not replace one another.
                 poidatasource.add(data);

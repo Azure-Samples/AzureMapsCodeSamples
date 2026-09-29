@@ -85,7 +85,9 @@
             }
 
             return processRequest(url, { timeout: 10000 }).then(results => {
-                if (requestId !== searchId) return;
+                if (requestId !== searchId) {
+                    return;
+                }
                 //Get the results in GeoJSON format and add it to the data source.
                 var data = searchResultsToGeoJson(results.results);
                 datasource.add(data);
@@ -100,7 +102,9 @@
                     alert('No results found.');
                 }
             }).catch(error => {
-                if (requestId === searchId) alert(error.message);
+                if (requestId === searchId) {
+                    alert(error.message);
+                }
             });
         }
 
@@ -109,10 +113,14 @@
             //Using the HTML5 geolocation API, request the users location from the browser, this will display a prompt to the user to share their location.
             navigator.geolocation.getCurrentPosition(function (position) {
                 //Pass in the user location into the search.
-                if (requestId === searchId) search(position.coords.latitude, position.coords.longitude);
+                if (requestId === searchId) {
+                    search(position.coords.latitude, position.coords.longitude);
+                }
             }, function (error) {
                 //If unable to get the users location, fall back to a search without their location information.
-                if (requestId === searchId) search();
+                if (requestId === searchId) {
+                    search();
+                }
             });
         }
 

@@ -107,7 +107,9 @@
                 searchTimer = setTimeout(search, keyStrokeDelay);
             } else {
                 resultsPanel.innerHTML = '';
-                if (datasource) datasource.clear();
+                if (datasource) {
+                    datasource.clear();
+                }
                 popup.close();
             }
         }
@@ -115,7 +117,9 @@
             var requestId = ++searchId;
             var centerResults = centerMapOnResults;
             var query = document.getElementById("search-input").value;
-            if (!datasource || query.length < minSearchInputLength) return;
+            if (!datasource || query.length < minSearchInputLength) {
+                return;
+            }
             //Remove any previous results from the map.
             datasource.clear();
             popup.close();
@@ -126,7 +130,9 @@
             var url = 'https://{azMapsDomain}/search/fuzzy/json?api-version=1.0&idxSet=POI&maxFuzzyLevel=4&view=Auto&query=' +
                 encodeURIComponent(query) + '&lon=' + center[0] + '&lat=' + center[1];
             return processRequest(url, { timeout: 10000 }).then((results) => {
-                if (requestId !== searchId) return;
+                if (requestId !== searchId) {
+                    return;
+                }
 
                 //Extract GeoJSON feature collection from the response and add it to the datasource
                 var data = searchResultsToGeoJson(results.results);
@@ -161,7 +167,9 @@
                 }
                 resultsPanel.innerHTML = html.length ? html.join('') : '<li>No results found.</li>';
             }).catch(error => {
-                if (requestId === searchId) resultsPanel.textContent = 'Search failed: ' + error.message;
+                if (requestId === searchId) {
+                    resultsPanel.textContent = 'Search failed: ' + error.message;
+                }
             });
         }
         function itemHovered(id) {

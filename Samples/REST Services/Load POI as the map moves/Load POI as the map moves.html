@@ -130,10 +130,14 @@
             var url = 'https://{azMapsDomain}/search/nearby/json?api-version=1.0&limit=100&radius=5000&view=Auto' +
                 '&lat=' + center[1] + '&lon=' + center[0] + '&ofs=' + offset * 100;
             return processRequest(url, { timeout: 3000 }).then(results => {
-                if (requestId !== searchId) return;
+                if (requestId !== searchId) {
+                    return;
+                }
                 var data = searchResultsToGeoJson(results.results);
                 data.features.forEach((feature, index) => {
-                    if (results.results[index].id === undefined) feature.id = String(offset * 100 + index);
+                    if (results.results[index].id === undefined) {
+                        feature.id = String(offset * 100 + index);
+                    }
                 });
 
                 //If offset is 0, remove previous data, check the response to see if there are more results to page through.

@@ -139,9 +139,13 @@
                 request = processPostRequest(url, body, { timeout: 3000 });
             }
             return request.then(results => {
-                if (requestId === searchId) showResults(results);
+                if (requestId === searchId) {
+                    showResults(results);
+                }
             }).catch(error => {
-                if (requestId === searchId) alert(error.message);
+                if (requestId === searchId) {
+                    alert(error.message);
+                }
             });
         }
 
@@ -150,7 +154,9 @@
 
             //Add the results to the data source.
             datasource.setShapes(data);
-            if (!data.features.length) alert('No results found.');
+            if (!data.features.length) {
+                alert('No results found.');
+            }
         }
 
         function poiClicked(e) {

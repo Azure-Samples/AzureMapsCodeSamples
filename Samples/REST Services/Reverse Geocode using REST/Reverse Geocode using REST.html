@@ -69,7 +69,9 @@
             var url = 'https://{azMapsDomain}/search/address/reverse/json?api-version=1.0&view=Auto&query=' +
                 encodeURIComponent(e.position[1] + ',' + e.position[0]);
             return processRequest(url, { timeout: 3000 }).then(results => {
-                if (requestId !== searchId) return;
+                if (requestId !== searchId) {
+                    return;
+                }
                 var address = results.addresses.length ? results.addresses[0].address : null;
 
                 var content = '<div style="padding:10px">';
@@ -91,7 +93,9 @@
                 //Open the popup.
                 popup.open(map);
             }).catch(error => {
-                if (requestId === searchId) alert(error.message);
+                if (requestId === searchId) {
+                    alert(error.message);
+                }
             });
         }
     </script>

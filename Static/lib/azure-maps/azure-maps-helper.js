@@ -147,7 +147,9 @@ async function signRequest(url) {
 
     // Transform the request.
     var transform = map.getServiceOptions().transformRequest;
-    if (transform) requestParams = await transform(url);
+    if (transform) {
+        requestParams = await transform(url);
+    }
 
     return requestParams;
 }

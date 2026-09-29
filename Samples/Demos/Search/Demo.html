@@ -240,7 +240,9 @@
 
             function restoreLocateButton() {
                 controller.signal.removeEventListener('abort', restoreLocateButton);
-                if (requests.locate !== controller) return;
+                if (requests.locate !== controller) {
+                    return;
+                }
                 locateMeButton.disabled = false;
                 locateMeButton.className = 'btn btn-outline-secondary';
                 locateMeIcon.style.display = 'block';
@@ -256,7 +258,9 @@
 
             //User position
             navigator.geolocation.getCurrentPosition(function (position) {
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
 
                 userPositionUpdated = true;
                 userPosition = [position.coords.longitude, position.coords.latitude];
@@ -273,7 +277,9 @@
                     timeout: 10000,
                     signal: controller.signal
                 }).then((result) => {
-                    if (controller.signal.aborted) return;
+                    if (controller.signal.aborted) {
+                        return;
+                    }
 
                     if (result.addresses.length > 0) {
                         document.querySelector('.form-select').value = result.addresses[0].address.countryCode;
@@ -296,7 +302,9 @@
                 }).finally(restoreLocateButton);
 
             }, function (error) {
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
                 //If an error occurs when trying to access the users position information, display an error message.
                 alert('Sorry, your position information is unavailable!');
 
@@ -332,7 +340,9 @@
             var elm = document.getElementById('search-country');
             var countryIso = elm.options[elm.selectedIndex].value;
 
-            if (!query) return;
+            if (!query) {
+                return;
+            }
 
             var controller = beginRequest('search');
             var centerResults = centerMapOnResults;
@@ -345,7 +355,9 @@
                 timeout: 10000,
                 signal: controller.signal
             }).then((results) => {
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
 
                 var data = searchResultsToGeoJson(results.results);
 
@@ -444,7 +456,9 @@
                 timeout: 10000,
                 signal: controller.signal
             }).then((directions) => {
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
                 //Get data features from response
                 var data = routeResultsToGeoJson(directions.routes);
                 if (data.features.length === 0) {
@@ -483,7 +497,9 @@
                 timeout: 10000,
                 signal: controller.signal
             }).then((directions) => {
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
                 // Get data features from response
                 var data = routeResultsToGeoJson(directions.routes);
                 if (data.features.length === 0) {
@@ -558,7 +574,9 @@
                     signal: controller.signal
                 })
             ]).then(values => {
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
                 var features = values.map(function (value) {
                     if (!value.reachableRange || !value.reachableRange.boundary || value.reachableRange.boundary.length < 3) {
                         throw new Error('No reachable range was returned.');
@@ -586,7 +604,9 @@
                 timeout: 10000,
                 signal: controller.signal
             }).then((result) => {
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
 
                 if (result.addresses.length > 0) {
                     var p = result.addresses[0];
@@ -623,8 +643,12 @@
             switch (properties.type) {
                 case 'POI':
                     name = properties.poi.name;
-                    if (properties.poi.phone) phone = properties.poi.phone;
-                    if (properties.poi.url) url = properties.poi.url;
+                    if (properties.poi.phone) {
+                        phone = properties.poi.phone;
+                    }
+                    if (properties.poi.url) {
+                        url = properties.poi.url;
+                    }
                     break;
                 case 'Street':
                 case 'Point Address':
@@ -649,7 +673,9 @@
                     }
                     return null;
                 });
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
 
                 // Get Air Quality data
                 var airQualityRequestUrl = airQualityUrl.replace('{query}', position[1] + ',' + position[0]);
@@ -659,7 +685,9 @@
                     }
                     return null;
                 });
-                if (controller.signal.aborted) return;
+                if (controller.signal.aborted) {
+                    return;
+                }
             } catch (error) {
                 if (!controller.signal.aborted) {
                     alert('Sorry, we were unable to retrieve weather or air quality: ' + error.message);
