@@ -97,34 +97,21 @@
                 ];
 
                 //Calculate a route.
-                var query = coordinates.map(position => position[1] + ',' + position[0]).join(':');
-                return processRequest('https://{azMapsDomain}/route/directions/json?api-version=1.0&query=' + encodeURIComponent(query), {
-                    timeout: 10000
+                var body = createRouteDirectionsRequest(coordinates);
+                return processPostRequest('https://{azMapsDomain}/route/directions?api-version=2025-01-01', JSON.stringify(body), {
+                    timeout: 10000,
+                    headers: { 'Content-Type': 'application/geo+json' }
                 }).then((directions) => {
-                    if (!directions.routes || directions.routes.length === 0) {
-                        throw new Error('No route was found.');
-                    }
-
-                    //Get the route data as GeoJSON and add it to the data source.
-                    var data = routeResultsToGeoJson(directions.routes);
+                    var data = getRoutePath(directions);
                     datasource.add(data);
 
                     //Update the map view to center over the route.
                     map.setCamera({
-                        bounds: data.bbox,
+                        bounds: atlas.data.BoundingBox.fromData(data),
                         padding: 30 //Add a padding to account for the pixel size of symbols.
                     });
 
-                    var path = [];
-
-                    //Get all points along the path. The route line could be a LineString or MultiLineString.
-                    if (data.features[0].geometry.type === 'LineString') {
-                        path = data.features[0].geometry.coordinates;
-                    } else if (data.features[0].geometry.type === 'MultiLineString') {
-                        data.features[0].geometry.coordinates.forEach(c => {
-                            path = path.concat(c);
-                        });
-                    }
+                    var path = data.geometry.coordinates.flat();
 
                     //Create an array to store the calculated positions, add the starting location.
                     var positionsAlongPath = [path[0]];
@@ -141,8 +128,11 @@
                     }
 
                     //Add the last location on the path.
-                    if (!atlas.data.Position.areEqual(positionsAlongPath[positionsAlongPath.length - 1], path[path.length - 1])) {
-                        positionsAlongPath.push(path[path.length - 1]);
+                    var destination = path[path.length - 1];
+                    var lastSpacedPosition = positionsAlongPath[positionsAlongPath.length - 1];
+                    var isDestinationIncluded = atlas.data.Position.areEqual(lastSpacedPosition, destination);
+                    if (!isDestinationIncluded) {
+                        positionsAlongPath.push(destination);
                     }
 
                     //Do something with the calculated locations. Lets show red markers for now.

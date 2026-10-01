@@ -22,14 +22,14 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/drawing/2/atlas-drawing.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         // Define the variables used to store the map, data source, and drawing manager.
         var map, datasource, drawingManager;
 
         // URL to the Azure Maps route direction service.
-        var routeUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}';
+        var routeUrl = 'https://{azMapsDomain}/route/directions?api-version=2025-01-01';
 
         function getMap() {
             // Initialize a map instance.
@@ -102,24 +102,14 @@
 
             // Get the coordinates from the drawn line.
             var lineCoords = line.getCoordinates();
-            var query = lineCoords.map(coord => `${coord[1]},${coord[0]}`).join(':');
-
-            // Calculate a route.
-            var routeRequestUrl = routeUrl
-                .replace('{query}', encodeURIComponent(query));
-
-            processRequest(routeRequestUrl).then(directions => {
-                // Extract the first route from the directions.
-                const route = directions.routes[0];
-
-                // Combine all leg coordinates into a single array.
-                const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
-
-                // Create a LineString from the route path points.
-                const routeLine = new atlas.data.LineString(routeCoordinates);
-
-                // Add it to the data source.
-                datasource.add(routeLine);
+            var body = createRouteDirectionsRequest(lineCoords);
+            return processPostRequest(routeUrl, JSON.stringify(body), {
+                timeout: 10000,
+                headers: { 'Content-Type': 'application/geo+json' }
+            }).then(directions => {
+                datasource.add(getRoutePath(directions));
+            }).catch(error => {
+                alert('Unable to snap the line to roads: ' + error.message);
             });
         }
     </script>

@@ -93,11 +93,13 @@
             document.getElementById('statusPanel').textContent = 'Calculating travel time areas...';
 
             var origin = marker.getOptions().position;
-            var url = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query=' +
-                encodeURIComponent(origin[1] + ',' + origin[0]);
+            var url = 'https://{azMapsDomain}/route/range?api-version=2025-01-01';
 
             return Promise.all([600, 900, 1200, 1500].map(timeBudget => {
-                return processRequest(url + '&timeBudgetInSec=' + timeBudget, { timeout: 10000 });
+                return processPostRequest(url, JSON.stringify(createRouteRangeRequest(origin, timeBudget)), {
+                    timeout: 10000,
+                    headers: { 'Content-Type': 'application/geo+json' }
+                });
             })).then(values => {
                 if (requestId !== rangeRequestId) {
                     return;
@@ -107,13 +109,13 @@
                 //Loop through each polygon isochrone and cut out the difference from the previous icochrone. Since the time increases with each isochrone, it should cover all area of the previous isochrone.
 
                 //The first isochrone is unchanged.
-                var prev = routeRangeToGeoJson(values[0].reachableRange);
+                var prev = getRouteRangeBoundary(values[0]);
                 prev.properties.color = colors[0];
 
                 var polygons = [prev];
 
                 for (var i = 1; i < values.length; i++) {
-                    var f = routeRangeToGeoJson(values[i].reachableRange);
+                    var f = getRouteRangeBoundary(values[i]);
 
                     //Subtract the previous isochrone from the current one.
                     var difference = turf.difference(f, prev);
