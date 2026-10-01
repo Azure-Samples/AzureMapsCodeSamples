@@ -18,12 +18,12 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, datasource, popup;
 
-        var currentConditionsUrl = 'https://{azMapsDomain}/weather/currentConditions/json?api-version=1.0&query={query}';
+        var currentConditionsUrl = 'https://{azMapsDomain}/weather/currentConditions/json?api-version=1.1&query={query}';
 
         var weatherTemplate = {
             //The title tag for the popup.
@@ -94,10 +94,12 @@
             //Request the current conditions weather data and show it in the pop up.
             var requestUrl = currentConditionsUrl.replace('{query}', e.position[1] + ',' + e.position[0]);
 
-            processRequest(requestUrl).then(response => {
+            return processRequest(requestUrl, { timeout: 10000 }).then(response => {
                 var content;
 
-                if (response && response.results && response.results[0]) {
+                var hasResultsCollection = Boolean(response && response.results);
+                var hasCurrentConditions = hasResultsCollection && Boolean(response.results[0]);
+                if (hasCurrentConditions) {
                     //Use the weatherTemplate settings to create templated content for the popup.
                     content = atlas.PopupTemplate.applyTemplate(response.results[0], weatherTemplate);
                 } else {
@@ -110,7 +112,7 @@
                 });
 
                 popup.open(map);
-            });
+            }).catch(error => alert('Unable to retrieve current weather: ' + error.message));
         }
     </script>
     <style>

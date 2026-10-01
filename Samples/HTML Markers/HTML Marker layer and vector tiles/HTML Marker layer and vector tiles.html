@@ -56,10 +56,9 @@
                     closeButton: false
                 });
 
-                 //Create a vector tile source and add it to the map.
-                 datasource = new atlas.source.VectorTileSource(null, {
-                    tiles: ['https://{azMapsDomain}/traffic/incident/tile/pbf?api-version=1.0&zoom={z}&x={x}&y={y}'],
-                    maxZoom: 22
+                //Create a vector tile source and add it to the map.
+                datasource = new atlas.source.VectorTileSource(null, {
+                    url: 'https://{azMapsDomain}/map/tileset?api-version=2024-04-01&tilesetId=microsoft.traffic.incident'
                 });
                 map.sources.add(datasource);
 

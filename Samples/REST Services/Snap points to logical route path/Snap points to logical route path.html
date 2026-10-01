@@ -7,7 +7,7 @@
 	<link rel="shortcut icon" href="/favicon.ico"/>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="This sample shows how to snap points to the road network to form a logical path using the Azure Maps rest directions service." />
+    <meta name="description" content="This sample shows how to snap a complete GPS trace to the road network using the Azure Maps Snap to Roads REST API." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, REST, route, directions, snap to roads, snapping, gps traces, gps trace, snap to road" />
     <meta name="author" content="Microsoft Azure Maps" /><meta name="version" content="1.0" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -24,9 +24,6 @@
 
         //Sample data set to snap to roads.
         var gpsTrace = '/data/geojson/GpsTrace.json';
-
-        //GeoJSON point objects of the gpsCoordinates.
-        var points;
 
         function getMap() {
             //Initialize a map instance.
@@ -81,7 +78,7 @@
             });
         }
 
-        function snapPointsToRoute() {
+        async function snapPointsToRoute() {
             //Get all the GPS trace data from the datasource as GeoJSON and create an array.
             var points = datasource.toJson().features.filter(feature => feature.geometry.type === 'Point');
 
@@ -90,42 +87,93 @@
                 return;
             }
 
-            //Extract the Point geometries from the array of features and use them as supporting points in the route request.
-            var supportingPoints = points.map((val) => {
-                return val.geometry;
-            });
-            
-            //When reconstructing a route, the start and end coordinates must be specified in the query.
-            var coordinates = [points[0].geometry.coordinates, points[points.length - 1].geometry.coordinates];
+            try {
+                var chunks = [];
+                var start = 0;
+                var overlap = 12;
 
-            //Pass all coordinates to reconstruct the route and create a logical path as supporting points in the body of the request.
-            var body = {
-                "supportingPoints": {
-                    "type": "GeometryCollection",
-                    "geometries": supportingPoints
+                //Leave room for road interpolation below the 100 km request limit.
+                while (start < points.length - 1) {
+                    var end = start + 1;
+                    var distance = atlas.math.getDistanceTo(points[start].geometry.coordinates, points[end].geometry.coordinates, 'meters');
+                    while (end + 1 < points.length) {
+                        var nextDistance = atlas.math.getDistanceTo(points[end].geometry.coordinates, points[end + 1].geometry.coordinates, 'meters');
+                        var exceedsDistanceBudget = distance + nextDistance > 60000;
+                        var reachesPointLimit = end - start + 1 >= 5000;
+                        if (exceedsDistanceBudget || reachesPointLimit) {
+                            break;
+                        }
+                        distance += nextDistance;
+                        end++;
+                    }
+                    chunks.push({ start: start, end: end });
+                    if (end === points.length - 1) {
+                        break;
+                    }
+                    start = Math.max(start + 1, end - overlap + 1);
                 }
-            };
 
-            //Calculate a route.
-            var query = coordinates.map(position => position[1] + ',' + position[0]).join(':');
-            return processPostRequest('https://{azMapsDomain}/route/directions/json?api-version=1.0&query=' + encodeURIComponent(query),
-                JSON.stringify(body), { timeout: 10000 }).then((directions) => {
-                if (!directions.routes || directions.routes.length === 0) {
-                    throw new Error('No route was found.');
+                var responses = [];
+                //Keep request concurrency bounded, including for larger traces.
+                for (var i = 0; i < chunks.length; i += 3) {
+                    var batch = await Promise.all(chunks.slice(i, i + 3).map(chunk => {
+                        var body = {
+                            type: 'FeatureCollection',
+                            features: points.slice(chunk.start, chunk.end + 1).map(point => ({
+                                type: 'Feature',
+                                geometry: point.geometry,
+                                properties: {}
+                            })),
+                            interpolate: true,
+                            travelMode: 'driving'
+                        };
+                        return processPostRequest('https://{azMapsDomain}/route/snapToRoads?api-version=2025-01-01',
+                            JSON.stringify(body), {
+                                timeout: 10000,
+                                headers: { 'Content-Type': 'application/geo+json' }
+                            });
+                    }));
+                    responses.push(...batch);
                 }
 
-                //Get the logical route path as GeoJSON and add it to the data source.
-                var data = routeResultsToGeoJson(directions.routes);
-                datasource.add(data);
+                var routeCoordinates = [];
+                responses.forEach((response, index) => {
+                    var chunk = chunks[index];
+                    var inputPoints = new Map();
+                    response.features.forEach((feature, featureIndex) => {
+                        if (!feature.properties.isInterpolated) {
+                            inputPoints.set(chunk.start + feature.properties.inputIndex, featureIndex);
+                        }
+                    });
+                    if (inputPoints.size !== chunk.end - chunk.start + 1) {
+                        throw new Error('Not all GPS points could be snapped to roads.');
+                    }
 
-                //Update the map view to center over the route.
+                    //Join at the middle of each overlap without repeating its path.
+                    var from = index === 0 ? chunk.start : Math.floor((chunk.start + chunks[index - 1].end) / 2);
+                    var to = index === chunks.length - 1 ? chunk.end : Math.floor((chunks[index + 1].start + chunk.end) / 2);
+                    var first = inputPoints.get(from);
+                    var last = inputPoints.get(to);
+                    if (index > 0) {
+                        var join = response.features[first].geometry.coordinates;
+                        var gap = atlas.math.getDistanceTo(routeCoordinates[routeCoordinates.length - 1], join, 'meters');
+                        if (gap > 1) {
+                            throw new Error('The snapped route chunks do not meet at the same road position.');
+                        }
+                        first++;
+                    }
+                    routeCoordinates = routeCoordinates.concat(response.features.slice(first, last + 1).map(feature => feature.geometry.coordinates));
+                });
+
+                var route = new atlas.data.Feature(new atlas.data.LineString(routeCoordinates));
+                datasource.add(route);
                 map.setCamera({
-                    bounds: data.bbox,
+                    bounds: atlas.data.BoundingBox.fromData(route),
                     padding: 30 //Add a padding to account for the pixel size of symbols.
                 });
-            }).catch(error => {
+            } catch (error) {
                 alert('Unable to snap the GPS trace to a route: ' + error.message);
-            });
+            }
         }
     </script>
 </head>
@@ -134,8 +182,9 @@
 
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Snap points to logical route path</legend>
-        This sample shows how to snap points to the road network to form a logical path using the Azure Maps rest directions service. 
-        This is done by passing the coordinates, in this case a GPS trace, as supporting points in a request in the body of a post request to the route directions service.
+        This sample shows how to snap points to the road network using the
+        <a href="https://learn.microsoft.com/en-us/rest/api/maps/route/post-snap-to-roads?view=rest-maps-2025-01-01">Azure Maps Snap to Roads REST API</a>.
+        Overlapping requests preserve the complete GPS trace, and their snapped paths are joined into a continuous line.
         Zoom in to see the route path generated for the GPS trace. The GPS trace in this sample has 1,793 points in it.
     </fieldset>
 </body>

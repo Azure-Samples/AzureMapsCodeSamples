@@ -18,13 +18,10 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, schoolSource, lineSource, fireStationSource, schools, fireStations, travelTimeMatrix;
-
-        // URL for making async calls to the route matrix service.
-        var routeMatrixAsyncUrl = 'https://{azMapsDomain}/route/matrix/json?api-version=1.0&waitForResults=true';
 
         function getMap() {
             // Initialize a map instance.
@@ -140,7 +137,12 @@
             });
         }
 
+        var matrixRequest;
+        var analysisRequestId = 0;
+
         function analyzeStraightLines() {
+            ++analysisRequestId;
+            document.getElementById('loadingIcon').style.display = 'none';
             var lines = [];
 
             for (var i = 0, len = schools.length; i < len; i++) {
@@ -167,6 +169,7 @@
         }
 
         async function analyzeAlongRoads(metric) {
+            var requestId = ++analysisRequestId;
             if (travelTimeMatrix) {
                 showTravelMetric(metric);
             } else {
@@ -175,43 +178,35 @@
 
                 lineSource.clear();
 
-                // Create the request body to get a route matrix
-                var jsonBody = {
-                    origins: {
-                        type: 'MultiPoint',
-                        coordinates: fireStations.map(fs => { return fs.geometry.coordinates })
-                    },
-                    destinations: {
-                        type: 'MultiPoint',
-                        coordinates: schools.map(a => { return a.geometry.coordinates })
+                try {
+                    if (!matrixRequest) {
+                        matrixRequest = calculateRouteMatrix(
+                            fireStations.map(fs => fs.geometry.coordinates),
+                            schools.map(school => school.geometry.coordinates))
+                            .then(matrix => {
+                                travelTimeMatrix = matrix;
+                                return matrix;
+                            }).finally(() => { matrixRequest = null; });
                     }
-                };
-
-                // Initiate an async route matrix request.
-                var res = await processPostRequest(routeMatrixAsyncUrl, JSON.stringify(jsonBody));
-
-                // Get the status URL from the "location" response header.
-                var batchStatusUrl = res.headers.get('location');
-
-                // Initiate an async request to get the route matrix status response.
-                var res2 = await processRequest(batchStatusUrl);
-
-                // Cache the matrix so it is only calculated once.
-                travelTimeMatrix = res2.matrix;
-
-                // Show the shortest travel metric.
-                showTravelMetric(metric);
-
-                // Hide loading icon.
-                document.getElementById('loadingIcon').style.display = 'none';
+                    await matrixRequest;
+                    if (requestId === analysisRequestId) {
+                        showTravelMetric(metric);
+                    }
+                } catch (error) {
+                    if (requestId === analysisRequestId) {
+                        alert('Unable to calculate the route matrix: ' + error.message);
+                    }
+                } finally {
+                    if (requestId === analysisRequestId) {
+                        document.getElementById('loadingIcon').style.display = 'none';
+                    }
+                }
             }
         }
 
         // Function to show the shortest travel metric.
         function showTravelMetric(metric) {
             var lines = [];
-
-            var prop = (metric === 'time') ? 'travelTimeInSeconds' : 'lengthInMeters';
 
             // Loop through each schools can calculate the shortest path.
             for (var i = 0, len = schools.length; i < len; i++) {
@@ -221,7 +216,10 @@
                 // Loop through each fire station and find which one is the shortest travel time or distance away from the address.
                 for (var j = 0, cnt = fireStations.length; j < cnt; j++) {
                     // Get the travel time or distance for the schools/fire station pair.
-                    var m = travelTimeMatrix[j][i].response.routeSummary[prop];
+                    var cell = travelTimeMatrix[j][i];
+                    var m = metric === 'time'
+                        ? (cell.durationTrafficInSeconds ?? cell.durationInSeconds)
+                        : cell.distanceInMeters;
 
                     if (m < minMetric) {
                         minMetric = m;

@@ -18,12 +18,12 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
-        var map, datasource, routeLine, waypointQuery, defaultOrder;
+        var map, datasource, routeLine, defaultOrder;
 
-        var restRoutingRequestUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var restRoutingRequestUrl = 'https://{azMapsDomain}/route/directions?api-version=2025-01-01';
 
         var waypoints = [
             [-122.336502, 47.606544],
@@ -87,9 +87,8 @@
                     })
                 ]);
 
-                //Add waypoints to the map and build the waypoint query string.
+                //Add waypoints to the map and record their original order.
                 var points = [];
-                var query = [];
                 defaultOrder = [];
 
                 for (var i = 0; i < waypoints.length; i++) {
@@ -97,15 +96,12 @@
                         title: i + ''
                     }));
 
-                    query.push(waypoints[i][1] + ',' + waypoints[i][0]);
                     defaultOrder.push(i);
                 }
 
                 //Add the points to the data source.
                 datasource.add(points);
 
-                //Create the waypoint query string value to be used in the routing requests.
-                waypointQuery = query.join(':');
             });
         }
 
@@ -119,55 +115,36 @@
             }
 
             //Create request to calculate a route in the order in which the waypoints are provided.
-            var requestUrl = restRoutingRequestUrl.replace('{query}', waypointQuery);
-
-            if (optimized) {
-                requestUrl += '&computeBestOrder=true';
-            }
+            var body = createRouteDirectionsRequest(waypoints, { optimizeWaypointOrder: !!optimized });
 
             //Proces the request.
-            processRequest(requestUrl).then(r => {
-                addRouteToMap(r.routes[0]);
+            return processPostRequest(restRoutingRequestUrl, JSON.stringify(body), {
+                timeout: 10000,
+                headers: { 'Content-Type': 'application/geo+json' }
+            }).then(r => {
+                var route = getRoutePath(r);
 
-                var output = 'Distance: ' + Math.round(r.routes[0].summary.lengthInMeters / 10) / 100 + ' km<br/>';
+                var output = 'Distance: ' + Math.round(route.properties.distanceInMeters / 10) / 100 + ' km<br/>';
 
                 if (optimized) {
-                    var pinOrder = ['0'];
-
-                    for (var i = 0; i < r.optimizedWaypoints.length; i++) {
-                        //Increase index by one to account for origin index.
-                        pinOrder.push(r.optimizedWaypoints[i].optimizedIndex + 1);
-                    }
-
-                    //Add the desintation index to the end.
-                    pinOrder.push(waypoints.length - 1);
-
+                    var pinOrder = route.properties.optimizedWaypoints
+                        .sort((a, b) => a.optimizedIndex - b.optimizedIndex)
+                        .map(order => order.inputIndex);
                     output += 'Waypoint Order: ' + pinOrder.join(', ');
                 } else {
                     output += 'Waypoint Order: ' + defaultOrder.join(', ');
                 }
 
-                document.getElementById('output').innerHTML += output;
+                addRouteToMap(route);
+                document.getElementById('output').innerHTML = output;
+            }).catch(error => {
+                document.getElementById('output').textContent = 'Unable to calculate the route: ' + error.message;
             });
         }
 
         function addRouteToMap(route) {
-            var routeCoordinates = [];
-
-            for (var legIndex = 0; legIndex < route.legs.length; legIndex++) {
-                var leg = route.legs[legIndex];
-
-                //Convert the route point data into a format that the map control understands.
-                var legCoordinates = leg.points.map(function (point) {
-                    return [point.longitude, point.latitude];
-                });
-
-                //Combine the route point data for each route leg together to form a single path.
-                routeCoordinates = routeCoordinates.concat(legCoordinates);
-            }
-
-            //Create a LineString from the route path points and add it to the data source.
-            routeLine = new atlas.Shape(new atlas.data.LineString(routeCoordinates));
+            //Keep the route's leg geometries when adding it to the data source.
+            routeLine = new atlas.Shape(route.geometry);
             datasource.add(routeLine);
         }
     </script>
@@ -187,9 +164,8 @@
         This sample shows how to calculate routes with and without waypoint optimization using the Azure Maps REST Route API.
         <br />
         <br />
-        <b>Note:</b> The optimized waypoint order information from the routing service provides a set of indices.
-        These exclude the origin and destination indices.
-        You need to increase all of these values by 1 to account for the origin and then add your destination to the end to get the complete ordered waypoint list.
+        <b>Note:</b> The service identifies waypoints using their original inputIndex and assigns each an optimizedIndex.
+        This sample displays the original marker indices in optimized order, keeping the origin and destination fixed.
     </fieldset>
 </body>
 </html>

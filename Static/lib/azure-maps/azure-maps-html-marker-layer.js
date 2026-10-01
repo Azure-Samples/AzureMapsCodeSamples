@@ -226,6 +226,21 @@ MIT License
                                 sourceLayer: self.getOptions().sourceLayer,
                                 filter: opt.filter
                             });
+                            //Expand MultiPoint positions through the existing marker and event pipeline.
+                            shapes = shapes.reduce(function (points, item) {
+                                var feature = item instanceof azmaps.Shape ? item.toJson() : item;
+                                if (feature.geometry.type === 'MultiPoint') {
+                                    feature.geometry.coordinates.forEach(function (position) {
+                                        //Coordinates keep IDs stable when tiles clip or reorder the points.
+                                        var pointId = feature.id === undefined ? undefined : feature.id + ':' + position.join(',');
+                                        points.push(new azmaps.data.Feature(new azmaps.data.Point(position), feature.properties, pointId));
+                                    });
+                                }
+                                else {
+                                    points.push(item);
+                                }
+                                return points;
+                            }, []);
                             newMarkers = [];
                             newMarkerIds = [];
                             id = void 0;
@@ -240,6 +255,7 @@ MIT License
                             if (!(i < len)) return [3 /*break*/, 4];
                             marker = null;
                             id = null;
+                            position = null;
                             if (shapes[i] instanceof azmaps.Shape) {
                                 shape = shapes[i];
                                 if (shape.getType() === 'Point') {
@@ -271,7 +287,8 @@ MIT License
                                 self._addEvents(marker);
                                 marker._eventsAttached = true;
                             }
-                            if (marker) {
+                            var isNewMarker = marker && newMarkerIds.indexOf(marker.id) === -1;
+                            if (isNewMarker) {
                                 if (marker.id) {
                                     newMarkerIds.push(marker.id);
                                 }

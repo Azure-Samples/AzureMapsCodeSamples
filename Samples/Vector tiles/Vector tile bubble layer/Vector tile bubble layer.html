@@ -50,10 +50,9 @@
                 //Create a reusable popup.
                 popup = new atlas.Popup();
 
-                //Create a vector tile source and add it to the map.
+                //TileJSON supplies the tile URLs, zoom limits and attribution.
                 datasource = new atlas.source.VectorTileSource(null, {
-                    tiles: ['https://{azMapsDomain}/traffic/incident/tile/pbf?api-version=1.0&zoom={z}&x={x}&y={y}'],
-                    maxZoom: 22
+                    url: 'https://{azMapsDomain}/map/tileset?api-version=2024-04-01&tilesetId=microsoft.traffic.incident'
                 });
                 map.sources.add(datasource);
 
@@ -133,7 +132,8 @@
 
         function featureClicked(e) {
             //Make sure the event occurred on a shape feature.
-            if (e.shapes && e.shapes.length > 0) {
+            var hasShape = Boolean(e.shapes) && e.shapes.length > 0;
+            if (hasShape) {
                 //Since the data is coming from a vector tile source, it will be a raw GeoJSON feature and not a Shape class.
                 var f = e.shapes[0];
 
@@ -171,9 +171,8 @@
         This sample shows how to how to use a vector tile service to render point data on the map.
         In this case traffic incident data is rendered as clusters and points on the map using bubble and symbol layers.
         <br /><br />
-        This sample uses the <a href="https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidenttile">Azure Maps vector tile traffic incident service</a>.
-        Detailed information about the format of the traffic incident vector tiles can be found
-        <a href="https://developer.tomtom.com/traffic-api/traffic-api-documentation-traffic-incidents/vector-incident-tiles">here</a>.
+        This sample uses the <a href="https://learn.microsoft.com/en-us/rest/api/maps/render/get-map-tileset">Azure Maps Render tileset service</a>
+        to load the <code>microsoft.traffic.incident</code> vector tileset.
     </fieldset>
 </body>
 </html>

@@ -320,34 +320,26 @@
 
         function calculateDirections() {
             var requestId = ++routeRequestId;
-            var query = waypoints.map(position => position[1] + ',' + position[0]).join(':');
+            var body = createRouteDirectionsRequest(waypoints);
 
             //Calculate a route.
-            return processRequest('https://{azMapsDomain}/route/directions/json?api-version=1.0&query=' + encodeURIComponent(query), {
-                timeout: 10000
+            return processPostRequest('https://{azMapsDomain}/route/directions?api-version=2025-01-01', JSON.stringify(body), {
+                timeout: 10000,
+                headers: { 'Content-Type': 'application/geo+json' }
             }).then((directions) => {
                 if (requestId !== routeRequestId) {
                     return;
-                }
-
-                if (!directions.routes || directions.routes.length === 0) {
-                    throw new Error('No route was found.');
                 }
 
                 //Clear the preview lines.
                 previewDS.clear();
 
                 //Get the route data as GeoJSON and add it to the route data source.
-                var data = routeResultsToGeoJson(directions.routes);
+                var data = getRoutePath(directions);
                 routeDS.setShapes(data);
 
                 //Extract the route path points for other calculations.
-                routePath = [];
-                data.features.forEach(f => {
-                    f.geometry.coordinates.forEach(c => {
-                        routePath = routePath.concat(c);
-                    });                    
-                });
+                routePath = data.geometry.coordinates.flat();
 
                 //Redraw the markers.
                 renderWaypointMarkers();
@@ -377,9 +369,12 @@
         }
 
         function mapTouchStart(e) {
-            //Check that if a route path exists.
-            //Check to see if touch event occured on the route line.
-            if (routePath && e.shapes && e.shapes.length > 0 && e.shapes[0] && e.shapes[0] instanceof atlas.Shape && routeDS.getShapeById(e.shapes[0].getId())) {
+            var hasRoutePath = Boolean(routePath);
+            var hasTouchedShapes = hasRoutePath && Boolean(e.shapes) && e.shapes.length > 0;
+            var touchedShape = hasTouchedShapes ? e.shapes[0] : null;
+            var isAtlasShape = Boolean(touchedShape) && touchedShape instanceof atlas.Shape;
+            var isRouteShape = isAtlasShape && Boolean(routeDS.getShapeById(touchedShape.getId()));
+            if (isRouteShape) {
                 //Now that we know the touch event happended on a route line, call the route mouse down event.
                 routeMouseDown(e);
             }

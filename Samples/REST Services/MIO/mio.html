@@ -18,7 +18,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, stopDataSource, depotDataSource, routeDataSource;
@@ -27,11 +27,8 @@
         // Colors for the different routes.
         var routeColors = ['#2272B9', '#ff7b25', '#6b5b95', '#d64161', '#00cc66', '#000000'];
 
-        // URL for making async calls to the Azure Maps Route Matrix service.
-        var routeMatrixAsyncUrl = 'https://{azMapsDomain}/route/matrix/json?api-version=1.0&waitForResults=true';
-
         // URL for the Azure Maps Route API.
-        var routeUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&routeRepresentation=polyline&travelMode=car&view=Auto';
+        var routeUrl = 'https://{azMapsDomain}/route/directions?api-version=2025-01-01';
 
         function getMap() {
             // Initialize a map instance.
@@ -148,28 +145,47 @@
 
         // Itinerary Optimization function
         async function itineraryOptimizationClicked() {
+            const button = document.getElementById('optimizeButton');
+            const status = document.getElementById('optimizationStatus');
+            if (button.disabled) {
+                return;
+            }
+            button.disabled = true;
+            status.textContent = 'Calculating the live route matrix...';
 
             // Show loading icon
             showLoadingIcon(true);
 
-            // Clear the route data source
-            routeDataSource.clear();
+            try {
+                // Clear the route data source.
+                routeDataSource.clear();
 
-            // We need all coordinates together depots + stops
-            const allCoordinates = [...depots, ...stops];
+                // Keep depots before stops and use one departure time for all live requests.
+                const allCoordinates = [...depots, ...stops];
+                const departAt = new Date().toISOString();
 
-            // Get the Azure Maps Matrix results for all coordinates
-            const matrix = await getMatrixAsync(allCoordinates);
+                // Get the Azure Maps Matrix results for all coordinates.
+                const { matrix, recalculatedPairs } = await getMatrixAsync(allCoordinates, departAt);
 
-            // We use the NVIDIA cuOpt optimizer service to calculate the Multi-Itinerary Optimization
-            // more details: https://docs.nvidia.com/cuopt/user-guide/supported-features.html
-            const solver = await getOptimizedRouteAsync(matrix);
+                // Use NVIDIA cuOpt to calculate the Multi-Itinerary Optimization.
+                // More details: https://docs.nvidia.com/cuopt/user-guide/supported-features.html
+                status.textContent = 'Optimizing itineraries...';
+                const solver = await getOptimizedRouteAsync(matrix);
 
-            // Render the route on the map for each vehicle using Azure Maps Route API
-            renderRoutes(allCoordinates, solver);
-
-            // Hide loading icon
-            showLoadingIcon(false);
+                // Render the route for each vehicle using the Azure Maps Route API.
+                status.textContent = 'Drawing vehicle routes...';
+                await renderRoutes(allCoordinates, solver, departAt);
+                status.textContent = recalculatedPairs > 0 ?
+                    `Routes ready. ${recalculatedPairs} live matrix pairs were recalculated with Directions.` :
+                    'Routes ready.';
+            } catch (error) {
+                status.textContent = 'Unable to optimize the itineraries: ' + error.message;
+                alert(status.textContent);
+            } finally {
+                // Hide the loading icon after all routes finish or a request fails.
+                showLoadingIcon(false);
+                button.disabled = false;
+            }
         }
 
         // Function to show/hide the loading icon
@@ -177,24 +193,69 @@
             document.getElementById('loadingIcon').style.display = visible ? '' : 'none';
         };
 
-        // Function to get the route matrix for all coordinates
-        async function getMatrixAsync(allCoordinates) {
-            // Create the request body to get a route matrix
-            var routeMatrixBody = {
-                origins: {
-                    type: 'MultiPoint',
-                    coordinates: allCoordinates.map(item => item.geometry.coordinates)
-                },
-                destinations: {
-                    type: 'MultiPoint',
-                    coordinates: allCoordinates.map(item => item.geometry.coordinates)
+        // Get the complete matrix and report any pairs recalculated with Directions.
+        async function getMatrixAsync(allCoordinates, departAt) {
+            // Use all depot and stop locations as both origins and destinations.
+            var positions = allCoordinates.map(item => item.geometry.coordinates);
+
+            // Submit the async matrix request and wait for its indexed results.
+            const response = await requestRouteMatrix(positions, positions, departAt);
+            const failedCells = response.properties.matrix.filter(cell => cell.statusCode !== 200);
+            if (failedCells.length > 100) {
+                throw new Error('More than 100 live matrix pairs failed. Check the locations before retrying.');
+            }
+            for (const cell of failedCells) {
+                const isNoRouteFailure = cell.error?.details?.some(detail => detail.code === 'NO_ROUTE_FOUND');
+                if (!isNoRouteFailure) {
+                    const code = cell.error?.details?.[0]?.code ?? cell.statusCode;
+                    throw new Error(`Route matrix cell ${cell.originIndex},${cell.destinationIndex} failed (${code}).`);
                 }
+            }
+
+            if (failedCells.length > 0) {
+                document.getElementById('optimizationStatus').textContent =
+                    `Recalculating ${failedCells.length} live route pairs with Directions...`;
+
+                // Each item is an independent directed pair, not one multi-waypoint itinerary.
+                const batchItems = failedCells.map(cell => ({
+                    ...createRouteDirectionsRequest([
+                        positions[cell.originIndex], positions[cell.destinationIndex]
+                    ], {
+                        departAt: departAt,
+                        optimizeRoute: 'fastestWithTraffic',
+                        maxRouteCount: 1,
+                        routeOutputOptions: ['routeSummary']
+                    }),
+                    optionalId: `${cell.originIndex}:${cell.destinationIndex}`
+                }));
+                const result = await processPostRequest(
+                    'https://{azMapsDomain}/route/directions:batch?api-version=2025-01-01',
+                    JSON.stringify({ batchItems }), {
+                        timeout: 10000,
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                // Batch responses preserve request order, including failed items.
+                result.batchItems.forEach((item, index) => {
+                    const cell = failedCells[index];
+                    if (item.error) {
+                        throw new Error(`Directions could not calculate matrix cell ${cell.originIndex},${cell.destinationIndex}: ${item.error.message}`);
+                    }
+                    const summary = item.features.find(feature => feature.properties.type === 'RoutePath').properties;
+                    if (summary.durationTrafficInSeconds === undefined) {
+                        throw new Error(`Directions did not return live travel time for matrix cell ${cell.originIndex},${cell.destinationIndex}.`);
+                    }
+                    cell.statusCode = 200;
+                    cell.distanceInMeters = summary.distanceInMeters;
+                    cell.durationInSeconds = summary.durationTrafficInSeconds;
+                    delete cell.error;
+                });
+            }
+
+            return {
+                matrix: routeMatrixToArray(response, positions.length, positions.length),
+                recalculatedPairs: failedCells.length
             };
-
-            // Initiate an async route matrix request
-            var responseRouteMatrix = await processPostRequest(routeMatrixAsyncUrl, JSON.stringify(routeMatrixBody));
-
-            return responseRouteMatrix.matrix;
         }
 
         // Function to get the optimized routes
@@ -218,7 +279,7 @@
                             data:
                             {
                                 // "1" = is the id for the vehicle_type_id
-                                "1": matrix.map(row => row.map(item => item.response.routeSummary.lengthInMeters))
+                                "1": matrix.map(row => row.map(item => item.distanceInMeters))
                             }
                         },
                         travel_time_matrix_data:
@@ -226,7 +287,7 @@
                             data:
                             {
                                 // "1" = is the id for the vehicle_type_id
-                                "1": matrix.map(row => row.map(item => item.response.routeSummary.travelTimeInSeconds))
+                                "1": matrix.map(row => row.map(item => item.durationTrafficInSeconds ?? item.durationInSeconds))
                             }
                         },
                         fleet_data: {
@@ -316,51 +377,34 @@
         }
 
         // Function to render the route on the map for each vehicle
-        function renderRoutes(allCoordinates, solver) {
+        function renderRoutes(allCoordinates, solver, departAt) {
 
-            // Index for the route colors
-            var index = 0;
+            // Use the solver's vehicle order to assign route colors.
+            return Promise.all(Object.values(solver.vehicle_data).map((car, index) => {
+                // Get the vehicle's coordinates in its optimized visit order.
+                var positions = car.route.map(i => allCoordinates[i].geometry.coordinates);
 
-            // use the solver data to render the routes
-            for (var vehicle in solver.vehicle_data) {
-
-                // Get the vehicle data.
-                var car = solver.vehicle_data[vehicle];
-
-                // Create a string of coordinates for the route.
-                var coordinateString = "";
-                car.route.forEach(i => {
-                    var coordinate = `${allCoordinates[i].geometry.coordinates[1]},${allCoordinates[i].geometry.coordinates[0]}`;
-                    coordinateString += `${coordinate}:`;
+                // Create the GeoJSON request for the vehicle's route.
+                var body = createRouteDirectionsRequest(positions, {
+                    departAt: departAt,
+                    optimizeRoute: 'fastestWithTraffic'
                 });
-
-                // Remove the trailing colon
-                coordinateString = coordinateString.slice(0, -1);
-
-                // Create the route request with the query being the start and end point in the format 'startLongitude,startLatitude:endLongitude,endLatitude'.
-                var routeRequestURL = routeUrl
-                    .replace('{query}', coordinateString);
 
                 // Process the request and render the route result on the map.
-                processRequest(routeRequestURL).then(directions => {
-                    // Extract the first route from the directions.
-                    const route = directions.routes[0];
+                return processPostRequest(routeUrl, JSON.stringify(body), {
+                    timeout: 10000,
+                    headers: { 'Content-Type': 'application/geo+json' }
+                }).then(directions => {
+                    // The RoutePath already contains all leg geometries as GeoJSON.
+                    var route = getRoutePath(directions);
 
-                    // Combine all leg coordinates into a single array.
-                    const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
+                    // Set the stroke color of the route based on the vehicle color.
+                    route.properties.strokeColor = routeColors[index % routeColors.length];
 
-                    // Create a LineString from the route path points.
-                    var routeLine = new atlas.data.LineString(routeCoordinates);
-
-                    // Add it to the data source.
-                    routeDataSource.add(new atlas.data.Feature(new atlas.data.LineString(routeCoordinates), {
-                        // Set the stroke color of the route based on the vehicle color.
-                        strokeColor: routeColors[index % routeColors.length]
-                    }));
-
-                    index++;
+                    // Add the route to the data source.
+                    routeDataSource.add(route);
                 });
-            };
+            }));
         }
 
         function loadText(url, elementId) {
@@ -395,7 +439,8 @@
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
 
     <div style="position:absolute;top:10px;left:10px;background-color:#fff;padding:10px;border-radius:5px;">
-        <input type="button" value="Multi-Itinerary Optimization" onclick="itineraryOptimizationClicked()" />
+        <input id="optimizeButton" type="button" value="Multi-Itinerary Optimization" onclick="itineraryOptimizationClicked()" />
+        <div id="optimizationStatus" role="status" aria-live="polite"></div>
     </div>
 
     <img id="loadingIcon" src="/images/loadingIcon.gif" title="Loading" style="position:absolute;left:calc(50% - 25px);top:250px;display:none;" />
