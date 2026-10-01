@@ -205,10 +205,15 @@
                 throw new Error('More than 100 live matrix pairs failed. Check the locations before retrying.');
             }
             for (const cell of failedCells) {
-                const isNoRouteFailure = cell.error?.details?.some(detail => detail.code === 'NO_ROUTE_FOUND');
+                const isDirectNoRouteFailure = cell.error?.code === 'NO_ROUTE_FOUND';
+                const isWrappedNoRouteFailure = cell.error?.code === 'CELL_PROCESSING_ERROR' &&
+                    Boolean(cell.error.details?.some(detail => detail.code === 'NO_ROUTE_FOUND'));
+                const isNoRouteFailure = isDirectNoRouteFailure || isWrappedNoRouteFailure;
                 if (!isNoRouteFailure) {
-                    const code = cell.error?.details?.[0]?.code ?? cell.statusCode;
-                    throw new Error(`Route matrix cell ${cell.originIndex},${cell.destinationIndex} failed (${code}).`);
+                    const code = cell.error?.code ?? cell.statusCode;
+                    const detailCode = cell.error?.details?.[0]?.code;
+                    const reason = detailCode ? `${code}: ${detailCode}` : code;
+                    throw new Error(`Route matrix cell ${cell.originIndex},${cell.destinationIndex} failed (${reason}).`);
                 }
             }
 
@@ -239,7 +244,7 @@
                 result.batchItems.forEach((item, index) => {
                     const cell = failedCells[index];
                     if (item.error) {
-                        throw new Error(`Directions could not calculate matrix cell ${cell.originIndex},${cell.destinationIndex}: ${item.error.message}`);
+                        throw new Error(`Directions could not calculate matrix cell ${cell.originIndex},${cell.destinationIndex} (${item.error.code}): ${item.error.message}`);
                     }
                     const summary = item.features.find(feature => feature.properties.type === 'RoutePath').properties;
                     if (summary.durationTrafficInSeconds === undefined) {
