@@ -134,9 +134,11 @@
                         var alongRouteWaypoints = [];
                         var heading = 0;
                         var instructions = directions.features.filter(feature => {
-                            var isManeuverPoint = feature.properties.type === 'ManeuverPoint';
-                            var hasPointGeometry = isManeuverPoint && feature.geometry.type === 'Point';
-                            return hasPointGeometry;
+                            var isInstructionPoint = feature.properties.type === 'ManeuverPoint' ||
+                                feature.properties.type === 'Waypoint';
+                            var hasPointGeometry = isInstructionPoint && feature.geometry.type === 'Point';
+                            var hasInstruction = Boolean(feature.properties.instruction);
+                            return hasPointGeometry && hasInstruction;
                         })
                             .sort((a, b) => a.properties.routePathPoint.legIndex - b.properties.routePathPoint.legIndex ||
                                 a.properties.routePathPoint.pointIndex - b.properties.routePathPoint.pointIndex);
