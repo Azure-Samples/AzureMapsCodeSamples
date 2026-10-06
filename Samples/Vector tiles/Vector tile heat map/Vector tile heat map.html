@@ -50,10 +50,9 @@
                 //Create a reusable popup.
                 popup = new atlas.Popup();
 
-                //Create a vector tile source and add it to the map.
+                //Relative-delay tiles include the congested roads used by this heatmap.
                 datasource = new atlas.source.VectorTileSource(null, {
-                    tiles: ['https://{azMapsDomain}/traffic/flow/tile/pbf?api-version=1.0&style=relative&zoom={z}&x={x}&y={y}'],
-                    maxZoom: 22
+                    url: 'https://{azMapsDomain}/map/tileset?api-version=2024-04-01&tilesetId=microsoft.traffic.delay'
                 });
                 map.sources.add(datasource);
 
@@ -69,7 +68,7 @@
                     //Give each data point a radius.
                     radius: 5,
 
-                    //Ignore roads where traffic is travelling at 80% of the posted speed limit or higher.
+                    //Ignore roads where traffic is travelling at 80% of the free-flow speed or higher.
 					filter: ['<', ['get', 'traffic_level'], 0.80]
                 });
 
@@ -102,11 +101,10 @@
     <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
         <legend>Vector tile heat map</legend>
         This sample shows how to how to use a vector tile service to render data as a heat map.
-        In this case traffic flow data is used. The points that make up the flow lines are used as the heat points. Points that have a traffic flow greater than 80% of the posted speed limit are ignored. The traffic level is used to weight each data point in the heat map.
+        In this case traffic flow data is used. The points that make up the flow lines are used as the heat points. Points with traffic speeds at 80% or more of the free-flow speed are ignored. The traffic level is used to weight each data point in the heat map.
         <br /><br />
-        This sample uses the <a href="https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficflowtile">Azure Maps vector tile traffic flow service</a>.
-        Detailed information about the format of the traffic flow vector tiles can be found
-        <a href="https://developer.tomtom.com/traffic-api/traffic-api-documentation-traffic-flow/vector-flow-tiles">here</a>.
+        This sample uses the <a href="https://learn.microsoft.com/en-us/rest/api/maps/render/get-map-tileset">Azure Maps Render tileset service</a>
+        to load the <code>microsoft.traffic.delay</code> vector tileset.
     </fieldset>
 </body>
 </html>

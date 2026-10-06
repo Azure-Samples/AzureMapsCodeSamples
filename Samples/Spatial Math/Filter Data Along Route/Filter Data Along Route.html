@@ -18,7 +18,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <!-- Load turf.js a spatial math library. https://turfjs.org/ -->
     <script src='/lib/turf.min.js'></script>
@@ -27,10 +27,10 @@
         var map, points, datasource, routeLine;
 
         // URL for the Azure Maps Route API.
-        var routeUrl = 'https://{azMapsDomain}/route/directions/json?api-version=1.0&query={query}&maxAlternatives=0&instructionsType=text&traffic=true';
+        var routeUrl = 'https://{azMapsDomain}/route/directions?api-version=2025-01-01';
 
         // URL for the Azure Maps Search Geocoder API.
-        var geocodeUrl = 'https://{azMapsDomain}/search/address/json?api-version=1.0&query={query}&limit=1';
+        var geocodeUrl = 'https://{azMapsDomain}/geocode?api-version=2026-01-01&query={query}&top=1&view=Auto';
 
         function getMap() {
             // Initialize a map instance.
@@ -106,7 +106,9 @@
             var start = document.getElementById('startTbx').value;
             var end = document.getElementById('endTbx').value;
 
-            if (start == '' || end == '') {
+            var hasStartLocation = start != '';
+            var hasEndLocation = end != '';
+            if (!hasStartLocation || !hasEndLocation) {
                 alert('Invalid waypoint point specified.');
                 return;
             }
@@ -125,18 +127,12 @@
                         return;
                     }
 
-                    var routeRequestURL = routeUrl
-                        .replace('{query}', `${startPoint.lat},${startPoint.lon}:${endPoint.lat},${endPoint.lon}`);
-
-                    processRequest(routeRequestURL).then(directions => {
-                        // Extract the first route from the directions.
-                        const route = directions.routes[0];
-
-                        // Combine all leg coordinates into a single array.
-                        const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
-
-                        // Create a LineString from the route path points.
-                        routeLine = new atlas.data.LineString(routeCoordinates);
+                    var body = createRouteDirectionsRequest([startPoint, endPoint]);
+                    processPostRequest(routeUrl, JSON.stringify(body), {
+                        timeout: 10000,
+                        headers: { 'Content-Type': 'application/geo+json' }
+                    }).then(directions => {
+                        routeLine = getRoutePath(directions).geometry;
 
                         // Add it to the data source.
                         datasource.add(routeLine);
@@ -149,7 +145,7 @@
 
                         filterData();
 
-                    });
+                    }).catch(error => alert('Unable to calculate the route: ' + error.message));
                     //
                 });
             });
@@ -189,12 +185,12 @@
 
             if (callback) {
                 processRequest(geocodeRequestUrl).then(geocode => {
-                    if (geocode.results.length > 0) {
-                        callback(geocode.results[0].position);
+                    if (geocode.features.length > 0) {
+                        callback(geocode.features[0].geometry.coordinates);
                     } else {
                         callback(null);
                     }
-                });
+                }).catch(error => alert('Unable to geocode the location: ' + error.message));
             }
         }
     </script>

@@ -19,7 +19,7 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, datasource;
@@ -102,23 +102,17 @@
 
                 });
 
-                //Start and end point input to the search route request
-                var query = startPoint.geometry.coordinates[1] + "," +
-                    startPoint.geometry.coordinates[0] + ":" +
-                    endPoint.geometry.coordinates[1] + "," +
-                    endPoint.geometry.coordinates[0];
-
-                //Make a search route request for a truck vehicle type
-                var truckRouteUrl = `https://{azMapsDomain}/route/directions/json?api-version=1.0&travelMode=truck&vehicleWidth=2&vehicleHeight=2&vehicleLength=5&vehicleLoadType=USHazmatClass2&query=${query}`;
-                processRequest(truckRouteUrl).then((directions) => {
-                    // Extract the first route from the directions.
-                    const route = directions.routes[0];
-
-                    // Combine all leg coordinates into a single array.
-                    const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
-
-                    // Create a LineString from the route path points.
-                    const routeLine = new atlas.data.LineString(routeCoordinates);
+                var positions = [startPoint.geometry.coordinates, endPoint.geometry.coordinates];
+                var routeUrl = 'https://{azMapsDomain}/route/directions?api-version=2025-01-01';
+                var truckBody = createRouteDirectionsRequest(positions, {
+                    travelMode: 'truck',
+                    vehicleSpec: { width: 2, height: 2, length: 5, loadType: ['USHazmatClass2'] }
+                });
+                processPostRequest(routeUrl, JSON.stringify(truckBody), {
+                    timeout: 10000,
+                    headers: { 'Content-Type': 'application/geo+json' }
+                }).then((directions) => {
+                    const routeLine = getRoutePath(directions).geometry;
 
                     // Add the route line to the data source.
                     // We want this to render below the car route which will likely be added to the data source faster, so insert it at index 0.
@@ -129,18 +123,13 @@
                         }),
                         0
                     );
-                });
+                }).catch(error => alert('Unable to calculate the truck route: ' + error.message));
 
-                var carRouteUrl = `https://{azMapsDomain}/route/directions/json?api-version=1.0&query=${query}`;
-                processRequest(carRouteUrl).then((directions) => {
-                    // Extract the first route from the directions.
-                    const route = directions.routes[0];
-
-                    // Combine all leg coordinates into a single array.
-                    const routeCoordinates = route.legs.flatMap(leg => leg.points.map(point => [point.longitude, point.latitude]));
-
-                    // Create a LineString from the route path points.
-                    const routeLine = new atlas.data.LineString(routeCoordinates);
+                processPostRequest(routeUrl, JSON.stringify(createRouteDirectionsRequest(positions)), {
+                    timeout: 10000,
+                    headers: { 'Content-Type': 'application/geo+json' }
+                }).then((directions) => {
+                    const routeLine = getRoutePath(directions).geometry;
 
                     // Add the route line to the data source.
                     // This will add the car route after the truck route.
@@ -150,7 +139,7 @@
                             strokeWidth: 5
                         })
                     );
-                });
+                }).catch(error => alert('Unable to calculate the car route: ' + error.message));
             });
         }
     </script>

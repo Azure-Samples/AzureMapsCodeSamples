@@ -18,12 +18,12 @@
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
 
     <!-- Add a reference to the Azure Maps Rest Helper JavaScript file. -->
-    <script src="https://samples.azuremaps.com/lib/azure-maps/azure-maps-helper.min.js"></script>
+    <script src="/lib/azure-maps/azure-maps-helper.min.js"></script>
 
     <script>
         var map, datasource;
 
-        var reachableRangeUrlTemplate = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query={lat},{lon}&timeBudgetInSec={time}&view=Auto';
+        var reachableRangeUrl = 'https://{azMapsDomain}/route/range?api-version=2025-01-01';
 
         function getMap() {
             //Initialize a map instance.
@@ -77,40 +77,23 @@
         }
 
         function getIsochrone(center, timeInSeconds) {
-            //Create the URL request to the reachable range service.
-            var request = reachableRangeUrlTemplate
-                .replace('{lat}', center[1])
-                .replace('{lon}', center[0])
-                .replace('{time}', timeInSeconds);
-
-            processRequest(request).then(response => {
-                if (response.error) {
-                    alert(response.error.message);
-                    return;
+            var body = createRouteRangeRequest(center, timeInSeconds);
+            return processPostRequest(reachableRangeUrl, JSON.stringify(body), {
+                timeout: 10000,
+                headers: { 'Content-Type': 'application/geo+json' }
+            }).then(response => {
+                var boundary = getRouteRangeBoundary(response);
+                var centerPoint = response.features.find(feature => {
+                    var isRangeCenter = feature.properties?.type === 'center';
+                    var hasPointGeometry = isRangeCenter && feature.geometry?.type === 'Point';
+                    return hasPointGeometry;
+                });
+                if (!centerPoint) {
+                    throw new Error('The reachable range response has no center point.');
                 }
-
-                if (response.reachableRange) {
-                    //Convert the response into GeoJSON and add it to the map.
-
-                    var positions = response.reachableRange.boundary.map(function (latLng) {
-                        return [latLng.longitude, latLng.latitude];
-                    });
-
-                    var isochrone = new atlas.data.Polygon([positions]);
-
-                    var centerPoint = new atlas.data.Point([
-                        response.reachableRange.center.longitude,
-                        response.reachableRange.center.latitude
-                    ]);
-
-                    //Add the data to the data source.
-                    datasource.add([
-                        isochrone,
-                        centerPoint
-                    ]);
-                } else {
-                    alert('Unable to calculate an isochrone.')
-                }
+                datasource.add([boundary, centerPoint]);
+            }).catch(error => {
+                alert('Unable to calculate an isochrone: ' + error.message);
             });
         }
 

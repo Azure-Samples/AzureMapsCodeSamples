@@ -119,10 +119,12 @@
                     //Calculate the travel time polygons from each station.
                     for (var i = 0; i < stations.features.length; i++) {
                         var origin = stations.features[i].geometry.coordinates;
-                        var url = 'https://{azMapsDomain}/route/range/json?api-version=1.0&query=' +
-                            encodeURIComponent(origin[1] + ',' + origin[0]) + '&travelMode=car&timeBudgetInSec=300';
-                        routeRangePromises.push(processRequest(url, { timeout: 10000 }).then(response => {
-                            return routeRangeToGeoJson(response.reachableRange);
+                        var url = 'https://{azMapsDomain}/route/range?api-version=2025-01-01';
+                        routeRangePromises.push(processPostRequest(url, JSON.stringify(createRouteRangeRequest(origin, 300)), {
+                            timeout: 10000,
+                            headers: { 'Content-Type': 'application/geo+json' }
+                        }).then(response => {
+                            return getRouteRangeBoundary(response);
                         }));
                     }
 
@@ -160,7 +162,8 @@
         }
 
         function showPopup(e) {
-            if (e.shapes && e.shapes.length > 0) {
+            var hasSelectedShape = Boolean(e.shapes) && e.shapes.length > 0;
+            if (hasSelectedShape) {
                 var properties = e.shapes[0].getProperties();
 
                 popup.setOptions({
