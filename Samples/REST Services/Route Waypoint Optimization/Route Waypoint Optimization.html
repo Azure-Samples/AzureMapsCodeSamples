@@ -127,10 +127,22 @@
                 var output = 'Distance: ' + Math.round(route.properties.distanceInMeters / 10) / 100 + ' km<br/>';
 
                 if (optimized) {
-                    var pinOrder = route.properties.optimizedWaypoints
-                        .sort((a, b) => a.optimizedIndex - b.optimizedIndex)
-                        .map(order => order.inputIndex);
-                    output += 'Waypoint Order: ' + pinOrder.join(', ');
+                    //Map the service's inputIndex to that waypoint's coordinates.
+                    var coordinatesByIndex = {};
+                    r.features.forEach(function (feature) {
+                        if (feature.properties && feature.properties.type === 'Waypoint') {
+                            coordinatesByIndex[feature.properties.order.inputIndex] = feature.geometry.coordinates;
+                        }
+                    });
+
+                    //There is one entry per waypoint, so only the optimized order needs sorting.
+                    var order = route.properties.optimizedWaypoints.slice()
+                        .sort(function (a, b) { return a.optimizedIndex - b.optimizedIndex; });
+                    output += 'Waypoint Order: ' + order
+                        .map(function (entry) {
+                            return getWaypointIndex(coordinatesByIndex[entry.inputIndex], entry.inputIndex);
+                        })
+                        .join(', ');
                 } else {
                     output += 'Waypoint Order: ' + defaultOrder.join(', ');
                 }
@@ -140,6 +152,24 @@
             }).catch(error => {
                 document.getElementById('output').textContent = 'Unable to calculate the route: ' + error.message;
             });
+        }
+
+        //The service may return slightly different coordinates, so match the nearest marker.
+        function getWaypointIndex(coordinates, fallbackIndex) {
+            var nearestIndex = fallbackIndex, nearestDistance = 0.01; //~1 km, well below the spacing between these waypoints.
+
+            if (coordinates) {
+                for (var i = 0; i < waypoints.length; i++) {
+                    var distance = Math.max(Math.abs(waypoints[i][0] - coordinates[0]), Math.abs(waypoints[i][1] - coordinates[1]));
+
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestIndex = i;
+                    }
+                }
+            }
+
+            return nearestIndex;
         }
 
         function addRouteToMap(route) {
