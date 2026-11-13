@@ -19,6 +19,7 @@
 
     <!-- Add references to the PMTiles lib. -->
     <script src="https://unpkg.com/pmtiles@3.0.5/dist/pmtiles.js"></script>
+    <script src="/lib/overture.js"></script>
 
     <style>
       #map {
@@ -66,6 +67,8 @@
       This sample showcases the use of <a href="https://protomaps.com/" target="_blank">Protomaps</a> to display <a href="https://overturemaps.org/" target="_blank">Overture</a> places data on a map.
       The data is stored in a PMTiles file that contains a vector tileset of places data. The data is filtered by category and displayed as symbols on the map.
       Click on a symbol to view more information about the place.
+      The latest release on or before the current date is selected from the <a href="https://docs.overturemaps.org/release-calendar.json" target="_blank">Overture release calendar</a>.
+      <p id="release-status" role="status">Loading the latest Overture release...</p>
     </fieldset>
 
     <script>
@@ -87,8 +90,7 @@
         });
       });
 
-      const PMTILES_URL = "https://overturemaps-extras-us-west-2.s3.amazonaws.com/tiles/2026-05-20.0/places.pmtiles";
-      protocol.add(new pmtiles.PMTiles(PMTILES_URL));
+      document.querySelectorAll('#panel input').forEach(input => input.disabled = true);
 
       //Initialize the map.
       map = new atlas.Map("map", {
@@ -112,7 +114,20 @@
       });
 
       //Wait until the map resources are ready.
-      map.events.add("ready", function () {
+      map.events.add("ready", async function () {
+        let PMTILES_URL;
+        const status = document.getElementById('release-status');
+        try {
+          const version = await getLatestOvertureRelease();
+          PMTILES_URL = `https://overturemaps-extras-us-west-2.s3.amazonaws.com/tiles/${version}/places.pmtiles`;
+          protocol.add(new pmtiles.PMTiles(PMTILES_URL));
+          status.textContent = `Overture release: ${version}`;
+        } catch (error) {
+          console.error('Unable to load the Overture release.', error);
+          status.setAttribute('role', 'alert');
+          status.textContent = `Unable to load the Overture release: ${error.message}`;
+          return;
+        }
 
         //Add the source to the map.
         map.sources.add(
@@ -131,19 +146,19 @@
             iconOptions: {
               image: [
                 "case",
-                [">=", ["index-of", `\"primary\":\"coffee_shop\"`, ["get", "categories"]], 0],
+                [">=", ["index-of", "coffee_shop", ["get", "basic_category"]], 0],
                 "coffee",
-                [">=", ["index-of", `\"primary\":\"gym\"`, ["get", "categories"]], 0],
+                [">=", ["index-of", "gym", ["get", "basic_category"]], 0],
                 "gym",
-                [">=", ["index-of", `\"primary\":\"library\"`, ["get", "categories"]], 0],
+                [">=", ["index-of", "library", ["get", "basic_category"]], 0],
                 "library",
-                [">=", ["index-of", `\"primary\":\"museum\"`, ["get", "categories"]], 0],
+                [">=", ["index-of", "museum", ["get", "basic_category"]], 0],
                 "museum",
-                [">=", ["index-of", `\"primary\":\"parking\"`, ["get", "categories"]], 0],
+                [">=", ["index-of", "parking", ["get", "basic_category"]], 0],
                 "parking",
-                [">=", ["index-of", `\"primary\":\"park\"`, ["get", "categories"]], 0],
+                [">=", ["index-of", "park", ["get", "basic_category"]], 0],
                 "park",
-                [">=", ["index-of", `\"primary\":\"shopping\"`, ["get", "categories"]], 0],
+                [">=", ["index-of", "shopping", ["get", "basic_category"]], 0],
                 "shopping",
                 "none",
               ],
@@ -153,12 +168,12 @@
             filter: [
               "all",
               ["has", "@name"],
-              ["has", "categories"],
+              ["has", "basic_category"],
               [
                 "any",
                 ...categories.map((category) => [
                   ">=",
-                  ["index-of", `\"primary\":\"${category}\"`, ["get", "categories"]],
+                  ["index-of", category, ["get", "basic_category"]],
                   0,
                 ]),
               ]
@@ -171,6 +186,7 @@
 
         //Add the layer to the map.
         map.layers.add([layer]);
+        document.querySelectorAll('#panel input').forEach(input => input.disabled = false);
 
         //Create a popup but leave it closed so we can update it and display it later.
         popup = new atlas.Popup({ position: [0, 0] });
@@ -228,12 +244,12 @@
         var filter = [
           "all",
           ["has", "@name"],
-          ["has", "categories"],
+          ["has", "basic_category"],
           [
             "any",
             ...categories.map((category) => [
               ">=",
-              ["index-of", `\"primary\":\"${category}\"`, ["get", "categories"]],
+              ["index-of", category, ["get", "basic_category"]],
               0,
             ]),
           ]
