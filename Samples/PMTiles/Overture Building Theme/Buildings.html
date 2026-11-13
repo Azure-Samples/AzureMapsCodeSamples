@@ -19,6 +19,7 @@
 
     <!-- Add references to the PMTiles lib. -->
     <script src="https://unpkg.com/pmtiles@3.0.5/dist/pmtiles.js"></script>
+    <script src="/lib/overture.js"></script>
 
     <style>
       #map {
@@ -82,6 +83,8 @@
       This sample showcases the use of <a href="https://protomaps.com/" target="_blank">Protomaps</a> to display <a href="https://overturemaps.org/" target="_blank">Overture</a> buildings data on a map.
       The data is stored in a PMTiles file that contains a vector tileset of buildings data. The data is filtered by the building subtype and displayed as polygons on the map.
       Click on a polygon to view more information about the building.
+      The latest release on or before the current date is selected from the <a href="https://docs.overturemaps.org/release-calendar.json" target="_blank">Overture release calendar</a>.
+      <p id="release-status" role="status">Loading the latest Overture release...</p>
     </fieldset>
 
     <script>
@@ -102,9 +105,6 @@
         });
       });
 
-      const PMTILES_URL = "https://overturemaps-extras-us-west-2.s3.amazonaws.com/tiles/2026-05-20.0/buildings.pmtiles";
-      protocol.add(new pmtiles.PMTiles(PMTILES_URL));
-
       //Initialize the map.
       map = new atlas.Map("map", {
         //Add authentication details for connecting to Azure Maps.
@@ -122,7 +122,7 @@
             //authType: 'subscriptionKey',
             //subscriptionKey: '[YOUR_AZURE_MAPS_KEY]'
         },
-	style: "night",
+	      style: "night",
         center: [-73.97721, 40.76982],
         bearing: 162,
         pitch: 60,
@@ -130,7 +130,20 @@
       });
 
       //Wait until the map resources are ready.
-      map.events.add("ready", function () {
+      map.events.add("ready", async function () {
+        let PMTILES_URL;
+        const status = document.getElementById('release-status');
+        try {
+          const version = await getLatestOvertureRelease();
+          PMTILES_URL = `https://overturemaps-extras-us-west-2.s3.amazonaws.com/tiles/${version}/buildings.pmtiles`;
+          protocol.add(new pmtiles.PMTiles(PMTILES_URL));
+          status.textContent = `Overture release: ${version}`;
+        } catch (error) {
+          console.error('Unable to load the Overture release.', error);
+          status.setAttribute('role', 'alert');
+          status.textContent = `Unable to load the Overture release: ${error.message}`;
+          return;
+        }
 
         //Add the source to the map.
         map.sources.add(

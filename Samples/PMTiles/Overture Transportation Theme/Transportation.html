@@ -19,6 +19,7 @@
 
     <!-- Add references to the PMTiles lib. -->
     <script src="https://unpkg.com/pmtiles@3.0.5/dist/pmtiles.js"></script>
+    <script src="/lib/overture.js"></script>
 
     <style>
       #map {
@@ -69,6 +70,8 @@
       The data is stored in a PMTiles file that contains a vector tileset of transportation data.
       The data is filtered by the rail subtype and name to show Taipei's metro lines on a line layer.
       Stations are displayed on a symbol layer using a pre-generated GeoJSON file. Click on a line or station for more details.
+      The latest release on or before the current date is selected from the <a href="https://docs.overturemaps.org/release-calendar.json" target="_blank">Overture release calendar</a>.
+      <p id="release-status" role="status">Loading the latest Overture release...</p>
     </fieldset>
 
     <script>
@@ -101,9 +104,6 @@
         });
       });
 
-      const PMTILES_URL = "https://overturemaps-extras-us-west-2.s3.amazonaws.com/tiles/2026-05-20.0/transportation.pmtiles";
-      protocol.add(new pmtiles.PMTiles(PMTILES_URL));
-
       //Initialize the map.
       map = new atlas.Map("map", {
         //Add authentication details for connecting to Azure Maps.
@@ -128,7 +128,20 @@
       });
 
       //Wait until the map resources are ready.
-      map.events.add("ready", function () {
+      map.events.add("ready", async function () {
+        let PMTILES_URL;
+        const status = document.getElementById('release-status');
+        try {
+          const version = await getLatestOvertureRelease();
+          PMTILES_URL = `https://overturemaps-extras-us-west-2.s3.amazonaws.com/tiles/${version}/transportation.pmtiles`;
+          protocol.add(new pmtiles.PMTiles(PMTILES_URL));
+          status.textContent = `Overture release: ${version}`;
+        } catch (error) {
+          console.error('Unable to load the Overture release.', error);
+          status.setAttribute('role', 'alert');
+          status.textContent = `Unable to load the Overture release: ${error.message}`;
+          return;
+        }
   
         //Load image sprites for the stations.
         Object.keys(metroLines).forEach((line) => {
