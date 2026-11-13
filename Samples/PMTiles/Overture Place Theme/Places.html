@@ -172,9 +172,9 @@
               [
                 "any",
                 ...categories.map((category) => [
-                  ">=",
-                  ["index-of", category, ["get", "basic_category"]],
-                  0,
+                  "==",
+                  ["get", "basic_category"],
+                  category,
                 ]),
               ]
             ],
@@ -248,9 +248,9 @@
           [
             "any",
             ...categories.map((category) => [
-              ">=",
-              ["index-of", category, ["get", "basic_category"]],
-              0,
+              "==",
+              ["get", "basic_category"],
+              category,
             ]),
           ]
         ]
